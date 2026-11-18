@@ -2368,6 +2368,14 @@ int TitleScreenView::OnUpdateResultNameEntry()
 }
 
 
+// Target-observed result unlock pattern: D,D,D,S,S,S,S,Q,Reset,Reset.
+// Names reflect the same native Controller::GetInput bit layout.
+#define RESULT_UNLOCK_D 0x2000
+#define RESULT_UNLOCK_S 0x0400
+#define RESULT_UNLOCK_Q 0x0200
+#define RESULT_UNLOCK_RESET 0x4000
+#define RESULT_CANCEL_BUTTONS 0xA
+
 int TitleScreenView::OnUpdateResult()
 {
     enum { FullCharacterSlots = sizeof(g_PlayStatsRecord.characterUnlocked[0]) };
@@ -2398,7 +2406,7 @@ int TitleScreenView::OnUpdateResult()
     {
         if (g_TitleResultUnlockStep < 3)
         {
-            if (g_ReplayInputStates[2].word06 & 0x2000)
+            if (g_ReplayInputStates[2].word06 & RESULT_UNLOCK_D)
                 g_TitleResultUnlockStep = static_cast<int>(
                     static_cast<unsigned int>(g_TitleResultUnlockStep) + 1u);
             else if (g_ReplayInputStates[2].word06)
@@ -2406,7 +2414,7 @@ int TitleScreenView::OnUpdateResult()
         }
         else if (g_TitleResultUnlockStep < 7)
         {
-            if (g_ReplayInputStates[2].word06 & 0x400)
+            if (g_ReplayInputStates[2].word06 & RESULT_UNLOCK_S)
                 g_TitleResultUnlockStep = static_cast<int>(
                     static_cast<unsigned int>(g_TitleResultUnlockStep) + 1u);
             else if (g_ReplayInputStates[2].word06)
@@ -2414,7 +2422,7 @@ int TitleScreenView::OnUpdateResult()
         }
         else if (g_TitleResultUnlockStep < 8)
         {
-            if (g_ReplayInputStates[2].word06 & 0x200)
+            if (g_ReplayInputStates[2].word06 & RESULT_UNLOCK_Q)
                 g_TitleResultUnlockStep = static_cast<int>(
                     static_cast<unsigned int>(g_TitleResultUnlockStep) + 1u);
             else if (g_ReplayInputStates[2].word06)
@@ -2422,7 +2430,7 @@ int TitleScreenView::OnUpdateResult()
         }
         else if (g_TitleResultUnlockStep < 10)
         {
-            if (g_ReplayInputStates[2].word06 & 0x4000)
+            if (g_ReplayInputStates[2].word06 & RESULT_UNLOCK_RESET)
                 g_TitleResultUnlockStep = static_cast<int>(
                     static_cast<unsigned int>(g_TitleResultUnlockStep) + 1u);
             else if (g_ReplayInputStates[2].word06)
@@ -2481,7 +2489,7 @@ int TitleScreenView::OnUpdateResult()
             nameBankIndex = character;
         }
 
-        if (g_ReplayInputStates[2].word06 & 0xA)
+        if (g_ReplayInputStates[2].word06 & RESULT_CANCEL_BUTTONS)
         {
             PlayMenuSound(11, 0);
             stateTimer = 0;
@@ -2501,6 +2509,12 @@ int TitleScreenView::OnUpdateResult()
     phaseTimer = static_cast<int>(static_cast<unsigned int>(phaseTimer) + 1u);
     return 1;
 }
+
+#undef RESULT_UNLOCK_D
+#undef RESULT_UNLOCK_S
+#undef RESULT_UNLOCK_Q
+#undef RESULT_UNLOCK_RESET
+#undef RESULT_CANCEL_BUTTONS
 
 
 // These three native replay pools are fields of the real Title object:
