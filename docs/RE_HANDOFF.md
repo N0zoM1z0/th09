@@ -103,6 +103,11 @@ inline assembly or an old exact claim.
   sharing experiments contracted the stack frame from 0x14 to 0x10 and
   introduced a new mismatch at +0x05, so the distinct scratch phases remain
   maintained pending better lifetime evidence.
+  More than 18 source-local ordering/scope experiments and eight ordinary
+  global-receiver early-read alternatives produced the same frontier, while
+  a positive synchronized-frame body before the wait branch moved physical
+  code blocks and introduced 51 new differences. Preserve the current
+  target-backed call order, not a partial prologue or register resemblance.
   The complete frontier remains 1,629/1,633 bytes, 966 residual positions;
   a shared function-scope output-object probe changed the local-frame size
   without yielding a ratchetable improvement. Common epilogue and global
@@ -121,6 +126,23 @@ inline assembly or an old exact claim.
   `BeginPlaybackStage` remain 1,238/1,238 with 2 residual positions and
   540/540 with 13, respectively. Neither commit claims an additional exact
   function.
+- **Title result unlock inputs:** commit `6259d68b` recovers the
+  ten-key D,D,D,S,S,S,S,Q,Reset,Reset sequence from the actual controller
+  bit masks (0x2000/0x0400/0x0200/0x4000), plus bomb/menu cancel mask
+  0x000A. Scoped C preprocessor names preserve VC7.1's private COFF labels;
+  a seemingly equivalent local C++ enum changed an unrelated exact unit.
+  `TitleScreen.cpp` passes 41 exact same-source units over 18,972 physical
+  bytes (two compiler profiles), while OnUpdateResult still measures
+  484/485 bytes with 167 residual positions. Do not claim a new exact owner.
+- **Screen shake axis choices:** commit `1c7a403d` documents the shared
+  three-value RNG choice for each of the independent X/Y shake axes in both
+  `CalcShake` and `CalcShakeEnvelope`: zero, positive and negative amplitude.
+  Scoped C names compile to the original branch literals and preserve all
+  18 exact same-source units across three profiles / 2,562 physical bytes.
+  `CalcShakeEnvelope` remains 336/336 bytes with 26 residual positions.
+  Earlier local-enum probes broke exact COFF private-label evidence even
+  though the named nonexact frontier was unchanged; keep the scoped macro
+  representation unless a fully verified natural alternative supersedes it.
 - **Effect ANM publication:** commit `2ebbf0cd` keeps the natural
   `ResolveEffectAnm(AnmManager *, AnmLoaded *&)` helper. It resolves the
   resident ANM, optionally preloads it, then publishes the final handle to
