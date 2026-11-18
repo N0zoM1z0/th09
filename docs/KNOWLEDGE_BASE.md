@@ -13260,3 +13260,23 @@ section offsets were proven identical to the baseline. The exact OnUpdate
 unit still passes all 844 code bytes and 92 relocations. The network-service
 boss itself remains at 1,629/1,633 bytes with 966 residual positions; this
 commit improves native C++ ownership, not its byte-match score.
+
+## 2026-11-18 GPT-web: use the native Supervisor receiver directly in network service
+
+`Supervisor::UpdateNetworkService @ 0x00430AA0` no longer creates a redundant
+`Supervisor *s = this` alias. Every Supervisor-owned field and member call in
+the service now names `this` directly; the independent global
+`g_SupervisorNetworkState` receiver remains explicit and is not conflated with
+the Supervisor frame-queue owner. This is a natural C++ ownership cleanup, not
+a register hint or ABI wrapper. A fresh pinned VC7.1 complete-owner frontier
+check remains **1,629/1,633 bytes with the same 966 residual positions**. The
+network-service Boss is still nonexact; no byte-match credit is claimed.
+
+The same session tested a natural three-level collision retry CFG with typed
+stack overlays and unsigned reward arithmetic. It reduced the raw collision
+frontier from 705 to 612 differing positions in an 862-byte comparison, but
+introduced 93 previously matching positions and kept the candidate at 842
+bytes. It was rejected and the maintained collision source restored. The
+remaining concrete CFG mismatch is the target's reward path preceding the
+direct-hit tail epilogue; do not promote the nested-loop trial or widen the
+frontier to accept it.
