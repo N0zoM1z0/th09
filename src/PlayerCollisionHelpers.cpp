@@ -93,7 +93,7 @@ int PlayerLifecycleView::CheckBulletCollision(
     PlayerCollisionRegionCreateRegionView *region;
     liveScratch.cursor.slot = slot;
 
-    do
+    for (;;)
     {
         for (;;)
         {
@@ -170,7 +170,7 @@ int PlayerLifecycleView::CheckBulletCollision(
         if (currentBullet != NULL && currentBullet->bulletType == 0)
             break;
         ++slot;
-    } while (true);
+    }
 
     // Cancellation leaves the region scan before creating the reward effect.
 {

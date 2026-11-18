@@ -355,11 +355,12 @@ frontiers involved in each source change.
 
 ## 2026-11-18 GPT-web collision checkpoint
 
-The current live collision-scan reconstruction is 848/862 bytes with 610
-differing positions (705 at the committed baseline). It uses nested C++ scan
-loops and a shared direct-hit/cancel tail; the rotated-box path reloads the
-region from the live slot after the rotation helper. This source change is
-checkpointed separately from the earlier network stack work. It is still
-nonexact and must not be used to update the frontier baseline. Next compare the
-null-return branch target, type/delay filter branch polarity, x87 unordered
-flags, and the bullet/slot register lifetimes.
+The first nested-scan checkpoint (`428f4079`) measured 638 differing
+positions. The follow-up now measures 848/862 bytes with 610 differing
+positions (705 at the original baseline). It uses nested C++ scan loops and a
+shared direct-hit/cancel tail; the rotated-box path reloads the region from the
+live slot after the rotation helper. This source change is checkpointed
+separately from the earlier network stack work. It is still nonexact and must
+not be used to update the frontier baseline. Next compare the null-return
+branch target, type/delay filter branch polarity, x87 unordered flags, and the
+bullet/slot register lifetimes.
