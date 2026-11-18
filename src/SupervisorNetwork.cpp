@@ -82,6 +82,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
     // The initial state/join decisions use the same network object, before
     // the connection callbacks independently reload their live receiver.
     SupervisorNetworkState *network = g_SupervisorNetworkState;
+    DWORD (WINAPI *networkClock)(void);
     if (network->connectionState == 0)
     {
         if (network->joinMode != 0)
@@ -90,7 +91,8 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             g_SupervisorNetworkState->CreateDeviceAddress();
             g_SupervisorNetworkState->CreateHostAddress();
             g_SupervisorNetworkState->ConnectSession();
-            s->networkConnectStartTime588 = timeGetTime();
+            networkClock = timeGetTime;
+            s->networkConnectStartTime588 = networkClock();
             g_SupervisorNetworkState->connectionState = 1;
             s->networkBusy478 = 1;
             g_AnmManager->DrawTextCentered(
@@ -99,6 +101,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         }
         else
         {
+            networkClock = timeGetTime;
         HOST_SESSION:
             Sleep(100);
             g_SupervisorNetworkState->localSide = 0;
@@ -108,13 +111,18 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                 s->networkMessageVm584, 0xFFFFFF, 0,
                 g_NetworkWaitingMessage);
             g_SupervisorNetworkState->connectionState = 2;
-            s->networkTiming458.connectionTime = timeGetTime();
+            s->networkTiming458.connectionTime = networkClock();
         }
+        network = g_SupervisorNetworkState;
+    }
+    else
+    {
+        networkClock = timeGetTime;
     }
 
-    if (g_SupervisorNetworkState->connectionState == 1)
+    if (network->connectionState == 1)
     {
-        now = timeGetTime();
+        now = networkClock();
         s->networkBusy478 = 1;
         if (now < s->networkConnectStartTime588)
             s->networkConnectStartTime588 = now;
@@ -141,7 +149,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             }
 
             s->networkBusy478 = 1;
-            now = timeGetTime();
+            now = networkClock();
             if (now < s->networkTiming458.connectionTime)
                 s->networkTiming458.connectionTime = now;
 
@@ -150,36 +158,33 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             {
                 g_SupervisorNetworkState->ResetSession();
                 g_SupervisorNetworkState->connectionState = 0;
-                s->networkTiming458.connectionTime = timeGetTime();
+                s->networkTiming458.connectionTime = networkClock();
             }
             goto NETWORK_WAIT;
         }
 
         s->networkBusy478 = 0;
-        s->networkTiming458.connectionTime = timeGetTime();
+        s->networkTiming458.connectionTime = networkClock();
     }
 
     // Prefill and the first prediction retain this session across queue/seed calls.
-    SupervisorNetworkState *frameNetwork = g_SupervisorNetworkState;
 
     if (s->networkTiming458.frameMode == 0 || s->networkTiming458.frameMode == 2)
     {
         unsigned int frame = s->networkTiming458.frameCounter;
 
         if (frame != 0 &&
-            frame % (60 / g_SupervisorNetworkState->syncRate) != 0)
+            frame % (60 / network->syncRate) != 0)
         {
             // The first predicted frame uses the captured network receiver,
             // but reads its side after the seed callback has finished.
             const short firstSeed = static_cast<short>(g_ReplayRng.GetSeed());
-            volatile const int &firstSide = frameNetwork->localSide;
-            s->InsertPredictedFrame(firstSide, frame, firstSeed);
+            s->InsertPredictedFrame(network->localSide, frame, firstSeed);
             // Retail obtains the prediction seed before re-reading the
             // network side; the peer can change during service callbacks.
             const short predictedSeed = static_cast<short>(g_ReplayRng.GetSeed());
-            volatile const int &liveSide = g_SupervisorNetworkState->localSide;
             const int opponentSide = static_cast<int>(
-                1u - static_cast<unsigned int>(liveSide));
+                1u - static_cast<unsigned int>(network->localSide));
             s->InsertPredictedFrame(
                 opponentSide, s->networkTiming458.frameCounter, predictedSeed);
             // The original service increments the signed frame counter with
@@ -191,10 +196,10 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
         {
             if (s->networkTiming458.frameMode == 0)
             {
-                if (frameNetwork->initialFramesQueued == 0)
+                if (network->initialFramesQueued == 0)
                 {
-                    if (frameNetwork->localSide == 0 &&
-                        60 / frameNetwork->syncRate - 1 > 0)
+                    if (network->localSide == 0 &&
+                        60 / network->syncRate - 1 > 0)
                     {
                         int queuedFrame = -9998;
                         do
@@ -210,20 +215,19 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                         } while (static_cast<int>(
                                      static_cast<unsigned int>(queuedFrame) +
                                      9998u) <
-                                 60 / frameNetwork->syncRate - 1);
+                                 60 / network->syncRate - 1);
                     }
 
-                    frameNetwork->packetReady = 0;
+                    network->packetReady = 0;
                     // Retain the selected receiver across GetSeed.
-                    SupervisorNetworkState *handshakeNetwork = g_SupervisorNetworkState;
                     g_NetworkHandshakePacket.type = 2;
                     g_NetworkHandshakePacket.side =
                         static_cast<unsigned char>(g_SupervisorNetworkState->localSide);
-                    g_NetworkHandshakePacket.syncRate = g_SupervisorNetworkState->syncRate;
+                    g_NetworkHandshakePacket.syncRate = network->syncRate;
                     g_NetworkHandshakePacket.syncValue = g_SupervisorNetworkState->syncValue;
                     g_NetworkHandshakePacket.seed =
                         g_ReplayRng.GetSeed();
-                    handshakeNetwork->SendPacket(
+                    network->SendPacket(
                         &g_NetworkHandshakePacket,
                         sizeof(g_NetworkHandshakePacket));
 
@@ -254,7 +258,6 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
 
             s->networkTiming458.lastFrameTime = timeGetTime();
             g_SupervisorNetworkState->packetReady = 0;
-            SupervisorNetworkState *packetNetwork = g_SupervisorNetworkState;
             g_NetworkFramePacket.type = 0;
             // The checksum uses the side captured before GetSeed.
             signed char packetSide = static_cast<signed char>(g_SupervisorNetworkState->localSide);
@@ -262,7 +265,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             // The packet's signed frame field is serialized from a native
             // DWORD sum; preserve the same wraparound at the boundary.
             g_NetworkFramePacket.frame = static_cast<int>(
-                static_cast<unsigned int>(60 / g_SupervisorNetworkState->syncRate) +
+                static_cast<unsigned int>(60 / network->syncRate) +
                 static_cast<unsigned int>(s->networkTiming458.frameCounter) - 1u);
             g_NetworkFramePacket.seed =
                 g_ReplayRng.GetSeed();
@@ -276,7 +279,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             g_NetworkFramePacket.words.checksum =
                 static_cast<unsigned short>(checksum);
 
-            packetNetwork->SendPacket(
+            network->SendPacket(
                 &g_NetworkFramePacket, sizeof(g_NetworkFramePacket));
             s->networkTiming458.frameMode = 1;
             s->InsertReceivedFrame(
