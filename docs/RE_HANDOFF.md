@@ -479,3 +479,17 @@ improvement. Keep resolving those new offsets in natural C++.
   variants consistently moved the candidate to EBX=side / EDI=input, opposite
   retail's EDI=side / EBX=input, and regressed 183 -> 717 differences. Reverted
   all trials; the original 183-difference source remains.
+
+## 2026-11-18 GPT-web: collision and leaf follow-up
+
+- `CheckBulletCollision`: positive-hit predicate, switch dispatch and direct
+  cancel-to-reward goto measured 580-585 differences (845-853 bytes), all
+  `REGRESSED`; dispatcher still lands at `+0x17C` rather than target `+0x8E`.
+  The committed 531-difference shared-hit source remains the best candidate.
+- `RotatePlayerCollisionVector`: direct cosine-times-coordinate accumulator
+  initialization retained 10 differences / 62 bytes; no new gain.
+- `CalcShakeEnvelope`: register callback alias retained 26 differences;
+  register timer pointer caused 242 differences. Reverted.
+- `UpdateMovementAndOptions`: volatile configuration pointer alone caused
+  1109 differences. `EffectManager::AddedCallback`: volatile global manager
+  read changed 4 differences to 7. Both reverted.

@@ -13587,3 +13587,31 @@ source shape remains the least-different candidate (183 differences). The
 key remaining problem is local register lifetime/allocation, not merely
 changing the C++ type or spelling of the array subscript. All trials were
 reverted; the frontier baseline remains untouched.
+
+## 2026-11-18 GPT-web: collision and leaf-layout follow-up probes
+
+Several natural-C++ alternatives were measured without changing the accepted
+frontier state:
+
+- `CheckBulletCollision`: replacing the two cancellation gotos with a single
+  positive hit predicate, a `switch` over the three region kinds, and a direct
+  `goto` to the reward continuation produced 580-585 raw differences in
+  845-853 bytes. Each still reports `REGRESSED`; the circle-hit path still
+  branches to a late dispatcher at `+0x17C` instead of falling through to
+  retail's `+0x8E`. The committed 531-difference/849-byte experiment remains
+  the best measured source candidate.
+- `RotatePlayerCollisionVector`: initializing both accumulators directly as
+  cosine-times-coordinate retained the same 10 differences in 62 bytes. The
+  two x87 operand-order residuals are unchanged.
+- `CalcShakeEnvelope`: a register-qualified callback alias retained 26
+  differences; register-qualifying both the callback and timer pointer
+  regressed to 242 differences. Both trials were reverted.
+- `UpdateMovementAndOptions`: a volatile read of only the global configuration
+  pointer regressed to 1109 differences; the volatile side-index variant was
+  similarly non-monotonic. The baseline source was restored.
+- `EffectManager::AddedCallback`: a volatile global ANM-manager read changed
+  the callback from 4 to 7 differences. The original callback source was
+  restored.
+
+These are code-generation experiments, not accepted exactness. No baseline,
+ASM, padding, or binary patch was used.
