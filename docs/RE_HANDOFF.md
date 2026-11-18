@@ -455,3 +455,14 @@ improvement. Keep resolving those new offsets in natural C++.
   reports `REGRESSED` because x87 operand order differs at `0x21-0x22` and
   `0x24-0x25`: retail duplicates cosine before the point-X memory multiply;
   candidate loads point X/Y first. Do not update the frontier baseline.
+
+## 2026-11-18 GPT-web: boss/charge register experiments
+
+- `EnemyManager::OnUpdate`: moving `drawHead` to the active path, explicit
+  DWORD byte addressing for draw-group indexing, and `register` on the head
+  pointer all retained the exact same two EAX/ECX residual bytes. Restored the
+  baseline source.
+- `UpdateChargeAttack`: full-width signed/unsigned side locals, direct use of
+  the member side index, reference binding for `ReplayInputState`, and pointer
+  declaration-order permutations did not improve the 183-byte residual; the
+  full-width forms regressed hundreds of bytes. Restored the baseline source.

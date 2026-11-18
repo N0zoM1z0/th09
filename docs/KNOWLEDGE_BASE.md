@@ -13551,3 +13551,16 @@ and uses direct memory-operand `FMUL` for both point components, while the
 candidate loads the volatile point components first and multiplies the x87
 register value. No assembly or padding was introduced; the frontier baseline
 was not changed.
+
+## 2026-11-18 GPT-web: boss and charge register-lifetime probes
+
+Further natural-C++ experiments on `EnemyManagerView::OnUpdate` moved the
+`drawHead` declaration into the active-enemy path, rewrote the draw-group
+index as explicit 32-bit byte addressing, and register-qualified the draw-head
+pointer. All three compile to the same two residual EAX/ECX differences at
+`+0x19A/+0x1A1`; the source was restored to the baseline form. `UpdateChargeAttack`
+was probed with full-width and unsigned side locals, direct member-index use,
+reference input bindings, and declaration-order changes. The full-width forms
+shifted hundreds of bytes and failed the monotonic checker; the reference and
+reordered-short forms retained the recorded 183 differences. The source was
+restored. No frontier baseline changed.
