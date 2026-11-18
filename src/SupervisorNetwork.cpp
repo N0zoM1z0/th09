@@ -252,19 +252,17 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                     if (frameNetwork->localSide == 0 &&
                         NETWORK_FRAMES_PER_SECOND / frameNetwork->syncRate - 1 > 0)
                     {
-                        unsigned int queuedFrame = static_cast<unsigned int>(NETWORK_PREFILL_START_FRAME);
-                        do
+                        for (unsigned int queuedFrame = static_cast<unsigned int>(NETWORK_PREFILL_START_FRAME);
+                             static_cast<int>(queuedFrame + static_cast<unsigned int>(NETWORK_PREFILL_FRAME_OFFSET)) < NETWORK_FRAMES_PER_SECOND / frameNetwork->syncRate - 1;
+                             ++queuedFrame)
                         {
                             g_Supervisor.InsertReceivedFrame(
                                 0, static_cast<int>(queuedFrame), 0,
                                 static_cast<short>(g_ReplayRng.GetSeed()));
                             g_Supervisor.InsertReceivedFrame(
-                                1, static_cast<int>(queuedFrame++), 0,
+                                1, static_cast<int>(queuedFrame), 0,
                                 static_cast<short>(g_ReplayRng.GetSeed()));
-                        // The original i386 loop adds 9998 as a DWORD and
-                        // performs a signed comparison on that wrapped sum.
-                        } while (static_cast<int>(queuedFrame + static_cast<unsigned int>(NETWORK_PREFILL_FRAME_OFFSET)) <
-                                 NETWORK_FRAMES_PER_SECOND / frameNetwork->syncRate - 1);
+                        }
                     }
 
                     frameNetwork->packetReady = 0;
@@ -338,7 +336,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
                 g_NetworkFramePacket.frame,
                 g_NetworkFramePacket.words.input,
                 static_cast<short>(g_NetworkFramePacket.seed));
-                }
+        }
         else
         {
             // The first predicted frame uses the captured network receiver,
@@ -358,7 +356,7 @@ int __fastcall SupervisorServiceUpdate(Supervisor *supervisor)
             // an i386 DWORD INC, whose physical result wraps modulo 2^32.
             s->networkTiming458.frameCounter = static_cast<int>(
                 static_cast<unsigned int>(s->networkTiming458.frameCounter) + 1u);
-                }
+        }
     }
 
     // Retail side inversion uses i386 32-bit subtraction even if the
