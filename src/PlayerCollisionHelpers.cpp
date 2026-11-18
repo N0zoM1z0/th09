@@ -83,8 +83,11 @@ int PlayerLifecycleView::CheckBulletCollision(
     PlayerCollisionRegionCreateRegionView *region;
     liveScratch.cursor.slot = slot;
 
-    for (; (region = *slot) != NULL; ++slot)
+    for (; ; ++slot)
     {
+        region = *slot;
+        if (region == NULL)
+            return 0;
         if (region->type38 != 1 &&
             region->type38 != 2 &&
             region->type38 != 3)
@@ -201,8 +204,8 @@ hit:
         ++hitRegion->hitCount2C;
         return 2;
 
+
     }
-    return 0;
 }
 
 int PlayerLifecycleView::CheckGrazeCollision(
