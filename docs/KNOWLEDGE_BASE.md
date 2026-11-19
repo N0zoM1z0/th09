@@ -14084,3 +14084,31 @@ The Cirno-Labs ScreenEffect rise/hold/fall source lost the target's precise
 x87/unsigned endpoint sequence (319/336, 201 differing bytes), while
 reordering the existing volatile fade/hold aliases added differences.
 Keep all of these as negative evidence, not matching progress.
+
+## 2026-11-19: further typed Title, Network, Effect and Shake recovery
+
+- `TitleScreenView::OnUpdateReplayMenu`: the 25 call sites for the three
+  old integer-address replay pool helpers compile unchanged when replaced
+  with direct `replays[]`, `replayPaths[]` and `replayAllocations[]` accesses.
+  Delete those helper definitions rather than leaving unnecessary wrappers.
+  The 1,387-byte owner remains exact. Nine Title StartMenu local `$L` names
+  shift, but every physical same-section relocation target is unchanged;
+  41 selected exact owners (18,972 bytes, 953 relocation fields) pass.
+- `Supervisor::UpdateNetworkService`: the one physical return home is a
+  plain `int` in its 20-byte stack scratch, not an extra union with synonym
+  fields. The 1,650-byte candidate and all 106 COFF relocations are identical.
+  It remains 914 differences from the 1,633-byte original and strictly
+  REGRESSED against the historical diagnostic frontier. Do not rebaseline.
+- `EffectManager::InitializeEffect` and `OnUpdate`: remove the now-redundant
+  `TH09_EFFECT_NATIVE_VM` macro, directly index the actual contiguous
+  `effect->vms[]` member. The Effect source's 15 exact units (2,530 bytes /
+  100 relocations) remain exact; `AddedCallback` remains four bytes off.
+- `ScreenEffect::CalcShake`: the actual GameManager sides and Supervisor
+  viewport arrays may both use `contextIndex` directly. Full 316-byte owner
+  and native relocations remain exact. Nine `RegisterChain` private labels
+  were checked against actual same-section target addresses. Scoped replay
+  passes 18 exact ScreenEffect owners (2,562 bytes / 164 relocations). The
+  separate 336-byte shake-envelope function remains nonexact (26 bytes).
+
+This is C++ type/ownership recovery, not newly earned function exactness;
+no cold replay or whole-program build was attempted.

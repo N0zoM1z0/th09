@@ -7,10 +7,47 @@ status and the next useful work, not a session diary. Read
 [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) for historical target/compiler findings.
 The canonical ledgers and current source always outrank dated prose.
 
+## 2026-11-19 latest checkpoint: typed Title, network and shake owners
+
+Local code checkpoint `43a5f322` extends the earlier commits below. This
+pass made **four further natural C++ source commits**, retaining all existing
+exact units without claiming a new exact owner:
+
+- `bddf9707`: removed all three redundant Title replay-pool access helpers,
+  replacing **25 uses** with direct member arrays `replays[]`, `replayPaths[]`
+  and `replayAllocations[]`. The 1,387-byte replay-menu update stays exact.
+  Nine compiler-private labels in `title-screen-start-menu` changed names;
+  each was independently checked to resolve to the unchanged native target
+  address. `TitleScreen.cpp` scoped replay passes **41 exact functions /
+  18,972 physical bytes / 953 relocation fields**.
+- `9c7789b7`: replaced the redundant network service `union` for two names
+  of the same return DWORD with a single `int returnValue`. The complete
+  candidate remains **1,650 bytes and 106 unchanged relocations**; retail is
+  1,633 bytes and the current 914 raw differences still **fail** its strict
+  nonexact frontier. The 0x14-byte authentic stack layout is retained.
+- `aceff639`: removed the Effect VM indexing macro entirely; `InitializeEffect`
+  and `OnUpdate` now use direct `effect->vms[index]` members. The
+  `EffectManager.cpp` scoped replay passes **15 exact functions / 2,530 bytes /
+  100 relocation fields**. The 51-byte AddedCallback remains at 4 residuals.
+- `43a5f322`: used the real signed `contextIndex` to index GameManager sides
+  and Supervisor viewports in the exact 316-byte `ScreenEffect::CalcShake`.
+  No bounds gate or cross-RNG receiver cache was introduced. Nine renamed
+  local COFF labels in `screen-effect-register-chain` were verified against
+  their same-section target addresses. `ScreenEffect.cpp` scoped replay passes
+  **18 exact functions / 2,562 bytes / 164 relocation fields**; the distinct
+  `CalcShakeEnvelope` remains nonexact at 336/336 with 26 differences.
+
+The authoritative authored ledger still contains **1,026 exact functions**.
+These commits restore original data ownership and natural C++ access, not
+additional byte-exact owners. Collision/charge/network boss CFG and register
+residuals, and small register-allocation leaf residuals, remain active. No
+full cold replay, ASM, dummy padding, target patching or frontier rebaseline
+was used.
+
 ## 2026-11-19 current checkpoint: typed Effect/Title bosses and collision reward
 
-Latest code checkpoint `b0dcea11` (local commit, not independent remote
-acceptance) includes five natural-C++ changes since the last handoff:
+Earlier source checkpoint `b0dcea11` (local commit, not independent remote
+acceptance) included five natural-C++ changes:
 
 - `916c714b` replaces five single-float `memcpy` calls in the native 87-byte
   `EffectUpdateFromVm` with typed Effect float members. Complete code remains
