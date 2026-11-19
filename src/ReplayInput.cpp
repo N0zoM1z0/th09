@@ -592,8 +592,7 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     g_GameManager.value138 = static_cast<signed char>(frame0->value09);
     g_GameManager.difficulty = replayManager->replayData->value0D7;
     g_GameManager.value378 = replayManager->replayData->value1E6;
-    volatile int &value37C = g_GameManager.value37C;
-    value37C = replayManager->replayData->value1E7;
+    g_GameManager.value37C = replayManager->replayData->value1E7;
     const u8 side0Value30 = replayManager->replayData->value1E8;
     // The native stage local is reused for the side-0 runtime pointer.
     scratch.side0Runtime = g_GameManager.sides[0].runtime;
