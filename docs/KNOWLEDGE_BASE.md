@@ -13878,3 +13878,38 @@ All rejected trials were restored; none changed a frontier baseline.
   did not recover the native allocation (648-895 differences, 1200-1221
   bytes). Restored the 183-difference / 1210-byte baseline; this is an exact
   member-width/register-lifetime lead, not a completed fix.
+
+## 2026-11-19 GPT-web: maintain native draw/collision pointer ownership
+
+- `EnemyManager::OnUpdate @ 0x00410730` now uses the real four-element
+  `drawGroupHeads2AC410` array's element address rather than pointer arithmetic
+  in both append paths. The complete 3,900-byte function is unchanged at two
+  byte residuals. This can renumber private labels in the shared `EclManager`
+  carrier: ten exact-COFF label names were resolved through their **actual
+  same-section offsets** and target destinations before the manifest was
+  updated. The affected 84 exact units / 45,420 physical bytes replay passed.
+- `CheckBulletCollision @ 0x0041DFF0` can address the native 52-byte
+  collision/reward/cursor overlay directly without a redundant `volatile`
+  reference. The focused candidate remains 849/862, with 493 raw unlike
+  positions rather than 496; there are still newly differing offsets against
+  the canonical 842/862 strict baseline. The five same-source exact functions
+  replayed over 1,220 complete physical bytes. Do not promote to exact or
+  relax the baseline until its original block and stack lifetimes match.
+- `UpdateMovementAndOptions @ 0x0041C170` now names the actual
+  `g_PlayerFocusEffectIds[unsigned shotType]` array element instead of
+  reinterpreting an integer address. The complete 1,900-byte VC7.1 code bytes
+  were identical before/after. All 66 original COFF relocation positions,
+  types and addends are retained; 18 owner-local switch labels were simply
+  renumbered and point to the **identical intra-function offsets**. The
+  four-byte focus-config vs side-index load-order residual remains.
+- `Supervisor::UpdateNetworkService @ 0x00430AA0`: retaining a captured global
+  network receiver across initial session callbacks can induce EDI in the
+  prologue, but is not faithful to the target's live global reloads after
+  callbacks. Local-cache trials either kept 914 differences with no gain or
+  worsened to 1,015+; all rejected.
+- `EffectManager::AddedCallback @ 0x0040D1C0`: nine natural two-argument
+  inline-publisher variants (including swapped argument order and references)
+  kept the same four differences or regressed to seven. The target loads the
+  global ANM manager into EDI before moving the callback owner into ESI;
+  our current compiler schedules the initial loads in the opposite order.
+  No synthetic register use or assembly was retained.

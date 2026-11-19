@@ -1,4 +1,4 @@
-# TH09 reconstruction — current agent handoff (2026-11-18)
+# TH09 reconstruction — current agent handoff (2026-11-19)
 
 This is the restart guide for the live TH09 repository. It records current
 status and the next useful work, not a session diary. Read
@@ -6,6 +6,49 @@ status and the next useful work, not a session diary. Read
 [PROGRESS.md](PROGRESS.md) for generated totals and
 [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) for historical target/compiler findings.
 The canonical ledgers and current source always outrank dated prose.
+
+## 2026-11-19 live continuation
+
+The current source checkpoint after four earlier local commits is
+`dac78c38`. The working branch is ahead of `origin/main`; these are **local**
+checkpoints, not verified remote pushes. The authored exact ledger remains
+1,026 functions (278,578 bytes); no nonexact owner was promoted in this pass.
+
+- `94c8961d`: recovered an already-dirty natural array-element address in
+  `EnemyManagerCore.inl`, and validated ten shifted compiler-private COFF
+  labels by their actual same-section target offsets. The selected two-profile
+  `EclManager.cpp` replay passes all **84 exact units / 45,420 physical bytes**;
+  the 3,900-byte `EnemyManager::OnUpdate` still has its two register differences.
+- `cb8579e9`: removed a redundant volatile reference to the private collision
+  stack overlay. `CheckBulletCollision` is **849/862 bytes, 493 raw differences**
+  (496 previously), and the **five exact same-source units / 1,220 bytes** pass.
+  It **still fails the older strict frontier ratchet** (842-byte baseline and
+  newly differing offsets). Do not `--update` it merely to accept a lower raw
+  count; resolve the geometry/dispatcher CFG and stack lifetime naturally.
+- `dac78c38`: replaced integer-address type punning of the movement focus
+  effect ID table with a genuine unsigned indexed array access. The complete
+  1,900-byte `UpdateMovementAndOptions` emitted **identical code bytes** and
+  still has four residuals. Its 66 COFF relocation fields retain the same
+  offsets, kinds, addends and physical targets; 18 names are only renumbered
+  owner-local `$L...` labels. `PlayerMovement.cpp` has no canonical exact
+  siblings, so use its focused frontier check rather than selected-source
+  exact replay.
+
+The immediately preceding local commits (`f5818f9e`, `e269c4ec`, `74f11366`,
+`1e6e82b5`) recovered typed network input storage, shared collision cancel
+handling, a typed volatile replay runtime pointer and native replay payload
+byte indexing. Their affected exact cohorts were checked locally; the network,
+collision and replay playback owners remain nonexact. No whole-product cold
+replay or native build/runtime claim was made.
+
+Target-backed recent negative probes: initial `SupervisorNetworkState *`
+sharing can improve a register at the beginning of the network service but
+would retain a stale receiver across session callbacks; reject it. Nine
+`EffectManager::AddedCallback` two-argument inline-publisher variants all
+reproduced the same four register differences or regressed. Keep the existing
+natural helper until a target-backed lifetime model improves the complete
+51-byte owner. Further C++ ordering probes for the rotation leaf and replay
+save copy also failed to move their x87/register residuals.
 
 ## First five minutes
 
