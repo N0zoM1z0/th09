@@ -288,21 +288,19 @@ ZunResult MidiOutput::ParseFile(int fileIdx)
         return ZUN_ERROR;
     }
 
-    // MIDI input is a file-backed variable-length byte stream. The original
-    // i386 cursor additions wrap through a full DWORD; no C++ array-object
-    // pointer arithmetic or new file bounds gate is introduced.
+    // MIDI input is one file-backed variable-length byte stream. Move its
+    // native unsigned-byte cursors through SMF header and MTrk chunks;
+    // retain original chunk lengths and avoid adding a bounds gate.
     // Read midi header chunk
     // First, read the header len
     memcpy(&hdrRaw, currentCursor, 8);
 
     // Get a pointer to the end of the header chunk
-    currentCursor = reinterpret_cast<LPBYTE>(
-        reinterpret_cast<u32>(currentCursor) + sizeof(hdrRaw));
+    currentCursor += sizeof(hdrRaw);
     hdrLength = MidiOutput::Ntohl(*(u32 *)(&hdrRaw[4]));
 
     endOfHeaderPointer = currentCursor;
-    currentCursor = reinterpret_cast<LPBYTE>(
-        reinterpret_cast<u32>(currentCursor) + static_cast<u32>(hdrLength));
+    currentCursor += hdrLength;
 
     // Read the SMF format. Only three values are specified:
     //  0: the file contains a single multi-channel track
@@ -315,10 +313,10 @@ ZunResult MidiOutput::ParseFile(int fileIdx)
     // Read the divisions in this track. Note that this doesn't appear to support
     // "negative SMPTE format", which happens when the MSB is set.
     this->ticksPerQuarterNote = MidiOutput::Ntohs(*(u16 *)(reinterpret_cast<LPBYTE>(
-        reinterpret_cast<u32>(endOfHeaderPointer) + 4u)));
+        endOfHeaderPointer + 4u)));
     // Read the number of tracks in this midi file.
     this->numTracks = MidiOutput::Ntohs(*(u16 *)(reinterpret_cast<LPBYTE>(
-        reinterpret_cast<u32>(endOfHeaderPointer) + 2u)));
+        endOfHeaderPointer + 2u)));
 
     // Allocate one runtime state record per track.
     this->tracks = (MidiTrack *)g_ZunMemory.Alloc(sizeof(MidiTrack) * this->numTracks, "midi");
@@ -326,20 +324,18 @@ ZunResult MidiOutput::ParseFile(int fileIdx)
     for (trackIdx = 0; trackIdx < this->numTracks; trackIdx += 1)
     {
         currentCursorTrack = currentCursor;
-        currentCursor = reinterpret_cast<LPBYTE>(
-            reinterpret_cast<u32>(currentCursor) + 8u);
+        currentCursor += 8;
 
         // Read a track (MTrk) chunk.
         //
         // First, read the length of the chunk
         trackLength = MidiOutput::Ntohl(*(u32 *)reinterpret_cast<LPBYTE>(
-            reinterpret_cast<u32>(currentCursorTrack) + 4u));
+            currentCursorTrack + 4u));
         this->tracks[trackIdx].dataSize = trackLength;
         this->tracks[trackIdx].data = (LPBYTE)g_ZunMemory.Alloc(trackLength, "midi");
         this->tracks[trackIdx].trackPlaying = TRUE;
         memcpy(this->tracks[trackIdx].data, currentCursor, trackLength);
-        currentCursor = reinterpret_cast<LPBYTE>(
-            reinterpret_cast<u32>(currentCursor) + static_cast<u32>(trackLength));
+        currentCursor += trackLength;
     }
     this->microsecondsPerQuarterNote = 1000000;
     this->activeFileIndex = fileIdx;
@@ -475,7 +471,7 @@ void MidiOutput::OnTimerElapsed()
                 FadeOutSetVolume(0);
             }
             this->fadeOutLastSetVolume = this->fadeOutVolumeMultiplier * 128.0f;
-            ++*reinterpret_cast<u32 *>(&this->fadeOutElapsedMs);
+            ++this->fadeOutElapsedMs;
         }
         else
         {
@@ -524,9 +520,9 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
     i32 index;
     i32 beatsPerMinute;
 
-    // MIDI events and variable-length meta chunks are file-backed byte
-    // addresses. Preserve native i386 DWORD cursor wrap with no new
-    // file bounds gate or extra read of the original track stream.
+    // MIDI events and meta chunks are the live file-backed byte stream.
+    // Advance each actual cursor without inserting a new length check
+    // or reading any MIDI event word twice.
     statusByte = *track->cursor;
     if (statusByte < MIDI_OPCODE_NOTE_OFF)
     {
@@ -534,8 +530,7 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
     }
     else
     {
-        track->cursor = reinterpret_cast<LPBYTE>(
-            reinterpret_cast<u32>(track->cursor) + 1u);
+        ++track->cursor;
     }
     messageType = statusByte & 0xf0;
     channel = statusByte & 0x0f;
@@ -561,8 +556,7 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
             for (index = 0; index < eventDataLength; index++)
             {
                 (longMessageHeader->lpData[index + 1]) = *track->cursor;
-                track->cursor = reinterpret_cast<LPBYTE>(
-                    reinterpret_cast<u32>(track->cursor) + 1u);
+                ++track->cursor;
             }
             if (this->outputDevice.SendLongMsg(longMessageHeader))
             {
@@ -572,7 +566,7 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
             }
             // Retail advances the signed 32-slot MIDI long-header cursor
             // with a native i386 DWORD before applying modulo 32.
-            ++*reinterpret_cast<u32 *>(&this->pendingLongMessageHeaderCursor);
+            ++this->pendingLongMessageHeaderCursor;
             this->pendingLongMessageHeaderCursor = this->pendingLongMessageHeaderCursor % 32;
         }
         else if (statusByte == MIDI_OPCODE_SYSTEM_RESET)
@@ -582,8 +576,7 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
             // which are events that make sense in the context of a MIDI
             // file, but not in the context of the MIDI protocol itself.
             metaEventType = *track->cursor;
-            track->cursor = reinterpret_cast<LPBYTE>(
-            reinterpret_cast<u32>(track->cursor) + 1u);
+            ++track->cursor;
             eventDataLength = MidiOutput::SkipVariableLength(&track->cursor);
             // End of Track meta-event.
             if (metaEventType == MIDI_META_END_OF_TRACK)
@@ -604,15 +597,12 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
                     *reinterpret_cast<u32 *>(&this->microsecondsPerQuarterNote) +=
                         static_cast<u32>(this->microsecondsPerQuarterNote) * 0x100u +
                         static_cast<u32>(*track->cursor);
-                    track->cursor = reinterpret_cast<LPBYTE>(
-            reinterpret_cast<u32>(track->cursor) + 1u);
+                    ++track->cursor;
                 }
                 beatsPerMinute = 60000000 / this->microsecondsPerQuarterNote;
                 break;
             }
-            track->cursor = reinterpret_cast<LPBYTE>(
-                reinterpret_cast<u32>(track->cursor) +
-                static_cast<u32>(eventDataLength));
+            track->cursor += eventDataLength;
         }
         break;
     case MIDI_OPCODE_NOTE_OFF:
@@ -621,17 +611,14 @@ void MidiOutput::ProcessMsg(MidiTrack *track)
     case MIDI_OPCODE_CONTROL_CHANGE:
     case MIDI_OPCODE_PITCH_BEND_CHANGE:
         eventData1 = *track->cursor;
-        track->cursor = reinterpret_cast<LPBYTE>(
-            reinterpret_cast<u32>(track->cursor) + 1u);
+        ++track->cursor;
         eventData2 = *track->cursor;
-        track->cursor = reinterpret_cast<LPBYTE>(
-            reinterpret_cast<u32>(track->cursor) + 1u);
+        ++track->cursor;
         break;
     case MIDI_OPCODE_PROGRAM_CHANGE:
     case MIDI_OPCODE_CHANNEL_AFTERTOUCH:
         eventData1 = *track->cursor;
-        track->cursor = reinterpret_cast<LPBYTE>(
-            reinterpret_cast<u32>(track->cursor) + 1u);
+        ++track->cursor;
         eventData2 = 0;
         break;
     }
