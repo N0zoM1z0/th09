@@ -149,9 +149,12 @@ The remaining failed boss and leaf experiments are recorded in
 
 Prioritize boss control flow and then close near-exact leaves:
 
-1. CheckBulletCollision: find a natural source structure that keeps circle
-   success in fall-through to the dispatcher and rectangle success on a
-   backward branch, without allowing VC7.1 to common the join after geometry.
+1. CheckBulletCollision: follow the newly recovered IDA CFG: the inner
+   region-filter loop owns rectangle/AABB tests; nonzero radius breaks to the
+   circle test; both successful paths reach one dispatcher; direct hits branch
+   to the shared counter tail. Preserve the 0x34 frame and EBX/ESI/EDI roles.
+   Literal nested-loop and shared-tail probes changed the prologue/registers,
+   so combine the control flow without introducing extra locals or aliases.
 2. UpdateNetworkService: reconstruct the 20-byte local overlay, EDI state
    pointer lifetime, connection callbacks, prediction path and common return.
 3. UpdateChargeAttack: solve the side-index/input-pointer lifetime without

@@ -1130,6 +1130,46 @@ were not changed.
   reference aliases did not improve the four register-order differences. All
   experiments were reverted.
 
+## Collision CFG reconstruction probes (2026-11-19)
+
+IDA's native CFG clarifies the intended source structure more precisely than
+our earlier nested geometry experiments:
+
+- An outer scan loop contains an inner region-filter loop. The inner loop
+  reloads `*slot`, rejects null/unsupported/delayed regions, and then tests
+  `radius`.
+- A nonzero radius breaks out of the inner loop into the circle test. A zero
+  radius keeps execution in the inner loop and performs the rotated-rectangle
+  or AABB test there. Rectangle misses and circle misses both jump to the
+  inner-loop `next_region` label; rectangle hits jump forward to the common
+  hit dispatcher.
+- Circle hits fall through into that same dispatcher. The dispatcher sends
+  direct hits to the shared hit-counter tail after the cancellation reward
+  path; cancellation hits either break the outer loop into reward creation or
+  advance to the next region.
+
+The following source-only probes were compiled and then reverted:
+
+- `if (radius == 0.0) goto rectangle_geometry` reduced raw differing bytes
+  from 539 to 529, but changed the native `jnp` radius branch to `jp` and made
+  the candidate 851 bytes instead of 862. It is not an acceptable frontier
+  improvement.
+- Moving direct-hit increment/return to a shared tail reproduced the native
+  long branch to the counter tail, but grew the frame from 0x34 to 0x38 and
+  produced 832/862 bytes with 595 differing bytes.
+- Rebuilding the IDA inner/outer-loop shape literally produced 801/862 bytes,
+  714 differing bytes, and changed the prologue/argument register allocation.
+- Aliasing the local slot pointer to `scratch.cursor.slot` produced 830/862
+  bytes with 711 differing bytes. The compiler stopped using the native ESI
+  cursor and the candidate prologue no longer matched.
+
+All probes are reverted. Maintained source remains 849/862 bytes with 539
+raw differing bytes against the 842-byte/705-difference ratchet. The next
+attempt should combine the IDA loop nesting and shared direct-hit tail while
+preserving the native 0x34 frame, EBX bullet argument, ESI slot cursor and EDI
+Player receiver. Do not use volatile/register hints or padding to pin those
+registers or fake the frame.
+
 ## Recent accepted natural C++ recoveries
 
 These commits improve native source fidelity while preserving their affected
