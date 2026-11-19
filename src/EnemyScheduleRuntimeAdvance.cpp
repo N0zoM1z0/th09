@@ -261,10 +261,9 @@ int EnemyScheduleRuntimeView::Run()
                     for (unsigned int i = 0; i < 4; ++i)
                     {
                         if (runtime->manager1C->timelineEventSlots2AC430[i] ==
-                            reinterpret_cast<int *>(
-                                reinterpret_cast<unsigned int>(
-                                    runtime->instruction20) +
-                                sizeof(EnemyTimelineInstructionView))[0])
+                            *reinterpret_cast<const int *>(
+                                reinterpret_cast<const unsigned char *>(runtime->instruction20) +
+                                sizeof(EnemyTimelineInstructionView)))
                         {
                             ++matchCount;
                             runtime->manager1C->timelineEventSlots2AC430[i] = -1;
@@ -284,10 +283,9 @@ int EnemyScheduleRuntimeView::Run()
                         if (runtime->manager1C->timelineEventSlots2AC430[j] >= 0)
                             continue;
                         runtime->manager1C->timelineEventSlots2AC430[j] =
-                            reinterpret_cast<int *>(
-                                reinterpret_cast<unsigned int>(
-                                    runtime->instruction20) +
-                                sizeof(EnemyTimelineInstructionView))[0];
+                            *reinterpret_cast<const int *>(
+                                reinterpret_cast<const unsigned char *>(runtime->instruction20) +
+                                sizeof(EnemyTimelineInstructionView));
                     }
                     break;
 
