@@ -46,10 +46,6 @@ typedef char EffectUpdateVmNativeCoordinates[
      offsetof(AnmVmBase, intVar0) == 0x100 &&
      offsetof(AnmVm, pos2) == 0x288) ? 1 : -1];
 
-// Effect owns actual contiguous 0x2A4-byte AnmVm records. The original
-// loops address each record directly, without a copied VM or extra bound.
-#define TH09_EFFECT_NATIVE_VM(owner, ordinal) ((owner)->vms[(ordinal)])
-
 int __fastcall EffectUpdateFromVm(Effect *effect)
 {
     AnmVm *vm = effect->vms;
@@ -126,14 +122,14 @@ Effect *EffectManager::InitializeEffect(
         for (int i = 0; i < g_EffectTemplates[static_cast<unsigned int>(effectId)].vmCount; ++i)
         {
             this->effectAnm->SetAndExecuteScriptIdx(
-                    &TH09_EFFECT_NATIVE_VM(effect, i), scriptIndex);
+                    &effect->vms[i], scriptIndex);
             scriptIndex = static_cast<int>(static_cast<unsigned int>(scriptIndex) +
                 static_cast<unsigned int>(g_EffectTemplates[static_cast<unsigned int>(effectId)].scriptStep));
-            TH09_EFFECT_NATIVE_VM(effect, i).flagsWord |= 0x2000;
-            TH09_EFFECT_NATIVE_VM(effect, i).color1 = color;
-            TH09_EFFECT_NATIVE_VM(effect, i).pos2.x = 0.0f;
-            TH09_EFFECT_NATIVE_VM(effect, i).pos2.y = 0.0f;
-            TH09_EFFECT_NATIVE_VM(effect, i).pos2.z = 0.0f;
+            effect->vms[i].flagsWord |= 0x2000;
+            effect->vms[i].color1 = color;
+            effect->vms[i].pos2.x = 0.0f;
+            effect->vms[i].pos2.y = 0.0f;
+            effect->vms[i].pos2.z = 0.0f;
         }
     }
     effect->updateCallback = g_EffectTemplates[static_cast<unsigned int>(effectId)].updateCallback;
@@ -275,14 +271,13 @@ int EffectManager::OnUpdate(EffectManager *effectManager)
             continue;
         }
 
-        // Every effect owns a runtime-counted collection of actual 0x2A4
-        // animation VM records. Resolve the signed VM ordinal through native
-        // i386 DWORD addresses without imposing a C++ fixed-array bound.
+        // Walk the actual runtime-counted 0x2A4-byte VM array. Preserve the
+        // live count and independently observed script outcomes.
         int liveVmCount = effect->vmCount;
         for (int vmIndex = 0; vmIndex < effect->vmCount; ++vmIndex)
         {
             if (g_AnmManager->ExecuteScript(
-                    &TH09_EFFECT_NATIVE_VM(effect, vmIndex)) != 0)
+                    &effect->vms[vmIndex]) != 0)
                 liveVmCount = static_cast<int>(
                     static_cast<unsigned int>(liveVmCount) - 1u);
         }
@@ -498,5 +493,3 @@ EffectManager *EffectManager::Create(int sideIndex, int primaryCount, int second
     }
     return effectManager;
 }
-
-#undef TH09_EFFECT_NATIVE_VM
