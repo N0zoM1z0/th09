@@ -36,16 +36,13 @@ void Supervisor::InsertPredictedFrame(
 {
     Supervisor *view = static_cast<Supervisor *>(this);
 
-    unsigned char *scanCursor =
-        reinterpret_cast<unsigned char *>(
-        reinterpret_cast<unsigned int>(this) + static_cast<unsigned int>(side) * 0x78u);
+    unsigned char *scanCursor = reinterpret_cast<unsigned char *>(this) +
+        static_cast<unsigned int>(side) * 0x78u;
     int index = 0;
     unsigned char *sideBase = scanCursor;
-    scanCursor = reinterpret_cast<unsigned char *>(
-        reinterpret_cast<unsigned int>(scanCursor) + 0x480u);
+    scanCursor += 0x480u;
 
-    for (; index < 10; ++index, scanCursor = reinterpret_cast<unsigned char *>(
-             reinterpret_cast<unsigned int>(scanCursor) + 0x0Cu))
+    for (; index < 10; ++index, scanCursor += sizeof(SupervisorFrameEntryOpsView))
     {
         int queuedFrame = *reinterpret_cast<int *>(scanCursor);
         if (queuedFrame == 0 || queuedFrame > frame)
@@ -59,8 +56,7 @@ void Supervisor::InsertPredictedFrame(
     if (*targetFrame != 0 && index < 9)
     {
         SupervisorFrameEntryOpsView *dst =
-            reinterpret_cast<SupervisorFrameEntryOpsView *>(
-                reinterpret_cast<unsigned int>(sideBase) + 0x4E8u);
+            reinterpret_cast<SupervisorFrameEntryOpsView *>(sideBase + 0x4E8u);
         int count = 9 - index;
         do
         {
@@ -74,9 +70,8 @@ void Supervisor::InsertPredictedFrame(
         while (count != 0);
     }
 
-    unsigned char *entryCursor = reinterpret_cast<unsigned char *>(
-        reinterpret_cast<unsigned int>(this) +
-        static_cast<unsigned int>(flatIndex) * sizeof(SupervisorFrameEntryOpsView));
+    unsigned char *entryCursor = reinterpret_cast<unsigned char *>(this) +
+        static_cast<unsigned int>(flatIndex) * sizeof(SupervisorFrameEntryOpsView);
     unsigned short packedInput =
         NativeLastReceivedFrame(view, side).packedInput00;
     *targetFrame = frame;
