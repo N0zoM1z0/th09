@@ -82,15 +82,14 @@ int PlayerLifecycleView::CheckBulletCollision(
          offsetof(CollisionScratch, reward.effectPosition) == 24 &&
          offsetof(CollisionScratch, reward.velocity) == 36 &&
          offsetof(CollisionScratch, cursor.slot) == 48) ? 1 : -1];
-    // Keep the native parameter/cursor homes observable across callbacks.
-    volatile CollisionScratch &liveScratch = scratch;
+    // The native cursor home overlays the geometry/reward frame directly.
     float xDelta;
     float yDelta;
 
     Bullet *currentBullet = bullet;
     PlayerCollisionRegionCreateRegionView **slot = activeB100;
     PlayerCollisionRegionCreateRegionView *region;
-    liveScratch.cursor.slot = slot;
+    scratch.cursor.slot = slot;
 
     do
     {
@@ -176,7 +175,7 @@ next_region:
     PlayerPositionView *volatile &livePosition = position;
     // Cancellation leaves the region scan before creating the reward effect.
 {
-        liveScratch.cursor.slot = slot;
+        scratch.cursor.slot = slot;
         scratch.reward.effectPosition.x =
             g_GameManager.TransformPopupX(livePosition->x);
         scratch.reward.effectPosition.y =
@@ -231,7 +230,7 @@ next_region:
         this->sideState->AddScore(50);
     }
 
-    PlayerCollisionRegionCreateRegionView *hitRegion = *liveScratch.cursor.slot;
+    PlayerCollisionRegionCreateRegionView *hitRegion = *scratch.cursor.slot;
     hitRegion->hitCount2C = static_cast<int>(
         static_cast<unsigned int>(hitRegion->hitCount2C) + 1u);
     return 2;
