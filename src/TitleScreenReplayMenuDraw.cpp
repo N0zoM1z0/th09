@@ -40,12 +40,7 @@ extern const char *g_ReplayCharacterNames[];
 extern const char *g_ReplayStoryModeName[];
 extern const char *g_ReplayExtraModeName[];
 
-// Replay header wire values index the original 32-bit pointer table as
-// base + unsigned(index)*4, without a C++ array bounds precondition.
-static inline const char *NativeReplayTextName(const char **table, int index)
-{
-    return table[index];
-}
+// Replay header values address the original name-pointer tables directly.
 
 // Each replay keeps the original three by ten frame-header pointer grid.
 // The path is the actual 50 by 0x200 character row owned by TitleScreen.
@@ -145,7 +140,7 @@ int TitleScreenView::DrawReplayMenu()
             sprintf(
                 buffer, "%s  -%s-",
                 g_ReplayStoryModeName[0],
-                NativeReplayTextName(g_ReplayDifficultyNames, replayValue.value0D7));
+                g_ReplayDifficultyNames[replayValue.value0D7]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
             g_AsciiManager.AddFormatText(&textPosition, buffer);
         }
@@ -159,8 +154,8 @@ int TitleScreenView::DrawReplayMenu()
         {
             sprintf(
                 buffer, "%s  -%s-",
-                NativeReplayTextName(g_ReplayModeNames, replayValue.value1E5),
-                NativeReplayTextName(g_ReplayDifficultyNames, replayValue.value0D7));
+                g_ReplayModeNames[replayValue.value1E5],
+                g_ReplayDifficultyNames[replayValue.value0D7]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
             g_AsciiManager.AddFormatText(&textPosition, buffer);
         }
@@ -177,8 +172,8 @@ int TitleScreenView::DrawReplayMenu()
                 g_AsciiManager.AddFormatText(
                     &textPosition,
                     "%.8s vs %.8s",
-                    NativeReplayTextName(g_ReplayCharacterNames, replayValue.frameStart[0][i]->value06),
-                    NativeReplayTextName(g_ReplayCharacterNames, replayValue.frameStart[1][i]->value06));
+                    g_ReplayCharacterNames[replayValue.frameStart[0][i]->value06],
+                    g_ReplayCharacterNames[replayValue.frameStart[1][i]->value06]);
                 position.y += 13.0f;
             }
         }
