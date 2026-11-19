@@ -407,7 +407,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             {
                 if (primaryFlags.noSprite04 != 0)
                     continue;
-                drawHead = manager->drawGroupHeads2AC410 + enemy->drawGroup3387;
+                drawHead = &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
                 goto append_enemy_to_draw_group;
             }
         }
@@ -970,7 +970,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
         if (enemy->primaryFlagBits337C.noSprite04 == 0 &&
             enemy->primaryFlagBits337C.active00 != 0)
         {
-            drawHead = manager->drawGroupHeads2AC410 + enemy->drawGroup3387;
+            drawHead = &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
         }
         else
             continue;
