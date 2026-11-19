@@ -1432,6 +1432,12 @@ next attempt should change the lifetime/ownership of the scan cursor and
 common dispatcher without introducing another live local or moving the
 rectangle body ahead of the circle/dispatcher blocks. Do not rebaseline.
 
+A two-case `switch (radius == 0.0)` gate was also tested after the nested-loop
+review. It materialized the X87 comparison as an integer boolean (`set/jmp`
+sequence) and expanded the owner to 872/862 bytes with 651 differences. This
+was both larger and less faithful to the native `test ah,0x44` / `jnp` edge;
+revert it and keep the original volatile X87 radius read.
+
 
 ## ReplaySave, UpdateNetworkService and movement-leaf register probes (2026-11-19)
 
