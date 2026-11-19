@@ -989,12 +989,11 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
         offsetof(ReplayDataView, obfuscationKey);
     for (loopIndex = 0; loopIndex < ChecksumHeaderBytes; loopIndex++, ++checksumBytes)
         checksum += *checksumBytes;
-    // The compressed payload is a counted native byte stream, not a
-    // bounded C++ indexed object when the signed wire size is unusual.
+    // The compressed bytes are already exposed through their native u8
+    // buffer. The original signed count controls the iteration; there is
+    // no new length clamp or change to the on-disk checksum algorithm.
     for (loopIndex = 0; loopIndex < compressedSize; loopIndex++)
-        checksum += *reinterpret_cast<const u8 *>(
-            reinterpret_cast<unsigned int>(compressedData) +
-            static_cast<unsigned int>(loopIndex));
+        checksum += compressedData[loopIndex];
     replayCopy.checksum = checksum;
 
     u8 obfuscationOffset = replayCopy.obfuscationKey;
