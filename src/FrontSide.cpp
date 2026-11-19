@@ -449,9 +449,9 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
     g_AnmManager->ExecuteScriptArray(frontSide->timingVms76D4, 6);
     g_AnmManager->ExecuteScript(&frontSide->vm7430);
 
-    // The signed HUD side selects the real 0x38-byte GameManager side
-    // and the separate +0x108 marker-count DWORD table via native
-    // modulo-32 address arithmetic, not C++ array-subscript bounds.
+    // Both marker counts are the consecutive native GameManager DWORDs at
+    // +0x108/+0x10C. The live HUD side selects the count without copying
+    // or adding a new bounds gate.
     if (!g_GameManager.IsGameMode2())
     {
         int rankIndex = 0;
@@ -462,10 +462,8 @@ int FrontSide::OnUpdate(FrontSide *frontSide)
         g_AnmManager->ExecuteScriptArray(frontSide->rankVms86AC, 7);
     }
 
-    int markerCount = (*reinterpret_cast<const int *>(
-        reinterpret_cast<unsigned int>(&g_GameManager.field108) +
-        static_cast<unsigned int>(frontSide->sideIndexA66C) *
-        sizeof(g_GameManager.field108)));
+    const int *markerCounts = &g_GameManager.field108;
+    int markerCount = markerCounts[frontSide->sideIndexA66C];
     if (markerCount > 5)
         markerCount = 5;
     int markerIndex = 0;
