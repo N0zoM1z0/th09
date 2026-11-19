@@ -7,6 +7,63 @@ status and the next useful work, not a session diary. Read
 [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) for historical target/compiler findings.
 The canonical ledgers and current source always outrank dated prose.
 
+## 2026-11-19 checkpoint: native Title/WinMain/ANM/Sound source recovery
+
+Current local source checkpoint `ddcd49e1` follows **six target-verified
+source commits**. All target-dependent claims are limited to the original
+Japanese TH09 v1.50a and pinned VC7.1, with **scoped exact replay only**.
+There are still **1,026 canonical exact functions, 1,037 authored mappings,
+and 11 source-present nonexact owners**. Source-naturalization commits do not
+create new exact credit, nor do they establish a complete linked Windows
+product or runtime test.
+
+- `d1b29b50`: Type4 attack now reads the originating Type4 record's genuine
+  +0x34 typed extra pointer rather than interpreting its unknown bytes as an
+  unrelated pointer overlay. Full **739/739 bytes and 28 relocations** replay.
+  Other Type4 history/VM indices and both ExAttack draw callbacks had already
+  been restored in the adjacent `cadfc828` and `c231fc16` commits.
+- `ecd40217`: the Player Type9 867-byte position callback's six polar-vector
+  arguments now view the actual first two `PlayerPositionView` floats as the
+  native 2D vector, with a verified 12-byte XYZ geometry contract. Exact
+  **867 bytes / 37 relocations**. Calling its float-pointer conversion
+  operator instead emitted **909 bytes / 598 residuals**, so was rejected.
+- `bac91bf6`: native 3D ANM Draw uses true `AnmVmScriptMatrix` value
+  assignment and `matrix2.m[0][0]` / `m[1][1]` scale words; the D3DX
+  conversion is confined to the real SDK pointer boundary. Full
+  **811/811 bytes / 26 relocations** are exact.
+- `c8d57624`: the **2,045-byte `TitleScreen::OnUpdateOptions`** reads
+  actual configuration music/SFX volume byte members as signed 8-bit
+  quantities and writes the native members directly, eliminating 21 aliasing
+  reference casts. Scoped two-function replay: **2,079 bytes / 138 fields**.
+- `38a9f1e0`: `WinMain` and file-local `CreateGameWindow` now index the real
+  nonempty executable-directory path and compute ordinary Win32 window
+  decoration dimensions without redundant unsigned-word casts. Both owners
+  replay exactly: **1,636 bytes / 171 fields**.
+- `ddcd49e1`: `SoundPlayer::LoadSound` uses `LPVOID` for the actual DirectSound
+  locked audio segments and passes genuine `DWORD` length pointers to `Lock`.
+  Exact **614-byte owner / 30 relocations**, with scoped playback/audio
+  carrier replay **20 exact units / 5,400 physical bytes / 184 fields**.
+  All 11 changed private `soundplayer-process-queues` labels were checked to
+  land on the same retail COFF/PE destination before rebinding their names.
+
+**Unretained boss probe:** seven direct C++ byte-/array-view models for the
+49 controller-mode reads/writes in the **2,803-byte**
+`TitleScreen::OnUpdateKeyConfig` kept its full length, but the best variants
+were still different at offsets `+0x6B6`, `+0x6CC`, `+0x82E`, `+0x843`
+(1718, 1740, 2094, 2115). Other forms gave 6-12 unlike bytes. They were
+restored. Avoid inventing a `GameConfiguration` array union or using register
+coaxing to hide the ModRM differences; existing exact source remains the
+reference. No cold replay, ASM, byte padding, target patch or manifest-ratchet
+relaxation was used.
+
+For the remaining nonexact bosses, `EnemyManager::OnUpdate` remains
+**3,900/3,900 bytes, two mismatched bytes**; `CheckBulletCollision` remains
+**849/862 bytes and strictly REGRESSED**, and
+`Supervisor::UpdateNetworkService` is currently **1,645/1,633 bytes,
+909 nonrelocation differences and strictly REGRESSED** after its natural
+retry-return simplification (`a2751ec4`). Do not confuse these candidates
+with exact owners.
+
 ## 2026-11-19 checkpoint: native ExAttack, score, MIDI, Enemy and Player sources
 
 Latest local source checkpoint `9f672b4b` retains the preceding seven

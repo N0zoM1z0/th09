@@ -14363,3 +14363,42 @@ service callback stays exact. Therefore do not substitute the type without
 further source/ABI evidence. The original 33-byte `fsincos` target directly
 uses x87 `fsincos`; two natural CRT math calls compile to a distinct 36-byte
 helper. ASM or padding is forbidden, so this remains honestly nonexact.
+
+## 2026-11-19: native VM matrices, signed option bytes and DirectSound ownership
+
+The Type4 attack's source record is another native ExAttack record; its
+extra-data pointer is the genuine +0x34 member. Reading this typed member
+instead of punning +0x2C unknown bytes preserves the 739-byte callback
+and 28 exact relocations. `PlayerPositionCallback30404Type9` supplies
+`SetPolar2D` with its real 12-byte position's first two floats, so the
+six `reinterpret_cast<Float2 *>(&delta)` arguments preserve the 867-byte
+and 37-field original. Using the nontrivial float-pointer operator is
+not equivalent codegen: it emitted 909 bytes and 598 differences.
+
+`AnmManager::Draw3D` owns three actual 0x40-byte VM matrix fields, each
+with a 4x4-float `m` array. Typed `matrix2 = matrix1` and the matrix
+scale's [0][0]/[1][1] members compile exactly; D3DX pointer casts only
+remain at the SDK API boundary. The 811-byte owner and 26 relocation
+fields are exact. The 2,045-byte Title options state machine can read
+its real config byte volumes with signed-char *value* conversions and
+write its original member lvalues directly instead of signed-char reference
+aliasing. The two same-source exact owners replay over 2,079 bytes and
+138 fields. `WinMain` and `CreateGameWindow` likewise use the real
+executable-directory array and Win32 metric values (1,636 bytes/171
+fields across two owners).
+
+`SoundPlayer::LoadSound`'s DirectSound `Lock` outputs are **two LPVOID
+segments and two DWORD lengths**, never WAVEFORMATEX objects. Native API
+pointer types reproduce the complete 614 bytes/30 relocations and all
+other SoundPlayer source carrier functions replay: 20 units / 5,400 bytes /
+184 relocation fields. Eleven compiler-private labels within the
+`ProcessQueues` jump table were confirmed to have identical physical
+retail destinations before updating their ledger spelling.
+
+A new native two-side controller-mode array in GameConfiguration is **not
+proven exact** for `TitleScreen::OnUpdateKeyConfig`: all seven file-/struct-
+byte-view probes kept the complete 2,803-byte length but left at least four
+unlike ModRM instruction bytes (offsets +1718, +1740, +2094 and +2115).
+No variant was committed, and no frontier or symbol destination was altered.
+The exact Sound/Title/MIDI work remains source fidelity, not newly exact
+function credit.
