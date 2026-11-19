@@ -26,6 +26,25 @@ def rows(name: str) -> list[dict[str, str]]:
         return result
 
 
+def validate_nonexact_frontiers(
+    frontiers: dict[str, object], exact_addresses: set[str]
+) -> None:
+    """An active nonexact comparison cannot also claim canonical exactness."""
+    exact = {int(address, 0) for address in exact_addresses}
+    seen: set[int] = set()
+    for name, entry in frontiers.items():
+        if not isinstance(entry, dict) or not isinstance(entry.get("address"), int):
+            raise ValueError(f"frontier {name} has no numeric target address")
+        address = entry["address"]
+        if address in seen:
+            raise ValueError(f"duplicate frontier address {address:#010x}")
+        if address in exact:
+            raise ValueError(
+                f"nonexact frontier {name} contradicts canonical exact owner {address:#010x}"
+            )
+        seen.add(address)
+
+
 def one_column(name: str) -> list[str]:
     with (CONFIG / name).open(newline="", encoding="utf-8") as stream:
         result = []
@@ -95,6 +114,11 @@ def validate() -> dict[str, int]:
         raise ValueError("mapping and match addresses must be unique")
     mapping_addresses = set(mapping_by_address)
     match_addresses = set(match_by_address)
+    with (CONFIG / "frontiers.toml").open("rb") as stream:
+        frontiers = tomllib.load(stream).get("frontier", {})
+    if not isinstance(frontiers, dict):
+        raise ValueError("frontier configuration must be a table")
+    validate_nonexact_frontiers(frontiers, match_addresses)
     if not mapping_addresses.issubset(function_addresses) or not match_addresses.issubset(function_addresses):
         raise ValueError("mapping or match ledger references an unknown address")
     mapped_names = {row["name"] for row in mappings}
