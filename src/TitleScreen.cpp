@@ -2509,24 +2509,8 @@ int TitleScreenView::OnUpdateResult()
 #undef RESULT_CANCEL_BUTTONS
 
 
-// The native replay pools are actual TitleScreen arrays: 0x1EC-byte
-// metadata, 0x200-byte path rows and DWORD allocation slots. Continue
-// using the live 32-bit cursor without introducing bounds guards or caches.
-static inline ReplayDataView &NativeTitleReplayRow(TitleScreenView *title, int index)
-{
-    return title->replays[static_cast<unsigned int>(index)];
-}
-static inline char *NativeTitleReplayPath(TitleScreenView *title, int index)
-{
-    return title->replayPaths[static_cast<unsigned int>(index)];
-}
-static inline ReplayDataView *&NativeTitleReplayAllocation(TitleScreenView *title, int index)
-{
-    return title->replayAllocations[static_cast<unsigned int>(index)];
-}
-
-// Replay and stage selection use live signed DWORD cursors. Preserve the
-// original wrap-around comparisons and native increment/decrement order.
+// The replay menu accesses the original TitleScreen-owned 50-entry arrays
+// directly. Keep every native cursor use and independent field read intact.
 int TitleScreenView::OnUpdateReplayMenu()
 {
     char fullPath[1024];
@@ -2560,11 +2544,11 @@ int TitleScreenView::OnUpdateReplayMenu()
                 {
                     ReplayDataView *loadedReplay =
                         ReplayManagerView::LoadReplayData(fileData, fileSize);
-                    NativeTitleReplayAllocation(this, replayIndex) = loadedReplay;
+                    replayAllocations[static_cast<unsigned int>(replayIndex)] = loadedReplay;
                     if (loadedReplay != 0)
                     {
-                        NativeTitleReplayRow(this, replayIndex) = *loadedReplay;
-                        strcpy(NativeTitleReplayPath(this, replayIndex), path);
+                        replays[static_cast<unsigned int>(replayIndex)] = *loadedReplay;
+                        strcpy(replayPaths[static_cast<unsigned int>(replayIndex)], path);
                     }
                 }
             }
@@ -2585,11 +2569,11 @@ int TitleScreenView::OnUpdateReplayMenu()
 
                     ReplayDataView *loadedReplay =
                         ReplayManagerView::LoadReplayData(fileData, fileSize);
-                    NativeTitleReplayAllocation(this, 25 + replayIndex) = loadedReplay;
+                    replayAllocations[static_cast<unsigned int>(25 + replayIndex)] = loadedReplay;
                     if (loadedReplay != 0)
                     {
-                        NativeTitleReplayRow(this, 25 + replayIndex) = *loadedReplay;
-                        sprintf(NativeTitleReplayPath(this, 25 + replayIndex), "./replay/%s", findData.cFileName);
+                        replays[static_cast<unsigned int>(25 + replayIndex)] = *loadedReplay;
+                        sprintf(replayPaths[static_cast<unsigned int>(25 + replayIndex)], "./replay/%s", findData.cFileName);
                     }
 
                     if (!FindNextFileA(findHandle, &findData))
@@ -2649,16 +2633,16 @@ int TitleScreenView::OnUpdateReplayMenu()
             keyboardSelection = 3;
             for (i32 replayIndex = 0; replayIndex < 50; replayIndex++)
             {
-                if (NativeTitleReplayAllocation(this, replayIndex) != 0)
-                    free(NativeTitleReplayAllocation(this, replayIndex));
-                NativeTitleReplayAllocation(this, replayIndex) = 0;
+                if (replayAllocations[static_cast<unsigned int>(replayIndex)] != 0)
+                    free(replayAllocations[static_cast<unsigned int>(replayIndex)]);
+                replayAllocations[static_cast<unsigned int>(replayIndex)] = 0;
             }
             return 1;
         }
 
         if (static_cast<u16>(g_TitleInputFlags) & 0x1001)
         {
-            if (NativeTitleReplayRow(this, keyboardSelection).magic != 0)
+            if (replays[static_cast<unsigned int>(keyboardSelection)].magic != 0)
             {
                 PlayMenuSound(10, 0);
                 selectedReplay = keyboardSelection;
@@ -2666,7 +2650,7 @@ int TitleScreenView::OnUpdateReplayMenu()
                 stateTimer = 0;
                 keyboardSelection = 0;
                 phaseTimer = 0;
-                while (NativeTitleReplayRow(this, selectedReplay).frameStart[0][keyboardSelection] == 0)
+                while (replays[static_cast<unsigned int>(selectedReplay)].frameStart[0][keyboardSelection] == 0)
                     TH09_TITLE_NATIVE_INCREMENT(keyboardSelection);
             }
             else
@@ -2681,7 +2665,7 @@ int TitleScreenView::OnUpdateReplayMenu()
         i32 direction = MoveCursorVertical(10);
         if (direction != 0)
         {
-            while (NativeTitleReplayRow(this, selectedReplay).frameStart[0][keyboardSelection] == 0)
+            while (replays[static_cast<unsigned int>(selectedReplay)].frameStart[0][keyboardSelection] == 0)
             {
                 TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, direction);
                 if (keyboardSelection >= 10)
@@ -2703,18 +2687,18 @@ int TitleScreenView::OnUpdateReplayMenu()
             g_GameSide0Value20 = side0CharacterCursor;
             g_GameSide1Value20 = 0;
             g_GameCurrentStage = keyboardSelection;
-            g_TitleNameTableIndex = NativeTitleReplayRow(this, selectedReplay).value0D7;
-            strcpy(g_SelectedReplayPath, NativeTitleReplayPath(this, selectedReplay));
+            g_TitleNameTableIndex = replays[static_cast<unsigned int>(selectedReplay)].value0D7;
+            strcpy(g_SelectedReplayPath, replayPaths[static_cast<unsigned int>(selectedReplay)]);
             g_TitleGameFlags |= 8u;
 
-            if (NativeTitleReplayRow(this, selectedReplay).value1E4 == 0)
+            if (replays[static_cast<unsigned int>(selectedReplay)].value1E4 == 0)
             {
                 g_GameValueDF0 = 1;
                 g_TitleGlobalMode = 2;
                 g_GameMode = 0;
                 g_GameValueDB8 = 0;
             }
-            else if (NativeTitleReplayRow(this, selectedReplay).value1E4 == 1)
+            else if (replays[static_cast<unsigned int>(selectedReplay)].value1E4 == 1)
             {
                 g_GameValueDF0 = 1;
                 g_TitleGlobalMode = 2;
@@ -2723,35 +2707,35 @@ int TitleScreenView::OnUpdateReplayMenu()
             }
             else
             {
-                if (NativeTitleReplayRow(this, selectedReplay).value1E5 == 0)
+                if (replays[static_cast<unsigned int>(selectedReplay)].value1E5 == 0)
                 {
                     g_GameValueDF0 = 0;
                     g_GameValueDB8 = 0;
                     g_TitleGlobalMode = 2;
                     g_GameMode = 2;
                 }
-                else if (NativeTitleReplayRow(this, selectedReplay).value1E5 == 1)
+                else if (replays[static_cast<unsigned int>(selectedReplay)].value1E5 == 1)
                 {
                     g_GameValueDF0 = 1;
                     g_GameValueDB8 = 0;
                     g_TitleGlobalMode = 2;
                     g_GameMode = 2;
                 }
-                else if (NativeTitleReplayRow(this, selectedReplay).value1E5 == 2)
+                else if (replays[static_cast<unsigned int>(selectedReplay)].value1E5 == 2)
                 {
                     g_GameValueDF0 = 0;
                     g_GameValueDB8 = 1;
                     g_TitleGlobalMode = 2;
                     g_GameMode = 2;
                 }
-                else if (NativeTitleReplayRow(this, selectedReplay).value1E5 == 3)
+                else if (replays[static_cast<unsigned int>(selectedReplay)].value1E5 == 3)
                 {
                     g_GameValueDF0 = 1;
                     g_GameValueDB8 = 1;
                     g_TitleGlobalMode = 2;
                     g_GameMode = 2;
                 }
-                else if (NativeTitleReplayRow(this, selectedReplay).value1E5 == 4)
+                else if (replays[static_cast<unsigned int>(selectedReplay)].value1E5 == 4)
                 {
                     g_GameValueDF0 = 0;
                     g_GameValueDB8 = 0;
@@ -2762,9 +2746,9 @@ int TitleScreenView::OnUpdateReplayMenu()
 
             for (i32 replayIndex = 0; replayIndex < 50; replayIndex++)
             {
-                if (NativeTitleReplayAllocation(this, replayIndex) != 0)
-                    free(NativeTitleReplayAllocation(this, replayIndex));
-                NativeTitleReplayAllocation(this, replayIndex) = 0;
+                if (replayAllocations[static_cast<unsigned int>(replayIndex)] != 0)
+                    free(replayAllocations[static_cast<unsigned int>(replayIndex)]);
+                replayAllocations[static_cast<unsigned int>(replayIndex)] = 0;
             }
             g_TitleNameTableIndex = g_TitleDifficulty;
             return 0;
@@ -2931,7 +2915,7 @@ int TitleScreenView::UpdateReplaySave()
             PlayMenuSound(10, 0);
             selectedReplay = keyboardSelection;
             keyboardSelection = 0;
-            if (NativeTitleReplayRow(this, selectedReplay).magic != 0)
+            if (replays[static_cast<unsigned int>(selectedReplay)].magic != 0)
             {
                 replaySaveState = 3;
                 g_AnmManager->SetInterruptArray(vms, vmCount, 21);
