@@ -14266,3 +14266,42 @@ position pointers to owner-level `AnmVm*` would produce 3,127 bytes with
 preserves independently accessed `Float3` member positions and vector
 lifetime. That experiment was discarded; no fake register liveness or
 alignment was used.
+
+## 2026-11-19: native Front panels, ANM loading and Enemy pool
+
+The Front owner already contains the exact `panelVerticesE86C[2][5]` grid
+of 0x14-byte records, plus genuine `panelColorsE934[2]` and
+`panelTimersE93C[2]` DWORD arrays. They may be read and written through
+ordinary C++ member indices, not integer-scaled base addresses. Changing
+both shared macros preserves the four affected Front/Player carrier objects;
+selected exact replays pass 2 owners/2,244 bytes/145 relocations for the
+color/timer arrays, and 3 owners/3,671 bytes/271 relocations for vertices.
+`FrontCalcCallback` additionally observes the 16-bit selections at
+`g_NeutralMessageSource + 8/+10` as real fields in a 12-byte file-backed
+record. Its timer/count operations emit exactly the original 1,491 bytes
+and all 107 relocations. The adjacent FrontSide HUD marker counts at
+GameManager +0x108/+0x10C also admit a native two-DWORD pointer/index
+form, preserving 15 exact same-source owners / 4,087 bytes / 176 fields.
+
+The ANM resource reader's file-backed 0x40-byte `AnmRawEntry` chain uses
+real unsigned `nextOffset` byte offsets. Two `currentEntry` advances and
+one `rawEntry` advance compile identically with byte pointers; native entry
+counters increment naturally. `NativeAnmSurfaceSlot` can index the actual
+32-element surface/metadata arrays. Leave the loader's fake 0x24-prefix
+`AnmLoadSlot` as an unresolved physical projection, rather than falsely
+claiming it is a genuine array of C++ objects. Both required VC7.1
+profiles pass 17 owners / 3,258 exact bytes / 133 relocation fields.
+
+Both Enemy spawn paths iterate the real 128-element 0x5430-byte pool with
+`++enemy` and `++enemyIndex`. This strictly bounded loop cannot reach signed
+index overflow; its 373/364-byte originals and 4+4 relocations are exact.
+The ExAttack limits and BossMarker DWORD arrays likewise replace only
+artificial integer address helpers; their three leaf owners (174 total
+bytes/11 relocations) continue to replay exactly.
+
+**Rejected collision CFG attempt:** twelve natural C++ layouts copied the
+reference's circle-success `hit:` label and backward rectangle/AABB branches,
+but lost the retail 0x34-frame native prologue arrangement and produced
+807-810-byte functions with 716-730 differences. Do not rebaseline or
+commit those variants. Exact counts remain 1,026; source-fidelity commits
+cannot be interpreted as additional matched owners.

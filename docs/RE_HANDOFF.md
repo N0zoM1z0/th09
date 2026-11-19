@@ -7,6 +7,57 @@ status and the next useful work, not a session diary. Read
 [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) for historical target/compiler findings.
 The canonical ledgers and current source always outrank dated prose.
 
+## 2026-11-19 checkpoint: Front, ANM loading and Enemy pool source
+
+Latest local code checkpoint `e56dfb9b` contains **seven source commits**,
+all based on original Japanese TH09 v1.50a and the pinned VC7.1 profiles.
+There are still **1,026 canonical exact functions** and **11 source-present
+nonexact authors**. These commits make existing exact C/C++ more faithful;
+they are not new exact credit or a whole-product Windows link/runtime claim.
+
+- `a718ba48`: `FrontSide::OnUpdate` reads GameManager's adjacent
+  +0x108/+0x10C native marker-count DWORDs through one C++ word cursor
+  rather than converting the base address to an integer. All **15 same-source
+  exact owners / 4,087 bytes / 176 relocation fields** replayed.
+- `6f1ae443`: both Front panel timer and color macros now index the real
+  per-side native arrays. The two affected exact source owners total
+  **2,244 bytes / 145 relocations**, including `FrontCalcCallback` and
+  Player's death callback.
+- `ea54fbfe`: Front's panel-vertex macro directly indexes its true `[2][5]`
+  `FrontPanelVertexView` grid instead of scaling integer addresses. All
+  **3 affected exact owners / 3,671 bytes / 271 relocations** pass. The
+  overlaps with the previous commit are not additional function credit.
+- `a158b532`: the **1,491-byte `FrontCalcCallback`** accesses the real
+  two `short` neutral-message selections at file-record offsets +8/+10,
+  naturally decrements the native positive panel timer, and increments
+  the transition frame. Complete **1,491/1,491 bytes, 107 relocations**
+  are exact, including the old callback order and separate live reads.
+- `f8be09ce`: ANM loader `ReadAnmEntries` and `PostloadAnmEntry` advance
+  through actual variable-length file data with byte pointers; native
+  counts use ordinary increments and surface tables use direct indexing.
+  The deliberately unusual +0x24-crossing `AnmLoadSlot` projection was
+  **not** replaced by a false array representation. All **17 source exact
+  units / 3,258 bytes / 133 relocations**, including the `/Ob0` constructor
+  and `/Ob1` loaders, pass.
+- `35ca5c84`: both `EnemyManagerView::SpawnEnemy` and the native card-attack
+  spawn helper iterate the real bounded 128-entry 0x5430-byte Enemy pool by
+  `++enemy`/`++enemyIndex` instead of integer address words. Both exact
+  original functions pass (**373 + 364 bytes, 8 relocations**).
+- `e56dfb9b`: ExAttack limits/difficulty scales and ASCII boss-marker slots
+  use their genuine DWORD tables directly. Three already exact leaf owners
+  replay (**174 bytes, 11 relocations**).
+
+A focused **12-variant** `CheckBulletCollision` attempt used the adjacent
+Cirno-Labs TH09 hit-dispatch source as a hypothesis: circle success fell
+through to the `hit` block and rotated/AABB success jumped backward.
+With genuine native types it instead emitted 807-810-byte bodies and
+716-730 residuals, losing the correct EBX/ESI/EDI prologue. Every failed
+variant was restored. Keep the current 849/862, 539-position candidate's
+real 0x34-byte stack frame; the old strict frontier remains REGRESSED.
+`UpdateNetworkService` also remains 1650/1633, 914-position REGRESSED.
+Neither residual baseline was edited. No full cold replay, ASM, padding,
+fake relocations, dummy register lifetimes or target modification occurred.
+
 ## 2026-11-19 checkpoint: native background/ANM bosses and Supervisor leaves
 
 Newest local source checkpoint `18d308d3` includes **five reviewed code
