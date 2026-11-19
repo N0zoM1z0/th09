@@ -1,9 +1,8 @@
 #pragma once
 
-// FrontFactory owns exactly two 0x64-byte panel strips of five actual
-// 0x14-byte FrontPanelVertexView elements, followed by its independent
-// side color and timer DWORDs. Keep the live Win32 base + native strides.
+// The native FrontFactory allocation contains two five-vertex panels, each
+// vertex occupying 0x14 bytes. The actual [side][vertex] array is shared by
+// the Front creation, calculation and draw callbacks; no copied view or
+// bounds check is added here.
 #define FRONT_NATIVE_VERTEX(front, side, vertex) \
-    (*reinterpret_cast<FrontPanelVertexView *>(reinterpret_cast<unsigned int>(&(front)->panelVerticesE86C[0][0]) + \
-        static_cast<unsigned int>(side) * sizeof((front)->panelVerticesE86C[0]) + \
-        static_cast<unsigned int>(vertex) * sizeof((front)->panelVerticesE86C[0][0])))
+    ((front)->panelVerticesE86C[(side)][(vertex)])
