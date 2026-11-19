@@ -1553,3 +1553,65 @@ differences; an advancing row pointer reached 1,302/1,238 bytes and 962
 differences). Those were reverted too. Preserve the two-difference leaf;
 next isolate the two stack-home stores without extending the frame or changing
 the eight-DWORD POD assignment.
+
+
+## ChargeAttack phase-local side and collision common-tail follow-up (2026-11-19)
+
+A new `UpdateChargeAttack` register-lifetime experiment clarified the exact
+boundary between the initial input phase and the later cooldown/attack phase.
+The native entry needs EDI=the full DWORD `sideIndex` and EBX=the
+`ReplayInputState` pointer. The native cooldown path then reuses EBX for
+`timer303B0` and EDI for `timer303A4`, and reloads the live `sideIndex` from
+`this+8` for the post-cooldown focus-mode test.
+
+- A function-scope `int side = sideIndex` with direct input-row calls, while
+  keeping the existing later member reload, compiled to 1,211/1,210 bytes and
+  816 differences. VC7.1 still chose EBX=side and EDI=input.
+- Scoping the full-DWORD side, volatile side-mode byte and direct input-row
+  accesses around the initial input/charge branch, keeping the sound-pan uses
+  on that local, and reloading `sideIndex` for the post-cooldown test restored
+  the target entry roles and the EDI/EBX timer receiver roles. The candidate
+  was 1,202/1,210 bytes with 503 differences. Moving the `resolveAttack` label
+  inside or outside the side scope did not change the result. This substantially
+  changed the later attack-branch layout and is worse than the maintained
+  1,210-byte/183-difference frontier; it was reverted.
+- Adding a short-lived mode-path pointer or sequenced opponent/enemy-manager
+  pointer locals did not improve that 1,202/503 candidate. The side-scope
+  experiment was not promoted, and no exact-function oracle replay was
+  available for `UpdateChargeAttack`.
+
+The next charge attempt should preserve the baseline 1,210/183 control-flow
+layout while finding a way to end the DWORD side local's live range before the
+cooldown receiver reuse. Do not copy the 1,202/503 experiment into maintained
+source.
+
+`CheckBulletCollision` was also tested with a shared direct-hit/reward
+hit-count tail:
+
+- Removing the volatile dispatcher pointer local and reading `(*slot)->type38`
+  directly, then sending direct hits to the common counter tail, produced
+  818/862 bytes and 598 differences. It retained the native entry registers
+  and 0x34 frame, but had more differences than the maintained 849/862-byte,
+  539-difference source. A scoped replay of the source carrier passed five
+  other exact functions; it did not exercise `CheckBulletCollision` itself.
+- Retaining the volatile dispatcher pointer while sharing the counter tail
+  produced 825/862 bytes and 583 differences, again with the dispatcher and
+  rectangle blocks in the wrong order. Both variants were reverted.
+
+Keep the maintained 849/862-byte, 539-difference collision source. The
+remaining structural target is still the native circle -> dispatcher ->
+rectangle order, with rectangle success returning backward to the dispatcher.
+Do not rebaseline or claim the shared-tail variants as semantic validation.
+
+`SaveReplay` was tested with the in-place destination expressed as a C++
+reference rather than a pointer local. It remained 1,238/1,238 bytes with the
+same two residual bytes at +0xB6/+0xB9 (`ECX` versus `EDI` as the destination
+base). The reference form was reverted.
+
+`UpdateNetworkService` was tested with a prediction-only frame snapshot that
+survived `GetSeed`, followed by a `DWORD`/unsigned frame-local variant. Both
+expanded the stack from 0x14 to 0x18: the signed candidate reached 1,645/1,633
+bytes and 720 differences; the unsigned candidate reached 1,647/1,633 bytes
+and 728 differences. Both were reverted. Keep the maintained 1,645-byte,
+695-difference candidate and the 0x14-byte stack frame; the native prediction
+path's EBX frame snapshot remains an unresolved register-lifetime problem.
