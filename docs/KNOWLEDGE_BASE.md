@@ -1532,3 +1532,24 @@ A `GameConfiguration *configuration = g_GameConfiguration` snapshot in
 `player->sideIndex`: VC7.1 still emitted the side load first. The four-byte
 residual at +0x127..+0x12A remains unchanged, and the local snapshot was
 reverted.
+
+
+## ReplaySave stage-root lifetime and frame-row cursor probes (2026-11-19)
+
+The retail SaveReplay setup keeps `&replayManager->stageBuffers[0]` alive
+across the allocation call. The sizing loop advances a separate cursor, while
+the later input and FPS loops reuse the saved base. A natural C++ split with a
+function-scope `stageRoot`, a distinct sizing-only `stageCursor`, and later
+`stageRoot[loopIndex]` accesses reproduces the native early stack-home store at
++0x36 and keeps the function at 1,238 bytes. It has six differences rather than
+the maintained two: the row/cursor stack-home stores at +0xA3/+0xA6 are in the
+opposite order, and the header-copy destination still loads ECX rather than
+EDI at +0xB6/+0xB9. This probe was reverted.
+
+Several attempts to expose the native per-stream frame-row cursor as an
+explicit local or to reorder the `link` and frame-header declarations made
+the compiler retain additional stack homes (1,254/1,238 bytes, 897 or more
+differences; an advancing row pointer reached 1,302/1,238 bytes and 962
+differences). Those were reverted too. Preserve the two-difference leaf;
+next isolate the two stack-home stores without extending the frame or changing
+the eight-DWORD POD assignment.
