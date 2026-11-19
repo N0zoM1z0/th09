@@ -175,8 +175,8 @@ int Background::RenderObjects(int mode)
     for (; instance->objectId >= 0;
          ++instance)
     {
-        // The script's original object id selects the real pointer table.
-        object = this->stageObjects[static_cast<unsigned int>(instance->objectId)];
+        // The nonnegative original object ID selects the native object table.
+        object = this->stageObjects[instance->objectId];
         if (object->zLevel == mode)
         {
             quad = &object->firstQuad;
@@ -218,13 +218,13 @@ int Background::RenderObjects(int mode)
 
             object->flags |= 2;
 
-            // The quad list is variable-sized file data; advance the
-            // original wire pointer by the native signed 16-bit byteSize.
+            // Stage quads are variable-length wire records. Advance their
+            // true byte pointer by the signed 16-bit encoded size.
             for (; quad->type >= 0;
-                 quad = reinterpret_cast<RawStageQuadBasic *>(reinterpret_cast<unsigned char *>(quad) + static_cast<unsigned int>(static_cast<int>(quad->byteSize))))
+                 quad = reinterpret_cast<RawStageQuadBasic *>(reinterpret_cast<unsigned char *>(quad) + quad->byteSize))
             {
-                // Select the genuine 0x2A4-byte ANM VM by its wire id.
-                quadVm = &this->stageObjectVms[static_cast<unsigned int>(quad->vmIndex)];
+                // Select the original 0x2A4-byte ANM VM by its wire ID.
+                quadVm = &this->stageObjectVms[quad->vmIndex];
 
                 switch (quad->type)
                 {
@@ -352,11 +352,11 @@ int Background::RenderObjects(int mode)
                             this->skyFog.nearPlane > quadWidth &&
                             this->collectSpecialEffectPoints != 0)
                         {
-                            this->specialEffectPoints[static_cast<unsigned int>(this->specialEffectPointCount)].point =
+                            this->specialEffectPoints[this->specialEffectPointCount].point =
                                     *reinterpret_cast<BackgroundPoint *>(
                                         &quadPosition);
-                            this->specialEffectPoints[static_cast<unsigned int>(this->specialEffectPointCount)].point.z = 0.0f;
-                            this->specialEffectPointCount = static_cast<int>(static_cast<unsigned int>(this->specialEffectPointCount) + 1u);
+                            this->specialEffectPoints[this->specialEffectPointCount].point.z = 0.0f;
+                            ++this->specialEffectPointCount;
                         }
 
                     restoreColor:
