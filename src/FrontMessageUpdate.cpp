@@ -230,10 +230,10 @@ int FrontMessageRuntimeView::Update()
             }
             else
             {
-                this->messageVms14[static_cast<unsigned int>(0) * 2u + 0u].pendingInterrupt = 4;
-                this->messageVms14[static_cast<unsigned int>(1) * 2u + 0u].pendingInterrupt = 4;
-                this->messageVms14[static_cast<unsigned int>(0) * 2u + 1u].pendingInterrupt = 4;
-                this->messageVms14[static_cast<unsigned int>(1) * 2u + 1u].pendingInterrupt = 4;
+                this->messageVms14[0].pendingInterrupt = 4;
+                this->messageVms14[2].pendingInterrupt = 4;
+                this->messageVms14[1].pendingInterrupt = 4;
+                this->messageVms14[3].pendingInterrupt = 4;
             }
 
             resetText1D65 = 1;
@@ -418,8 +418,7 @@ int FrontMessageRuntimeView::Update()
 
             DecodeFrontMessageString(
                 textA,
-                reinterpret_cast<const unsigned char *>(
-                    reinterpret_cast<unsigned int>(arguments) + 4u));
+                reinterpret_cast<const unsigned char *>(arguments) + 4u);
             g_AnmManager->DrawTextLeft(
                 &textVms1534[arguments[1]],
                 textColors1D20[arguments[0]],
@@ -607,29 +606,28 @@ int FrontMessageRuntimeView::Update()
 
         }
 
-        // Retail advances through the file-backed variable-width command
-        // payload with an unsigned 32-bit byte-address word, not a bounded
-        // C++ struct-member pointer. Keep the original live size03 read.
+        // Advance through the actual variable-length instruction byte
+        // buffer using its live encoded payload size; do not invent a
+        // fixed-size command stride or a new bounds check.
         FrontMessageInstructionView *next =
             reinterpret_cast<FrontMessageInstructionView *>(
-                reinterpret_cast<unsigned int>(&current04->argument04) +
+                reinterpret_cast<unsigned char *>(&current04->argument04) +
                 static_cast<unsigned int>(current04->size03));
         current04 = next;
     }
     timer1D40++;
 
 run_scripts:
-    // As in the preceding script-opcode handlers, the eight ANM VMs are
-    // four real 0x548-byte portrait pairs. Use their one native receiver
-    // rather than subscripting an unrelated projected pair array.
-    g_AnmManager->ExecuteScript(&this->messageVms14[static_cast<unsigned int>(0) * 2u + 0u]);
-    g_AnmManager->ExecuteScript(&this->messageVms14[static_cast<unsigned int>(1) * 2u + 0u]);
-    g_AnmManager->ExecuteScript(&this->messageVms14[static_cast<unsigned int>(0) * 2u + 1u]);
-    g_AnmManager->ExecuteScript(&this->messageVms14[static_cast<unsigned int>(1) * 2u + 1u]);
-    g_AnmManager->ExecuteScript(&this->messageVms14[static_cast<unsigned int>(2) * 2u + 0u]);
-    g_AnmManager->ExecuteScript(&this->messageVms14[static_cast<unsigned int>(3) * 2u + 0u]);
-    g_AnmManager->ExecuteScript(&this->messageVms14[static_cast<unsigned int>(2) * 2u + 1u]);
-    g_AnmManager->ExecuteScript(&this->messageVms14[static_cast<unsigned int>(3) * 2u + 1u]);
+    // The four portrait pairs are eight actual contiguous ANM VMs;
+    // retain the original per-element script execution order.
+    g_AnmManager->ExecuteScript(&this->messageVms14[0]);
+    g_AnmManager->ExecuteScript(&this->messageVms14[2]);
+    g_AnmManager->ExecuteScript(&this->messageVms14[1]);
+    g_AnmManager->ExecuteScript(&this->messageVms14[3]);
+    g_AnmManager->ExecuteScript(&this->messageVms14[4]);
+    g_AnmManager->ExecuteScript(&this->messageVms14[6]);
+    g_AnmManager->ExecuteScript(&this->messageVms14[5]);
+    g_AnmManager->ExecuteScript(&this->messageVms14[7]);
     g_AnmManager->ExecuteScript(&textVms1534[0]);
     g_AnmManager->ExecuteScript(&textVms1534[1]);
     g_AnmManager->ExecuteScript(&introVm1A7C);
