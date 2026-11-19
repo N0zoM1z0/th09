@@ -46,12 +46,9 @@ typedef char EffectUpdateVmNativeCoordinates[
      offsetof(AnmVmBase, intVar0) == 0x100 &&
      offsetof(AnmVm, pos2) == 0x288) ? 1 : -1];
 
-// The variable-count Effect animation allocation uses genuine native
-// 0x2A4-byte ANM VM records; keep every original reread at its caller.
-#define TH09_EFFECT_NATIVE_VM(owner, ordinal) \
-    (*reinterpret_cast<AnmVm *>( \
-        reinterpret_cast<unsigned int>((owner)->vms) + \
-        static_cast<unsigned int>(ordinal) * sizeof(AnmVm)))
+// Effect owns actual contiguous 0x2A4-byte AnmVm records. The original
+// loops address each record directly, without a copied VM or extra bound.
+#define TH09_EFFECT_NATIVE_VM(owner, ordinal) ((owner)->vms[(ordinal)])
 
 int __fastcall EffectUpdateFromVm(Effect *effect)
 {
@@ -350,8 +347,7 @@ int EffectManager::OnDraw(EffectManager *effectManager)
                     vm->pos.z = 0.08f;
                     vm->pos += vm->pos2;
                     g_AnmManager->Draw2D(vm);
-                    vm = reinterpret_cast<AnmVm *>(
-                        reinterpret_cast<unsigned int>(vm) + sizeof(AnmVm));
+                    ++vm;
                 } while (--vmCount != 0);
             }
         }
@@ -382,8 +378,7 @@ int EffectManager::OnDrawShared(EffectManager *effectManager)
                     vm->pos.z = 0.0f;
                     vm->pos += vm->pos2;
                     g_AnmManager->Draw2D(vm);
-                    vm = reinterpret_cast<AnmVm *>(
-                        reinterpret_cast<unsigned int>(vm) + sizeof(AnmVm));
+                    ++vm;
                 } while (--vmCount != 0);
             }
         }
