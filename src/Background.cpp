@@ -36,17 +36,10 @@ struct BackgroundStageFiles
 extern BackgroundStageFiles g_BackgroundStageFiles[];
 
 // Spell and stage VM indices select the real 0x2A4-byte ANM allocations.
-// Stage paths are native pairs of pointers selected by the current stage.
+// Stage visibility checks use the original VM's +0x214 activeSpriteIndex,
+// not a fabricated scriptIndex projection onto the wrong native field.
 typedef char BackgroundNativeStageFileRowSizeIs08[
     sizeof(BackgroundStageFiles) == 0x08 ? 1 : -1];
-
-struct BackgroundStageVmRuntimeView
-{
-    unsigned char unknown000[0x1F0];
-    unsigned int color1;
-    unsigned char unknown1F4[0x214 - 0x1F4];
-    short scriptIndex;
-};
 
 struct BackgroundTintColorView
 {
@@ -89,12 +82,11 @@ Background *Background::Create(int viewportIndex)
     Background *background = static_cast<Background *>(
         g_ZunMemory.AddToRegistry(new Background, sizeof(Background), "BGScrollInf"));
 
-    background->sideState = &g_GameManager.sides[static_cast<unsigned int>(viewportIndex)];
+    background->sideState = &g_GameManager.sides[viewportIndex];
     background->frameCounter = 0;
     background->viewportIndex = viewportIndex;
     background->otherSideState = &g_GameManager.sides[
-        static_cast<unsigned int>(
-            static_cast<int>(1u - static_cast<unsigned int>(viewportIndex)))];
+        1 - viewportIndex];
 
     background->calcChain = g_Chain.CreateElem((ChainCallback)Background::OnUpdate);
     background->calcChain->arg = background;
@@ -138,11 +130,11 @@ int Background::LoadStageData(const char *path)
 
     for (objectIndex = 0; objectIndex < this->stageObjectCount; objectIndex++)
     {
-        // A loaded STD object-pointer slot contains a serialized file
-        // offset. Retail fixes it up using two native Win32 address words.
+        // Each STD object-pointer slot holds a serialized byte offset.
+        // Resolve it inside the original loaded stage-file buffer.
         this->stageObjects[objectIndex] = reinterpret_cast<RawStageObject *>(
-            reinterpret_cast<unsigned int>(this->stageObjects[objectIndex]) +
-            reinterpret_cast<unsigned int>(this->stageData));
+            reinterpret_cast<unsigned char *>(this->stageData) +
+            reinterpret_cast<unsigned int>(this->stageObjects[objectIndex]));
     }
 
     this->stageObjectVms = reinterpret_cast<AnmVm *>(
@@ -157,11 +149,11 @@ int Background::LoadStageData(const char *path)
         while (currentQuad->type >= 0)
         {
             this->stageAnm->ExecuteAnmIdx(
-                &this->stageObjectVms[static_cast<unsigned int>(vmIndex)], currentQuad->anmScript);
+                &this->stageObjectVms[vmIndex], currentQuad->anmScript);
             currentQuad->vmIndex = static_cast<short>(vmIndex++);
             currentQuad = reinterpret_cast<RawStageQuadBasic *>(
                 reinterpret_cast<unsigned char *>(currentQuad) +
-                static_cast<unsigned int>(currentQuad->byteSize));
+                currentQuad->byteSize);
         }
     }
     return 0;
@@ -319,26 +311,20 @@ int Background::OnUpdate(Background *background)
             ++background->spellBackgroundState;
         ++background->spellBackgroundFrame;
         for (int i = 0; i < background->spellVmCount; i++)
-            g_AnmManager->ExecuteScript(&background->spellVms[static_cast<unsigned int>(i)]);
+            g_AnmManager->ExecuteScript(&background->spellVms[i]);
     }
 
-    BackgroundStageVmRuntimeView *stageVm0 =
-        reinterpret_cast<BackgroundStageVmRuntimeView *>(&background->stageVm0);
-    if (stageVm0->scriptIndex > 0)
+    if (background->stageVm0.activeSpriteIndex > 0)
         g_AnmManager->ExecuteScript(&background->stageVm0);
 
-    BackgroundStageVmRuntimeView *stageVm1 =
-        reinterpret_cast<BackgroundStageVmRuntimeView *>(&background->stageVm1);
-    if (stageVm1->scriptIndex > 0)
+    if (background->stageVm1.activeSpriteIndex > 0)
         g_AnmManager->ExecuteScript(&background->stageVm1);
 
-    if (reinterpret_cast<BackgroundStageVmRuntimeView *>(
-            &background->stageVm2)->scriptIndex > 0)
+    if (background->stageVm2.activeSpriteIndex > 0)
     {
         g_AnmManager->ExecuteScript(&background->stageVm2);
         background->clearColor =
-            reinterpret_cast<BackgroundStageVmRuntimeView *>(
-                &background->stageVm2)->color1;
+            background->stageVm2.color1;
     }
 
     ++background->frameCounter;
@@ -410,10 +396,7 @@ int Background::OnDrawHighPrio(Background *background)
 
     if (background->spellBackgroundState <= 1)
     {
-        BackgroundStageVmRuntimeView *stageVm0 =
-            reinterpret_cast<BackgroundStageVmRuntimeView *>(
-                &background->stageVm0);
-        if (stageVm0->scriptIndex > 0)
+        if (background->stageVm0.activeSpriteIndex > 0)
         {
             AsciiGameManagerView *gameManager =
                 reinterpret_cast<AsciiGameManagerView *>(&g_GameManager);
@@ -423,10 +406,7 @@ int Background::OnDrawHighPrio(Background *background)
             g_AnmManager->Draw2DAndFlush(&background->stageVm0);
         }
 
-        BackgroundStageVmRuntimeView *stageVm1 =
-            reinterpret_cast<BackgroundStageVmRuntimeView *>(
-                &background->stageVm1);
-        if (stageVm1->scriptIndex > 0)
+        if (background->stageVm1.activeSpriteIndex > 0)
             g_AnmManager->Draw2DAndFlush(&background->stageVm1);
     }
 
@@ -499,7 +479,7 @@ int Background::OnDrawLowPrio(Background *background)
     {
         for (int i = 0; i < background->spellVmCount; i++)
         {
-            AnmVm *vm = &background->spellVms[static_cast<unsigned int>(i)];
+            AnmVm *vm = &background->spellVms[i];
             AsciiGameManagerView *gameManager =
                 reinterpret_cast<AsciiGameManagerView *>(&g_GameManager);
             vm->pos.x =
@@ -507,7 +487,7 @@ int Background::OnDrawLowPrio(Background *background)
             vm->pos.y =
                 gameManager->TransformPopupY(vm->pos2.y);
             vm->pos.z = vm->pos2.z;
-            g_AnmManager->Draw2DAndFlush(&background->spellVms[static_cast<unsigned int>(i)]);
+            g_AnmManager->Draw2DAndFlush(&background->spellVms[i]);
         }
         if (background->spellBackgroundDrawCallback != NULL)
             background->spellBackgroundDrawCallback();
