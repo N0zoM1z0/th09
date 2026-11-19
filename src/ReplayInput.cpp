@@ -204,9 +204,9 @@ int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
 
 ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 fileSize)
 {
-    unsigned int obfuscateAddress;
+    u8 *obfuscateByte;
     u8 obfuscateOffset;
-    unsigned int checksumAddress;
+    const u8 *checksumByte;
     u32 checksum;
     i32 i;
     ReplayDataView *decodedReplay;
@@ -221,26 +221,26 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
     if (replayData->value06 != 0)
         goto err1;
 
-    obfuscateAddress = reinterpret_cast<unsigned int>(&replayData->compressedSize);
+    obfuscateByte = reinterpret_cast<u8 *>(&replayData->compressedSize);
     obfuscateOffset = replayData->obfuscationKey;
-    // The original Win32 length subtraction wraps before the signed bound
-    // comparison; the serialized fields themselves remain signed DWORDs.
+    // Work directly on the header's byte span. The native Win32 length
+    // subtraction still wraps before its signed loop comparison.
     for (i = 0; i < static_cast<i32>(
              static_cast<u32>(replayData->fileSize) -
              static_cast<u32>(offsetof(ReplayDataView, compressedSize)));
-         i++, obfuscateAddress++)
+         i++, ++obfuscateByte)
     {
-        *reinterpret_cast<u8 *>(obfuscateAddress) -= obfuscateOffset;
+        *obfuscateByte -= obfuscateOffset;
         obfuscateOffset += 7;
     }
 
-    checksumAddress = reinterpret_cast<unsigned int>(&replayData->obfuscationKey);
+    checksumByte = reinterpret_cast<const u8 *>(&replayData->obfuscationKey);
     checksum = 0x3F000318;
     for (i = 0; i < static_cast<i32>(
              static_cast<u32>(replayData->fileSize) -
              static_cast<u32>(offsetof(ReplayDataView, obfuscationKey)));
-         i++, checksumAddress++)
-        checksum += *reinterpret_cast<const u8 *>(checksumAddress);
+         i++, ++checksumByte)
+        checksum += *checksumByte;
 
     if (checksum != replayData->checksum)
         goto err1;
@@ -253,51 +253,43 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
         static_cast<u32>(fileSize) + sizeof(ReplayHeaderView),
         "./system\\global.h");
     memcpy(decodedReplay, replayData, sizeof(ReplayHeaderView));
-    // The packed stream begins at the payload byte inside the flat wire buffer.
+    // Decode through the actual replay byte buffers, preserving the original
+    // header/payload offsets and independently counted trailing data.
     Lzss::Decode(
-        reinterpret_cast<u8 *>(
-            reinterpret_cast<unsigned int>(replayData) +
-            static_cast<unsigned int>(offsetof(ReplayDataView, randomPayloadByte))),
+        reinterpret_cast<u8 *>(replayData) + offsetof(ReplayDataView, randomPayloadByte),
         replayData->compressedSize,
-        reinterpret_cast<u8 *>(
-            reinterpret_cast<unsigned int>(decodedReplay) +
-            static_cast<unsigned int>(offsetof(ReplayDataView, randomPayloadByte))),
+        reinterpret_cast<u8 *>(decodedReplay) + offsetof(ReplayDataView, randomPayloadByte),
         replayData->decompressedSize);
     memcpy(
-        reinterpret_cast<u8 *>(
-            reinterpret_cast<unsigned int>(decodedReplay) +
-            static_cast<unsigned int>(offsetof(ReplayDataView, randomPayloadByte)) +
-            static_cast<unsigned int>(replayData->decompressedSize)),
-        reinterpret_cast<u8 *>(
-            reinterpret_cast<unsigned int>(replayData) +
-            static_cast<unsigned int>(replayData->fileSize)),
+        reinterpret_cast<u8 *>(decodedReplay) + offsetof(ReplayDataView, randomPayloadByte) +
+            static_cast<u32>(replayData->decompressedSize),
+        reinterpret_cast<u8 *>(replayData) + static_cast<u32>(replayData->fileSize),
         static_cast<u32>(fileSize) - static_cast<u32>(replayData->fileSize));
 
     if (g_Supervisor.CheckVersion(
             decodedReplay->exeVersion, decodedReplay->value1D4, decodedReplay->value1D8))
         goto err2;
 
-    // The decoded header overlays serialized frame/FPS offsets with
-    // native pointers in the real ReplayDataView tables. Preserve
-    // each original stage index and live read/write order.
+    // Serialized frame/FPS DWORD offsets become pointers into the decoded
+    // replay byte buffer. Preserve each native row's read/write order.
     for (i = 0; i < ReplayRecordingCapacity::StageCount; i++)
     {
         if (decodedReplay->frameOffset[0][i] != 0)
             decodedReplay->frameStart[0][i] = reinterpret_cast<ReplayFrameDataStartView *>(
-                reinterpret_cast<unsigned int>(decodedReplay) +
-                static_cast<unsigned int>(decodedReplay->frameOffset[0][i]));
+                reinterpret_cast<u8 *>(decodedReplay) +
+                decodedReplay->frameOffset[0][i]);
         if (decodedReplay->frameOffset[1][i] != 0)
             decodedReplay->frameStart[1][i] = reinterpret_cast<ReplayFrameDataStartView *>(
-                reinterpret_cast<unsigned int>(decodedReplay) +
-                static_cast<unsigned int>(decodedReplay->frameOffset[1][i]));
+                reinterpret_cast<u8 *>(decodedReplay) +
+                decodedReplay->frameOffset[1][i]);
         if (decodedReplay->frameOffset[2][i] != 0)
             decodedReplay->frameStart[2][i] = reinterpret_cast<ReplayFrameDataStartView *>(
-                reinterpret_cast<unsigned int>(decodedReplay) +
-                static_cast<unsigned int>(decodedReplay->frameOffset[2][i]));
+                reinterpret_cast<u8 *>(decodedReplay) +
+                decodedReplay->frameOffset[2][i]);
         if (decodedReplay->fpsOffset[i] != 0)
             decodedReplay->fpsStart[i] = reinterpret_cast<u8 *>(
-                reinterpret_cast<unsigned int>(decodedReplay) +
-                static_cast<unsigned int>(decodedReplay->fpsOffset[i]));
+                reinterpret_cast<u8 *>(decodedReplay) +
+                decodedReplay->fpsOffset[i]);
     }
 
 
