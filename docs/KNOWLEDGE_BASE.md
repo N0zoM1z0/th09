@@ -1431,3 +1431,36 @@ entry registers, native `jnp` radius edge, and existing 842-byte ratchet. The
 next attempt should change the lifetime/ownership of the scan cursor and
 common dispatcher without introducing another live local or moving the
 rectangle body ahead of the circle/dispatcher blocks. Do not rebaseline.
+
+
+## ReplaySave, UpdateNetworkService and movement-leaf register probes (2026-11-19)
+
+The near-exact ReplaySave leaf was revisited at the two recorded bytes. The
+remaining instruction pair is a destination-base allocation difference:
+retail loads the temporary-buffer base into EDI at function offset +0xB6 and
+forms `EDI = EDI + currentOffset - 0xC0` at +0xB9; the maintained candidate
+loads the same stack home into ECX and forms `EDI = ECX + currentOffset -
+0xC0`. The eight-DWORD POD frame-header copy and all surrounding bytes remain
+unchanged. Direct typed assignment, an explicit byte cursor, the compiler
+`memcpy` intrinsic, and a short-lived cursor advanced/restored around the
+copy all retained the same two residual bytes. Extending the stage-buffer base
+pointer lifetime across sizing, input-copy and FPS-copy loops regressed the
+owner to 1,254/1,238 bytes and 926 differences; it was reverted. Do not add
+volatile/register hints or retain an artificial helper solely to select EDI.
+
+`UpdateNetworkService` was also tested with direct `timeGetTime()` imports
+instead of the scoped callback pointer. The candidate remained 1,645/1,633
+bytes with 695 differences and the same instruction sequence. Reusing the
+captured frame-gate local for the first `InsertPredictedFrame` while using
+direct timer imports still grew the stack from 0x14 to 0x18 and produced 720
+differences; it was reverted. The maintained 695-difference source and the
+1,629-byte ratchet remain unchanged. The next prediction experiment must
+produce the retail EBX snapshot across `GetSeed` without creating a stack home
+or changing the 20-byte local frame.
+
+`PlayerLifecycleView::UpdateMovementAndOptions` was revisited at its four-byte
+configuration/side-index load-order residual. A real inline
+`GameConfiguration::GetSideFocusMode` member accessor and explicit pointer
+addition for the two-byte `sideFocusMode` row both compiled to the same EAX/ECX
+load order. Both source changes were reverted; the maintained 1,900-byte
+candidate remains at four differences.

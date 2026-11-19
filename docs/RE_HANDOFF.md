@@ -34,7 +34,7 @@ not worsened; it does not mean exact. Do not rebaseline REGRESSED candidates.
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | EnemyManagerView::OnUpdate | 0x00410730 | 3,900/3,900 bytes; 2 differences (OK) | Source now mirrors retail short-circuit CFG: side-state bit is tested before the category read, and the early draw path falls into the shared append. Only the +0x19A/+0x1A1 index-register choice remains (retail EAX, candidate ECX). |
-| ReplayManagerView::SaveReplay | 0x00420C60 | 1,238/1,238 bytes; 2 differences (OK) | Stage-header REP MOVSD destination setup at +0xB6/+0xB9: retail loads the destination base into EDI; candidate uses ECX. Preserve the native POD copy and caller proofs. |
+| ReplayManagerView::SaveReplay | 0x00420C60 | 1,238/1,238 bytes; 2 differences (OK) | Stage-header REP MOVSD destination setup at +0xB6/+0xB9: retail `mov edi,[ebp-0x10]; lea edi,[edi+ebx-0xC0]`; candidate uses ECX as the LEA base. Direct typed assignment, cursor and memcpy probes did not change the two bytes. Preserve the native POD copy and caller proofs. |
 | ReplayManagerView::BeginPlaybackStage | 0x00420840 | 540/540 bytes; 9 differences (REGRESSED) | EDX/ESI register lifetime around the playback-stage byte and side-0 runtime pointer. Raw count improved from 13, but new residual positions violate the monotone frontier; do not update it. |
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes; 4 differences (OK) | Focus-mode load order at +0x127..+0x12A. Retail loads g_GameConfiguration before player sideIndex; current source emits the reverse order. |
 | PlayerLifecycleView::UpdateChargeAttack | 0x0041F810 | 1,210/1,210 bytes; 183 differences (OK) | Boss register allocation: retail loads the full DWORD sideIndex into EDI and forms the ReplayInputState pointer in EBX (0x8E stride). Current short-side/input locals allocate the opposite way; widening/removing locals regressed hundreds of bytes. |
@@ -185,6 +185,9 @@ Prioritize boss control flow and then close near-exact leaves:
    first predicted-frame EBX lifetime without rebaselining.
    The 720-difference attempt that retained the captured frame across
    GetSeed grew the stack to 0x18 and was reverted.
+   Direct `timeGetTime()` imports left the 695-difference candidate unchanged;
+   capturing the first predicted frame with those imports still produced 720
+   differences and a 0x18 frame. The experiment was reverted.
 3. UpdateChargeAttack: solve the side-index/input-pointer lifetime without
    forcing register allocation.
 4. EnemyManager::OnUpdate: revisit the remaining EAX/ECX draw-group index only
