@@ -38,7 +38,7 @@ struct ExAttackType1824RecordView
     int side08;
     int active0C;
     ZunTimer timer10;
-    void *dynamicData1C;
+    PlayerAnmVmView *dynamicData1C;
     Float3 position20;
     int vmCount2C;
     int unknown30;
@@ -64,8 +64,8 @@ typedef char ExAttackType1824NativeAngleStorage[
      offsetof(PlayerAngleFloat3View, x) == offsetof(PlayerPositionView, x) &&
      offsetof(PlayerAngleFloat3View, y) == offsetof(PlayerPositionView, y)) ? 1 : -1];
 
-// The four record VMs are the already recovered 0x2A4-byte ANM allocation;
-// rotation calls use its real original-exact PlayerAnmVmView member.
+// Both native attack variants own four contiguous 0x2A4-byte PlayerAnmVmView
+// records through dynamicData1C, not an independent byte/void allocation.
 typedef char ExAttackType1824NativeVmLayout[
     (sizeof(PlayerAnmVmView) == 0x2A4 &&
      sizeof(AnmVm) == sizeof(PlayerAnmVmView) &&
@@ -106,16 +106,15 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
         if (record->timer10 > 90)
         {
             g_GameManager.sides[record->side08].player04->header24.anmFile98->ExecuteAnmIdx(
-                &reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[0], 9);
+                &record->dynamicData1C[0], 9);
             g_GameManager.sides[record->side08].player04->header24.anmFile98->ExecuteAnmIdx(
-                &reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[1], 10);
+                &record->dynamicData1C[1], 10);
             g_GameManager.sides[record->side08].player04->header24.anmFile98->ExecuteAnmIdx(
-                &reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[2], 10);
+                &record->dynamicData1C[2], 10);
             g_GameManager.sides[record->side08].player04->header24.anmFile98->ExecuteAnmIdx(
-                &reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[3], 10);
+                &record->dynamicData1C[3], 10);
 
-            extra->state00 = static_cast<int>(
-                static_cast<unsigned int>(extra->state00) + 1u);
+            ++extra->state00;
             record->position20 = extra->spawn40;
             record->unknown00 = record->opponentSide04;
             record->timer10 = 0;
@@ -150,27 +149,27 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
     for (int i = 15; i > 0; --i)
     {
         extra->trailPositions58[i] = extra->trailPositions58[(i) - 1];
-        extra->trailAngles118[i] = extra->trailAngles118[static_cast<int>(static_cast<unsigned int>(i) - 1u)];
+        extra->trailAngles118[i] = extra->trailAngles118[i - 1];
     }
 
     extra->trailPositions58[0] = record->position20;
     extra->trailAngles118[0] = extra->angle4C;
 
-    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[0].SetZRotation(extra->angle4C);
+    record->dynamicData1C[0].SetZRotation(extra->angle4C);
 
-    // One sequenced publication keeps all three returned trail values alive
-    // through the last VM rotation; each value is consumed by its pos2 copy.
-    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[1].pos2 =
+    // The original VM update pairs each trail position with its rotation.
+    // Keep each consecutive publication in native script execution order.
+    record->dynamicData1C[1].pos2 =
         extra->trailPositions58[1] - record->position20,
-    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[1].SetZRotation(extra->trailAngles118[1]),
+    record->dynamicData1C[1].SetZRotation(extra->trailAngles118[1]),
 
-    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[2].pos2 =
+    record->dynamicData1C[2].pos2 =
         extra->trailPositions58[3] - record->position20,
-    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[2].SetZRotation(extra->trailAngles118[3]),
+    record->dynamicData1C[2].SetZRotation(extra->trailAngles118[3]),
 
-    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[3].pos2 =
+    record->dynamicData1C[3].pos2 =
         extra->trailPositions58[5] - record->position20,
-    reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[3].SetZRotation(extra->trailAngles118[5]);
+    record->dynamicData1C[3].SetZRotation(extra->trailAngles118[5]);
 
     if (record->timer10 > 20)
     {
@@ -186,10 +185,10 @@ int __fastcall ExAttackUpdateCallbackType18_24(ExAttackRecord *base)
         {
             extra->state00 = 2;
             record->timer10 = 0;
-            reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[0].SetInterrupt(1);
-            reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[1].SetInterrupt(1);
-            reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[2].SetInterrupt(1);
-            reinterpret_cast<PlayerAnmVmView *>(record->dynamicData1C)[3].SetInterrupt(1);
+            record->dynamicData1C[0].SetInterrupt(1);
+            record->dynamicData1C[1].SetInterrupt(1);
+            record->dynamicData1C[2].SetInterrupt(1);
+            record->dynamicData1C[3].SetInterrupt(1);
             return 0;
         }
 
