@@ -19,11 +19,8 @@ extern int g_EndingActive;
 extern ScreenEffect *g_TitleFadeReleaseEffect;
 extern const char *g_EndingFilePaths[16];
 
-// Ending scripts select a live path from the original 16-DWORD table.
-#define TH09_ENDING_NATIVE_SCRIPT_PATH(index) \
-    (*reinterpret_cast<const char *const *>( \
-        reinterpret_cast<unsigned int>(&g_EndingFilePaths[0]) + \
-        static_cast<unsigned int>(index) * sizeof(g_EndingFilePaths[0])))
+// Ending scripts select the actual sixteen-element global path table.
+// Keep the original live character selector without caching the table row.
 
 int Ending::AddedCallback(Ending *ending)
 {
@@ -124,7 +121,7 @@ int Ending::AddedCallback(Ending *ending)
     }
 
     ending->hasSeenEnding = 1;
-    if (ending->LoadEndingScript(TH09_ENDING_NATIVE_SCRIPT_PATH(g_GameManager.sides[0].character20)) != 0)
+    if (ending->LoadEndingScript(g_EndingFilePaths[g_GameManager.sides[0].character20]) != 0)
         return -1;
 
     if (g_TitleFadeReleaseEffect != 0)
@@ -133,6 +130,5 @@ int Ending::AddedCallback(Ending *ending)
     return 0;
 }
 
-#undef TH09_ENDING_NATIVE_SCRIPT_PATH
 
 #undef TH09_ENDING_NATIVE_VM
