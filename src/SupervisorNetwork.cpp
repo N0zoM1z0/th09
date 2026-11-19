@@ -431,8 +431,10 @@ int Supervisor::UpdateNetworkService()
         scratch.inputFrame.inputs.words.side1 = static_cast<unsigned short>(
             this->PopFrame(1, &scratch.popFrame.finalFrame.secondSeed,
                            &scratch.popFrame.finalFrame.predicted));
-        ApplyNetworkInput(0, static_cast<unsigned short>(
-            scratch.inputFrame.inputs.packedFirstPair));
+        // ApplyNetworkInput consumes the first 16-bit player word. Retail
+        // happens to load its enclosing DWORD; the high word is not an input
+        // parameter and VC7.1 retains the same native load for this member.
+        ApplyNetworkInput(0, scratch.inputFrame.inputs.words.side0);
         ApplyNetworkInput(1, scratch.inputFrame.inputs.words.side1);
         ApplyNetworkInput(2, scratch.inputFrame.inputs.words.side0 | scratch.inputFrame.inputs.words.side1);
         this->LeaveCriticalSectionWrapper(4);
