@@ -7,6 +7,52 @@ status and the next useful work, not a session diary. Read
 [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) for historical target/compiler findings.
 The canonical ledgers and current source always outrank dated prose.
 
+## 2026-11-19 current checkpoint: exact rotation, natural collision frame
+
+`9b4277ce` is the latest source/tooling checkpoint (locally ahead of
+`origin/main`; no remote push was verified). Since the prior handoff:
+
+- `baeb73c6` restored the **existing** exact 62-byte
+  `RotatePlayerCollisionVector @ 0x0042AF40` source. The pinned `/Ob0` unit
+  passed all bytes and the genuine `@sinf@4` / `@cosf@4` REL32 destinations.
+  It also removed the contradictory 66-byte nonexact diagnostic frontier.
+  This repairs a stale source/ledger conflict, **not** a new exact function;
+  authored exact count is still 1,026.
+- `9b33689b` removed synthetic pointer volatility and redundant input aliases
+  from the large `CheckBulletCollision` boss. The generated stack frame is now
+  the target's **0x34 bytes**, and the prologue through `+0x24` agrees with
+  the original up to `+0x23`: EBX=Bullet, ESI=region cursor,
+  EDI=Player, cursor saved at `[ebp-4]`. The null-region jump at `+0x24`
+  still has a different target. The **complete 849/862-byte owner remains
+  nonexact** with 539
+  raw differing positions (the previous source had 493); the old strict
+  frontier baseline is still not passed. The five exact same-source functions
+  replay over 1,220 physical bytes and 32 relocation fields. This is a
+  native stack/ABI correction, not an exactness-score improvement.
+- `9b4277ce` closes the mismatch between an accepted exact owner and an active
+  nonexact frontier in the **fast tracking validator**. Four targeted positive
+  and negative tests passed. Exact and nonexact evidence can no longer claim
+  the same target address concurrently without fast CI failing.
+
+Fresh negative probes (restored, not committed): natural full-DWORD `side`
+variants in `UpdateChargeAttack` compile to 1,209 bytes with 717 raw
+mismatches, versus the 1,210/1,210-byte 183-difference maintained source;
+`DrawReplayMenu` selected-record declaration reorders compile to 1,271 bytes
+and hundreds of new mismatches, while pointer/reference alternatives keep its
+1,280-byte, 29-difference frontier. The network initial session-state store
+chain/source-local variants retain the 1,650-byte, 914-difference candidate.
+Continue with target-backed whole-owner source reasoning; **do not rebaseline**
+the two large boss frontiers just because a subset of instructions improved.
+
+Next focused commands:
+
+```bash
+python3 -B scripts/replay-scoped-exact.py --source src/PlayerCollisionRotate.cpp
+python3 -B scripts/replay-scoped-exact.py --source src/PlayerCollisionHelpers.cpp
+python3 -B scripts/check-frontier.py player-bullet-collision player-charge-attack
+python3 -B scripts/check-frontier.py supervisor-network-service title-draw-replay-menu
+```
+
 ## 2026-11-19 collision rotation exact-source repair
 
 `RotatePlayerCollisionVector @ 0x0042AF40` had **already** been entered into
@@ -24,7 +70,7 @@ not a newly exact authored function or a reason to change ledger totals.
 
 ## 2026-11-19 live continuation
 
-The current source checkpoint after four earlier local commits is
+The earlier source checkpoint before the rotation/collision repairs was
 `dac78c38`. The working branch is ahead of `origin/main`; these are **local**
 checkpoints, not verified remote pushes. The authored exact ledger remains
 1,026 functions (278,578 bytes); no nonexact owner was promoted in this pass.

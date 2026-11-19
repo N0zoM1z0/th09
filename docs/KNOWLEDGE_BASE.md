@@ -13932,3 +13932,36 @@ Do not add another matching row or increment exact counts; preserve the
 correct `/Ob0` canonical profile and remove the contradictory diagnostic
 frontier. The previous 66/62, 24-difference notes are historical failed
 probes, not the active source status.
+
+## 2026-11-19: native collision frame versus strict boss byte residual
+
+Normalizing the `CheckBulletCollision` formal to `Bullet *bullet`, using the
+position argument directly after the scan, and keeping the circle's x/y
+deltas inside their actual scope lets VC7.1 emit the retail 0x34-byte frame.
+The initial instructions up to the null-region branch at function +0x24
+are identical: Bullet in EBX, active-region cursor in ESI, Player in EDI,
+and the cursor home at EBP-4. The branch displacement at +0x24 is still
+nonexact because its destination has a different CFG layout. No manual registers, ASM, dummy
+reads, barriers or padding were introduced. The full candidate is still
+849/862 bytes with 539 raw mismatches, up from the prior 493, and continues
+to fail the historical strict 842-byte frontier guard. This result should be
+read as a **native ABI/stack lifetime repair**, not a monotone byte win.
+All five exact siblings in `PlayerCollisionHelpers.cpp` replayed 1,220 bytes
+and 32 fields with the target-bound VC7.1 compiler.
+
+`UpdateChargeAttack @ 0x0041F810` target uses a 32-bit Player side index in
+EDI and the ReplayInputState pointer in EBX. Changing the maintained short
+local to a natural signed/unsigned 32-bit index (also with pointer arithmetic
+and const variants) instead has the compiler keep side in EBX and input in
+EDI, yielding a 1,209-byte, 717-position near-variant. The original near
+1,210/1,210, 183-difference source was restored; fixing just the side's width
+is not a complete register-lifetime reconstruction.
+
+`TitleScreenView::DrawReplayMenu @ 0x004234F6` continues to preserve a
+1,280-byte candidate with 29 differences. Its original needs EDX for the
+selected record index and ECX for the animation timer, while the compiler
+chooses the reverse. Reordering the record/selected declarations and
+independently loading them in alternate scopes produces a 1,271-byte
+candidate with hundreds of new differences. Changing the record reference
+to a typed pointer or changing its constness preserves all 29 residuals.
+All these speculative trials were restored after focused full-owner builds.
