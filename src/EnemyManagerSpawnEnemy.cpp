@@ -16,15 +16,13 @@ EnemyView *EnemyManagerView::SpawnEnemy(
     EnemyView *enemy = &manager->enemies5758[0];
     int enemyIndex;
 
-    // The 128 live Enemy objects are 0x5430-byte records in the genuine
-    // EnemyManager allocation. Retail increments the signed pool index as
-    // an i386 DWORD and the actual Enemy pointer by one full record.
+    // This original 128-slot scan walks the real contiguous Enemy pool.
+    // Both the signed index and native pointer advance by one record;
+    // the loop bound prevents a signed-index overflow.
     for (enemyIndex = 0;
          enemyIndex < EnemyNativePoolCapacity::ActiveSlots;
-         enemyIndex = static_cast<int>(
-             static_cast<unsigned int>(enemyIndex) + 1u),
-         enemy = reinterpret_cast<EnemyView *>(
-             reinterpret_cast<unsigned int>(enemy) + sizeof(*enemy)))
+         ++enemyIndex,
+         ++enemy)
     {
         if (enemy->primaryFlagBits337C.active00 != 0)
             continue;
