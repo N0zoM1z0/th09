@@ -48,7 +48,7 @@ enum PlayerCollisionRegionKind
 int PlayerLifecycleView::CheckBulletCollision(
     PlayerPositionView *position,
     PlayerPositionView *collisionSize,
-    Bullet * volatile bullet)
+    Bullet *bullet)
 {
 
     // Overlay geometry, reward payloads and the native cursor home in one frame.
@@ -83,10 +83,7 @@ int PlayerLifecycleView::CheckBulletCollision(
          offsetof(CollisionScratch, reward.velocity) == 36 &&
          offsetof(CollisionScratch, cursor.slot) == 48) ? 1 : -1];
     // The native cursor home overlays the geometry/reward frame directly.
-    float xDelta;
-    float yDelta;
 
-    Bullet *currentBullet = bullet;
     PlayerCollisionRegionCreateRegionView **slot = activeB100;
     PlayerCollisionRegionCreateRegionView *region;
     scratch.cursor.slot = slot;
@@ -110,8 +107,8 @@ int PlayerLifecycleView::CheckBulletCollision(
         volatile float &radius = region->radius08;
         if (radius != 0.0)
         {
-            xDelta = position->x - region->centerX00;
-            yDelta = position->y - region->centerY04;
+            float xDelta = position->x - region->centerX00;
+            float yDelta = position->y - region->centerY04;
             if (!(xDelta * xDelta + yDelta * yDelta <
                   region->radius08 * region->radius08))
                 goto next_region;
@@ -161,7 +158,7 @@ int PlayerLifecycleView::CheckBulletCollision(
                 static_cast<unsigned int>(hitRegion->hitCount2C) + 1u);
             return 2;
         cancel_bullet:
-            if (currentBullet != NULL && currentBullet->bulletType == 0)
+            if (bullet != NULL && bullet->bulletType == 0)
                 break;
             goto next_region;
         }
@@ -170,16 +167,14 @@ next_region:
         ++slot;
     } while (true);
 
-    // The reward callbacks need the original position argument home only
-    // after the scan has selected its cancellation path.
-    PlayerPositionView *volatile &livePosition = position;
+    // Cancellation uses the original position argument after the scan.
     // Cancellation leaves the region scan before creating the reward effect.
 {
         scratch.cursor.slot = slot;
         scratch.reward.effectPosition.x =
-            g_GameManager.TransformPopupX(livePosition->x);
+            g_GameManager.TransformPopupX(position->x);
         scratch.reward.effectPosition.y =
-            g_GameManager.TransformPopupY(livePosition->y);
+            g_GameManager.TransformPopupY(position->y);
         scratch.reward.effectPosition.z = 0.0f;
 
         // Retail subtracts the signed side from a native i386 DWORD, wrapping
@@ -200,12 +195,12 @@ next_region:
                 1, static_cast<unsigned int>(-1));
         g_Supervisor.SelectSide(this->sideIndex);
 
-        effectBase->cancel.bulletType = currentBullet->bulletType;
-        effectBase->cancel.color = currentBullet->color;
-        effectBase->cancel.bulletSpeed = currentBullet->speed;
+        effectBase->cancel.bulletType = bullet->bulletType;
+        effectBase->cancel.color = bullet->color;
+        effectBase->cancel.bulletSpeed = bullet->speed;
         effectBase->cancel.side =
-            static_cast<short>(currentBullet->controller->sideIndex);
-        effectBase->cancel.extraAttribute = currentBullet->extraAttribute10BD;
+            static_cast<short>(bullet->controller->sideIndex);
+        effectBase->cancel.extraAttribute = bullet->extraAttribute10BD;
 
         this->AddRespawnResource(0.2f);
         g_SoundPlayer.PlaySoundByIdx(
@@ -224,7 +219,7 @@ next_region:
         int rewardMode =
             (g_GameManager.difficulty11C >= 3) + 2;
         this->ownerState30410.ApplyReward(
-            livePosition,
+            position,
             rewardMode, 2, 0, rewardValue);
 
         this->sideState->AddScore(50);
