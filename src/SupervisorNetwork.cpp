@@ -329,13 +329,16 @@ HOST_WAIT_STATE_CHECK:
                     g_SupervisorNetworkState->initialFramesQueued = 1;
                 }
 
-                if (g_SupervisorNetworkState->packetReady == 0)
-                {
-                WAIT_FOR_FRAME:
-                    scratch.returnValue = NETWORK_SERVICE_RETRY_FRAME;
-                    this->LeaveCriticalSectionWrapper(4);
-                    return scratch.returnValue;
-                }
+                SupervisorNetworkState *readyNetwork = g_SupervisorNetworkState;
+                if (readyNetwork->packetReady != 0)
+                    goto HAVE_PACKET;
+
+            WAIT_FOR_FRAME:
+                scratch.returnValue = NETWORK_SERVICE_RETRY_FRAME;
+                this->LeaveCriticalSectionWrapper(4);
+                return scratch.returnValue;
+
+            HAVE_PACKET:
                 g_NetworkFramePacket.words.input =
                     static_cast<unsigned short>(Controller::GetInput(
                         g_SupervisorNetworkState->localSide));
@@ -347,10 +350,10 @@ HOST_WAIT_STATE_CHECK:
             g_SupervisorNetworkState->packetReady = 0;
             SupervisorNetworkState *packetNetwork = g_SupervisorNetworkState;
             g_NetworkFramePacket.type = NETWORK_MESSAGE_INPUT_FRAME;
-            signed char packetSide = static_cast<signed char>(g_SupervisorNetworkState->localSide);
+            signed char packetSide = static_cast<signed char>(packetNetwork->localSide);
             g_NetworkFramePacket.side = packetSide;
             g_NetworkFramePacket.frame =
-                NETWORK_FRAMES_PER_SECOND / g_SupervisorNetworkState->syncRate - 1 +
+                NETWORK_FRAMES_PER_SECOND / packetNetwork->syncRate - 1 +
                 this->networkTiming458.frameCounter;
             g_NetworkFramePacket.seed = g_ReplayRng.GetSeed();
 
@@ -419,9 +422,11 @@ HOST_WAIT_STATE_CHECK:
         // ApplyNetworkInput consumes the first 16-bit player word. Retail
         // happens to load its enclosing DWORD; the high word is not an input
         // parameter and VC7.1 retains the same native load for this member.
-        ApplyNetworkInput(0, scratch.inputFrame.inputs.side0);
-        ApplyNetworkInput(1, scratch.inputFrame.inputs.side1);
-        ApplyNetworkInput(2, scratch.inputFrame.inputs.side0 | scratch.inputFrame.inputs.side1);
+        const unsigned int secondInput = scratch.inputFrame.inputs.side1;
+        const unsigned int packedInput = scratch.inputFrame.frame;
+        ApplyNetworkInput(0, packedInput);
+        ApplyNetworkInput(1, secondInput);
+        ApplyNetworkInput(2, packedInput | secondInput);
         this->LeaveCriticalSectionWrapper(4);
         return scratch.returnValue;
     }
