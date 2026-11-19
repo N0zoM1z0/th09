@@ -2189,22 +2189,13 @@ int TitleScreenView::UpdateScreen16()
 }
 
 
-// The actual 0x2C-byte name records use 5-record rows and 5-row banks.
-// Keep each live signed index as an unsigned Win32 address word; neither
-// a second table allocation nor a retail-absent bounds gate is introduced.
+// The native title name records are an actual three-dimensional table:
+// five 0x2C-byte records per row, five rows per bank. Preserve the
+// original signed live indices and all independently read name fields.
 typedef char TitleNativeNameTableStrides[
     (sizeof(g_TitleNameTable[0][0][0]) == 0x2C &&
      sizeof(g_TitleNameTable[0][0]) == 0xDC &&
      sizeof(g_TitleNameTable[0]) == 0x44C) ? 1 : -1];
-static inline TitleNameRecordView &NativeTitleNameRecord(
-    int bankIndex, int tableIndex, int recordIndex)
-{
-    return *reinterpret_cast<TitleNameRecordView *>(
-        reinterpret_cast<unsigned int>(&g_TitleNameTable[0][0][0]) +
-        static_cast<unsigned int>(bankIndex) * sizeof(g_TitleNameTable[0]) +
-        static_cast<unsigned int>(tableIndex) * sizeof(g_TitleNameTable[0][0]) +
-        static_cast<unsigned int>(recordIndex) * sizeof(g_TitleNameTable[0][0][0]));
-}
 
 int TitleScreenView::OnUpdateResultNameEntry()
 {
@@ -2249,7 +2240,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
             else
             {
                 strcpy(
-                    NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name,
+                    g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name,
                     g_ReplayName);
             }
         }
@@ -2324,7 +2315,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
                 {
                     strcpy(
                         g_ReplayName,
-                        NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name);
+                        g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name);
                 }
                 return 1;
             }
@@ -2334,7 +2325,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
                 value = ' ';
             else
                 value = (g_TitleAlphabet[keyboardSelection]);
-            (NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name[replayNameCursor]) = value;
+            (g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[replayNameCursor]) = value;
             PlayMenuSound(10, 0);
             if (replayNameCursor < 7)
                 TH09_TITLE_NATIVE_INCREMENT(replayNameCursor);
@@ -2347,14 +2338,14 @@ int TitleScreenView::OnUpdateResultNameEntry()
         {
             PlayMenuSound(11, 0);
             if (replayNameCursor == 7 &&
-                NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name[7] != ' ')
+                g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[7] != ' ')
             {
-                NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name[7] = ' ';
+                g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[7] = ' ';
             }
             else if (replayNameCursor > 0)
             {
                 --*reinterpret_cast<u32 *>(&replayNameCursor);
-                (NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name[replayNameCursor]) = ' ';
+                (g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[replayNameCursor]) = ' ';
             }
             stateTimer = 0;
         }
@@ -2854,7 +2845,7 @@ int TitleScreenView::UpdateReplaySave()
             keyboardSelection = 0;
             strcpy(
                 g_ReplayName,
-                NativeTitleNameRecord(nameBankIndex, g_TitleNameTableIndex, nameSlotIndex).name);
+                g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name);
             return 1;
         }
 
