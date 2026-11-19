@@ -14228,3 +14228,41 @@ code but sacrifices the distinct source object types, so the established
 safe `memcpy` remains. Register-only residuals in nonexact owners remain
 unresolved. No byte fabrication, fixed-register coercion, altered frontier
 or broad replay was used for these source recoveries.
+
+## 2026-11-19: native ANM and background full-owner source closures
+
+`Background::RenderObjects` directly indexes its real file-backed stage
+object/ANM VM and special-effect arrays. Its variable-length quad cursor
+advances by the signed native wire size. Complete 3,274-byte owner and 113
+relocations are exact. Splitting the BackgroundPoint 12-byte source copy
+into three independent float assignments produced 3,298 bytes and 175
+mismatches; that rewrite was not kept.
+
+`AnmManager::ExecuteScript`'s genuine jump opcodes 4, 5 and conditional
+branches use signed byte offsets within the loaded ANM script, not artificial
+unsigned integer casts. Its `scriptsExecutedThisFrame10` is the real manager
+frame counter. The full 9,776-byte physical owner with all 368 relocations
+is exactly reproduced after these changes. Selected `/Ob0` and `/Ob1` carrier
+replays pass 5 functions / 10,496 bytes / 421 fields. The 147 changed
+private label names were rebound only after verifying the actual symbol
+section, value, owning-section offset and original target PE destination.
+
+`BackgroundRunStageScriptPhase` indexes the original stage record table and
+Supervisor viewport array directly and advances to the next typed 0x14-byte
+stage instruction. Its signed color values are stored as native DWORDs.
+The full 2,652-byte physical owner and 133 relocations match; selected-source
+replay covers 5 functions / 3,231 physical bytes / 160 relocation fields.
+54 compiler-private labels changed spelling but not target identity.
+
+`SupervisorCheckFps`/`SupervisorDrawLoading` maintain the original 517-byte
+and 71-byte functions (34/5 relocations), with real arrays and plain counter
+increments. `EndingAddedCallback` similarly uses the real VM/path arrays
+and remains 800 bytes exact with 85 relocations. None creates newly exact
+function credit.
+
+A wholesale `FrontSide::OnDraw` cursor conversion from genuine nested VM
+position pointers to owner-level `AnmVm*` would produce 3,127 bytes with
+2,034 mismatches versus the 3,094-byte exact original: the native code
+preserves independently accessed `Float3` member positions and vector
+lifetime. That experiment was discarded; no fake register liveness or
+alignment was used.

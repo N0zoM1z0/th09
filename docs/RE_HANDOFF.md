@@ -7,6 +7,55 @@ status and the next useful work, not a session diary. Read
 [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) for historical target/compiler findings.
 The canonical ledgers and current source always outrank dated prose.
 
+## 2026-11-19 checkpoint: native background/ANM bosses and Supervisor leaves
+
+Newest local source checkpoint `18d308d3` includes **five reviewed code
+commits**. All target comparisons use original Japanese v1.50a, its verified
+hash and pinned VC7.1 profiles; no broad cold replay or fabricated output.
+No new canonical exact function was awarded for maintaining existing exact
+sources.
+
+- `fdb7709f`: `Background::RenderObjects` now uses the actual stage-object,
+  ANM VM and special-effect arrays and the encoded signed byte step for
+  variable-length stage quads. Its complete **3,274/3,274 bytes and 113
+  relocations** pass a source-scoped replay. Replacing the native 12-byte
+  effect point copy with three scalar float writes instead emitted a
+  3,298-byte candidate / 175 residuals; that experiment was reverted.
+- `3defefe9`: the **9,358-byte `AnmManager::ExecuteScript` interpreter** uses
+  the script's signed integer byte offsets for three jump instructions and
+  directly increments the real manager's per-frame script counter. Its
+  **9,776-byte physical owner** (including the 418-byte tail/switch data)
+  remains completely exact with 368 relocations. Both canonical compiler
+  profiles `/Ob0` and `/Ob1` were scoped-replayed: **5 exact units / 10,496
+  physical bytes / 421 relocation fields**. All 147 renamed compiler-local
+  symbols were separately checked to resolve to unchanged PE target
+  addresses in their owning COFF sections before updating the manifest.
+- `0de883bf`: `BackgroundRunStageScriptPhase` now uses the real instruction
+  and camera viewport arrays, simple DWORD color assignments, and the next
+  typed 0x14-byte wire record. The complete **2,652-byte physical owner**
+  (2,472-byte body + 180-byte attachment) is exact. The scoped carrier passes
+  **5 exact units / 3,231 bytes / 160 relocation fields**. All 54 changed
+  interpolation/stage-script local labels resolved to the same original
+  same-section targets before their manifest spellings were rebound.
+- `cb27a128`: `SupervisorCheckFps` uses the real 30-float sample array and
+  native frame count increments; `SupervisorDrawLoading` uses the genuine
+  three VM array. Both complete owners remain exact: **517 + 71 bytes** and
+  **34 + 5 relocation fields**. No invented bounds checks or stale buffers.
+- `18d308d3`: the Ending callback accesses native 16-element Ending VM and
+  global script path tables rather than scaling their base pointers through
+  integers. The shared VM macro now uses an actual C++ array element; the
+  selected callback replays **800/800 bytes with 85 relocations**. The wider
+  Ending interpreter was not edited or reclassified.
+
+The actual nonexact work remains: **11 source-present nonexact owners**,
+notably `EnemyManager::OnUpdate` (3,900 bytes, two unlike register bytes),
+`PlayerLifecycleView::CheckBulletCollision` (849/862 bytes; strict frontier
+REGRESSED), `Supervisor::UpdateNetworkService` (1,650/1,633 bytes, strict
+REGRESSED) and `PlayerLifecycleView::UpdateChargeAttack` (1,210 bytes,
+183 unlike positions). This checkpoint changes neither the original 1,026
+exact-function ledger nor any nonexact frontier ratchet. No ASM, padding,
+register scheduling tricks, target patches or full cold replay were used.
+
 ## 2026-11-19 checkpoint: native ECL interpreter and front-message tables
 
 Latest code checkpoint `1cb188d8` includes **four natural C++ source commits**.
