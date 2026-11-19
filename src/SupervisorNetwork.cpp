@@ -93,11 +93,7 @@ struct NetworkServiceInputScratch
     unsigned short reserved0;
     unsigned short reserved1;
 };
-union NetworkServiceReturnScratch
-{
-    int result;
-    int status;
-};
+
 union NetworkServiceInputFrameScratch
 {
     NetworkServiceInputScratch inputs;
@@ -107,7 +103,7 @@ struct NetworkServiceStackScratch
 {
     NetworkServiceInputFrameScratch inputFrame;
     NetworkPopFrameScratch popFrame;
-    NetworkServiceReturnScratch returnValue;
+    int returnValue;
 };
 typedef char NetworkServiceStackScratchLayout[
     (sizeof(NetworkServiceStackScratch) == 20 &&
@@ -119,7 +115,7 @@ typedef char NetworkServiceStackScratchLayout[
      offsetof(NetworkServiceInputFrameScratch, inputs.side1) == 2 &&
      offsetof(NetworkServiceStackScratch, popFrame) == 8 &&
      offsetof(NetworkServiceStackScratch, returnValue) == 16 &&
-     sizeof(NetworkServiceReturnScratch) == 4 &&
+     sizeof(int) == 4 &&
      offsetof(NetworkServiceStackScratch, popFrame.first.seed) == 8 &&
      offsetof(NetworkServiceStackScratch, popFrame.first.predicted) == 12 &&
      offsetof(NetworkServiceStackScratch, popFrame.finalFrame.predicted) == 8 &&
@@ -168,11 +164,11 @@ enum NetworkServiceLimits
 
 int Supervisor::UpdateNetworkService()
 {
-    // Frame completion and wait/reset returns have disjoint lifetimes in the
-    // native return home; PopFrame scratch and the frame/input home are reused
-    // at their original offsets rather than allocated as unrelated locals.
+    // The one native return DWORD serves completion, wait and reset paths;
+    // the input/frame and PopFrame homes retain their original overlapped
+    // stack offsets rather than allocating unrelated temporary buffers.
     NetworkServiceStackScratch scratch;
-    scratch.returnValue.result = NETWORK_SERVICE_FRAME_READY;
+    scratch.returnValue = NETWORK_SERVICE_FRAME_READY;
 
     this->EnterCriticalSectionWrapper(4);
 
@@ -231,7 +227,7 @@ int Supervisor::UpdateNetworkService()
         {
             if (this->networkTiming458.frameCounter != 0)
             {
-                scratch.returnValue.status = NETWORK_SERVICE_RESET;
+                scratch.returnValue = NETWORK_SERVICE_RESET;
                 goto RETURN_STATE;
             }
 
@@ -312,9 +308,9 @@ int Supervisor::UpdateNetworkService()
                 if (g_SupervisorNetworkState->packetReady == 0)
                 {
                 WAIT_FOR_FRAME:
-                    scratch.returnValue.result = NETWORK_SERVICE_RETRY_FRAME;
+                    scratch.returnValue = NETWORK_SERVICE_RETRY_FRAME;
                     this->LeaveCriticalSectionWrapper(4);
-                    return scratch.returnValue.result;
+                    return scratch.returnValue;
                 }
                 g_NetworkFramePacket.words.input =
                     static_cast<unsigned short>(Controller::GetInput(g_SupervisorNetworkState->localSide));
@@ -395,7 +391,7 @@ int Supervisor::UpdateNetworkService()
 
         if (now - this->networkTiming458.frameStartTime > NETWORK_DISCONNECT_TIMEOUT_MS)
         {
-            scratch.returnValue.status = NETWORK_SERVICE_RESET;
+            scratch.returnValue = NETWORK_SERVICE_RESET;
             goto RETURN_STATE;
         }
 
@@ -405,14 +401,14 @@ int Supervisor::UpdateNetworkService()
             g_NetworkDisconnectedMessage);
 
     NETWORK_WAIT:
-        scratch.returnValue.status = NETWORK_SERVICE_WAIT;
+        scratch.returnValue = NETWORK_SERVICE_WAIT;
 
     RETURN_STATE:
         this->LeaveCriticalSectionWrapper(4);
         if ((Controller::GetInput(2) & 2) != 0)
             return NETWORK_SERVICE_RESET;
         if (this->flagsLow5D4 >= 0 || SupervisorSubthreadIsRunning(this))
-            return scratch.returnValue.status;
+            return scratch.returnValue;
         return NETWORK_SERVICE_STOP;
     }
 
@@ -432,6 +428,6 @@ int Supervisor::UpdateNetworkService()
         ApplyNetworkInput(1, scratch.inputFrame.inputs.side1);
         ApplyNetworkInput(2, scratch.inputFrame.inputs.side0 | scratch.inputFrame.inputs.side1);
         this->LeaveCriticalSectionWrapper(4);
-        return scratch.returnValue.result;
+        return scratch.returnValue;
     }
 }
