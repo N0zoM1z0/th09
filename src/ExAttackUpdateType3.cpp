@@ -16,9 +16,9 @@ typedef char ExAttackType3NativeVmPositionAt288[
 typedef char ExAttackType3NativeVmInterruptAt1FE[
     (offsetof(AnmVm, pendingInterrupt) == 0x1FE) ? 1 : -1];
 
-// Type3 owns 32 original 0x0C-byte Float3 history entries and
-// genuine AnmVm records; opponent slots belong to the real GameManager.
-// Keep the original index expressions and all live read/call ordering.
+// Type3 owns 32 native 0x0C-byte history entries and the original five
+// 0x2A4-byte VMs. The shared type3 record already owns vms1C as AnmVm*;
+// preserve its live accesses and original collision call order.
 
 int __fastcall ExAttackUpdateCallbackType3(ExAttackRecord *base)
 {
@@ -38,10 +38,10 @@ int __fastcall ExAttackUpdateCallbackType3(ExAttackRecord *base)
             data->history10[i] = data->history10[(i) - 1];
         }
         data->history10[0] = attack->position20;
-        reinterpret_cast<AnmVm *>(attack->vms1C)[1].pos2 = data->history10[6] - attack->position20;
-        reinterpret_cast<AnmVm *>(attack->vms1C)[2].pos2 = data->history10[12] - attack->position20;
-        reinterpret_cast<AnmVm *>(attack->vms1C)[3].pos2 = data->history10[18] - attack->position20;
-        reinterpret_cast<AnmVm *>(attack->vms1C)[4].pos2 = data->history10[24] - attack->position20;
+        attack->vms1C[1].pos2 = data->history10[6] - attack->position20;
+        attack->vms1C[2].pos2 = data->history10[12] - attack->position20;
+        attack->vms1C[3].pos2 = data->history10[18] - attack->position20;
+        attack->vms1C[4].pos2 = data->history10[24] - attack->position20;
         PlayerPositionView size;
         float *s = size;
         s[0] = 12.0f;
@@ -63,11 +63,11 @@ int __fastcall ExAttackUpdateCallbackType3(ExAttackRecord *base)
         {
             attack->timer10 = 0;
             data->state00 = 1;
-            reinterpret_cast<AnmVm *>(attack->vms1C)[0].SetInterrupt(1);
-            reinterpret_cast<AnmVm *>(attack->vms1C)[1].SetInterrupt(1);
-            reinterpret_cast<AnmVm *>(attack->vms1C)[2].SetInterrupt(1);
-            reinterpret_cast<AnmVm *>(attack->vms1C)[3].SetInterrupt(1);
-            reinterpret_cast<AnmVm *>(attack->vms1C)[4].SetInterrupt(1);
+            attack->vms1C[0].SetInterrupt(1);
+            attack->vms1C[1].SetInterrupt(1);
+            attack->vms1C[2].SetInterrupt(1);
+            attack->vms1C[3].SetInterrupt(1);
+            attack->vms1C[4].SetInterrupt(1);
             break;
         }
         if (attack->timer10 >= 30)

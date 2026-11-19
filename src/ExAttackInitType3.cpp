@@ -61,19 +61,19 @@ int __fastcall ExAttackInitializeCallbackType3(ExAttackRecord *base)
 
     reinterpret_cast<ExAttackType3SideLookupView *>(record)
         ->GetSideState()->player04->anmFileBC->ExecuteAnmIdx(
-            reinterpret_cast<AnmVm *>(record->dynamicData1C) + 0, 9);
+            record->vms1C + 0, 9);
     reinterpret_cast<ExAttackType3SideLookupView *>(record)
         ->GetSideState()->player04->anmFileBC->ExecuteAnmIdx(
-            reinterpret_cast<AnmVm *>(record->dynamicData1C) + 1, 10);
+            record->vms1C + 1, 10);
     reinterpret_cast<ExAttackType3SideLookupView *>(record)
         ->GetSideState()->player04->anmFileBC->ExecuteAnmIdx(
-            reinterpret_cast<AnmVm *>(record->dynamicData1C) + 2, 11);
+            record->vms1C + 2, 11);
     reinterpret_cast<ExAttackType3SideLookupView *>(record)
         ->GetSideState()->player04->anmFileBC->ExecuteAnmIdx(
-            reinterpret_cast<AnmVm *>(record->dynamicData1C) + 3, 12);
+            record->vms1C + 3, 12);
     reinterpret_cast<ExAttackType3SideLookupView *>(record)
         ->GetSideState()->player04->anmFileBC->ExecuteAnmIdx(
-            reinterpret_cast<AnmVm *>(record->dynamicData1C) + 4, 13);
+            record->vms1C + 4, 13);
 
     g_Supervisor.SelectSide(record->opponentSide04);
     ExAttackType3PlayerView *opponent =
