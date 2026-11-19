@@ -13913,3 +13913,22 @@ All rejected trials were restored; none changed a frontier baseline.
   global ANM manager into EDI before moving the callback owner into ESI;
   our current compiler schedules the initial loads in the opposite order.
   No synthetic register use or assembly was retained.
+
+## 2026-11-19: repair the canonical TH09 rotation leaf (not new exact credit)
+
+The source currently needed by `player-collision-rotate` was reconstructed from
+the target and its pinned VC7.1 compiler, rather than using the historical
+24-byte `CollisionSin`/`CollisionCos` stubs that call double-precision CRT.
+Use `extern "C" float __fastcall sinf(float)` and `cosf(float)` without the
+math-header intrinsic expansion in this translation unit. The genuine
+compiler helpers at 0x401070 and 0x401060 have the same C/fastcall ABI and
+are linked as `@sinf@4` and `@cosf@4` on the actual target. Materializing the
+natural `float rotatedY = cosOut * point.y` before the second sum makes VC7.1
+retain cosine in x87 while loading the stored sine and yields every original
+62 byte and both REL32 relocations, rather than a 64- or 66-byte near match.
+
+The `config/matches.csv` entry for this owner predates the broken source.
+Do not add another matching row or increment exact counts; preserve the
+correct `/Ob0` canonical profile and remove the contradictory diagnostic
+frontier. The previous 66/62, 24-difference notes are historical failed
+probes, not the active source status.

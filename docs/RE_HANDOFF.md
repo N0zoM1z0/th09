@@ -7,6 +7,21 @@ status and the next useful work, not a session diary. Read
 [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) for historical target/compiler findings.
 The canonical ledgers and current source always outrank dated prose.
 
+## 2026-11-19 collision rotation exact-source repair
+
+`RotatePlayerCollisionVector @ 0x0042AF40` had **already** been entered into
+`config/matches.csv` as a canonical exact 62-byte owner, but recent source
+rewrites replaced the original `sinf`/`cosf` call identities with two 24-byte
+custom CRT wrappers and broke that reproducible claim. This session restores
+real C/fastcall `sinf(float)` and `cosf(float)` declarations in
+`src/PlayerCollisionRotate.cpp`; without a math-header intrinsic expansion,
+VC7.1 generates the **exact 62 bytes and both original REL32 call symbols**
+`@sinf@4 -> 0x00401070` / `@cosf@4 -> 0x00401060`. The natural C++ Y-product
+intermediate preserves the retail x87 stack order. The existing canonical
+`player-collision-rotate` unit and selected-source replay pass; the stale
+66-byte diagnostic frontier is removed. This **repairs** earlier exact credit,
+not a newly exact authored function or a reason to change ledger totals.
+
 ## 2026-11-19 live continuation
 
 The current source checkpoint after four earlier local commits is
