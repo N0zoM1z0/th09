@@ -94,15 +94,9 @@ void EffectManager::ResetPool()
            sizeof(Effect) * (EffectNativePoolCapacity::AllocatedCount(*this)));
 }
 
-// Native i386 template addresses use the real table base and a signed ID
-// scaled by the 0x18-byte record stride as an unsigned 32-bit word.
-static inline const EffectTemplate &EffectTemplateAtNativeIndex(int effectId)
-{
-    return *reinterpret_cast<const EffectTemplate *>(
-        reinterpret_cast<unsigned int>(&g_EffectTemplates[0]) +
-        static_cast<unsigned int>(effectId) * sizeof(EffectTemplate));
-}
-
+// Effect templates are an actual array of 0x18-byte records. The native
+// unsigned effect ID supplies its original scaled index at every read;
+// no extra range check or cached template snapshot is introduced.
 Effect *EffectManager::InitializeEffect(
     Effect *effect, int effectId, const EffectFloat3 *position,
     unsigned int color, const EffectFloat3 *velocity)
@@ -117,24 +111,24 @@ Effect *EffectManager::InitializeEffect(
     effect->position = *position;
     effect->velocity = *velocity;
 
-    effect->vmCount = EffectTemplateAtNativeIndex(effectId).vmCount;
+    effect->vmCount = g_EffectTemplates[static_cast<unsigned int>(effectId)].vmCount;
     effect->manager = this;
     if (effect->vmCount != 0)
     {
         effect->vms = static_cast<AnmVm *>(
             g_ZunMemory.Alloc(
-                sizeof(AnmVm) * EffectTemplateAtNativeIndex(effectId).vmCount,
+                sizeof(AnmVm) * g_EffectTemplates[static_cast<unsigned int>(effectId)].vmCount,
                 "./system\\global.h"));
         // Script-template VM counts select real allocated 0x2A4-byte
         // ANM VMs by their i386 DWORD ordinal, preserving every distinct
         // live call and publish/read in the original loop.
-        int scriptIndex = EffectTemplateAtNativeIndex(effectId).scriptIndex;
-        for (int i = 0; i < EffectTemplateAtNativeIndex(effectId).vmCount; ++i)
+        int scriptIndex = g_EffectTemplates[static_cast<unsigned int>(effectId)].scriptIndex;
+        for (int i = 0; i < g_EffectTemplates[static_cast<unsigned int>(effectId)].vmCount; ++i)
         {
             this->effectAnm->SetAndExecuteScriptIdx(
                     &TH09_EFFECT_NATIVE_VM(effect, i), scriptIndex);
             scriptIndex = static_cast<int>(static_cast<unsigned int>(scriptIndex) +
-                static_cast<unsigned int>(EffectTemplateAtNativeIndex(effectId).scriptStep));
+                static_cast<unsigned int>(g_EffectTemplates[static_cast<unsigned int>(effectId)].scriptStep));
             TH09_EFFECT_NATIVE_VM(effect, i).flagsWord |= 0x2000;
             TH09_EFFECT_NATIVE_VM(effect, i).color1 = color;
             TH09_EFFECT_NATIVE_VM(effect, i).pos2.x = 0.0f;
@@ -142,10 +136,10 @@ Effect *EffectManager::InitializeEffect(
             TH09_EFFECT_NATIVE_VM(effect, i).pos2.z = 0.0f;
         }
     }
-    effect->updateCallback = EffectTemplateAtNativeIndex(effectId).updateCallback;
-    effect->drawCallback = EffectTemplateAtNativeIndex(effectId).drawCallback;
-    if (EffectTemplateAtNativeIndex(effectId).initializeCallback != NULL &&
-        EffectTemplateAtNativeIndex(effectId).initializeCallback(effect) != 0)
+    effect->updateCallback = g_EffectTemplates[static_cast<unsigned int>(effectId)].updateCallback;
+    effect->drawCallback = g_EffectTemplates[static_cast<unsigned int>(effectId)].drawCallback;
+    if (g_EffectTemplates[static_cast<unsigned int>(effectId)].initializeCallback != NULL &&
+        g_EffectTemplates[static_cast<unsigned int>(effectId)].initializeCallback(effect) != 0)
         effect->active = 0;
     return effect;
 }
