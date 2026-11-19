@@ -2509,31 +2509,24 @@ int TitleScreenView::OnUpdateResult()
 #undef RESULT_CANCEL_BUTTONS
 
 
-// These three native replay pools are fields of the real Title object:
-// 0x1EC-byte metadata records, 0x200-byte paths and DWORD allocation slots.
-// Form signed cursor indices as Win32 DWORD byte addresses without a new gate.
+// The native replay pools are actual TitleScreen arrays: 0x1EC-byte
+// metadata, 0x200-byte path rows and DWORD allocation slots. Continue
+// using the live 32-bit cursor without introducing bounds guards or caches.
 static inline ReplayDataView &NativeTitleReplayRow(TitleScreenView *title, int index)
 {
-    return *reinterpret_cast<ReplayDataView *>(
-        reinterpret_cast<unsigned int>(&title->replays[0]) +
-        static_cast<unsigned int>(index) * sizeof(title->replays[0]));
+    return title->replays[static_cast<unsigned int>(index)];
 }
 static inline char *NativeTitleReplayPath(TitleScreenView *title, int index)
 {
-    return reinterpret_cast<char *>(
-        reinterpret_cast<unsigned int>(&title->replayPaths[0][0]) +
-        static_cast<unsigned int>(index) * sizeof(title->replayPaths[0]));
+    return title->replayPaths[static_cast<unsigned int>(index)];
 }
 static inline ReplayDataView *&NativeTitleReplayAllocation(TitleScreenView *title, int index)
 {
-    return *reinterpret_cast<ReplayDataView **>(
-        reinterpret_cast<unsigned int>(&title->replayAllocations[0]) +
-        static_cast<unsigned int>(index) * sizeof(title->replayAllocations[0]));
+    return title->replayAllocations[static_cast<unsigned int>(index)];
 }
 
-// The replay list and stage selector are live signed DWORDs. Preserve
-// retail's modulo-32 i386 cursor motions and perform the existing wrap
-// comparisons as signed integers, including preincrement/pretdecrement.
+// Replay and stage selection use live signed DWORD cursors. Preserve the
+// original wrap-around comparisons and native increment/decrement order.
 int TitleScreenView::OnUpdateReplayMenu()
 {
     char fullPath[1024];
