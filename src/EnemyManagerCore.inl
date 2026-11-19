@@ -333,6 +333,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
     int trailIndex;
     int hitKind;
     int enemyIndex;
+    EnemyView **drawHead;
 
     if ((g_GameManager.flags & 0x1800) != 0)
         return 1;
@@ -387,7 +388,6 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
          ++enemyIndex,
          ++enemy)
     {
-        EnemyView **drawHead;
         const Th09EclEnemyPrimaryFlagBits &primaryFlags = enemy->primaryFlagBits337C;
 
         if (primaryFlags.active00 == 0)
@@ -399,18 +399,12 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
         }
 
         // The native side +0x34 gate is the shared GameManager bitfield.
-        if (manager->sideState320->flagBits34.bit0 != 0)
+        int sideCategory;
+        if (manager->sideState320->flagBits34.bit0 == 0 ||
+            ((sideCategory =
+                enemy->secondaryFlagBits3380.category.sideCategory10_11) == 1) ||
+            sideCategory == 2)
         {
-            const unsigned int sideCategory =
-                enemy->secondaryFlagBits3380.category.sideCategory10_11;
-            if (sideCategory != 1 && sideCategory != 2)
-            {
-                if (primaryFlags.noSprite04 != 0)
-                    continue;
-                drawHead = &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
-                goto append_enemy_to_draw_group;
-            }
-        }
 
         {
             damageOccurred = 0;
@@ -974,6 +968,13 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
         }
         else
             continue;
+        }
+        else
+        {
+            if (primaryFlags.noSprite04 != 0)
+                continue;
+            drawHead = &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
+        }
 
     append_enemy_to_draw_group:
         // Shared draw-head append uses the native Enemy object.
