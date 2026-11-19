@@ -87,8 +87,8 @@ int PlayerLifecycleView::CheckBulletCollision(
     float xDelta;
     float yDelta;
 
-    register Bullet *currentBullet = bullet;
-    register PlayerCollisionRegionCreateRegionView **slot = activeB100;
+    Bullet *currentBullet = bullet;
+    PlayerCollisionRegionCreateRegionView **slot = activeB100;
     PlayerCollisionRegionCreateRegionView *region;
     liveScratch.cursor.slot = slot;
 
@@ -152,21 +152,19 @@ int PlayerLifecycleView::CheckBulletCollision(
         {
             PlayerCollisionRegionCreateRegionView * volatile hitRegion = *slot;
             const int hitType = hitRegion->type38;
+            // Both cancellation region kinds share the bullet test; the
+            // remaining kind is the direct-hit counter path.
             if (hitType == PLAYER_REGION_BULLET_CANCEL_2)
-            {
-                if (currentBullet != NULL && currentBullet->bulletType == 0)
-                    break;
-                goto next_region;
-            }
+                goto cancel_bullet;
             if (hitType == PLAYER_REGION_BULLET_CANCEL_3)
-            {
-                if (currentBullet != NULL && currentBullet->bulletType == 0)
-                    break;
-                goto next_region;
-            }
+                goto cancel_bullet;
             hitRegion->hitCount2C = static_cast<int>(
                 static_cast<unsigned int>(hitRegion->hitCount2C) + 1u);
             return 2;
+        cancel_bullet:
+            if (currentBullet != NULL && currentBullet->bulletType == 0)
+                break;
+            goto next_region;
         }
 
 next_region:
