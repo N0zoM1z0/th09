@@ -969,12 +969,11 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     replayCopy.value1D0 = ReplayRecordingCapacity::FramesPerFpsSample;
     replayCopy.randomPayloadByte = (u8)g_ReplayRng.GetRandomU16InRange(0x100);
     replayCopy.unknown14 = (u8)g_ReplayRng.GetRandomU16InRange(0x100);
-    // The initial payload extends beyond the one-byte offset anchor.
-    memcpy(tempBuffer,
-        reinterpret_cast<const u8 *>(
-            reinterpret_cast<unsigned int>(&replayCopy) +
-            static_cast<unsigned int>(offsetof(ReplayDataView, randomPayloadByte))),
-        sizeof(ReplayPayloadView));
+    // The encoded payload spans the trailing member region of the real
+    // ReplayData object, rather than the scalar random-byte member alone.
+    const u8 *payloadStart = reinterpret_cast<const u8 *>(&replayCopy) +
+        offsetof(ReplayDataView, randomPayloadByte);
+    memcpy(tempBuffer, payloadStart, sizeof(ReplayPayloadView));
 
     replayCopy.decompressedSize = currentOffset - sizeof(ReplayHeaderView);
     u8 *compressedData = Lzss::Encode(
