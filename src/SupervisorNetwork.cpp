@@ -199,9 +199,6 @@ int Supervisor::UpdateNetworkService()
             goto HOST_SESSION;
         }
     }
-    else
-    {
-    }
 
     if (frameNetwork->connectionState == NETWORK_SESSION_SEARCHING)
     {
