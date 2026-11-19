@@ -157,6 +157,8 @@ Prioritize boss control flow and then close near-exact leaves:
    so combine the control flow without introducing extra locals or aliases.
 2. UpdateNetworkService: reconstruct the 20-byte local overlay, EDI state
    pointer lifetime, connection callbacks, prediction path and common return.
+   Initial-only pointer aliases and register-hinted pointer probes did not
+   change the 1,645/1,633-byte, 909-difference candidate; do not repeat them.
 3. UpdateChargeAttack: solve the side-index/input-pointer lifetime without
    forcing register allocation.
 4. EnemyManager::OnUpdate: revisit the remaining EAX/ECX draw-group index only
