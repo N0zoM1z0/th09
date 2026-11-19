@@ -140,8 +140,9 @@ extern ZunMemory g_ZunMemory;
 
 extern float __fastcall PlayerSin(float value);
 
-// SHT power levels, side files and callback pointers live in their
-// original native arrays with their established unsigned indices.
+// SHT power-level records and the callback tables belong to the original
+// file-backed Player allocation. Resolve each on-disk byte offset only
+// after loading that source file; preserve each callback pointer read.
 
 static int LoadPlayerShtFile(PlayerShtFileView **header, const char *path)
 {
@@ -160,9 +161,13 @@ static int LoadPlayerShtFile(PlayerShtFileView **header, const char *path)
 
     for (i = 0; i < (*header)->shotPowerLevelCount; ++i)
     {
-        reinterpret_cast<unsigned int &>((*header)->shotPowerLevels[static_cast<unsigned int>(i)].descriptors) +=
-            reinterpret_cast<unsigned int>(*header);
-        descriptor = (*header)->shotPowerLevels[static_cast<unsigned int>(i)].descriptors;
+        // SHT power-level entries contain file-relative descriptor offsets.
+        // Rebase the native word into the actual file-backed byte allocation.
+        PlayerShtPowerLevelView &power = (*header)->shotPowerLevels[i];
+        power.descriptors = reinterpret_cast<PlayerShtDescriptorView *>(
+            reinterpret_cast<unsigned char *>(*header) +
+            reinterpret_cast<unsigned int>(power.descriptors));
+        descriptor = (*header)->shotPowerLevels[i].descriptors;
         while (descriptor->fireInterval >= 0)
         {
             descriptor->spawnCallback =
@@ -182,30 +187,30 @@ static int LoadPlayerShtFile(PlayerShtFileView **header, const char *path)
 int __fastcall PlayerLifecycleView::AddedCallback(PlayerLifecycleView *player)
 {
     PlayerSideStateView *sideState;
-    if (g_PlayerShtFilesBySide[static_cast<unsigned int>(player->sideIndex)] != NULL)
+    if (g_PlayerShtFilesBySide[player->sideIndex] != NULL)
     {
         if (player->sideState->shotType20 == player->sideState->previousShotType24)
         {
-            player->primaryShtFile = g_PlayerShtFilesBySide[static_cast<unsigned int>(player->sideIndex)];
+            player->primaryShtFile = g_PlayerShtFilesBySide[player->sideIndex];
             goto resourceReady;
         }
     }
-    if (g_PlayerShtFilesBySide[static_cast<unsigned int>(player->sideIndex)] != NULL)
-        g_ZunMemory.Free(g_PlayerShtFilesBySide[static_cast<unsigned int>(player->sideIndex)]);
+    if (g_PlayerShtFilesBySide[player->sideIndex] != NULL)
+        g_ZunMemory.Free(g_PlayerShtFilesBySide[player->sideIndex]);
 
     if (LoadPlayerShtFile(&player->primaryShtFile,
-                          g_PlayerResourcePaths[static_cast<unsigned int>(player->sideState->shotType20)].shtPath) != 0)
+                          g_PlayerResourcePaths[player->sideState->shotType20].shtPath) != 0)
         return -1;
-    g_PlayerShtFilesBySide[static_cast<unsigned int>(player->sideIndex)] = player->primaryShtFile;
+    g_PlayerShtFilesBySide[player->sideIndex] = player->primaryShtFile;
 
 resourceReady:
     sideState = player->sideState;
-    player->tableValue303F0 = g_PlayerTable303F0[static_cast<unsigned int>(sideState->shotType20)];
-    player->tableValue303F4 = g_PlayerTable303F4[static_cast<unsigned int>(sideState->shotType20)];
-    player->tableValue303F8 = g_PlayerTable303F8[static_cast<unsigned int>(sideState->shotType20)];
-    player->tableValue303FC = g_PlayerTable303FC[static_cast<unsigned int>(sideState->shotType20)];
-    player->tableValue30400 = g_PlayerTable30400[static_cast<unsigned int>(sideState->shotType20)];
-    player->header24.anmFile98 = g_AnmManager->GetAnm(static_cast<int>(static_cast<unsigned int>(player->sideIndex) + 5u));
+    player->tableValue303F0 = g_PlayerTable303F0[sideState->shotType20];
+    player->tableValue303F4 = g_PlayerTable303F4[sideState->shotType20];
+    player->tableValue303F8 = g_PlayerTable303F8[sideState->shotType20];
+    player->tableValue303FC = g_PlayerTable303FC[sideState->shotType20];
+    player->tableValue30400 = g_PlayerTable30400[sideState->shotType20];
+    player->header24.anmFile98 = g_AnmManager->GetAnm(player->sideIndex + 5);
 
     PlayerShtFileView *sht = player->primaryShtFile;
     player->hurtboxHalfSize.y = sht->hurtboxSize * 0.5f;
@@ -220,7 +225,7 @@ resourceReady:
 
     player->scalar30388 = 100.0f;
     player->ownerState30410.owner00 = player;
-    player->ownerState30410.callback40 = g_PlayerCallback30450[static_cast<unsigned int>(sideState->shotType20)];
+    player->ownerState30410.callback40 = g_PlayerCallback30450[sideState->shotType20];
     player->header24.state7C = 1;
     player->header24.state80 = 1;
     player->header24.selfLink78 = player;
@@ -229,8 +234,8 @@ resourceReady:
     player->header24.state8C = 0;
     player->header24.state90 = 0;
     player->header24.state94 = 0;
-    player->callback30404 = g_PlayerCallback30404[static_cast<unsigned int>(sideState->shotType20)];
-    player->callback30408 = g_PlayerCallback30408[static_cast<unsigned int>(sideState->shotType20)];
+    player->callback30404 = g_PlayerCallback30404[sideState->shotType20];
+    player->callback30408 = g_PlayerCallback30408[sideState->shotType20];
     player->InitializeAddedState();
     return 0;
 }
