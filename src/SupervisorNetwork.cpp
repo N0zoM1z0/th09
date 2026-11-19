@@ -314,8 +314,7 @@ int Supervisor::UpdateNetworkService()
                 }
                 g_NetworkFramePacket.words.input =
                     static_cast<unsigned short>(Controller::GetInput(g_SupervisorNetworkState->localSide));
-                this->networkTiming458.frameCounter = static_cast<int>(
-                    static_cast<unsigned int>(this->networkTiming458.frameCounter) + 1u);
+                ++this->networkTiming458.frameCounter;
                 this->networkTiming458.frameStartTime = timeGetTime();
             }
 
@@ -326,11 +325,11 @@ int Supervisor::UpdateNetworkService()
             // The checksum uses the side captured before GetSeed.
             signed char packetSide = static_cast<signed char>(g_SupervisorNetworkState->localSide);
             g_NetworkFramePacket.side = packetSide;
-            // The packet's signed frame field is serialized from a native
-            // DWORD sum; preserve the same wraparound at the boundary.
-            g_NetworkFramePacket.frame = static_cast<int>(
-                static_cast<unsigned int>(NETWORK_FRAMES_PER_SECOND / g_SupervisorNetworkState->syncRate) +
-                static_cast<unsigned int>(this->networkTiming458.frameCounter) - 1u);
+            // The wire frame is the active frame plus one native sync window,
+            // matching the original signed DWORD expression.
+            g_NetworkFramePacket.frame =
+                NETWORK_FRAMES_PER_SECOND / g_SupervisorNetworkState->syncRate - 1 +
+                this->networkTiming458.frameCounter;
             g_NetworkFramePacket.seed =
                 g_ReplayRng.GetSeed();
 
@@ -364,22 +363,16 @@ int Supervisor::UpdateNetworkService()
             // network side; the peer can change during service callbacks.
             const short predictedSeed = static_cast<short>(g_ReplayRng.GetSeed());
             volatile const int &liveSide = g_SupervisorNetworkState->localSide;
-            const int opponentSide = static_cast<int>(
-                1u - static_cast<unsigned int>(liveSide));
+            const int opponentSide = 1 - liveSide;
             this->InsertPredictedFrame(
                 opponentSide, this->networkTiming458.frameCounter, predictedSeed);
-            // The original service increments the signed frame counter with
-            // an i386 DWORD INC, whose physical result wraps modulo 2^32.
-            this->networkTiming458.frameCounter = static_cast<int>(
-                static_cast<unsigned int>(this->networkTiming458.frameCounter) + 1u);
+            // Advance the original signed frame counter by one native tick.
+            ++this->networkTiming458.frameCounter;
         }
     }
 
-    // Retail side inversion uses i386 32-bit subtraction even if the
-    // network-side DWORD is outside the expected zero/one range.
-    if (!this->AreFrameQueuesSynchronized(static_cast<int>(
-            1u - static_cast<unsigned int>(
-                g_SupervisorNetworkState->localSide))))
+    // Query the other playable side using the live network-side DWORD.
+    if (!this->AreFrameQueuesSynchronized(1 - g_SupervisorNetworkState->localSide))
     {
         DWORD now = timeGetTime();
         this->networkTiming458.waitTime = now;
