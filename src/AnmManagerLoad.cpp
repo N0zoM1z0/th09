@@ -466,9 +466,9 @@ AnmLoaded *AnmManager::ReadAnmEntries(int anmIdx, const char *filename)
     anmLoaded->rawData04 = entry;
     strcpy(slot->path, filename);
 
-    // A genuine .anm file chains variable-length 0x40-byte headers.
-    // Its signed counts/offsets are accumulated as native wrapping
-    // i386 DWORDs before the original allocations and per-entry loads.
+    // Genuine .anm entries have 0x40-byte headers and a live nextOffset
+    // into their file-backed byte buffer. Follow that byte offset directly;
+    // accumulated entry/script/sprite totals remain the original DWORDs.
     int totalEntries = 1;
     int totalScripts = entry->numScripts;
     int totalSprites = entry->numSprites;
@@ -476,9 +476,9 @@ AnmLoaded *AnmManager::ReadAnmEntries(int anmIdx, const char *filename)
     while (currentEntry->nextOffset != 0)
     {
         currentEntry = reinterpret_cast<AnmRawEntry *>(
-            reinterpret_cast<unsigned int>(currentEntry) +
-            static_cast<unsigned int>(currentEntry->nextOffset));
-        ++*reinterpret_cast<unsigned int *>(&totalEntries);
+            reinterpret_cast<unsigned char *>(currentEntry) +
+            currentEntry->nextOffset);
+        ++totalEntries;
         totalScripts = static_cast<int>(static_cast<unsigned int>(totalScripts) +
             static_cast<unsigned int>(currentEntry->numScripts));
         totalSprites = static_cast<int>(static_cast<unsigned int>(totalSprites) +
@@ -503,12 +503,12 @@ AnmLoaded *AnmManager::ReadAnmEntries(int anmIdx, const char *filename)
                                        &totalSprites, &totalScripts,
                                        currentEntry) < 0)
             return NULL;
-        ++*reinterpret_cast<unsigned int *>(&currentEntryNumber);
+        ++currentEntryNumber;
         if (currentEntry->nextOffset == 0)
             break;
         currentEntry = reinterpret_cast<AnmRawEntry *>(
-            reinterpret_cast<unsigned int>(currentEntry) +
-            static_cast<unsigned int>(currentEntry->nextOffset));
+            reinterpret_cast<unsigned char *>(currentEntry) +
+            currentEntry->nextOffset);
     }
     return reinterpret_cast<AnmLoaded *>(anmLoaded);
 }
@@ -550,13 +550,13 @@ AnmLoaded *AnmManager::PostloadAnmEntry(AnmLoaded *anmLoadedObject)
         currentNumScripts = static_cast<int>(
             static_cast<unsigned int>(currentNumScripts) +
             static_cast<unsigned int>(rawEntry->numScripts));
-        ++*reinterpret_cast<unsigned int *>(&currentEntryNumber);
+        ++currentEntryNumber;
         if (rawEntry->nextOffset == 0)
             break;
         rawEntry = reinterpret_cast<AnmRawEntry *>(
-            reinterpret_cast<unsigned int>(rawEntry) +
-            static_cast<unsigned int>(rawEntry->nextOffset));
-        ++*reinterpret_cast<unsigned int *>(&entryLoadNumber);
+            reinterpret_cast<unsigned char *>(rawEntry) +
+            rawEntry->nextOffset);
+        ++entryLoadNumber;
         if (entryLoadNumber == anmLoaded->postloadEntryNumber18)
         {
             ++*reinterpret_cast<unsigned int *>(&anmLoaded->postloadEntryNumber18);
@@ -601,9 +601,8 @@ void AnmManager::ReleaseAnm(int anmIdx)
         // The original 0x120-byte clearing window begins at the real
         // manager slot's +0x24 loaded-record address. It deliberately
         // spans beyond a standalone 0x1C-byte AnmLoaded C++ subobject.
-        memset(reinterpret_cast<unsigned char *>(
-            reinterpret_cast<unsigned int>(slot) +
-            offsetof(AnmManagerLoadSlotView, loaded)), 0, 0x120);
+        memset(reinterpret_cast<unsigned char *>(slot) +
+            offsetof(AnmManagerLoadSlotView, loaded), 0, 0x120);
     }
 }
 
@@ -726,15 +725,13 @@ static __inline AnmManagerSurfaceLoadView *SurfaceLoadView(AnmManager *manager)
     return reinterpret_cast<AnmManagerSurfaceLoadView *>(manager);
 }
 
-// Surface slots are native 32-bit addresses with 4-byte pointer/size
-// entries and 0x14-byte D3DX metadata entries. The signed caller index
-// is multiplied as a wrapping DWORD, not bounded by the C++ array view.
+// Surface slots are the original 32-element pointer/size arrays and
+// 0x14-byte D3DX metadata array. Index the live native records directly,
+// without introducing extra bounds checks or a copied table.
 template <class T>
 static __forceinline T &NativeAnmSurfaceSlot(T *base, int index)
 {
-    return *reinterpret_cast<T *>(
-        reinterpret_cast<unsigned int>(base) +
-        static_cast<unsigned int>(index) * sizeof(T));
+    return base[index];
 }
 
 int AnmManager::LoadSurface(int surfaceIndex, const char *path)
