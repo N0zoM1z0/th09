@@ -5,22 +5,19 @@
 #include "SupervisorFrameQueueStorageView.hpp"
 #include "Supervisor.hpp"
 
-// Only original Supervisor-owned 0x0C frame records are addressed here.
-// Indices remain native i386 DWORD offsets; no extra safety gate is added.
+// Both the incoming record and the 20-entry queue belong to the native
+// Supervisor object. Preserve the original unsigned flat side/slot index
+// calculation and all repeated field reads, with no new range check.
 
 static __forceinline SupervisorFrameEntryView &NativeReceivedFrame(Supervisor *view, int side)
 {
-    return *reinterpret_cast<SupervisorFrameEntryView *>(
-        reinterpret_cast<unsigned int>(&view->lastReceived56C[0]) +
-        static_cast<unsigned int>(side) * sizeof(view->lastReceived56C[0]));
+    return view->lastReceived56C[side];
 }
 
 static __forceinline SupervisorFrameEntryView &NativeQueueFrame(Supervisor *view, int side, int index)
 {
-    return *reinterpret_cast<SupervisorFrameEntryView *>(
-        reinterpret_cast<unsigned int>(&view->entries47C[0]) +
-        (static_cast<unsigned int>(side) * 10u +
-         static_cast<unsigned int>(index)) * sizeof(view->entries47C[0]));
+    return view->entries47C[static_cast<unsigned int>(side) * 10u +
+                            static_cast<unsigned int>(index)];
 }
 
 
