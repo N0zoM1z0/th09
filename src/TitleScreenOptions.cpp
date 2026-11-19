@@ -90,8 +90,9 @@ typedef char OptionsMenuCountAt1B244[(offsetof(TitleScreenView, menuItemCount) =
 typedef char OptionsConfigAt1B2BC[(offsetof(TitleScreenView, configSnapshot) == 0x1B2BC) ? 1 : -1];
 typedef char OptionsTitleScreenSizeIs1B388[(sizeof(TitleScreenView) == 0x1B388) ? 1 : -1];
 
-// The native music/SFX volume members are bytes. Mutate them directly;
-// keep the signed-char reads at the retail display/clamp checks.
+// Music and SFX volumes are genuine GameConfiguration byte members.
+// Read them with signed-char semantics for display and bounds checks;
+// write those native members directly, without aliasing byte references.
 // The real TitleScreen owns 0x2A4-byte ANM VMs and a separate
 // four-byte help-text pointer table. These live selectors form original
 // Win32 byte addresses without a new clamp, copy or auxiliary allocation.
@@ -122,7 +123,7 @@ int TitleScreenView::OnUpdateOptions()
             DrawTitleHelpText(reinterpret_cast<TitleAnmManagerView *>(g_AnmManager), &this->embeddedVms[i], 0xfff0e0, 0x300000, g_TitleOptionsHelpText[i]);
         }
     case 1:
-        if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) >= 100)
+        if (static_cast<i8>(g_Supervisor.config388.musicVolume) >= 100)
         {
             this->titleAnm->SetSprite(&this->vms[26], this->vms[26].baseSpriteIndex);
             this->vms[26].color1Script.a = 0xff;
@@ -133,10 +134,10 @@ int TitleScreenView::OnUpdateOptions()
             this->vms[26].color1Script.a = 0;
             this->vms[26].drawEnabled = 0;
         }
-        if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) >= 10)
+        if (static_cast<i8>(g_Supervisor.config388.musicVolume) >= 10)
         {
             this->titleAnm->SetSprite(&this->vms[27],
-                                 this->vms[27].baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) / 10 % 10 * 2);
+                                 this->vms[27].baseSpriteIndex + static_cast<i8>(g_Supervisor.config388.musicVolume) / 10 % 10 * 2);
             this->vms[27].color1Script.a = 0xff;
             this->vms[27].drawEnabled = 1;
         }
@@ -145,9 +146,9 @@ int TitleScreenView::OnUpdateOptions()
             this->vms[27].color1Script.a = 0;
             this->vms[27].drawEnabled = 0;
         }
-        this->titleAnm->SetSprite(&this->vms[28], this->vms[28].baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) % 10 * 2);
+        this->titleAnm->SetSprite(&this->vms[28], this->vms[28].baseSpriteIndex + static_cast<i8>(g_Supervisor.config388.musicVolume) % 10 * 2);
         this->titleAnm->SetSprite(&this->vms[29], this->vms[29].baseSpriteIndex);
-        if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) >= 100)
+        if (static_cast<i8>(g_Supervisor.config388.sfxVolume) >= 100)
         {
             this->titleAnm->SetSprite(&this->vms[30], this->vms[30].baseSpriteIndex);
             this->vms[30].color1Script.a = 0xff;
@@ -158,10 +159,10 @@ int TitleScreenView::OnUpdateOptions()
             this->vms[30].color1Script.a = 0;
             this->vms[30].drawEnabled = 0;
         }
-        if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) >= 10)
+        if (static_cast<i8>(g_Supervisor.config388.sfxVolume) >= 10)
         {
             this->titleAnm->SetSprite(&this->vms[31],
-                                 this->vms[31].baseSpriteIndex + reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) / 10 % 10 * 2);
+                                 this->vms[31].baseSpriteIndex + static_cast<i8>(g_Supervisor.config388.sfxVolume) / 10 % 10 * 2);
             this->vms[31].color1Script.a = 0xff;
             this->vms[31].drawEnabled = 1;
         }
@@ -251,17 +252,17 @@ int TitleScreenView::OnUpdateOptions()
             {
             case 3:
                 g_Supervisor.config388.musicVolume -= 4u;
-                if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) < 0)
+                if (static_cast<i8>(g_Supervisor.config388.musicVolume) < 0)
                 {
-                    reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) = 0;
+                    g_Supervisor.config388.musicVolume = 0;
                 }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
             case 4:
                 g_Supervisor.config388.sfxVolume -= 4u;
-                if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) < 0)
+                if (static_cast<i8>(g_Supervisor.config388.sfxVolume) < 0)
                 {
-                    reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) = 0;
+                    g_Supervisor.config388.sfxVolume = 0;
                 }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
@@ -273,17 +274,17 @@ int TitleScreenView::OnUpdateOptions()
             {
             case 3:
                 g_Supervisor.config388.musicVolume += 4u;
-                if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) > 100)
+                if (static_cast<i8>(g_Supervisor.config388.musicVolume) > 100)
                 {
-                    reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) = 100;
+                    g_Supervisor.config388.musicVolume = 100;
                 }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
             case 4:
                 g_Supervisor.config388.sfxVolume += 4u;
-                if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) > 100)
+                if (static_cast<i8>(g_Supervisor.config388.sfxVolume) > 100)
                 {
-                    reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) = 100;
+                    g_Supervisor.config388.sfxVolume = 100;
                 }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
@@ -294,14 +295,14 @@ int TitleScreenView::OnUpdateOptions()
             switch (this->keyboardSelection)
             {
             case 3:
-                if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) > 0)
+                if (static_cast<i8>(g_Supervisor.config388.musicVolume) > 0)
                 {
                     g_Supervisor.config388.musicVolume--;
                 }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
             case 4:
-                if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) > 0)
+                if (static_cast<i8>(g_Supervisor.config388.sfxVolume) > 0)
                 {
                     g_Supervisor.config388.sfxVolume--;
                 }
@@ -314,14 +315,14 @@ int TitleScreenView::OnUpdateOptions()
             switch (this->keyboardSelection)
             {
             case 3:
-                if (reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume) < 100)
+                if (static_cast<i8>(g_Supervisor.config388.musicVolume) < 100)
                 {
                     g_Supervisor.config388.musicVolume++;
                 }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
             case 4:
-                if (reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume) < 100)
+                if (static_cast<i8>(g_Supervisor.config388.sfxVolume) < 100)
                 {
                     g_Supervisor.config388.sfxVolume++;
                 }
@@ -329,8 +330,8 @@ int TitleScreenView::OnUpdateOptions()
                 break;
             }
         }
-        g_SoundPlayer.bgmVolume = reinterpret_cast<i8 &>(g_Supervisor.config388.musicVolume);
-        g_SoundPlayer.sfxVolume = reinterpret_cast<i8 &>(g_Supervisor.config388.sfxVolume);
+        g_SoundPlayer.bgmVolume = static_cast<i8>(g_Supervisor.config388.musicVolume);
+        g_SoundPlayer.sfxVolume = static_cast<i8>(g_Supervisor.config388.sfxVolume);
         if (reinterpret_cast<InputView *>(&g_ReplayInputStates[2])->IsPressedScrolling(0x80))
         {
             switch (this->keyboardSelection)
