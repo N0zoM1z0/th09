@@ -14153,3 +14153,35 @@ at +0x8E, rotated/AABB backward branches, and the null-region return at the
 function tail. Explicit late-exit labels were canonicalized by C2 back to the
 existing 849/862, 539-difference candidate. No ASM, padding or frontier
 ratchet change was introduced.
+
+## 2026-11-19: native key-config, screenshot, ASCII popup and music array proofs
+
+- The 2,803-byte `TitleScreenView::OnUpdateKeyConfig` remains byte/relocation
+  exact when its 28 casted `keyConfigSide` uses are changed to ordinary C++
+  signed indexing. The two-side device mode at `GameConfiguration +0xB7/+0xB8`
+  is physically consecutive bytes, but adding an array union changes *four*
+  ModRM base/index selection bytes despite unchanged semantics. Do not alter
+  the widely shared header or exact manifest just to approve that alternative.
+- `Supervisor::TakeSnapshot`'s entire 543 bytes / 23 relocations reproduce
+  with natural `unsigned char *` increments, source stride `src += 2`, and
+  signed `srcRowDelta` byte-pointer updates. The D3D pitch remains represented
+  by its native 32-bit word arithmetic.
+- The ASCII score popup update/draw owners retain complete 253/503-byte code
+  with direct `scorePopups[playerIndex]`, `g_GameManager.sides[playerIndex]`,
+  typed per-record increment, and ordinary character byte-pointer movement.
+  The caller's original side-pointer loop is still the exact scheduling form:
+  replacing it with a typed two-side iterator produced 254/253 and 137
+  differences; a side-index loop produced 15 differences, so neither was kept.
+  The other eight same-source exact owners also pass. Nineteen private labels
+  were verified against unchanged same-section target offsets.
+- The `SupervisorAudio.cpp` music records and global unlock byte flags are
+  native C++ arrays. Remove the signed-DWORD pointer-arithmetic macros, but
+  retain separate live table reads and unsigned unlock index semantics. All
+  eight exact owners (1,054 bytes and 82 COFF relocation fields) remain exact.
+
+Unretained register-allocation probes: The Enemy 3,900-byte update still
+loads draw-group `+0x3387` into ECX where retail uses EAX; fifteen natural
+array/reference/index expressions all generated the same two unlike bytes.
+The 51-byte Effect AddedCallback retains four ESI/EDI scheduling differences
+under ordinary assignment, reference and inline publisher layouts; copying
+register structure with assembly or dummy liveness is not permitted.

@@ -7,6 +7,54 @@ status and the next useful work, not a session diary. Read
 [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) for historical target/compiler findings.
 The canonical ledgers and current source always outrank dated prose.
 
+## 2026-11-19 checkpoint: key config, snapshot, popup and music source
+
+The latest source checkpoint is `056bb831`. Four new natural C++ edits were
+validated against the pinned VC7.1 and the verified original Japanese TH09
+v1.50a target, strictly within their affected exact-owner sources:
+
+- `15888a7f`: `TitleScreenView::OnUpdateKeyConfig` directly indexes the native
+  `sideFocusMode[keyConfigSide]` rather than repeatedly casting an original
+  two-side selector. The **2,803-byte exact boss** and its same-source owner
+  replay as **2 functions / 2,909 bytes / 118 relocation fields**.
+  An honest alternative `GameConfiguration::sideDeviceMode[2]` union for the
+  adjacent `valueB7/valueB8` bytes remains **nonexact by four different ModRM
+  index/base bytes** at `+0x6B6`, `+0x6CC`, `+0x82E` and `+0x843`; it was not
+  committed or adopted as a shared header change. Removing the original
+  unsigned word semantics from the opposite-side selector likewise causes
+  four differences and was rejected.
+- `5c3afa5d`: `Supervisor::TakeSnapshot` now walks the actual Direct3D locked
+  pixel buffer and allocated BMP output through byte pointers, with no
+  integer-to-pointer round trips. The **543-byte exact function and 23
+  relocations** all replayed; channel-copy ordering is unchanged.
+- `b7a50520`: `AsciiManager::OnDrawHighPrioImpl` and `OnUpdate` use real
+  two-by-100 score-popup arrays, independently reread live player sides, and
+  traverse full `0x38`-byte popup records as C++ pointers. All **10 exact
+  owners / 4,206 bytes / 264 relocations** passed. Nineteen compiler-private
+  label names in the same carrier were independently checked against exact
+  original same-section addresses before the manifest names were rebound.
+- `056bb831`: removed raw integer-address music descriptor and unlock-byte
+  macros in `SupervisorAudio.cpp`, replacing them with live native table
+  elements and an unsigned DWORD unlock index. All **8 exact functions /
+  1,054 bytes / 82 relocations** passed. No new bounds check or cross-callback
+  field cache was introduced.
+
+Additional target-bound negative experiments were restored: a direct network
+queue-synchronization success-first branch rearrangement regressed the large
+1,633-byte `UpdateNetworkService` owner (1,644-byte candidate, 917 differences);
+separating its wait status also regressed. Fifteen natural address/reference/
+byte-index expressions in `EnemyManager::OnUpdate` all retain the same two
+EAX/ECX register byte differences in the 3,900-byte candidate. Twelve natural
+assignment, reference and inline-publisher variants of `EffectManager::AddedCallback`
+retained 4 register differences or regressed to 7 (a volatile owner alias
+expanded the body to 60 bytes). None was retained or used to rebaseline.
+
+The authoritative ledger remains **1,026 exact functions**, with **11
+source-present nonexact authors**. Source refactoring does not earn new exact
+credit. The full Windows i386 build and runtime validation remain open. No
+full cold replay, ASM, register tricks, byte padding or target patching was
+introduced.
+
 ## 2026-11-19 checkpoint: native PLST rows and network frame queues
 
 Latest local code checkpoint `bfc3125f`; all six source commits in this pass
