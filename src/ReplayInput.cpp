@@ -983,12 +983,12 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     int compressedSize = replayCopy.compressedSize;
 
     u32 checksum = 0x3F000318;
-    // Header checksums begin inside a scalar member and traverse neighboring
-    // wire fields; advancing a native address word preserves that layout.
-    unsigned int checksumAddress =
-        reinterpret_cast<unsigned int>(&replayCopy.obfuscationKey);
-    for (loopIndex = 0; loopIndex < ChecksumHeaderBytes; loopIndex++, checksumAddress++)
-        checksum += *reinterpret_cast<const u8 *>(checksumAddress);
+    // The checksum covers the actual on-disk header bytes, beginning at the
+    // obfuscation key and continuing across the following wire fields.
+    const u8 *checksumBytes = reinterpret_cast<const u8 *>(&replayCopy) +
+        offsetof(ReplayDataView, obfuscationKey);
+    for (loopIndex = 0; loopIndex < ChecksumHeaderBytes; loopIndex++, ++checksumBytes)
+        checksum += *checksumBytes;
     // The compressed payload is a counted native byte stream, not a
     // bounded C++ indexed object when the signed wire size is unusual.
     for (loopIndex = 0; loopIndex < compressedSize; loopIndex++)
@@ -998,18 +998,19 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     replayCopy.checksum = checksum;
 
     u8 obfuscationOffset = replayCopy.obfuscationKey;
-    // The obfuscated header and compressed payload are counted byte streams.
-    unsigned int obfuscationAddress =
-        reinterpret_cast<unsigned int>(&replayCopy.compressedSize);
-    for (loopIndex = 0; loopIndex < ObfuscatedHeaderBytes; loopIndex++, ++obfuscationAddress)
+    // Both the native header and its compressed payload are byte streams.
+    // The header view starts at its real compressed-size member offset.
+    u8 *headerByte = reinterpret_cast<u8 *>(&replayCopy) +
+        offsetof(ReplayDataView, compressedSize);
+    for (loopIndex = 0; loopIndex < ObfuscatedHeaderBytes; loopIndex++, ++headerByte)
     {
-        *reinterpret_cast<u8 *>(obfuscationAddress) += obfuscationOffset;
+        *headerByte += obfuscationOffset;
         obfuscationOffset += 7;
     }
-    obfuscationAddress = reinterpret_cast<unsigned int>(compressedData);
-    for (loopIndex = 0; loopIndex < compressedSize; loopIndex++, ++obfuscationAddress)
+    u8 *payloadByte = compressedData;
+    for (loopIndex = 0; loopIndex < compressedSize; loopIndex++, ++payloadByte)
     {
-        *reinterpret_cast<u8 *>(obfuscationAddress) += obfuscationOffset;
+        *payloadByte += obfuscationOffset;
         obfuscationOffset += 7;
     }
     replayCopy.fileSize = compressedSize + sizeof(ReplayHeaderView);
