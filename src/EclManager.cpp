@@ -444,7 +444,7 @@ comparison_succeeded:
     // The ECL jump displacement is signed, but the target i386 ADD wraps
     // the instruction address as a native 32-bit word (including back-jumps).
     return reinterpret_cast<Th09EclRawInstructionHeaderView *>(
-        reinterpret_cast<unsigned int>(instruction) +
+        reinterpret_cast<unsigned char *>(instruction) +
         static_cast<unsigned int>(RawInt(instruction, 3)));
 }
 
@@ -459,9 +459,8 @@ static void ApplyInterpolationOperation(
         ReadFloat(enemy, instruction, 2);
 }
 
-// The ECL context owns eight adjacent 0x30-byte interpolation records;
-// cursor advancement in both installation and RunEcl's callback loop
-// follows the actual i386 byte stride of the original context storage.
+// The ECL context owns eight native 0x30-byte interpolation records;
+// insertion and RunEcl walk the same actual contiguous slot array.
 static void InstallInterpolationSlot(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction)
@@ -469,8 +468,7 @@ static void InstallInterpolationSlot(
     Th09EclInterpolationSlotView *slot =
         enemy->activeContext2CE0->interpolationSlots0A0;
     for (int index = 0; index < TH09_ECL_INTERPOLATION_SLOT_COUNT;
-         ++index, slot = reinterpret_cast<Th09EclInterpolationSlotView *>(
-             reinterpret_cast<unsigned int>(slot) + sizeof(Th09EclInterpolationSlotView)))
+         ++index, ++slot)
     {
         if (slot->callback00 != NULL &&
             slot->affectedVariable2C != RawFloat(instruction, 0))
@@ -481,13 +479,10 @@ static void InstallInterpolationSlot(
         slot->duration10 = ReadInt(enemy, instruction, 1);
         slot->callbackIndex14 = ReadInt(enemy, instruction, 2);
         slot->easing18 = ReadInt(enemy, instruction, 3);
-        // The eight actual EX interpolation callbacks are native four-byte
-        // words at their original global base. Preserve the live callback
-        // index and use modulo-32 byte arithmetic without adding a gate.
-        slot->callback00 = *reinterpret_cast<Th09EclInterpolationCallback *>(
-            reinterpret_cast<unsigned int>(&g_EclInterpolationCallbacks[0]) +
-            static_cast<unsigned int>(slot->callbackIndex14) *
-                sizeof(g_EclInterpolationCallbacks[0]));
+        // The native eight-element EX interpolation callback table is
+        // indexed by the live callback index, with no new bounds gate.
+        slot->callback00 =
+            g_EclInterpolationCallbacks[static_cast<unsigned int>(slot->callbackIndex14)];
         slot->parameters1C[0] =
             ReadFloat(enemy, instruction, 4);
         slot->parameters1C[1] =
@@ -507,9 +502,8 @@ static void CallSubroutine(
 {
     enemy->activeContext2CE0->currentInstruction004 =
         reinterpret_cast<Th09EclRawInstructionHeaderView *>(
-            reinterpret_cast<unsigned int>(instruction) +
-            static_cast<unsigned int>(
-                static_cast<short>(instruction->nextOffset06)));
+            reinterpret_cast<unsigned char *>(instruction) +
+            static_cast<unsigned int>(static_cast<short>(instruction->nextOffset06)));
 
     if (enemy->primaryFlagBits337C.callStackDisabled23 == 0)
         enemy->activeCallStack2CE4[enemy->activeCallDepth2D2A] =
@@ -571,9 +565,8 @@ th09_ecl_restart_context:
 th09_ecl_enter_pending_subroutine:
     enemy->activeContext2CE0->currentInstruction004 =
         reinterpret_cast<Th09EclRawInstructionHeaderView *>(
-            reinterpret_cast<unsigned int>(instruction) +
-            static_cast<unsigned int>(
-                static_cast<short>(instruction->nextOffset06)));
+            reinterpret_cast<unsigned char *>(instruction) +
+            static_cast<unsigned int>(static_cast<short>(instruction->nextOffset06)));
 
     if (enemy->primaryFlagBits337C.callStackDisabled23 == 0)
     {
@@ -653,9 +646,8 @@ th09_ecl_instruction_loop:
 
 th09_ecl_advance_instruction:
             instruction = reinterpret_cast<Th09EclRawInstructionHeaderView *>(
-                reinterpret_cast<unsigned int>(instruction) +
-                static_cast<unsigned int>(
-                    static_cast<short>(instruction->nextOffset06)));
+                reinterpret_cast<unsigned char *>(instruction) +
+                static_cast<unsigned int>(static_cast<short>(instruction->nextOffset06)));
 
 th09_ecl_redispatch_instruction:
             goto th09_ecl_instruction_loop;
@@ -685,8 +677,7 @@ th09_ecl_after_dispatch:
 
         for (interpolationIndex = TH09_ECL_INTERPOLATION_SLOT_COUNT;
              interpolationIndex > 0;
-             --interpolationIndex, slot = reinterpret_cast<Th09EclInterpolationSlotView *>(
-                 reinterpret_cast<unsigned int>(slot) + sizeof(Th09EclInterpolationSlotView)))
+             --interpolationIndex, ++slot)
         {
             if (slot->callback00 == NULL)
                 continue;
