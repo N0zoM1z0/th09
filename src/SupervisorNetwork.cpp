@@ -169,16 +169,20 @@ int Supervisor::UpdateNetworkService()
     // homes retain their original overlapped native stack offsets.
     NetworkServiceStackScratch scratch;
     scratch.returnValue = NETWORK_SERVICE_FRAME_READY;
+    int stateReturnValue;
 
     this->EnterCriticalSectionWrapper(4);
 
+    SupervisorNetworkState *frameNetwork = g_SupervisorNetworkState;
+    {
+
     // The initial state/join decisions use the same network object, before
     // the connection callbacks independently reload their live receiver.
-    if (g_SupervisorNetworkState->connectionState == NETWORK_SESSION_IDLE)
+    if (frameNetwork->connectionState == NETWORK_SESSION_IDLE)
     {
-        if (g_SupervisorNetworkState->joinMode != 0)
+        if (frameNetwork->joinMode != 0)
         {
-            g_SupervisorNetworkState->localSide = 1;
+            frameNetwork->localSide = 1;
             g_SupervisorNetworkState->CreateDeviceAddress();
             g_SupervisorNetworkState->CreateHostAddress();
             g_SupervisorNetworkState->ConnectSession();
@@ -188,46 +192,53 @@ int Supervisor::UpdateNetworkService()
             g_AnmManager->DrawTextCentered(
                 this->networkMessageVm584, 0xFFFFFF, 0,
                 g_NetworkSearchingMessage);
+            frameNetwork = g_SupervisorNetworkState;
         }
         else
         {
-        HOST_SESSION:
-            Sleep(NETWORK_HOST_POLL_MS);
-            g_SupervisorNetworkState->localSide = 0;
-            g_SupervisorNetworkState->CreateDeviceAddress();
-            g_SupervisorNetworkState->HostSession();
-            g_AnmManager->DrawTextCentered(
-                this->networkMessageVm584, 0xFFFFFF, 0,
-                g_NetworkWaitingMessage);
-            g_SupervisorNetworkState->connectionState = NETWORK_SESSION_HOST_WAIT;
-            this->networkTiming458.connectionTime = timeGetTime();
+            goto HOST_SESSION;
         }
     }
+    else
+    {
+    }
 
-    if (g_SupervisorNetworkState->connectionState == NETWORK_SESSION_SEARCHING)
+    if (frameNetwork->connectionState == NETWORK_SESSION_SEARCHING)
     {
         DWORD now = timeGetTime();
         this->networkBusy478 = 1;
         if (now < this->networkConnectStartTime588)
             this->networkConnectStartTime588 = now;
 
-        if (now - this->networkConnectStartTime588 >=
-                g_ReplayRng.GetRandomU32InRange(NETWORK_PEER_JITTER_MS) + NETWORK_JOIN_RETRY_MS &&
-            g_SupervisorNetworkState->joinMode != 1)
-        {
-            g_SupervisorNetworkState->ResetSession();
-            goto HOST_SESSION;
-        }
-        goto NETWORK_WAIT;
+        if (now - this->networkConnectStartTime588 <
+                g_ReplayRng.GetRandomU32InRange(NETWORK_PEER_JITTER_MS) + NETWORK_JOIN_RETRY_MS ||
+            g_SupervisorNetworkState->joinMode == 1)
+            goto NETWORK_WAIT;
+        g_SupervisorNetworkState->ResetSession();
+        goto HOST_SESSION;
     }
+    goto HOST_WAIT_STATE_CHECK;
 
-    if (g_SupervisorNetworkState->connectionState == NETWORK_SESSION_HOST_WAIT || g_SupervisorNetworkState->connectionState == NETWORK_SESSION_PEER_READY)
+HOST_SESSION:
+    Sleep(NETWORK_HOST_POLL_MS);
+    g_SupervisorNetworkState->localSide = 0;
+    g_SupervisorNetworkState->CreateDeviceAddress();
+    g_SupervisorNetworkState->HostSession();
+    g_AnmManager->DrawTextCentered(
+        this->networkMessageVm584, 0xFFFFFF, 0,
+        g_NetworkWaitingMessage);
+    g_SupervisorNetworkState->connectionState = NETWORK_SESSION_HOST_WAIT;
+    this->networkTiming458.connectionTime = timeGetTime();
+    frameNetwork = g_SupervisorNetworkState;
+
+HOST_WAIT_STATE_CHECK:
+        if (frameNetwork->connectionState == NETWORK_SESSION_HOST_WAIT || frameNetwork->connectionState == NETWORK_SESSION_PEER_READY)
     {
-        if (g_SupervisorNetworkState->GetRemotePeerId() == 0)
+        if (frameNetwork->GetRemotePeerId() == 0)
         {
             if (this->networkTiming458.frameCounter != 0)
             {
-                scratch.returnValue = NETWORK_SERVICE_RESET;
+                stateReturnValue = NETWORK_SERVICE_RESET;
                 goto RETURN_STATE;
             }
 
@@ -248,11 +259,12 @@ int Supervisor::UpdateNetworkService()
 
         this->networkBusy478 = 0;
         this->networkTiming458.connectionTime = timeGetTime();
+        frameNetwork = g_SupervisorNetworkState;
+                }
     }
 
-    // Prefill and the first prediction retain this session across queue/seed calls.
-    SupervisorNetworkState *frameNetwork = g_SupervisorNetworkState;
 
+    // Prefill and the first prediction retain this session across queue/seed calls.
     if (this->networkTiming458.frameMode == NETWORK_FRAME_PREPARING || this->networkTiming458.frameMode == NETWORK_FRAME_PREDICTING)
     {
         scratch.inputFrame.frame = this->networkTiming458.frameCounter;
@@ -384,7 +396,7 @@ int Supervisor::UpdateNetworkService()
 
         if (now - this->networkTiming458.frameStartTime > NETWORK_DISCONNECT_TIMEOUT_MS)
         {
-            scratch.returnValue = NETWORK_SERVICE_RESET;
+            stateReturnValue = NETWORK_SERVICE_RESET;
             goto RETURN_STATE;
         }
 
@@ -394,14 +406,14 @@ int Supervisor::UpdateNetworkService()
             g_NetworkDisconnectedMessage);
 
     NETWORK_WAIT:
-        scratch.returnValue = NETWORK_SERVICE_WAIT;
+        stateReturnValue = NETWORK_SERVICE_WAIT;
 
     RETURN_STATE:
         this->LeaveCriticalSectionWrapper(4);
         if ((Controller::GetInput(2) & 2) != 0)
             return NETWORK_SERVICE_RESET;
         if (this->flagsLow5D4 >= 0 || SupervisorSubthreadIsRunning(this))
-            return scratch.returnValue;
+            return stateReturnValue;
         return NETWORK_SERVICE_STOP;
     }
 

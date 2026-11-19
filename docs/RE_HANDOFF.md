@@ -231,3 +231,40 @@ active Ghidra project and runtime state were not touched.
 
 Never use git clean -fdx: it can delete protected ignored inputs. Check
 git status and inspect dirty/untracked files before every resumed session.
+
+
+## UpdateNetworkService: recovered entry and session CFG (2026-11-19)
+
+IDA identifies `Supervisor::UpdateNetworkService` as `sub_430AA0` (native
+extent `0x661`). The current source reconstruction now matches the first
+`0x103` bytes byte-for-byte and restores the native `0x14` stack frame. The
+local frontier is 1,645/1,633 bytes with 717 differing bytes, down from the
+previous 966-difference baseline. This is a real partial recovery, not an
+accepted exact match.
+
+The source now follows the native receiver and branch lifetimes:
+
+- Capture `g_SupervisorNetworkState` immediately after entering critical
+  section 4. Use that receiver for the initial state/join reads, the join-side
+  `localSide` store, the searching/host-wait state checks, and
+  `GetRemotePeerId`.
+- Keep methods whose native receiver is reloaded from the global as explicit
+  `g_SupervisorNetworkState->...` calls. Reload the cached receiver after the
+  searching text draw, after host-session setup, and after the successful
+  remote-peer check before frame preparation.
+- Move `HOST_SESSION` out of the initial idle branch. The initial idle-host
+  path and the retry path jump to it; the join and non-idle paths pass through
+  the searching check; a non-searching state skips the host body and reaches
+  the host-wait check. The retry predicate now preserves the native
+  short-circuit order: elapsed time below the jittered threshold OR join mode
+  equal to one goes to wait; otherwise reset and retry hosting.
+- Widen the service return local from `unsigned short` to the native 32-bit
+  `SupervisorNetworkServiceResult`. This restores the `0x14` stack frame and
+  lets the ordinary scratch return value remain distinct from reset/wait
+  status.
+
+Remaining work: the service status still spills to a stack home instead of
+reusing EDI, the network-wait branch is 14 bytes later than the native label,
+and the compiled body is 12 bytes longer than the native extent. Do not
+rebaseline this frontier. Continue from the current natural-C++ control flow;
+no register hints, inline assembly, padding, or synthetic bytes were added.
