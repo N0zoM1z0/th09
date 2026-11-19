@@ -1065,6 +1065,39 @@ Likewise the 15-byte angle wrapper at `0x405700` is reproducible by both SDK
   callback-context register order. ScreenShake, Title replay drawing and
   result-update remain nonexact at the values in the current handoff.
 
+## Further boss reconstruction probes (2026-11-19)
+
+The following source experiments were run after the 7adfc808 EnemyManager CFG
+checkpoint. All failed candidates were reverted; the strict frontier baselines
+were not changed.
+
+- CheckBulletCollision: a direct nested-loop reconstruction of the decompiler's
+  scan/geometry/dispatch flow produced an 831/862-byte candidate with 660
+  differing bytes. The maintained candidate remains 849/862 with 539 differing
+  bytes against the 842-byte ratchet (REGRESSED). The nested candidate laid out
+  rectangle geometry before the circle/dispatch path, unlike retail's circle
+  at +0x4D, shared dispatcher at +0x7E, rotated rectangle at +0xBD and AABB at
+  +0x13B. It was discarded. The next attempt must make the circle hit fall
+  through into the dispatcher while rectangle/AABB successes branch back to
+  that same dispatcher; do not merely move a common join label.
+- UpdateChargeAttack: widening the side local from `short` to `int`, replacing
+  the input reference with a pointer, and spelling the native 0x8E-byte stride
+  explicitly all produced 1,209/1,210-byte candidates with 717 differences.
+  Using the side-index member directly produced a 1,211-byte candidate with
+  873 differences. The maintained source remains 1,210 bytes with 183
+  differences. Retail holds the full side index in EDI and the replay-input
+  pointer in EBX; these naive type/array rewrites continue to allocate them in
+  the opposite registers and disturb the remainder of the owner. All were
+  reverted.
+- UpdateMovementAndOptions: local configuration pointers, references, byte
+  views and a reference to the selected mode byte retained the same four-byte
+  residual at +0x126. Retail loads `g_GameConfiguration` into ECX before the
+  Player side index into EAX; the compiler continues to choose the reverse
+  order. These aliases were reverted.
+- EffectManager::AddedCallback: making the global ANM-manager pointer a
+  volatile reference regressed the 51-byte owner from four to 25 differing
+  bytes. The original natural helper-based source was restored.
+
 ## Recent accepted natural C++ recoveries
 
 These commits improve native source fidelity while preserving their affected
