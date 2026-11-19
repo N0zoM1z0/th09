@@ -174,8 +174,8 @@ int ScreenEffect::CalcArcadePulse(ScreenEffect *screenEffect)
     return CHAIN_CALLBACK_RESULT_CONTINUE;
 }
 
-// Select the real 0x38-byte GameManager side record for the active shake.
-// Preserve the original unsigned index expression and access order.
+// Select the actual GameManager side and Supervisor viewport arrays using
+// their existing context index. Keep each original independent lookup.
 // Screen shake writes the real Supervisor 0xF0-byte viewport slots.
 // Both original shake callbacks choose zero, positive or negative
 // displacement independently on each axis from the same three RNG values.
@@ -187,7 +187,7 @@ int ScreenEffect::CalcArcadePulse(ScreenEffect *screenEffect)
 
 int ScreenEffect::CalcShake(ScreenEffect *screenEffect)
 {
-    if ((g_GameManager.sides[static_cast<unsigned int>(screenEffect->contextIndex)].flags & 1u) != 0)
+    if ((g_GameManager.sides[screenEffect->contextIndex].flags & 1u) != 0)
         return CHAIN_CALLBACK_RESULT_CONTINUE;
 
     if ((g_GameManager.flags & 0x1800) != 0)
@@ -214,26 +214,26 @@ int ScreenEffect::CalcShake(ScreenEffect *screenEffect)
     switch (g_ReplayRng.GetRandomU32InRange(SCREEN_SHAKE_AXIS_CHOICES))
     {
     case SCREEN_SHAKE_AXIS_ZERO:
-        g_Supervisor.ctorArray078[static_cast<unsigned int>(screenEffect->contextIndex)].frameOffsetX = 0.0f;
+        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetX = 0.0f;
         break;
     case SCREEN_SHAKE_AXIS_POSITIVE:
-        g_Supervisor.ctorArray078[static_cast<unsigned int>(screenEffect->contextIndex)].frameOffsetX = shakeAmount;
+        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetX = shakeAmount;
         break;
     case SCREEN_SHAKE_AXIS_NEGATIVE:
-        g_Supervisor.ctorArray078[static_cast<unsigned int>(screenEffect->contextIndex)].frameOffsetX = -shakeAmount;
+        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetX = -shakeAmount;
         break;
     }
 
     switch (g_ReplayRng.GetRandomU32InRange(SCREEN_SHAKE_AXIS_CHOICES))
     {
     case SCREEN_SHAKE_AXIS_ZERO:
-        g_Supervisor.ctorArray078[static_cast<unsigned int>(screenEffect->contextIndex)].frameOffsetY = 0.0f;
+        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetY = 0.0f;
         break;
     case SCREEN_SHAKE_AXIS_POSITIVE:
-        g_Supervisor.ctorArray078[static_cast<unsigned int>(screenEffect->contextIndex)].frameOffsetY = shakeAmount;
+        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetY = shakeAmount;
         break;
     case SCREEN_SHAKE_AXIS_NEGATIVE:
-        g_Supervisor.ctorArray078[static_cast<unsigned int>(screenEffect->contextIndex)].frameOffsetY = -shakeAmount;
+        g_Supervisor.ctorArray078[screenEffect->contextIndex].frameOffsetY = -shakeAmount;
         break;
     }
 
