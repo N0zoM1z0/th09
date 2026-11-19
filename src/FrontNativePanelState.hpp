@@ -1,9 +1,7 @@
 #pragma once
 
-// Both FrontFactory OnCalc and Player death transitions access the same
-// two real panel color/timer DWORD arrays at Front+0xE934 and Front+0xE93C.
-// Keep independent Win32 unsigned index byte-strides, not shadow state.
-#define FRONT_NATIVE_TIMER(front, side) \
-    (*reinterpret_cast<int *>(reinterpret_cast<unsigned int>(&(front)->panelTimersE93C[0]) + static_cast<unsigned int>(side) * sizeof((front)->panelTimersE93C[0])))
-#define FRONT_NATIVE_COLOR(front, side) \
-    (*reinterpret_cast<int *>(reinterpret_cast<unsigned int>(&(front)->panelColorsE934[0]) + static_cast<unsigned int>(side) * sizeof((front)->panelColorsE934[0])))
+// FrontFactory owns the two original per-side panel color and timer DWORDs
+// at +0xE934 and +0xE93C. Access those native arrays directly, preserving
+// the live signed side selector and independent reads/writes.
+#define FRONT_NATIVE_TIMER(front, side) ((front)->panelTimersE93C[(side)])
+#define FRONT_NATIVE_COLOR(front, side) ((front)->panelColorsE934[(side)])
