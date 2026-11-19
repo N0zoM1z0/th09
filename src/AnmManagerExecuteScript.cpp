@@ -355,9 +355,10 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             break;
         case AnmOpcode_Jmp:
             // Script records have varying physical argument lengths. The
-            // original reads this packed DWORD via the native file address.
+            // The signed wire displacement selects a byte in the loaded
+            // ANM script, preserving its original relative jump target.
             vm->currentTimeInScript = (instruction->intArgs[1]);
-            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned char *>(vm->beginningOfScript) + static_cast<unsigned int>((instruction->intArgs[0])));
+            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned char *>(vm->beginningOfScript) + instruction->intArgs[0]);
             continue;
         // The animation interpreter's jump counter is a script-controlled
         // signed DWORD; retail decrements its native bits modulo 2^32.
@@ -367,7 +368,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             if (GET_INT_VAR(0) > 0)
             {
                 vm->currentTimeInScript = (instruction->intArgs[2]);
-                vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned char *>(vm->beginningOfScript) + static_cast<unsigned int>((instruction->intArgs[1])));
+                vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned char *>(vm->beginningOfScript) + instruction->intArgs[1]);
                 continue;
             }
             break;
@@ -837,7 +838,7 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             break;
         jump:
             vm->currentTimeInScript = (instruction->intArgs[3]);
-            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned char *>(vm->beginningOfScript) + static_cast<unsigned int>((instruction->intArgs[2])));
+            vm->currentInstruction = reinterpret_cast<AnmRawInstr *>(reinterpret_cast<unsigned char *>(vm->beginningOfScript) + instruction->intArgs[2]);
             continue;
         default:
             break;
@@ -1009,7 +1010,7 @@ stop:
     }
 
     vm->currentTimeInScript++;
-    ++*reinterpret_cast<u32 *>(&this->scriptsExecutedThisFrame10);
+    ++this->scriptsExecutedThisFrame10;
 
     return FALSE;
 }
