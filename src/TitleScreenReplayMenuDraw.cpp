@@ -97,16 +97,16 @@ int TitleScreenView::DrawReplayMenu()
         const ReplayDataView &replayValue = replays[selectedReplay];
         i32 selected = selectedReplay;
 
-        position.x = selected < TitleReplayNativeSlots::RowsPerColumn ? 32.0f : 352.0f;
+        position.x = 32.0f;
+        if (selected >= TitleReplayNativeSlots::RowsPerColumn)
+            position.x = 352.0f;
         position.y = (float)selected * 13.0f + 90.0f;
         position.z = 0.0f;
 
         D3DXVECTOR3 target(216.5f, 160.0f, 0.0f);
-        i32 frame = stateTimer2;
-        if (frame < 10)
+        if (stateTimer2 < 10)
         {
-            D3DXVECTOR3 displacement = target - position;
-            position = position + displacement * (float)frame * 0.1f;
+            position = position + (target - position) * (float)stateTimer2 * 0.1f;
         }
         else
             position = target;
