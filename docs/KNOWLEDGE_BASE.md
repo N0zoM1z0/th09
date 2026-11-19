@@ -1011,6 +1011,14 @@ Likewise the 15-byte angle wrapper at `0x405700` is reproducible by both SDK
   the index. Array subscripting, pointer addition, pointer increment,
   byte-offset and index-local forms all retained the same two differences.
   Do not use volatile or register hints.
+  Commit 7adfc808 aligns the C++ branch shape with the decompiler: test the
+  side-state bit first, conditionally read the category byte, run normal
+  enemy processing for bit-clear/category 1/category 2, and route the remaining
+  early-draw case into the shared append. The draw-head local now spans the
+  function, as does the decompiler v11 lifetime. The candidate remains at the
+  same two register-selection differences. Its changed EclManager carrier
+  passed scoped replay: 84 exact units, 45,420 physical bytes, 1,987
+  relocation fields across two compiler profiles.
 - SaveReplay is 1,238/1,238 bytes with two differences in the first native
   0x20-byte stage-header copy. Retail loads the destination base in EDI and
   forms EDI + stream offset - 0xC0; the candidate uses ECX for the base.

@@ -11,8 +11,7 @@ KNOWLEDGE_BASE.md and generated counts live in PROGRESS.md.
   SHA-256 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 - Compiler: pinned VC7.1 with each owner's profile in config/match-units.toml
   or config/frontiers.toml. Never change profiles to chase register choices.
-- Stage: exact reconstruction. Latest code commit before this documentation
-  refresh: 57d3f852. Local main has commits beyond origin/main; do not assume
+- Stage: exact reconstruction. Latest source checkpoint: 7adfc808 (native EnemyManager draw-dispatch CFG). Local main has commits beyond origin/main; do not assume
   local commits have been pushed. Inspect git status and git log before work.
 - Worktree was clean at handoff start. No interrupted source edits were found.
 - Ledger: 2,248 tracked function candidates; origin/boundary review pending 0;
@@ -34,7 +33,7 @@ not worsened; it does not mean exact. Do not rebaseline REGRESSED candidates.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| EnemyManagerView::OnUpdate | 0x00410730 | 3,900/3,900 bytes; 2 differences (OK) | Only draw-group index/LEA register choice remains at instructions +0x19A/+0x1A1: retail keeps the zero-extended index in EAX; current code uses ECX. Natural array, pointer and index-local forms did not move it. |
+| EnemyManagerView::OnUpdate | 0x00410730 | 3,900/3,900 bytes; 2 differences (OK) | Source now mirrors retail short-circuit CFG: side-state bit is tested before the category read, and the early draw path falls into the shared append. Only the +0x19A/+0x1A1 index-register choice remains (retail EAX, candidate ECX). |
 | ReplayManagerView::SaveReplay | 0x00420C60 | 1,238/1,238 bytes; 2 differences (OK) | Stage-header REP MOVSD destination setup at +0xB6/+0xB9: retail loads the destination base into EDI; candidate uses ECX. Preserve the native POD copy and caller proofs. |
 | ReplayManagerView::BeginPlaybackStage | 0x00420840 | 540/540 bytes; 9 differences (REGRESSED) | EDX/ESI register lifetime around the playback-stage byte and side-0 runtime pointer. Raw count improved from 13, but new residual positions violate the monotone frontier; do not update it. |
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes; 4 differences (OK) | Focus-mode load order at +0x127..+0x12A. Retail loads g_GameConfiguration before player sideIndex; current source emits the reverse order. |
@@ -76,6 +75,16 @@ in the collision reward-side arithmetic. The changed carrier passed its
 scoped replay: five exact units, 1,220 physical bytes, 32 relocation fields.
 This does not grant exactness to CheckBulletCollision itself.
 
+Commit 7adfc808 restructures EnemyManager::OnUpdate to match the original
+short-circuit branch order: the side-state bit is tested first, the category
+byte is read only when required, and the early draw path joins the shared
+append. The function remains 3,900/3,900 bytes with the same two EAX/ECX
+register-selection differences; no frontier was rebaselined. The changed
+carrier passed `scripts/replay-scoped-exact.py --changed-file
+src/EnemyManagerCore.inl`: two EclManager compiler profiles, 84 exact units,
+45,420 physical bytes and 1,987 relocation fields. This is a scoped carrier
+proof, not a whole-product cold replay.
+
 The separate Etama fsincos helper is 36/33 bytes with 25 differences; it is
 not one of the 11 source-present authored owners. Natural sinf/cosf remains
 nonexact. Do not add assembly or padding.
@@ -97,6 +106,7 @@ The 12 local code/checkpoint commits preceding this documentation-only refresh, 
 - 96568947 — previous handoff/knowledge checkpoint; superseded by this file.
 - 285e2339 — native DirectInput capability-record array.
 - 57d3f852 — native Supervisor D3D device in viewport methods.
+- 7adfc808 — mirror the native EnemyManager draw-dispatch short-circuit CFG.
 
 Earlier local commits already contained the Player collision-region arrays,
 SHT descriptor offset rebasing, Background VM/STD pointer recovery, ANM
@@ -109,8 +119,9 @@ ledger count.
 
 Prioritize the actual bosses rather than accumulating small cleanups:
 
-1. EnemyManager::OnUpdate: explain the two EAX/ECX draw-head bytes through
-   source-level object/index lifetime, not register hints or volatile tricks.
+1. EnemyManager::OnUpdate: continue from the target-matching short-circuit CFG.
+   The remaining EAX/ECX index choice is a register-allocation residual; do not
+   add volatile/register tricks or change the validated branch structure.
 2. CheckBulletCollision: reconstruct the target loop and shared hit/reward
    dispatcher placement while preserving its original stack frame and X87
    branch sense.
