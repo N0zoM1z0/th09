@@ -23,8 +23,9 @@ D3DXVECTOR3 *WINAPI D3DXVec3Normalize(
     D3DXVECTOR3 *out, const D3DXVECTOR3 *vector);
 float __cdecl SupervisorCameraTan(float value);
 
-// Camera methods use the actual 0xF0-byte record belonging to Supervisor;
-// retain this local alias solely to preserve the unresolved method-owner name.
+// Camera methods use the actual 0xF0-byte record belonging to Supervisor.
+// The global D3D device is already the real typed +0x08 member; keep the
+// viewport configuration view only for its unresolved method-owner name.
 typedef SupervisorCtorArrayElement SupervisorViewportConfiguration;
 typedef char SupervisorViewportNativeMemberLayout[
     (sizeof(SupervisorViewportConfiguration) == 0xF0 &&
@@ -85,10 +86,8 @@ void SupervisorViewportView::ApplyScreenCamera(
         aspectRatio,
         1.0f,
         10000.0f);
-    reinterpret_cast<SupervisorViewportView *>(&g_Supervisor)
-        ->d3dDevice->SetTransform(D3DTS_VIEW, &configuration->viewMatrix4C);
-    reinterpret_cast<SupervisorViewportView *>(&g_Supervisor)
-        ->d3dDevice->SetTransform(
+    g_Supervisor.d3dDevice08->SetTransform(D3DTS_VIEW, &configuration->viewMatrix4C);
+    g_Supervisor.d3dDevice08->SetTransform(
             D3DTS_PROJECTION, &configuration->projectionMatrix8C);
 
     if (g_AnmManager != NULL) {
@@ -120,10 +119,8 @@ void SupervisorViewportView::ApplyGameplayViewport(
             (float)configuration->viewportCC.Height,
         30.0f,
         1800.0f);
-    reinterpret_cast<SupervisorViewportView *>(&g_Supervisor)
-        ->d3dDevice->SetTransform(D3DTS_VIEW, &configuration->viewMatrix4C);
-    reinterpret_cast<SupervisorViewportView *>(&g_Supervisor)
-        ->d3dDevice->SetTransform(
+    g_Supervisor.d3dDevice08->SetTransform(D3DTS_VIEW, &configuration->viewMatrix4C);
+    g_Supervisor.d3dDevice08->SetTransform(
             D3DTS_PROJECTION, &configuration->projectionMatrix8C);
     D3DXVec3Cross(
         reinterpret_cast<D3DXVECTOR3 *>(&configuration->cameraRight30),
