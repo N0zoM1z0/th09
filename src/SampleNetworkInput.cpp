@@ -54,25 +54,22 @@ typedef char SampleNetworkNativeSupervisorOwner[
 
 extern int g_WindowActivateWParam;
 
-// WinMM and DirectInput write the same real 256-byte local keyboard
-// state; the original scan codes select ordinary C++ byte array members.
-// Each physical controller assignment is one byte of the genuine
-// Supervisor GameConfiguration (+0x43F/+0x440), selected by a DWORD side.
-#define TH09_NETWORK_NATIVE_CONTROLLER_MODE(index) \
-    (*reinterpret_cast<const u8 *>( \
-        reinterpret_cast<unsigned int>(&g_Supervisor.config388.valueB7) + \
-        static_cast<unsigned int>(index)))
+// WinMM and DirectInput write the real 256-byte keyboard buffer. The
+// two adjacent controller assignments are bytes in the real Supervisor
+// GameConfiguration, not a fabricated standalone array of side modes.
 #define KEYBOARD_KEY_PRESSED(button, key) \
     ((keyboardState[key] & 0x80) ? (button) : 0)
 
-// The true three 0x8E-byte ReplayInputState records and two Supervisor
-// controller-mode bytes are selected by native i386 unsigned DWORD offsets.
-// Repeat counters advance over sixteen live 16-bit words in the same state.
+// The native three-element 0x8E-byte ReplayInputState array is shared by
+// keyboard and network input; its 16 live repeat counters are real u16 slots.
 short __fastcall SampleNetworkInput(int side)
 {
     u8 keyboardState[256];
     u16 buttons = 0;
     ReplayInputState *inputState = &g_ReplayInputStates[side];
+    // Walk the actual GameConfiguration object representation. No mode
+    // value is cached across the original keyboard/controller callbacks.
+    const u8 *configBytes = reinterpret_cast<const u8 *>(&g_Supervisor.config388);
 
     if (g_WindowActivateWParam != 0)
     {
@@ -100,7 +97,7 @@ short __fastcall SampleNetworkInput(int side)
             }
             else
             {
-                switch (TH09_NETWORK_NATIVE_CONTROLLER_MODE(side))
+                switch (configBytes[offsetof(GameConfiguration, valueB7) + side])
                 {
                     case 2:
                         buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_SHOOT, 'Z');
@@ -195,7 +192,7 @@ short __fastcall SampleNetworkInput(int side)
                 }
                 else
                 {
-                    switch (TH09_NETWORK_NATIVE_CONTROLLER_MODE(side))
+                    switch (configBytes[offsetof(GameConfiguration, valueB7) + side])
                     {
                         case 2:
                             buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_SHOOT, DIK_Z);
@@ -268,7 +265,7 @@ short __fastcall SampleNetworkInput(int side)
     }
     else
     {
-        u8 assignment = TH09_NETWORK_NATIVE_CONTROLLER_MODE(side);
+        u8 assignment = configBytes[offsetof(GameConfiguration, valueB7) + side];
         if (assignment == 0 || assignment == 1)
             buttons = Controller::GetControllerInput(side, assignment != 0, buttons);
     }
@@ -308,6 +305,5 @@ short __fastcall SampleNetworkInput(int side)
     return buttons;
 }
 
-#undef TH09_NETWORK_NATIVE_CONTROLLER_MODE
 
 #undef KEYBOARD_KEY_PRESSED
