@@ -277,15 +277,16 @@ int Supervisor::UpdateNetworkService()
                     if (frameNetwork->localSide == 0 &&
                         NETWORK_FRAMES_PER_SECOND / frameNetwork->syncRate - 1 > 0)
                     {
-                        for (unsigned int queuedFrame = static_cast<unsigned int>(NETWORK_PREFILL_START_FRAME);
-                             static_cast<int>(queuedFrame + static_cast<unsigned int>(NETWORK_PREFILL_FRAME_OFFSET)) < NETWORK_FRAMES_PER_SECOND / frameNetwork->syncRate - 1;
+                        for (int queuedFrame = NETWORK_PREFILL_START_FRAME;
+                             queuedFrame + NETWORK_PREFILL_FRAME_OFFSET <
+                                 NETWORK_FRAMES_PER_SECOND / frameNetwork->syncRate - 1;
                              ++queuedFrame)
                         {
                             g_Supervisor.InsertReceivedFrame(
-                                0, static_cast<int>(queuedFrame), 0,
+                                0, queuedFrame, 0,
                                 static_cast<short>(g_ReplayRng.GetSeed()));
                             g_Supervisor.InsertReceivedFrame(
-                                1, static_cast<int>(queuedFrame), 0,
+                                1, queuedFrame, 0,
                                 static_cast<short>(g_ReplayRng.GetSeed()));
                         }
                     }
