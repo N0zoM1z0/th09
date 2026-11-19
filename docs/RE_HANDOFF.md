@@ -7,6 +7,53 @@ status and the next useful work, not a session diary. Read
 [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) for historical target/compiler findings.
 The canonical ledgers and current source always outrank dated prose.
 
+## 2026-11-19 checkpoint: native ECL interpreter and front-message tables
+
+Latest code checkpoint `1cb188d8` includes **four natural C++ source commits**.
+All are target-bound by Japanese TH09 v1.50a and the pinned VC7.1 compiler;
+no owner or relocation is promoted merely because source text looks closer.
+
+- `09f887fc`: in the 187-way **`EclManager::RunEcl` interpreter**,
+  recover the actual eight 0x30-byte interpolation-slot array, the real
+  interpolation callback table, native byte-pointer movement through
+  variable-length instructions and their two call/subroutine advances.
+  Complete **15,564-byte physical owner** (14,792 executable bytes plus
+  its 772-byte switch table) matches exactly. All **84 exact functions /
+  45,420 physical bytes / 1,987 relocation fields** in `EclManager.cpp`
+  replayed. 203 changed local COFF symbol *names*, including the named
+  `th09_ecl_advance_instruction` branch destination, were independently
+  resolved against the same original same-section target addresses before
+  refreshing `config/match-units.toml`. The separate Enemy OnUpdate
+  candidate remains **3,900 bytes with 2 unlike positions**.
+- `e7bcf686`: restore the **`FrontMessageRuntimeView::Update`** variable-
+  length text/command payload to native byte pointers; use direct indices
+  for the genuine eight portrait ANM VMs. The complete owner including its
+  attached switch table is **2,968/2,968** with all 167 relocations.
+  Thirty local label names were resolved against the original physical
+  jump destinations. Both pinned-source profiles pass **2 exact units /
+  3,007 bytes / 167 relocation fields**, including the separately compiled
+  39-byte message-string decoder.
+- `76b45a16`: remove the integer-address three-dimensional Title name
+  helper and index the true `g_TitleNameTable[bank][row][record]` directly
+  at all seven call sites. The **966-byte result-name entry remains exact**;
+  nine local `$L` names were independently target-checked. Full affected
+  Title replay: **41 exact functions / 18,972 bytes / 953 relocations**.
+- `1cb188d8`: timeline event opcodes 13 and 14 read their encoded argument
+  through the actual file-backed instruction byte cursor rather than
+  converting its pointer to an integer and back. Complete
+  **1,048-byte physical `EnemyScheduleRuntimeView::Run` owner** and
+  **42 relocations** are exact; scoped replay covers **2 exact units /
+  1,068 bytes / 42 relocations**.
+
+The maintained ledger is still **1,026 exact functions / 11 source-present
+nonexact authors**. None of these exact-source repairs is newly awarded
+exactness credit; Windows build/link and runtime validation remain open.
+Remaining top targets are the `CheckBulletCollision` hit-region CFG,
+`Supervisor::UpdateNetworkService` receiver lifetime, Player charge side
+register scheduling, and the two-byte Enemy/Replay frontiers. Do not weaken
+strict nonexact ratchets or use ASM, padding, register/liveness tricks, or
+full cold replay to force acceptance.
+
 ## 2026-11-19 checkpoint: key config, snapshot, popup and music source
 
 The latest source checkpoint is `056bb831`. Four new natural C++ edits were

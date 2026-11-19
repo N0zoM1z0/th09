@@ -14185,3 +14185,46 @@ array/reference/index expressions all generated the same two unlike bytes.
 The 51-byte Effect AddedCallback retains four ESI/EDI scheduling differences
 under ordinary assignment, reference and inline publisher layouts; copying
 register structure with assembly or dummy liveness is not permitted.
+
+## 2026-11-19: full-range ECL, FrontMessage and Title name pointers
+
+- RunEcl's 14,792-byte instruction body **and 772-byte switch table** are
+  sensitive to source-local COFF symbol *spellings* even when all bytes and
+  physical destinations match. Direct `++slot` over eight real 0x30-byte
+  interpolation records, `g_EclInterpolationCallbacks[index]`, and byte
+  pointer arithmetic for relative jumps/variable-length instruction
+  advances reproduce the complete 15,564 physical bytes. Source changes
+  renamed 203 locally defined symbols across three owners (175 ordinary
+  RunEcl labels, 20 named advance labels, seven post-update labels, one
+  compare label); their COFF values plus owner-section offsets were
+  individually mapped to unchanged retail target addresses before updating
+  the manifest. Selected ECL owner replay: 84 functions / 45,420 bytes /
+  1,987 relocation fields. No new exact function was introduced.
+- FrontMessageUpdate's file-backed variable-length wire stream can use
+  `reinterpret_cast<unsigned char *>(&instruction->argument04) + size03`
+  and the text decoder can use its actual argument byte pointer +4. Direct
+  `messageVms14[0..7]` access in the exact original execution order is also
+  reproduced. The 2,852-byte function plus 116-byte attached table are
+  byte-exact with 167 relocations. Thirty renamed jump-label targets were
+  checked physically; the separately configured 39-byte decoder also
+  replays. Overall selected scope: 3,007 exact bytes across two units.
+- The native Title `g_TitleNameTable[][5][5]` already has 0x44C/0xDC/0x2C
+  bank/row/record strides. All seven result-name reads can directly index
+  the actual array, without the previous integer-address helper or a new
+  bounds gate. The 966-byte owner is exact; full Title source replay passes
+  41 units, 18,972 physical bytes, 953 relocations, with nine verified
+  same-section local-label renamings.
+- The timeline event opcode 13/14 payload is a variable-length instruction
+  byte buffer. A const `int` read through its real byte cursor reproduces
+  the complete 1,048-byte physical `EnemyScheduleRuntimeView::Run` owner
+  (974 executable bytes and 74 attached) and all 42 relocation fields.
+  Both same-source exact units pass (1,068 bytes total).
+
+Unretained C++ experiments: rewriting the two 12-byte Enemy-to-Player
+position copies in the exact 3,238-byte `PlayerUpdateSelectorState` as
+individual x/y/z float member stores shortened code to 3,210 bytes and
+introduced hundreds of differences. Direct reference punning also matches
+code but sacrifices the distinct source object types, so the established
+safe `memcpy` remains. Register-only residuals in nonexact owners remain
+unresolved. No byte fabrication, fixed-register coercion, altered frontier
+or broad replay was used for these source recoveries.
