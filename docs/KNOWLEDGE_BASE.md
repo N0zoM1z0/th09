@@ -1219,9 +1219,14 @@ than inferring their control flow from the current object files:
   directly from `sideIndex`, reordering the declarations, and expressing the
   input base plus side as a pointer increment all failed: candidates were
   1,209/1,210 bytes with 717 differences or 1,211/1,210 bytes with 873
-  differences. All variants were reverted. Keep the maintained 183-difference
-  baseline; the next attempt must explain the natural lifetime that keeps the
-  side index in EDI while the input object is in EBX, without register hints.
+  differences. A further full-function side capture (`int side = sideIndex`
+  reused for every later side-dependent sound/effect/configuration access,
+  while the input reference still indexed the live member) produced
+  1,200/1,210 bytes with 648 differences. It retained the wrong EBX/EDI
+  allocation and shortened several later branches; it too was reverted. Keep
+  the maintained 183-difference baseline. The next attempt must explain the
+  natural lifetime that keeps the side index in EDI while the input object is
+  in EBX, without register hints.
 - `EffectManager::AddedCallback`: expanding `ResolveEffectAnm` into an
   explicit local manager pointer changed the callback from four to seven
   differences and reversed the native context/manager register roles. The
