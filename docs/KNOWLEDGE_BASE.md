@@ -1392,3 +1392,42 @@ stack frame from 0x14 to 0x18 and reached 720 differences, so it was reverted
 in favor of the committed 695-difference, 0x14-frame checkpoint. The first
 predicted insertion still reloads the frame counter after `GetSeed`; this is
 the next network-service lifetime mismatch to solve.
+
+
+## CheckBulletCollision IDA loop ownership and dispatcher-order follow-up (2026-11-19)
+
+A fresh native CFG/decompiler review confirms that the rectangle and circle
+paths are owned by different loop exits, not merely opposite arms of one
+geometry `if`:
+
+- The inner loop reloads `*slot`, rejects null/unsupported/delayed regions,
+  and leaves the valid region in the current cursor.
+- A zero radius remains in the rectangle scan. The rotated rectangle and AABB
+  tests execute inside that scan; misses advance the slot and continue the
+  scan, while successful geometry branches backward to the hit dispatcher.
+- A nonzero radius exits the rectangle scan. The circle test executes after
+  that exit; a miss advances the same slot and resumes the scan. A circle hit
+  falls through to the dispatcher at native `0x41E07E`.
+- The dispatcher reloads the active region and distinguishes direct-hit kind 1
+  from cancellation kinds 2/3. Direct hits branch to the common hit-count tail
+  after the cancellation reward path; cancellation kind 2/3 checks the live
+  bullet pointer/type, then either enters reward creation or advances the slot.
+
+Source experiments on this CFG were compiled against the focused frontier and
+reverted:
+
+- A literal nested rectangle-scan loop with circle geometry after its break
+  produced 828/862 bytes and 697 differences, but changed the entry register
+  roles (it did not retain EDI=Player, ESI=slot, EBX=Bullet).
+- A source-ordered circle/dispatcher/rectangle label graph retained the native
+  entry roles, but VC7.1 still laid out rectangle geometry before the shared
+  dispatcher. It produced 825/862 bytes and 583 differences, worse than the
+  maintained 849/862-byte, 539-difference candidate.
+- A direct-hit jump to the common post-reward hit-count tail did not by itself
+  change the compiler's block ordering.
+
+All collision source experiments are reverted. Keep the 0x34-byte frame,
+entry registers, native `jnp` radius edge, and existing 842-byte ratchet. The
+next attempt should change the lifetime/ownership of the scan cursor and
+common dispatcher without introducing another live local or moving the
+rectangle body ahead of the circle/dispatcher blocks. Do not rebaseline.

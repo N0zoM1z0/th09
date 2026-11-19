@@ -124,12 +124,16 @@ bytes with the original 13 differences; it is not exact-function completion.
 The remaining failed boss and leaf experiments are recorded in
 `KNOWLEDGE_BASE.md` and were reverted. The worktree is clean.
 
-- CheckBulletCollision remains the primary large target. Explicit-label and
-  `do`-loop variants still let VC7.1 move rectangle geometry before the shared
-  dispatcher. Maintained source remains 849/862 bytes with 539 differences;
-  do not replace it with the 831/862-byte nested-loop experiment or rebaseline.
-  Required CFG: circle test falls through to dispatcher at +0x7E; rotated
-  rectangle/AABB successes branch back to it.
+- CheckBulletCollision remains the primary large target. The fresh IDA review
+  confirms a nested region-filter loop: zero-radius rectangle/AABB tests stay
+  inside the scan, while nonzero radius exits to the circle test; both hit paths
+  feed the dispatcher at +0x7E. A literal nested-loop rewrite changed the entry
+  registers and reached 828/862 bytes with 697 differences. A source-ordered
+  circle/dispatcher/rectangle label graph preserved the entry roles but VC7.1
+  still moved the rectangle body ahead of the dispatcher (825/862 bytes, 583
+  differences). Both probes were reverted. Maintained source remains 849/862
+  bytes with 539 differences; preserve the 0x34 frame, EDI=Player, ESI=slot,
+  EBX=Bullet and do not rebaseline.
 - UpdateNetworkService remains 1,645/1,633 bytes with 695 differences and is
   REGRESSED against the 1,629-byte/966-difference ratchet. The current best
   natural-C++ probe shares the frame/prefill local and scopes the early timer
