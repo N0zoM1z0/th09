@@ -115,6 +115,26 @@ scoped proofs. Consult Git history when a specific change needs its original
 commit detail. None of these naturalization commits changes the 1,026 exact
 ledger count.
 
+## Latest boss probes (2026-11-19)
+
+No source candidate from this follow-up session improved its strict frontier;
+all experimental source edits were reverted. The failed variants and exact
+candidate sizes are recorded in `KNOWLEDGE_BASE.md`.
+
+- CheckBulletCollision remains the primary large target. A nested-loop rewrite
+  was discarded at 831/862 bytes and 660 differences; do not replace the
+  maintained 849/862-byte, 539-difference candidate or rebaseline it. The
+  required CFG is circle test, shared dispatcher, then rotated-rectangle/AABB
+  blocks that return to the dispatcher.
+- UpdateChargeAttack remains 1,210 bytes with 183 differences. Do not repeat
+  the naive `short`-to-`int` or pointer/reference conversions: they invert the
+  target EDI side-index / EBX input-pointer allocation and disrupt the owner.
+- UpdateMovementAndOptions remains 1,900 bytes with four residual bytes at
+  +0x127..+0x12A. Local configuration pointers, references and byte-row views
+  did not change the reversed global-pointer/side-index load order.
+- AddedCallback remains 51 bytes with four differences. Volatile manager
+  pointer aliases regressed the owner and were reverted.
+
 ## Next work
 
 Prioritize the actual bosses rather than accumulating small cleanups:
