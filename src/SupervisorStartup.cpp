@@ -80,6 +80,9 @@ typedef char SupervisorStartupTimeAt798[
 typedef char SupervisorDirectInputWindowAt74[
     (offsetof(Supervisor, window74) == 0x74 &&
      sizeof(DIDEVCAPS) == 0x2C) ? 1 : -1];
+typedef char SupervisorDirectInputNativeCapsArray[
+    (sizeof(((Supervisor *)0)->controllerCaps1C) ==
+     2 * sizeof(DIDEVCAPS)) ? 1 : -1];
 
 // Preserve the original helper's decorated method name while making its
 // receiver a zero-offset view of the real Supervisor object.
@@ -128,6 +131,10 @@ static int SetupDInputInternal(Supervisor *supervisor)
 {
     Supervisor *s = supervisor;
     HINSTANCE instance = (HINSTANCE)GetWindowLongA(s->window74, GWL_HINSTANCE);
+    // The two adjacent 0x2C-byte capability records are the real native
+    // DIDEVCAPS array stored in Supervisor's +0x1C controller window.
+    DIDEVCAPS *controllerCaps =
+        reinterpret_cast<DIDEVCAPS *>(&g_Supervisor.controllerCaps1C[0][0]);
 
     if (supervisor->IsDirectInputDisabled())
         return -1;
@@ -191,8 +198,8 @@ static int SetupDInputInternal(Supervisor *supervisor)
     {
         s->controller014->SetDataFormat(&g_ControllerDataFormat);
         s->controller014->SetCooperativeLevel(s->window74, 10);
-        (*reinterpret_cast<DIDEVCAPS *>(&g_Supervisor.controllerCaps1C[0])).dwSize = sizeof(DIDEVCAPS);
-        s->controller014->GetCapabilities(&(*reinterpret_cast<DIDEVCAPS *>(&g_Supervisor.controllerCaps1C[0])));
+        controllerCaps[0].dwSize = sizeof(DIDEVCAPS);
+        s->controller014->GetCapabilities(&controllerCaps[0]);
         s->controller014->EnumObjects(StartupEnumObjects0, NULL, 0);
         g_GameErrorContext.Log(g_Controller0ConfiguredMessage);
     }
@@ -201,8 +208,8 @@ static int SetupDInputInternal(Supervisor *supervisor)
     {
         s->controller118->SetDataFormat(&g_ControllerDataFormat);
         s->controller118->SetCooperativeLevel(s->window74, 10);
-        (*reinterpret_cast<DIDEVCAPS *>(&g_Supervisor.controllerCaps1C[1])).dwSize = sizeof(DIDEVCAPS);
-        s->controller118->GetCapabilities(&(*reinterpret_cast<DIDEVCAPS *>(&g_Supervisor.controllerCaps1C[1])));
+        controllerCaps[1].dwSize = sizeof(DIDEVCAPS);
+        s->controller118->GetCapabilities(&controllerCaps[1]);
         s->controller118->EnumObjects(StartupEnumObjects1, NULL, 0);
         g_GameErrorContext.Log(g_Controller1ConfiguredMessage);
     }
