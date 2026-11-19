@@ -115,41 +115,50 @@ scoped proofs. Consult Git history when a specific change needs its original
 commit detail. None of these naturalization commits changes the 1,026 exact
 ledger count.
 
-## Latest boss probes (2026-11-19)
+## Latest source work and boss probes (2026-11-19)
 
-No source candidate from this follow-up session improved its strict frontier;
-all experimental source edits were reverted. The failed variants and exact
-candidate sizes are recorded in `KNOWLEDGE_BASE.md`.
+Two source commits restored `BeginPlaybackStage` to its recorded strict
+frontier: `bb6c3c82` removes the `volatile` runtime-pointer alias, and
+`fee10d43` simplifies it to the direct typed member read. It is now 540/540
+bytes with the original 13 differences; it is not exact-function completion.
+The remaining failed boss and leaf experiments are recorded in
+`KNOWLEDGE_BASE.md` and were reverted. The worktree is clean.
 
-- CheckBulletCollision remains the primary large target. A nested-loop rewrite
-  was discarded at 831/862 bytes and 660 differences; do not replace the
-  maintained 849/862-byte, 539-difference candidate or rebaseline it. The
-  required CFG is circle test, shared dispatcher, then rotated-rectangle/AABB
-  blocks that return to the dispatcher.
+- CheckBulletCollision remains the primary large target. Explicit-label and
+  `do`-loop variants still let VC7.1 move rectangle geometry before the shared
+  dispatcher. Maintained source remains 849/862 bytes with 539 differences;
+  do not replace it with the 831/862-byte nested-loop experiment or rebaseline.
+  Required CFG: circle test falls through to dispatcher at +0x7E; rotated
+  rectangle/AABB successes branch back to it.
+- UpdateNetworkService remains 1,645/1,633 bytes with 909 differences and is
+  REGRESSED against the 1,629-byte/966-difference ratchet. Pointer/reference
+  aliases did not reproduce the target EDI network-state lifetime; do not use
+  volatile/register tricks or rebaseline.
+- EnemyManager::OnUpdate remains at its two EAX/ECX draw-group index residuals.
+  Scoped category temporaries, a shared helper and local index variables did
+  not change the generated code.
 - UpdateChargeAttack remains 1,210 bytes with 183 differences. Do not repeat
-  the naive `short`-to-`int` or pointer/reference conversions: they invert the
-  target EDI side-index / EBX input-pointer allocation and disrupt the owner.
+  naive `short`-to-`int` or pointer/reference conversions.
 - UpdateMovementAndOptions remains 1,900 bytes with four residual bytes at
-  +0x127..+0x12A. Local configuration pointers, references and byte-row views
-  did not change the reversed global-pointer/side-index load order.
-- AddedCallback remains 51 bytes with four differences. Volatile manager
-  pointer aliases regressed the owner and were reverted.
+  +0x127..+0x12A. Local configuration aliases did not change the load order.
+- ReplaySave and EffectManager::AddedCallback remain at two and four residuals
+  respectively; the recent pointer/reference spelling experiments did not
+  improve them.
 
 ## Next work
 
-Prioritize the actual bosses rather than accumulating small cleanups:
+Prioritize boss control flow and then close near-exact leaves:
 
-1. EnemyManager::OnUpdate: continue from the target-matching short-circuit CFG.
-   The remaining EAX/ECX index choice is a register-allocation residual; do not
-   add volatile/register tricks or change the validated branch structure.
-2. CheckBulletCollision: reconstruct the target loop and shared hit/reward
-   dispatcher placement while preserving its original stack frame and X87
-   branch sense.
-3. UpdateChargeAttack: solve the native side-index/input-pointer lifetime
-   without forcing register allocation.
-4. UpdateNetworkService: reconcile the target's 20-byte local overlay,
-   connection callbacks, prediction path and common return state.
-5. Close the near-exact SaveReplay, Player movement and Effect callback leaves.
+1. CheckBulletCollision: find a natural source structure that keeps circle
+   success in fall-through to the dispatcher and rectangle success on a
+   backward branch, without allowing VC7.1 to common the join after geometry.
+2. UpdateNetworkService: reconstruct the 20-byte local overlay, EDI state
+   pointer lifetime, connection callbacks, prediction path and common return.
+3. UpdateChargeAttack: solve the side-index/input-pointer lifetime without
+   forcing register allocation.
+4. EnemyManager::OnUpdate: revisit the remaining EAX/ECX draw-group index only
+   after the two large owners have advanced.
+5. Close the near-exact ReplaySave, Player movement and Effect callback leaves.
 
 All previous failed variants are restored. Do not copy diagnostic variants
 from .analysis into maintained source. Keep the strict frontier ratchets.

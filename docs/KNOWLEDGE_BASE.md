@@ -1098,6 +1098,38 @@ were not changed.
   volatile reference regressed the 51-byte owner from four to 25 differing
   bytes. The original natural helper-based source was restored.
 
+## Follow-up source repair and boss probes (2026-11-19)
+
+- BeginPlaybackStage: the HEAD candidate had nine differing bytes but moved
+  seven offsets away from the 13-byte strict ratchet. The `volatile` reference
+  to `g_GameManager.sides[0].runtime` was the cause of the new register-order
+  differences. Replacing it with an ordinary typed pointer read into the
+  existing `ReplayPlaybackScratch::side0Runtime` restores the recorded
+  540/540-byte, 13-difference frontier. This is a frontier restoration, not an
+  exact-function completion. Saved in `bb6c3c82` and simplified in
+  `fee10d43`.
+- CheckBulletCollision: additional explicit-label and `do`-loop variants still
+  caused VC7.1 to schedule rectangle geometry before the shared dispatcher or
+  to merge the dispatcher after both geometry paths. All variants were
+  reverted. Maintained source remains 849/862 bytes with 539 differing bytes;
+  do not rebaseline.
+- UpdateNetworkService: local pointer and reference aliases, plus a local
+  `localSide` value, did not reproduce retail's EDI network-state pointer and
+  immediate field store. Candidate variants reached 1,645/1,633 bytes with
+  909 differences or 1,649/1,633 with 986 differences; all were reverted.
+  The maintained 1,645-byte candidate remains REGRESSED against the
+  1,629-byte/966-difference ratchet. Do not rebaseline or use `volatile` to
+  force EDI.
+- ReplaySave: pointer-reference, direct aggregate, and `memcpy` spellings did
+  not change the two EDI/ECX destination-base residuals. All experiments were
+  reverted.
+- EnemyManager::OnUpdate: scoping the side-category temporary, a shared
+  draw-head helper, and explicit draw-group locals did not change the two
+  EAX/ECX residuals. All experiments were reverted.
+- EffectManager::AddedCallback: local manager/context ordering and ordinary
+  reference aliases did not improve the four register-order differences. All
+  experiments were reverted.
+
 ## Recent accepted natural C++ recoveries
 
 These commits improve native source fidelity while preserving their affected
