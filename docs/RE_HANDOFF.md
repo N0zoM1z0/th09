@@ -176,6 +176,33 @@ Keep the network service's existing regressed frontier and the charge
 attack's 1,210-byte/183-difference frontier unchanged. Do not use `register`,
 volatile aliases, inline assembly or padding to force the original registers.
 
+## Latest continuation experiments (2026-11-19)
+
+All source experiments from this continuation were reverted; maintained
+frontiers remain unchanged. Detailed measurements are in `KNOWLEDGE_BASE.md`.
+
+- `UpdateChargeAttack`: a full-DWORD side local plus direct input-row calls
+  and a post-cooldown reload of `sideIndex` did not retain the target entry
+  registers without a lexical phase scope (1,211/1,210 bytes, 816 differences;
+  EBX=side, EDI=input). A scoped phase restored EDI=side, EBX=input, then
+  reused EBX/EDI for `timer303B0`/`timer303A4` and reloaded `this+8` for the
+  later focus check. However, VC7.1 reordered the later attack CFG and reached
+  1,202/1,210 bytes with 503 differences. It is not an improvement over the
+  maintained 1,210/183 frontier and was reverted. Do not copy it wholesale.
+- `CheckBulletCollision`: sharing the direct-hit and cancellation reward
+  counter tail while removing the volatile dispatcher pointer produced
+  818/862 bytes with 598 differences; retaining the volatile pointer produced
+  825/862 with 583 differences. Both preserve the 0x34 frame and entry roles
+  but are worse than the maintained 849/862, 539-difference source. The scoped
+  carrier replay exercised five other exact units, not this boss. Both were
+  reverted.
+- `SaveReplay`: expressing the POD destination as a C++ reference leaves the
+  two +0xB6/+0xB9 EDI/ECX differences unchanged. The reference form was
+  reverted.
+- `UpdateNetworkService`: a prediction-only frame snapshot across `GetSeed`
+  and an unsigned DWORD version both grow the frame to 0x18 (720 and 728
+  differences). Keep the maintained 0x14-frame, 695-difference candidate.
+
 ## Next work
 
 Prioritize boss control flow and then close near-exact leaves:
@@ -202,11 +229,12 @@ Prioritize boss control flow and then close near-exact leaves:
    capturing the first predicted frame with those imports still produced 720
    differences and a 0x18 frame. The experiment was reverted.
 3. UpdateChargeAttack: solve the side-index/input-pointer lifetime without
-   forcing register allocation. Target entry roles are EDI=DWORD sideIndex,
-   EBX=input record; the 1,208-byte direct-row probe achieved those roles but
-   kept EDI live through the sound path and lost the later timer303A4 EDI reuse.
-   Find a natural phase boundary that frees EDI after the initial input/config
-   checks and reloads sideIndex for the later sound calls.
+   forcing register allocation. The target uses EDI=DWORD sideIndex,
+   EBX=input record, then EDI/EBX as timer303A4/timer303B0 and reloads this+8
+   for the post-cooldown focus check. A scoped natural-C++ phase recovered all
+   those roles but changed the later attack CFG to 1,202/503. Preserve the
+   1,210/183 frontier while finding the same lifetimes without changing label
+   layout or the later attack branches.
 4. EnemyManager::OnUpdate: revisit the remaining EAX/ECX draw-group index only
    after the two large owners have advanced.
 5. Close the near-exact ReplaySave, Player movement and Effect callback leaves.
