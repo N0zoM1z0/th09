@@ -133,7 +133,12 @@ The remaining failed boss and leaf experiments are recorded in
   still moved the rectangle body ahead of the dispatcher (825/862 bytes, 583
   differences). Both probes were reverted. Maintained source remains 849/862
   bytes with 539 differences; preserve the 0x34 frame, EDI=Player, ESI=slot,
-  EBX=Bullet and do not rebaseline.
+  EBX=Bullet and do not rebaseline. A fresh three-loop rewrite retaining a
+  region local produced 813/862 bytes and 722 differences but changed the
+  entry to EBX=Player, EDI=slot, ESI=region. Removing the region local changed
+  EDI to the position argument, grew the frame to 0x38, and produced 798/862
+  bytes with 675 differences. Both are reverted; keep the 0x34 frame and
+  native X87 operand order.
 - UpdateNetworkService remains 1,645/1,633 bytes with 695 differences and is
   REGRESSED against the 1,629-byte/966-difference ratchet. The current best
   natural-C++ probe shares the frame/prefill local and scopes the early timer
@@ -143,13 +148,21 @@ The remaining failed boss and leaf experiments are recorded in
 - EnemyManager::OnUpdate remains at its two EAX/ECX draw-group index residuals.
   Scoped category temporaries, a shared helper and local index variables did
   not change the generated code.
-- UpdateChargeAttack remains 1,210 bytes with 183 differences. Do not repeat
-  naive `short`-to-`int` or pointer/reference conversions.
+- UpdateChargeAttack remains 1,210 bytes with 183 differences. A full-DWORD
+  side local plus direct input-row calls can reproduce the target entry
+  (EDI=side, EBX=input pointer), but keeping that local alive for later sound
+  pan blocks EDI reuse for `timer303A4`; the best such probe is 1,208/1,210
+  bytes with 526 differences. Shortening the side lifetime restores the old
+  reversed registers; cached-pan and mode-byte variants are worse. Continue
+  from the side/input/timer register lifetime, not naive type/pointer rewrites.
 - UpdateMovementAndOptions remains 1,900 bytes with four residual bytes at
-  +0x127..+0x12A. Local configuration aliases did not change the load order.
+  +0x127..+0x12A. A sequenced local `GameConfiguration *` snapshot still lets
+  VC7.1 emit the player-side load before the global configuration load.
 - ReplaySave and EffectManager::AddedCallback remain at two and four residuals
-  respectively; destination-pointer sequencing and callback manager/context
-  aliases did not improve them. EnemyManager::OnUpdate remains at its two
+  respectively. Reusing one stage-buffer base across both payload loops grew
+  ReplaySave from two to six differences; direct assignment/cursor/memcpy
+  variants also retained the two-byte EDI/ECX destination-base residual.
+  Callback manager/context aliases did not improve AddedCallback. EnemyManager::OnUpdate remains at its two
   EAX/ECX draw-group index residuals; const locals and typed pointer addition
   did not change the generated code.
 
@@ -189,7 +202,11 @@ Prioritize boss control flow and then close near-exact leaves:
    capturing the first predicted frame with those imports still produced 720
    differences and a 0x18 frame. The experiment was reverted.
 3. UpdateChargeAttack: solve the side-index/input-pointer lifetime without
-   forcing register allocation.
+   forcing register allocation. Target entry roles are EDI=DWORD sideIndex,
+   EBX=input record; the 1,208-byte direct-row probe achieved those roles but
+   kept EDI live through the sound path and lost the later timer303A4 EDI reuse.
+   Find a natural phase boundary that frees EDI after the initial input/config
+   checks and reloads sideIndex for the later sound calls.
 4. EnemyManager::OnUpdate: revisit the remaining EAX/ECX draw-group index only
    after the two large owners have advanced.
 5. Close the near-exact ReplaySave, Player movement and Effect callback leaves.
