@@ -200,10 +200,12 @@ int SoundPlayer::LoadSound(int index, char *path)
     unsigned char *soundFileCursor;
     int fileSize;
     WAVEFORMATEX *wavDataPtr;
-    WAVEFORMATEX *audioPtr1;
-    WAVEFORMATEX *audioPtr2;
+    LPVOID audioPtr1;
+    LPVOID audioPtr2;
     DWORD audioSize1;
     DWORD audioSize2;
+    // The DirectSound lock API owns both output buffers as LPVOID and
+    // publishes their lengths as DWORDs, not WAVEFORMATEX records.
     WAVEFORMATEX wavData;
     int formatSize;
     DSBUFFERDESC soundBufferDesc;
@@ -274,10 +276,10 @@ int SoundPlayer::LoadSound(int index, char *path)
     if (FAILED((this->soundBuffers[index])->Lock(
             0,
             formatSize,
-            reinterpret_cast<LPVOID *>(&audioPtr1),
-            reinterpret_cast<LPDWORD>(&audioSize1),
-            reinterpret_cast<LPVOID *>(&audioPtr2),
-            reinterpret_cast<LPDWORD>(&audioSize2),
+            &audioPtr1,
+            &audioSize1,
+            &audioPtr2,
+            &audioSize2,
             0)))
     {
         g_ZunMemory.Free(soundFileData);
