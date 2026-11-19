@@ -24,8 +24,9 @@ typedef char VertexDiffuseXyzrhwSizeIs14[(sizeof(VertexDiffuseXyzrhw) == 0x14) ?
 typedef char Draw3DNativeSupervisorD3DDevice[
     (offsetof(Supervisor, d3dDevice08) == 0x08) ? 1 : -1];
 
-// Matrices live at the native AnmVmBase::matrix1/matrix2/matrix3 slots.
-// The D3DX API consumes the same 4x4-float object representation.
+// The three original VM matrix slots are actual 4x4-float matrix values.
+// Assign and scale those native members directly; use a D3DX pointer view
+// only when crossing the Direct3D API's matrix parameter boundary.
 typedef char Draw3DNativeSdkMatrixGeometry[
     (sizeof(AnmVmScriptMatrix) == 0x40 &&
      sizeof(D3DXMATRIX) == sizeof(AnmVmScriptMatrix) &&
@@ -74,27 +75,27 @@ int AnmManager::Draw3D(AnmVm *vm)
         this->FlushVertexBuffer();
 
     if (vm->flag16 == 0 && (vm->flagsWord & 0x0C) != 0) {
-        reinterpret_cast<D3DXMATRIX &>(vm->matrix2) = reinterpret_cast<D3DXMATRIX &>(vm->matrix1);
-        reinterpret_cast<D3DXMATRIX &>(vm->matrix2)._11 *= vm->scale.x;
-        reinterpret_cast<D3DXMATRIX &>(vm->matrix2)._22 *= vm->scale.y;
+        vm->matrix2 = vm->matrix1;
+        vm->matrix2.m[0][0] *= vm->scale.x;
+        vm->matrix2.m[1][1] *= vm->scale.y;
         vm->updateScale = 0;
 
         if (0.0 != vm->rotation.x) {
             D3DXMatrixRotationX(&rotationMatrix, vm->rotation.x);
-            D3DXMatrixMultiply(&reinterpret_cast<D3DXMATRIX &>(vm->matrix2), &reinterpret_cast<D3DXMATRIX &>(vm->matrix2), &rotationMatrix);
+            D3DXMatrixMultiply(reinterpret_cast<D3DXMATRIX *>(&vm->matrix2), reinterpret_cast<D3DXMATRIX *>(&vm->matrix2), &rotationMatrix);
         }
         if (0.0 != vm->rotation.y) {
             D3DXMatrixRotationY(&rotationMatrix, vm->rotation.y);
-            D3DXMatrixMultiply(&reinterpret_cast<D3DXMATRIX &>(vm->matrix2), &reinterpret_cast<D3DXMATRIX &>(vm->matrix2), &rotationMatrix);
+            D3DXMatrixMultiply(reinterpret_cast<D3DXMATRIX *>(&vm->matrix2), reinterpret_cast<D3DXMATRIX *>(&vm->matrix2), &rotationMatrix);
         }
         if (0.0 != vm->rotation.z) {
             D3DXMatrixRotationZ(&rotationMatrix, vm->rotation.z);
-            D3DXMatrixMultiply(&reinterpret_cast<D3DXMATRIX &>(vm->matrix2), &reinterpret_cast<D3DXMATRIX &>(vm->matrix2), &rotationMatrix);
+            D3DXMatrixMultiply(reinterpret_cast<D3DXMATRIX *>(&vm->matrix2), reinterpret_cast<D3DXMATRIX *>(&vm->matrix2), &rotationMatrix);
         }
         vm->updateRotation = 0;
     }
 
-    worldTransformMatrix = reinterpret_cast<D3DXMATRIX &>(vm->matrix2);
+    worldTransformMatrix = *reinterpret_cast<const D3DXMATRIX *>(&vm->matrix2);
     unsigned int anchorBits = vm->flagsWord >> 11;
     if ((anchorBits & 1) == 0)
         worldTransformMatrix._41 = vm->pos.x;
@@ -114,7 +115,7 @@ int AnmManager::Draw3D(AnmVm *vm)
     if (anm->currentSprite != vm->loadedSprite ||
         vm->uvScrollPos.x != 0.0f || vm->uvScrollPos.x != 0.0f) {
         anm->currentSprite = vm->loadedSprite;
-        textureMatrix = reinterpret_cast<D3DXMATRIX &>(vm->matrix3);
+        textureMatrix = *reinterpret_cast<const D3DMATRIX *>(&vm->matrix3);
         textureMatrix._31 = vm->loadedSprite->uvStartX + vm->uvScrollPos.x;
         textureMatrix._32 = vm->loadedSprite->uvStartY + vm->uvScrollPos.y;
         supervisor->d3dDevice08->SetTransform(D3DTS_TEXTURE0, &textureMatrix);
