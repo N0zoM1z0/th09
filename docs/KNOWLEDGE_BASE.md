@@ -1192,6 +1192,45 @@ preserving the native 0x34 frame, EBX bullet argument, ESI slot cursor and EDI
 Player receiver. Do not use volatile/register hints or padding to pin those
 registers or fake the frame.
 
+## Boss and leaf native register-lifetime captures (2026-11-19)
+
+The retained IDA project was queried directly for the original owners rather
+than inferring their control flow from the current object files:
+
+- `Supervisor::UpdateNetworkService` is `sub_430AA0`, native size `0x661`
+  (1,633 bytes). The decompilation identifies a long-lived network-state
+  pointer (`v2`) and a cached `timeGetTime` callback (`v3`); the native entry
+  uses EDI for the state pointer and EBX for the timer callback. The source
+  currently builds 1,645/1,633 bytes with 909 differences. A source-only
+  pointer-lifetime rewrite that kept one `SupervisorNetworkState *` through
+  the idle/join, retry and peer-ready branches, plus a local timer callback,
+  produced 1,580/1,633 bytes with 1,106 differences. It was reverted. The
+  earlier simpler pointer/reference/local-side probes also failed. Preserve
+  the existing 20-byte `NetworkServiceStackScratch` overlay and do not
+  rebaseline the regressed frontier.
+- `PlayerLifecycleView::UpdateChargeAttack` is `sub_41F810`, native size
+  `0x4BA` (1,210 bytes). Native entry loads the full 32-bit side index into
+  EDI, multiplies a copy by the 0x8E-byte `ReplayInputState` stride, and keeps
+  the input-record pointer in EBX for the input member calls. The first focus
+  mode byte is then read through the global configuration pointer plus EDI;
+  the second mode read is saved in the one-byte `[ebp-1]` local. The maintained
+  source is 1,210/1,210 bytes with 183 differences. Widening the short side
+  local, changing the input reference to a pointer, indexing the input array
+  directly from `sideIndex`, reordering the declarations, and expressing the
+  input base plus side as a pointer increment all failed: candidates were
+  1,209/1,210 bytes with 717 differences or 1,211/1,210 bytes with 873
+  differences. All variants were reverted. Keep the maintained 183-difference
+  baseline; the next attempt must explain the natural lifetime that keeps the
+  side index in EDI while the input object is in EBX, without register hints.
+- `EffectManager::AddedCallback`: expanding `ResolveEffectAnm` into an
+  explicit local manager pointer changed the callback from four to seven
+  differences and reversed the native context/manager register roles. The
+  helper-based source remains the best candidate.
+- `ReplayManagerView::SaveReplay`: initializing the destination byte pointer
+  first and advancing it in a separate statement left the two EDI/ECX
+  destination-base residuals unchanged. The original direct typed aggregate
+  copy remains the best candidate.
+
 ## Recent accepted natural C++ recoveries
 
 These commits improve native source fidelity while preserving their affected

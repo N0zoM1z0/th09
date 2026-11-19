@@ -145,6 +145,15 @@ The remaining failed boss and leaf experiments are recorded in
   respectively; the recent pointer/reference spelling experiments did not
   improve them.
 
+## Additional IDA boss captures (2026-11-19)
+
+`UpdateNetworkService` is native `sub_430AA0` (1,633 bytes); `UpdateChargeAttack`
+is native `sub_41F810` (1,210 bytes). The new register-lifetime evidence and
+all failed source variants are recorded in `KNOWLEDGE_BASE.md`. Keep the
+network service's existing regressed frontier and the charge attack's
+1,210-byte/183-difference frontier unchanged. Do not use `register`, volatile
+aliases, inline assembly or padding to force the original registers.
+
 ## Next work
 
 Prioritize boss control flow and then close near-exact leaves:
