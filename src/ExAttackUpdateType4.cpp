@@ -41,9 +41,9 @@ typedef char ExAttackType4NativePlayerQueryLayout[
 
 extern AsciiGameManagerView g_GameManager;
 
-// Type4 uses genuine 0x0C-byte trail samples, 0x2A4-byte ANM VMs
-// and 0x38-byte opponent sides; original runtime indices are preserved
-// without creating another array or introducing a new bounds check.
+// Type4 walks the original 32-element trail history and five genuine
+// 0x2A4-byte VMs. Its two playable opponent sides use the same native
+// 0x38-byte GameManager records without any copied lookup tables.
 
 int __fastcall ExAttackUpdateCallbackType4(ExAttackRecord *base)
 {
@@ -63,8 +63,8 @@ int __fastcall ExAttackUpdateCallbackType4(ExAttackRecord *base)
         int historyIndex = 31;
         do
         {
-            (extra->history10[static_cast<unsigned int>(historyIndex)]) =
-                (extra->history10[static_cast<unsigned int>(historyIndex) - 1u]);
+            (extra->history10[historyIndex]) =
+                (extra->history10[historyIndex - 1]);
         }
         while (--historyIndex != 0);
 
@@ -72,16 +72,16 @@ int __fastcall ExAttackUpdateCallbackType4(ExAttackRecord *base)
         extra->history10[0] = *position;
 
         Float3 *history6 = &extra->history10[6];
-        (record->vms1C[static_cast<unsigned int>(1)]).pos2 = *history6 - *position;
+        (record->vms1C[1]).pos2 = *history6 - *position;
 
         Float3 *history12 = &extra->history10[12];
-        (record->vms1C[static_cast<unsigned int>(2)]).pos2 = *history12 - *position;
+        (record->vms1C[2]).pos2 = *history12 - *position;
 
         Float3 *history18 = &extra->history10[18];
-        (record->vms1C[static_cast<unsigned int>(3)]).pos2 = *history18 - *position;
+        (record->vms1C[3]).pos2 = *history18 - *position;
 
         Float3 *history24 = &extra->history10[24];
-        (record->vms1C[static_cast<unsigned int>(4)]).pos2 = *history24 - *position;
+        (record->vms1C[4]).pos2 = *history24 - *position;
 
         ExAttackRecord *sourceRecord =
             record->parameter38;
@@ -101,37 +101,37 @@ int __fastcall ExAttackUpdateCallbackType4(ExAttackRecord *base)
         {
             record->timer10 = 0;
             extra->state00 = 1;
-            (record->vms1C[static_cast<unsigned int>(0)]).SetInterrupt(1);
-            (record->vms1C[static_cast<unsigned int>(1)]).SetInterrupt(1);
-            (record->vms1C[static_cast<unsigned int>(2)]).SetInterrupt(1);
-            (record->vms1C[static_cast<unsigned int>(3)]).SetInterrupt(1);
-            (record->vms1C[static_cast<unsigned int>(4)]).SetInterrupt(1);
+            (record->vms1C[0]).SetInterrupt(1);
+            (record->vms1C[1]).SetInterrupt(1);
+            (record->vms1C[2]).SetInterrupt(1);
+            (record->vms1C[3]).SetInterrupt(1);
+            (record->vms1C[4]).SetInterrupt(1);
         }
         else if (record->timer10 >= 30)
         {
             *position += extra->motion04;
 
-            (g_GameManager.sides[static_cast<unsigned int>(record->opponentSide04)])
+            (g_GameManager.sides[record->opponentSide04])
                 .player04->collisionQuery36C.AppendCircleRecord(
                     reinterpret_cast<const PlayerPositionView *>(position),
                     12.0f,
                     0);
-            (g_GameManager.sides[static_cast<unsigned int>(record->opponentSide04)])
+            (g_GameManager.sides[record->opponentSide04])
                 .player04->collisionQuery36C.AppendCircleRecord(
                     reinterpret_cast<const PlayerPositionView *>(history6),
                     12.0f,
                     0);
-            (g_GameManager.sides[static_cast<unsigned int>(record->opponentSide04)])
+            (g_GameManager.sides[record->opponentSide04])
                 .player04->collisionQuery36C.AppendCircleRecord(
                     reinterpret_cast<const PlayerPositionView *>(history12),
                     12.0f,
                     0);
-            (g_GameManager.sides[static_cast<unsigned int>(record->opponentSide04)])
+            (g_GameManager.sides[record->opponentSide04])
                 .player04->collisionQuery36C.AppendCircleRecord(
                     reinterpret_cast<const PlayerPositionView *>(history18),
                     12.0f,
                     0);
-            (g_GameManager.sides[static_cast<unsigned int>(record->opponentSide04)])
+            (g_GameManager.sides[record->opponentSide04])
                 .player04->collisionQuery36C.AppendCircleRecord(
                     reinterpret_cast<const PlayerPositionView *>(history24),
                     12.0f,
