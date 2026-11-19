@@ -140,12 +140,10 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
                     static_cast<unsigned int>(-1));
             player->secondaryEffect368 =
                 player->sideState->effectManager0C->SpawnEffectInFixedSlot(
-                    // Retail uses a signed shot-type DWORD as an unguarded,
-                    // modulo-32 scaled native address into this ID table.
-                    *reinterpret_cast<const int *>(
-                        reinterpret_cast<unsigned int>(&g_PlayerFocusEffectIds[0]) +
-                        static_cast<unsigned int>(player->sideState->shotType20) *
-                            sizeof(g_PlayerFocusEffectIds[0])),
+                    // Index the native focus-effect table with the live
+                    // shot type, without adding a new range clamp.
+                    g_PlayerFocusEffectIds[static_cast<unsigned int>(
+                        player->sideState->shotType20)],
                     effectPosition,
                     static_cast<int>(
                         static_cast<unsigned int>(player->sideIndex) + 2u),
