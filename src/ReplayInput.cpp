@@ -191,10 +191,10 @@ int ReplayManagerView::PlaybackInputAndFps(ReplayManagerView *replayManager)
 
         if (replayManager->frameCounter % ReplayRecordingCapacity::FramesPerFpsSample == 0)
         {
-            g_Supervisor.recordedFps = (char)*reinterpret_cast<const u8 *>(
-                reinterpret_cast<unsigned int>(replayManager->fpsCursor) + 1u) & 0x7F;
-            g_Supervisor.playbackFpsWarning = (char)*reinterpret_cast<const u8 *>(
-                reinterpret_cast<unsigned int>(replayManager->fpsCursor) + 1u) >> 7;
+            // Each sampled FPS byte is one byte past the live cursor;
+            // the two native fields observe separate reads of that byte.
+            g_Supervisor.recordedFps = static_cast<char>(replayManager->fpsCursor[1]) & 0x7F;
+            g_Supervisor.playbackFpsWarning = static_cast<char>(replayManager->fpsCursor[1]) >> 7;
             ++replayManager->fpsCursor;
         }
         replayManager->frameCounter = static_cast<int>(static_cast<unsigned int>(replayManager->frameCounter) + 1u);
@@ -738,12 +738,12 @@ void ReplayManagerView::Release()
     if (this == NULL)
         return;
 
-    // Release traverses the actual 0x18-byte stage-link records and
-    // their native 3x10 frame-pointer and ten FPS-pointer arrays.
-    // Preserve independent live frees, null checks and write ordering.
+    // Release traverses the real 0x18-byte stage links and native 3x10
+    // frame/FPS tables. Both loop indices have the original bounds;
+    // preserve independent frees, null checks and store ordering.
     for (int stage = 0; stage < ReplayRecordingCapacity::StageCount; stage++)
     {
-        ReplayBufferLink *first = &this->stageBuffers[static_cast<unsigned int>(stage)];
+        ReplayBufferLink *first = &this->stageBuffers[stage];
         ReplayBufferLink *link = first;
         while (link != NULL)
         {
@@ -766,13 +766,13 @@ void ReplayManagerView::Release()
         {
             for (int stream = 0; stream < ReplayRecordingCapacity::InputStreamCount; stream++)
             {
-                if (this->replayData->frameStart[static_cast<unsigned int>(stream)][static_cast<unsigned int>(stage)] != NULL)
-                    g_ZunMemory.Free(this->replayData->frameStart[static_cast<unsigned int>(stream)][static_cast<unsigned int>(stage)]);
-                this->replayData->frameStart[static_cast<unsigned int>(stream)][static_cast<unsigned int>(stage)] = NULL;
+                if (this->replayData->frameStart[stream][stage] != NULL)
+                    g_ZunMemory.Free(this->replayData->frameStart[stream][stage]);
+                this->replayData->frameStart[stream][stage] = NULL;
             }
-            if (this->replayData->fpsStart[static_cast<unsigned int>(stage)] != NULL)
-                g_ZunMemory.Free(this->replayData->fpsStart[static_cast<unsigned int>(stage)]);
-            this->replayData->fpsStart[static_cast<unsigned int>(stage)] = NULL;
+            if (this->replayData->fpsStart[stage] != NULL)
+                g_ZunMemory.Free(this->replayData->fpsStart[stage]);
+            this->replayData->fpsStart[stage] = NULL;
         }
     }
 
