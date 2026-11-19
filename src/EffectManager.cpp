@@ -35,9 +35,9 @@ extern ZunMemory g_ZunMemory;
 Effect::Effect() {}
 
 
-// The 0x2A4-byte native animation VM is already recovered for the ANM
-// renderer and script executor.  This Effect callback reads the same VM
-// slots as raw bit patterns, not a second unrelated 0x290-byte layout.
+// The native 0x2A4-byte ANM VM and Effect share these typed float slots.
+// Scalar assignments preserve the original 32-bit transfers and avoid
+// replacing the same physical fields with an unrelated byte-copy view.
 typedef char EffectNativeVmSizeIs2A4[(sizeof(AnmVm) == 0x2A4) ? 1 : -1];
 typedef char EffectUpdateVmNativeCoordinates[
     (sizeof(AnmVm) == 0x2A4 &&
@@ -58,11 +58,11 @@ int __fastcall EffectUpdateFromVm(Effect *effect)
     AnmVm *vm = effect->vms;
     effect->value8C = vm->intVar0;
     effect->value9C = static_cast<float>(vm->intVar1);
-    memcpy(&effect->value88, &vm->scale.x, sizeof(effect->value88));
-    memcpy(&effect->value7C, &vm->pos2.x, sizeof(effect->value7C));
-    memcpy(&effect->value94, &vm->pos2.y, sizeof(effect->value94));
-    memcpy(&effect->value80, &vm->rotation.z, sizeof(effect->value80));
-    memcpy(&effect->value98, &vm->rotation.y, sizeof(effect->value98));
+    effect->thickness88 = vm->scale.x;
+    effect->radius7C = vm->pos2.x;
+    effect->ellipseY94 = vm->pos2.y;
+    effect->angle80 = vm->rotation.z;
+    effect->rotation98 = vm->rotation.y;
     effect->unknown0C9 = 1;
     return 1;
 }
