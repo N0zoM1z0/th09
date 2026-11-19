@@ -179,6 +179,8 @@ Prioritize boss control flow and then close near-exact leaves:
    help. The current best candidate is 1,645/1,633 bytes with 695 differences;
    continue from the natural timer/frame lifetime experiment and solve the
    first predicted-frame EBX lifetime without rebaselining.
+   The 720-difference attempt that retained the captured frame across
+   GetSeed grew the stack to 0x18 and was reverted.
 3. UpdateChargeAttack: solve the side-index/input-pointer lifetime without
    forcing register allocation.
 4. EnemyManager::OnUpdate: revisit the remaining EAX/ECX draw-group index only

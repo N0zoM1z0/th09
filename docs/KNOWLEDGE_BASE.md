@@ -1359,3 +1359,36 @@ Try C++ scope/lifetime forms that make these mutually exclusive values share
 one ordinary register without `register`, `volatile`, asm, padding, or a
 compiler-profile change. Keep the 1,629-byte ratchet and residual list
 unchanged until a monotone frontier improvement is independently verified.
+
+
+## Near-exact leaf register-order follow-up (2026-11-19)
+
+Two small register-order owners were revisited while the network service boss
+remained the primary source target. These are diagnostic results only; all
+source probes were reverted and their frontiers remain unchanged.
+
+- `PlayerLifecycleView::UpdateMovementAndOptions` remains 1,900/1,900 bytes
+  with four differing bytes. Retail loads `g_GameConfiguration` into ECX at
+  `0x41C296`, then reloads `Player::sideIndex` into EAX at `0x41C29C`, before
+  comparing `sideFocusMode[sideIndex]`. The candidate does the same two loads
+  in the opposite order. An object reference to the configuration, a reference
+  to the global pointer, a const pointer alias, a reference to the focus-mode
+  byte, a reference to the two-byte focus-mode array, and a small inlined
+  accessor all retained the same EAX/ECX order and four-byte residual. Do not
+  add volatile or register hints to force the order.
+- `EnemyManagerView::OnUpdate` still has the two-byte draw-head register
+  residual: retail uses `movzx eax, [ebx+0x3387]` followed by
+  `lea eax, [esi+eax*4+0x2AC410]`; the candidate uses ECX for the byte index
+  and EAX for the resulting head pointer. Hoisting the identical draw-head
+  assignment out of both successful branches changed the CFG and regressed
+  the focused candidate to 3,006 differences; it was reverted. Earlier
+  unsigned/int index locals, explicit typed pointer addition, and an inline
+  reference-returning accessor also did not change the register order. Keep
+  the maintained shared append tail and do not rebaseline.
+
+A separate `UpdateNetworkService` experiment retained the captured frame
+value across `GetSeed` and used a distinct signed prefill index. It grew the
+stack frame from 0x14 to 0x18 and reached 720 differences, so it was reverted
+in favor of the committed 695-difference, 0x14-frame checkpoint. The first
+predicted insertion still reloads the frame counter after `GetSeed`; this is
+the next network-service lifetime mismatch to solve.
