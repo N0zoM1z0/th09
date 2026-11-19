@@ -35,14 +35,8 @@ extern int g_ExAttackBaseLimitTable[];
 extern int g_ExAttackDifficultyScaleTable[];
 extern ZunMemory g_ZunMemory;
 
-// The original controller indexes the genuine native DWORD limits
-// and difficulty tables with the signed wire selector, without guards.
-static inline int NativeExAttackLimitWord(const int *base, int selector)
-{
-    return *reinterpret_cast<const int *>(
-        reinterpret_cast<unsigned int>(base) +
-        static_cast<unsigned int>(selector) * sizeof(base[0]));
-}
+// The base-limit and difficulty-scale data are original DWORD arrays.
+// Keep each side selector and the live difficulty read unmodified.
 
 void __fastcall ResetExAttackRecords(ExAttackController *controller)
 {
@@ -68,16 +62,16 @@ int ExAttackController::AddedCallback(ExAttackController *controller)
     int selector = g_GameManager.sides[0].selector20;
     controller->sideLimits[0] =
         static_cast<int>(
-            static_cast<unsigned int>(NativeExAttackLimitWord(g_ExAttackDifficultyScaleTable, selector)) *
+            static_cast<unsigned int>(g_ExAttackDifficultyScaleTable[selector]) *
             static_cast<unsigned int>(g_GameManager.difficulty) +
-            static_cast<unsigned int>(NativeExAttackLimitWord(g_ExAttackBaseLimitTable, selector)));
+            static_cast<unsigned int>(g_ExAttackBaseLimitTable[selector]));
 
     selector = g_GameManager.sides[1].selector20;
     controller->sideLimits[1] =
         static_cast<int>(
-            static_cast<unsigned int>(NativeExAttackLimitWord(g_ExAttackDifficultyScaleTable, selector)) *
+            static_cast<unsigned int>(g_ExAttackDifficultyScaleTable[selector]) *
             static_cast<unsigned int>(g_GameManager.difficulty) +
-            static_cast<unsigned int>(NativeExAttackLimitWord(g_ExAttackBaseLimitTable, selector)));
+            static_cast<unsigned int>(g_ExAttackBaseLimitTable[selector]));
 
     ResetExAttackRecords(controller);
     return 0;
