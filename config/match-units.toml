@@ -17014,7 +17014,7 @@ relocations = [
   { offset = 0xFB, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
   { offset = 0x107, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x110, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
-  { offset = 0x139, type = "DIR32", symbol = "$L77010", target = 0x00408548 },
+  { offset = 0x139, type = "DIR32", symbol = "$L77009", target = 0x00408548 },
   { offset = 0x169, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x176, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x183, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
@@ -17210,10 +17210,10 @@ relocations = [
   { offset = 0x171, type = "REL32", symbol = "??PZunTimer@@QAEIH@Z", target = 0x00401520 },
   { offset = 0x180, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x187, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0 },
-  { offset = 0x1A1, type = "DIR32", symbol = "$L81950", target = 0x0040C088 },
+  { offset = 0x1A1, type = "DIR32", symbol = "$L81949", target = 0x0040C088 },
   { offset = 0x1B2, type = "REL32", symbol = "??8ZunTimer@@QAEHH@Z", target = 0x00404950 },
   { offset = 0x1C7, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x120 },
-  { offset = 0x1EE, type = "DIR32", symbol = "$L81951", target = 0x0040C0A0 },
+  { offset = 0x1EE, type = "DIR32", symbol = "$L81950", target = 0x0040C0A0 },
   { offset = 0x1FE, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
   { offset = 0x210, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x233, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
@@ -17814,7 +17814,7 @@ target_address = 0x00407700
 size = 0x34A
 compare_size = 0x37C
 relocations = [
-  { offset = 0x14, type = "DIR32", symbol = "$L76182", target = 0x00407A4C },
+  { offset = 0x14, type = "DIR32", symbol = "$L76181", target = 0x00407A4C },
   { offset = 0x24, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
   { offset = 0x3B, type = "REL32", symbol = "?ResolveInt@Th09EclRunControl@@YIHPAUEnemyView@@H@Z", target = 0x00405760 },
   { offset = 0x60, type = "REL32", symbol = "?ResolveFloat@EnemyView@@QAEMM@Z", target = 0x004068A0 },
