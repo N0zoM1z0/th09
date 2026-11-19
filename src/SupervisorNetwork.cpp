@@ -175,6 +175,7 @@ int Supervisor::UpdateNetworkService()
 
     SupervisorNetworkState *frameNetwork = g_SupervisorNetworkState;
     {
+        DWORD (WINAPI *getTime)() = timeGetTime;
 
     // The initial state/join decisions use the same network object, before
     // the connection callbacks independently reload their live receiver.
@@ -186,7 +187,7 @@ int Supervisor::UpdateNetworkService()
             g_SupervisorNetworkState->CreateDeviceAddress();
             g_SupervisorNetworkState->CreateHostAddress();
             g_SupervisorNetworkState->ConnectSession();
-            this->networkConnectStartTime588 = timeGetTime();
+            this->networkConnectStartTime588 = getTime();
             g_SupervisorNetworkState->connectionState = NETWORK_SESSION_SEARCHING;
             this->networkBusy478 = 1;
             g_AnmManager->DrawTextCentered(
@@ -202,7 +203,7 @@ int Supervisor::UpdateNetworkService()
 
     if (frameNetwork->connectionState == NETWORK_SESSION_SEARCHING)
     {
-        DWORD now = timeGetTime();
+        DWORD now = getTime();
         this->networkBusy478 = 1;
         if (now < this->networkConnectStartTime588)
             this->networkConnectStartTime588 = now;
@@ -225,7 +226,7 @@ HOST_SESSION:
         this->networkMessageVm584, 0xFFFFFF, 0,
         g_NetworkWaitingMessage);
     g_SupervisorNetworkState->connectionState = NETWORK_SESSION_HOST_WAIT;
-    this->networkTiming458.connectionTime = timeGetTime();
+    this->networkTiming458.connectionTime = getTime();
     frameNetwork = g_SupervisorNetworkState;
 
 HOST_WAIT_STATE_CHECK:
@@ -240,7 +241,7 @@ HOST_WAIT_STATE_CHECK:
             }
 
             this->networkBusy478 = 1;
-            DWORD now = timeGetTime();
+            DWORD now = getTime();
             if (now < this->networkTiming458.connectionTime)
                 this->networkTiming458.connectionTime = now;
 
@@ -249,24 +250,23 @@ HOST_WAIT_STATE_CHECK:
             {
                 g_SupervisorNetworkState->ResetSession();
                 g_SupervisorNetworkState->connectionState = NETWORK_SESSION_IDLE;
-                this->networkTiming458.connectionTime = timeGetTime();
+                this->networkTiming458.connectionTime = getTime();
             }
             goto NETWORK_WAIT;
         }
 
         this->networkBusy478 = 0;
-        this->networkTiming458.connectionTime = timeGetTime();
+        this->networkTiming458.connectionTime = getTime();
         frameNetwork = g_SupervisorNetworkState;
                 }
-    }
-
+        }
 
     // Prefill and the first prediction retain this session across queue/seed calls.
     if (this->networkTiming458.frameMode == NETWORK_FRAME_PREPARING || this->networkTiming458.frameMode == NETWORK_FRAME_PREDICTING)
     {
-        scratch.inputFrame.frame = this->networkTiming458.frameCounter;
-        if (scratch.inputFrame.frame == 0 ||
-            scratch.inputFrame.frame %
+        int frame = this->networkTiming458.frameCounter;
+        if (frame == 0 ||
+            static_cast<unsigned int>(frame) %
                 (NETWORK_FRAMES_PER_SECOND / g_SupervisorNetworkState->syncRate) == 0)
         {
             if (this->networkTiming458.frameMode == NETWORK_FRAME_PREPARING)
@@ -276,16 +276,16 @@ HOST_WAIT_STATE_CHECK:
                     if (frameNetwork->localSide == 0 &&
                         NETWORK_FRAMES_PER_SECOND / frameNetwork->syncRate - 1 > 0)
                     {
-                        for (int queuedFrame = NETWORK_PREFILL_START_FRAME;
-                             queuedFrame + NETWORK_PREFILL_FRAME_OFFSET <
+                        for (frame = NETWORK_PREFILL_START_FRAME;
+                             frame + NETWORK_PREFILL_FRAME_OFFSET <
                                  NETWORK_FRAMES_PER_SECOND / frameNetwork->syncRate - 1;
-                             ++queuedFrame)
+                             ++frame)
                         {
                             g_Supervisor.InsertReceivedFrame(
-                                0, queuedFrame, 0,
+                                0, frame, 0,
                                 static_cast<short>(g_ReplayRng.GetSeed()));
                             g_Supervisor.InsertReceivedFrame(
-                                1, queuedFrame, 0,
+                                1, frame, 0,
                                 static_cast<short>(g_ReplayRng.GetSeed()));
                         }
                     }
@@ -367,7 +367,7 @@ HOST_WAIT_STATE_CHECK:
             // but reads its side after the seed callback has finished.
             const short firstSeed = static_cast<short>(g_ReplayRng.GetSeed());
             this->InsertPredictedFrame(
-                frameNetwork->localSide, scratch.inputFrame.frame, firstSeed);
+                frameNetwork->localSide, this->networkTiming458.frameCounter, firstSeed);
             // Retail obtains the prediction seed before re-reading the
             // network side; the peer can change during service callbacks.
             const short predictedSeed = static_cast<short>(g_ReplayRng.GetSeed());

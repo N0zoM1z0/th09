@@ -43,7 +43,7 @@ not worsened; it does not mean exact. Do not rebaseline REGRESSED candidates.
 | ScreenEffect::CalcShakeEnvelope | 0x004227A0 | 336/336 bytes; 26 differences (OK) | Retain signed timer comparisons, DWORD endpoint arithmetic and X87 conversion order; receiver/timer alias probes did not improve the owner. |
 | TitleScreenView::DrawReplayMenu | 0x004234F6 | 1,280/1,280 bytes; 29 differences (OK) | Continue from the native replay-row/VM layout and exact caller evidence; preserve all 29 recorded positions. |
 | TitleScreenView::OnUpdateResult | 0x004266B5 | 484/485 bytes; 167 differences (OK) | Source is one byte shorter than the target owner. Character-array cursor is natural, but the complete owner remains nonexact. |
-| Supervisor::UpdateNetworkService | 0x00430AA0 | 1,645/1,633 bytes; 909 differences (REGRESSED) | Large service boss: retain the real Supervisor receiver and 20-byte scratch/PopFrame lifetime evidence. Retry-return simplification reduced raw differences but grew the candidate from 1,629 bytes; do not rebaseline. Reconstruct connection, prediction, timeout and common-return CFG naturally. |
+| Supervisor::UpdateNetworkService | 0x00430AA0 | 1,645/1,633 bytes; 695 differences (REGRESSED) | Large service boss: retain the real Supervisor receiver and 20-byte scratch/PopFrame lifetime evidence. The current natural-C++ candidate improves the raw count from 717 to 695 by sharing the frame/prefill local and scoping the timer callback pointer; it still exceeds the 1,629-byte ratchet and reloads the frame counter after GetSeed instead of keeping native EBX live. Do not rebaseline. |
 
 ### CheckBulletCollision target CFG (verified against 0x0041DFF0)
 
@@ -130,10 +130,12 @@ The remaining failed boss and leaf experiments are recorded in
   do not replace it with the 831/862-byte nested-loop experiment or rebaseline.
   Required CFG: circle test falls through to dispatcher at +0x7E; rotated
   rectangle/AABB successes branch back to it.
-- UpdateNetworkService remains 1,645/1,633 bytes with 909 differences and is
-  REGRESSED against the 1,629-byte/966-difference ratchet. Pointer/reference
-  aliases did not reproduce the target EDI network-state lifetime; do not use
-  volatile/register tricks or rebaseline.
+- UpdateNetworkService remains 1,645/1,633 bytes with 695 differences and is
+  REGRESSED against the 1,629-byte/966-difference ratchet. The current best
+  natural-C++ probe shares the frame/prefill local and scopes the early timer
+  callback pointer; it still reloads frameCounter after GetSeed instead of
+  retaining the native EBX value. Do not use volatile/register tricks or
+  rebaseline.
 - EnemyManager::OnUpdate remains at its two EAX/ECX draw-group index residuals.
   Scoped category temporaries, a shared helper and local index variables did
   not change the generated code.
@@ -174,7 +176,9 @@ Prioritize boss control flow and then close near-exact leaves:
 2. UpdateNetworkService: reconstruct the 20-byte local overlay, EDI state
    pointer lifetime, connection callbacks, prediction path and common return.
    Initial-only pointer aliases and register-hinted pointer probes did not
-   change the 1,645/1,633-byte, 909-difference candidate; do not repeat them.
+   help. The current best candidate is 1,645/1,633 bytes with 695 differences;
+   continue from the natural timer/frame lifetime experiment and solve the
+   first predicted-frame EBX lifetime without rebaselining.
 3. UpdateChargeAttack: solve the side-index/input-pointer lifetime without
    forcing register allocation.
 4. EnemyManager::OnUpdate: revisit the remaining EAX/ECX draw-group index only

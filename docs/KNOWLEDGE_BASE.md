@@ -1327,3 +1327,35 @@ reusing EDI, the network-wait branch is 14 bytes later than the native label,
 and the compiled body is 12 bytes longer than the native extent. Do not
 rebaseline this frontier. Continue from the current natural-C++ control flow;
 no register hints, inline assembly, padding, or synthetic bytes were added.
+
+
+## UpdateNetworkService: timer and frame-local lifetime progress (2026-11-19)
+
+The best current natural-C++ candidate is still 1,645/1,633 bytes and remains
+REGRESSED against the maintained 1,629-byte ratchet, but the focused raw byte
+difference count has improved from 717 to 695. The 20-byte native stack frame
+and the recovered entry/session control flow remain intact. This is a useful
+source checkpoint, not an exact-function claim or a frontier rebaseline.
+
+Two source lifetime changes account for the new candidate:
+
+- A `DWORD (WINAPI *getTime)()` local is scoped to the early connection-state
+  machine and used by its searching/host-wait timer reads. This gives the
+  compiler one ordinary function-pointer lifetime for the native timer
+  callback instead of six independent `timeGetTime()` expressions. The
+  pinned object retains the native EBX callback role on the relevant paths.
+- The frame gate captures the 32-bit frame counter in one `int frame` local;
+  the mutually exclusive initial-frame prefill loop reuses that same local
+  for its negative signed counter. This reduces the focused difference count
+  by 22 without changing the 0x14 stack frame.
+
+The remaining prediction-path mismatch is now explicit. Retail loads the
+frame counter into EBX at `0x430CFA`, keeps it through the first `GetSeed`,
+and pushes that captured value to `InsertPredictedFrame`. The current source
+reloads `networkTiming458.frameCounter` after `GetSeed`, so its object uses a
+load from `[esi+0x458]` rather than preserving the original value. The
+pre-fill branch also needs to reuse EBX naturally for its `-9998` counter.
+Try C++ scope/lifetime forms that make these mutually exclusive values share
+one ordinary register without `register`, `volatile`, asm, padding, or a
+compiler-profile change. Keep the 1,629-byte ratchet and residual list
+unchanged until a monotone frontier improvement is independently verified.
