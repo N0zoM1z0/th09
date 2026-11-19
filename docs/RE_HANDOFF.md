@@ -7,6 +7,68 @@ status and the next useful work, not a session diary. Read
 [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) for historical target/compiler findings.
 The canonical ledgers and current source always outrank dated prose.
 
+## 2026-11-19 checkpoint: native ExAttack, score, MIDI, Enemy and Player sources
+
+Latest local source checkpoint `9f672b4b` retains the preceding seven
+natural C++ source commits and verifies their affected exact owners. The
+canonical ledger is **1,026 exact / 1,037 authored** with **11 remaining
+source-present nonexact** owners. None of the source repairs below earns
+additional exact-function credit; no full cold replay was performed.
+
+- `ba29fb09`: the **1,436-byte** ExAttack type-18/24 update now holds the
+  real four-element `PlayerAnmVmView` array through its native record,
+  eliminating 15 repeated `void*` conversions. The bounded trail-index
+  arithmetic and state increment are natural C++; complete owner and **44
+  relocation fields** pass. Breaking its original chained trail/rotation
+  publications into separate statements changes three bytes and was rejected.
+- `01cda8f4`: `ScoreFileView::OpenScore`, `LoadScoreRecords`, `LoadLastName`
+  and `LoadPlayStats` traverse the actual score file's byte buffer instead
+  of repeatedly converting addresses to DWORDs. The seven selected exact
+  owners replay **2,572 bytes and 169 relocation fields**.
+- `a72af11f`: **1,507-byte `SampleNetworkInput`** reads both controller mode
+  bytes through the genuine `GameConfiguration` object representation,
+  without inventing a second array or caching mutable mode values.
+  Selected source replays **1,507 bytes / 13 relocations**.
+- `746df0bd`: restore real MIDI/SMF header, MTrk and event byte cursors,
+  plain bounded counters, and the original independent event reads. The
+  affected `/Ob1` Midi carrier replays **32 exact units / 4,270 bytes /
+  132 relocations**. All 23 compiler-private local-label renames in
+  `ProcessMsg` were independently checked against their original physical
+  same-section target addresses before rebinding manifest symbols.
+- `f1b5a9e3`: native `EnemyManagerDrawImpl` samples the real enemy trail
+  array, bounded neighbor indices and vertex count without integer-address
+  scaffolding. Selected source replay passes **4 units / 1,922 bytes /
+  61 relocations**. The original integer-expression UV step must remain:
+  simplification moved its floating-point evaluation and caused 596 unlike
+  bytes in the 1,758-byte owner.
+- `c7e6636b`: the exact **273-byte** `UpdatePlayerCollisionRegions` scans,
+  compacts and appends through the genuine active/released 514-slot pointer
+  arrays, with deliberate explicit DWORD wrapping only for potentially
+  unbounded signed lifetimes. Scoped `PlayerRuntime.cpp` replay:
+  **21 exact owners / 5,391 bytes / 288 relocations**. Eleven private
+  `player-update-before-state` labels had unchanged physical destinations.
+- `c2159930` and follow-up `9f672b4b`: `LoadPlayerShtFile` rebases its
+  genuine file-relative shot-descriptor offset through the file buffer's
+  byte pointer instead of aliasing pointer storage as `unsigned int&`.
+  Its **172-byte / 6-relocation** owner and the same **21 selected exact
+  PlayerRuntime units / 5,391 bytes / 288 fields** replay. Private-label
+  names were verified and rebound at unchanged PE addresses.
+
+Unretained: fifteen real-array C++ variants of `AnmManager::ReleaseAnm`
+changed **73 bytes** in its 163-byte exact owner, even though the separate
+87-byte preload-service owner remained exact. The unusual projection is
+still unresolved; do not substitute an unproven C++ array type. The separate
+`fsincos` helper uses the retail x87 `fsincos` instruction (33 bytes), while
+ordinary C++ `sinf`/`cosf` yields 36; no ASM workaround is admissible.
+
+The unresolved nonexact frontiers have not been softened:
+`EnemyManager::OnUpdate` remains 3,900 bytes / 2 residuals;
+`EffectManager::AddedCallback` 51 bytes / 4; `UpdateChargeAttack` 1,210
+bytes / 183; `CheckBulletCollision` 849/862 bytes / 539 and
+`UpdateNetworkService` 1,650/1,633 bytes / 914. The last two remain
+**strictly REGRESSED** against older ratchets despite lower raw differences.
+No ASM, padding, register/liveness coaxing, or target/ledger fabrication.
+
 ## 2026-11-19 checkpoint: Front, ANM loading and Enemy pool source
 
 Latest local code checkpoint `e56dfb9b` contains **seven source commits**,

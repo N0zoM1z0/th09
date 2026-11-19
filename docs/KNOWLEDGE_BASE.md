@@ -14305,3 +14305,61 @@ but lost the retail 0x34-frame native prologue arrangement and produced
 807-810-byte functions with 716-730 differences. Do not rebaseline or
 commit those variants. Exact counts remain 1,026; source-fidelity commits
 cannot be interpreted as additional matched owners.
+
+## 2026-11-19: typed ExAttack records, score, MIDI and Player collision pools
+
+ExAttack type 18/24 dynamically allocates four native 0x2A4-byte Player
+animation VMs and stores a genuine `PlayerAnmVmView*` at record+0x1C. All
+15 former `reinterpret_cast<PlayerAnmVmView*>(dynamicData1C)` call sites can
+use direct `record->dynamicData1C[i]` member access. The bounded history
+uses natural `i - 1` and state increment. Complete 1,436-byte owner with
+44 relocations is exact. Three independent statements replacing the original
+sequenced trail/rotation expression produce three altered bytes; do not
+presume those formulations are codegen-identical.
+
+The score.dat loader's 0x18 header, compressed LZSS stream and native variable
+chapter records occupy one file-backed byte buffer. Direct `u8*` traversal
+from that original allocation, including chapter size offsets and the title
+score / last-name / play-stats chapter readers, preserves all seven exact
+owners (2,572 bytes, 169 relocation fields). The network input controller
+modes at GameConfiguration `valueB7/valueB8` can likewise be read through
+`reinterpret_cast<const u8*>(&config)[offsetof(GameConfiguration,valueB7) +
+side]`, not scalar-pointer indexing. `SampleNetworkInput` remains 1,507 bytes
+exact with 13 relocations. The separate native music tables and replay
+inputs have their own established owners.
+
+MIDI parsing consumes a genuine file-backed SMF/MTrk variable-length byte
+stream. All header/track/event advance calls can use native `LPBYTE` pointer
+arithmetic and the bounded elapsed/32-slot cursors plain integer increment,
+without changing the 1,227-byte `ProcessMsg` target or its attached switch
+tables. Selected `/Ob1` replay covers 32 owners / 4,270 bytes / 132 fields.
+Twenty-three changed private `$L` symbols in `ProcessMsg` all resolve to the
+same PE destinations; no relocations were masked outside approved fields.
+
+`EnemyManagerDrawImpl` uses the actual `EnemyView::trailSamples33E8[]` for
+8 live sample reads; guarded `k-1`/`nextSample-1` neighboring samples and
+the bounded vertex count also admit natural arithmetic. All four same-source
+exact owners replay (1,922 bytes / 61 fields). Do not simplify the UV-step
+`vertexCount+1` expression: it shifts x87 evaluation and creates 596
+unlike positions despite an equal-size machine-code candidate.
+
+The Player's collision region owner has two real 514-entry arrays at
+Player+0xB100/+0xB908. `UpdatePlayerCollisionRegions` can append, compact
+and scan these actual arrays with `releasedRegions[releasedRegionCount++]`,
+`current[1]`, `++current` and `++slot`; the 273-byte owner remains exact.
+Potentially unbounded signed lifetimes retain explicit DWORD wrap.
+`LoadPlayerShtFile` must rebase each encoded descriptor offset through the
+actual loaded SHT byte buffer, then dereference the live original descriptor
+field separately. Alias-based `unsigned int&` rebasing is unnecessary. The
+source's 21 selected exact units replay 5,391 bytes / 288 fields; modified
+`player-update-before-state` private symbols were independently resolved to
+their original physical destinations.
+
+**Negative investigation:** `AnmManager::ReleaseAnm` currently represents a
++0x24-offset native 0x120-byte clearing window. Rewriting its projected slot
+as the natural `AnmManagerReadView::slots[index]` changes 73 bytes of the
+163-byte exact owner across fifteen scoped variants, while the 87-byte
+service callback stays exact. Therefore do not substitute the type without
+further source/ABI evidence. The original 33-byte `fsincos` target directly
+uses x87 `fsincos`; two natural CRT math calls compile to a distinct 36-byte
+helper. ASM or padding is forbidden, so this remains honestly nonexact.
