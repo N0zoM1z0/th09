@@ -14042,3 +14042,45 @@ tables likewise need no trivial helper: direct typed indexing leaves the
 1,280-byte candidate and 57 relocations unchanged, with 29 differences.
 A typed `EffectManager *` callback signature by itself retains the tiny
 `AddedCallback`'s four or seven register differences; no exactness claim.
+
+## 2026-11-19: typed Effect and Title owners; remaining native C2 gaps
+
+Under the pinned `/O2` and `/O1` VC7.1 profiles, five 32-bit `Effect` VM
+state transfers are plain float member assignments: `thickness88 = scale.x`,
+`radius7C = pos2.x`, `ellipseY94 = pos2.y`, `angle80 = rotation.z`, and
+`rotation98 = rotation.y`. The source uses shared actual `AnmVm` (0x2A4) and
+Effect (0xD8) members. The 87-byte `EffectUpdateFromVm` is unchanged and exact.
+`EffectManager` may naturally use `effect->vms[index]`, `++vm` and repeat
+`g_EffectTemplates[unsigned effectId]` member reads at its original
+0x18-byte stride; no manual uintptr pointer masks are required. The
+15 selected exact Effect units replay 2,530 bytes / 100 relocations.
+
+`TitleScreenView::OnUpdateReplayMenu @ 0x42689A` is a 1,387-byte exact owner.
+Its replay records, paths and allocation slots have real array types in
+`TitleScreenView`; replacing the three old integer-address helper bodies
+with `replays[unsigned index]`, `replayPaths[unsigned index]`, and
+`replayAllocations[unsigned index]` retains all complete bytes and 76
+relocations. Nine compiler-private `$L` labels in the shared Title carrier
+shifted names but resolve to identical same-section target positions.
+Affected 41 exact units / 18,972 bytes / 953 relocations replayed. The
+near-exact `OnUpdateResult` remains 484/485 bytes with 167 differences.
+
+`CheckBulletCollision @ 0x41DFF0` has real playable side values 0 and 1.
+The original side select, effect-side increment and difficulty-based reward
+can be written `1 - sideIndex`, `sideIndex + 1` and `difficulty >= 3 ? 3 : 2`.
+VC7.1 emits the identical 849-byte nonexact source with 539 raw byte
+mismatches, preserving the genuine `0x34` local stack frame. Leave its
+integer hit-count and multiplication wrap behavior explicit where the
+input's full signed 32-bit range is not yet proven bounded. The old strict
+frontier remains REGRESSED because the target's shared hit block is still
+behind the source compiler's rotated/AABB code; do not rebaseline it.
+
+Unretained probes: `UpdateChargeAttack` signed/unsigned full-side with direct
+`g_ReplayInputStates[side]` calls and charge-mode lifetime variants mostly
+generated 1,195-1,212 bytes and 454-903 differences, not the 1,210-byte,
+183-difference maintained candidate. Effect AddedCallback typed-context
+variants returned the existing 4-difference or a 7-difference allocation.
+The Cirno-Labs ScreenEffect rise/hold/fall source lost the target's precise
+x87/unsigned endpoint sequence (319/336, 201 differing bytes), while
+reordering the existing volatile fade/hold aliases added differences.
+Keep all of these as negative evidence, not matching progress.

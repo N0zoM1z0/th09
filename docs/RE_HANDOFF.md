@@ -7,6 +7,55 @@ status and the next useful work, not a session diary. Read
 [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) for historical target/compiler findings.
 The canonical ledgers and current source always outrank dated prose.
 
+## 2026-11-19 current checkpoint: typed Effect/Title bosses and collision reward
+
+Latest code checkpoint `b0dcea11` (local commit, not independent remote
+acceptance) includes five natural-C++ changes since the last handoff:
+
+- `916c714b` replaces five single-float `memcpy` calls in the native 87-byte
+  `EffectUpdateFromVm` with typed Effect float members. Complete code remains
+  **87/87** exact; this does not add a new match-ledger owner.
+- `a1e1fa5a` replaces hand-scaled ANM VM pointer words with genuine
+  `effect->vms[index]` access and typed pointer increment. Exact
+  `InitializeEffect` (407 bytes), `OnUpdate` (475), `OnDraw` (183) and
+  `OnDrawShared` (146) retain their complete original bytes and relocations.
+- `43d6d30c` removes the integer-reinterpret template helper in the Effect
+  initialize path; repeated real `g_EffectTemplates[unsigned effectId]` reads
+  preserve its original native 0x18-byte stride and all callback order.
+  The complete selected-source Effect replay passes **15 exact units,
+  2,530 physical bytes and 100 relocations**.
+- `0e589575` restores playable-side arithmetic and the naturally expressed
+  two-way reward difficulty in the **862-byte collision boss**. Valid Player
+  side indices are 0/1; the machine code remains the same **849-byte**
+  candidate with **539 differing positions**. The **five exact same-source
+  units / 1,220 bytes / 32 relocations** pass. The old strict collision
+  frontier still says **REGRESSED**; the shared `hit:` CFG and target branch
+  destination remain unresolved, and no frontier ratchet was altered.
+- `b0dcea11` restores the real Title `replays[]`, `replayPaths[]` and
+  `replayAllocations[]` arrays instead of converting addresses through
+  integers. The **1,387-byte `OnUpdateReplayMenu` remains exact** with its
+  76 relocation fields; all **41 exact Title units / 18,972 bytes /
+  953 relocations** replay. Nine `title-screen-start-menu` private label
+  names were resolved to unchanged same-section target destinations before
+  updating `config/match-units.toml`.
+
+Negative target/compiler probes were restored: in the 1,210-byte
+`UpdateChargeAttack`, 36 combinations of 32-bit side width, direct input
+record access, and volatile charge-mode lifetime did not improve the 183
+residuals; using plain full-width side without reproducing EBX/EDI lifetimes
+regressed. In 51-byte `EffectManager::AddedCallback`, typed receiver / branch
+variants kept 4 or worsened to 7 register differences. In 336-byte
+`CalcShakeEnvelope`, the reference source's rise/hold/fall expression produced
+319 bytes / 201 differences, whereas the retained source remains 336/336
+with 26 register differences. All exploratory rewrites were reverted.
+
+Ledger totals remain **1,026 exact authored functions / 278,578 authored
+bytes**. There are 11 source-present nonexact authors; full native build/link
+and runtime proof remain open. The next useful target is the collision
+shared hit-dispatch layout at `+0x8E`, plus charge side/input EDI-EBX
+lifetimes, network receiver reloads, and the 2-byte Enemy OnUpdate residual.
+Do not claim a new exact function from source-only refactoring.
+
 ## 2026-11-19: native replay tables and current boss/leaf handoff
 
 The following five local checkpoints were completed with focused, pinned
