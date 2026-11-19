@@ -1470,3 +1470,65 @@ configuration/side-index load-order residual. A real inline
 addition for the two-byte `sideFocusMode` row both compiled to the same EAX/ECX
 load order. Both source changes were reverted; the maintained 1,900-byte
 candidate remains at four differences.
+
+
+## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
+
+IDA's `UpdateChargeAttack` entry is precise: EDI holds the full DWORD
+`sideIndex`, EAX forms `sideIndex * 0x8E`, and EBX receives the
+`ReplayInputState` record pointer. EDI remains the side value for the two
+configuration-row reads, then is reused for the `timer303A4` receiver after
+those reads; EBX is reused for `timer303B0`. The maintained source currently
+reverses the initial pair (EBX=side, EDI=input record) and remains at
+1,210/1,210 bytes with 183 differences.
+
+New natural-C++ probes established both sides of the lifetime problem:
+
+- A full-DWORD `int side` plus direct `g_ReplayInputStates[side]` call-site
+  access, with the side value also used for later sound pan, reproduces the
+  target entry assignment (EDI=side, EBX=input pointer). It reaches
+  1,208/1,210 bytes but has 526 differences. The side local stays live across
+  the timer branch, so VC7.1 keeps EDI for that value and uses EBX for
+  `timer303A4`; retail reuses EDI for `timer303A4` and reloads `sideIndex` from
+  the player for later sound pan. The first two configuration operand orders
+  also differ by commutative address terms only.
+- Removing later side-local uses makes the compiler return to EBX=side and
+  EDI=input, with 816 differences. A local input pointer with a full-DWORD
+  side spills the side to the stack and reaches 921 differences. Direct array
+  indexing from the live `sideIndex` member recomputes the input address at
+  every call and grows the owner to 1,270/1,210 bytes with 947 differences.
+- Precomputing the later sound-pan value lets the side local die earlier, but
+  introduces a new stack home and reaches 1,200/1,210 bytes with 895
+  differences. Removing the redundant `modeSnapshot` byte changes the owner
+  to 1,205/1,210 bytes with 864 differences, but does not recover the target
+  entry registers.
+
+All variants were reverted. The next useful attempt must retain the target
+EDI/EBX assignment through the initial input/configuration checks while
+naturally ending the side value's live range before the timer receivers reuse
+EDI/EBX. Do not use register hints, volatile aliases, inline assembly or
+padding.
+
+## Collision triple-loop and near-leaf follow-up (2026-11-19)
+
+The IDA three-loop structure was tested again with both region-pointer forms.
+A version that removed the region local and repeatedly dereferenced `*slot`
+reached 798/862 bytes with 675 differences, but changed the entry allocation
+and expanded the frame to 0x38 (EDI became the position argument). A version
+that retained the region local and placed the circle, dispatcher and
+rectangle labels in native order reached 813/862 bytes with 722 differences;
+its entry became EBX=Player, EDI=slot and ESI=region instead of the required
+EBX=Bullet, EDI=Player and ESI=slot. It also retained the wrong X87 radius
+operand order/branch polarity. Both probes were reverted; keep the maintained
+849/862-byte, 539-difference source and the 0x34-byte frame.
+
+The ReplaySave stage-buffer-base experiment was extended to reuse one captured
+base for both input and FPS payload loops. It retained the 1,238-byte extent
+but regressed from two differences to six. The frame-header destination still
+uses ECX as the LEA base instead of retail EDI. The source was reverted.
+
+A `GameConfiguration *configuration = g_GameConfiguration` snapshot in
+`UpdateMovementAndOptions` did not sequence the configuration load ahead of
+`player->sideIndex`: VC7.1 still emitted the side load first. The four-byte
+residual at +0x127..+0x12A remains unchanged, and the local snapshot was
+reverted.
