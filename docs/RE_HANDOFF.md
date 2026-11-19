@@ -142,8 +142,10 @@ The remaining failed boss and leaf experiments are recorded in
 - UpdateMovementAndOptions remains 1,900 bytes with four residual bytes at
   +0x127..+0x12A. Local configuration aliases did not change the load order.
 - ReplaySave and EffectManager::AddedCallback remain at two and four residuals
-  respectively; the recent pointer/reference spelling experiments did not
-  improve them.
+  respectively; destination-pointer sequencing and callback manager/context
+  aliases did not improve them. EnemyManager::OnUpdate remains at its two
+  EAX/ECX draw-group index residuals; const locals and typed pointer addition
+  did not change the generated code.
 
 ## Additional IDA boss captures (2026-11-19)
 

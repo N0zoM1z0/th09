@@ -1230,6 +1230,14 @@ than inferring their control flow from the current object files:
   first and advancing it in a separate statement left the two EDI/ECX
   destination-base residuals unchanged. The original direct typed aggregate
   copy remains the best candidate.
+- `EnemyManagerView::OnUpdate`: a const unsigned draw-group local and direct
+  typed pointer addition both preserved the two EAX/ECX residuals at the
+  draw-head lookup. The maintained direct array expression remains unchanged;
+  no register or volatile hints were added.
+- `EffectManager::AddedCallback`: local context/manager pointer aliases, both
+  declaration orders, and an explicit inline expansion of the ANM lookup all
+  regressed the callback from four to seven differences. The helper-based
+  implementation was restored.
 
 ## Recent accepted natural C++ recoveries
 
