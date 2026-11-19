@@ -58,18 +58,9 @@ extern SupervisorMusicTrackRecord g_SupervisorMusicTracks[];
 extern unsigned char g_MusicUnlocked[];
 extern int g_SoundPlayerBgmValue;
 
-// Unlock IDs arrive as signed words from the music table or caller.
-// The original retail music descriptor is a 0x10-byte native table
-// entry. Keep each independent resolved index lookup as a live read.
-#define TH09_SUPERVISOR_MUSIC_TRACK(idx) \
-    (*reinterpret_cast<const SupervisorMusicTrackRecord *>( \
-        reinterpret_cast<unsigned int>(&g_SupervisorMusicTracks[0]) + \
-        static_cast<unsigned int>(idx) * sizeof(g_SupervisorMusicTracks[0])))
-
-#define TH09_SUPERVISOR_MUSIC_UNLOCK(id) \
-    (*reinterpret_cast<unsigned char *>( \
-        reinterpret_cast<unsigned int>(&g_MusicUnlocked[0]) + \
-        static_cast<unsigned int>(id)))
+// Native music tracks are 0x10-byte table records; the unlock IDs index
+// the real global byte table. Preserve separate live member reads and the
+// original unsigned DWORD conversion for an externally supplied unlock ID.
 
 int SupervisorAudioGameManagerView::HasFlagBit1()
 {
@@ -97,8 +88,8 @@ int Supervisor::PlayMusic(int trackId, int unused)
     if (index >= 19)
         return 1;
 
-    int unlockIndex = TH09_SUPERVISOR_MUSIC_TRACK(index).unlockIndex;
-    int resolvedTrackId = TH09_SUPERVISOR_MUSIC_TRACK(index).trackId;
+    int unlockIndex = g_SupervisorMusicTracks[index].unlockIndex;
+    int resolvedTrackId = g_SupervisorMusicTracks[index].trackId;
 
     if (supervisor->musicMode == 2)
     {
@@ -106,7 +97,7 @@ int Supervisor::PlayMusic(int trackId, int unused)
             supervisor->midiOutput->PlayTrack(resolvedTrackId);
 
         if (!g_GameManager.IsReplayMode() && !g_GameManager.HasFlagBit1())
-            TH09_SUPERVISOR_MUSIC_UNLOCK(unlockIndex) = 1;
+            g_MusicUnlocked[static_cast<unsigned int>(unlockIndex)] = 1;
     }
     else
     {
@@ -118,10 +109,10 @@ int Supervisor::PlayMusic(int trackId, int unused)
             g_SoundPlayer.QueueCommand(2, resolvedTrackId, "dummy");
 
             if (!g_GameManager.IsReplayMode() && !g_GameManager.HasFlagBit1())
-                TH09_SUPERVISOR_MUSIC_UNLOCK(unlockIndex) = 1;
+                g_MusicUnlocked[static_cast<unsigned int>(unlockIndex)] = 1;
         }
 
-        g_SoundPlayerBgmValue = TH09_SUPERVISOR_MUSIC_TRACK(index).soundPlayerValue;
+        g_SoundPlayerBgmValue = g_SupervisorMusicTracks[index].soundPlayerValue;
     }
 
     return 0;
@@ -140,7 +131,7 @@ int Supervisor::PlayAudio(char *path, int bgmUnlockIndex)
             supervisor->midiOutput->PlayPath(path);
 
         if (!g_GameManager.IsReplayMode() && !g_GameManager.HasFlagBit1())
-            TH09_SUPERVISOR_MUSIC_UNLOCK(bgmUnlockIndex) = 1;
+            g_MusicUnlocked[static_cast<unsigned int>(bgmUnlockIndex)] = 1;
     }
     else if (supervisor->musicMode == 1)
     {
@@ -152,7 +143,7 @@ int Supervisor::PlayAudio(char *path, int bgmUnlockIndex)
         g_SoundPlayer.QueueCommand(2, -1, wavPathBuf);
 
         if (!g_GameManager.IsReplayMode() && !g_GameManager.HasFlagBit1())
-            TH09_SUPERVISOR_MUSIC_UNLOCK(bgmUnlockIndex) = 1;
+            g_MusicUnlocked[static_cast<unsigned int>(bgmUnlockIndex)] = 1;
     }
     else
     {
@@ -186,19 +177,19 @@ int Supervisor::LoadMusic(int trackId)
     {
         if (supervisor->midiOutput != NULL)
             supervisor->midiOutput->ReadFileData(
-                TH09_SUPERVISOR_MUSIC_TRACK(index).trackId,
-                TH09_SUPERVISOR_MUSIC_TRACK(index).path);
+                g_SupervisorMusicTracks[index].trackId,
+                g_SupervisorMusicTracks[index].path);
         return 0;
     }
     else if (supervisor->musicMode == 1)
     {
-        strcpy(wavPathBuf, TH09_SUPERVISOR_MUSIC_TRACK(index).path);
+        strcpy(wavPathBuf, g_SupervisorMusicTracks[index].path);
         periodLoc = strrchr(wavPathBuf, '.');
         periodLoc[1] = 'w';
         periodLoc[2] = 'a';
         periodLoc[3] = 'v';
         g_SoundPlayer.QueueCommand(
-            1, TH09_SUPERVISOR_MUSIC_TRACK(index).trackId, wavPathBuf);
+            1, g_SupervisorMusicTracks[index].trackId, wavPathBuf);
     }
 
     return 1;
@@ -241,7 +232,7 @@ int Supervisor::ReleaseMusic(int trackId)
     if (index >= 19)
         return 1;
 
-    int resolvedTrackId = TH09_SUPERVISOR_MUSIC_TRACK(index).trackId;
+    int resolvedTrackId = g_SupervisorMusicTracks[index].trackId;
     if (supervisor->musicMode == 2)
     {
         if (supervisor->midiOutput != NULL)
@@ -319,7 +310,3 @@ int Supervisor::FadeOutMusic(float durationSeconds)
 
     return 0;
 }
-
-#undef TH09_SUPERVISOR_MUSIC_UNLOCK
-
-#undef TH09_SUPERVISOR_MUSIC_TRACK
