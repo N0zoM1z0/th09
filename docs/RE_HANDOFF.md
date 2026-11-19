@@ -164,9 +164,13 @@ Prioritize boss control flow and then close near-exact leaves:
 1. CheckBulletCollision: follow the newly recovered IDA CFG: the inner
    region-filter loop owns rectangle/AABB tests; nonzero radius breaks to the
    circle test; both successful paths reach one dispatcher; direct hits branch
-   to the shared counter tail. Preserve the 0x34 frame and EBX/ESI/EDI roles.
-   Literal nested-loop and shared-tail probes changed the prologue/registers,
-   so combine the control flow without introducing extra locals or aliases.
+   to the shared counter tail. Preserve the 0x34 frame and EBX=Bullet,
+   ESI=slot, EDI=Player roles. A three-loop dispatcher-before-circle probe
+   reached 831/862 bytes with 694 differences but reversed the entry
+   allocation and retained the wrong `jp` radius edge; a loop-local-region
+   variant reached 835/862 with 693 differences and the same prologue issue.
+   Both were reverted. Preserve the current source and solve the argument
+   lifetime without new locals or register hints.
 2. UpdateNetworkService: reconstruct the 20-byte local overlay, EDI state
    pointer lifetime, connection callbacks, prediction path and common return.
    Initial-only pointer aliases and register-hinted pointer probes did not

@@ -1192,6 +1192,19 @@ preserving the native 0x34 frame, EBX bullet argument, ESI slot cursor and EDI
 Player receiver. Do not use volatile/register hints or padding to pin those
 registers or fake the frame.
 
+Additional nested-scan ordering probes (2026-11-19):
+
+- A three-loop source with the common hit dispatcher before the circle block
+  and a backward edge from successful circle tests produced 831/862 bytes
+  with 694 differences. A variant with a loop-local region pointer produced
+  835/862 bytes with 693 differences. Both changed the entry allocation:
+  retail keeps EBX=Bullet, EDI=this and ESI=slot, while these candidates
+  kept this in EBX and the slot in ESI. The radius edge also remained `jp`
+  rather than the native `jnp`; restoring the volatile radius read and
+  double-zero comparison produced 831/862 with 695 differences. These are
+  CFG evidence only, not accepted frontier improvements; all variants were
+  reverted. Preserve the 0x34 frame and original argument/register roles.
+
 ## Boss and leaf native register-lifetime captures (2026-11-19)
 
 The retained IDA project was queried directly for the original owners rather
