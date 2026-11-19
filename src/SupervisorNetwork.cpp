@@ -164,9 +164,9 @@ enum NetworkServiceLimits
 
 int Supervisor::UpdateNetworkService()
 {
-    // The one native return DWORD serves completion, wait and reset paths;
-    // the input/frame and PopFrame homes retain their original overlapped
-    // stack offsets rather than allocating unrelated temporary buffers.
+    // The native return DWORD serves completion and reset/stop paths;
+    // the early retry result is a fixed value. Input/frame and PopFrame
+    // homes retain their original overlapped native stack offsets.
     NetworkServiceStackScratch scratch;
     scratch.returnValue = NETWORK_SERVICE_FRAME_READY;
 
@@ -308,9 +308,10 @@ int Supervisor::UpdateNetworkService()
                 if (g_SupervisorNetworkState->packetReady == 0)
                 {
                 WAIT_FOR_FRAME:
-                    scratch.returnValue = NETWORK_SERVICE_RETRY_FRAME;
+                    // This early wait result is a fixed return code;
+                    // it is not shared with the later reset/stop path.
                     this->LeaveCriticalSectionWrapper(4);
-                    return scratch.returnValue;
+                    return NETWORK_SERVICE_RETRY_FRAME;
                 }
                 g_NetworkFramePacket.words.input =
                     static_cast<unsigned short>(Controller::GetInput(g_SupervisorNetworkState->localSide));
@@ -356,9 +357,8 @@ int Supervisor::UpdateNetworkService()
             // The first predicted frame uses the captured network receiver,
             // but reads its side after the seed callback has finished.
             const short firstSeed = static_cast<short>(g_ReplayRng.GetSeed());
-            volatile const int &firstSide = frameNetwork->localSide;
             this->InsertPredictedFrame(
-                firstSide, scratch.inputFrame.frame, firstSeed);
+                frameNetwork->localSide, scratch.inputFrame.frame, firstSeed);
             // Retail obtains the prediction seed before re-reading the
             // network side; the peer can change during service callbacks.
             const short predictedSeed = static_cast<short>(g_ReplayRng.GetSeed());
