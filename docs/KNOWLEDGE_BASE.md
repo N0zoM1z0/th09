@@ -14112,3 +14112,44 @@ Keep all of these as negative evidence, not matching progress.
 
 This is C++ type/ownership recovery, not newly earned function exactness;
 no cold replay or whole-program build was attempted.
+
+## 2026-11-19: PLST and queue array reconstruction, large-network CFG negatives
+
+Seven PLST functions under the target-bound `/O2 /Ob1` VC7.1 profile have
+the exact native object layout `characterUnlocked[3][16]` and
+`characterStats[16][6]`. Natural C++ subscript access works for all seven
+original complete bodies (213 bytes); however, `HasAnyPrimaryCharacterStat`
+**must read** the five array members as five separate short-circuit operands.
+Binding `const int *row = characterStats[character]` changes its 75-byte body
+to 62 bytes with 58 raw differing positions. This is a compiler lifetime and
+load-order observation, not an excuse to cache the original five reads.
+
+The Supervisor's queue code and network queue-sync use the same physical
+`entries47C[20]`, `lastReceived56C[2]`, and shared 0x8E-byte input state.
+`InsertPredictedFrame` and `PopFrame` can use genuinely typed queue element
+references, `next = ptr + 1`, `prev = ptr - 1`, and native byte-pointer offsets
+without any integer roundtrip: both bodies remain exact at 191/119 bytes.
+`InsertReceivedFrame` and `AreFrameQueuesSynchronized` similarly take direct
+Supervisor array elements, preserving all 213/49 bytes. Do **not** substitute
+a grouped struct write for the final byte-offset queue stores in predicted
+insertion: that plausible refactor generated only 185 bytes and 46 raw unlike
+positions rather than the target's 191-byte scalar store sequence.
+
+The TH09 reference network service orders the queue-synchronized success
+path before wait/timeout handling. This was tested against the complete native
+owner. Reordering only those source blocks makes the candidate 1,644 bytes
+and 917 mismatches, worse than the retained 1,650-byte/914-difference body.
+Separating the late wait-status local from the real 20-byte scratch instead
+produced 1,651/988; combining both changes produced 1,639/984. The original
+retail puts wait status in EDI and calls the imported clock through EBX in
+the wait branch, whereas current code maintains a spill and direct IAT calls.
+These source experiments do not yet reproduce the full receiver/clock
+liveness and were all reverted. The ordinary source arithmetic of its frame
+counters, packet frame, and side inversion compiles to the **same complete
+1,650 bytes and all 106 relocations** and was retained as natural C++ source.
+
+`CheckBulletCollision` still needs the target's circle-success `hit` block
+at +0x8E, rotated/AABB backward branches, and the null-region return at the
+function tail. Explicit late-exit labels were canonicalized by C2 back to the
+existing 849/862, 539-difference candidate. No ASM, padding or frontier
+ratchet change was introduced.

@@ -7,10 +7,66 @@ status and the next useful work, not a session diary. Read
 [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) for historical target/compiler findings.
 The canonical ledgers and current source always outrank dated prose.
 
+## 2026-11-19 checkpoint: native PLST rows and network frame queues
+
+Latest local code checkpoint `bfc3125f`; all six source commits in this pass
+used the pinned VC7.1 compiler and original Japanese TH09 1.50a. No whole-game
+cold replay was run. Source/header changes do **not** create new exact credit.
+
+- `7cb92568`: rewrote **all seven** PlayStats leaves to use the real
+  `characterStats[character][index]` and `characterUnlocked[row][character]`
+  arrays. Importantly, the five independent `HasAnyPrimaryCharacterStat`
+  short-circuit reads must be repeated in source; caching the row changes the
+  75-byte target body to 62 bytes. Scoped exact replay passes **7 functions /
+  213 bytes / 0 relocation fields**. No new bounds gate was introduced.
+- `5d527568` and `7c4bdc1c`: recovered direct Supervisor
+  `entries47C[index]`, `lastReceived56C[side]` and ReplayInputState
+  indexing, pointer `+1`/`-1` shift steps, and actual byte-pointer traversal
+  of the two side queue windows. The original field-copy ordering and the
+  final native-address store idiom remain. Scope: **2 exact functions /
+  310 bytes / 1 relocation** (`InsertPredictedFrame`, `PopFrame`).
+- `8b277b15`: restored incoming queue writes/reads and queue-sync head
+  tests to the original typed Supervisor array elements, preserving the
+  native flat `unsigned(side)*10+index` address calculation. Scope:
+  **2 exact functions / 262 bytes / 0 relocations** (`InsertReceivedFrame`,
+  `AreFrameQueuesSynchronized`). Together the queue and PLST edits prove
+  11 complete existing exact units / 785 bytes / 1 relocation.
+- `618317ac`: restored the column selection and animation interpolation
+  spelling from the adjacent TH09 menu source in the nonexact
+  `TitleScreenView::DrawReplayMenu`. Whole **1,280 candidate bytes and all
+  57 relocations are unchanged**. Retail has the same 1,280-byte extent but
+  retains **29** differing register-use bytes.
+- `bfc3125f`: recovered ordinary original-source `++frameCounter`,
+  `60/syncRate - 1 + frameCounter` and `1 - side` formulas in the large
+  `Supervisor::UpdateNetworkService`, preserving its real overlapped 20-byte
+  stack home, native compiler output **1,650 bytes** and **106 unchanged
+  relocations**. Retail is 1,633 bytes; the candidate still has **914 raw
+  differences** and **fails** the older strict 1,629-byte frontier ratchet.
+
+Target-backed negative boss experiments (restored): moving the collision
+null-region exit to an explicit end label generated the **same 849/862,
+539-difference** function; the target instead has the circular hit dispatcher
+at `+0x8E` and a long null-region branch to the tail. Reversing the network
+queue-sync success/wait blocks yielded **1,644/1,633 and 917 differences**;
+introducing a separate natural network wait status yielded **1,651/1,633 and
+988 differences**, or **1,639/1,633 and 984 differences** when combined with
+success-first. A direct native queue-record assignment at the end of
+`InsertPredictedFrame` shortened that exact owner from 191 to 185 bytes,
+so its original separately ordered field stores were preserved. Twelve
+natural replay-menu register-lifetime alternatives preserved the 29-difference
+frontier or regressed. No rejected variant was retained or used to weaken a
+frontier.
+
+Current canonical ledger: **1,026 exact authored functions / 278,578 bytes**,
+11 source-present nonexact authors. Important next work remains the collision
+hit/reward CFG, network EDI receiver and IAT clock lifetime, Player charge
+side/input EBX-EDI allocation and near-exact Enemy/Replay leaves. Native
+Windows build and runtime proof remain separate open gates.
+
 ## 2026-11-19 latest checkpoint: typed Title, network and shake owners
 
-Local code checkpoint `43a5f322` extends the earlier commits below. This
-pass made **four further natural C++ source commits**, retaining all existing
+Earlier local code checkpoint `43a5f322` extended the commits below. That
+pass made **four natural C++ source commits**, retaining all existing
 exact units without claiming a new exact owner:
 
 - `bddf9707`: removed all three redundant Title replay-pool access helpers,
