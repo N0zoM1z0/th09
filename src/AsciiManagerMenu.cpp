@@ -450,11 +450,8 @@ int AsciiManager::OnUpdate(AsciiManager *ascii)
             for (sideFlags = reinterpret_cast<unsigned char *>(&g_GameManager.sides[0].flags);
                  reinterpret_cast<int>(sideFlags) <
                      reinterpret_cast<int>(&g_GameManager.sides[2].flags);
-                 popupBank = reinterpret_cast<AsciiManagerPopup *>(
-                    reinterpret_cast<unsigned int>(popupBank) +
-                    sizeof(ascii->scorePopups[0])), sideFlags = reinterpret_cast<unsigned char *>(
-                    reinterpret_cast<unsigned int>(sideFlags) +
-                    sizeof(AsciiGameManagerSideView))) {
+                 popupBank += sizeof(ascii->scorePopups[0]) / sizeof(*popupBank),
+                 sideFlags += sizeof(AsciiGameManagerSideView)) {
                 if ((*reinterpret_cast<unsigned int *>(sideFlags) & 1u) != 0) {
                     continue;
                 }
@@ -586,21 +583,16 @@ void AsciiManager::OnDrawHighPrioImpl(int playerIndex)
     int i;
     int j;
 
-    popup = reinterpret_cast<AsciiManagerPopup *>(
-        reinterpret_cast<unsigned int>(&this->scorePopups[0][0]) +
-        static_cast<unsigned int>(playerIndex) * sizeof(this->scorePopups[0]));
+    popup = &this->scorePopups[playerIndex][0];
 
     if (!g_Supervisor.IsFogDisabled()) {
         g_Supervisor.DisableFog();
     }
     g_Supervisor.SetRenderState(23, 8);
 
-    // The popups are genuine 0x38-byte native records. Advancing
-    // the cursor by its full record width preserves the actual i386
-    // address arithmetic and the real two-by-100 backing allocation.
-    for (j = 0; j < 100; j++,
-         popup = reinterpret_cast<AsciiManagerPopup *>(
-             reinterpret_cast<unsigned int>(popup) + sizeof(*popup))) {
+    // The native score-popup bank is the true two-by-100 array. Advance
+    // one complete 0x38-byte record per cursor step.
+    for (j = 0; j < 100; ++j, ++popup) {
         if (!popup->inUse) {
             continue;
         }
@@ -612,12 +604,8 @@ void AsciiManager::OnDrawHighPrioImpl(int playerIndex)
             g_GameManager.TransformPopupY(popup->position.y);
         this->smallScoreText.color1 = popup->color;
 
-        dx = (*reinterpret_cast<AsciiGameManagerSideView *>(
-            reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
-            static_cast<unsigned int>(playerIndex) * sizeof(g_GameManager.sides[0]))).player->position.x - popup->position.x;
-        dy = (*reinterpret_cast<AsciiGameManagerSideView *>(
-            reinterpret_cast<unsigned int>(&g_GameManager.sides[0]) +
-            static_cast<unsigned int>(playerIndex) * sizeof(g_GameManager.sides[0]))).player->position.y - popup->position.y;
+        dx = g_GameManager.sides[playerIndex].player->position.x - popup->position.x;
+        dy = g_GameManager.sides[playerIndex].player->position.y - popup->position.y;
         alpha = (int)(dx * dx + dy * dy);
         if (alpha > 4096) {
             alpha = 208;
@@ -627,10 +615,8 @@ void AsciiManager::OnDrawHighPrioImpl(int playerIndex)
             alpha = 80;
         }
 
-        character = reinterpret_cast<unsigned char *>(
-            reinterpret_cast<char *>(
-                reinterpret_cast<unsigned int>(&popup->text[0]) +
-                static_cast<unsigned int>(popup->characterCount) - 1u));
+        character = reinterpret_cast<unsigned char *>(popup->text) +
+            static_cast<unsigned int>(popup->characterCount) - 1u;
         for (i = popup->characterCount; i > 0; i--) {
             if (popup->timer < 52) {
                 this->smallScoreText.loadedSprite =
