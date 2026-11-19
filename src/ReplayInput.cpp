@@ -646,7 +646,9 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     replayManager->inputCursors[1] = reinterpret_cast<u16 *>(frame1 + 1);
     replayManager->inputCursors[2] = reinterpret_cast<u16 *>(frame2 + 1);
     replayManager->fpsCursor = fpsStart;
-    memcpy(g_GameManager.configurationE8, reinterpret_cast<const u8 *>(replayManager->replayData) + offsetof(ReplayDataView, configSnapshot), sizeof(GameConfiguration));
+    // The recorded configuration is a native 0xCC-byte GameConfiguration
+    // object. Restore the live object by value, as recording does in reverse.
+    *g_GameManager.configurationE8 = replayManager->replayData->configSnapshot;
     g_ReplayRng.SetSeed(frame0->stageSeed);
     replayManager->inputDelay = 0;
     return 0;
