@@ -592,14 +592,11 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
     g_GameManager.value138 = static_cast<signed char>(frame0->value09);
     g_GameManager.difficulty = replayManager->replayData->value0D7;
     g_GameManager.value378 = replayManager->replayData->value1E6;
-    g_GameManager.value37C = replayManager->replayData->value1E7;
+    volatile unsigned int &value37C = g_GameManager.value37C;
+    value37C = replayManager->replayData->value1E7;
     const u8 side0Value30 = replayManager->replayData->value1E8;
-    // Retail reads this slot after the replay byte above and before publishing
-    // value30. Bind the typed pointer member as a volatile lvalue so the
-    // compiler cannot hoist this real receiver read across that boundary.
-    AsciiGameSideRuntimeView * volatile &nativeSideRuntime =
-        g_GameManager.sides[0].runtime;
-    scratch.side0Runtime = nativeSideRuntime;
+    // The native stage local is reused for the side-0 runtime pointer.
+    scratch.side0Runtime = g_GameManager.sides[0].runtime;
     g_GameManager.sides[0].value30 = side0Value30;
     g_GameManager.sides[1].value30 = replayManager->replayData->value1E9;
     scratch.side0Runtime->value08 = frame0->value00;
