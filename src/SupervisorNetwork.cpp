@@ -83,20 +83,15 @@ typedef char NetworkPopFrameScratchLayout[
      offsetof(NetworkPopFrameScratch, finalFrame.predicted) == 0 &&
      offsetof(NetworkPopFrameScratch, finalFrame.firstSeed) == 4 &&
      offsetof(NetworkPopFrameScratch, finalFrame.secondSeed) == 6) ? 1 : -1];
-// The native eight-byte home at EBP-0x14 first holds the frame counter and
-// later holds two final input words. Retail also reads their packed DWORD
-// from this home before passing its low 16 bits to ApplyNetworkInput.
-// Describe that read with a real union member, not an aliased pointer cast.
-union NetworkServiceInputScratch
+// The native eight-byte home at EBP-0x14 holds either the frame counter
+// or two player input words. The compiler can load the encompassing DWORD,
+// but the input API consumes the actual low 16-bit field.
+struct NetworkServiceInputScratch
 {
-    struct InputWords
-    {
-        unsigned short side0;
-        unsigned short side1;
-        unsigned short reserved0;
-        unsigned short reserved1;
-    } words;
-    unsigned int packedFirstPair;
+    unsigned short side0;
+    unsigned short side1;
+    unsigned short reserved0;
+    unsigned short reserved1;
 };
 union NetworkServiceReturnScratch
 {
@@ -120,9 +115,8 @@ typedef char NetworkServiceStackScratchLayout[
      offsetof(NetworkServiceInputFrameScratch, inputs) == 0 &&
      offsetof(NetworkServiceInputFrameScratch, frame) == 0 &&
      sizeof(NetworkServiceInputScratch) == 8 &&
-     offsetof(NetworkServiceInputScratch, packedFirstPair) == 0 &&
-     offsetof(NetworkServiceInputFrameScratch, inputs.words.side0) == 0 &&
-     offsetof(NetworkServiceInputFrameScratch, inputs.words.side1) == 2 &&
+     offsetof(NetworkServiceInputFrameScratch, inputs.side0) == 0 &&
+     offsetof(NetworkServiceInputFrameScratch, inputs.side1) == 2 &&
      offsetof(NetworkServiceStackScratch, popFrame) == 8 &&
      offsetof(NetworkServiceStackScratch, returnValue) == 16 &&
      sizeof(NetworkServiceReturnScratch) == 4 &&
@@ -425,18 +419,18 @@ int Supervisor::UpdateNetworkService()
     {
         this->networkTiming458.confirmedFrame = this->networkTiming458.frameCounter;
         this->networkTiming458.frameMode = NETWORK_FRAME_PREPARING;
-        scratch.inputFrame.inputs.words.side0 = static_cast<unsigned short>(
+        scratch.inputFrame.inputs.side0 = static_cast<unsigned short>(
             this->PopFrame(0, &scratch.popFrame.finalFrame.firstSeed,
                            &scratch.popFrame.finalFrame.predicted));
-        scratch.inputFrame.inputs.words.side1 = static_cast<unsigned short>(
+        scratch.inputFrame.inputs.side1 = static_cast<unsigned short>(
             this->PopFrame(1, &scratch.popFrame.finalFrame.secondSeed,
                            &scratch.popFrame.finalFrame.predicted));
         // ApplyNetworkInput consumes the first 16-bit player word. Retail
         // happens to load its enclosing DWORD; the high word is not an input
         // parameter and VC7.1 retains the same native load for this member.
-        ApplyNetworkInput(0, scratch.inputFrame.inputs.words.side0);
-        ApplyNetworkInput(1, scratch.inputFrame.inputs.words.side1);
-        ApplyNetworkInput(2, scratch.inputFrame.inputs.words.side0 | scratch.inputFrame.inputs.words.side1);
+        ApplyNetworkInput(0, scratch.inputFrame.inputs.side0);
+        ApplyNetworkInput(1, scratch.inputFrame.inputs.side1);
+        ApplyNetworkInput(2, scratch.inputFrame.inputs.side0 | scratch.inputFrame.inputs.side1);
         this->LeaveCriticalSectionWrapper(4);
         return scratch.returnValue.result;
     }
