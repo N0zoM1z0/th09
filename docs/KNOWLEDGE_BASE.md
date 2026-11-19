@@ -14011,3 +14011,34 @@ positions. The target still needs a common hit block immediately after the
 circle geometry before its rotated/AABB branches; all rejected experiments
 were restored. Keep the current native 0x34 stack frame and continue with
 control-flow and C2 lifetime analysis rather than standalone expression edits.
+
+## 2026-11-19: replay recording table, Enemy linkage and network frame probes
+
+Target-bound VC7.1 confirms natural C++ can address each native replay table
+entry as `frameStart[row][stage]` / `fpsStart[stage]`: the 1,323-byte
+`BeginRecordingStage` remains byte exact with all 82 relocation fields, and
+ReplayInput's 12 other same-source exact units replay over 4,093 bytes and 232
+fields. Its playback cursor is genuinely `fpsCursor[1]`, which must be read
+separately for FPS and warning signed-char uses. The bounded `Release` stage
+and stream loops can use native C++ indices without the previous integer
+casts; 299- and 318-byte owners remain exact. No new exact match is counted.
+
+The 3,900-byte Enemy OnUpdate owner can directly assign
+`enemy->nextInDrawGroup04 = *drawHead; *drawHead = enemy` at the shared tail,
+removing a redundant alias while preserving its 2-byte EAX/ECX residual.
+Four changed ECL private labels have the same owner-section target offsets;
+the 84-unit EclManager replay passed all 45,420 bytes / 1,987 fields. Duplicating
+the early append block increased the candidate to 3,912 bytes and was rejected.
+The Cirno-Labs TH09 `CheckHitAreas` source's circle-local `hit:` dispatcher
+explains the target CFG, but its straight `for` loop adapted here produces
+810/862 and ~729 differences; nested-label variants remain nonexact with
+849/862 and ~540 differences. Restore their source trials.
+
+Network's two input words are a plain eight-byte struct under its authentic
+frame/input union; no longer need a packed-word alias because the low 16-bit
+member is read directly. Its 1,650-byte candidate and all 106 relocations
+are identical; target 1,633, current raw mismatch 914. Replay-menu text name
+tables likewise need no trivial helper: direct typed indexing leaves the
+1,280-byte candidate and 57 relocations unchanged, with 29 differences.
+A typed `EffectManager *` callback signature by itself retains the tiny
+`AddedCallback`'s four or seven register differences; no exactness claim.

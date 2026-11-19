@@ -7,6 +7,53 @@ status and the next useful work, not a session diary. Read
 [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) for historical target/compiler findings.
 The canonical ledgers and current source always outrank dated prose.
 
+## 2026-11-19: native replay tables and current boss/leaf handoff
+
+The following five local checkpoints were completed with focused, pinned
+VC7.1 source/owner checks, not a project-wide cold replay. The original TH09
+v1.50a target and **1,026 authored-exact** ledger entries remain unchanged.
+
+- `e26918b5`: in the **1,323-byte exact BeginRecordingStage**, replaced all
+  twelve manually scaled integer pointer slots with real `frameStart[row][stage]`
+  and `fpsStart[stage]` entries. Independent reads across free calls remain.
+  The entire owner and 82 relocations are exact; affected `ReplayInput.cpp`
+  replay passed **12 exact functions / 4,093 bytes / 232 relocations**.
+- `a6a5ce83`: in the **3,900-byte Enemy OnUpdate boss**, linked the native
+  `EnemyView` directly into its draw head instead of an unnecessary object
+  reference. The candidate preserves **3,900/3,900 bytes, 2 unlike positions**.
+  Four changed internal COFF label names were checked against actual
+  same-section destinations. Two-profile `EclManager.cpp` replay passed
+  **84 exact owners / 45,420 bytes / 1,987 relocations**.
+- `2927ea8a`: original byte-stream reading through `fpsCursor[1]` and
+  real bounded frame/FPS array indices restored in replay playback and release.
+  Their **299-byte** and **318-byte** owners and relocations remain exact.
+- `1befbc2a`: removed a redundant packed-DWORD alias and restored the
+  ordinary eight-byte network input structure inside the real overlapping
+  frame scratch. Complete compiled candidate and all **106 COFF fields**
+  are unchanged; network service remains **1,650/1,633 with 914 raw differences**
+  and fails its older strict frontier.
+- `d627aada`: removed the replay-menu name-table wrapper; use the actual
+  Difficulty, Mode and Character pointer arrays. Whole menu remains
+  **1,280/1,280 with 29 differences** and all **57 relocations** intact.
+
+Additional bounded negative experiments, all reverted: Cirno-Labs TH09's
+`CheckHitAreas` confirms the circle-success `hit:` fallthrough and backward
+rectangle jumps, but its direct `for`-scan adaptation lost native EBX/ESI/EDI
+lifetimes (810/862 bytes and about 729 differences). Relocating the shared
+label inside the original scan remained around 849/862, 540-541 differences,
+not better than the retained **849/862, 539-difference** collision candidate.
+`EffectManager::AddedCallback` typed-callback trials still gave a 51-byte
+owner with four or seven unlike register bytes. The previous source and
+strict frontiers were preserved; no padding, ASM or register forcing was used.
+
+The independent rotation leaf also replays exact at 62 bytes with both
+original trig symbols. The currently maintained EffectManager source's
+**15 exact owners / 2,530 bytes / 100 relocations** and the four exact
+PlayerShortLeaves owners (**51 bytes**) were checked. All product build and
+runtime milestones remain open. Continue with target-backed full-body CFG and
+register-lifetime work on collision/charge/network/Enemy rather than rewriting
+small locals solely to shift one opcode.
+
 ## 2026-11-19 current checkpoint: natural boss and replay ownership
 
 Source checkpoints through `136dc400` are locally committed. These are
