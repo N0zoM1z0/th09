@@ -177,9 +177,10 @@ next_region:
             g_GameManager.TransformPopupY(position->y);
         scratch.reward.effectPosition.z = 0.0f;
 
-        // Active Player owners are registered on side 0 or 1. Use the
-        // original other-side selection, without changing the call order.
-        g_Supervisor.SelectSide(1 - this->sideIndex);
+        // Retail subtracts the signed side from a native i386 DWORD, wrapping
+        // through zero without introducing signed C++ overflow.
+        g_Supervisor.SelectSide(static_cast<int>(
+            1u - static_cast<unsigned int>(this->sideIndex)));
 
         scratch.reward.velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
             g_GameManager.coordinate358 * 0.5f - 8.0f);
@@ -188,8 +189,8 @@ next_region:
 
         Effect *effectBase =
             g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
-                // The shared reward-effect side follows the two playable sides.
-                this->sideIndex + 1,
+                // A native i386 INC supplies the effect side, including DWORD wrap.
+                static_cast<int>(static_cast<unsigned int>(this->sideIndex) + 1u),
                 &scratch.reward.effectPosition, &scratch.reward.velocity,
                 1, static_cast<unsigned int>(-1));
         g_Supervisor.SelectSide(this->sideIndex);
@@ -215,7 +216,8 @@ next_region:
             rewardValue = static_cast<int>(
                 static_cast<unsigned int>(rewardValue) * 10u);
 
-        int rewardMode = g_GameManager.difficulty11C >= 3 ? 3 : 2;
+        int rewardMode =
+            (g_GameManager.difficulty11C >= 3) + 2;
         this->ownerState30410.ApplyReward(
             position,
             rewardMode, 2, 0, rewardValue);
