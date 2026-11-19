@@ -7,51 +7,53 @@ status and the next useful work, not a session diary. Read
 [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) for historical target/compiler findings.
 The canonical ledgers and current source always outrank dated prose.
 
-## 2026-11-19 current checkpoint: exact rotation, natural collision frame
+## 2026-11-19 current checkpoint: natural boss and replay ownership
 
-`9b4277ce` is the latest source/tooling checkpoint (locally ahead of
-`origin/main`; no remote push was verified). Since the prior handoff:
+Source checkpoints through `136dc400` are locally committed. These are
+**local Git checkpoints**, not independent evidence of a remote push. Exact
+credit remains **1,026 authored functions / 278,578 bytes**. This pass makes
+natural C++ ownership and type corrections in four additional functions;
+none was promoted to exact and no full cold replay was performed.
 
-- `baeb73c6` restored the **existing** exact 62-byte
-  `RotatePlayerCollisionVector @ 0x0042AF40` source. The pinned `/Ob0` unit
-  passed all bytes and the genuine `@sinf@4` / `@cosf@4` REL32 destinations.
-  It also removed the contradictory 66-byte nonexact diagnostic frontier.
-  This repairs a stale source/ledger conflict, **not** a new exact function;
-  authored exact count is still 1,026.
-- `9b33689b` removed synthetic pointer volatility and redundant input aliases
-  from the large `CheckBulletCollision` boss. The generated stack frame is now
-  the target's **0x34 bytes**, and the prologue through `+0x24` agrees with
-  the original up to `+0x23`: EBX=Bullet, ESI=region cursor,
-  EDI=Player, cursor saved at `[ebp-4]`. The null-region jump at `+0x24`
-  still has a different target. The **complete 849/862-byte owner remains
-  nonexact** with 539
-  raw differing positions (the previous source had 493); the old strict
-  frontier baseline is still not passed. The five exact same-source functions
-  replay over 1,220 physical bytes and 32 relocation fields. This is a
-  native stack/ABI correction, not an exactness-score improvement.
-- `9b4277ce` closes the mismatch between an accepted exact owner and an active
-  nonexact frontier in the **fast tracking validator**. Four targeted positive
-  and negative tests passed. Exact and nonexact evidence can no longer claim
-  the same target address concurrently without fast CI failing.
+- `6b349119`: `TitleScreenView::OnUpdateResult` reads real
+  `PlayStatsRecordView::characterUnlocked[1/2]` arrays, preserving the
+  wrapped native cursor traversal. Its complete 484/485-byte nonexact frontier
+  remains at 167 differing offsets. All **41 exact same-source units** pass
+  over **18,972 bytes / 953 relocations**. Nine compiler-private COFF labels
+  were verified against their true owner-section destinations before updating
+  the maintained manifest.
+- `6746af16`: `SaveReplay` walks its true header and compressed-payload bytes
+  through `u8*`/`const u8*` rather than an integer address cast. Its complete
+  1,238-byte owner still differs at only two positions. The **12 exact Replay
+  siblings / 4,093 bytes / 232 relocations** pass. `BeginPlaybackStage` is
+  still **540/540 with nine raw register differences**, but fails the old
+  strict 13-offset frontier because the mismatches have moved.
+- `e331b598`: network prefill uses the actual signed 32-bit frame counter
+  beginning at -9998. The complete **1,650-byte network service code and all
+  106 COFF relocation records are identical** before/after the source change.
+  `UpdateNetworkService` remains nonexact (914 raw differences, size 1,650 vs
+  target 1,633), still failing the recorded 1,629-byte strict baseline.
+- `136dc400`: `UpdateChargeAttack` binds the actual per-side
+  `ReplayInputState` as a C++ reference. Its **1,210 code bytes and all 70
+  relocation records** are unchanged; the 183-register-byte frontier remains
+  open. Changing the side index to full `int` without recovering the receiver
+  lifetime worsens the full owner to 1,209 bytes / 717 differences.
 
-Fresh negative probes (restored, not committed): natural full-DWORD `side`
-variants in `UpdateChargeAttack` compile to 1,209 bytes with 717 raw
-mismatches, versus the 1,210/1,210-byte 183-difference maintained source;
-`DrawReplayMenu` selected-record declaration reorders compile to 1,271 bytes
-and hundreds of new mismatches, while pointer/reference alternatives keep its
-1,280-byte, 29-difference frontier. The network initial session-state store
-chain/source-local variants retain the 1,650-byte, 914-difference candidate.
-Continue with target-backed whole-owner source reasoning; **do not rebaseline**
-the two large boss frontiers just because a subset of instructions improved.
+The preceding checkpoints (`baeb73c6`, `9b33689b`, `9b4277ce`) restored
+**existing** exact `RotatePlayerCollisionVector` (62 bytes, both real `sinf`
+/ `cosf` relocations), the genuine collision-boss `0x34` local frame, and a
+fast check against contradictory exact/nonexact ledgers. In the collision
+boss the first 0x24 bytes of the prologue/header now match the target, but
+its branch destination and later hit/rectangle blocks do not: complete
+**849/862 bytes, 539 raw differences**. Both collision and network strict
+baselines stay unchanged; never rebaseline only to conceal their regressions.
 
-Next focused commands:
-
-```bash
-python3 -B scripts/replay-scoped-exact.py --source src/PlayerCollisionRotate.cpp
-python3 -B scripts/replay-scoped-exact.py --source src/PlayerCollisionHelpers.cpp
-python3 -B scripts/check-frontier.py player-bullet-collision player-charge-attack
-python3 -B scripts/check-frontier.py supervisor-network-service title-draw-replay-menu
-```
+Focus next on the target's circle-hit dispatcher at collision `+0x8E`, the
+side/input EDI-EBX lifetime in charge, global-receiver reloads in network,
+and the near-exact replay save / enemy manager register residuals. Use only
+`replay-scoped-exact.py --source` for affected exact cohorts and
+`check-frontier.py` for the selected nonexact owners. Do not run a full
+project-wide cold replay without a genuinely broad impact.
 
 ## 2026-11-19 collision rotation exact-source repair
 

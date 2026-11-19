@@ -13965,3 +13965,49 @@ independently loading them in alternate scopes produces a 1,271-byte
 candidate with hundreds of new differences. Changing the record reference
 to a typed pointer or changing its constness preserves all 29 residuals.
 All these speculative trials were restored after focused full-owner builds.
+
+## 2026-11-19: replay byte cursors and signed network prefill source
+
+`TitleScreenView::OnUpdateResult` uses the real two unlock-byte rows in the
+PlayStats record. `MoveCursorHorizontal(14)` and the subsequent cursor retry
+wrap the signed selection before these two per-mode reads; the ordinary C++
+array expression compiles to the same full 484-byte nonexact candidate and
+167 unlike positions as its earlier native-address cast. The same-source
+Title carrier renumbers nine owner-local private labels. Every new label was
+verified to carry the same physical target address before the canonical
+manifest was updated; all 41 exact Title units replay (18,972 bytes, 953
+fields). No additional bounds gate or table copy was introduced.
+
+`SaveReplay` checksum and obfuscation loops now traverse `ReplayDataView`
+through real unsigned-byte pointers starting at `offsetof(obfuscationKey)`
+and `offsetof(compressedSize)`, plus the existing compressed-payload pointer.
+This exactly reproduces the old 1,238-byte code and two unlike register bytes
+while avoiding integer-address lvalues and preserving 12 exact sibling units.
+An indexed-byte `ptr[i]` form changed the loop lowering substantially; keep
+the actual native incrementing byte cursors.
+
+`Supervisor::UpdateNetworkService` prefill can use ordinary signed
+`int queuedFrame = -9998` and the real signed bound `queuedFrame + 9998`.
+The native positive iteration count is bounded by `60 / syncRate - 1`, so
+this loop does not approach signed overflow on the observed nonzero-rate
+path. The signed source reproduced the entire prior 1,650-byte candidate and
+all 106 COFF relocations. Retain the still-open receiver lifetime problem;
+this is not a new exact owner.
+
+`UpdateChargeAttack` can bind `ReplayInputState &input =
+g_ReplayInputStates[side]`, matching the actual non-null input-record owner.
+VC7.1 emits exactly the same 1,210 bytes and 70 relocations as the pointer
+form, so this source change preserves the previous 183-byte residual. An
+ordinary nonvolatile local charge mode produces 1,196 bytes and 885 unlike
+positions; it does not recover the target's spilled charge-mode byte. Ten
+`BeginPlaybackStage` typed byte/runtime scope and reference alternatives
+similarly retain its nine misplaced register positions or regress. No
+synthetic register hints were retained.
+
+For `CheckBulletCollision`, writing AABB minimum/maximum components into
+independent natural float locals rather than its existing typed scratch
+storage yields complete candidates of 810–876 bytes and 590–655 unlike
+positions. The target still needs a common hit block immediately after the
+circle geometry before its rotated/AABB branches; all rejected experiments
+were restored. Keep the current native 0x34 stack frame and continue with
+control-flow and C2 lifetime analysis rather than standalone expression edits.
