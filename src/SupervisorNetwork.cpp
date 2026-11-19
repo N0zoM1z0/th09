@@ -261,13 +261,28 @@ HOST_WAIT_STATE_CHECK:
                 }
         }
 
-    // Prefill and the first prediction retain this session across queue/seed calls.
-    if (this->networkTiming458.frameMode == NETWORK_FRAME_PREPARING || this->networkTiming458.frameMode == NETWORK_FRAME_PREDICTING)
+    // The native prediction edge is the nonzero, non-sync frame case.
+    // Keep that frame in its own branch-local value; the preparing branch has
+    // a separate signed prefill induction variable and never needs this value.
+    if (this->networkTiming458.frameMode == NETWORK_FRAME_PREPARING ||
+        this->networkTiming458.frameMode == NETWORK_FRAME_PREDICTING)
     {
-        int frame = this->networkTiming458.frameCounter;
-        if (frame == 0 ||
-            static_cast<unsigned int>(frame) %
-                (NETWORK_FRAMES_PER_SECOND / g_SupervisorNetworkState->syncRate) == 0)
+        const unsigned int frame = static_cast<unsigned int>(
+            this->networkTiming458.frameCounter);
+        if (frame != 0 &&
+            frame % (NETWORK_FRAMES_PER_SECOND / frameNetwork->syncRate) != 0)
+        {
+            const short firstSeed = static_cast<short>(g_ReplayRng.GetSeed());
+            this->InsertPredictedFrame(
+                frameNetwork->localSide, static_cast<int>(frame), firstSeed);
+            const short predictedSeed = static_cast<short>(g_ReplayRng.GetSeed());
+            SupervisorNetworkState *predictionNetwork = g_SupervisorNetworkState;
+            const int opponentSide = 1 - predictionNetwork->localSide;
+            this->InsertPredictedFrame(
+                opponentSide, this->networkTiming458.frameCounter, predictedSeed);
+            ++this->networkTiming458.frameCounter;
+        }
+        else
         {
             if (this->networkTiming458.frameMode == NETWORK_FRAME_PREPARING)
             {
@@ -276,30 +291,30 @@ HOST_WAIT_STATE_CHECK:
                     if (frameNetwork->localSide == 0 &&
                         NETWORK_FRAMES_PER_SECOND / frameNetwork->syncRate - 1 > 0)
                     {
-                        for (frame = NETWORK_PREFILL_START_FRAME;
-                             frame + NETWORK_PREFILL_FRAME_OFFSET <
-                                 NETWORK_FRAMES_PER_SECOND / frameNetwork->syncRate - 1;
-                             ++frame)
+                        int queuedFrame = NETWORK_PREFILL_START_FRAME;
+                        do
                         {
                             g_Supervisor.InsertReceivedFrame(
-                                0, frame, 0,
+                                0, queuedFrame, 0,
                                 static_cast<short>(g_ReplayRng.GetSeed()));
                             g_Supervisor.InsertReceivedFrame(
-                                1, frame, 0,
+                                1, queuedFrame++, 0,
                                 static_cast<short>(g_ReplayRng.GetSeed()));
-                        }
+                        } while (static_cast<int>(
+                                     static_cast<unsigned int>(queuedFrame) +
+                                     NETWORK_PREFILL_FRAME_OFFSET) <
+                                 NETWORK_FRAMES_PER_SECOND / frameNetwork->syncRate - 1);
                     }
 
                     frameNetwork->packetReady = 0;
-                    // Retain the selected receiver across GetSeed.
+                    // Retain the selected packet sender across the seed call.
                     SupervisorNetworkState *handshakeNetwork = g_SupervisorNetworkState;
                     g_NetworkHandshakePacket.type = NETWORK_MESSAGE_HANDSHAKE;
                     g_NetworkHandshakePacket.side =
-                        static_cast<unsigned char>(g_SupervisorNetworkState->localSide);
-                    g_NetworkHandshakePacket.syncRate = g_SupervisorNetworkState->syncRate;
-                    g_NetworkHandshakePacket.syncValue = g_SupervisorNetworkState->syncValue;
-                    g_NetworkHandshakePacket.seed =
-                        g_ReplayRng.GetSeed();
+                        static_cast<unsigned char>(handshakeNetwork->localSide);
+                    g_NetworkHandshakePacket.syncRate = handshakeNetwork->syncRate;
+                    g_NetworkHandshakePacket.syncValue = handshakeNetwork->syncValue;
+                    g_NetworkHandshakePacket.seed = g_ReplayRng.GetSeed();
                     handshakeNetwork->SendPacket(
                         &g_NetworkHandshakePacket,
                         sizeof(g_NetworkHandshakePacket));
@@ -317,13 +332,13 @@ HOST_WAIT_STATE_CHECK:
                 if (g_SupervisorNetworkState->packetReady == 0)
                 {
                 WAIT_FOR_FRAME:
-                    // This early wait result is a fixed return code;
-                    // it is not shared with the later reset/stop path.
+                    scratch.returnValue = NETWORK_SERVICE_RETRY_FRAME;
                     this->LeaveCriticalSectionWrapper(4);
-                    return NETWORK_SERVICE_RETRY_FRAME;
+                    return scratch.returnValue;
                 }
                 g_NetworkFramePacket.words.input =
-                    static_cast<unsigned short>(Controller::GetInput(g_SupervisorNetworkState->localSide));
+                    static_cast<unsigned short>(Controller::GetInput(
+                        g_SupervisorNetworkState->localSide));
                 ++this->networkTiming458.frameCounter;
                 this->networkTiming458.frameStartTime = timeGetTime();
             }
@@ -332,18 +347,13 @@ HOST_WAIT_STATE_CHECK:
             g_SupervisorNetworkState->packetReady = 0;
             SupervisorNetworkState *packetNetwork = g_SupervisorNetworkState;
             g_NetworkFramePacket.type = NETWORK_MESSAGE_INPUT_FRAME;
-            // The checksum uses the side captured before GetSeed.
             signed char packetSide = static_cast<signed char>(g_SupervisorNetworkState->localSide);
             g_NetworkFramePacket.side = packetSide;
-            // The wire frame is the active frame plus one native sync window,
-            // matching the original signed DWORD expression.
             g_NetworkFramePacket.frame =
                 NETWORK_FRAMES_PER_SECOND / g_SupervisorNetworkState->syncRate - 1 +
                 this->networkTiming458.frameCounter;
-            g_NetworkFramePacket.seed =
-                g_ReplayRng.GetSeed();
+            g_NetworkFramePacket.seed = g_ReplayRng.GetSeed();
 
-            // The transmitted checksum is the low word of these four fields.
             unsigned int checksum =
                 static_cast<unsigned int>(packetSide) +
                 g_NetworkFramePacket.frame +
@@ -360,23 +370,6 @@ HOST_WAIT_STATE_CHECK:
                 g_NetworkFramePacket.frame,
                 g_NetworkFramePacket.words.input,
                 static_cast<short>(g_NetworkFramePacket.seed));
-        }
-        else
-        {
-            // The first predicted frame uses the captured network receiver,
-            // but reads its side after the seed callback has finished.
-            const short firstSeed = static_cast<short>(g_ReplayRng.GetSeed());
-            this->InsertPredictedFrame(
-                frameNetwork->localSide, this->networkTiming458.frameCounter, firstSeed);
-            // Retail obtains the prediction seed before re-reading the
-            // network side; the peer can change during service callbacks.
-            const short predictedSeed = static_cast<short>(g_ReplayRng.GetSeed());
-            volatile const int &liveSide = g_SupervisorNetworkState->localSide;
-            const int opponentSide = 1 - liveSide;
-            this->InsertPredictedFrame(
-                opponentSide, this->networkTiming458.frameCounter, predictedSeed);
-            // Advance the original signed frame counter by one native tick.
-            ++this->networkTiming458.frameCounter;
         }
     }
 
