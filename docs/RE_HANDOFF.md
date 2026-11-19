@@ -46,6 +46,36 @@ not worsened; it does not mean exact. Do not rebaseline REGRESSED candidates.
 | TitleScreenView::OnUpdateResult | 0x004266B5 | 484/485 bytes; 167 differences (OK) | Source is one byte shorter than the target owner. Character-array cursor is natural, but the complete owner remains nonexact. |
 | Supervisor::UpdateNetworkService | 0x00430AA0 | 1,645/1,633 bytes; 909 differences (REGRESSED) | Large service boss: retain the real Supervisor receiver and 20-byte scratch/PopFrame lifetime evidence. Retry-return simplification reduced raw differences but grew the candidate from 1,629 bytes; do not rebaseline. Reconstruct connection, prediction, timeout and common-return CFG naturally. |
 
+### CheckBulletCollision target CFG (verified against 0x0041DFF0)
+
+The target instruction order is more specific than the high-level geometry
+summary in the table above:
+
+- Region filtering starts at function offset +0x20. The X87 radius comparison
+  is at +0x3B..+0x4B; its zero-radius edge enters the rectangle branch at
+  +0xAB, while the nonzero-radius circle calculation occupies +0x4D..+0x7D.
+- The shared hit-type dispatcher begins at +0x7E (absolute 0x0041E07E),
+  before the zero-radius geometry. It reloads the region from the active-slot
+  cursor, distinguishes kinds 2/3, and checks the bullet word at +0x10C0.
+- The rotated-rectangle path starts at +0xBD; the AABB path starts at +0x13B.
+  Successful rectangle/AABB tests return to the +0x7E dispatcher. Misses
+  advance the active-slot cursor at +0x19E.
+- The cancellation exit begins at +0x1A6; the direct-hit count/return path is
+  at +0x326. Keep the target 0x34-byte local frame and X87 status-word branch
+  sense; do not replace these comparisons with inline assembly.
+
+A nested-loop source experiment matching the decompiler shape produced an
+845/862-byte candidate with 581 differences, but the compiler still placed
+dispatch at +0x17C and the candidate violated the 842-byte monotone baseline.
+That experiment was discarded. The maintained source remains 849/862 bytes
+with 539 differences (REGRESSED); do not record either experimental size as
+a new frontier.
+
+Since the previous handoff, commit 9f223ed4 preserves native DWORD wrapping
+in the collision reward-side arithmetic. The changed carrier passed its
+scoped replay: five exact units, 1,220 physical bytes, 32 relocation fields.
+This does not grant exactness to CheckBulletCollision itself.
+
 The separate Etama fsincos helper is 36/33 bytes with 25 differences; it is
 not one of the 11 source-present authored owners. Natural sinf/cosf remains
 nonexact. Do not add assembly or padding.

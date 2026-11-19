@@ -1033,6 +1033,19 @@ Likewise the 15-byte angle wrapper at `0x405700` is reproducible by both SDK
   places the shared hit dispatcher at +0x8E before rectangle geometry at
   +0xBB. Current 849/862, 539-difference candidate is REGRESSED against the
   842-byte strict frontier baseline.
+  Target CFG landmarks, relative to CheckBulletCollision at 0x0041DFF0: region
+  filter +0x20; X87 radius compare +0x3B; circle calculation +0x4D; shared
+  hit dispatcher +0x7E; zero-radius angle branch +0xAB; rotated rectangle
+  +0xBD; AABB +0x13B; next-region cursor advance +0x19E; cancellation exit
+  +0x1A6; direct-hit count/return +0x326. Rectangle/AABB success returns to
+  the +0x7E dispatcher. A nested-loop experiment still emitted the dispatcher
+  at +0x17C (845/862 bytes, 581 differences) and was discarded; the maintained
+  candidate remains 849/862 bytes, 539 differences, REGRESSED against the
+  842-byte ratchet.
+  Commit 9f223ed4 restores explicit unsigned DWORD wrap in reward-side
+  arithmetic; the changed carrier scoped replay passed five exact units
+  (1,220 physical bytes, 32 relocation fields). This is semantic fidelity,
+  not exact-function credit for CheckBulletCollision.
 - UpdateNetworkService target local frame is 0x14 bytes: final input pair at
   EBP-0x14, shared PopFrame output overlay at EBP-0x0C, return DWORD at EBP-4.
   The current source models these lifetimes, but its 1,645-byte candidate
