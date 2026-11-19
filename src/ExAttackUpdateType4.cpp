@@ -85,8 +85,10 @@ int __fastcall ExAttackUpdateCallbackType4(ExAttackRecord *base)
 
         ExAttackRecord *sourceRecord =
             record->parameter38;
+        // The source attack is another native 0x4C-byte record; its
+        // type-specific extra pointer occupies the real +0x34 member.
         ExAttackType4SourceExtra *sourceExtra =
-            *reinterpret_cast<ExAttackType4SourceExtra **>(&sourceRecord->unknown2C[8]);
+            reinterpret_cast<ExAttackType4UpdateRecord *>(sourceRecord)->extra34;
 
         PlayerPositionView collisionSize;
         // Retain the exact conversion's call and write through the actual
