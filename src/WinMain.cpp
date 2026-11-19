@@ -99,8 +99,8 @@ namespace FileSystem
 int __fastcall WriteDataToFile(const char *path, void *data, size_t size);
 }
 
-// The original signed system-metric products and frame/path counters
-// use i386 modulo-32 arithmetic before their existing signed tests.
+// The Win32 window decoration sizes are ordinary signed screen metrics;
+// build the bounded 640x480 client area's window dimensions directly.
 static int CreateGameWindow(HINSTANCE instance)
 {
     WNDCLASSA baseClass;
@@ -128,11 +128,9 @@ static int CreateGameWindow(HINSTANCE instance)
     }
     else
     {
-        width = static_cast<int>(
-            static_cast<unsigned int>(GetSystemMetrics(SM_CXDLGFRAME)) * 2u + 640u);
-        height = static_cast<int>(
-            static_cast<unsigned int>(GetSystemMetrics(SM_CYDLGFRAME)) * 2u +
-            static_cast<unsigned int>(GetSystemMetrics(SM_CYCAPTION)) + 480u);
+        width = GetSystemMetrics(SM_CXDLGFRAME) * 2 + 640;
+        height = GetSystemMetrics(SM_CYDLGFRAME) * 2 +
+            GetSystemMetrics(SM_CYCAPTION) + 480;
         window = CreateWindowExA(
             0, "BASE", g_WindowTitle,
             WS_VISIBLE | WS_MINIMIZEBOX | WS_SYSMENU,
@@ -149,8 +147,8 @@ static int CreateGameWindow(HINSTANCE instance)
     return 0;
 }
 
-// Find the executable directory in the real path buffer. Preserve
-// the original 32-bit index and its independent live byte reads.
+// GetModuleFileNameA reports a nonempty path on success. Its bounded
+// length supplies real indices into the executable-directory byte buffer.
 
 
 int WINAPI WinMain(
@@ -162,17 +160,17 @@ int WINAPI WinMain(
     if (GetModuleFileNameA(NULL, g_ExecutableDirectory, MAX_PATH) != 0)
     {
         int pathIndex = (int)strlen(g_ExecutableDirectory) - 1;
-        if (g_ExecutableDirectory[static_cast<unsigned int>(pathIndex)] != '\\')
+        if (g_ExecutableDirectory[pathIndex] != '\\')
         {
             do
             {
-                if (g_ExecutableDirectory[static_cast<unsigned int>(pathIndex)] == '/')
+                if (g_ExecutableDirectory[pathIndex] == '/')
                     break;
                 if (pathIndex <= 0)
                     goto executable_path_fallback;
                 --pathIndex;
             }
-            while (g_ExecutableDirectory[static_cast<unsigned int>(pathIndex)] != '\\');
+            while (g_ExecutableDirectory[pathIndex] != '\\');
         }
 
         if (pathIndex <= 0)
@@ -182,8 +180,8 @@ int WINAPI WinMain(
         }
         else
         {
-            g_ExecutableDirectory[static_cast<unsigned int>(pathIndex)] = '/';
-            g_ExecutableDirectory[static_cast<unsigned int>(static_cast<unsigned int>(pathIndex) + 1u)] = '\0';
+            g_ExecutableDirectory[pathIndex] = '/';
+            g_ExecutableDirectory[pathIndex + 1] = '\0';
         }
     }
     else
