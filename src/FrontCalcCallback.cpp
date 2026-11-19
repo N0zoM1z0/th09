@@ -25,6 +25,19 @@ extern int g_TransitionResultTable[];
 extern int g_TransitionResultTableAlt[];
 extern void *g_NeutralMessageSource;
 
+// Two consecutive 16-bit script selections in the real file-backed
+// neutral-message record. Their byte offsets are observed at the call sites.
+struct FrontNeutralMessageVariantView
+{
+    unsigned char header00[8];
+    short selection08;
+    short selection0A;
+};
+typedef char FrontNeutralMessageVariantNativeOffsets[
+    (sizeof(FrontNeutralMessageVariantView) == 0x0C &&
+     offsetof(FrontNeutralMessageVariantView, selection08) == 0x08 &&
+     offsetof(FrontNeutralMessageVariantView, selection0A) == 0x0A) ? 1 : -1];
+
 // The native Front allocation owns two 0x64-byte panel rows containing
 // five 0x14-byte vertices each; colors/timers and result-table entries
 // are independent DWORDs. Retain the original signed selector arithmetic
@@ -75,7 +88,7 @@ int __fastcall FrontCalcCallback(void *frontArg)
                 for (int vertex = 0; vertex < 5; ++vertex)
                     FRONT_NATIVE_VERTEX(front, side, vertex).diffuse = 0xFFFFFFFFUL;
             }
-            --*reinterpret_cast<unsigned int *>(&FRONT_NATIVE_TIMER(front, side));
+            --FRONT_NATIVE_TIMER(front, side);
         }
         else
         {
@@ -209,18 +222,18 @@ int __fastcall FrontCalcCallback(void *frontArg)
                 }
                 else if (front->transitionSide10964 == 0)
                 {
-                    // Neutral message variant words live at native +8/+10
-                    // offsets in the real file-backed message record.
+                    // The two script selections are real 16-bit words
+                    // of the file-backed neutral-message record.
                     front->messageRuntimeE944.Setup(
-                        *reinterpret_cast<short *>(
-                            reinterpret_cast<unsigned int>(g_NeutralMessageSource) + 8u),
+                        reinterpret_cast<const FrontNeutralMessageVariantView *>(
+                            g_NeutralMessageSource)->selection08,
                         0);
                 }
                 else
                 {
                     front->messageRuntimeE944.Setup(
-                        *reinterpret_cast<short *>(
-                            reinterpret_cast<unsigned int>(g_NeutralMessageSource) + 10u),
+                        reinterpret_cast<const FrontNeutralMessageVariantView *>(
+                            g_NeutralMessageSource)->selection0A,
                         0);
                 }
             }
@@ -270,9 +283,8 @@ int __fastcall FrontCalcCallback(void *frontArg)
 
     }
 
-    // The original transition frame advances as an i386 DWORD, with a
-    // signed state comparison performed before the increment.
-    ++*reinterpret_cast<unsigned int *>(&front->transitionFrame10960);
+    // Advance the native transition frame after its signed state checks.
+    ++front->transitionFrame10960;
     return 1;
 }
 
