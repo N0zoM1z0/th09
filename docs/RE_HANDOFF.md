@@ -11,7 +11,7 @@ KNOWLEDGE_BASE.md and generated counts live in PROGRESS.md.
   SHA-256 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 - Compiler: pinned VC7.1 with each owner's profile in config/match-units.toml
   or config/frontiers.toml. Never change profiles to chase register choices.
-- Stage: exact reconstruction. Latest source checkpoint: 7adfc808 (native EnemyManager draw-dispatch CFG). Local main has commits beyond origin/main; do not assume
+- Stage: exact reconstruction. Latest source checkpoint: 61fbf69e (native network prediction/packet-flow recovery). Local main has commits beyond origin/main; do not assume
   local commits have been pushed. Inspect git status and git log before work.
 - Worktree was clean at handoff start. No interrupted source edits were found.
 - Ledger: 2,248 tracked function candidates; origin/boundary review pending 0;
@@ -34,7 +34,7 @@ not worsened; it does not mean exact. Do not rebaseline REGRESSED candidates.
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | EnemyManagerView::OnUpdate | 0x00410730 | 3,900/3,900 bytes; 2 differences (OK) | Source now mirrors retail short-circuit CFG: side-state bit is tested before the category read, and the early draw path falls into the shared append. Only the +0x19A/+0x1A1 index-register choice remains (retail EAX, candidate ECX). |
-| ReplayManagerView::SaveReplay | 0x00420C60 | 1,238/1,238 bytes; 2 differences (OK) | Stage-header REP MOVSD destination setup at +0xB6/+0xB9: retail `mov edi,[ebp-0x10]; lea edi,[edi+ebx-0xC0]`; candidate uses ECX as the LEA base. Direct typed assignment, cursor and memcpy probes did not change the two bytes. A saved stageRoot plus a sizing-only cursor matched +0x36 but left 6 differences (two stack-home stores reversed plus the EDI/ECX pair); reverted. Preserve the native POD copy and caller proofs. |
+| ReplayManagerView::SaveReplay | 0x00420C60 | 1,238/1,238 bytes; 2 differences (OK) | Stage-header REP MOVSD destination setup at +0xB6/+0xB9: retail `mov edi,[ebp-0x10]; lea edi,[edi+ebx-0xC0]`; candidate uses ECX as the LEA base. Direct typed assignment, C++ reference, mutable/typed cursor and direct source-header pointer probes did not change the two bytes. A saved stageRoot plus a sizing-only cursor matched +0x36 but left 6 differences (two stack-home stores reversed plus the EDI/ECX pair); reverted. Preserve the native POD copy and caller proofs. |
 | ReplayManagerView::BeginPlaybackStage | 0x00420840 | 540/540 bytes; 9 differences (REGRESSED) | EDX/ESI register lifetime around the playback-stage byte and side-0 runtime pointer. Raw count improved from 13, but new residual positions violate the monotone frontier; do not update it. |
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes; 4 differences (OK) | Focus-mode load order at +0x127..+0x12A. Retail loads g_GameConfiguration before player sideIndex; current source emits the reverse order. |
 | PlayerLifecycleView::UpdateChargeAttack | 0x0041F810 | 1,210/1,210 bytes; 183 differences (OK) | Boss register allocation: retail loads the full DWORD sideIndex into EDI and forms the ReplayInputState pointer in EBX (0x8E stride). Current short-side/input locals allocate the opposite way; widening/removing locals regressed hundreds of bytes. |
@@ -43,7 +43,7 @@ not worsened; it does not mean exact. Do not rebaseline REGRESSED candidates.
 | ScreenEffect::CalcShakeEnvelope | 0x004227A0 | 336/336 bytes; 26 differences (OK) | Retain signed timer comparisons, DWORD endpoint arithmetic and X87 conversion order; receiver/timer alias probes did not improve the owner. |
 | TitleScreenView::DrawReplayMenu | 0x004234F6 | 1,280/1,280 bytes; 29 differences (OK) | Continue from the native replay-row/VM layout and exact caller evidence; preserve all 29 recorded positions. |
 | TitleScreenView::OnUpdateResult | 0x004266B5 | 484/485 bytes; 167 differences (OK) | Source is one byte shorter than the target owner. Character-array cursor is natural, but the complete owner remains nonexact. |
-| Supervisor::UpdateNetworkService | 0x00430AA0 | 1,645/1,633 bytes; 695 differences (REGRESSED) | Large service boss: retain the real Supervisor receiver and 20-byte scratch/PopFrame lifetime evidence. The current natural-C++ candidate improves the raw count from 717 to 695 by sharing the frame/prefill local and scoping the timer callback pointer; it still exceeds the 1,629-byte ratchet and reloads the frame counter after GetSeed instead of keeping native EBX live. Do not rebaseline. |
+| Supervisor::UpdateNetworkService | 0x00430AA0 | 1,633/1,633 bytes; 307 differences (REGRESSED) | The current natural-C++ candidate restores the 0x14-byte frame and EBX's mutually exclusive prediction-frame / prefill-counter lifetime. It retains the handshake and frame-packet receivers across RNG calls and uses live side/frame reloads in the second prediction call. Still four bytes above the 1,629-byte ratchet; do not rebaseline. |
 
 ### CheckBulletCollision target CFG (verified against 0x0041DFF0)
 
@@ -91,7 +91,7 @@ nonexact. Do not add assembly or padding.
 
 ## Recent local source checkpoints
 
-The 12 local code/checkpoint commits preceding this documentation-only refresh, oldest first, are:
+The 15 local code/checkpoint commits preceding this documentation-only refresh, oldest first, are:
 
 - a2751ec4 — natural network retry return and frame-side read; frontier is
   currently REGRESSED as recorded above.
@@ -107,6 +107,8 @@ The 12 local code/checkpoint commits preceding this documentation-only refresh, 
 - 285e2339 — native DirectInput capability-record array.
 - 57d3f852 — native Supervisor D3D device in viewport methods.
 - 7adfc808 — mirror the native EnemyManager draw-dispatch short-circuit CFG.
+- 230e3f4c — restore native network prediction frame lifetime.
+- 61fbf69e — recover network frame and packet flow (current 1,633/307 candidate).
 
 Earlier local commits already contained the Player collision-region arrays,
 SHT descriptor offset rebasing, Background VM/STD pointer recovery, ANM
@@ -139,12 +141,13 @@ The remaining failed boss and leaf experiments are recorded in
   EDI to the position argument, grew the frame to 0x38, and produced 798/862
   bytes with 675 differences. Both are reverted; keep the 0x34 frame and
   native X87 operand order.
-- UpdateNetworkService remains 1,645/1,633 bytes with 695 differences and is
-  REGRESSED against the 1,629-byte/966-difference ratchet. The current best
-  natural-C++ probe shares the frame/prefill local and scopes the early timer
-  callback pointer; it still reloads frameCounter after GetSeed instead of
-  retaining the native EBX value. Do not use volatile/register tricks or
-  rebaseline.
+- UpdateNetworkService is now 1,633/1,633 bytes with 307 differences and is
+  still REGRESSED against the 1,629-byte/966-difference ratchet. Commits
+  `230e3f4c` and `61fbf69e` restore the native EBX frame/prefill lifetime,
+  second-prediction live-side/frame reloads, handshake sender and frame-packet
+  sender lifetimes, plus the final packed-input locals. The stack remains
+  0x14. Continue on the packet-ready/shared-wait layout and remaining packet
+  queue code; do not rebaseline or use register hints/volatile aliases.
 - EnemyManager::OnUpdate remains at its two EAX/ECX draw-group index residuals.
   Scoped category temporaries, a shared helper and local index variables did
   not change the generated code.
@@ -169,17 +172,19 @@ The remaining failed boss and leaf experiments are recorded in
 ## Additional IDA boss captures (2026-11-19)
 
 `UpdateNetworkService` is native `sub_430AA0` (1,633 bytes); `UpdateChargeAttack`
-is native `sub_41F810` (1,210 bytes). The new register-lifetime evidence and
-all failed source variants are recorded in `KNOWLEDGE_BASE.md`, including a
-full-function side-local candidate at 1,200/1,210 bytes and 648 differences.
-Keep the network service's existing regressed frontier and the charge
-attack's 1,210-byte/183-difference frontier unchanged. Do not use `register`,
-volatile aliases, inline assembly or padding to force the original registers.
+is native `sub_41F810` (1,210 bytes). The current network source is 1,633/1,633
+bytes with 307 differences and remains REGRESSED against its 1,629-byte ratchet.
+The charge attack remains 1,210/1,210 bytes with 183 differences. New register
+lifetime evidence and failed variants are recorded in `KNOWLEDGE_BASE.md`,
+including a full-function side-local candidate at 1,200/1,210 bytes and 648
+differences. Do not use `register`, volatile aliases, inline assembly or
+padding to force the original registers.
 
-## Latest continuation experiments (2026-11-19)
+## Latest continuation results (2026-11-19)
 
-All source experiments from this continuation were reverted; maintained
-frontiers remain unchanged. Detailed measurements are in `KNOWLEDGE_BASE.md`.
+The two network-service source commits are maintained. All failed ChargeAttack,
+collision and SaveReplay experiments from this continuation were reverted.
+Detailed measurements are in `KNOWLEDGE_BASE.md`.
 
 - `UpdateChargeAttack`: a full-DWORD side local plus direct input-row calls
   and a post-cooldown reload of `sideIndex` did not retain the target entry
@@ -199,9 +204,19 @@ frontiers remain unchanged. Detailed measurements are in `KNOWLEDGE_BASE.md`.
 - `SaveReplay`: expressing the POD destination as a C++ reference leaves the
   two +0xB6/+0xB9 EDI/ECX differences unchanged. The reference form was
   reverted.
-- `UpdateNetworkService`: a prediction-only frame snapshot across `GetSeed`
-  and an unsigned DWORD version both grow the frame to 0x18 (720 and 728
-  differences). Keep the maintained 0x14-frame, 695-difference candidate.
+- `UpdateNetworkService`: the branch-local unsigned frame plus a separate
+  preparation-loop counter now reproduces EBX across both mutually exclusive
+  paths. The second prediction reloads the live side and frame counter after
+  `GetSeed`; handshake/frame packet receiver lifetimes are restored. The
+  current candidate is 1,633/1,633 bytes, 307 differences, 0x14-byte frame.
+  It remains REGRESSED because the ratchet is 1,629 bytes. Separate snapshot
+  variants at 720/728 differences and 0x18 frame were reverted.
+- `CheckBulletCollision`: an explicit circle/dispatcher/rectangle rewrite with
+  a shared hit-count tail fell to 811/862 bytes but regressed to 726 differences
+  and changed the entry register roles. Reverted; preserve 849/862, 539.
+- `SaveReplay`: mutable byte-cursor, typed-cursor and direct source-header
+  pointer variants retained the two +0xB6/+0xB9 ECX/EDI residuals. Reverted;
+  preserve 1,238/1,238 bytes and two differences.
 
 ## Next work
 
@@ -217,17 +232,15 @@ Prioritize boss control flow and then close near-exact leaves:
    variant reached 835/862 with 693 differences and the same prologue issue.
    Both were reverted. Preserve the current source and solve the argument
    lifetime without new locals or register hints.
-2. UpdateNetworkService: reconstruct the 20-byte local overlay, EDI state
-   pointer lifetime, connection callbacks, prediction path and common return.
-   Initial-only pointer aliases and register-hinted pointer probes did not
-   help. The current best candidate is 1,645/1,633 bytes with 695 differences;
-   continue from the natural timer/frame lifetime experiment and solve the
-   first predicted-frame EBX lifetime without rebaselining.
-   The 720-difference attempt that retained the captured frame across
-   GetSeed grew the stack to 0x18 and was reverted.
-   Direct `timeGetTime()` imports left the 695-difference candidate unchanged;
-   capturing the first predicted frame with those imports still produced 720
-   differences and a 0x18 frame. The experiment was reverted.
+2. UpdateNetworkService: preserve the recovered 0x14-byte frame and EBX
+   lifetime: the unsigned frame counter is live across the first prediction
+   seed call, while the preparation arm reuses EBX for its signed prefill
+   counter. The second prediction reloads the live network side and frame
+   counter after the second seed. The handshake and frame packet senders are
+   retained across their seed calls. Current candidate: 1,633/1,633 bytes,
+   307 differences, still REGRESSED against the 1,629-byte ratchet. Continue
+   on the packet-ready/shared-wait block layout and remaining frame queue code;
+   do not rebaseline or disturb the EBX/EDI lifetimes.
 3. UpdateChargeAttack: solve the side-index/input-pointer lifetime without
    forcing register allocation. The target uses EDI=DWORD sideIndex,
    EBX=input record, then EDI/EBX as timer303A4/timer303B0 and reloads this+8
@@ -239,8 +252,9 @@ Prioritize boss control flow and then close near-exact leaves:
    after the two large owners have advanced.
 5. Close the near-exact ReplaySave, Player movement and Effect callback leaves.
 
-All previous failed variants are restored. Do not copy diagnostic variants
-from .analysis into maintained source. Keep the strict frontier ratchets.
+All failed variants outside the committed network-service recovery are
+restored. Do not copy diagnostic variants from .analysis into maintained source.
+Keep the strict frontier ratchets.
 
 ## Rebuild and validation commands
 

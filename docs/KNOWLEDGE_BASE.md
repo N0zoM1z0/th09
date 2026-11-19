@@ -1615,3 +1615,74 @@ bytes and 720 differences; the unsigned candidate reached 1,647/1,633 bytes
 and 728 differences. Both were reverted. Keep the maintained 1,645-byte,
 695-difference candidate and the 0x14-byte stack frame; the native prediction
 path's EBX frame snapshot remains an unresolved register-lifetime problem.
+
+
+## UpdateNetworkService native frame/prediction and packet-flow recovery (2026-11-19)
+
+The maintained `Supervisor::UpdateNetworkService` source now has a substantially
+better natural-C++ reconstruction of the native frame and prediction CFG. The
+native owner is `sub_430AA0`, 1,633 bytes, with a 0x14-byte local frame. The
+strict local frontier remains 1,629 bytes / 966 differences, so the improved
+candidate is still reported REGRESSED and must not be rebaselined.
+
+Two source commits carry this recovery:
+
+- `230e3f4c` — `gpt-web: restore native network prediction frame lifetime`.
+- `61fbf69e` — `gpt-web: recover network frame and packet flow`.
+
+The source CFG now tests the nonzero, non-sync frame case as the leading
+prediction arm. An unsigned `frame` local is retained across the first
+`GetSeed` and `InsertPredictedFrame`; the second prediction reads the live
+network-side pointer after the second `GetSeed`, then reloads the live
+`frameCounter` before its queue call. The preparation arm uses a separate
+signed `queuedFrame` induction variable starting at -9998. These two mutually
+exclusive roles compile to the native EBX lifetime: EBX is the frame counter
+on the prediction edge and the prefill loop counter on the preparation edge.
+The stack remains 0x14 bytes; no additional predicted-frame stack slot is
+introduced.
+
+The packet path also preserves the target's receiver lifetimes in ordinary
+C++:
+
+- `handshakeNetwork` is captured immediately before filling the handshake
+  packet and retained across `GetSeed` and `SendPacket`, matching the native
+  EDI receiver lifetime.
+- `packetNetwork` supplies the frame packet side and sync-rate reads and stays
+  live through the seed/checksum/send sequence.
+- The packet-wait return stores `NETWORK_SERVICE_RETRY_FRAME` in the existing
+  `scratch.returnValue` home before leaving the critical section.
+- The final pair of input words is kept in `packedInput` and `secondInput`
+  locals across the three `ApplyNetworkInput` calls. This removed eight further
+  byte differences without changing the 0x14 stack frame.
+
+The current candidate is 1,633/1,633 bytes with 307 differences, compared with
+the prior maintained 1,645/1,633-byte, 695-difference candidate. The native
+prediction branch's first and second argument reloads, handshake sender, packet
+sender, and final input lifetimes are materially closer. The strict frontier
+still rejects it because its size is four bytes above the 1,629-byte ratchet.
+Do not change that ratchet or claim exactness. No full cold replay or scoped
+exact replay of this nonexact owner was run.
+
+The explicit `HAVE_PACKET`/`WAIT_FOR_FRAME` source labels and a fresh local
+pointer for the readiness test did not change the final codegen. The compiler
+still places the shared wait-return block at the end of the function rather
+than the target's earlier block. The next network pass should attack this
+packet-ready/return layout and the remaining packet/queue code without losing
+the recovered EBX lifetime, EDI network receiver, or 0x14 frame.
+
+Other continuation probes were reverted:
+
+- A separate `predictedFrame` local and a DWORD snapshot across `GetSeed`
+  expanded the stack to 0x18 and produced 720/728 differences.
+- Using `frameNetwork` for the packet-ready and input reads also expanded the
+  stack to 0x18 and lost the recovered EBX frame role.
+- `CheckBulletCollision` was tested with an explicit circle/dispatcher/rectangle
+  label graph and a shared direct-hit/reward counter tail. The latest version
+  reached 811/862 bytes and 726 differences, reversed the entry register roles,
+  and was reverted. Keep the maintained 849/862-byte, 539-difference source.
+- `SaveReplay` was tested with a mutable byte cursor, a typed cursor, and a
+  direct frame-header pointer load. All retained the same two +0xB6/+0xB9
+  ECX/EDI destination-base differences and were reverted.
+
+The maintained frontiers for `CheckBulletCollision` and `SaveReplay` remain
+unchanged. Keep all failed variants out of maintained source.
