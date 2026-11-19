@@ -610,7 +610,9 @@ int AnmManager::ServicePreloadedAnims()
 {
     for (unsigned int i = 0; i < 0x100; i++)
     {
-        AnmManagerLoadSlotView *slot = AnmLoadSlot(this, i);
+        // Read the genuine +0x24 file-slot array shared with ReadAnmEntries.
+        AnmManagerReadSlotView *slot =
+            &reinterpret_cast<AnmManagerReadView *>(this)->slots[i];
         if (slot->releasePending != 0)
         {
             this->ReleaseAnm(i);
