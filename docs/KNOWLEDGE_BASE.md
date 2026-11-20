@@ -1686,3 +1686,67 @@ Other continuation probes were reverted:
 
 The maintained frontiers for `CheckBulletCollision` and `SaveReplay` remain
 unchanged. Keep all failed variants out of maintained source.
+
+
+## TH09 natural-source continuation (2026-11-20)
+
+The following five local source commits follow the 2026-11-19 network/charge
+work. They improve the readability and native ownership model of already
+exact carriers; they do not increase the authored exact-function count.
+
+- `c7e8a8ac`: `AsciiManager::OnUpdate` now reads the existing typed
+  `menuState97C8Active` / `menuStateA7A8Active` members, and walks the real
+  `AsciiGameManagerSideView` array rather than incrementing a byte pointer
+  between side flags. The changed source replay passed 10 exact units, 4,206
+  bytes and 264 relocation fields. Rebuilding the carrier changed three
+  private `$L` symbol spellings. The actual COFF definitions remained in the
+  owning section at the same offsets, and their original PE destinations
+  matched exactly before the manifest spellings were rebound.
+- `ff31849d`: `FrontFactoryConstructView::SetSideEnemyIndicatorPosition`
+  directly indexes the real `markerVms123F4` VM array and `g_GameManager.sides`
+  array. This removes two byte-pointer stride helpers while preserving the
+  original unsigned side index. The focused source replay passed the complete
+  213-byte owner and 10 relocation fields.
+- `d66e8533`: `FrontSide::OnDraw` accesses the one-off `vm3CBC` and `vm59C8`
+  objects through their actual typed `AnmVm` members and passes their native
+  VM addresses to the draw call.
+- `2f753505`: the one-off `vm7430` HUD draw now reads its `pos2` values through
+  the real VM member and passes `&frontSide->vm7430`; its existing `Float3`
+  position cursor remains for the coordinate writes.
+- `1c403728`: removes the obsolete `cursor` assignments before those two
+  direct one-off VM accesses.
+
+The maintained `FrontSide::OnDraw` source still compiles to its full 3,094-byte
+owner and all 209 relocation fields. Its focused changed-source replay passed
+1 unit / 3,094 bytes / 209 relocations. The two other changed carriers passed
+1 unit / 213 bytes / 10 relocations (`FrontEnemyIndicator`) and 10 units /
+4,206 bytes / 264 relocations (`AsciiManagerMenu`). No full cold replay was
+run. The canonical authored exact count remains 1,026.
+
+### Rejected probes from the same continuation
+
+- A wholesale `Float3 *` to `AnmVm *` cursor conversion in `FrontSide::OnDraw`
+  expanded the owner to 3,127 bytes and 2,001 structural differences. A
+  per-loop typed cursor variant and a forced-inline owner-recovery helper
+  were also rejected; the latter was not inlined under the pinned `/Ob0`
+  profile and changed the function extent. Directly rewriting the `vm7430.pos`
+  stores also changed 21 bytes. Only the smaller, exact typed member changes
+  above were retained.
+- `CheckBulletCollision` was re-expressed with an inner region scan, a
+  rectangle branch, a circle exit and a dispatcher label inside the radius
+  branch. The best such candidate was 845/862 bytes with 584 differences;
+  other nonvolatile/direct-dispatch variants ranged from 817 to 845 bytes
+  with 584--688 differences. All were worse than the maintained 849/862-byte,
+  539-difference candidate and were reverted. Preserve the native 0x34 frame,
+  EDI=Player, ESI=slot, EBX=Bullet and X87 radius branch.
+- `UpdateNetworkService` packet-ready/wait-return splitting and local receiver
+  reuse did not improve the maintained 1,633/1,633-byte, 307-difference
+  candidate. Several pointer-alias forms changed residual offsets without
+  reducing their count; no frontier or source was changed.
+- `UpdateChargeAttack` unsigned DWORD side locals and pointer/reference input
+  variants still produced 1,209/1,210 bytes with 717 differences. They were
+  reverted; keep the 1,210/1,210-byte, 183-difference baseline.
+
+These are bounded compiler experiments, not proof that the natural C++ search
+space is exhausted. Do not add register hints, volatile aliases, handwritten
+assembly, padding or synthetic bytes to force target instructions.

@@ -1,4 +1,4 @@
-# TH09 reconstruction — current agent handoff (2026-11-19)
+# TH09 reconstruction — current agent handoff (2026-11-20)
 
 This is the single current restart guide. Read AGENTS.md first. The canonical
 target, ledgers, current source and comparison scripts outrank prose. This
@@ -11,9 +11,9 @@ KNOWLEDGE_BASE.md and generated counts live in PROGRESS.md.
   SHA-256 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 - Compiler: pinned VC7.1 with each owner's profile in config/match-units.toml
   or config/frontiers.toml. Never change profiles to chase register choices.
-- Stage: exact reconstruction. Latest source checkpoint: 61fbf69e (native network prediction/packet-flow recovery). Local main has commits beyond origin/main; do not assume
+- Stage: exact reconstruction. Latest source checkpoint: 1c403728 (remove dead HUD VM cursor stores). Local main has commits beyond origin/main; do not assume
   local commits have been pushed. Inspect git status and git log before work.
-- Worktree was clean at handoff start. No interrupted source edits were found.
+- Worktree was clean at this handoff update. No interrupted source edits were found.
 - Ledger: 2,248 tracked function candidates; origin/boundary review pending 0;
   reviewed but origin-unresolved 35; authored 1,037; excluded 1,176;
   1,037 authored mappings have source; 1,026 canonical exact functions;
@@ -344,3 +344,52 @@ reusing EDI, the network-wait branch is 14 bytes later than the native label,
 and the compiled body is 12 bytes longer than the native extent. Do not
 rebaseline this frontier. Continue from the current natural-C++ control flow;
 no register hints, inline assembly, padding, or synthetic bytes were added.
+
+
+## Latest source work and boss probes (2026-11-20)
+
+Five additional natural-C++ source checkpoints are maintained on local `main`:
+
+- `c7e8a8ac` — recover typed ASCII menu transition-flag reads. The changed
+  carrier passed 10 exact units, 4,206 physical bytes and 264 relocation
+  fields. Two compiler-private same-section label names changed; both were
+  rebound only after checking the actual COFF definitions and their unchanged
+  section-relative destinations in the original PE.
+- `ff31849d` — replace the HUD enemy-indicator byte-stride wrappers with direct
+  indexing of the native `AnmVm` and GameManager side arrays. The changed
+  carrier passed its 213-byte owner and all 10 relocation fields.
+- `d66e8533` — use direct typed members for the one-off `vm3CBC` and `vm59C8`
+  HUD VMs in `FrontSide::OnDraw`.
+- `2f753505` — use the direct player-relative `vm7430.pos2` members and native
+  VM receiver for its HUD draw, retaining the original `Float3` cursor for
+  position writes.
+- `1c403728` — remove two now-dead HUD VM cursor assignments.
+
+The complete `FrontSide::OnDraw` owner remains 3,094/3,094 bytes with all 209
+relocation fields exact. Its changed-source replay passed one exact unit and
+3,094 physical bytes. The `FrontEnemyIndicator` changed-source replay passed
+one exact unit, 213 bytes and 10 relocations. The ASCII menu changed-source
+replay passed the 10-unit cohort above. No whole-product cold replay was run;
+the canonical authored exact-function count remains 1,026.
+
+Focused boss experiments were also continued, but none justified a frontier
+update or a source change:
+
+- `CheckBulletCollision`: a nested scan/rectangle/circle structure with the
+  dispatcher label inside the radius branch preserved the 0x34-byte frame
+  and entry registers, but the best tested candidate was 845/862 bytes with
+  584 differences, worse than the maintained 849/862-byte, 539-difference
+  candidate. Other label layouts were worse. All probes were reverted.
+- `UpdateNetworkService`: splitting the packet-ready wait return from the
+  later queue wait, varying the two return expressions, and reusing the
+  existing frame-network pointer did not improve the maintained 1,633-byte,
+  307-difference candidate. The 1,629-byte ratchet remains untouched.
+- `UpdateChargeAttack`: unsigned DWORD side-index variants still produced
+  1,209/1,210-byte candidates with 717 differences. The maintained
+  1,210-byte, 183-difference source remains unchanged.
+- `FrontSide::OnDraw`: converting its shared `Float3` cursor wholesale to an
+  `AnmVm *` or introducing a non-inlined owner-recovery helper regressed the
+  complete owner. Those variants were discarded; only the direct typed
+  single-VM accesses listed above remain.
+
+No ASM, inline-assembly, padding or synthetic-byte changes were introduced.
