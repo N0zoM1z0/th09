@@ -1900,3 +1900,14 @@ symbols are distinct original aliases at the same fixed-slot accessor entry;
 only the duplicate sparse Effect layouts were removed. Spawn Type2/4/5/6 all
 remain exact (68/44/72/119 bytes), and the two changed-source carriers passed
 303 physical bytes and six relocation fields.
+
+## 2026-11-20 Effect fixed-slot accessor uses native Effect storage
+
+EffectFixedSlotManagerView::GetFixedSlotEffect retains its original
+0x00445560 decorated ABI and 26-byte body, but its +0x30 pool pointer is now
+typed as the real Effect * rather than a pointer to a synthetic 0xD8-byte
+record. The return tag remains forward-declared solely to preserve the
+original symbol. Compile-time checks tie the native Effect size (0xD8),
+position (+0x0C), active byte (+0xC4), and EffectManager::effects pool
+(+0x30) to the accessor's physical arithmetic. The function remains exact,
+and the selected carrier replay passed its 26-byte body with no relocations.

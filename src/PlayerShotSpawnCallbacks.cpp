@@ -15,7 +15,7 @@ struct PlayerShotSpawnEffectView;
 struct PlayerShotSpawnEffectManagerView
 {
     unsigned char unknown00[0x30];
-    PlayerShotSpawnEffectView *effects30;
+    Effect *effects30;
 
     PlayerShotSpawnEffectView *GetFixedSlotEffect(int slot);
     PlayerShotSpawnEffectView *SpawnEffectInFixedSlot(
