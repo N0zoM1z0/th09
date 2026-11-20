@@ -1949,6 +1949,24 @@ fade-out field into an ADD. Those size changes compensate each other.
 The complete 336-byte carrier still differs at 116 bytes after replaying
 its 20 relocations, six of which move.
 
+In the same probe, explicitly promote the timer's float result to
+`double` in the fade-in division and use the integer length directly.
+The allocation trace retains the same timer and effect weights (52 and
+50), and the compiler restores FIDIV at `+0x3E`. The complete carrier
+matches through `+0x41`, then falls two bytes short at the final endpoint
+sum. After accounting for that shift and rebinding operands, the
+instructions corresponding to `+0x64..+0xBC` also match. The denominator
+load in this carrier uses the local scratch selector and advances it
+from EAX to ECX. The first animation pointer load then uses ECX.
+
+The 334-byte form depends on visibility of the timer comparison body.
+Moving it out of the carrier restores the 339-byte shape with the
+receivers swapped. Making the real postfix or bounded RNG body visible
+preserves the 334-byte result. A named float timer getter also preserves
+both tested callers after rebinding the two calls to `0x004014F0`. A
+double getter matches the same four-byte leaf. Its caller differs from
+the pinned target in each tested expression.
+
 Wrapping the three timer comparisons in small inline helpers, using an
 instance-method receiver, or inlining the axis writes after each RNG
 call preserves the existing 28- or 58-byte patterns in the closest
