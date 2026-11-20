@@ -1874,3 +1874,17 @@ prefix and +0x30355 tail still preserve the original `movementDirection30358`
 offset. Both collision callbacks remain exact (11 and 8 bytes); their focused
 carrier replay passed 19 bytes and zero relocations. This is a native Player
 field recovery, not additional exact-function credit.
+
+## 2026-11-20 Player-shot effect spawn callbacks use native Player owner
+
+`PlayerShotSpawnCallbacks.cpp` no longer carries its own sparse Player prefix
+or a duplicate `PlayerShotSpawnSideView`. Type4 and Type5 now follow the
+native `PlayerLifecycleView::sideState` pointer to the real
+`PlayerSideStateView`, then borrow the original effect-manager method ABI
+through its callback-specific view. Type4 uses the native Player position at
++0x1B88; Type5 uses the native side-state for its fixed-slot effect and shot
+initialization. The callback parameter tags remain opaque and unchanged.
+Type2/Type4/Type5 remain exact at 68/44/72 bytes with all four relocations;
+their selected carrier replay passed 184 physical bytes. The Type6 callback
+retains its small +0x0C player view because replacing it with the complete
+PlayerLifecycleView changes the original register/stack codegen by one byte.
