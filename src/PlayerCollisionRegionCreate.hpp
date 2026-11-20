@@ -27,7 +27,7 @@ struct PlayerCollisionRegionCreateRegionView
     int type38;
     unsigned char active3C;
     unsigned char unknown3D[3];
-    int delay40;
+    int collisionDelay40;
 
     int Reset();
     // This exact geometry is consumed by the native Player damage owner.
@@ -58,3 +58,5 @@ typedef char PlayerCreateActiveCountAtC110[
     (offsetof(PlayerCollisionRegionCreateView, activeCountC110) == 0xC110) ? 1 : -1];
 typedef char PlayerCreateReleasedCountAtC114[
     (offsetof(PlayerCollisionRegionCreateView, releasedCountC114) == 0xC114) ? 1 : -1];
+typedef char PlayerCreateCollisionDelayAt40[
+    (offsetof(PlayerCollisionRegionCreateRegionView, collisionDelay40) == 0x40) ? 1 : -1];

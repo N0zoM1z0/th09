@@ -1,5 +1,6 @@
 #include "PlayerDamageView.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "PlayerCollisionRegionCreate.hpp"
 #include "SoundPlayer.hpp"
 #include "EffectManager.hpp"
 #include "AnmManager.hpp"
@@ -117,7 +118,7 @@ int PlayerLifecycleView::CalcDamageToEnemy(
             (*slot)->type38 != 2 &&
             (*slot)->type38 != 4)
             goto nextRegion;
-        if ((*slot)->delay40 > 0)
+        if ((*slot)->collisionDelay40 > 0)
             goto nextRegion;
         if ((*slot)->lifetime24 % (*slot)->interval34 != 0)
             goto nextRegion;

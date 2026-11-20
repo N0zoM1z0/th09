@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include "AnmManager.hpp"
+#include "PlayerCollisionRegionCreate.hpp"
 
 struct PlayerAnmVmBlendModeView
 {
@@ -39,22 +40,20 @@ void *PlayerAnmManagerRawView::GetAnmRawData(int anmIdx)
     return GetAnm(anmIdx)->rawData04;
 }
 
-struct PlayerCollisionRegionRuntimeView
+// This leaf operates on the same complete 0x44-byte region record that
+// creation, damage and bullet collision already own. The derived view keeps
+// the original leaf's decorated member name without a second opaque layout.
+struct PlayerCollisionRegionRuntimeView : PlayerCollisionRegionCreateRegionView
 {
-    unsigned char unknown00[0x3C];
-    unsigned char active3C;
-    unsigned char unknown3D[3];
-    int delay40;
-
     void Deactivate();
 };
 
 typedef char PlayerCollisionRegionLeafSizeIs44[
     (sizeof(PlayerCollisionRegionRuntimeView) == 0x44) ? 1 : -1];
 typedef char PlayerCollisionRegionActiveAt3C[
-    (offsetof(PlayerCollisionRegionRuntimeView, active3C) == 0x3C) ? 1 : -1];
+    (offsetof(PlayerCollisionRegionCreateRegionView, active3C) == 0x3C) ? 1 : -1];
 
 void PlayerCollisionRegionRuntimeView::Deactivate()
 {
-    active3C = 0;
+    this->active3C = 0;
 }

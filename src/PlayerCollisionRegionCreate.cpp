@@ -26,7 +26,7 @@ PlayerLifecycleView::AllocateCollisionRegion(
     region->centerX00 = center->x;
     region->centerY04 = center->y;
     region->lifetime24 = lifetime;
-    region->delay40 = delay;
+    region->collisionDelay40 = delay;
     return region;
 }
 

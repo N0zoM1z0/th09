@@ -99,7 +99,7 @@ int PlayerLifecycleView::CheckBulletCollision(
                 region->type38 != PLAYER_REGION_BULLET_CANCEL_2 &&
                 region->type38 != PLAYER_REGION_BULLET_CANCEL_3)
                 goto next_region;
-            if (region->delay40 > 0)
+            if (region->collisionDelay40 > 0)
                 goto next_region;
             break;
         }
