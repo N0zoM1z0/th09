@@ -1861,3 +1861,16 @@ initializer and update callback remain byte-exact. A selected replay of 14
 compiler carriers and 17 exact units passed 2,886 physical bytes and 68
 relocation fields, including all exact shot spawn/draw/update consumers plus
 the shot producer and frame-match leaf. No whole-product cold replay ran.
+
+## 2026-11-20 Player-shot collision callback uses native Player owner
+
+The Player byte at +0x30354, incremented by exact
+`PlayerShotCollisionCallbackType1`, is now named `shotCollisionCount30354`
+in the shared `PlayerLifecycleView`. The former sparse callback-only
+0x30355-byte Player prefix and the unused position layout were removed; the
+original opaque callback parameter tags remain forward declared so both
+collision callback symbols keep their exact decorated names. The +0x3033C
+prefix and +0x30355 tail still preserve the original `movementDirection30358`
+offset. Both collision callbacks remain exact (11 and 8 bytes); their focused
+carrier replay passed 19 bytes and zero relocations. This is a native Player
+field recovery, not additional exact-function credit.

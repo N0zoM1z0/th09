@@ -1,22 +1,17 @@
-struct PlayerShotCallbackPlayerView
-{
-    unsigned char unknown00000[0x30354];
-    unsigned char counter30354;
-};
+#include "PlayerLifecycleView.hpp"
 
-struct PlayerShotCallbackPositionView
-{
-    float x;
-    float y;
-    float z;
-};
-
+// Preserve the original callback ABI tags; the player is the full native
+// PlayerLifecycleView and the position argument remains opaque here.
+struct PlayerShotCallbackPlayerView;
+struct PlayerShotCallbackPositionView;
 int __fastcall PlayerShotCollisionCallbackType1(
     PlayerShotCallbackPlayerView *player,
     void *,
     PlayerShotCallbackPositionView *)
 {
-    ++player->counter30354;
+    PlayerLifecycleView *nativePlayer =
+        reinterpret_cast<PlayerLifecycleView *>(player);
+    ++nativePlayer->shotCollisionCount30354;
     return 0;
 }
 

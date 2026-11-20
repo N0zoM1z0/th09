@@ -564,7 +564,9 @@ struct PlayerLifecycleView
     PlayerShotCtorView shots[128];
     PlayerState3031CView state3031C;
     PlayerShtFileView *primaryShtFile;
-    unsigned char unknown3033C[0x30358 - 0x3033C];
+    unsigned char unknown3033C[0x30354 - 0x3033C];
+    unsigned char shotCollisionCount30354;
+    unsigned char unknown30355[0x30358 - 0x30355];
     int movementDirection30358;
     float horizontalSpeed3035C;
     float verticalSpeed30360;
@@ -756,6 +758,8 @@ typedef char PlayerLifecycleTimer303C8At303C8[(offsetof(PlayerLifecycleView, tim
 typedef char PlayerLifecycleOwnerAt30410[(offsetof(PlayerLifecycleView, ownerState30410) == 0x30410) ? 1 : -1];
 typedef char PlayerLifecycleTailStatesAt30454[(offsetof(PlayerLifecycleView, tailStates30454) == 0x30454) ? 1 : -1];
 
+typedef char PlayerShotCollisionCountAt30354[
+    (offsetof(PlayerLifecycleView, shotCollisionCount30354) == 0x30354) ? 1 : -1];
 typedef char PlayerLifecycleMovementDirectionAt30358[
     (offsetof(PlayerLifecycleView, movementDirection30358) == 0x30358) ? 1 : -1];
 typedef char PlayerLifecycleHorizontalSpeedAt3035C[
