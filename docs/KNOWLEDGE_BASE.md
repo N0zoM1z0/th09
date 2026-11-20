@@ -1920,6 +1920,16 @@ descriptor at `0x10789363`, independently of the cursor that selects the
 fade-load and switch registers. Same-run emission links the inserted
 operand to `+0x5A` and preserves all cold bytes and COFF fields.
 
+The caller tests bit `0x400` of the opcode flags at `0x10784F4A` before
+requesting this scratch register. ADD (`0x2D`) passes that test and LEA
+(`0x12`) skips it. The direct split-amplitude probe keeps the hold-end
+calculation at `+0x46` as LEA past global allocation. During emission,
+C2 finds that the destination shares a physical register with an address
+component and rewrites the opcode to ADD at `0x1072E5FE`. The addition
+at `+0x62` enters this pipeline as ADD. Writing the two final increments
+as separate statements and nesting a duration helper preserve the
+existing two-ADD layouts.
+
 Inline endpoint accessors, reversing the sum's operands, and moving the
 hold predicate into an inline helper retain the same two byte patterns.
 Using a separate result for the fade-out endpoint introduces a three-byte
@@ -1928,6 +1938,16 @@ endpoint assignment inside the timer condition preserves the direct and
 inline split-amplitude patterns. Signed-return and const-member variants
 of the visible timer comparison reproduce its 20-byte body and preserve
 both callers' code, operand offsets and call destinations.
+
+A separate unsigned fade-out endpoint combined with a named float fade-in
+length recovers the original EDI, ESI and EBX assignments in the direct
+split-amplitude probe. Write the fade-out subtraction and division as
+separate assignments to reproduce `+0x00..+0x37` and
+`+0x64..+0xBC`, including the EAX denominator at `+0x91`. The fade-in uses
+FILD and FDIVP in place of FIDIV, and the final endpoint folds the
+fade-out field into an ADD. Those size changes compensate each other.
+The complete 336-byte carrier still differs at 116 bytes after replaying
+its 20 relocations, six of which move.
 
 Wrapping the three timer comparisons in small inline helpers, using an
 instance-method receiver, or inlining the axis writes after each RNG
