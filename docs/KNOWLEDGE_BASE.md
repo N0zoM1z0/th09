@@ -1879,6 +1879,20 @@ temporary, then emits the same add. Changing the source spelling to
 `+=` or passing the sum through a small inline helper preserves these
 two outcomes.
 
+The split control already has the address expression at the compiler
+driver's allocation entry (`0x1077C08E`), before preliminary allocation.
+The destination of the hold load at `+0x43` enters the global pass as
+virtual register 11. Allocating the endpoint loaded at `+0x25` (virtual
+register 6, emitted as EBX) returns the rewrite set `{1, 2, 11}`.
+The rewrite at `0x1078B2AA` rebinds the hold operand at `0x1078B8D8`
+before register 11 reaches its own scoring call. The final global pass
+writes the EAX descriptor at `0x10785F12`. The debugger build retains all
+336 bytes and the same 20 relocation rows as the cold split build.
+Inline endpoint accessors, reversing the sum's operands, and moving the
+hold predicate into an inline helper retain the same two byte patterns.
+Using a separate result for the fade-out endpoint introduces a three-byte
+reload of the fade-in endpoint from the conversion slot.
+
 Wrapping the three timer comparisons in small inline helpers, using an
 instance-method receiver, or inlining the axis writes after each RNG
 call preserves the existing 28- or 58-byte patterns in the closest
