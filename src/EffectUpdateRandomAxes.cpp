@@ -12,12 +12,6 @@ extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
 extern int g_PlayerRewardBaseValue;
 extern RngRuntimeView g_Rng;
 
-struct EffectSideCharacterView
-{
-    unsigned char unknown00[0x20];
-    int characterIndex20;
-};
-
 int __fastcall EffectUpdateCallbackType1Type2(Effect *effect)
 {
     EffectRandomAxesRuntimeView *state =
@@ -82,8 +76,7 @@ int __fastcall EffectUpdateCallbackType1Type2(Effect *effect)
                 descriptor.angle = g_Rng.GetRandomF32SignedInRange(0.2617994f) + 1.5707964f;
             }
             descriptor.speed1 = g_Rng.GetRandomF32SignedInRange(0.4f) + state->speedA0;
-            if (reinterpret_cast<const EffectSideCharacterView *>(
-                    &g_GameManager.sides[1 - state->sideIndexA8])->characterIndex20 == 10)
+            if (g_GameManager.sides[1 - state->sideIndexA8].characterIndex20 == 10)
                 descriptor.speed1 *= 0.93f;
             if (descriptor.bulletType == 3)
                 descriptor.speed1 += 0.3f;

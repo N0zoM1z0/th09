@@ -1935,3 +1935,18 @@ records. Its `sideState` pointer is the shared `PlayerSideStateView`
 three-float storage size. The callback remains byte-exact at 38/38 bytes with
 no relocations. Its changed-source replay passed the one affected exact unit;
 no cold replay ran.
+
+## 2026-11-20 Effect callbacks share the native side-state record
+
+The 38-byte `EffectFollowPlayerUpdate` callback now follows its owner through
+`Effect::manager->sideState` as the native `PlayerSideStateView`, then reads
+the real `PlayerLifecycleView::position1B88`. Its two private sparse owner
+records are gone; offset assertions pin side +0x04 and Player +0x1B88, while
+the callback remains 38/38 bytes exact.
+
+`EffectUpdateCallbackType1Type2` also no longer carries a private 0x24-byte
+side-character prefix. The random-axes bullet speed adjustment reads
+`g_GameManager.sides[...].characterIndex20` from the canonical
+`AsciiGameManagerSideView` at +0x20. Its 775-byte body remains exact with all
+33 relocation fields. Both changed-source scoped replays and CI passed; no
+full cold replay ran.
