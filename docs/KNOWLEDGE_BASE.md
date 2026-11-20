@@ -2127,3 +2127,18 @@ symbols at the same target addresses. No wrapper methods or new leaf bodies
 were added. The changed PlayerRuntime.cpp carrier replay passed all 21 exact
 units across five compiler profiles/jobs: 5,391 bytes and 288 relocations.
 The 335-byte UpdatePlayerBombState comparator is exact.
+
+## 2026-11-20 Player collision query now uses the canonical ZunTimer comparison
+
+PlayerCollisionQuery.cpp no longer defines a private 0x0C PlayerCollisionTimerView
+or casts PlayerLifecycleView::timer1B74 through that duplicate. The field is
+already PlayerTimerCtorView, which is an alias of the complete ZunTimer record.
+FindCollision now expresses the native comparison as player->timer1B74 > 0.
+
+The call target at 0x00403DE0 is the already exact ZunTimer::operator> leaf
+(20 bytes, symbol ??OZunTimer@@QAEIH@Z). The source call's actual COFF relocation
+was checked before updating the caller manifest; the duplicate
+PlayerCollisionTimerView::IsAfter name is no longer needed. Selected replay of
+PlayerCollisionQuery.cpp passed both exact functions in its carrier:
+FindCollision 602/602 and CalcItemBoxCollision 121/121, 723 bytes total and
+nine relocations. No full cold replay ran.

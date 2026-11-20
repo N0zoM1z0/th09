@@ -638,3 +638,15 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
   worsened the maintained 849/862 / 539-difference frontier and was reverted.
   The repeated slot dereference is retained because it participates in the
   native register/lifetime shape; do not simplify it without a better CFG fit.
+
+## Player collision timer owner consolidation (2026-11-20)
+
+- Removed PlayerCollisionTimerView from PlayerCollisionQuery.cpp. The native
+  timer field is already PlayerTimerCtorView/ZunTimer; FindCollision now uses
+  its exact operator> comparison directly.
+- Rebound the call at 0x00403DE0 to the canonical decorated ZunTimer operator>
+  symbol. The existing 20-byte ZunTimer::operator> leaf remains independently
+  exact.
+- Selected PlayerCollisionQuery.cpp replay passed FindCollision (602 bytes)
+  and CalcItemBoxCollision (121 bytes), 723 bytes / nine relocations total.
+  No full cold replay ran.

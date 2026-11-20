@@ -2,18 +2,6 @@
 
 #include <stddef.h>
 
-struct PlayerCollisionTimerView
-{
-    int previous;
-    float subFrame;
-    int current;
-
-    unsigned int IsAfter(int value);
-};
-
-typedef char PlayerCollisionTimerSizeIsC[
-    (sizeof(PlayerCollisionTimerView) == 0x0C) ? 1 : -1];
-
 PlayerCollisionQueryRecordView *PlayerCollisionQueryStateView::FindCollision(
     const PlayerPositionView &center,
     const PlayerPositionView &halfSize,
@@ -22,7 +10,7 @@ PlayerCollisionQueryRecordView *PlayerCollisionQueryStateView::FindCollision(
     PlayerLifecycleView *player = player00;
     if (player->GetUpdateState() != 0)
         return NULL;
-    if (reinterpret_cast<PlayerCollisionTimerView *>(&player->timer1B74)->IsAfter(0))
+    if (player->timer1B74 > 0)
         return NULL;
 
     PlayerCollisionQueryRecordView *record = records;

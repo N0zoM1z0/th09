@@ -23370,7 +23370,7 @@ target_address = 0x0041D810
 size = 0x25A
 relocations = [
   { offset = 0xF, type = "REL32", symbol = "?GetUpdateState@PlayerLifecycleView@@QAEHXZ", target = 0x00435EC0 },
-  { offset = 0x1F, type = "REL32", symbol = "?IsAfter@PlayerCollisionTimerView@@QAEIH@Z", target = 0x00403DE0 },
+  { offset = 0x1F, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0 },
   { offset = 0x83, type = "REL32", symbol = "??GPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401140 },
   { offset = 0xA8, type = "REL32", symbol = "??HPlayerPositionView@@QBE?AU0@ABU0@@Z", target = 0x00401100 },
   { offset = 0xF2, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
