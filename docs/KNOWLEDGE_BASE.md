@@ -2496,3 +2496,20 @@ that carrier leaves seven structural differences in the secondary ANM VM
 loop, which allocates the cursor and count to the opposite registers.
 Both carriers retain their draw-group register choice under their
 same-source compiler profile controls.
+
+Moving the real `ZunTimer::HasTickedEvery` definition at `0x00404920` into
+the Enemy compilation context changes code emitted more than 200 bytes
+before its call. VC7.1 emits the original EAX load and indexed address in
+the early draw path. With all 97 relocation fields replayed, the 3,900-byte
+candidate differs at four force-death vector argument bytes and 41 bullet
+descriptor bytes. Removing the volatile qualifier on the effect receiver
+produces the same result in this context. The visible constructor, effect
+spawn function and Enemy cleanup definition each retain the old two-byte
+residual when tested independently.
+
+In temporary source copies, removing the periodic timer/effect check while
+keeping the threshold and bullet spawn also restores the early EAX choice.
+Removing the bullet descriptor and its spawn call while keeping the timer
+and effect calls leaves the early ECX choice. Removing movement or the
+secondary animation loop independently preserves the two carriers' original
+register choices. These controls point to the timer/effect context.

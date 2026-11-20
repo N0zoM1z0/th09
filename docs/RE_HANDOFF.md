@@ -37,7 +37,7 @@ See [the schedule storage proof](KNOWLEDGE_BASE.md#2026-11-20-enemy-update-sched
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| EnemyManagerView::OnUpdate | 0x00410730 | 3,900/3,900 bytes; 2 differences (OK) | Source now mirrors retail short-circuit CFG: side-state bit is tested before the category read, and the early draw path falls into the shared append. The index-register choice differs at +0x19C/+0x1A3 (retail EAX, candidate ECX). |
+| EnemyManagerView::OnUpdate | 0x00410730 | 3,900/3,900 bytes; 2 differences (OK) | Making the real `ZunTimer::HasTickedEvery` body visible recovers the retail EAX choice. The same build introduces four differences in the force-death vector call and 41 in the bullet descriptor. See the [compiler context comparison](KNOWLEDGE_BASE.md#2026-11-20-enemy-update-schedule-storage). |
 | ReplayManagerView::BeginPlaybackStage | 0x00420840 | 540/540 bytes; 13 structural differences (OK), 19 after relocation replay | EDX/ESI register lifetime around the playback-stage byte and side-0 runtime pointer. Two shifted GameManager operands account for six additional differing bytes. |
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes; 4 differences (OK) | Focus-mode load order at +0x127..+0x12A. Retail loads g_GameConfiguration before player sideIndex; current source emits the reverse order. |
 | PlayerLifecycleView::UpdateChargeAttack | 0x0041F810 | 1,210/1,210 bytes; 183 differences (OK) | Boss register allocation: retail loads the full DWORD sideIndex into EDI and forms the ReplayInputState pointer in EBX (0x8E stride). Current short-side/input locals allocate the opposite way; widening/removing locals regressed hundreds of bytes. |
