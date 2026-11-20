@@ -11,7 +11,7 @@ KNOWLEDGE_BASE.md and generated counts live in PROGRESS.md.
   SHA-256 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 - Compiler: pinned VC7.1 with each owner's profile in config/match-units.toml
   or config/frontiers.toml. Never change profiles to chase register choices.
-- Stage: exact reconstruction. Latest source checkpoint: 1c403728 (remove dead HUD VM cursor stores). Local main has commits beyond origin/main; do not assume
+- Stage: exact reconstruction. Latest source checkpoint: b22cc6ba (native PlayerShot owner in draw callback). Local main has commits beyond origin/main; do not assume
   local commits have been pushed. Inspect git status and git log before work.
 - Worktree was clean at this handoff update. No interrupted source edits were found.
 - Ledger: 2,248 tracked function candidates; origin/boundary review pending 0;
@@ -348,7 +348,7 @@ no register hints, inline assembly, padding, or synthetic bytes were added.
 
 ## Latest source work and boss probes (2026-11-20)
 
-Five additional natural-C++ source checkpoints are maintained on local `main`:
+Eight additional natural-C++ source checkpoints are maintained on local `main`:
 
 - `c7e8a8ac` — recover typed ASCII menu transition-flag reads. The changed
   carrier passed 10 exact units, 4,206 physical bytes and 264 relocation
@@ -364,6 +364,18 @@ Five additional natural-C++ source checkpoints are maintained on local `main`:
   VM receiver for its HUD draw, retaining the original `Float3` cursor for
   position writes.
 - `1c403728` — remove two now-dead HUD VM cursor assignments.
+- `953efe02` — name the native 0x0C-byte `ScreenShakeEnvelopeView` and
+  assert its three DWORD member offsets. The changed header passed 21 compiler
+  carriers, 100 exact units, 40,016 physical bytes and 2,487 relocation fields;
+  79 local COFF labels were rebound only after original-PE destination and
+  same-section owner-relative checks.
+- `3b391a01` — recover `PlayerShotCtorView::trailSegmentCount46A` at +0x46A,
+  shared by the spawn, update and draw callbacks. The affected source scope
+  passed three exact units, 1,103 physical bytes and 25 relocations.
+- `b22cc6ba` — remove the duplicate sparse shot-draw layout and use the real
+  0x484-byte `PlayerShotCtorView`/embedded `PlayerAnmVmView` in
+  `PlayerShotDrawCallbackType1`, retaining its original opaque callback ABI.
+  The 204-byte owner and all six relocations remain exact.
 
 The complete `FrontSide::OnDraw` owner remains 3,094/3,094 bytes with all 209
 relocation fields exact. Its changed-source replay passed one exact unit and
@@ -391,5 +403,18 @@ update or a source change:
   `AnmVm *` or introducing a non-inlined owner-recovery helper regressed the
   complete owner. Those variants were discarded; only the direct typed
   single-VM accesses listed above remain.
+- `EnemyManager::OnUpdate`: additional array-reference, pointer-to-array,
+  pointer-base and inline append-helper forms retained the same two-byte
+  EAX/ECX draw-group index residual. All probes were reverted; the maintained
+  3,900-byte source remains unchanged.
+- `CheckBulletCollision`: target-polarity dispatch, dispatcher-in-circle,
+  single-inner-loop, and radius-condition inversion forms were compiled. The
+  best new label/loop trial was 848/862 bytes with 569 differences, worse than
+  the maintained 849/862-byte, 539-difference candidate. All trials were
+  reverted; no frontier was rebaselined.
+- `UpdateChargeAttack`: full-DWORD side with scoped pointer/reference aliases
+  did not improve the 1,210-byte, 183-difference baseline. A timed-out probe
+  left a partial local edit and compiler temporaries; those were explicitly
+  restored/removed, and the worktree was verified clean before continuing.
 
 No ASM, inline-assembly, padding or synthetic-byte changes were introduced.
