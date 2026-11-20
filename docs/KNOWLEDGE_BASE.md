@@ -1888,3 +1888,15 @@ Type2/Type4/Type5 remain exact at 68/44/72 bytes with all four relocations;
 their selected carrier replay passed 184 physical bytes. The Type6 callback
 retains its small +0x0C player view because replacing it with the complete
 PlayerLifecycleView changes the original register/stack codegen by one byte.
+
+## 2026-11-20 Player-shot spawn callbacks use native Effect records
+
+The fixed-slot effect returned by the callback-specific manager ABI is now
+consumed through the shared native `Effect` record. Type5 reads
+`Effect::active` at +0xC4; Type6 copies the native `Effect::position` at
++0x0C into the shot's +0x2A4 position. The callback-specific manager and
+return-type tags remain forward declared because their decorated method
+symbols are distinct original aliases at the same fixed-slot accessor entry;
+only the duplicate sparse Effect layouts were removed. Spawn Type2/4/5/6 all
+remain exact (68/44/72/119 bytes), and the two changed-source carriers passed
+303 physical bytes and six relocation fields.

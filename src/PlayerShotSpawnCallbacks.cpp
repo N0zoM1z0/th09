@@ -1,4 +1,5 @@
 #include "PlayerShotInitializeView.hpp"
+#include "EffectManager.hpp"
 struct PlayerShotSpawnPlayerView;
 struct PlayerShotSpawnShotView;
 struct PlayerShotSpawnDescriptorView;
@@ -10,13 +11,7 @@ struct PlayerShotSpawnVec3
     float z;
 };
 
-struct PlayerShotSpawnEffectView
-{
-    unsigned char unknown000[0xC4];
-    unsigned char activeC4;
-    unsigned char unknownC5[0xD8 - 0xC5];
-};
-
+struct PlayerShotSpawnEffectView;
 struct PlayerShotSpawnEffectManagerView
 {
     unsigned char unknown00[0x30];
@@ -86,9 +81,10 @@ int __fastcall PlayerShotSpawnCallbackType5(
     PlayerShotSpawnEffectManagerView *effectManager =
         reinterpret_cast<PlayerShotSpawnEffectManagerView *>(
             nativePlayer->sideState->effectManager0C);
-    PlayerShotSpawnEffectView *effect = effectManager->GetFixedSlotEffect(5);
+    Effect *effect = reinterpret_cast<Effect *>(
+        effectManager->GetFixedSlotEffect(5));
 
-    if (effect->activeC4 == 0 &&
+    if (effect->active == 0 &&
         value == reinterpret_cast<PlayerShtDescriptorView *>(entry)->fireInterval)
     {
         nativePlayer->InitializeShot(
