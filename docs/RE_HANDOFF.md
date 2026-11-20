@@ -418,3 +418,65 @@ update or a source change:
   restored/removed, and the worktree was verified clean before continuing.
 
 No ASM, inline-assembly, padding or synthetic-byte changes were introduced.
+
+## Continuation after 134cf5e0 (2026-11-20)
+
+The following source checkpoints are now on local `main`; all use the
+`gpt-web:` commit prefix and preserve the original callback ABI tags:
+
+- `3b391a01` names the shot +0x46A trail segment count, shared by the exact
+  Type1 spawn/update/draw callbacks.
+- `b22cc6ba` and `2e9756b5` remove the duplicate sparse shot layouts from both
+  shot draw callbacks. Both now use the complete 0x484-byte
+  `PlayerShotCtorView` and its embedded `PlayerAnmVmView`; the 204-byte and
+  293-byte owners remain exact.
+- `c7593bb3` shares the native shot/SHT records across spawn Type2/4/5/6 and
+  update Type5/6/7; all seven callbacks remain exact.
+- `55992dee` removes the duplicate 0x484-byte shot and 0x38-byte descriptor
+  definitions from `PlayerShotInitializeView.hpp`, retaining only the
+  original forward-declared ABI tags. Its selected replay passed seven
+  carriers, nine units, 1,025 bytes and 22 relocations.
+- `3897723b` names shot +0x470 as `mode470` and +0x472 as `flag472`; the
+  selected replay passed 14 carriers, 17 units, 2,886 bytes and 68 relocations.
+- `93027eb2` recovers Player +0x30354 as `shotCollisionCount30354` and removes
+  the callback-only sparse Player prefix. Both shot collision callbacks
+  remain exact; selected replay passed 19 bytes.
+- `fa62f431` removes the duplicate sparse Player/side views from spawn Type4
+  and Type5; both use `PlayerLifecycleView` and its native side state. The
+  three callbacks in that source remain exact; selected replay passed 184
+  bytes and four relocations.
+- `eb752fdd`, `f8767b8f` and `07918611` recover the native `Effect` record and
+  fixed-slot pool pointer in the shot spawn/accessor path while retaining
+  callback-specific decorated aliases. The five affected exact functions
+  passed 329 bytes and six relocation fields across three carriers.
+
+The authored exact-function count remains **1,026**. No whole-product cold
+replay was run. Basic CI passes and the worktree is clean; local `main` is
+12 commits ahead of `origin/main`.
+
+### Boss continuation results
+
+- `EnemyManager::OnUpdate` remains 3,900/3,900 bytes with two EAX/ECX index
+  register differences. Function-scope index types, pointer/reference
+  aliases, array-reference forms and append helpers did not improve it.
+- `CheckBulletCollision` remains 849/862 bytes with 539 differing positions
+  and is still REGRESSED against the strict 842-byte/705-difference ratchet.
+  A new IDA-CFG reconstruction tried the circle-first, shared-dispatch,
+  rectangle-after layout, including the native double-zero radius comparison
+  and loop-back labels. The best new candidate was 804/862 bytes with 712
+  differences; other variants were worse. All probes were reverted. The
+  maintained source and frontier manifest are unchanged.
+- `UpdateNetworkService` remains 1,633/1,633 bytes with 307 differences and
+  REGRESSED against the 1,629-byte ratchet. Splitting the packet-ready return
+  from the later frame-queue wait did not improve its code layout; all trials
+  were reverted.
+- `DrawReplayMenu` remains 1,280/1,280 bytes with 29 differences. Reordering
+  selected-index/replay-view locals regressed to 1,264 bytes and 694
+  differences; those variants were reverted.
+- `UpdateChargeAttack` remains 1,210/1,210 bytes with 183 differences. The
+  widened side-index/pointer variants still regress the function and were
+  reverted.
+
+Do not promote any of these boss candidates or rebaseline their frontiers.
+Continue to work from the current natural C++ source and target CFG; no ASM,
+inline assembly, register hints, padding or synthetic bytes were introduced.
