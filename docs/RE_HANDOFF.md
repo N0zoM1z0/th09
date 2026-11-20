@@ -596,3 +596,23 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
   unchanged owner-relative target addresses and rebound in the manifest.
 - Five selected compiler carriers passed 21 exact units, 5,391 bytes and 288
   relocation fields. No full cold replay ran.
+
+## Boss probe checkpoint after shared Player owners (2026-11-20)
+
+- UpdateNetworkService remains at its maintained 1,633-byte candidate with
+  307 differing bytes (strict 1,629-byte ratchet). Natural-C++ probes that
+  split the packet-ready early return from the later frame-queue wait, and
+  that reuse the long-lived frameNetwork pointer at the packet-ready edge,
+  rebuilt to the same 1,633/307 result. The target still branches from the
+  +0x3F8 packetReady test to +0x422 input handling, while the candidate's
+  return block remains out of line. All probe source was restored.
+- UpdateChargeAttack remains 1,210 bytes / 183 differing bytes. Widening the
+  side local, moving the ReplayInputState pointer to sideIndex, changing the
+  pointer to a reference, consolidating the mode snapshot and narrowing its
+  scope were all tested as natural C++ variants. Candidates ranged from
+  1,209/717 to 1,215/900 and did not improve the maintained source; all were
+  restored. The field sideIndex itself is a signed 32-bit member at +0x08.
+- The committed PlayerRuntime owner cleanup and ReplayInputState reuse are
+  independent exact improvements: 21 selected exact units passed after the
+  PlayerRuntime rebuild. Do not confuse those exact consumer results with
+  the two still-nonexact boss frontiers above.
