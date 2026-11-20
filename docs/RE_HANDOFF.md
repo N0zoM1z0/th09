@@ -38,7 +38,8 @@ See [the schedule storage proof](KNOWLEDGE_BASE.md#2026-11-20-enemy-update-sched
 The current focus is `ReplayManagerView::BeginPlaybackStage`. Rebuild it with
 `python3 -B scripts/check-frontier.py replay-begin-playback --show`.
 The [side-state comparison](KNOWLEDGE_BASE.md#2026-11-20-replay-playback-side-state-load)
-records the original relocation positions and the separate nine-byte probe.
+records the original relocation positions, the nine-byte probe, and the
+VC7.1 trace that explains its EDX choice.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |

@@ -2541,3 +2541,20 @@ reuse for the stage index and the side runtime pointer.
 `0x004A8108 + sideIndex * 4`, confirming that GameManager `+0x378` and
 `+0x37C` form a side-indexed pair. Modelling the pair as an array in the
 playback probe preserves the nine differences.
+
+An isolated function with its real declarations reproduces both the 19-byte
+baseline and the nine-byte side-reference result. A read-only trace of the
+pinned C2 backend at `0x107833F2` and `0x10782A1D` exposes the register
+decision in the side-reference build. Its additional scored live range has
+candidate mask `0x88`, zero cost for EDX and ESI, and no affinity list.
+C2 chooses descriptor 3 (EDX) ahead of descriptor 7 (ESI). The generated
+pointer load at `+0x15B` and score store at `+0x179` use EDX. The baseline
+has no corresponding scored range. Capturing a reference to the score word
+instead of the whole runtime object restores the baseline's early pointer
+load and 19-byte residual.
+
+The early validation computes `header + 0x20 + stage * 0x28` and tests
+that 32-bit address. Computing the address from the full header expresses
+this check for the ten-slot stage domain, including indices beyond the three
+input-stream rows. The address expression preserves all 540 candidate
+bytes and 32 COFF fields in the baseline and in the side-reference probe.

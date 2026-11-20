@@ -589,7 +589,10 @@ int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
         replayManager->unknown110 = 0;
     }
     stage = g_GameManager.field0FC;
-    if (replayManager->replayData->frameStart[stage] == NULL)
+    // The original tests the row address using 32-bit address arithmetic.
+    const u32 frameTableOffset = static_cast<u32>(offsetof(ReplayDataView, frameStart)) +
+        static_cast<u32>(stage) * sizeof(replayManager->replayData->frameStart[0]);
+    if (reinterpret_cast<u32>(replayManager->replayData) + frameTableOffset == 0u)
         return -1;
     if ((g_GameManager.IsGameMode0() || g_GameManager.IsGameMode1()) && stage > 0)
     {
