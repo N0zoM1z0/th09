@@ -616,3 +616,17 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
   independent exact improvements: 21 selected exact units passed after the
   PlayerRuntime rebuild. Do not confuse those exact consumer results with
   the two still-nonexact boss frontiers above.
+
+## Player bomb-state owner consolidation (2026-11-20)
+
+- Removed PlayerBombTargetRuntimeView and PlayerBombOwnerRuntimeView.
+  UpdatePlayerBombState now calls the typed side-state EnemyManagerView's
+  FindActiveEnemyBySideCategory(3) and CardAttack::StartAttack directly.
+  This matches the same canonical call owners already used by charge,
+  death and reward code.
+- Updated the five method relocation bindings in player-update-bomb-state
+  to the canonical exact symbols; both destinations are unchanged. The
+  335-byte function remains exact.
+- Selected PlayerRuntime.cpp replay passed 21 exact units, five compiler
+  carriers, 5,391 bytes and 288 relocations. Eleven regenerated local-label
+  spellings in UpdateBeforeState were address-checked before rebinding.

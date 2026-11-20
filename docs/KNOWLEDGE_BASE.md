@@ -2109,3 +2109,21 @@ Selected replay of all five PlayerRuntime.cpp carriers passed 21 exact units,
 5,391 physical bytes and 288 relocation fields. This includes the 335-byte
 UpdatePlayerBombState and 273-byte UpdatePlayerCollisionRegions. No full cold
 replay ran.
+
+## 2026-11-20 Player bomb state now calls the canonical EnemyManager and CardAttack owners
+
+UpdatePlayerBombState no longer declares PlayerBombTargetRuntimeView or
+PlayerBombOwnerRuntimeView, nor does it reinterpret the two side-state slots.
+The +0x10 target is the already typed EnemyManagerView and its exact
+FindActiveEnemyBySideCategory(3) method; the +0x14 owner is the existing
+CardAttack and its exact StartAttack(row, class, value, path) method. The
+same pair of methods is used directly by UpdateChargeAttack, PlayerDeath
+and PlayerOwnerStateReward. The target query returns EnemyView*, so the
+bomb's previous boolean test is now the explicit null test.
+
+The four Configure call relocations and one CheckMode relocation in the
+UpdatePlayerBombState exact unit now bind to the canonical existing method
+symbols at the same target addresses. No wrapper methods or new leaf bodies
+were added. The changed PlayerRuntime.cpp carrier replay passed all 21 exact
+units across five compiler profiles/jobs: 5,391 bytes and 288 relocations.
+The 335-byte UpdatePlayerBombState comparator is exact.

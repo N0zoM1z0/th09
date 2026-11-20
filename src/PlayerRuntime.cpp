@@ -12,6 +12,8 @@
 #include "GameManagerRuntimeView.hpp"
 #include "Supervisor.hpp"
 #include "ReplayInputState.hpp"
+#include "EnemyManager.hpp"
+#include "CardAttack.hpp"
 
 #include <stddef.h>
 
@@ -306,16 +308,6 @@ static void UpdatePlayerCollisionRegions(PlayerLifecycleView *player)
 }
 
 
-struct PlayerBombTargetRuntimeView
-{
-    int CheckMode(int mode);
-};
-
-struct PlayerBombOwnerRuntimeView
-{
-    void Configure(int mode0, int mode1, int zero, const char *path);
-};
-
 static void UpdatePlayerBombState(PlayerLifecycleView *player)
 {
     if (g_GameManager.frontFactoryA8->transitionVmCount1095C != 0)
@@ -327,21 +319,18 @@ static void UpdatePlayerBombState(PlayerLifecycleView *player)
 
     if (player->scalar30388 >= 400.0f)
     {
-        if (!reinterpret_cast<PlayerBombTargetRuntimeView *>(
-                player->opponentState->attackTarget10)->CheckMode(3))
+        if (player->opponentState->enemyManager10->FindActiveEnemyBySideCategory(3) == NULL)
         {
-            reinterpret_cast<PlayerBombOwnerRuntimeView *>(
-                player->opponentState->attackOwner14)
-                ->Configure(2, 2, 0, player->primaryShtFile->modePath2);
+            player->opponentState->cardAttack14->StartAttack(
+                2, 2, 0, player->primaryShtFile->modePath2);
             player->scalar30384 = 0.0f;
             player->scalar30388 = 0.0f;
             player->SetBombMode2();
         }
         else
         {
-            reinterpret_cast<PlayerBombOwnerRuntimeView *>(
-                player->opponentState->attackOwner14)
-                ->Configure(1, 1, 0, player->primaryShtFile->modePath1);
+            player->opponentState->cardAttack14->StartAttack(
+                1, 1, 0, player->primaryShtFile->modePath1);
             player->scalar30384 = 100.0f;
             player->scalar30388 = 100.0f;
             player->SetBombMode1();
@@ -351,9 +340,8 @@ static void UpdatePlayerBombState(PlayerLifecycleView *player)
 
     if (player->scalar30388 >= 300.0f)
     {
-        reinterpret_cast<PlayerBombOwnerRuntimeView *>(
-            player->opponentState->attackOwner14)
-            ->Configure(1, 1, 0, player->primaryShtFile->modePath1);
+        player->opponentState->cardAttack14->StartAttack(
+            1, 1, 0, player->primaryShtFile->modePath1);
         player->scalar30384 = 0.0f;
         player->scalar30388 = 0.0f;
         player->SetBombMode1();
@@ -362,9 +350,8 @@ static void UpdatePlayerBombState(PlayerLifecycleView *player)
 
     if (player->scalar30388 >= 200.0f)
     {
-        reinterpret_cast<PlayerBombOwnerRuntimeView *>(
-            player->opponentState->attackOwner14)
-            ->Configure(0, 0, 0, player->primaryShtFile->modePath0);
+        player->opponentState->cardAttack14->StartAttack(
+            0, 0, 0, player->primaryShtFile->modePath0);
         player->scalar30384 = 0.0f;
         player->scalar30388 = 0.0f;
         player->SetBombMode0();
