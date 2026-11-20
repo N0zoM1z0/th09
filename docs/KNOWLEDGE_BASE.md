@@ -1885,9 +1885,10 @@ through its callback-specific view. Type4 uses the native Player position at
 +0x1B88; Type5 uses the native side-state for its fixed-slot effect and shot
 initialization. The callback parameter tags remain opaque and unchanged.
 Type2/Type4/Type5 remain exact at 68/44/72 bytes with all four relocations;
-their selected carrier replay passed 184 physical bytes. The Type6 callback
-retains its small +0x0C player view because replacing it with the complete
-PlayerLifecycleView changes the original register/stack codegen by one byte.
+their selected carrier replay passed 184 physical bytes. Type6 also uses the
+full native `PlayerLifecycleView` after its fixed-slot accessor and returned
+record were switched to the native `EffectManager`/`Effect` types; its
+119-byte callback remains exact with the original opaque Player ABI tag.
 
 ## 2026-11-20 Player-shot spawn callbacks use native Effect records
 

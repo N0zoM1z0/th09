@@ -445,14 +445,16 @@ The following source checkpoints are now on local `main`; all use the
   and Type5; both use `PlayerLifecycleView` and its native side state. The
   three callbacks in that source remain exact; selected replay passed 184
   bytes and four relocations.
-- `eb752fdd`, `f8767b8f` and `07918611` recover the native `Effect` record and
-  fixed-slot pool pointer in the shot spawn/accessor path while retaining
-  callback-specific decorated aliases. The five affected exact functions
+- `eb752fdd` also moves spawn Type6 to the full native Player owner and
+  replaces its sparse effect-position view with `Effect::position`, while
+  retaining the callback-specific manager/return ABI aliases. `f8767b8f` and
+  `07918611` type the fixed-slot effect pools as native `Effect *` and recover
+  the standalone accessor's native storage. The five affected exact functions
   passed 329 bytes and six relocation fields across three carriers.
 
 The authored exact-function count remains **1,026**. No whole-product cold
 replay was run. Basic CI passes and the worktree is clean; local `main` is
-12 commits ahead of `origin/main`.
+13 commits ahead of `origin/main`.
 
 ### Boss continuation results
 
