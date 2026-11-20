@@ -1911,3 +1911,15 @@ original symbol. Compile-time checks tie the native Effect size (0xD8),
 position (+0x0C), active byte (+0xC4), and EffectManager::effects pool
 (+0x30) to the accessor's physical arithmetic. The function remains exact,
 and the selected carrier replay passed its 26-byte body with no relocations.
+
+## 2026-11-20 Fixed-slot effect accessor uses native Effect pool
+
+`EffectFixedSlotManagerView::GetFixedSlotEffect` now types its +0x30 pool as
+`Effect *` and asserts the native 0xD8 record, +0x0C position and +0xC4 active
+byte. It still returns the original opaque `EffectFixedSlotRecordView *`
+ABI tag and computes `&effects[256 + slot]`, preserving all 26 bytes.
+The callback-specific fixed-slot manager views in shot spawn Type2/4/5/6 now
+also type their +0x30 pool pointer as `Effect *` while retaining the distinct
+original callback method/return tags used by their relocations. All five
+functions remain exact (329 physical bytes, six relocation fields) across
+three changed-source carriers.
