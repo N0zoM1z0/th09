@@ -2482,9 +2482,17 @@ shared symbol. Update's two DIR32 fields at +0xB5 and +0xC5 select it with
 zero addends. Cold replay of the ECL and both writer sources passed their
 91 existing exact units.
 
-The update function still has two differing bytes. A reference to the side
-timer before the pool loop restores the original EAX draw-group index but
-changes ten other register-dependent bytes. CirnoLab's current carrier
-also emits the original EAX instructions after its two append paths are
-rewritten to share a source tail. The tail alone does not explain the
-register choice.
+After replaying all 97 code and table relocations and checking the five
+literal references, the rebuilt 3,900-byte owner differs only at +0x19C
+and +0x1A3. The four switch destinations and both three-byte folded callback
+definitions agree with the original.
+
+A reference to the side timer before the pool loop restores EAX for the
+draw-group index and changes ten nearby register-dependent bytes.
+CirnoLab's carrier retains its original EAX instructions with a shared
+append tail and with its nearby scheduler and motion callees hidden.
+Applying the target-backed bullet descriptor field order and speed to
+that carrier leaves seven structural differences in the secondary ANM VM
+loop, which allocates the cursor and count to the opposite registers.
+Both carriers retain their draw-group register choice under their
+same-source compiler profile controls.
