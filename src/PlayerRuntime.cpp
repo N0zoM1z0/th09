@@ -241,72 +241,33 @@ resourceReady:
 }
 
 
-struct PlayerCollisionRegionRuntimeView
-{
-    unsigned char unknown00[0x08];
-    float valueX;
-    float growthX;
-    float valueY;
-    float valueZ;
-    float growthY;
-    float growthZ;
-    unsigned char unknown20[0x04];
-    int lifetime;
-    unsigned char unknown28[0x14];
-    unsigned char active;
-    unsigned char unknown3D[0x03];
-    int delay;
-
-    void Deactivate();
-};
-
-typedef char PlayerCollisionRegionSizeIs44[(sizeof(PlayerCollisionRegionRuntimeView) == 0x44) ? 1 : -1];
-
-struct PlayerCollisionRuntimeView
-{
-    unsigned char unknown0000[0xB0BC];
-    PlayerCollisionRegionRuntimeView embeddedRegion;
-    PlayerCollisionRegionRuntimeView *activeRegions[(0xB908 - 0xB100) / 4];
-    PlayerCollisionRegionRuntimeView *releasedRegions[(0xC110 - 0xB908) / 4];
-    int activeRegionCount;
-    int releasedRegionCount;
-};
-
-typedef char PlayerCollisionActiveAtB100[(offsetof(PlayerCollisionRuntimeView, activeRegions) == 0xB100) ? 1 : -1];
-typedef char PlayerCollisionReleasedAtB908[(offsetof(PlayerCollisionRuntimeView, releasedRegions) == 0xB908) ? 1 : -1];
-typedef char PlayerCollisionCountAtC110[(offsetof(PlayerCollisionRuntimeView, activeRegionCount) == 0xC110) ? 1 : -1];
-
 static void UpdatePlayerCollisionRegions(PlayerLifecycleView *player)
 {
-    PlayerCollisionRuntimeView *runtime =
-        reinterpret_cast<PlayerCollisionRuntimeView *>(player);
-    PlayerCollisionRegionRuntimeView **slot = runtime->activeRegions;
-    // The native Player allocation contains distinct 514-slot active and
-    // released pointer arrays. Walk and compact the actual live slots,
-    // preserving signed 32-bit lifetime wrap for the expiration check.
-
-    for (int index = 0; index < runtime->activeRegionCount; ++index)
+    PlayerCollisionRegionCreateRegionView **slot = player->activeB100;
+    // Walk and compact the native Player-owned region slots directly. The
+    // creation, damage, bullet-collision and update paths share this record.
+    for (int index = 0; index < player->collisionRegionActiveCountC110; ++index)
     {
-        if ((*slot)->delay > 0)
+        if ((*slot)->collisionDelay40 > 0)
         {
-            --(*slot)->delay;
+            --(*slot)->collisionDelay40;
         }
         else
         {
-            (*slot)->lifetime = static_cast<int>(
-                static_cast<unsigned int>((*slot)->lifetime) - 1u);
-            (*slot)->valueX += (*slot)->growthX;
-            (*slot)->valueY += (*slot)->growthY;
-            (*slot)->valueZ += (*slot)->growthZ;
-            if ((*slot)->lifetime <= 0)
+            (*slot)->lifetime24 = static_cast<int>(
+                static_cast<unsigned int>((*slot)->lifetime24) - 1u);
+            (*slot)->radius08 += (*slot)->radiusGrowth0C;
+            (*slot)->halfWidth10 += (*slot)->widthGrowth18;
+            (*slot)->halfHeight14 += (*slot)->heightGrowth1C;
+            if ((*slot)->lifetime24 <= 0)
             {
                 (*slot)->Deactivate();
-                runtime->releasedRegions[runtime->releasedRegionCount++] = *slot;
+                player->releasedB908[player->collisionRegionReleasedCountC114++] = *slot;
 
-                PlayerCollisionRegionRuntimeView **current = slot;
+                PlayerCollisionRegionCreateRegionView **current = slot;
                 while ((*current = current[1]) != NULL)
                     ++current;
-                --runtime->activeRegionCount;
+                --player->collisionRegionActiveCountC110;
                 --index;
                 continue;
             }
@@ -314,33 +275,34 @@ static void UpdatePlayerCollisionRegions(PlayerLifecycleView *player)
         ++slot;
     }
 
-    PlayerCollisionRegionRuntimeView *embedded = &runtime->embeddedRegion;
-    if (embedded->active)
+    PlayerCollisionRegionCreateRegionView *embedded = &player->collisionRegionB0BC;
+    if (embedded->active3C)
     {
-        if (embedded->delay > 0)
+        if (embedded->collisionDelay40 > 0)
         {
-            --embedded->delay;
+            --embedded->collisionDelay40;
             return;
         }
 
-        embedded->lifetime = static_cast<int>(
-            static_cast<unsigned int>(embedded->lifetime) - 1u);
-        embedded->valueX += embedded->growthX;
-        embedded->valueY += embedded->growthY;
-        embedded->valueZ += embedded->growthZ;
-        if (embedded->lifetime <= 0)
+        embedded->lifetime24 = static_cast<int>(
+            static_cast<unsigned int>(embedded->lifetime24) - 1u);
+        embedded->radius08 += embedded->radiusGrowth0C;
+        embedded->halfWidth10 += embedded->widthGrowth18;
+        embedded->halfHeight14 += embedded->heightGrowth1C;
+        if (embedded->lifetime24 <= 0)
         {
             embedded->Deactivate();
             return;
         }
-        runtime->activeRegions[static_cast<unsigned int>(runtime->activeRegionCount)] = embedded;
+        player->activeB100[static_cast<unsigned int>(
+            player->collisionRegionActiveCountC110)] = embedded;
     }
     else
     {
-        runtime->activeRegions[static_cast<unsigned int>(runtime->activeRegionCount)] = NULL;
+        player->activeB100[static_cast<unsigned int>(
+            player->collisionRegionActiveCountC110)] = NULL;
     }
 }
-
 
 
 struct PlayerInputRuntimeView

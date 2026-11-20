@@ -569,3 +569,19 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
 - The collision-region owner and Deactivate leaf changes are committed
   separately and their 19-unit selected replay passed. Current exact count
   remains 1,026; no full cold replay ran.
+
+## Player collision owner continuation (2026-11-20)
+
+- UpdatePlayerCollisionRegions now uses PlayerLifecycleView's actual embedded
+  region, active/released arrays and counters, all typed as the shared complete
+  PlayerCollisionRegionCreateRegionView. Removed both sparse local overlays.
+- Its old geometry slots are now named radius/radiusGrowth/halfWidth/
+  halfHeight/widthGrowth/heightGrowth, matching the allocator and collision
+  consumers. Delay, lifetime and active are the same +0x40/+0x24/+0x3C fields.
+- The updater remains exact at 273 bytes. Selected replay passed 21 exact units,
+  five compiler jobs, 5,391 bytes and 288 relocations. Eleven regenerated
+  PlayerRuntime.cpp local-label spellings were checked against identical
+  owner-relative addresses before updating the manifest.
+- No full cold replay ran; the separate CheckBulletCollision and
+  UpdateNetworkService boss frontiers remain non-exact and are not covered by
+  this replay.
