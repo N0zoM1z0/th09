@@ -58,8 +58,6 @@ enum PlayerMovementInputMask
     PLAYER_MOVE_DOWN_RIGHT = PLAYER_MOVE_DOWN | PLAYER_MOVE_RIGHT
 };
 
-extern GameConfiguration *g_GameConfiguration;
-
 // Actual playfield bounds are four fields within the exact GameManager
 // coordinate initializer owner, not four independent retail globals.
 typedef char PlayerMovementPlayfieldMinXAt360[
@@ -107,11 +105,10 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
     else
         player->movementDirection30358 = 0;
 
-    // Focus mode belongs to the real per-side GameConfiguration row. The
-    // target reads this row after the directional input callbacks; its
-    // remaining independent pointer/side load order is still a byte residual.
+    // Read the live configuration and side after the directional input calls.
+    // The configuration pointer belongs to GameManager at +0xE8.
     int focused;
-    if (g_GameConfiguration->sideFocusMode[player->sideIndex] == 1)
+    if (g_GameManager.configurationE8->sideFocusMode[player->sideIndex] == 1)
         // Retail rereads the input record here instead of reusing input.
         focused = g_ReplayInputStates[inputSide].auxiliary2A >= 8;
     else

@@ -1472,6 +1472,49 @@ load order. Both source changes were reverted; the maintained 1,900-byte
 candidate remains at four differences.
 
 
+## 2026-11-20 Player movement focus loads
+
+`PlayerLifecycleView::UpdateMovementAndOptions` has one remaining
+instruction-order difference at `0x0041C296`. The reviewed owner has
+1,835 code bytes, a one-byte alignment NOP and two eight-entry switch
+tables, ending at `0x0041C8DB`. Under pinned VC7.1 /O2 /Ob1 /Oy- all 66
+effective relocation destinations, including 23 calls and the real
+floating-point zero definition, agree. The configuration DIR32 field
+moves from `+0x128` to `+0x12B` in the candidate. After replay, the
+eight differing bytes are `+0x127..+0x12E`.
+
+The original load uses the slot at `0x004A7E78`, which exact gameplay
+setup creates and populates as `g_GameManager.configurationE8`. The
+movement source now reads that same native member. Its COFF reference
+uses the common GameManager symbol with addend `0xE8`, and all 1,900
+relocation-replayed candidate bytes are identical to the prior build
+with a separate configuration symbol. The caller replay passed all 21
+exact PlayerRuntime units, covering 5,391 physical bytes and 288 fields.
+
+In the current body, C2 already has the stand-alone side-index MOV at
+allocation driver entry `0x1077C08E`. The configuration MOV is inserted
+after it before the global allocation call at `0x1077C0F5`. Both
+destinations remain virtual at global exit. The scratch selector at
+`0x10775ACC` sees EAX first for the side-index load and ECX next for the
+configuration load. CirnoLab's full player carrier at afebc8b, built
+with its documented profile and umbrella header, also loads the side
+first and puts the configuration relocation at `+0x12B`. Ten compilable
+historical TH09 drafts do the same under the current headers. Including
+the real PlayerRuntime caller or the Float3, timer or ANM script-index
+leaves preserves the order. Sharing the real input-mask and animation-
+interrupt bodies changes other instructions and retains the same order.
+
+A local snapshot with a `const GameConfiguration &configuration` and
+`const int &side`, initialized from the native pointer and live side
+member, produces the two loads in original order at driver entry.
+Global allocation gives the configuration EAX. Local scratch selection
+then gives the side ECX. The accumulator's absolute load encodes in
+five bytes, one shorter than the original ECX load, and the later
+operand offsets move. A pointer-representation copy produces the same
+first two loads. The open issue is retaining the configuration-first
+schedule while assigning the original registers and preserving the rest
+of the owner.
+
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 
 IDA's `UpdateChargeAttack` entry is precise: EDI holds the full DWORD

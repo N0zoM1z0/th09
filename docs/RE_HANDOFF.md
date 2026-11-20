@@ -41,6 +41,13 @@ buffer at the reviewed original address. The current Enemy update comparison
 still has two register differences.
 See [the schedule storage proof](KNOWLEDGE_BASE.md#2026-11-20-enemy-update-schedule-storage).
 
+The current focus is `PlayerLifecycleView::UpdateMovementAndOptions`.
+Rebuild it with `python3 -B scripts/check-frontier.py player-movement --show`.
+The native configuration slot restores the common GameManager symbol. The
+[compiler trace](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads)
+shows how the focus lookup's address lowering and scratch selection
+produce the remaining load-order difference.
+
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | EnemyManagerView::OnUpdate | 0x00410730 | 3,900/3,900 bytes; 2 differences (OK) | Making the real `ZunTimer::HasTickedEvery` body visible recovers the retail EAX choice. The same build introduces four differences in the force-death vector call and 41 in the bullet descriptor. See the [compiler context comparison](KNOWLEDGE_BASE.md#2026-11-20-enemy-update-schedule-storage). |
