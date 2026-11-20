@@ -1492,8 +1492,11 @@ with a separate configuration symbol. The caller replay passed all 21
 exact PlayerRuntime units, covering 5,391 physical bytes and 288 fields.
 
 In the current body, C2 already has the stand-alone side-index MOV at
-allocation driver entry `0x1077C08E`. The configuration MOV is inserted
-after it before the global allocation call at `0x1077C0F5`. Both
+allocation driver entry `0x1077C08E`. The address expansion at
+`0x1077EE6B` calls `0x1077C20C` to materialize the configuration
+operand immediately before the compare and after that MOV. This happens
+inside `0x1077C367`, before global allocation. The watchpoint on the
+instruction list catches the insertion at `0x1075F0A1`. Both
 destinations remain virtual at global exit. The scratch selector at
 `0x10775ACC` sees EAX first for the side-index load and ECX next for the
 configuration load. CirnoLab's full player carrier at afebc8b, built
@@ -1507,13 +1510,19 @@ interrupt bodies changes other instructions and retains the same order.
 A local snapshot with a `const GameConfiguration &configuration` and
 `const int &side`, initialized from the native pointer and live side
 member, produces the two loads in original order at driver entry.
-Global allocation gives the configuration EAX. Local scratch selection
-then gives the side ECX. The accumulator's absolute load encodes in
-five bytes, one shorter than the original ECX load, and the later
-operand offsets move. A pointer-representation copy produces the same
-first two loads. The open issue is retaining the configuration-first
-schedule while assigning the original registers and preserving the rest
-of the owner.
+C2 represents the configuration as a global allocation entry with weight
+12. Its selector at `0x107833F2` admits EAX, ECX and EDX at equal scores
+and selects EAX. The finalizer writes that descriptor at `0x10785F12`.
+The side index is still virtual and the local scratch walk selects ECX
+while EAX holds the configuration. The accumulator's absolute load is
+one byte shorter and the later operand offsets move. A pointer-
+representation copy produces the same first two loads. The debugger
+builds reproduce all 1,900 bytes and 66 COFF fields of their respective
+cold controls. Ordinary inline mode getters and alternate side-argument
+types keep the side-first schedule in the direct-access control.
+The remaining constraint is to preserve the configuration-first
+schedule while allocating ECX for the configuration and EAX for
+the side index.
 
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 

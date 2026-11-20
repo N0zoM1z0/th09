@@ -46,7 +46,10 @@ Rebuild it with `python3 -B scripts/check-frontier.py player-movement --show`.
 The native configuration slot restores the common GameManager symbol. The
 [compiler trace](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads)
 shows how the focus lookup's address lowering and scratch selection
-produce the remaining load-order difference.
+produce the remaining load-order difference. The two C2 controls and
+watchpoint scripts under .analysis/movement-focus preserve the complete
+compiler inputs used to find the temporary records. The focused sources
+reproduce the two allocation paths under the same profile.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
