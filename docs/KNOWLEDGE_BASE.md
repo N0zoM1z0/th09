@@ -1533,8 +1533,12 @@ through the same scheduler. Its two loads have equal priority scores
 and keep their incoming order.
 
 In both controls, the scheduler sees a byte MOV followed by CMP.
-The emitter folds the byte MOV into the memory operand. In the
-maintained body, both pointer/index loads have one edge to the byte
+After scheduling, the peephole at `0x107B7DAD` copies the preceding
+MOV's memory operand into the CMP through the write at `0x1075AC02`.
+It then unlinks that MOV. The indexed operand in the maintained body
+stays indexed, and the reference control keeps its single-register
+operand. The watchpoint sees each substitution before object emission.
+In the maintained body, both pointer/index loads have one edge to the byte
 load. In the reference control, both loads feed the LEA, and the
 configuration load has a second, zero-latency edge to the byte load.
 The scheduler has assigned CL to that load in the reference control
@@ -1544,6 +1548,14 @@ the global allocator instead gives both inputs weight 16 and assigns
 EAX to the earlier load. Splitting local declarations from their
 assignments, inlining a focus predicate in both argument orders, and
 rewriting the preceding direction branches did not solve that coupling.
+
+The two configuration-first controls reproduce the same load and compare
+encodings across 11 historical movement bodies under the current pinned
+profile. The reference control's LEA can change its SIB operand order
+across those bodies. A read-only `IsHeld` declaration and member accessors
+on either Player or GameManager retain the maintained sequence. Capturing
+the entry side in a reusable local and refreshing it after the direction
+queries also retains the same allocation choices as the separate locals.
 
 The const-reference control still emits `lea eax,[ecx+eax+0xB4]`
 followed by `cmp byte ptr [eax],1` at `+0x12F`. This is two bytes
@@ -1555,8 +1567,9 @@ The cold and debugger builds of the control agree across all 1,900
 bytes and 66 fields. Direct repeated reads fold to the maintained
 side-first sequence, while keeping the configuration object in a
 reference for both reads gives the shorter EAX absolute load. The
-remaining constraint is to recover the scheduler's configuration-first
-priority with the original single memory CMP and both register choices.
+remaining constraint is to reach scheduling with the indexed byte
+operand already formed and recover configuration-first priority with
+both original register choices.
 
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 
