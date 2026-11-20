@@ -658,7 +658,7 @@ PlayerOwnerStateView::ApplyReward
 PlayerAnmVmBlendModeView::SetBlendModeAdditive
 PlayerAnmVmBlendModeView::SetBlendModeNormal
 PlayerAnmManagerRawView::GetAnmRawData
-PlayerCollisionRegionRuntimeView::Deactivate
+PlayerCollisionRegionCreateRegionView::Deactivate
 PreloadPlayerAnmResources
 PlayerTransitionSpecial
 PlayerUpdateCommon
