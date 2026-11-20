@@ -2158,3 +2158,18 @@ passed 21 exact units: 5,391 physical bytes and 288 relocation fields. The
 eleven regenerated UpdateBeforeState local COFF labels were rebound by exact
 relocation offset only after verifying each owner-local symbol retained its
 original owner-relative address. No full cold replay ran.
+
+## 2026-11-20 Player runtime now uses the canonical FrontSide owner
+
+PlayerRuntime.cpp no longer declares PlayerFrontSideRuntimeView. The three
+Player runtime call sites now use the real FrontSide pointer already owned by
+PlayerSideStateView::frontSide18: UpdateMeterHundreds, ClearState and
+SetPatternTiming. The former SetTimingValue wrapper was especially misleading:
+its target is the existing int-returning FrontSide::SetPatternTiming method
+at 0x0041A3E0, not a distinct void method.
+
+The three caller relocations now use the exact FrontSide method symbols.
+Selected replay of PlayerRuntime.cpp passed all 21 exact units across five
+compiler carriers, 5,391 physical bytes and 288 relocation fields. The eleven
+regenerated UpdateBeforeState local labels were checked by owner-relative
+address before rebinding. No full cold replay ran.

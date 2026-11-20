@@ -662,3 +662,14 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
   and 288 relocations. Eleven regenerated local labels in UpdateBeforeState
   were verified by unchanged owner-relative addresses before rebinding.
   No full cold replay ran.
+
+## Player FrontSide owner consolidation (2026-11-20)
+
+- Removed PlayerFrontSideRuntimeView. Player runtime now calls the real
+  FrontSide owner through sideState->frontSide18 for ClearState,
+  UpdateMeterHundreds and SetPatternTiming.
+- The old SetTimingValue call at 0x0041A3E0 is the already exact
+  int-returning FrontSide::SetPatternTiming function, not a separate wrapper.
+- Selected PlayerRuntime replay passed 21 exact units, five compiler
+  carriers, 5,391 bytes and 288 relocations. Eleven regenerated local labels
+  were verified at unchanged owner-relative destinations. No full cold replay.

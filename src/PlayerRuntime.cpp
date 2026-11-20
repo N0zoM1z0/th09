@@ -12,6 +12,7 @@
 #include "GameManagerRuntimeView.hpp"
 #include "Supervisor.hpp"
 #include "ReplayInputState.hpp"
+#include "FrontSide.hpp"
 #include "EnemyManager.hpp"
 #include "CardAttack.hpp"
 
@@ -382,13 +383,6 @@ struct PlayerGameManagerRuntimeView
 };
 extern PlayerGameManagerRuntimeView g_PlayerGameManagerRuntime;
 
-struct PlayerFrontSideRuntimeView
-{
-    void ClearState(int value);
-    void SetTimingValue(int value);
-    int UpdateMeterHundreds(int level);
-};
-
 struct PlayerMetricRuntimeView
 {
     int GetValue();
@@ -425,8 +419,7 @@ void PlayerLifecycleView::AddRespawnResource(float value)
     int currentLevel = static_cast<int>(player->scalar30388) / 100;
     if (previousLevel != currentLevel)
     {
-        reinterpret_cast<PlayerFrontSideRuntimeView *>(sideState->frontSide18)
-            ->UpdateMeterHundreds(currentLevel);
+        sideState->frontSide18->UpdateMeterHundreds(currentLevel);
     }
 }
 
@@ -743,7 +736,7 @@ afterTransition:
         if (player->flagBits1B80.frontSideClearPending03 != 0)
         {
             g_SoundPlayer.PlaySoundByIdx(48, player->sideIndex != 0 ? 500 : -500);
-            reinterpret_cast<PlayerFrontSideRuntimeView *>(player->sideState->frontSide18)->ClearState(0);
+            player->sideState->frontSide18->ClearState(0);
             player->flagBits1B80.frontSideClearPending03 = 0;
 
             if (g_PlayerGameManagerRuntime.CheckTimingState() && player->sideIndex == 0)
@@ -757,8 +750,7 @@ afterTransition:
                 timingValue *= 60;
                 timingValue -= metricValue;
                 PlayerSideStateView *currentSideState = player->sideState;
-                reinterpret_cast<PlayerFrontSideRuntimeView *>(currentSideState->frontSide18)
-                    ->SetTimingValue(timingValue);
+                currentSideState->frontSide18->SetPatternTiming(timingValue);
             }
         }
 
