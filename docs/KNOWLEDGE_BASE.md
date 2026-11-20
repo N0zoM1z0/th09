@@ -1750,3 +1750,26 @@ run. The canonical authored exact count remains 1,026.
 These are bounded compiler experiments, not proof that the natural C++ search
 space is exhausted. Do not add register hints, volatile aliases, handwritten
 assembly, padding or synthetic bytes to force target instructions.
+
+
+## 2026-11-20 ScreenEffect shake-envelope native record
+
+`ScreenEffect`'s three-DWORD shake-envelope parameter window is now named
+`ScreenShakeEnvelopeView`. Its `fadeInFrames`, `holdFrames` and
+`fadeOutFrames` members occupy +0x00/+0x04/+0x08 in a 0x0C-byte record;
+the enclosing union remains at `ScreenEffect` +0x1C and preserves the
+existing `rawParameter0/1/2` aliases. Compile-time size and member-offset
+assertions keep the native layout explicit. This is a source-type recovery,
+not a new exact-function claim: `CalcShakeEnvelope` remains 336/336 bytes
+with 26 differences. Typed timer/owner aliases were also probed against its
+VC7.1 output and rejected when they expanded the function or changed many
+more instructions.
+
+The header change passed the focused changed-source replay across 21 compiler
+carriers: 100 exact units, 40,016 physical bytes and 2,487 relocation fields.
+The pinned compiler regenerated 79 local COFF label spellings in Ending,
+FrontMessage, ScreenEffect and TitleScreen carriers. Each was rebound only
+after confirming the relocation's original PE destination and the candidate
+COFF symbol's same-section owner-relative location; all 100 units then passed
+the canonical comparator. No full cold replay was run, and the authored exact
+count remains 1,026.

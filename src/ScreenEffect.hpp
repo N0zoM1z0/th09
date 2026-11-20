@@ -25,6 +25,21 @@ struct ScreenEffectRect
     float bottom;
 };
 
+// Native three-DWORD envelope configuration shared by the raw effect
+// parameter window and the dedicated shake-envelope callback.
+struct ScreenShakeEnvelopeView
+{
+    int fadeInFrames;
+    int holdFrames;
+    int fadeOutFrames;
+};
+typedef char ScreenShakeEnvelopeSizeIs0C[
+    (sizeof(ScreenShakeEnvelopeView) == 0x0C) ? 1 : -1];
+typedef char ScreenShakeEnvelopeFieldsAtNativeOffsets[
+    (offsetof(ScreenShakeEnvelopeView, fadeInFrames) == 0x00 &&
+     offsetof(ScreenShakeEnvelopeView, holdFrames) == 0x04 &&
+     offsetof(ScreenShakeEnvelopeView, fadeOutFrames) == 0x08) ? 1 : -1];
+
 struct ScreenEffect
 {
     ScreenEffect();
@@ -72,12 +87,7 @@ struct ScreenEffect
             int rawParameter1;
             int rawParameter2;
         };
-        struct
-        {
-            int fadeInFrames;
-            int holdFrames;
-            int fadeOutFrames;
-        } shakeEnvelope;
+        ScreenShakeEnvelopeView shakeEnvelope;
     };
     int fadeReleaseRequested;
     ZunTimer timer;
