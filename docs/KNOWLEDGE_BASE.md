@@ -1520,9 +1520,43 @@ representation copy produces the same first two loads. The debugger
 builds reproduce all 1,900 bytes and 66 COFF fields of their respective
 cold controls. Ordinary inline mode getters and alternate side-argument
 types keep the side-first schedule in the direct-access control.
-The remaining constraint is to preserve the configuration-first
-schedule while allocating ECX for the configuration and EAX for
-the side index.
+
+A second control binds a const reference to the selected mode byte.
+The analog branch uses that byte as its active value when the frame
+threshold is met. VC7.1 folds this use to 1. At global allocation exit,
+the side load still precedes the configuration load, with both
+destinations virtual. Local allocation gives EAX to the side and ECX
+to the configuration. The scheduler at `0x107B54C7` then moves the
+configuration load first. Both MOVs and the configuration DIR32 field
+at `+0x128` now match the original. The maintained direct compare goes
+through the same scheduler. Its two loads have equal priority scores
+and keep their incoming order.
+
+In both controls, the scheduler sees a byte MOV followed by CMP.
+The emitter folds the byte MOV into the memory operand. In the
+maintained body, both pointer/index loads have one edge to the byte
+load. In the reference control, both loads feed the LEA, and the
+configuration load has a second, zero-latency edge to the byte load.
+The scheduler has assigned CL to that load in the reference control
+and DL in the maintained body. The extra edge distinguishes the two
+load priorities. With separate configuration and side snapshots,
+the global allocator instead gives both inputs weight 16 and assigns
+EAX to the earlier load. Splitting local declarations from their
+assignments, inlining a focus predicate in both argument orders, and
+rewriting the preceding direction branches did not solve that coupling.
+
+The const-reference control still emits `lea eax,[ecx+eax+0xB4]`
+followed by `cmp byte ptr [eax],1` at `+0x12F`. This is two bytes
+longer than the original indexed CMP. The option loop still starts at
+`+0x680`, where the different lead-in length changes the preceding
+alignment jump. Aligning instructions checks 485 other encodings,
+all 62 corresponding direct branches and both tables' 16 destinations.
+The cold and debugger builds of the control agree across all 1,900
+bytes and 66 fields. Direct repeated reads fold to the maintained
+side-first sequence, while keeping the configuration object in a
+reference for both reads gives the shorter EAX absolute load. The
+remaining constraint is to recover the scheduler's configuration-first
+priority with the original single memory CMP and both register choices.
 
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 

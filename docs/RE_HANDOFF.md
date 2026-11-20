@@ -45,11 +45,13 @@ The current focus is `PlayerLifecycleView::UpdateMovementAndOptions`.
 Rebuild it with `python3 -B scripts/check-frontier.py player-movement --show`.
 The native configuration slot restores the common GameManager symbol. The
 [compiler trace](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads)
-shows how the focus lookup's address lowering and scratch selection
-produce the remaining load-order difference. The two C2 controls and
-watchpoint scripts under .analysis/movement-focus preserve the complete
-compiler inputs used to find the temporary records. The focused sources
-reproduce the two allocation paths under the same profile.
+shows how address lowering, scratch selection and scheduling produce the
+remaining load-order difference. The C2 controls in `.analysis/movement-focus/`
+reproduce the current sequence (`native.cpp`), configuration-first allocation
+to EAX (`snapshot_ref_native.cpp`), and configuration-first scheduling to
+the original ECX/EAX registers (`direct_ref_conditional.cpp`). The last
+control leaves a separate LEA before the compare. Compare the scheduler inputs
+with `python3 -B .analysis/movement-focus/trace-run.py focus-schedule direct_ref_conditional native`.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
