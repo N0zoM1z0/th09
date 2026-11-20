@@ -174,11 +174,11 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     PlayerSideStateView *singleSide = frontSide->sideStateA670;
     cursor->x = g_GameManager.TransformPopupX(
         singleSide->player04->position1B88.x +
-        reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(cursor) - offsetof(AnmVm, pos))->pos2.x);
+        frontSide->vm7430.pos2.x);
     cursor->y = g_GameManager.TransformPopupY(
         singleSide->player04->position1B88.y +
-        reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(cursor) - offsetof(AnmVm, pos))->pos2.y);
-    g_AnmManager->DrawNoRotation(reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(cursor) - offsetof(AnmVm, pos)));
+        frontSide->vm7430.pos2.y);
+    g_AnmManager->DrawNoRotation(&frontSide->vm7430);
 
     cursor = &frontSide->rankVms86AC[0].pos;
     for (i = 0; i < 7; ++i, cursor = reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(cursor) + sizeof(AnmVm)))
