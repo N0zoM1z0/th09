@@ -1800,3 +1800,15 @@ trail-vector array and `trailSegmentCount46A`. The function still matches all
 This unifies the draw callback with the same 0x484-byte shot allocation used
 by spawn, update, damage and initialization code; it adds no exact-function
 credit because the callback was already exact.
+
+## 2026-11-20 Player-shot draw callback type 2 native owner
+
+`PlayerShotDrawCallbackType2` now uses the same full `PlayerShotCtorView` as
+its Type1 sibling instead of maintaining a duplicate sparse layout. The IDA
+body confirms that it reads the first four +0x2B0 history vectors, writes the
+embedded VM scale at +0x18/+0x1C, and interpolates the four BGRA bytes at
++0x1F0. Those members are now addressed through `PlayerShotCtorView::vm` and
+`trailVectors2B0`; the original opaque callback parameter tag is retained so
+the decorated ABI symbol is unchanged. The 293-byte function remains exact,
+including all five relocations and three compiler literal definitions. This
+is a native ownership/type recovery, not new exact-function credit.
