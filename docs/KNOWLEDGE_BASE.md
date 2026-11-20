@@ -2325,3 +2325,39 @@ table is also an external declaration. CirnoLab provides a single
 GameManager owner and a 19-by-16-byte BGM table at the corresponding
 original addresses. Consolidate those providers before treating a
 per-function operand replay as evidence of native linkage.
+
+## 2026-11-20 comparison with TH08 data and linkage checks
+
+TH08 separates configured COFF code from initialized-data contracts and
+normal-PE/map evidence. At TH08 checkout 37e0e198, all four declared data
+contracts and the final Windows i386 owner verifier passed against the
+retained local build.
+The latter checks actual linked member offsets, callback slots and repaired
+REL32 sites. The TH08 RT-002/005/006 cases show how a wrong field addend, a
+separately allocated alias or a wrong callee can survive original-address
+operand replay. Use TH09 target evidence to review each such identity.
+
+The TH09 ECL interpolation callback table at 0x004A0AF4 has eight reviewed
+DWORDs. The first seven select 0x00407450 and the last selects 0x004074A0.
+The pinned EclHelpers COFF defines a complete 32-byte contribution with
+eight DIR32 relocations and zero addends. Replacing the final relocation's
+symbol index with the Linear callback in a private object copy formerly
+left the installer and both helper bodies exact. The comparison of each
+defining helper now rejects that object at table offset 0x1C. A fresh
+EclHelpers replay checks both bodies and the whole table. The installer
+still reports its separate 255-byte caller proof.
+
+TH09's existing Effect and ExAttack coverage report reads callback prefixes
+from the original. It checks catalog coverage at those targets, while the
+new ECL check reads a real initializer and its actual relocation identities.
+Replay difficulty, mode and character names are still external declarations
+in TH09. Other named initialized data needs reviewed extents and defining
+objects before it can receive the same check. The current exact REL32 ledger
+has no repeated decorated call symbol assigned to conflicting bases.
+
+TH08 exposes an explicit whole-ledger cold verifier and uses paired
+PE/map checks, relocated link-order experiments and retail/native replay
+traces for its product. TH09's regular exact replay is explicitly scoped.
+Its PE build graph is open, so final linked call targets, alias storage
+identity, moved-layout behavior and retail/native replay remain product
+and runtime work.

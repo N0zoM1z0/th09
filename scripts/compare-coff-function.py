@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare one VC7 COFF function with the attested target without claiming exactness.
+"""Compare a VC7 COFF owner and its checked data with the attested target.
 
 Relocation fields are reported separately and excluded from the structural byte
 score.  A 100% structural result is useful compiler-oracle evidence, but it is
@@ -27,6 +27,8 @@ TARGET_MANIFEST = ROOT / "config" / "target.toml"
 UNITS_MANIFEST = ROOT / "config" / "match-units.toml"
 COFF_RELOCATION_NAMES = {0x0006: "DIR32", 0x0014: "REL32"}
 PRIVATE_LABEL = re.compile(r"(\$L|\$[A-Za-z_][A-Za-z_0-9]*\$)[0-9]+")
+ECL_INTERPOLATION_UNITS = ("ecl-interpolate-linear", "ecl-interpolate-hermite")
+ECL_INTERPOLATION_TABLE = "?g_EclInterpolationCallbacks@Th09EclRunControl@@3PAP6IXPAUEnemyView@@PAUTh09EclInterpolationSlotView@@M@ZA"
 
 
 def read_c_string(data: bytes) -> str:
@@ -42,10 +44,7 @@ def coff_name(raw: bytes, string_table: bytes) -> str:
     return read_c_string(raw)
 
 
-def object_function(
-    path: Path, wanted: str, expected_size: int | None = None,
-    *, include_symbol_locations: bool = False,
-) -> tuple[bytearray, list[dict[str, object]]]:
+def read_coff_object(path: Path) -> tuple[bytes, list[dict], dict[int, dict]]:
     data = path.read_bytes()
     if len(data) < 20:
         raise ValueError("truncated COFF object")
@@ -97,7 +96,14 @@ def object_function(
             "aux": aux,
         }
         raw_index += 1 + aux_count
+    return data, sections, symbols
 
+
+def object_function(
+    path: Path, wanted: str, expected_size: int | None = None,
+    *, include_symbol_locations: bool = False,
+) -> tuple[bytearray, list[dict[str, object]]]:
+    data, sections, symbols = read_coff_object(path)
     matches = [
         symbol
         for symbol in symbols.values()
@@ -365,6 +371,42 @@ def validate_literal_definitions(path: Path, actual: list[dict], image: bytes,
     return definitions
 
 
+def verify_ecl_interpolation_table(path: Path, image: bytes, units: dict) -> dict:
+    """Read all eight callbacks from the COFF object that owns the table."""
+    target_address = 0x004A0AF4
+    table_size = 8 * 4
+    data, sections, symbols = read_coff_object(path)
+    owners = [symbol for symbol in symbols.values()
+              if symbol["name"] == ECL_INTERPOLATION_TABLE and symbol["section"] > 0]
+    if len(owners) != 1:
+        raise ValueError("expected one defined ECL interpolation table")
+    owner = owners[0]
+    section = sections[owner["section"] - 1]
+    start = section["raw_offset"]
+    if (owner["value"] != 0 or section["size"] != table_size
+            or not section["flags"] & 0x40 or start <= 0 or start + table_size > len(data)):
+        raise ValueError("ECL interpolation table does not occupy its full initialized COFF section")
+
+    fields = sorted(struct.unpack_from("<IIH", data, section["reloc_offset"] + index * 10)
+                    for index in range(section["reloc_count"]))
+    if [offset for offset, _, _ in fields] != list(range(0, table_size, 4)):
+        raise ValueError("expected one COFF relocation per ECL interpolation table slot")
+    destinations = {units[name]["symbol"]: units[name]["target_address"]
+                    for name in ECL_INTERPOLATION_UNITS}
+    original = pe_bytes_at(image, target_address, table_size)
+    for offset, index, kind in fields:
+        symbol = symbols.get(index)
+        addend = struct.unpack_from("<I", data, start + offset)[0]
+        if (kind != 0x0006 or addend != 0 or not symbol or symbol["section"] <= 0
+                or not sections[symbol["section"] - 1]["flags"] & 0x20):
+            raise ValueError(f"invalid ECL interpolation table relocation at +{offset:#x}")
+        target = struct.unpack_from("<I", original, offset)[0]
+        if destinations.get(symbol["name"]) != target:
+            raise ValueError(f"ECL interpolation table callback differs at +{offset:#x}")
+    return {"symbol": ECL_INTERPOLATION_TABLE, "target_address": f"0x{target_address:08X}",
+            "size": table_size, "relocations": len(fields)}
+
+
 def compare_unit(name: str) -> dict[str, object]:
     with UNITS_MANIFEST.open("rb") as stream:
         manifest = tomllib.load(stream)
@@ -441,6 +483,9 @@ def compare_unit(name: str) -> dict[str, object]:
     validate_owner_local_destinations(actual, normalized_expected, address, compare_size)
     literal_definitions = validate_literal_definitions(
         object_path, actual, image, normalized_expected)
+    data_initializers = []
+    if name in ECL_INTERPOLATION_UNITS:
+        data_initializers.append(verify_ecl_interpolation_table(object_path, image, units))
 
     replay = []
     for relocation in normalized_expected:
@@ -480,6 +525,7 @@ def compare_unit(name: str) -> dict[str, object]:
         "object": str(object_path.relative_to(ROOT)),
         "relocations": replay,
         "literal_definitions": literal_definitions,
+        "data_initializers": data_initializers,
         "first_differences": differences[:32],
     }
 

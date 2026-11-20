@@ -17,9 +17,17 @@ Documentation/test-only changes do not need target or compiler replay.
 | Compiler generation | PE/Rich evidence plus pinned compiler probe | observed generation/build, not flags |
 | Source presence | maintained mapping and source file | no exactness credit |
 | Codegen exactness | cold VC7.1 object build, complete bytes and relocations | zero difference for full accepted extent |
+| Owned initialized data | compare the defining COFF section's bytes and pointer identities with the reviewed target range | complete match for each explicitly checked initializer |
 | Native product closure | cold compile/link graph, imports/resources/data owners | no missing required production owner |
 | Runtime semantics | deterministic scenarios against original and native products | both Oracles agree on declared observables |
 | Port behavior | native baseline plus port scenario | separate portability claim |
+
+The comparator reports checked compiler literals in `literal_definitions`
+and checked named initializers in `data_initializers`. The EclHelpers
+comparison checks all eight slots of the interpolation callback table.
+An operand targeting an external table establishes its address in the
+original image. A table-content claim requires the separate defining-object
+comparison. Native linkage requires a matched rebuilt PE and map.
 
 Direct local Ghidra is the semantic-analysis tool, not an independent exactness
 Oracle. Decompiler text, names, types, and candidate extents remain provisional.
