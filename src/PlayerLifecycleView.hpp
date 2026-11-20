@@ -479,10 +479,25 @@ typedef char PlayerOwnerStateNativeFullMembers[
 
 struct PlayerTailStateCtorView
 {
-    unsigned char storage[0x2C4];
+    int type00;
+    PlayerPositionView position04;
+    PlayerPositionView velocity10;
+    int active1C;
+    PlayerAnmVmView vm20;
+
     PlayerTailStateCtorView();
 };
 typedef char PlayerTailStateCtorSizeIs2C4[(sizeof(PlayerTailStateCtorView) == 0x2C4) ? 1 : -1];
+typedef char PlayerTailStateTypeAt00[
+    (offsetof(PlayerTailStateCtorView, type00) == 0x00) ? 1 : -1];
+typedef char PlayerTailStatePositionAt04[
+    (offsetof(PlayerTailStateCtorView, position04) == 0x04) ? 1 : -1];
+typedef char PlayerTailStateVelocityAt10[
+    (offsetof(PlayerTailStateCtorView, velocity10) == 0x10) ? 1 : -1];
+typedef char PlayerTailStateActiveAt1C[
+    (offsetof(PlayerTailStateCtorView, active1C) == 0x1C) ? 1 : -1];
+typedef char PlayerTailStateVmAt20[
+    (offsetof(PlayerTailStateCtorView, vm20) == 0x20) ? 1 : -1];
 
 // Original Player movement writes these 0x20 bytes between the item-box
 // half size and four option records. AddedState and gameplay pattern code

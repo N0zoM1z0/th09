@@ -26,22 +26,6 @@ struct PlayerResourcePathView
 
 typedef char PlayerResourcePathSizeIs18[(sizeof(PlayerResourcePathView) == 0x18) ? 1 : -1];
 
-struct PlayerTailDrawStateView
-{
-    PlayerPositionView position00;
-    unsigned char unknown00C[0x0C];
-    void *active18;
-    PlayerAnmVmView vm1C;
-    unsigned char trailing2C0[0x04];
-};
-
-typedef char PlayerTailDrawStateSizeIs2C4[
-    (sizeof(PlayerTailDrawStateView) == 0x2C4) ? 1 : -1];
-typedef char PlayerTailDrawStateActiveAt18[
-    (offsetof(PlayerTailDrawStateView, active18) == 0x18) ? 1 : -1];
-typedef char PlayerTailDrawStateVmAt1C[
-    (offsetof(PlayerTailDrawStateView, vm1C) == 0x1C) ? 1 : -1];
-
 struct PlayerRewardAnmView
 {
     void ExecuteAnmIdx(PlayerAnmVmView *vm, int scriptIndex);
@@ -58,24 +42,6 @@ struct PlayerRewardSideStateView
     unsigned char unknown00[0x08];
     PlayerRewardAnmBankView *anmBank08;
 };
-
-struct PlayerRewardTailStateView
-{
-    int type00;
-    PlayerPositionView position04;
-    PlayerPositionView velocity10;
-    int active1C;
-    PlayerAnmVmView vm20;
-};
-
-typedef char PlayerRewardTailStateSizeIs2C4[
-    (sizeof(PlayerRewardTailStateView) == 0x2C4) ? 1 : -1];
-typedef char PlayerRewardTailPositionAt04[
-    (offsetof(PlayerRewardTailStateView, position04) == 0x04) ? 1 : -1];
-typedef char PlayerRewardTailActiveAt1C[
-    (offsetof(PlayerRewardTailStateView, active1C) == 0x1C) ? 1 : -1];
-typedef char PlayerRewardTailVmAt20[
-    (offsetof(PlayerRewardTailStateView, vm20) == 0x20) ? 1 : -1];
 
 // The fastcall owner-state update operates on the genuine 0x44-byte
 // PlayerOwnerStateView embedded at Player +0x30410. Its +0x10 signed
@@ -749,8 +715,7 @@ PlayerShotCtorView::PlayerShotCtorView()
 
 void PlayerLifecycleView::UpdateBeforeState()
 {
-    PlayerRewardTailStateView *state =
-        reinterpret_cast<PlayerRewardTailStateView *>(tailStates30454);
+    PlayerTailStateCtorView *state = tailStates30454;
     Float3 collectionSize(
         primaryShtFile->itemCollectionBoxSize,
         primaryShtFile->itemCollectionBoxSize, 16.0f);
@@ -879,8 +844,7 @@ void PlayerLifecycleView::UpdateBeforeState()
 void PlayerLifecycleView::SpawnRewardTailState(
     int type, PlayerPositionView *position)
 {
-    PlayerRewardTailStateView *state =
-        reinterpret_cast<PlayerRewardTailStateView *>(tailStates30454);
+    PlayerTailStateCtorView *state = tailStates30454;
 
     if (g_GameManager.frontFactoryA8->transitionVmCount1095C != 0)
         return;
@@ -907,18 +871,17 @@ void PlayerLifecycleView::SpawnRewardTailState(
 
 void PlayerLifecycleView::DrawTailStates()
 {
-    PlayerTailDrawStateView *state = reinterpret_cast<PlayerTailDrawStateView *>(
-        &this->tailStates30454[0].storage[4]);
+    PlayerTailStateCtorView *state = &this->tailStates30454[0];
     for (int i = 0; i < 4; ++i, ++state)
     {
-        if (state->active18 == NULL)
+        if (state->active1C == NULL)
             continue;
-        state->vm1C.pos.x =
-            g_GameManager.TransformPopupX(state->position00.x);
-        state->vm1C.pos.y =
-            g_GameManager.TransformPopupY(state->position00.y);
-        state->vm1C.pos.z = 0.15f;
-        g_AnmManager->DrawNoRotation(reinterpret_cast<AnmVm *>(&state->vm1C));
+        state->vm20.pos.x =
+            g_GameManager.TransformPopupX(state->position04.x);
+        state->vm20.pos.y =
+            g_GameManager.TransformPopupY(state->position04.y);
+        state->vm20.pos.z = 0.15f;
+        g_AnmManager->DrawNoRotation(reinterpret_cast<AnmVm *>(&state->vm20));
     }
 }
 

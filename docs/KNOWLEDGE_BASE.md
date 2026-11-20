@@ -2227,3 +2227,23 @@ PlayerRuntime units across five compiler carriers, 5,391 bytes and 288
 relocation fields. Eleven regenerated UpdateBeforeState local labels were
 checked against their unchanged owner-relative destinations. No full cold
 replay ran.
+
+## 2026-11-20 Player tail records now share the canonical constructed type
+
+PlayerTailStateCtorView was previously an opaque 0x2C4-byte storage block,
+while PlayerRuntime.cpp overlaid it with two separate views:
+PlayerRewardTailStateView (type/position/velocity/active/ANM at +0x00..+0x20)
+and PlayerTailDrawStateView (a pointer shifted by +4, then position/active/ANM
+at +0x00/+0x18/+0x1C). Those are the same physical record viewed from
+different starting addresses.
+
+PlayerTailStateCtorView now owns the named fields directly:
+type00, position04, velocity10, active1C and vm20. Size and every field offset
+are asserted, with the existing 0x2C4 constructor ABI retained. UpdateBeforeState,
+SpawnRewardTailState and DrawTailStates all use this same typed array; the
+draw path no longer creates a second pointer view at storage[4].
+
+Selected PlayerRuntime replay passed all 21 exact units across five compiler
+carriers, 5,391 physical bytes and 288 relocation fields. The eleven regenerated
+UpdateBeforeState local COFF labels were rebound only after verifying the
+unchanged owner-relative target addresses. No full cold replay ran.

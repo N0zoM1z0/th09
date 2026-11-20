@@ -713,3 +713,14 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
   Selected replay passed 21 exact units, five carriers, 5,391 bytes and
   288 relocations. Eleven local labels were verified at unchanged targets.
   No full cold replay ran.
+
+## Player tail-state owner consolidation (2026-11-20)
+
+- Replaced PlayerTailStateCtorView's opaque 0x2C4 storage with its proven
+  type/position/velocity/active/ANM fields at +0x00/+0x04/+0x10/+0x1C/+0x20.
+  Size and offsets are compile-time asserted; constructor ABI remains intact.
+- Removed PlayerRewardTailStateView and PlayerTailDrawStateView. UpdateBeforeState,
+  SpawnRewardTailState and DrawTailStates now use the same Player-owned array.
+- Selected PlayerRuntime replay passed 21 exact units, five carriers, 5,391
+  bytes and 288 relocations. Eleven local labels were address-verified before
+  rebinding. No full cold replay ran.
