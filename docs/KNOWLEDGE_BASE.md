@@ -1906,10 +1906,28 @@ the plain and split controls' complete bytes and COFF fields. The
 native signed-member probes use explicit unsigned arithmetic for these
 values and produce the same code.
 
+The hold load at `+0x5A` has a separate allocation path from the fade
+load at `+0x5D`. In the maintained build, the global finalizer writes the
+hold load's physical EAX descriptor at `0x10785F12`. In the two plain C++
+controls the hold load is inserted while legalizing the ADD at `+0x60`.
+The scratch selector at `0x10785179` uses the index at `0x108B022C`,
+which resets per block at `0x10784DFB`. In the direct split-amplitude
+control, the selector considers ECX for the following ADD at `+0x62`.
+That proposal advances the index without inserting a load. Legalizing
+`+0x60` next selects EDX despite ECX being eligible. In the inline-endpoint
+control, ECX is already excluded at `+0x60`. Both builds write the scratch
+descriptor at `0x10789363`, independently of the cursor that selects the
+fade-load and switch registers. Same-run emission links the inserted
+operand to `+0x5A` and preserves all cold bytes and COFF fields.
+
 Inline endpoint accessors, reversing the sum's operands, and moving the
 hold predicate into an inline helper retain the same two byte patterns.
 Using a separate result for the fade-out endpoint introduces a three-byte
-reload of the fade-in endpoint from the conversion slot.
+reload of the fade-in endpoint from the conversion slot. Writing the final
+endpoint assignment inside the timer condition preserves the direct and
+inline split-amplitude patterns. Signed-return and const-member variants
+of the visible timer comparison reproduce its 20-byte body and preserve
+both callers' code, operand offsets and call destinations.
 
 Wrapping the three timer comparisons in small inline helpers, using an
 instance-method receiver, or inlining the axis writes after each RNG
