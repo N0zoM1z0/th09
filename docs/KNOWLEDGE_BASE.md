@@ -2558,3 +2558,20 @@ that 32-bit address. Computing the address from the full header expresses
 this check for the ten-slot stage domain, including indices beyond the three
 input-stream rows. The address expression preserves all 540 candidate
 bytes and 32 COFF fields in the baseline and in the side-reference probe.
+
+The pinned compiler can also allocate the pointer to ESI with a later load.
+Capture the pointer directly after publishing `+0x1E7`, then read and publish
+`+0x1E8`, and snapshot the first frame's score before publishing `+0x1E9`.
+C2 gives the score snapshot the `0x88` candidate mask and selects EDX. The
+pointer load uses ESI at `+0x173`, after both side writes. This 540-byte
+variant has 27 differences after relocation replay. Moving the score read
+after the second side write or using its field directly removes the scored
+range and restores the 19-byte baseline. An exact candidate must place the
+load at `+0x15B` and allocate the pointer to ESI.
+
+The tested statement orders reach either the original load offset with EDX
+or ESI at a different offset. Clearing prior-stage markers, populating the
+input cursors, and copying configuration through alternative source forms
+preserve the early register choices in the candidates that match their
+original instruction ranges. Flattening the replay layout or expressing its
+header and payload as members also preserves the two baseline results.
