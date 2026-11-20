@@ -15,6 +15,7 @@ import hashlib
 import importlib.util
 import json
 from pathlib import Path
+import re
 import struct
 import tomllib
 from types import SimpleNamespace
@@ -25,6 +26,7 @@ TARGET = ROOT / "resources" / "th09.exe"
 TARGET_MANIFEST = ROOT / "config" / "target.toml"
 UNITS_MANIFEST = ROOT / "config" / "match-units.toml"
 COFF_RELOCATION_NAMES = {0x0006: "DIR32", 0x0014: "REL32"}
+PRIVATE_LABEL = re.compile(r"(\$L|\$[A-Za-z_][A-Za-z_0-9]*\$)[0-9]+")
 
 
 def read_c_string(data: bytes) -> str:
@@ -114,9 +116,15 @@ def object_function(
             raise ValueError(
                 "aux-less symbol is not a function in a code section"
             )
-        size = expected_size
-        if int(symbol["value"]) + size > int(section["size"]):
-            raise ValueError("expected function extent exceeds its COFF section")
+        next_function = min(
+            (int(other["value"]) for other in symbols.values()
+             if other["section"] == symbol["section"] and other["type"] == 0x20
+             and int(other["value"]) > int(symbol["value"])),
+            default=int(section["size"]),
+        )
+        size = min(next_function, int(section["size"])) - int(symbol["value"])
+    if size <= 0 or int(symbol["value"]) + size > int(section["size"]):
+        raise ValueError("function extent exceeds its COFF section or is empty")
     start = int(section["raw_offset"]) + int(symbol["value"])
     if start + size > len(data):
         raise ValueError("function body extends beyond the object")
@@ -302,6 +310,13 @@ def validate_native_crt_destinations(expected: list[dict[str, object]]) -> None:
                              f"manifest {int(row['target']):#x}")
 
 
+def owner_local_offset(row: dict[str, object], owner_size: int) -> int | None:
+    if int(row["symbol_section"]) <= 0 or row["symbol_section"] != row["owner_section"]:
+        return None
+    relative = int(row["symbol_value"]) - int(row["owner_value"])
+    return relative if 0 <= relative < owner_size else None
+
+
 def validate_owner_local_destinations(
     actual: list[dict[str, object]], expected: list[dict[str, object]],
     target_address: int, owner_size: int,
@@ -316,10 +331,8 @@ def validate_owner_local_destinations(
     """
     by_offset = {int(row["offset"]): row for row in expected}
     for row in actual:
-        if int(row["symbol_section"]) <= 0 or row["symbol_section"] != row["owner_section"]:
-            continue
-        relative = int(row["symbol_value"]) - int(row["owner_value"])
-        if not 0 <= relative < owner_size:
+        relative = owner_local_offset(row, owner_size)
+        if relative is None:
             continue
         destination = target_address + relative
         if int(by_offset[int(row["offset"])]["target"]) != destination:
@@ -389,18 +402,33 @@ def compare_unit(name: str) -> dict[str, object]:
         type_ids = {name: value for value, name in COFF_RELOCATION_NAMES.items()}
         if type_name not in type_ids:
             raise ValueError(f"unsupported manifest relocation type {type_name!r}")
-        normalized_expected.append(
-            {
-                "offset": int(relocation["offset"]),
-                "type_id": type_ids[type_name],
-                "type": type_name,
-                "symbol": str(relocation["symbol"]),
-                "target": int(relocation["target"]),
-            }
-        )
-    actual_key = sorted(
-        (int(row["offset"]), int(row["type_id"]), str(row["symbol"])) for row in actual
-    )
+        field = {
+            "offset": int(relocation["offset"]),
+            "type_id": type_ids[type_name],
+            "type": type_name,
+            "symbol": str(relocation["symbol"]),
+            "target": int(relocation["target"]),
+        }
+        if "addend" in relocation:
+            field["addend"] = int(relocation["addend"]) & 0xFFFFFFFF
+        normalized_expected.append(field)
+    # Numbered VC7.1 labels can be renamed on rebuild. Their COFF definitions
+    # still have to reproduce the reviewed destination within this owner.
+    actual_names = {}
+    expected_names = {int(row["offset"]): str(row["symbol"]) for row in normalized_expected}
+    actual_key = []
+    for row in actual:
+        offset, type_id, symbol = int(row["offset"]), int(row["type_id"]), str(row["symbol"])
+        actual_names[offset] = symbol
+        expected_symbol = expected_names.get(offset, "")
+        if symbol != expected_symbol:
+            label = PRIVATE_LABEL.fullmatch(symbol)
+            recorded_label = PRIVATE_LABEL.fullmatch(expected_symbol)
+            if (label and recorded_label and label.group(1) == recorded_label.group(1)
+                    and owner_local_offset(row, compare_size) is not None):
+                symbol = expected_symbol
+        actual_key.append((offset, type_id, symbol))
+    actual_key.sort()
     expected_key = sorted(
         (int(row["offset"]), int(row["type_id"]), str(row["symbol"]))
         for row in normalized_expected
@@ -418,6 +446,8 @@ def compare_unit(name: str) -> dict[str, object]:
     for relocation in normalized_expected:
         offset = int(relocation["offset"])
         addend = struct.unpack_from("<I", code, offset)[0]
+        if addend != relocation.get("addend", addend):
+            raise ValueError(f"COFF addend differs from manifest at {offset:#x}")
         if relocation["type_id"] == 0x0006:
             value = int(relocation["target"]) + addend
         else:
@@ -427,7 +457,7 @@ def compare_unit(name: str) -> dict[str, object]:
             {
                 "offset": f"0x{offset:X}",
                 "type": relocation["type"],
-                "symbol": relocation["symbol"],
+                "symbol": actual_names[offset],
                 "target": f"0x{int(relocation['target']):08X}",
                 "addend": f"0x{addend:08X}",
             }

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from bisect import bisect_right
 import csv
 from pathlib import Path
 import subprocess
@@ -179,6 +180,15 @@ def validate() -> dict[str, int]:
             raise ValueError(f"function row does not carry exact status at {row['address']}")
         if int(row["address"], 0) != unit.get("target_address"):
             raise ValueError(f"match unit target disagrees at {row['address']}")
+        size = int(row["size"], 0)
+        if unit.get("size") != size:
+            raise ValueError(f"match unit size disagrees at {row['address']}")
+        compare_size = unit.get("compare_size", size)
+        start = unit["target_address"]
+        next_index = bisect_right(starts, start)
+        limit = starts[next_index] if next_index < len(starts) else text_end + 1
+        if not isinstance(compare_size, int) or not size <= compare_size <= limit - start:
+            raise ValueError(f"match unit physical extent disagrees at {row['address']}")
         if unit.get("source") != function["source_file"]:
             raise ValueError(f"match unit source disagrees at {row['address']}")
     if build.get("schema_version") != 1:

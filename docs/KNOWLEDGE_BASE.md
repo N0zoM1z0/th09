@@ -2247,3 +2247,81 @@ Selected PlayerRuntime replay passed all 21 exact units across five compiler
 carriers, 5,391 physical bytes and 288 relocation fields. The eleven regenerated
 UpdateBeforeState local COFF labels were rebound only after verifying the
 unchanged owner-relative target addresses. No full cold replay ran.
+
+## 2026-11-20 CirnoLab cross-check of the exact-codegen Oracle
+
+The cold replay of 8286742c rebuilt all 422 exact compiler carriers.
+CirnoLab's separate COFF parser and a PE reader reproduced all 1,026
+physical extents, 283,400 bytes and 14,052 relocation fields. The audit
+checked every actual relocation offset and type and independently verified
+1,037 owner-local definition addresses. The canonical comparator also
+passed all 1,026 units. A separate cold replay of 5b6491eb's changed
+Player carriers and their source-local include consumers passed all 276
+affected exact units across 91 compiler jobs.
+
+Cirno-Labs/th09 at afebc8b and TH09's pinned executable share SHA-1
+89c8fdef84d25b2ee8bbd2026f8a343d7ef57c03. Every one of the 1,026 exact
+ledger starts appears in CirnoLab's symbols.csv. All 18 size disagreements
+are one to three alignment bytes before inline tables that our physical
+comparison already includes. None of CirnoLab's starts falls inside a
+different exact body's physical range. All 212 manifest import operands
+with __imp_ symbols agree with the original PE IAT. Across CirnoLab's 80
+table extents, 309 original pointer slots name canonical exact entries.
+
+Match by original address before comparing nominal type names. Our
+MidiTimer special members at 0x0043D0A0 and 0x0043D320 are CirnoLab's
+MmTimer members. Its MidiTimer special members at 0x0042F3B0 and 0x0042F3F0
+are distinct target entries whose origin remains unresolved in our ledger.
+
+CirnoLab's build reports differences in Stage::DrawLayer, EnemyScripts::RunEnemy,
+GameManager::LoadingThread and DrawEffectType29. Our corresponding cold
+COFF contributions reproduce the original 3,274, 15,564, 1,689 and 2,220
+physical bytes, respectively. RunEcl includes both jump tables. Its
+compiler-private label names changed at 195 relocation fields, with all
+owner-relative definitions and original operands unchanged. The comparator
+now accepts a private label's changed numeric suffix only when its actual
+COFF definition resolves inside the same owner at the reviewed address.
+Keep exact symbol spelling for externals and cross-section definitions.
+Anonymous C++ namespace names can depend on the source path, so use the
+original working-tree path for those carriers when reproducing the proof.
+
+The audit hardened two independent inputs. For an aux-less COFF function,
+the extent comes from the next function or the end of its code section.
+The tracking validator now checks that the unit size equals the credited
+size and that the physical extent stops before the next catalog entry.
+The comparator also checks explicit manifest addends. The 1,292 recorded
+addends in credited units agree with the original operands and their
+reviewed symbol bases.
+
+CirnoLab's complete EffectManager::AddedCallback reproduces all 51 bytes
+and four relocations, including the referenced string payload, with its
+documented per-file flags and the pinned RTM compiler. A control using the
+same source and flags with just the header-inline GetAnm body replaced by
+its declaration still emits a 51-byte callback, but has 25 structural
+differences and five relocation fields. This offers a concrete codegen
+reason to recover the original visibility of the accessor and preserve the
+complete sibling carrier before experimenting with register ordering.
+
+The frontier counts measure bytes after masking candidate COFF fields.
+BeginPlaybackStage has 13 structural differences and 19 after relocation
+replay because two GameManager operands moved. UpdateMovementAndOptions
+has four structural differences and at least eight after replaying its
+shifted configuration operand. The maintained Effect callback has four
+structural differences and eight after replaying its shifted manager
+operand. EnemyManager::OnUpdate and SaveReplay retain two structural
+differences each. SaveReplay still needs real providers for its format
+strings and replay name tables. CirnoLab's table contracts identify the
+three name tables and their extents.
+
+Native link identity remains a separate open question for exact callers.
+Nine g_GameManager COFF names account for 1,031 fields in the exact ledger
+at the same original address. An ExAttack-specific name contributes six
+more fields at that address. No inspected exact carrier defines any of
+those GameManager symbols. SupervisorAudio.cpp declares the global with
+an anonymous-namespace view type, so its linker symbol cannot resolve to
+an AsciiGameManagerView definition. The pinned linker reports this
+unresolved reference in a partial SupervisorAudio link. Its BGM track
+table is also an external declaration. CirnoLab provides a single
+GameManager owner and a 19-by-16-byte BGM table at the corresponding
+original addresses. Consolidate those providers before treating a
+per-function operand replay as evidence of native linkage.
