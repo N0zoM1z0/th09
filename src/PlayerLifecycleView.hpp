@@ -359,8 +359,9 @@ struct PlayerShotCtorView
     short animationIndex46C;
     unsigned char tintFlag46E;
     unsigned char unknown46F;
-    short field470;
-    unsigned char unknown472[0x474 - 0x472];
+    short mode470;
+    unsigned char flag472;
+    unsigned char unknown473;
     PlayerShotUpdateCallback updateCallback474;
     PlayerShotDrawCallback drawCallback478;
     // Complete native 0x484-byte Player shot tail. The shooter publishes
@@ -392,7 +393,9 @@ typedef char PlayerShtNativeShotInitFullFields[
      offsetof(PlayerShtDescriptorView, soundIndex26) == 0x26) ? 1 : -1];
 typedef char PlayerShotNativeInitializationFields[
     (offsetof(PlayerShotCtorView, damage460) == 0x460 &&
-     offsetof(PlayerShotCtorView, field470) == 0x470 &&
+     offsetof(PlayerShotCtorView, mode470) == 0x470 &&
+     offsetof(PlayerShotCtorView, flag472) == 0x472 &&
+     offsetof(PlayerShotCtorView, unknown473) == 0x473 &&
      offsetof(PlayerShotCtorView, timer454) == 0x454) ? 1 : -1];
 
 typedef char PlayerShotNativeSourceAndField[

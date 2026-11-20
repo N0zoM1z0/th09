@@ -11,7 +11,7 @@ int __fastcall PlayerShotUpdateCallbackType5(
 {
     PlayerShotCtorView *nativeShot =
         reinterpret_cast<PlayerShotCtorView *>(shot);
-    if (nativeShot->field470 == 1)
+    if (nativeShot->mode470 == 1)
     {
         nativeShot->velocity43C.x = 0.0f;
         nativeShot->velocity43C.y = 0.0f;
@@ -19,6 +19,6 @@ int __fastcall PlayerShotUpdateCallbackType5(
             nativeShot->state462 = 0;
     }
 
-    nativeShot->unknown472[0] = 1;
+    nativeShot->flag472 = 1;
     return 0;
 }

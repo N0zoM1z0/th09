@@ -36,7 +36,7 @@ void __fastcall PlayerLifecycleView::InitializeShot(
     nativeShot.velocity43C.y = sinf(nativeEntry.angle14) * nativeEntry.speed18;
 
     nativeShot.timer454 = 0;
-    nativeShot.field470 = 0;
+    nativeShot.mode470 = 0;
     nativeShot.shotType464 = nativeEntry.shotType22;
     nativeShot.damage460 = nativeEntry.damage1C;
     nativeShot.animationIndex46C = nativeEntry.animationIndex24;

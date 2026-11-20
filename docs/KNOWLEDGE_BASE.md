@@ -1849,3 +1849,15 @@ The header's changed-source replay covered seven compiler carriers and nine
 exact functions: 1,025 physical bytes and 22 relocation fields, including the
 spawn callback family, `InitializeShot`, and the frame-match leaf. All passed;
 no full cold replay was run and no exactness ledger count changed.
+
+## 2026-11-20 PlayerShot mode and update flag fields
+
+The native `PlayerShotCtorView` words at +0x470/+0x472 are now named
+`mode470` and `flag472`. The exact shot initializer clears `mode470`; exact
+update callback Type5 tests it for mode 1 and sets `flag472` every update.
+The adjacent byte at +0x473 remains unknown. Compile-time offset checks pin
+all three members and preserve the 0x484-byte allocation. The shot
+initializer and update callback remain byte-exact. A selected replay of 14
+compiler carriers and 17 exact units passed 2,886 physical bytes and 68
+relocation fields, including all exact shot spawn/draw/update consumers plus
+the shot producer and frame-match leaf. No whole-product cold replay ran.
