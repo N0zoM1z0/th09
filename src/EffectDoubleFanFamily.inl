@@ -13,7 +13,7 @@ typedef char EffectFanPlayerMovementAngleAt1CD8[
 int __fastcall EffectUpdateCallbackType26(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     if (state->radius7C < 112.0f)
         state->radius7C += 8.0f;
     EffectManager *manager = effect->manager;
@@ -38,7 +38,7 @@ int __fastcall EffectUpdateCallbackType26(Effect *effect)
 int __fastcall EffectUpdateCallbackType28(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     if (state->radius7C < 320.0f)
         state->radius7C += 8.0f;
     effect->position = *reinterpret_cast<const EffectFloat3 *>(
@@ -50,7 +50,7 @@ int __fastcall EffectUpdateCallbackType28(Effect *effect)
 int __fastcall EffectDrawCallbackType26(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    if (effect->unknown0C9 != 0)
+    if (effect->drawFlag0C9 != 0)
     {
         float angleStep = 2.0943952f / static_cast<float>(state->segments8C / 2 - 1);
         float angle = AddNormalizeAngle(state->angle80, 0.52359879f);
@@ -103,7 +103,7 @@ int __fastcall EffectDrawCallbackType26(Effect *effect)
 int __fastcall EffectDrawCallbackType28(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    if (effect->unknown0C9 != 0)
+    if (effect->drawFlag0C9 != 0)
     {
         float angleStep = 1.0471976f / static_cast<float>(state->segments8C / 2 - 1);
         float angle = AddNormalizeAngle(state->angle80, 1.0471976f);

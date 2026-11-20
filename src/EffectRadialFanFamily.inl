@@ -34,14 +34,14 @@ int __fastcall EffectInitializeCallbackRadialFan(Effect *effect)
     state->segments8C = 32;
     state->radius7C = 16.0f;
     state->frequency9C = 1.0f;
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     return 0;
 }
 
 int __fastcall EffectUpdateCallbackPlayerOffsetFan(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     if (state->radius7C < 56.0f)
         state->radius7C += 4.0f;
     float yOffset = state->radius7C * 1.5f;
@@ -54,7 +54,7 @@ int __fastcall EffectUpdateCallbackPlayerOffsetFan(Effect *effect)
 int __fastcall EffectDrawCallbackPlayerOffsetFan(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    if (effect->unknown0C9 != 0)
+    if (effect->drawFlag0C9 != 0)
     {
         float angleStep = 6.2831855f / static_cast<float>(state->segments8C - 1);
         float angle = -3.1415927f;
@@ -90,7 +90,7 @@ int __fastcall EffectDrawCallbackPlayerOffsetFan(Effect *effect)
 int __fastcall EffectUpdateCallbackType18(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     if (state->radius7C < 144.0f)
         state->radius7C += 0.7f;
     effect->position = *reinterpret_cast<const EffectFloat3 *>(
@@ -101,7 +101,7 @@ int __fastcall EffectUpdateCallbackType18(Effect *effect)
 int __fastcall EffectDrawCallbackType18(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    if (effect->unknown0C9 != 0)
+    if (effect->drawFlag0C9 != 0)
     {
         float angleStep = 6.2831855f / static_cast<float>(state->segments8C - 1);
         float angle = -3.1415927f;
@@ -137,7 +137,7 @@ int __fastcall EffectDrawCallbackType18(Effect *effect)
 int __fastcall EffectUpdateCallbackType10(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     if (state->radius7C < 96.0f)
         state->radius7C += 4.0f;
     effect->position = *reinterpret_cast<const EffectFloat3 *>(
@@ -148,7 +148,7 @@ int __fastcall EffectUpdateCallbackType10(Effect *effect)
 int __fastcall EffectDrawCallbackType10(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    if (effect->unknown0C9 != 0)
+    if (effect->drawFlag0C9 != 0)
     {
         float angleStep = 6.2831855f / static_cast<float>(state->segments8C - 1);
         float angle = -3.1415927f;
@@ -183,7 +183,7 @@ int __fastcall EffectDrawCallbackType10(Effect *effect)
 int __fastcall EffectUpdateCallbackType24(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     if (state->radius7C < 48.0f)
         state->radius7C += 8.0f;
     effect->position = *reinterpret_cast<const EffectFloat3 *>(
@@ -194,7 +194,7 @@ int __fastcall EffectUpdateCallbackType24(Effect *effect)
 int __fastcall EffectDrawCallbackType24(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    if (effect->unknown0C9 != 0)
+    if (effect->drawFlag0C9 != 0)
     {
         float angleStep = 6.2831855f / static_cast<float>(state->segments8C - 1);
         float angle = -3.1415927f;
@@ -229,7 +229,7 @@ int __fastcall EffectDrawCallbackType24(Effect *effect)
 int __fastcall EffectUpdateCallbackType33(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     if (state->radius7C < 96.0f)
         state->radius7C += 16.0f;
     effect->position = *reinterpret_cast<const EffectFloat3 *>(
@@ -240,7 +240,7 @@ int __fastcall EffectUpdateCallbackType33(Effect *effect)
 int __fastcall EffectDrawCallbackType33(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    if (effect->unknown0C9 != 0)
+    if (effect->drawFlag0C9 != 0)
     {
         float angleStep = 6.2831855f / static_cast<float>(state->segments8C - 1);
         float angle = -3.1415927f;

@@ -56,7 +56,7 @@ int __fastcall EffectUpdateFromVm(Effect *effect)
     effect->ellipseY94 = vm->pos2.y;
     effect->angle80 = vm->rotation.z;
     effect->rotation98 = vm->rotation.y;
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     return 1;
 }
 

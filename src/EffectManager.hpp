@@ -103,7 +103,7 @@ struct Effect
     unsigned char effectId;
     unsigned char unknown0C6[2];
     unsigned char alternateDrawGroup;
-    unsigned char unknown0C9;
+    unsigned char drawFlag0C9;
     unsigned char backgroundDrawGroup;
     unsigned char unknown0CB;
     void *vertices;
@@ -132,6 +132,7 @@ typedef char EffectPlayerRewardPayloadAtA0[
 typedef char EffectTimerAtAC[(offsetof(Effect, timer) == 0xAC) ? 1 : -1];
 typedef char EffectUpdateAtBC[(offsetof(Effect, updateCallback) == 0xBC) ? 1 : -1];
 typedef char EffectActiveAtC4[(offsetof(Effect, active) == 0xC4) ? 1 : -1];
+typedef char EffectDrawFlagAtC9[(offsetof(Effect, drawFlag0C9) == 0xC9) ? 1 : -1];
 typedef char EffectVerticesAtCC[(offsetof(Effect, vertices) == 0xCC) ? 1 : -1];
 typedef char EffectNextAtD4[(offsetof(Effect, nextInDrawGroup) == 0xD4) ? 1 : -1];
 

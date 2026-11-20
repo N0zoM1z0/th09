@@ -1965,3 +1965,25 @@ through its methods. The two original interpolators remain exact: linear is
 relocation fields. Changed-source scoped replay passed both functions (262
 physical bytes, 12 relocations). This removes a duplicate 67-line partial
 Enemy layout without changing either callback's ABI or exactness credit.
+
+
+## 2026-11-20 Effect +0xC9 is the shared draw-enable flag
+
+The Effect byte at +0xC9 is now named drawFlag0C9 in the canonical 0xD8
+Effect owner. The evidence spans the complete ring/fan/strip callback family:
+initializers and update callbacks set it, draw callbacks test it, and the
+shrinking Type32 update clears it when its radius reaches zero. The VM-backed
+Effect update also sets the same byte. The +0xC9 offset is compile-time
+asserted between alternateDrawGroup at +0xC8 and backgroundDrawGroup at
++0xCA. All 12 affected Effect source files now use this single field name.
+
+The changed EclManager translation unit regenerated compiler-private local
+COFF label spellings in CompareOperands, EnemyPostEclUpdateMovement and
+RunEcl. The 202 changed manifest bindings were updated only after checking
+each actual label belongs to its function's COFF section and that its
+owner-relative address equals the independently reviewed target address.
+No relocation was ignored or masked differently. Selected replay of
+EffectManager.cpp, EclManager.cpp, EffectDrawStrips.cpp and
+EffectPlayerStripFamily.cpp passed five compiler carriers, 104 exact units,
+49,253 physical bytes and 2,148 relocation fields. Basic CI passed. No
+whole-product cold replay ran; exact-function credit remains unchanged.

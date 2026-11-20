@@ -17,13 +17,13 @@ typedef char EffectStripNativeOwnerFields[
      offsetof(Effect, vms) == 0x04 &&
      offsetof(Effect, position) == 0x0C &&
      offsetof(Effect, radius7C) == 0x7C &&
-     offsetof(Effect, unknown0C9) == 0xC9 &&
+     offsetof(Effect, drawFlag0C9) == 0xC9 &&
      offsetof(Effect, vertices) == 0xCC) ? 1 : -1];
 
 int __fastcall EffectDrawCallbackType27(Effect *effect)
 {
     Effect *view = effect;
-    if (view->unknown0C9 != 0)
+    if (view->drawFlag0C9 != 0)
     {
         VertexDiffuseXyzrhw *vertex = reinterpret_cast<VertexDiffuseXyzrhw *>(view->vertices);
         const Float3 *position =
@@ -86,7 +86,7 @@ int __fastcall EffectDrawCallbackType27(Effect *effect)
 int __fastcall EffectDrawCallbackType36(Effect *effect)
 {
     Effect *view = effect;
-    if (view->unknown0C9 != 0)
+    if (view->drawFlag0C9 != 0)
     {
         VertexDiffuseXyzrhw *vertex = reinterpret_cast<VertexDiffuseXyzrhw *>(view->vertices);
         const Float3 *position =

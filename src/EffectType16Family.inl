@@ -40,7 +40,7 @@ int __fastcall EffectInitializeCallbackType16(Effect *effect)
     state->segments8C = 32;
     state->radius7C = 16.0f;
     state->frequency9C = 1.0f;
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     reinterpret_cast<EffectType16ScaleView *>(effect)->horizontalScale84 = 0.01f;
     return 0;
 }
@@ -48,7 +48,7 @@ int __fastcall EffectInitializeCallbackType16(Effect *effect)
 int __fastcall EffectUpdateCallbackType16(Effect *effect)
 {
     EffectType16ScaleView *state = reinterpret_cast<EffectType16ScaleView *>(effect);
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     if (effect->timer >= 30 && state->horizontalScale84 < 0.08f)
         state->horizontalScale84 += 0.001f;
     effect->position = *reinterpret_cast<const EffectFloat3 *>(
@@ -59,7 +59,7 @@ int __fastcall EffectUpdateCallbackType16(Effect *effect)
 int __fastcall EffectDrawCallbackType16(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    if (effect->unknown0C9 != 0)
+    if (effect->drawFlag0C9 != 0)
     {
         float angleStep = 3.1415927f / static_cast<float>(state->segments8C - 1);
         float angle = 0.0f;

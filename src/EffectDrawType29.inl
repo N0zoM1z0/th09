@@ -16,7 +16,7 @@ typedef char Effect29SdkNativeVectorAbi[
 int __fastcall EffectDrawCallbackType29(Effect *effect)
 {
 
-    if (effect->unknown0C9)
+    if (effect->drawFlag0C9)
     {
         int n = effect->segments8C;
         EffectRadialFanVertex *vtx = (EffectRadialFanVertex *)effect->vertices;

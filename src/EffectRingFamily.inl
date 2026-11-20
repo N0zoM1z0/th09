@@ -34,7 +34,7 @@ int __fastcall EffectInitializeCallbackRing(Effect *effect)
     state->ellipseY94 = 0.0f;
     state->rotation98 = 0.0f;
     state->frequency9C = 0.0f;
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     state->segments8C = 24;
     return 0;
 }
@@ -47,7 +47,7 @@ int __fastcall EffectDrawCallbackRing(Effect *effect)
     EffectRingVertex *vertex;
     float angleStep;
     float halfWidth;
-    if (effect->unknown0C9 != 0)
+    if (effect->drawFlag0C9 != 0)
     {
         angleStep = 6.2831855f / static_cast<float>(state->segments8C);
         halfWidth = state->thickness88 / sinf((3.1415927f - angleStep) * 0.5f);
@@ -142,7 +142,7 @@ int __fastcall EffectDrawCallbackRing(Effect *effect)
                 waveAngle = waveStep + waveAngle;
             }
         }
-        effect->unknown0C9 = 0;
+        effect->drawFlag0C9 = 0;
     }
     g_AnmManager->DrawVertices(reinterpret_cast<AnmVm *>(effect->vms),
         static_cast<VertexTex1DiffuseXyzrhw *>(effect->vertices), 2 * (state->segments8C + 1));

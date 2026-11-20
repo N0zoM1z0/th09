@@ -11,7 +11,7 @@ KNOWLEDGE_BASE.md and generated counts live in PROGRESS.md.
   SHA-256 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 - Compiler: pinned VC7.1 with each owner's profile in config/match-units.toml
   or config/frontiers.toml. Never change profiles to chase register choices.
-- Stage: exact reconstruction. Latest source checkpoint: 5e79811e (Effect follow-player callback uses native Player owners); additional ECL owner cleanup is recorded below. Local main has commits beyond origin/main; do not assume
+- Stage: exact reconstruction. Latest source checkpoint: 3738f9cc (ECL interpolation helpers use the shared Enemy owner); subsequent Effect draw-flag recovery is recorded below. Local main has commits beyond origin/main; do not assume
   local commits have been pushed. Inspect git status and git log before work.
 - Worktree was clean at this handoff update. No interrupted source edits were found.
 - Ledger: 2,248 tracked function candidates; origin/boundary review pending 0;
@@ -503,3 +503,21 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
   UpdateNetworkService (1,633-byte candidate, REGRESSED against 1,629).
   Continue from target CFG and natural C++; do not rebaseline or use ASM,
   register forcing, padding or synthetic bytes.
+
+
+## Continuation after 3738f9cc (2026-11-20)
+
+- The Effect byte at +0xC9 is now named drawFlag0C9 across the shared Effect
+  owner and all ring/fan/strip initializers, update callbacks and draw
+  callbacks. Its offset is asserted; its set/test/clear behavior is supported
+  by independent callback consumers.
+- The changed EclManager.cpp object regenerated 202 compiler-private local
+  COFF label names across CompareOperands, EnemyPostEclUpdateMovement and
+  RunEcl. Each replacement was verified as an owner-local symbol at the same
+  original target address; the canonical relocation checker then passed.
+- Selected replay of EffectManager.cpp, EclManager.cpp, EffectDrawStrips.cpp
+  and EffectPlayerStripFamily.cpp passed five carriers, 104 exact units,
+  49,253 bytes and 2,148 relocations. Basic CI passed; no cold replay ran.
+- Exact authored function credit remains 1,026. Continue to prioritize the
+  three nonexact gameplay bosses in the table above; do not promote or
+  rebaseline REGRESSED candidates.

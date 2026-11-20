@@ -34,7 +34,7 @@ int __fastcall EffectInitializeCallbackType17(Effect *effect)
     state->segments8C = 16;
     state->frequency9C = 1.0f;
     state->radius7C = 160.0f;
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     return 0;
 }
 
@@ -58,7 +58,7 @@ int __fastcall EffectInitializeCallbackType29(Effect *effect)
     state->segments8C = 32;
     state->radius7C = 32.0f;
     state->frequency9C = 1.0f;
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     return 0;
 }
 
@@ -85,7 +85,7 @@ int __fastcall EffectInitializeCallbackType30(Effect *effect)
     state->segments8C = 16;
     state->frequency9C = 1.0f;
     state->radius7C = 128.0f;
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     state->angle80 = -1.5707964f;
     return 0;
 }
@@ -109,7 +109,7 @@ int __fastcall EffectInitializeCallbackType31(Effect *effect)
     state->segments8C = 32;
     state->radius7C = 16.0f;
     state->frequency9C = 1.0f;
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     state->angle80 = -1.5707964f;
     return 0;
 }
@@ -134,7 +134,7 @@ int __fastcall EffectInitializeCallbackType32(Effect *effect)
     state->segments8C = 32;
     state->radius7C = 640.0f;
     state->frequency9C = 1.0f;
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     return 0;
 }
 
@@ -158,14 +158,14 @@ int __fastcall EffectInitializeCallbackType37(Effect *effect)
     state->segments8C = 32;
     state->radius7C = 0.0f;
     state->frequency9C = 1.0f;
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     return 0;
 }
 
 int __fastcall EffectUpdateCallbackType37(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     if (state->radius7C < 8.0f)
         state->radius7C += 0.5f;
     effect->position = *reinterpret_cast<const EffectFloat3 *>(
@@ -178,11 +178,11 @@ int __fastcall EffectUpdateCallbackType32(Effect *effect)
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
     if (state->radius7C > 0.0f)
     {
-        effect->unknown0C9 = 1;
+        effect->drawFlag0C9 = 1;
         state->radius7C -= 32.0f;
     }
     else
-        effect->unknown0C9 = 0;
+        effect->drawFlag0C9 = 0;
     effect->position = *reinterpret_cast<const EffectFloat3 *>(
         &g_GameManager.sides[effect->manager->sideIndex].player04->position1B88);
     return 1;
@@ -192,7 +192,7 @@ int __fastcall EffectUpdateCallbackType30(Effect *effect)
 {
     EffectFanApertureView *aperture = reinterpret_cast<EffectFanApertureView *>(effect);
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     if (aperture->aperture84 < 1.5707964f)
         aperture->aperture84 += 0.031415928f;
     effect->position = *reinterpret_cast<const EffectFloat3 *>(
@@ -204,7 +204,7 @@ int __fastcall EffectUpdateCallbackType30(Effect *effect)
 int __fastcall EffectDrawCallbackType32(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    if (effect->unknown0C9 != 0)
+    if (effect->drawFlag0C9 != 0)
     {
         float angleStep = 6.2831855f / static_cast<float>(state->segments8C - 1);
         float angle = -3.1415927f;
@@ -239,7 +239,7 @@ int __fastcall EffectDrawCallbackType32(Effect *effect)
 int __fastcall EffectDrawCallbackType17(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    if (effect->unknown0C9 != 0)
+    if (effect->drawFlag0C9 != 0)
     {
         const float &aperture = *reinterpret_cast<const float *>(effect->unknown084);
         float angleStep = aperture / static_cast<float>(state->segments8C - 1);
@@ -274,7 +274,7 @@ int __fastcall EffectDrawCallbackType17(Effect *effect)
 int __fastcall EffectDrawCallbackType30(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    if (effect->unknown0C9 != 0)
+    if (effect->drawFlag0C9 != 0)
     {
         const float &aperture = *reinterpret_cast<const float *>(effect->unknown084);
         float angleStep = aperture / static_cast<float>(state->segments8C - 1);

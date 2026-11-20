@@ -47,7 +47,7 @@ int __fastcall EffectInitializeCallbackType34(Effect *effect)
     effect->value9C = 1.0f;
     effect->value8C = 32;
     state->radius7C = 16.0f;
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     EffectType34VerticesView *vertices = static_cast<EffectType34VerticesView *>(effect->vertices);
     vertices->width50 = 0.0f;
     vertices->state00 = 0;

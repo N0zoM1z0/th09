@@ -23,14 +23,14 @@ int __fastcall EffectInitializeCallbackStripType27Type36(Effect *effect)
     state->segments8C = 32;
     state->radius7C = 0.0f;
     state->frequency9C = 1.0f;
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     return 0;
 }
 
 int __fastcall EffectUpdateCallbackType27(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     if (state->radius7C < 16.0f)
         state->radius7C += 0.5f;
     effect->position = *reinterpret_cast<const EffectFloat3 *>(
@@ -41,7 +41,7 @@ int __fastcall EffectUpdateCallbackType27(Effect *effect)
 int __fastcall EffectUpdateCallbackType36(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     if (state->radius7C < 24.0f)
         state->radius7C += 0.5f;
     effect->position = *reinterpret_cast<const EffectFloat3 *>(

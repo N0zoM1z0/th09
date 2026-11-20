@@ -7,7 +7,7 @@ int __fastcall EffectUpdateCallbackType17(Effect *effect)
 {
     EffectFanApertureView *aperture = reinterpret_cast<EffectFanApertureView *>(effect);
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     if (aperture->aperture84 < 1.5707964f)
         aperture->aperture84 += 0.052359879f;
     EffectManager *manager = effect->manager;
@@ -32,7 +32,7 @@ int __fastcall EffectUpdateCallbackType17(Effect *effect)
 int __fastcall EffectUpdateCallbackType29(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     if (state->radius7C < 48.0f)
         state->radius7C += 4.0f;
     state->angle80 = AddNormalizeAngle(state->angle80, 0.052359879f);
@@ -52,7 +52,7 @@ typedef char EffectFanPlayerVelocityAt1CCC[
 int __fastcall EffectUpdateCallbackType31(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    effect->unknown0C9 = 1;
+    effect->drawFlag0C9 = 1;
     if (state->radius7C < 128.0f)
         state->radius7C += 6.0f;
     EffectManager *manager = effect->manager;
@@ -72,7 +72,7 @@ int __fastcall EffectUpdateCallbackType31(Effect *effect)
 int __fastcall EffectDrawCallbackType31(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    if (effect->unknown0C9 != 0)
+    if (effect->drawFlag0C9 != 0)
     {
         float angle = state->angle80;
         Float3 points[10];
@@ -125,7 +125,7 @@ int __fastcall EffectDrawCallbackType31(Effect *effect)
 int __fastcall EffectDrawCallbackType37(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
-    if (effect->unknown0C9 != 0)
+    if (effect->drawFlag0C9 != 0)
     {
         EffectRadialFanVertex *vertex = static_cast<EffectRadialFanVertex *>(effect->vertices);
         const Float3 &origin = *reinterpret_cast<const Float3 *>(&effect->position);
