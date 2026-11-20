@@ -33,6 +33,24 @@ class SymbolDestinationTests(unittest.TestCase):
             self.row(symbol="callee", type="REL32"),
             self.row(symbol="callee", offset=0x120, type="DIR32")])
 
+    def test_import_binding_requires_a_unique_named_slot_and_no_addend(self):
+        sleep = self.row(symbol="__imp__Sleep@4", target=0x401000)
+        sites = {0x401000: "KERNEL32.dll::Sleep", 0x401004: "KERNEL32.dll::FindClose"}
+        with mock.patch.object(coff, "target_iat", return_value=sites):
+            coff.validate_import_destinations([sleep], [sleep], b"")
+            for change in (
+                {"symbol": "__imp__FindClose@4"},
+                {"target": 0x401004},
+                {"type": "REL32"},
+                {"addend": 4},
+            ):
+                row = dict(sleep, **change)
+                with self.subTest(change=change), self.assertRaisesRegex(ValueError, "PE import identity"):
+                    coff.validate_import_destinations([row], [row], b"")
+            sites[0x401008] = "other.dll::Sleep"
+            with self.assertRaisesRegex(ValueError, "PE import identity"):
+                coff.validate_import_destinations([sleep], [sleep], b"")
+
     def test_distinct_symbols_may_share_folded_address(self):
         coff.validate_symbol_destinations([
             self.row(symbol="first"), self.row(symbol="second", offset=0xB9)])

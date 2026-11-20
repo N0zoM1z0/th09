@@ -29,6 +29,12 @@ An operand targeting an external table establishes its address in the
 original image. A table-content claim requires the separate defining-object
 comparison. Native linkage requires a matched rebuilt PE and map.
 
+Each canonical import relocation must select the uniquely named slot in the
+original PE import address table, using DIR32 and a zero COFF addend. The
+function comparison checks an exception-handler pointer in the caller,
+while proof of the handler, unwind data, and cleanup body needs their
+own comparison.
+
 Direct local Ghidra is the semantic-analysis tool, not an independent exactness
 Oracle. Decompiler text, names, types, and candidate extents remain provisional.
 A thunk can inherit its callee name and produce expanded callee pseudocode: at

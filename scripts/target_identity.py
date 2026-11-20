@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 import hashlib
 import os
 from pathlib import Path
@@ -164,3 +165,43 @@ def pe_bytes_at(image: bytes, address: int, size: int) -> bytes:
         if 0 <= relative < section["virtual_size"]:
             raise ValueError(f"address {address:#x} has no complete raw-byte extent")
     raise ValueError(f"address {address:#x} is not mapped by a PE section")
+
+
+def import_iat(image: bytes, read: Callable[[int, int], bytes]) -> dict[int, str]:
+    """Resolve named PE32 IAT slots without consulting instruction operands."""
+    pe_offset = struct.unpack_from("<I", image, 0x3C)[0]
+    optional_size = struct.unpack_from("<H", image, pe_offset + 20)[0]
+    optional = pe_offset + 24
+    if optional_size < 112 or struct.unpack_from("<H", image, optional)[0] != 0x10B:
+        raise ValueError("expected PE32 import directory")
+    image_base = struct.unpack_from("<I", image, optional + 28)[0]
+    import_rva, import_size = struct.unpack_from("<II", image, optional + 104)
+    if not import_rva or not import_size:
+        return {}
+
+    def read_string(rva: int) -> str:
+        result = bytearray()
+        for offset in range(4096):
+            value = read(image_base + rva + offset, 1)[0]
+            if value == 0:
+                return result.decode("ascii")
+            result.append(value)
+        raise ValueError("unterminated PE import name")
+
+    result: dict[int, str] = {}
+    for offset in range(0, import_size - 19, 20):
+        original, _, _, name_rva, first_thunk = struct.unpack(
+            "<IIIII", read(image_base + import_rva + offset, 20))
+        if not any((original, name_rva, first_thunk)):
+            return result
+        dll = read_string(name_rva)
+        names = original or first_thunk
+        thunk_offset = 0
+        while True:
+            value, = struct.unpack("<I", read(image_base + names + thunk_offset, 4))
+            if value == 0:
+                break
+            name = f"Ordinal_{value & 0xFFFF}" if value & 0x80000000 else read_string(value + 2)
+            result[image_base + first_thunk + thunk_offset] = f"{dll}::{name}"
+            thunk_offset += 4
+    raise ValueError("unterminated PE import directory")

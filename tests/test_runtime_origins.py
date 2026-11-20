@@ -48,6 +48,28 @@ def synthetic_pe(payload: bytes) -> bytes:
 
 
 class MatchingTests(unittest.TestCase):
+    def test_import_identity_uses_lookup_table_and_requires_complete_descriptors(self) -> None:
+        identity_spec = importlib.util.spec_from_file_location(
+            "th09_target_identity", ROOT / "scripts/target_identity.py")
+        identity = importlib.util.module_from_spec(identity_spec)
+        identity_spec.loader.exec_module(identity)
+        payload = bytearray(0xB0)
+        struct.pack_into("<IIIII", payload, 0, 0x1040, 0, 0, 0x1030, 0x1060)
+        payload[0x30:0x3D] = b"KERNEL32.dll\0"
+        struct.pack_into("<II", payload, 0x40, 0x1080, 0x8000002A)
+        payload[0x82:0x88] = b"Sleep\0"
+        data = bytearray(synthetic_pe(payload))
+        struct.pack_into("<II", data, 0x98 + 104, 0x1000, 40)
+        image = bytes(data)
+        self.assertEqual(identity.import_iat(image, AUDIT.PEImage(image).read), {
+            0x401060: "KERNEL32.dll::Sleep",
+            0x401064: "KERNEL32.dll::Ordinal_42",
+        })
+        struct.pack_into("<I", data, 0x98 + 108, 20)
+        image = bytes(data)
+        with self.assertRaisesRegex(ValueError, "unterminated PE import directory"):
+            identity.import_iat(image, AUDIT.PEImage(image).read)
+
     def test_complete_function_match_masks_only_relocations(self) -> None:
         template = {"code": b"abcXXXXdef", "masked_offsets": {3, 4, 5, 6}}
         self.assertTrue(AUDIT.compare_template(b"abc1234def", template))

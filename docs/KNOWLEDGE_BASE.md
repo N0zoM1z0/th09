@@ -2361,3 +2361,40 @@ traces for its product. TH09's regular exact replay is explicitly scoped.
 Its PE build graph is open, so final linked call targets, alias storage
 identity, moved-layout behavior and retail/native replay remain product
 and runtime work.
+
+## 2026-11-20 cross-check against TH06, TH07, TH08, and TH095
+
+TH06's linked replay binds the retained objects, source inputs, compiler,
+image and map before comparing linked bytes at original addresses. Its
+boundary audit reviews inter-function gaps separately from exact bytes.
+The local target and ledger were readable, but a linked replay refused the
+retained receipt because its pinned compiler path was missing.
+
+TH07 derives procedure extents from the PE-bound PDB and compares its
+faithful link with a metadata link. It resolves imports and compares linked
+globals and compiler exception graphs alongside function bytes. Read-only
+replay of the retained maintained product matched all 694 named functions.
+Its exception audit paired 18 native descriptors and flagged one unpaired
+record. TH08's four data contracts passed against its retained build and map.
+TH095 main's build graph validated with 88 sources and two profiles. Its
+documented production link and runtime checkpoints are separate from exact
+replay, and its ownership audit covers aliases that selected the same
+original address but occupied different native storage.
+
+TH09 previously accepted a private TitleScreen COFF copy whose setup-thread
+relocation selected FindClose while its manifest gave that symbol Sleep's
+original IAT slot. The substituted address reproduced the caller bytes.
+Canonical comparison now checks each import's name and independent PE slot,
+DIR32 type and zero addend. All 212 credited import fields agree with the
+original IAT and direct operands. The fresh TitleScreen replay passed 41
+units; the changed COFF and manifest pair now fails at caller offset 0x0F.
+
+The exception check has a separate remaining scope. The Background::Create
+caller still passes when a private COFF copy changes the cleanup funclet's
+stack read from EBP-0x10 to EBP-0x14. A bounded replay of four handler roots
+in three unmodified objects compared the full handler, FuncInfo, unwind map
+and cleanup bytes using the original handler roots and verified CRT entries.
+Background::Create, Ending::RegisterChain and the two Title handlers passed.
+The general exact comparator checks the caller's handler relocation only.
+Extend EH coverage from those independently reviewed chains when checking
+compiler-owned data or native linkage.

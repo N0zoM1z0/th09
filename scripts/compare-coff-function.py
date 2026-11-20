@@ -316,6 +316,32 @@ def validate_native_crt_destinations(expected: list[dict[str, object]]) -> None:
                              f"manifest {int(row['target']):#x}")
 
 
+@lru_cache(maxsize=1)
+def target_iat(image: bytes) -> dict[int, str]:
+    spec = importlib.util.spec_from_file_location(
+        "match_unit_target_identity", Path(__file__).with_name("target_identity.py"))
+    identity = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(identity)
+    return identity.import_iat(image, lambda address, size: pe_bytes_at(image, address, size))
+
+
+def validate_import_destinations(expected: list[dict], actual: list[dict], image: bytes) -> None:
+    imports = [row for row in expected if row["symbol"].startswith("__imp_")]
+    if not imports:
+        return
+    destinations: dict[str, list[int]] = {}
+    for address, qualified_name in target_iat(image).items():
+        name = qualified_name.split("::", 1)[1]
+        destinations.setdefault(name, []).append(address)
+    addends = {row["offset"]: row["addend"] for row in actual}
+    for row in imports:
+        symbol = row["symbol"]
+        match = re.fullmatch(r"__imp__([A-Za-z_][A-Za-z0-9_]*)(?:@[0-9]+)?", symbol)
+        if (not match or destinations.get(match.group(1)) != [row["target"]]
+                or row["type"] != "DIR32" or addends[row["offset"]] != 0):
+            raise ValueError(f"PE import identity differs for {symbol} at field {row['offset']:#x}")
+
+
 def owner_local_offset(row: dict[str, object], owner_size: int) -> int | None:
     if int(row["symbol_section"]) <= 0 or row["symbol_section"] != row["owner_section"]:
         return None
@@ -480,6 +506,7 @@ def compare_unit(name: str) -> dict[str, object]:
 
     validate_symbol_destinations(normalized_expected)
     validate_native_crt_destinations(normalized_expected)
+    validate_import_destinations(normalized_expected, actual, image)
     validate_owner_local_destinations(actual, normalized_expected, address, compare_size)
     literal_definitions = validate_literal_definitions(
         object_path, actual, image, normalized_expected)

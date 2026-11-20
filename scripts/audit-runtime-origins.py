@@ -460,56 +460,6 @@ def map_coff_contributions(
     return mapped
 
 
-def read_c_string_at_rva(image: object, image_base: int, rva: int) -> str:
-    result = bytearray()
-    address = image_base + rva
-    while len(result) < 4096:
-        value = image.read(address + len(result), 1)[0]
-        if value == 0:
-            return result.decode("ascii", errors="replace")
-        result.append(value)
-    raise ValueError("unterminated PE string")
-
-
-def import_iat(image_data: bytes, image: object) -> dict[int, str]:
-    pe_offset = struct.unpack_from("<I", image_data, 0x3C)[0]
-    optional = pe_offset + 24
-    magic = struct.unpack_from("<H", image_data, optional)[0]
-    if magic != 0x10B:
-        raise ValueError("expected PE32 optional header")
-    image_base = struct.unpack_from("<I", image_data, optional + 28)[0]
-    import_rva, import_size = struct.unpack_from("<II", image_data, optional + 104)
-    if not import_rva or not import_size:
-        return {}
-    result: dict[int, str] = {}
-    index = 0
-    while True:
-        descriptor = image.read(image_base + import_rva + index * 20, 20)
-        original, _, _, name_rva, first_thunk = struct.unpack("<IIIII", descriptor)
-        if not any((original, name_rva, first_thunk)):
-            break
-        dll = read_c_string_at_rva(image, image_base, name_rva)
-        names = original or first_thunk
-        thunk_index = 0
-        while True:
-            value = struct.unpack(
-                "<I", image.read(image_base + names + thunk_index * 4, 4)
-            )[0]
-            if value == 0:
-                break
-            if value & 0x80000000:
-                symbol = f"Ordinal_{value & 0xFFFF}"
-            else:
-                hint_name = image.read(image_base + value, 2)
-                if len(hint_name) != 2:
-                    raise ValueError("truncated import hint")
-                symbol = read_c_string_at_rva(image, image_base, value + 2)
-            result[image_base + first_thunk + thunk_index * 4] = f"{dll}::{symbol}"
-            thunk_index += 1
-        index += 1
-    return result
-
-
 def load_audit_rows() -> list[dict[str, object]]:
     with ORIGINS.open(newline="", encoding="utf-8") as handle:
         origins = {row["address"]: row for row in csv.DictReader(handle)}
@@ -545,9 +495,11 @@ def compare_template(target: bytes, template: dict[str, object]) -> bool:
 
 
 def audit(minimum_nonrelocation_bytes: int) -> dict[str, object]:
+    from target_identity import import_iat
+
     target_data, image = verified_target()
     rows = load_audit_rows()
-    iat = import_iat(target_data, image)
+    iat = import_iat(target_data, image.read)
     templates = []
     archive_hashes = {}
     archive_members_seen = {}
