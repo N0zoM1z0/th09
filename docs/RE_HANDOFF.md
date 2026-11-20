@@ -35,11 +35,11 @@ buffer at the reviewed original address. The current Enemy update comparison
 still has two register differences.
 See [the schedule storage proof](KNOWLEDGE_BASE.md#2026-11-20-enemy-update-schedule-storage).
 
-The current focus is `ReplayManagerView::BeginPlaybackStage`. Rebuild it with
-`python3 -B scripts/check-frontier.py replay-begin-playback --show`.
-The [side-state comparison](KNOWLEDGE_BASE.md#2026-11-20-replay-playback-side-state-load)
-records the original relocation positions, the nine-byte probe, and the
-VC7.1 trace that explains its EDX choice.
+The current focus is `ScreenEffect::CalcShakeEnvelope`. Rebuild it with
+`python3 -B scripts/check-frontier.py screen-shake-envelope --show`.
+The timer comparison's visibility changes the generated field loads.
+The [compiler trace](KNOWLEDGE_BASE.md#2026-11-20-shake-envelope-compiler-context)
+also identifies the receiver allocation order in both full-size candidates.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
@@ -48,7 +48,7 @@ VC7.1 trace that explains its EDX choice.
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes; 4 differences (OK) | Focus-mode load order at +0x127..+0x12A. Retail loads g_GameConfiguration before player sideIndex; current source emits the reverse order. |
 | PlayerLifecycleView::UpdateChargeAttack | 0x0041F810 | 1,210/1,210 bytes; 183 differences (OK) | Boss register allocation: retail loads the full DWORD sideIndex into EDI and forms the ReplayInputState pointer in EBX (0x8E stride). Current short-side/input locals allocate the opposite way; widening/removing locals regressed hundreds of bytes. |
 | PlayerLifecycleView::CheckBulletCollision | 0x0041DFF0 | 849/862 bytes; 539 differences (REGRESSED) | Preserve the 0x34-byte target frame and recover the target CFG: circle check and shared hit dispatcher at +0x7E precede rotated-rectangle/AABB paths. Valid region types are 1/2/3 with delay <= 0; kinds 2/3 reward only for a non-null bullet with word +0x10C0 equal to zero. Candidate grew from the 842-byte frontier baseline; do not rebaseline. |
-| ScreenEffect::CalcShakeEnvelope | 0x004227A0 | 336/336 bytes; 26 differences (OK) | Retain signed timer comparisons, DWORD endpoint arithmetic and X87 conversion order; receiver/timer alias probes did not improve the owner. |
+| ScreenEffect::CalcShakeEnvelope | 0x004227A0 | 336/336 bytes; 26 differences (OK) | The receiver takes ESI before VC7.1 allocates the timer. A co-visible timer comparison restores the separate field loads with plain C++, with further differences in the RNG switch stores. |
 | TitleScreenView::DrawReplayMenu | 0x004234F6 | 1,280/1,280 bytes; 29 differences (OK) | Continue from the native replay-row/VM layout and exact caller evidence; preserve all 29 recorded positions. |
 | TitleScreenView::OnUpdateResult | 0x004266B5 | 484/485 bytes; 167 differences (OK) | Source is one byte shorter than the target owner. Character-array cursor is natural, but the complete owner remains nonexact. |
 | Supervisor::UpdateNetworkService | 0x00430AA0 | 1,633/1,633 bytes; 307 differences (REGRESSED) | The current natural-C++ candidate restores the 0x14-byte frame and EBX's mutually exclusive prediction-frame / prefill-counter lifetime. It retains the handshake and frame-packet receivers across RNG calls and uses live side/frame reloads in the second prediction call. Still four bytes above the 1,629-byte ratchet; do not rebaseline. |

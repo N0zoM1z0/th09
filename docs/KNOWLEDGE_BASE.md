@@ -1775,6 +1775,34 @@ the canonical comparator. No full cold replay was run, and the authored exact
 count remains 1,026.
 
 
+## 2026-11-20 Shake envelope compiler context
+
+A fresh complete replay at `0x004227A0` binds all 20 relocation fields
+and both float literals. The maintained 336-byte candidate differs in 26
+register encodings. The target uses EDI for `ScreenEffect` and ESI for its
+timer. The candidate assigns the two receivers in the opposite order.
+
+On a disposable copy of `ScreenEffect.cpp`, remove `volatile` from the two
+phase-length references and compile with the frontier profile. That folds
+one phase-length load into the addition and emits 334 bytes. Add the real
+out-of-line `ZunTimer::operator<` definition from
+`src/BackgroundStageScript.cpp` to the same copy. Both loads return at
+`+0x5A` and `+0x5D`, and the eight calls retain their original offsets
+and destinations. The 336-byte probe has 79 byte differences after replaying
+its 20 relocations. Three ANM pointer operands move in the final switches.
+The complete probe carrier still passes all 16 siblings from
+`ScreenEffect.obj` and the timer comparison itself.
+
+Read-only traces of VC7.1 C2 at `0x107833F2` and `0x10782A1D` give the same
+receiver decision with both sets of loads. C2 scores the effect receiver
+first with mask `0x190` and selects descriptor 7 (ESI). The timer is scored
+next with mask `0x110` and receives descriptor 8 (EDI). The objects emitted
+under the debugger reproduce both full-size controls, including their COFF
+fields. Timer pointer/reference spelling, cached versus repeated endpoint
+expressions, and case order probes retain the receiver assignment in the
+closest candidates. The 26-byte frontier remains the maintained candidate.
+
+
 ## 2026-11-20 Player-shot trail segment count
 
 The 16-bit `PlayerShotCtorView` member at +0x46A is now named
