@@ -2208,3 +2208,22 @@ and PlayerShortLeaves.cpp passed 25 exact units across six compiler carriers,
 5,442 physical bytes and 289 relocation fields. The eleven regenerated
 UpdateBeforeState local labels were checked against unchanged owner-relative
 destinations. No full cold replay ran.
+
+## 2026-11-20 Player runtime uses the canonical GameManager owner
+
+PlayerRuntime.cpp no longer declares PlayerGameManagerRuntimeView or a
+second g_PlayerGameManagerRuntime global at the same address as g_GameManager.
+All Player draw/update paths now use the canonical AsciiGameManagerView
+object for popup transforms and playfield checks. The old CheckTimingState
+wrapper is the already exact IsGameMode1 method (gameMode +0x118 == 1), and
+the old suppressPlayerDraw13D byte is the existing GameManager +0x13D byte.
+That semantic alias is now explicit in AsciiGameManagerView and has an offset
+assertion.
+
+All PlayerRuntime exact-unit relocations were rebound from the duplicate
+global/method names to the canonical g_GameManager / AsciiGameManagerView
+symbols at unchanged original addresses. Selected replay passed all 21 exact
+PlayerRuntime units across five compiler carriers, 5,391 bytes and 288
+relocation fields. Eleven regenerated UpdateBeforeState local labels were
+checked against their unchanged owner-relative destinations. No full cold
+replay ran.

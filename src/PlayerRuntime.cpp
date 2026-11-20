@@ -372,17 +372,6 @@ typedef char PlayerRuntimeNativeBulletSpriteDimensions[
      offsetof(AnmLoadedSprite, widthPx) == 0x34 &&
      offsetof(PlayerAnmVmView, loadedSprite) == 0x224) ? 1 : -1];
 
-struct PlayerGameManagerRuntimeView
-{
-    int CheckTimingState();
-    int IsWithinPlayfield(float x, float y, float spriteWidth, float spriteHeight);
-    float TransformPopupX(float value);
-    float TransformPopupY(float value);
-    unsigned char unknown000[0x13D];
-    unsigned char suppressPlayerDraw13D;
-};
-extern PlayerGameManagerRuntimeView g_PlayerGameManagerRuntime;
-
 extern unsigned int g_PlayerUpdateGateFlags;
 extern int g_PlayerTimingTable[][7];
 
@@ -716,7 +705,7 @@ afterTransition:
             player->sideState->frontSide18->ClearState(0);
             player->flagBits1B80.frontSideClearPending03 = 0;
 
-            if (g_PlayerGameManagerRuntime.CheckTimingState() && player->sideIndex == 0)
+            if (g_GameManager.IsGameMode1() && player->sideIndex == 0)
             {
                 PlayerSideStateView *opponentState = player->opponentState;
                 PlayerLifecycleView *opponent = opponentState->player04;
@@ -808,10 +797,10 @@ void PlayerLifecycleView::UpdateBeforeState()
 
                     EffectFloat3 position;
                     position.x =
-                        g_PlayerGameManagerRuntime.TransformPopupX(position1B88.x) +
+                        g_GameManager.TransformPopupX(position1B88.x) +
                         g_ReplayRng.GetRandomF32SignedInRange(64.0f);
                     position.y =
-                        g_PlayerGameManagerRuntime.TransformPopupY(position1B88.y) +
+                        g_GameManager.TransformPopupY(position1B88.y) +
                         g_ReplayRng.GetRandomF32SignedInRange(64.0f);
                     position.z = 0.0f;
 
@@ -925,9 +914,9 @@ void PlayerLifecycleView::DrawTailStates()
         if (state->active18 == NULL)
             continue;
         state->vm1C.pos.x =
-            g_PlayerGameManagerRuntime.TransformPopupX(state->position00.x);
+            g_GameManager.TransformPopupX(state->position00.x);
         state->vm1C.pos.y =
-            g_PlayerGameManagerRuntime.TransformPopupY(state->position00.y);
+            g_GameManager.TransformPopupY(state->position00.y);
         state->vm1C.pos.z = 0.15f;
         g_AnmManager->DrawNoRotation(reinterpret_cast<AnmVm *>(&state->vm1C));
     }
@@ -948,10 +937,10 @@ int __fastcall PlayerLifecycleView::OnDrawHighPrio(PlayerLifecycleView *player)
             return 1;
     }
 
-    if (g_PlayerGameManagerRuntime.suppressPlayerDraw13D == 0)
+    if (g_GameManager.suppressPlayerDraw13D == 0)
     {
-        player->mainVm.pos.x = g_PlayerGameManagerRuntime.TransformPopupX(player->position1B88.x);
-        player->mainVm.pos.y = g_PlayerGameManagerRuntime.TransformPopupY(player->position1B88.y);
+        player->mainVm.pos.x = g_GameManager.TransformPopupX(player->position1B88.x);
+        player->mainVm.pos.y = g_GameManager.TransformPopupY(player->position1B88.y);
         player->mainVm.pos.z = 0.1f;
         g_AnmManager->DrawNoRotation(reinterpret_cast<AnmVm *>(&player->mainVm));
     }
@@ -994,7 +983,7 @@ void PlayerLifecycleView::UpdateShots()
         positionY += g_Supervisor.framerateMultiplier5B8 * shot->velocity43C.y;
 
         if (shot->shotType464 != 2 &&
-            !g_PlayerGameManagerRuntime.IsWithinPlayfield(
+            !g_GameManager.IsWithinPlayfield(
                 position->x, position->y, shot->vm.loadedSprite->widthPx,
                 shot->vm.loadedSprite->heightPx))
             shot->state462 = 0;
@@ -1015,8 +1004,8 @@ void PlayerLifecycleView::DrawActiveShots()
         if (shot->vm.type != 0)
             shot->vm.SetZRotation(shot->angle450);
 
-        shot->vm.pos.x = g_PlayerGameManagerRuntime.TransformPopupX(shot->position2A4.x);
-        shot->vm.pos.y = g_PlayerGameManagerRuntime.TransformPopupY(shot->position2A4.y);
+        shot->vm.pos.x = g_GameManager.TransformPopupX(shot->position2A4.x);
+        shot->vm.pos.y = g_GameManager.TransformPopupY(shot->position2A4.y);
         shot->vm.pos.z = 0.4f;
         if (shot->tintFlag46E != 0)
         {
@@ -1042,8 +1031,8 @@ void PlayerLifecycleView::DrawHitShots()
         if (shot->vm.type != 0)
             shot->vm.SetZRotation(shot->angle450);
 
-        shot->vm.pos.x = g_PlayerGameManagerRuntime.TransformPopupX(shot->position2A4.x);
-        shot->vm.pos.y = g_PlayerGameManagerRuntime.TransformPopupY(shot->position2A4.y);
+        shot->vm.pos.x = g_GameManager.TransformPopupX(shot->position2A4.x);
+        shot->vm.pos.y = g_GameManager.TransformPopupY(shot->position2A4.y);
         shot->vm.pos.z = 0.2f;
         if (shot->tintFlag46E != 0)
         {

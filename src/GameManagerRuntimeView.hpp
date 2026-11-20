@@ -114,7 +114,7 @@ struct AsciiGameManagerView
     };
     union { unsigned char unknown138[4]; int value138; int selector138; };
     unsigned char inGameMenu;
-    union { unsigned char menuState97C8Active; unsigned char menuBlock13D; };
+    union { unsigned char menuState97C8Active; unsigned char menuBlock13D; unsigned char suppressPlayerDraw13D; };
     union { unsigned char menuStateA7A8Active; unsigned char menuBlock13E; };
     union { unsigned char unknown13F; unsigned char resetFlag13F; };
     int demoFrameCount140;
@@ -210,6 +210,7 @@ typedef char AsciiGameManagerNativeSetupControlOffsets[
      offsetof(AsciiGameManagerView, gameplaySetupWaitFrames128) == 0x128 &&
      offsetof(AsciiGameManagerView, playtimeFrames12C) == 0x12C &&
      offsetof(AsciiGameManagerView, menuBlock13D) == 0x13D &&
+     offsetof(AsciiGameManagerView, suppressPlayerDraw13D) == 0x13D &&
      offsetof(AsciiGameManagerView, menuBlock13E) == 0x13E &&
      offsetof(AsciiGameManagerView, demoFrameCount140) == 0x140 &&
      offsetof(AsciiGameManagerView, modeByte145) == 0x145 &&

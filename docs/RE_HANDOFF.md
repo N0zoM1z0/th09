@@ -699,3 +699,17 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
   exact units, six compiler carriers, 5,442 bytes and 289 relocations.
   Eleven regenerated local labels were verified at unchanged destinations.
   No full cold replay ran.
+
+## Player GameManager owner consolidation (2026-11-20)
+
+- Removed PlayerGameManagerRuntimeView and the duplicate
+  g_PlayerGameManagerRuntime global. PlayerRuntime now uses the existing
+  g_GameManager / AsciiGameManagerView for IsGameMode1, transforms and
+  IsWithinPlayfield.
+- The former CheckTimingState is the exact IsGameMode1 leaf at 0x00404970.
+  The suppressPlayerDraw13D byte aliases the existing +0x13D GameManager
+  field, now with an explicit offset assertion.
+- Rebound all PlayerRuntime references to canonical global/method symbols.
+  Selected replay passed 21 exact units, five carriers, 5,391 bytes and
+  288 relocations. Eleven local labels were verified at unchanged targets.
+  No full cold replay ran.
