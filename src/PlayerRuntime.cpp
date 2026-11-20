@@ -404,13 +404,6 @@ extern int g_PlayerRewardBaseValue;
 extern int g_PlayerRewardModeValue;
 extern float g_PlayerRewardVelocitySpan;
 
-struct PlayerState4TimerCurrentView
-{
-    int GetCurrent();
-};
-
-
-
 extern float g_PlayerState4MinX;
 extern float g_PlayerState4MinY;
 extern float g_PlayerState4Width;
@@ -518,8 +511,7 @@ static void PlayerTransitionSpecial(PlayerLifecycleView *player)
     player->movementFields1CCC.speedMultiplier1CDC = 1.0f;
 
     int timerCurrent =
-        reinterpret_cast<PlayerState4TimerCurrentView *>(
-            &player->timer303C8)->GetCurrent();
+        static_cast<int>(player->timer303C8);
     player->mainVm.color1 =
         ((255 * timerCurrent / 30) << 24) | 0x00FFFFFF;
 
@@ -531,8 +523,7 @@ static void PlayerTransitionSpecial(PlayerLifecycleView *player)
         player->position1B88.x = value * 176.0f;
     player->position1B88.y = value * 64.0f + 384.0f;
 
-    if (reinterpret_cast<PlayerState4TimerCurrentView *>(
-            &player->timer303C8)->GetCurrent() >= 30)
+    if (static_cast<int>(player->timer303C8) >= 30)
     {
         player->SetUpdateState(3);
         player->mainVm.scale.x = 1.0f;
@@ -567,8 +558,7 @@ static void PlayerUpdateCommon(PlayerLifecycleView *player)
         }
 
         player->timer303C8.operator--(0);
-        if (reinterpret_cast<PlayerState4TimerCurrentView *>(
-                &player->timer303C8)->GetCurrent() <= 0)
+        if (static_cast<int>(player->timer303C8) <= 0)
         {
             if (PlayerStateEffect(player) != NULL)
             {
@@ -583,8 +573,7 @@ static void PlayerUpdateCommon(PlayerLifecycleView *player)
         else
         {
             int current =
-                reinterpret_cast<PlayerState4TimerCurrentView *>(
-                    &player->timer303C8)->GetCurrent();
+                static_cast<int>(player->timer303C8);
             player->mainVm.color1 =
                 current % 8 < 2 ? 0xFFF02020u : 0xFFFFFFFFu;
         }
@@ -597,8 +586,7 @@ static void PlayerUpdateCommon(PlayerLifecycleView *player)
     if (player->timer1B74.operator>(0))
     {
         int current =
-            reinterpret_cast<PlayerState4TimerCurrentView *>(
-                &player->timer303C8)->GetCurrent();
+            static_cast<int>(player->timer303C8);
         if (current % 4 < 2)
             player->mainVm.color1 =
                 0xFFF02020u;
@@ -643,7 +631,7 @@ static int PlayerCheckState4(PlayerLifecycleView *player)
             position->y = g_PlayerState4MinY + g_PlayerState4Height;
 
         int timerCurrent =
-            reinterpret_cast<PlayerState4TimerCurrentView *>(timer)->GetCurrent();
+            static_cast<int>(*timer);
         player->mainVm.color1 =
             ((255 * timerCurrent / 10) << 24) | 0x00FFFFFF;
         return 0;

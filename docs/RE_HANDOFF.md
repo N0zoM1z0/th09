@@ -650,3 +650,15 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
 - Selected PlayerCollisionQuery.cpp replay passed FindCollision (602 bytes)
   and CalcItemBoxCollision (121 bytes), 723 bytes / nine relocations total.
   No full cold replay ran.
+
+## Player timer getter consolidation (2026-11-20)
+
+- Removed PlayerState4TimerCurrentView from PlayerRuntime.cpp. Its six getter
+  calls now use the existing ZunTimer conversion operator on timer303C8.
+- Updated six relocations across PlayerCheckState4, PlayerTransitionSpecial
+  and PlayerUpdateCommon to the canonical exact ZunTimer::operator int symbol
+  at 0x00435F00. The function bytes remain exact.
+- Five selected PlayerRuntime carriers passed 21 exact units, 5,391 bytes
+  and 288 relocations. Eleven regenerated local labels in UpdateBeforeState
+  were verified by unchanged owner-relative addresses before rebinding.
+  No full cold replay ran.

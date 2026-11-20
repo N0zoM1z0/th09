@@ -2142,3 +2142,19 @@ PlayerCollisionTimerView::IsAfter name is no longer needed. Selected replay of
 PlayerCollisionQuery.cpp passed both exact functions in its carrier:
 FindCollision 602/602 and CalcItemBoxCollision 121/121, 723 bytes total and
 nine relocations. No full cold replay ran.
+
+## 2026-11-20 Player state-4 timers now use the canonical ZunTimer getter
+
+PlayerRuntime.cpp no longer declares PlayerState4TimerCurrentView or
+reinterpret-casts Player-owned timer303C8 objects to that duplicate one-method
+view. All six GetCurrent call sites now use the native ZunTimer conversion
+operator (static_cast<int>), and the three exact-unit manifests
+PlayerCheckState4, PlayerTransitionSpecial and PlayerUpdateCommon bind their
+six call relocations to the already exact ZunTimer::operator int symbol
+??BZunTimer@@QAEHXZ at 0x00435F00.
+
+The PlayerRuntime.cpp selected replay rebuilt all five compiler carriers and
+passed 21 exact units: 5,391 physical bytes and 288 relocation fields. The
+eleven regenerated UpdateBeforeState local COFF labels were rebound by exact
+relocation offset only after verifying each owner-local symbol retained its
+original owner-relative address. No full cold replay ran.
