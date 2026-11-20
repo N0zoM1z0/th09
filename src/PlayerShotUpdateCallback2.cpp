@@ -13,7 +13,7 @@ typedef char PlayerShot2NativeShapes[
      offsetof(PlayerShotCtorView, trailVectors2B0) == 0x2B0 &&
      offsetof(PlayerShotCtorView, hitbox430) == 0x430 &&
      offsetof(PlayerShotCtorView, velocity43C) == 0x43C &&
-     offsetof(PlayerShotCtorView, field46A) == 0x46A &&
+     offsetof(PlayerShotCtorView, trailSegmentCount46A) == 0x46A &&
      sizeof(PlayerShotCtorView) == 0x484) ? 1 : -1];
 
 int __fastcall PlayerShotUpdateCallbackType2(
@@ -49,7 +49,7 @@ int __fastcall PlayerShotUpdateCallbackType2(
 
     // Original unbounded trail count increments its signed i386 loop word
     // with a wrapping DWORD INC, preserving the comparison below.
-    for (int i = 0; i < nativeShot->field46A;
+    for (int i = 0; i < nativeShot->trailSegmentCount46A;
          ++*reinterpret_cast<unsigned int *>(&i))
     {
         // The live even-indexed trail samples reside in the original 0x0C-byte

@@ -13,7 +13,7 @@ typedef char PlayerShotSpawn1RealNativeState[
      offsetof(PlayerState3031CView, shot0C) == 0x0C &&
      sizeof(PlayerShotCtorView) == 0x484 &&
      offsetof(PlayerShotCtorView, sourceOption468) == 0x468 &&
-     offsetof(PlayerShotCtorView, field46A) == 0x46A &&
+     offsetof(PlayerShotCtorView, trailSegmentCount46A) == 0x46A &&
      offsetof(PlayerShotCtorView, trailVectors2B0) == 0x2B0 &&
      offsetof(PlayerShtDescriptorView, positionOffsetX04) == 0x04 &&
      offsetof(PlayerShtDescriptorView, positionOffsetY08) == 0x08 &&
@@ -34,7 +34,7 @@ int __fastcall PlayerShotSpawnCallbackType1(
     shot->sourceOption468 = entry->sourceOptionIndex20;
     shot->velocity43C.z = entry->positionOffsetX04;
     shot->auxiliary448 = entry->positionOffsetY08;
-    shot->field46A = 15;
+    shot->trailSegmentCount46A = 15;
 
     player->InitializeShot(shot, entry);
     shot->shotType464 = 2;

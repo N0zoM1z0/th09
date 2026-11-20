@@ -1773,3 +1773,16 @@ after confirming the relocation's original PE destination and the candidate
 COFF symbol's same-section owner-relative location; all 100 units then passed
 the canonical comparator. No full cold replay was run, and the authored exact
 count remains 1,026.
+
+
+## 2026-11-20 Player-shot trail segment count
+
+The 16-bit `PlayerShotCtorView` member at +0x46A is now named
+`trailSegmentCount46A`, replacing the generic `field46A` spelling in the
+shared Player view, shot update callback and shot spawn callback. This is
+backed by independent consumers: `PlayerShotSpawnCallbackType1` initializes
+it to 15; `PlayerShotUpdateCallbackType2` iterates this count and addresses
+two 0x0C-byte history samples per segment; `PlayerShotDrawCallbackType1`
+uses the same +0x46A count and draws `2 * trailSegmentCount46A` samples. The
+existing 0x484-byte shot extent and +0x46A offset assertion remain intact.
+This is a native field-meaning recovery, not new function-exactness credit.

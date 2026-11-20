@@ -353,7 +353,9 @@ struct PlayerShotCtorView
     short shotType464;
     unsigned char unknown466[2];
     short sourceOption468;
-    short field46A;
+    // Native trail segment count; draw/update callbacks consume two history
+    // samples per segment from the 32 constructed 0x0C-byte vectors.
+    short trailSegmentCount46A;
     short animationIndex46C;
     unsigned char tintFlag46E;
     unsigned char unknown46F;
@@ -395,7 +397,7 @@ typedef char PlayerShotNativeInitializationFields[
 
 typedef char PlayerShotNativeSourceAndField[
     (offsetof(PlayerShotCtorView, sourceOption468) == 0x468 &&
-     offsetof(PlayerShotCtorView, field46A) == 0x46A &&
+     offsetof(PlayerShotCtorView, trailSegmentCount46A) == 0x46A &&
      offsetof(PlayerShotCtorView, animationIndex46C) == 0x46C) ? 1 : -1];
 typedef char PlayerShotTintAt46E[(offsetof(PlayerShotCtorView, tintFlag46E) == 0x46E) ? 1 : -1];
 typedef char PlayerShotUpdateCallbackAt474[
