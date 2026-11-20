@@ -37,12 +37,12 @@ See [the schedule storage proof](KNOWLEDGE_BASE.md#2026-11-20-enemy-update-sched
 
 The current focus is `ScreenEffect::CalcShakeEnvelope`. Rebuild it with
 `python3 -B scripts/check-frontier.py screen-shake-envelope --show`.
-Splitting phase amplitude calculation with the timer comparison visible
-recovers the original object and timer registers.
-The [compiler trace](KNOWLEDGE_BASE.md#2026-11-20-shake-envelope-compiler-context)
-links the switch register choices to the hold-end temporary. An inline
-endpoint sum also provides a plain C++ control with all 20 relocation
-positions and 28 byte differences.
+A 336-byte control using the same hold-plus-fade duration in the timer
+comparison and the fade-out ratio matches through `+0xBD`. The
+[compiler trace](KNOWLEDGE_BASE.md#2026-11-20-shake-envelope-compiler-context)
+ties the remaining differences to the register sequence for the six
+animation-manager loads. The scratch selection at `+0x91` advances the
+cursor before the first switch.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |

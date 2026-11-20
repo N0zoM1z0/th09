@@ -1967,6 +1967,28 @@ both tested callers after rebinding the two calls to `0x004014F0`. A
 double getter matches the same four-byte leaf. Its caller differs from
 the pinned target in each tested expression.
 
+The 334-byte probe already presents the final ADD's fade-out input as a
+memory operand at C2's allocation entry. Keep the split amplitude,
+explicitly promote the fade-in timer result to `double`, and compute
+`remainingDuration` as the unsigned sum of the hold and fade-out fields.
+Use `static_cast<unsigned int>(endFrame) + remainingDuration` in both the
+signed timer comparison and the unsigned-to-float endpoint conversion
+for the subtraction. Keep that subtraction and the division in separate
+assignments. With the timer comparison visible, this restores the two
+independent frame loads and the complete 336-byte extent.
+
+The resulting carrier matches the first 190 bytes through `+0xBD`. The
+78 residual bytes come from the six animation-manager loads at the
+original destinations, with four relocation fields shifted. Comparing
+all 132 decoded instructions by branch identity and normalizing only
+those pointer registers and their associated memory operands gives
+identical instruction sequences. The original uses EAX, ECX and EDX on
+each axis. The candidate uses ECX, EDX and EAX. In the debugger build,
+the denominator load at `+0x91` is the first local scratch selection
+that advances the cursor. The following pointer load starts at ECX.
+The complete source carrier, isolated control and debugger build agree
+on all 336 bytes and 20 COFF fields.
+
 Wrapping the three timer comparisons in small inline helpers, using an
 instance-method receiver, or inlining the axis writes after each RNG
 call preserves the existing 28- or 58-byte patterns in the closest
