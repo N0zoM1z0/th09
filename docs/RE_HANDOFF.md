@@ -554,3 +554,18 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
   68 relocations. No full cold replay ran. `CheckBulletCollision` remains a
   separate non-exact boss frontier; do not count it as covered by that replay
   or rebaseline its strict ratchet.
+
+## Boss continuation notes (2026-11-20)
+
+- CheckBulletCollision was re-decompiled at 0x41DFF0. Preserve its native
+  0x34 frame and EDI/ESI/EBX roles; the next source attempt should target the
+  nested filter loop and the circle -> shared dispatcher -> rectangle CFG.
+  The best fresh natural-C++ candidate was 845/862 bytes / 581 differences,
+  worse than the maintained 849/862 / 539 frontier, so all experiments were
+  reverted. Do not rebaseline.
+- EnemyManager::OnUpdate remains 3,900/3,900 bytes with only the two
+  +0x19C/+0x1A3 MOVZX/LEA register choices remaining. Several natural pointer,
+  index, helper and lifetime variants were tried and reverted.
+- The collision-region owner and Deactivate leaf changes are committed
+  separately and their 19-unit selected replay passed. Current exact count
+  remains 1,026; no full cold replay ran.

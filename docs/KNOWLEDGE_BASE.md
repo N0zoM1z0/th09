@@ -2035,3 +2035,33 @@ helpers and the four short leaves. `CheckBulletCollision` itself is a
 non-exact boss frontier and was not credited by that replay. Its maintained
 source remains 849/862 bytes with 539 differences; no frontier was rebaselined.
 No whole-product cold replay ran.
+
+## 2026-11-20 CheckBulletCollision boss CFG and register frontier
+
+The read-only IDA reconstruction of the 0x362-byte sub_41DFF0 owner
+confirms the native 0x34-byte frame and entry roles EDI=Player, ESI=active
+region slot, EBX=Bullet. The scan first filters region kinds 1/2/3 and
+nonpositive collisionDelay40. Zero-radius regions take the rotated or
+axis-aligned rectangle paths; a nonzero radius exits the inner filter loop
+to the circle test. All successful geometry paths join the shared
+direct-hit/bullet-cancel dispatcher. Rectangle misses and circle misses
+advance the slot and retry. Cancellation only exits to the reward path when
+the bullet's sprite discriminator at +0x10C0 is zero.
+
+Several natural-C++ layouts were rebuilt and byte-compared in this
+continuation: explicit circle/dispatcher/rectangle-tail labels, a nested
+filter loop with an outer radius/rectangle decision, direct-slot versus
+pointer-snapshot dispatch, and scratch/field-based rectangle comparisons.
+The best new nested-loop candidate was 845/862 bytes with 581 differences
+(84 new, 208 closed relative to the current 539-difference source); other
+variants were worse. Every probe was reverted. Keep the maintained
+849/862-byte, 539-difference source and do not rebaseline it. No assembly,
+padding, or synthetic bytes were used.
+
+EnemyManager::OnUpdate was also rechecked at 3,900/3,900 bytes. The only
+remaining differences are the two destination-register choices at +0x19C
+and +0x1A3 (MOVZX/LEA use ECX rather than EAX). Pointer-arithmetic,
+index-local, inline slot/reference helper, declaration-order and previous-head
+temporary experiments did not change those two bytes; all were reverted.
+Keep its current exact-size source and two-byte residual. Neither boss
+received an exactness claim from these experiments.
