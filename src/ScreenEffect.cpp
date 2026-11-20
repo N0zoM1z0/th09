@@ -264,9 +264,9 @@ int ScreenEffect::CalcShakeEnvelope(ScreenEffect *screenEffect)
     {
         // The original loads the hold and fade dwords independently,
         // combines them, then extends the final envelope endpoint.
-        // Keep both original volatile field reads; declaring the two
-        // reference aliases fade-then-hold reproduces the original VC7.1
-        // scalar load scheduling without changing the hold + fade result.
+        // The two qualified references keep the loads separate in this
+        // VC7.1 build. The original source qualifiers are unknown.
+        // See the shake envelope compiler trace in docs/KNOWLEDGE_BASE.md.
         const volatile int &fade = screenEffect->shakeEnvelope.fadeOutFrames;
         const volatile int &hold = screenEffect->shakeEnvelope.holdFrames;
         // The original i386 endpoint additions wrap as native DWORDs.

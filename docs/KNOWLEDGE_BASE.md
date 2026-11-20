@@ -1854,6 +1854,36 @@ The single inline endpoint helper scores the effect at 53 and the timer at
 them at 50 and 46 and emits identical bytes and COFF fields. These
 variations change the weights while preserving the local sequence.
 
+Watch the weight writes at `0x10783A56`, `0x1078292A` and `0x10783A7D`
+before the allocator scores the receivers. The basic block's instruction
+list identifies which source phase contributes each difference. Both
+controls start at effect 20 and timer 24 after incrementing the timer and
+checking the fade-in endpoint. The contributions change as follows.
+
+| Block | Inline endpoint, effect / timer | Split amplitude, effect / timer |
+| --- | ---: | ---: |
+| Fade-in ratio | -1 / 2 | 4 / 4 |
+| Hold-end comparison | 6 / 6 | 8 / 8 |
+| Fade-out endpoint comparison | 12 / 6 | 8 / 8 |
+| Fade-out ratio | 6 / 6 | 6 / 6 |
+| Final amplitude | 10 / 0 | 2 / 0 |
+
+The inline-endpoint control scores the final amplitude in the first RNG
+dispatch block with weight 5. In the split control it is a separate block
+with weight 1. Both produce the same final x87 multiply at `+0xAD`.
+The hold-end computation at `+0x46` likewise looks identical in the
+emitted code. Before global allocation, the inline-endpoint control
+uses an in-place add with one temporary for load, add and push. The
+split control uses an address expression with a distinct result
+temporary, then emits the same add. Changing the source spelling to
+`+=` or passing the sum through a small inline helper preserves these
+two outcomes.
+
+Wrapping the three timer comparisons in small inline helpers, using an
+instance-method receiver, or inlining the axis writes after each RNG
+call preserves the existing 28- or 58-byte patterns in the closest
+controls. The maintained frontier remains at 26 differences.
+
 
 ## 2026-11-20 Player-shot trail segment count
 
