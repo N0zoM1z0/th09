@@ -6,11 +6,14 @@ int __fastcall PlayerSpawnFrameView::SpawnShotWhenFrameMatches(
     int value,
     PlayerShotInitDescriptorView *entry)
 {
-    if (value == entry->fireInterval00)
+    PlayerShotCtorView *nativeShot =
+        reinterpret_cast<PlayerShotCtorView *>(shot);
+    PlayerShtDescriptorView *nativeEntry =
+        reinterpret_cast<PlayerShtDescriptorView *>(entry);
+    if (value == nativeEntry->fireInterval)
     {
         reinterpret_cast<PlayerLifecycleView *>(this)->InitializeShot(
-            reinterpret_cast<PlayerShotCtorView *>(shot),
-            reinterpret_cast<PlayerShtDescriptorView *>(entry));
+            nativeShot, nativeEntry);
         return 1;
     }
     return 0;

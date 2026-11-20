@@ -1832,3 +1832,20 @@ affected callback bodies remain exact: spawn Type2/4/5/6 are 68/44/72/119
 bytes; update Type5/6/7 are 86/98/98 bytes. Their 15 relocation fields were
 validated by the four changed-source scoped replays; no cold replay was run.
 This is shared native C++ ownership recovery, not new exact-function credit.
+
+## 2026-11-20 Remove duplicate PlayerShot initialization layouts
+
+`PlayerShotInitializeView.hpp` no longer defines a second 0x484-byte shot
+record or a second 0x38-byte descriptor record. Its two legacy
+`PlayerShotInitShotView`/`PlayerShotInitDescriptorView` tags remain forward
+declared for the original `SpawnShotWhenFrameMatches` decorated ABI, while
+the actual allocations are the shared `PlayerShotCtorView` and
+`PlayerShtDescriptorView`. The 37-byte frame-match method now reads the
+native `fireInterval` and passes the native shot/descriptor to
+`InitializeShot`. This also removes the redundant VM/timer/vector/descriptor
+field maps from the header without changing any exported callback tag.
+
+The header's changed-source replay covered seven compiler carriers and nine
+exact functions: 1,025 physical bytes and 22 relocation fields, including the
+spawn callback family, `InitializeShot`, and the frame-match leaf. All passed;
+no full cold replay was run and no exactness ledger count changed.
