@@ -1987,3 +1987,27 @@ EffectManager.cpp, EclManager.cpp, EffectDrawStrips.cpp and
 EffectPlayerStripFamily.cpp passed five compiler carriers, 104 exact units,
 49,253 physical bytes and 2,148 relocation fields. Basic CI passed. No
 whole-product cold replay ran; exact-function credit remains unchanged.
+
+
+## 2026-11-20 Boss frontier follow-up: cursor ownership and draw-head registers
+
+The current EnemyManager::OnUpdate candidate was rebuilt after the Effect
+header work: 3,900/3,900 bytes with only the two recorded draw-group register
+differences at +0x19A/+0x1A1 (MOVZX into ECX rather than EAX, then LEA from
+ECX rather than EAX). Branch-local slot references, pointer aliases, an
+array reference and an explicit unsigned index were each compiled; all
+retained the same two-byte residual. No register hints or volatile fields
+were added.
+
+CheckBulletCollision remains at its maintained 849/862-byte candidate with
+539 differences and REGRESSED status against the strict 842-byte ratchet.
+Two new cursor-home experiments were compiled and reverted: removing the
+redundant entry cursor-home store produced 837 bytes/706 differences with
+105 newly differing offsets; making the scratch-union cursor the sole scan
+cursor produced 830 bytes/711 differences with 113 newly differing offsets.
+Neither was promoted and the frontier manifest was not changed.
+
+The three selected boss frontiers were rechecked independently. UpdateNetworkService
+remains a 1,633-byte, 307-difference candidate and REGRESSED against the
+1,629-byte ratchet. No full cold replay ran; no source experiment from this
+follow-up remains in the worktree.

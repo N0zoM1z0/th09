@@ -11,7 +11,7 @@ KNOWLEDGE_BASE.md and generated counts live in PROGRESS.md.
   SHA-256 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 - Compiler: pinned VC7.1 with each owner's profile in config/match-units.toml
   or config/frontiers.toml. Never change profiles to chase register choices.
-- Stage: exact reconstruction. Latest source checkpoint: 3738f9cc (ECL interpolation helpers use the shared Enemy owner); subsequent Effect draw-flag recovery is recorded below. Local main has commits beyond origin/main; do not assume
+- Stage: exact reconstruction. Latest source checkpoint: 8b4a1c60 (Effect +0xC9 draw flag recovered across the callback family); subsequent boss-frontier probes are recorded below. Local main has commits beyond origin/main; do not assume
   local commits have been pushed. Inspect git status and git log before work.
 - Worktree was clean at this handoff update. No interrupted source edits were found.
 - Ledger: 2,248 tracked function candidates; origin/boundary review pending 0;
@@ -521,3 +521,22 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
 - Exact authored function credit remains 1,026. Continue to prioritize the
   three nonexact gameplay bosses in the table above; do not promote or
   rebaseline REGRESSED candidates.
+
+
+## Continuation after 8b4a1c60 (2026-11-20)
+
+- EnemyManager::OnUpdate was rebuilt after the Effect header changes and
+  remains 3,900/3,900 bytes with the same two draw-group register differences
+  at +0x19A/+0x1A1. Branch-local pointer/reference/array aliases and explicit
+  index casts did not alter the residual.
+- CheckBulletCollision cursor-home experiments were reverted. Removing the
+  redundant entry home store yielded 837/862 bytes with 706 differences and
+  105 new offsets; making the scratch union the only scan cursor yielded
+  830/862 bytes with 711 differences and 113 new offsets. The maintained
+  849/862, 539-difference source remains REGRESSED against the 842-byte
+  ratchet. Do not rebaseline.
+- UpdateNetworkService remains 1,633/1,633 bytes with 307 differences and
+  REGRESSED against the 1,629-byte ratchet.
+- All experiments above were restored. The three boss frontiers were checked
+  individually; no full cold replay ran. The Effect draw-flag commit remains
+  the latest source change and Basic CI passed.
