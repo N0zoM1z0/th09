@@ -11,6 +11,7 @@
 #include "FrontFactoryConstructView.hpp"
 #include "GameManagerRuntimeView.hpp"
 #include "Supervisor.hpp"
+#include "ReplayInputState.hpp"
 
 #include <stddef.h>
 
@@ -305,14 +306,6 @@ static void UpdatePlayerCollisionRegions(PlayerLifecycleView *player)
 }
 
 
-struct PlayerInputRuntimeView
-{
-    unsigned short Check(int code);
-    unsigned char opaque[0x8E];
-};
-typedef char PlayerInputRuntimeSizeIs8E[(sizeof(PlayerInputRuntimeView) == 0x8E) ? 1 : -1];
-extern PlayerInputRuntimeView g_PlayerInputStates[2];
-
 struct PlayerBombTargetRuntimeView
 {
     int CheckMode(int mode);
@@ -329,7 +322,7 @@ static void UpdatePlayerBombState(PlayerLifecycleView *player)
         return;
     if (player->GetUpdateState() == 4)
         return;
-    if (g_PlayerInputStates[player->sideIndex].Check(2) == 0)
+    if (g_ReplayInputStates[player->sideIndex].IsHeld(2) == 0)
         return;
 
     if (player->scalar30388 >= 400.0f)

@@ -585,3 +585,14 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
 - No full cold replay ran; the separate CheckBulletCollision and
   UpdateNetworkService boss frontiers remain non-exact and are not covered by
   this replay.
+
+## Player input owner continuation (2026-11-20)
+
+- UpdatePlayerBombState now uses ReplayInputState::IsHeld(2) and
+  g_ReplayInputStates instead of the duplicate PlayerInputRuntimeView /
+  g_PlayerInputStates overlay. Both target relocations bind to the canonical
+  ReplayInputState names at the same original addresses.
+- The 11 regenerated PlayerRuntime.cpp local COFF labels were checked against
+  unchanged owner-relative target addresses and rebound in the manifest.
+- Five selected compiler carriers passed 21 exact units, 5,391 bytes and 288
+  relocation fields. No full cold replay ran.

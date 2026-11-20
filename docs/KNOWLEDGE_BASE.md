@@ -2090,3 +2090,22 @@ only those manifest names changed. Selected replay passed 21 exact units across
 five compiler jobs, 5,391 physical bytes and 288 relocation fields, including
 the 273-byte updater. The updater's standalone comparator also returned exact.
 No full cold replay ran.
+
+## 2026-11-20 Player bomb input uses the canonical ReplayInputState
+
+UpdatePlayerBombState no longer declares a duplicate 0x8E-byte
+PlayerInputRuntimeView or a parallel g_PlayerInputStates array identity.
+The input source is the already shared g_ReplayInputStates[sideIndex], and
+the check is ReplayInputState::IsHeld(2). This is the same target function
+address 0x00415CB0 previously named PlayerInputRuntimeView::Check; the
+unsigned-short mask is a bit mask (bomb bit 0x0002), not a key-array index.
+Both the global relocation and method relocation now use the canonical
+ReplayInputState symbols.
+
+The PlayerRuntime.cpp rebuild regenerated 11 owner-local compiler labels in
+PlayerLifecycleView::UpdateBeforeState. Every replacement was checked to
+retain its original owner-relative destination before changing the manifest.
+Selected replay of all five PlayerRuntime.cpp carriers passed 21 exact units,
+5,391 physical bytes and 288 relocation fields. This includes the 335-byte
+UpdatePlayerBombState and 273-byte UpdatePlayerCollisionRegions. No full cold
+replay ran.
