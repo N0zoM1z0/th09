@@ -540,3 +540,17 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
 - All experiments above were restored. The three boss frontiers were checked
   individually; no full cold replay ran. The Effect draw-flag commit remains
   the latest source change and Basic CI passed.
+
+## Continuation after collision-region shared-owner work (2026-11-20)
+
+- `PlayerCollisionRegionCreateRegionView::collisionDelay40` now names the
+  allocator's +0x40 delay field used by both bullet-collision and
+  shot-to-enemy-damage filtering. All three consumers use the same field.
+- `PlayerShortLeaves.cpp` removed its duplicate sparse 0x44-byte collision
+  region layout. Its existing decorated `PlayerCollisionRegionRuntimeView`
+  leaf now derives from the complete region record and writes the shared
+  `active3C` byte; its original leaf symbol remains unchanged.
+- Selected replay passed 19 exact units, six compiler jobs, 2,799 bytes and
+  68 relocations. No full cold replay ran. `CheckBulletCollision` remains a
+  separate non-exact boss frontier; do not count it as covered by that replay
+  or rebaseline its strict ratchet.

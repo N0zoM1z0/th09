@@ -2011,3 +2011,27 @@ The three selected boss frontiers were rechecked independently. UpdateNetworkSer
 remains a 1,633-byte, 307-difference candidate and REGRESSED against the
 1,629-byte ratchet. No full cold replay ran; no source experiment from this
 follow-up remains in the worktree.
+
+## 2026-11-20 Player collision region has one shared native record
+
+The collision-region field at +0x40 is now named `collisionDelay40` in the
+canonical `PlayerCollisionRegionCreateRegionView`. The name is supported by
+its allocator argument/write and by both independent consumers: bullet-region
+collision filtering and shot-to-enemy damage filtering. `PlayerDamage.cpp`,
+`PlayerCollisionHelpers.cpp` and `PlayerCollisionRegionCreate.cpp` now use
+that same member.
+
+`PlayerShortLeaves.cpp` no longer declares a second sparse 0x44-byte
+`PlayerCollisionRegionRuntimeView` with an opaque 0x3C-byte prefix and a
+repeated delay field. It derives its decorated leaf view from the complete
+`PlayerCollisionRegionCreateRegionView`, retaining the original
+`PlayerCollisionRegionRuntimeView::Deactivate` symbol while sharing the real
+`active3C` field and full record layout. Size and offset assertions remain.
+
+Selected source replay passed 19 exact units across six compiler jobs: 2,799
+physical bytes and 68 relocation fields. This includes all eight collision
+region create functions, `CalcDamageToEnemy`, the three other exact collision
+helpers and the four short leaves. `CheckBulletCollision` itself is a
+non-exact boss frontier and was not credited by that replay. Its maintained
+source remains 849/862 bytes with 539 differences; no frontier was rebaselined.
+No whole-product cold replay ran.
