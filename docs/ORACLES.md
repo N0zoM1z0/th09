@@ -18,6 +18,7 @@ Documentation/test-only changes do not need target or compiler replay.
 | Source presence | maintained mapping and source file | no exactness credit |
 | Codegen exactness | cold VC7.1 object build, complete bytes and relocations | zero difference for full accepted extent |
 | Owned initialized data | compare the defining COFF section's bytes and pointer identities with the reviewed target range | complete match for each explicitly checked initializer |
+| C++ unwind contributions | replay the caller-associated COFF code and metadata against the original handler and unwind graph | exact handler, cleanup, state records and relocation identities |
 | Native product closure | cold compile/link graph, imports/resources/data owners | no missing required production owner |
 | Runtime semantics | deterministic scenarios against original and native products | both Oracles agree on declared observables |
 | Port behavior | native baseline plus port scenario | separate portability claim |
@@ -30,10 +31,14 @@ original image. A table-content claim requires the separate defining-object
 comparison. Native linkage requires a matched rebuilt PE and map.
 
 Each canonical import relocation must select the uniquely named slot in the
-original PE import address table, using DIR32 and a zero COFF addend. The
-function comparison checks an exception-handler pointer in the caller,
-while proof of the handler, unwind data, and cleanup body needs their
-own comparison.
+original PE import address table, using DIR32 and a zero COFF addend.
+Canonical units that reference a VC7.1 `__ehhandler$` also check the
+associated `.text$x` and `.xdata$x` sections. The comparison follows the
+original handler to FuncInfo and the unwind map, checks each cleanup offset
+and resolves cleanup calls through independent symbol anchors. The JSON
+`exception_handlers` field records this proof separately from authored
+function coverage. The checked TH09 shape covers one- and three-state
+unwind maps with no catch records.
 
 Direct local Ghidra is the semantic-analysis tool, not an independent exactness
 Oracle. Decompiler text, names, types, and candidate extents remain provisional.

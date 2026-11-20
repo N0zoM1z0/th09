@@ -2389,12 +2389,34 @@ DIR32 type and zero addend. All 212 credited import fields agree with the
 original IAT and direct operands. The fresh TitleScreen replay passed 41
 units; the changed COFF and manifest pair now fails at caller offset 0x0F.
 
-The exception check has a separate remaining scope. The Background::Create
-caller still passes when a private COFF copy changes the cleanup funclet's
+The exception check exposed a separate scope. The old Background::Create
+comparison passed when a private COFF copy changed the cleanup funclet's
 stack read from EBP-0x10 to EBP-0x14. A bounded replay of four handler roots
 in three unmodified objects compared the full handler, FuncInfo, unwind map
 and cleanup bytes using the original handler roots and verified CRT entries.
 Background::Create, Ending::RegisterChain and the two Title handlers passed.
-The general exact comparator checks the caller's handler relocation only.
-Extend EH coverage from those independently reviewed chains when checking
-compiler-owned data or native linkage.
+The subsequent unwind check expanded this proof to all credited handlers.
+
+## 2026-11-20 TH09 C++ unwind contributions
+
+Canonical VC7.1 comparisons now verify the complete EH contributions for
+each credited caller with a `__ehhandler$` relocation. The caller's handler
+offset and the original FuncInfo and unwind map fix the reviewed extents.
+Both COFF sections must declare the caller as their associative COMDAT
+owner. Each unwind action must point to the corresponding section-relative
+cleanup entry. The comparison replays all nested fields and compares all
+code and metadata bytes. The frame-handler and scalar-delete calls bind to
+the pinned CRT entries. The ChainElem and TextHelper cleanup calls bind to
+their unique canonical function entries.
+
+A cold build of 18 objects passed all 21 credited EH callers and their 23
+cleanup states. SupervisorStartup is the three-state case. Several Title
+and text-rendering callers share an original handler address; the check
+verifies each emitted contribution. Those proofs cover 457 code bytes,
+772 metadata bytes and 109 nested relocation fields, counted per caller.
+The authored ledger keeps its existing code extents.
+
+The original Background::Create cleanup reads EBP-0x10. Changing the
+private COFF copy to EBP-0x14 now fails at 0x0048D212. Redirecting the
+unwind action to the handler entry also fails, while both mutations
+leave the caller's code and relocation set intact.

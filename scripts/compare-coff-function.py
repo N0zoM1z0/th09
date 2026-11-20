@@ -27,6 +27,11 @@ TARGET_MANIFEST = ROOT / "config" / "target.toml"
 UNITS_MANIFEST = ROOT / "config" / "match-units.toml"
 COFF_RELOCATION_NAMES = {0x0006: "DIR32", 0x0014: "REL32"}
 PRIVATE_LABEL = re.compile(r"(\$L|\$[A-Za-z_][A-Za-z_0-9]*\$)[0-9]+")
+NATIVE_CRT_DESTINATIONS = {
+    "_free": 0x0047B163,
+    "??3@YAXPAX@Z": 0x0047B249,
+    "___CxxFrameHandler": 0x0047B2E5,
+}
 ECL_INTERPOLATION_UNITS = ("ecl-interpolate-linear", "ecl-interpolate-hermite")
 ECL_INTERPOLATION_TABLE = "?g_EclInterpolationCallbacks@Th09EclRunControl@@3PAP6IXPAUEnemyView@@PAUTh09EclInterpolationSlotView@@M@ZA"
 
@@ -307,12 +312,11 @@ def validate_native_crt_destinations(expected: list[dict[str, object]]) -> None:
     bytes while misrepresenting the actual source interface across owners.
     These are reviewed identities in the one supported Japanese v1.50a target.
     """
-    native = {"_free": 0x0047B163, "??3@YAXPAX@Z": 0x0047B249}
     for row in expected:
         symbol = str(row["symbol"])
-        if symbol in native and int(row["target"]) != native[symbol]:
+        if symbol in NATIVE_CRT_DESTINATIONS and int(row["target"]) != NATIVE_CRT_DESTINATIONS[symbol]:
             raise ValueError(f"native CRT destination differs: {symbol}, "
-                             f"expected {native[symbol]:#x}, "
+                             f"expected {NATIVE_CRT_DESTINATIONS[symbol]:#x}, "
                              f"manifest {int(row['target']):#x}")
 
 
@@ -433,6 +437,29 @@ def verify_ecl_interpolation_table(path: Path, image: bytes, units: dict) -> dic
             "size": table_size, "relocations": len(fields)}
 
 
+def verify_exception_handlers(path, owner, expected, actual, image):
+    roots = [field for field in expected if field["symbol"].startswith("__ehhandler$")]
+    if not roots:
+        return []
+    if len(roots) != 1 or roots[0]["symbol"] != "__ehhandler$" + owner:
+        raise ValueError("EH handler symbol does not identify the compared caller")
+    root = roots[0]
+    handler = next(field for field in actual if field["offset"] == root["offset"])
+    spec = importlib.util.spec_from_file_location(
+        "match_unit_eh", Path(__file__).with_name("coff_exception_handlers.py"))
+    verifier = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(verifier)
+    destinations = {
+        name: next(iter(addresses)) for name, addresses in
+        canonical_function_destinations(UNITS_MANIFEST.read_text()).items()
+        if len(addresses) == 1
+    }
+    destinations.update(NATIVE_CRT_DESTINATIONS)
+    return [verifier.verify(
+        read_coff_object(path), handler, root["target"],
+        lambda address, size: pe_bytes_at(image, address, size), destinations)]
+
+
 def compare_unit(name: str) -> dict[str, object]:
     with UNITS_MANIFEST.open("rb") as stream:
         manifest = tomllib.load(stream)
@@ -513,6 +540,8 @@ def compare_unit(name: str) -> dict[str, object]:
     data_initializers = []
     if name in ECL_INTERPOLATION_UNITS:
         data_initializers.append(verify_ecl_interpolation_table(object_path, image, units))
+    exception_handlers = verify_exception_handlers(
+        object_path, unit["symbol"], normalized_expected, actual, image)
 
     replay = []
     for relocation in normalized_expected:
@@ -553,6 +582,7 @@ def compare_unit(name: str) -> dict[str, object]:
         "relocations": replay,
         "literal_definitions": literal_definitions,
         "data_initializers": data_initializers,
+        "exception_handlers": exception_handlers,
         "first_differences": differences[:32],
     }
 
