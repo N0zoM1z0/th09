@@ -673,3 +673,16 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
 - Selected PlayerRuntime replay passed 21 exact units, five compiler
   carriers, 5,391 bytes and 288 relocations. Eleven regenerated local labels
   were verified at unchanged owner-relative destinations. No full cold replay.
+
+## Player timing metric owner consolidation (2026-11-20)
+
+- Removed PlayerMetricRuntimeView. The opponent's header24.timer5C is already
+  the complete ZunTimer member at Player header +0x5C / Player +0x80.
+  Player::OnUpdate now reads it through a typed ZunTimer* and its existing
+  int conversion operator.
+- Updated the +0x18A call relocation to canonical ZunTimer::operator int.
+  The first direct-member spelling altered three caller bytes; a natural
+  ZunTimer* local restores exact 522/522 Player::OnUpdate code.
+- Selected PlayerRuntime replay passed 21 exact units, five carriers,
+  5,391 bytes and 288 relocations. Eleven regenerated local labels were
+  address-verified before rebinding. No full cold replay ran.

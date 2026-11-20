@@ -383,12 +383,6 @@ struct PlayerGameManagerRuntimeView
 };
 extern PlayerGameManagerRuntimeView g_PlayerGameManagerRuntime;
 
-struct PlayerMetricRuntimeView
-{
-    int GetValue();
-};
-
-
 extern unsigned int g_PlayerUpdateGateFlags;
 extern int g_PlayerTimingTable[][7];
 
@@ -743,9 +737,8 @@ afterTransition:
             {
                 PlayerSideStateView *opponentState = player->opponentState;
                 PlayerLifecycleView *opponent = opponentState->player04;
-                PlayerMetricRuntimeView *metric = reinterpret_cast<PlayerMetricRuntimeView *>(
-                    &opponent->header24.timer5C);
-                int metricValue = metric->GetValue();
+                ZunTimer *metric = &opponent->header24.timer5C;
+                int metricValue = static_cast<int>(*metric);
                 int timingValue = g_PlayerTimingTable[opponentState->characterIndex2C][0];
                 timingValue *= 60;
                 timingValue -= metricValue;

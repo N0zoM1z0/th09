@@ -2173,3 +2173,20 @@ Selected replay of PlayerRuntime.cpp passed all 21 exact units across five
 compiler carriers, 5,391 physical bytes and 288 relocation fields. The eleven
 regenerated UpdateBeforeState local labels were checked by owner-relative
 address before rebinding. No full cold replay ran.
+
+## 2026-11-20 Player timing metric now uses the canonical ZunTimer owner
+
+PlayerRuntime.cpp no longer declares PlayerMetricRuntimeView or reinterprets
+the opponent's header24.timer5C. PlayerHeaderStateView already declares that
+exact +0x5C member as ZunTimer. Player::OnUpdate now obtains a ZunTimer*
+from the real member and reads it through the native int conversion operator.
+The call relocation at +0x18A now binds to the canonical
+ZunTimer::operator int symbol at 0x00435F00.
+
+The first direct member-expression spelling changed three caller bytes because
+VC7.1 selected a different address-calculation register sequence. Keeping the
+natural ZunTimer* local restored the complete 522-byte Player::OnUpdate body
+and all relocations. Selected replay passed 21 exact PlayerRuntime units over
+five carriers, 5,391 bytes and 288 relocation fields. Eleven local COFF labels
+were rebound only after their owner-relative destinations were verified.
+No full cold replay ran.
