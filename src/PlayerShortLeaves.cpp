@@ -40,20 +40,7 @@ void *PlayerAnmManagerRawView::GetAnmRawData(int anmIdx)
     return GetAnm(anmIdx)->rawData04;
 }
 
-// This leaf operates on the same complete 0x44-byte region record that
-// creation, damage and bullet collision already own. The derived view keeps
-// the original leaf's decorated member name without a second opaque layout.
-struct PlayerCollisionRegionRuntimeView : PlayerCollisionRegionCreateRegionView
+void PlayerCollisionRegionCreateRegionView::Deactivate()
 {
-    void Deactivate();
-};
-
-typedef char PlayerCollisionRegionLeafSizeIs44[
-    (sizeof(PlayerCollisionRegionRuntimeView) == 0x44) ? 1 : -1];
-typedef char PlayerCollisionRegionActiveAt3C[
-    (offsetof(PlayerCollisionRegionCreateRegionView, active3C) == 0x3C) ? 1 : -1];
-
-void PlayerCollisionRegionRuntimeView::Deactivate()
-{
-    this->active3C = 0;
+    active3C = 0;
 }

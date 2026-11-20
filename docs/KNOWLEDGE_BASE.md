@@ -2023,10 +2023,10 @@ that same member.
 
 `PlayerShortLeaves.cpp` no longer declares a second sparse 0x44-byte
 `PlayerCollisionRegionRuntimeView` with an opaque 0x3C-byte prefix and a
-repeated delay field. It derives its decorated leaf view from the complete
-`PlayerCollisionRegionCreateRegionView`, retaining the original
-`PlayerCollisionRegionRuntimeView::Deactivate` symbol while sharing the real
-`active3C` field and full record layout. Size and offset assertions remain.
+repeated delay field. The five-byte Deactivate leaf is declared and
+defined directly on `PlayerCollisionRegionCreateRegionView`; the exact-unit manifest
+uses that canonical member symbol. The shared owner asserts `active3C` at
++0x3C and `collisionDelay40` at +0x40.
 
 Selected source replay passed 19 exact units across six compiler jobs: 2,799
 physical bytes and 68 relocation fields. This includes all eight collision

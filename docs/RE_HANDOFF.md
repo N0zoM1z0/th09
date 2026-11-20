@@ -547,9 +547,9 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
   allocator's +0x40 delay field used by both bullet-collision and
   shot-to-enemy-damage filtering. All three consumers use the same field.
 - `PlayerShortLeaves.cpp` removed its duplicate sparse 0x44-byte collision
-  region layout. Its existing decorated `PlayerCollisionRegionRuntimeView`
-  leaf now derives from the complete region record and writes the shared
-  `active3C` byte; its original leaf symbol remains unchanged.
+  region layout. `Deactivate` is now a direct member of the complete
+  `PlayerCollisionRegionCreateRegionView`; its exact-unit symbol binding was
+  updated to that canonical class. The five-byte leaf remains exact.
 - Selected replay passed 19 exact units, six compiler jobs, 2,799 bytes and
   68 relocations. No full cold replay ran. `CheckBulletCollision` remains a
   separate non-exact boss frontier; do not count it as covered by that replay

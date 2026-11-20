@@ -30,6 +30,7 @@ struct PlayerCollisionRegionCreateRegionView
     int collisionDelay40;
 
     int Reset();
+    void Deactivate();
     // This exact geometry is consumed by the native Player damage owner.
     float BottomY() const { return centerY04 + halfHeight14; }
 };
@@ -60,3 +61,5 @@ typedef char PlayerCreateReleasedCountAtC114[
     (offsetof(PlayerCollisionRegionCreateView, releasedCountC114) == 0xC114) ? 1 : -1];
 typedef char PlayerCreateCollisionDelayAt40[
     (offsetof(PlayerCollisionRegionCreateRegionView, collisionDelay40) == 0x40) ? 1 : -1];
+typedef char PlayerCreateRegionActiveAt3C[
+    (offsetof(PlayerCollisionRegionCreateRegionView, active3C) == 0x3C) ? 1 : -1];

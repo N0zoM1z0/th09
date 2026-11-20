@@ -11479,8 +11479,8 @@ relocations = [
 source = "src/PlayerShortLeaves.cpp"
 object = "build/matching/PlayerShortLeaves.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["PlayerCollisionRegionRuntimeView::Deactivate"]
-symbol = "?Deactivate@PlayerCollisionRegionRuntimeView@@QAEXXZ"
+functions = ["PlayerCollisionRegionCreateRegionView::Deactivate"]
+symbol = "?Deactivate@PlayerCollisionRegionCreateRegionView@@QAEXXZ"
 target_address = 0x0041BD90
 size = 0x05
 relocations = []
@@ -18193,8 +18193,8 @@ symbol = "?UpdatePlayerCollisionRegions@@YIXPAUPlayerLifecycleView@@@Z"
 target_address = 0x0041C8E0
 size = 0x111
 relocations = [
-  { offset = 0x7F, type = "REL32", symbol = "?Deactivate@PlayerCollisionRegionRuntimeView@@QAEXXZ", target = 0x0041BD90 },
-  { offset = 0xE9, type = "REL32", symbol = "?Deactivate@PlayerCollisionRegionRuntimeView@@QAEXXZ", target = 0x0041BD90 },
+  { offset = 0x7F, type = "REL32", symbol = "?Deactivate@PlayerCollisionRegionCreateRegionView@@QAEXXZ", target = 0x0041BD90 },
+  { offset = 0xE9, type = "REL32", symbol = "?Deactivate@PlayerCollisionRegionCreateRegionView@@QAEXXZ", target = 0x0041BD90 },
 ]
 
 [units.card-attack-on-draw]
