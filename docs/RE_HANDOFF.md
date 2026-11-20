@@ -630,3 +630,11 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
 - Selected PlayerRuntime.cpp replay passed 21 exact units, five compiler
   carriers, 5,391 bytes and 288 relocations. Eleven regenerated local-label
   spellings in UpdateBeforeState were address-checked before rebinding.
+
+- Additional CheckBulletCollision probe: replacing the rotated-rectangle
+  half-size reads through (*slot) with the already loaded region pointer
+  changed the candidate to 856/862 bytes and 708 differing positions
+  (110 new, 107 closed relative to the recorded 705-byte residual). This
+  worsened the maintained 849/862 / 539-difference frontier and was reverted.
+  The repeated slot dereference is retained because it participates in the
+  native register/lifetime shape; do not simplify it without a better CFG fit.
