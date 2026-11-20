@@ -2471,3 +2471,20 @@ The oracle checks all 27 table relocations and the pointed-to strings,
 including the shared Extra literal. A swapped pair of table targets, a
 nonzero table addend and a changed format byte each fail comparison with
 the caller's code and relocation set intact.
+
+## 2026-11-20 Enemy update schedule storage
+
+The original Enemy update reads a byte schedule at `0x004A7C88`.
+The exact AddedCallback and gameplay reset routines fill those same 256
+slots. All 256 original initial bytes are zero. The rebuilt ECL object
+defines one 256-byte zero-fill contribution under the readers' and writers'
+shared symbol. Update's two DIR32 fields at +0xB5 and +0xC5 select it with
+zero addends. Cold replay of the ECL and both writer sources passed their
+91 existing exact units.
+
+The update function still has two differing bytes. A reference to the side
+timer before the pool loop restores the original EAX draw-group index but
+changes ten other register-dependent bytes. CirnoLab's current carrier
+also emits the original EAX instructions after its two append paths are
+rewritten to share a source tail. The tail alone does not explain the
+register choice.

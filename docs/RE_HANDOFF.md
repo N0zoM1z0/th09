@@ -30,6 +30,11 @@ The residual counts mask COFF relocation fields. Replaying those fields
 adds six differing bytes in BeginPlaybackStage and four in
 UpdateMovementAndOptions.
 
+Enemy update, initialization and reset now use one 256-byte schedule
+buffer at the reviewed original address. The current Enemy update comparison
+still has two register differences.
+See [the schedule storage proof](KNOWLEDGE_BASE.md#2026-11-20-enemy-update-schedule-storage).
+
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | EnemyManagerView::OnUpdate | 0x00410730 | 3,900/3,900 bytes; 2 differences (OK) | Source now mirrors retail short-circuit CFG: side-state bit is tested before the category read, and the early draw path falls into the shared append. The index-register choice differs at +0x19C/+0x1A3 (retail EAX, candidate ECX). |

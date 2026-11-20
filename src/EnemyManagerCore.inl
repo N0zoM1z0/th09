@@ -222,7 +222,8 @@ typedef char EnemyManagerCoreTimelineAt2AC440[
      offsetof(EnemyManagerCoreView, priorityEnemy2AC444) == 0x2AC444) ? 1 : -1];
 
 extern AsciiManager g_AsciiManager;
-extern unsigned char g_EnemyCoreSchedule[];
+// Initialization and reset write the same 256-entry schedule that update reads.
+unsigned char g_EnemySubroutineSchedule[256];
 
 // Reconstruction aliases for the shared physical leaf at 0x0044AB20.
 // Its complete body is xor eax,eax;ret, not an unreconstructed callback stub.
@@ -359,10 +360,10 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             // Read the real native enemy schedule table, preserving the
             // second read's live postincrement on its original byte index.
             manager->scheduleHighBit2AC3F8 =
-                g_EnemyCoreSchedule[static_cast<unsigned int>(manager->scheduleIndex2AC3D4)] >> 7;
+                g_EnemySubroutineSchedule[static_cast<unsigned int>(manager->scheduleIndex2AC3D4)] >> 7;
             manager->scheduledSubroutine2AC400 =
                 manager->primaryEclManager000.GetSubroutine(
-                    g_EnemyCoreSchedule[static_cast<unsigned int>(manager->scheduleIndex2AC3D4++)] & 0x7F);
+                    g_EnemySubroutineSchedule[static_cast<unsigned int>(manager->scheduleIndex2AC3D4++)] & 0x7F);
             manager->scheduleRuntime2AC3E0.timer00 = 0;
         }
     }
