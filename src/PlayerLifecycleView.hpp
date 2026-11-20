@@ -191,6 +191,8 @@ struct PlayerAnmVmView : AnmVm
 {
     PlayerAnmVmView();
     void SetZRotation(float angle);
+    void SetBlendModeAdditive();
+    void SetBlendModeNormal();
 };
 typedef char PlayerAnmVmSizeIs2A4[
     (sizeof(PlayerAnmVmView) == sizeof(AnmVm) &&

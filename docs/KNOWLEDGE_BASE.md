@@ -2190,3 +2190,21 @@ and all relocations. Selected replay passed 21 exact PlayerRuntime units over
 five carriers, 5,391 bytes and 288 relocation fields. Eleven local COFF labels
 were rebound only after their owner-relative destinations were verified.
 No full cold replay ran.
+
+## 2026-11-20 Player respawn blending uses the canonical PlayerAnmVmView
+
+The sparse PlayerAnmVmBlendModeView (1F8-byte opaque prefix plus a flags word)
+and the separate PlayerRespawnBlendView wrapper described the same Player
+main VM. The unused PlayerRespawnVmView layout was also dead. The two blend
+operations now belong to PlayerAnmVmView, whose complete 0x2A4-byte storage
+inherits the already asserted AnmVm flagsWord at +0x1F8. PlayerTransitionSpecial
+calls player->mainVm directly; the leaf definitions update flagsWord on that
+canonical VM owner.
+
+The two exact leaf symbols and the two PlayerTransitionSpecial call
+relocations now use PlayerAnmVmView. Both leaves remain exact (19 and 8 bytes),
+and the caller remains exact (293 bytes). Selected replay of PlayerRuntime.cpp
+and PlayerShortLeaves.cpp passed 25 exact units across six compiler carriers,
+5,442 physical bytes and 289 relocation fields. The eleven regenerated
+UpdateBeforeState local labels were checked against unchanged owner-relative
+destinations. No full cold replay ran.

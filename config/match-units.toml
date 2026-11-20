@@ -11380,7 +11380,7 @@ relocations = [
   { offset = 0x7A, type = "DIR32", symbol = "__real@40400000", target = 0x0048E2A0 },
   { offset = 0x8A, type = "DIR32", symbol = "__real@3cf5c28f", target = 0x0048EF98 },
   { offset = 0xA2, type = "REL32", symbol = "?CalcItemCollectionCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@0@Z", target = 0x0041BEE0 },
-  { offset = 0xC0, type = "DIR32", symbol = "$L66183", target = 0x0041DF50 },
+  { offset = 0xC0, type = "DIR32", symbol = "$L66162", target = 0x0041DF50 },
   { offset = 0xCC, type = "REL32", symbol = "?AddRespawnResource@PlayerLifecycleView@@QAEXM@Z", target = 0x0041BC90 },
   { offset = 0xD7, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
   { offset = 0xDC, type = "DIR32", symbol = "?g_PlayerRewardModeValue@@3HA", target = 0x004A7EAC },
@@ -11406,7 +11406,7 @@ relocations = [
   { offset = 0x1B5, type = "DIR32", symbol = "?g_PlayerRewardEffectManager@@3PAUEffectManager@@A", target = 0x004A7E0C },
   { offset = 0x1C3, type = "REL32", symbol = "?SpawnEffectWithVelocity@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@0HI@Z", target = 0x0040CCC0 },
   { offset = 0x1D9, type = "DIR32", symbol = "?g_PlayerRewardModeValue@@3HA", target = 0x004A7EAC },
-  { offset = 0x1E5, type = "DIR32", symbol = "$L66184", target = 0x0041DF60 },
+  { offset = 0x1E5, type = "DIR32", symbol = "$L66163", target = 0x0041DF60 },
   { offset = 0x1EB, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
   { offset = 0x1F1, type = "DIR32", symbol = "__real@3d23d70a", target = 0x0048EF8C },
   { offset = 0x1F7, type = "DIR32", symbol = "__real@3f666666", target = 0x0048EF88 },
@@ -11432,22 +11432,22 @@ relocations = [
   { offset = 0x2F2, type = "DIR32", symbol = "__real@43c80000", target = 0x0048E3C4 },
   { offset = 0x301, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0x307, type = "DIR32", symbol = "__real@43c80000", target = 0x0048E3C4 },
-  { offset = 0x330, type = "DIR32", symbol = "$L65882", target = 0x0041DCE4 },
-  { offset = 0x334, type = "DIR32", symbol = "$L65883", target = 0x0041DCF5 },
-  { offset = 0x338, type = "DIR32", symbol = "$L65903", target = 0x0041DEB6 },
-  { offset = 0x33C, type = "DIR32", symbol = "$L65904", target = 0x0041DECA },
-  { offset = 0x340, type = "DIR32", symbol = "$L65895", target = 0x0041DE09 },
-  { offset = 0x344, type = "DIR32", symbol = "$L65896", target = 0x0041DE1D },
-  { offset = 0x348, type = "DIR32", symbol = "$L65897", target = 0x0041DE31 },
-  { offset = 0x34C, type = "DIR32", symbol = "$L65898", target = 0x0041DE45 },
-  { offset = 0x350, type = "DIR32", symbol = "$L65899", target = 0x0041DE59 },
+  { offset = 0x330, type = "DIR32", symbol = "$L65861", target = 0x0041DCE4 },
+  { offset = 0x334, type = "DIR32", symbol = "$L65862", target = 0x0041DCF5 },
+  { offset = 0x338, type = "DIR32", symbol = "$L65882", target = 0x0041DEB6 },
+  { offset = 0x33C, type = "DIR32", symbol = "$L65883", target = 0x0041DECA },
+  { offset = 0x340, type = "DIR32", symbol = "$L65874", target = 0x0041DE09 },
+  { offset = 0x344, type = "DIR32", symbol = "$L65875", target = 0x0041DE1D },
+  { offset = 0x348, type = "DIR32", symbol = "$L65876", target = 0x0041DE31 },
+  { offset = 0x34C, type = "DIR32", symbol = "$L65877", target = 0x0041DE45 },
+  { offset = 0x350, type = "DIR32", symbol = "$L65878", target = 0x0041DE59 },
 ]
 [units.player-set-blend-additive]
 source = "src/PlayerShortLeaves.cpp"
 object = "build/matching/PlayerShortLeaves.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["PlayerAnmVmBlendModeView::SetBlendModeAdditive"]
-symbol = "?SetBlendModeAdditive@PlayerAnmVmBlendModeView@@QAEXXZ"
+functions = ["PlayerAnmVmView::SetBlendModeAdditive"]
+symbol = "?SetBlendModeAdditive@PlayerAnmVmView@@QAEXXZ"
 target_address = 0x0041BD40
 size = 0x13
 relocations = []
@@ -11456,8 +11456,8 @@ relocations = []
 source = "src/PlayerShortLeaves.cpp"
 object = "build/matching/PlayerShortLeaves.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-functions = ["PlayerAnmVmBlendModeView::SetBlendModeNormal"]
-symbol = "?SetBlendModeNormal@PlayerAnmVmBlendModeView@@QAEXXZ"
+functions = ["PlayerAnmVmView::SetBlendModeNormal"]
+symbol = "?SetBlendModeNormal@PlayerAnmVmView@@QAEXXZ"
 target_address = 0x0041BD60
 size = 0x08
 relocations = []
@@ -11515,7 +11515,7 @@ relocations = [
   { offset = 0x2D, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x38, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
   { offset = 0x44, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4 },
-  { offset = 0x52, type = "REL32", symbol = "?SetBlendModeAdditive@PlayerRespawnBlendView@@QAEXXZ", target = 0x0041BD40 },
+  { offset = 0x52, type = "REL32", symbol = "?SetBlendModeAdditive@PlayerAnmVmView@@QAEXXZ", target = 0x0041BD40 },
   { offset = 0x6A, type = "REL32", symbol = "??BZunTimer@@QAEHXZ", target = 0x00435F00 },
   { offset = 0xAD, type = "DIR32", symbol = "__real@c3300000", target = 0x0048EF68 },
   { offset = 0xB5, type = "DIR32", symbol = "__real@43300000", target = 0x0048EF64 },
@@ -11523,7 +11523,7 @@ relocations = [
   { offset = 0xCC, type = "DIR32", symbol = "__real@43c00000", target = 0x0048E45C },
   { offset = 0xD7, type = "REL32", symbol = "??BZunTimer@@QAEHXZ", target = 0x00435F00 },
   { offset = 0xE5, type = "REL32", symbol = "?SetUpdateState@PlayerLifecycleView@@QAEXH@Z", target = 0x00403C20 },
-  { offset = 0x107, type = "REL32", symbol = "?SetBlendModeNormal@PlayerRespawnBlendView@@QAEXXZ", target = 0x0041BD60 },
+  { offset = 0x107, type = "REL32", symbol = "?SetBlendModeNormal@PlayerAnmVmView@@QAEXXZ", target = 0x0041BD60 },
 ]
 
 [units.player-update-common]

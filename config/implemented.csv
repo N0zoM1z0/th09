@@ -655,8 +655,8 @@ PlayerLifecycleView::CalcItemCollectionCollision
 PlayerLifecycleView::UpdateBeforeState
 PlayerLifecycleView::CheckBulletCollision
 PlayerOwnerStateView::ApplyReward
-PlayerAnmVmBlendModeView::SetBlendModeAdditive
-PlayerAnmVmBlendModeView::SetBlendModeNormal
+PlayerAnmVmView::SetBlendModeAdditive
+PlayerAnmVmView::SetBlendModeNormal
 PlayerAnmManagerRawView::GetAnmRawData
 PlayerCollisionRegionCreateRegionView::Deactivate
 PreloadPlayerAnmResources

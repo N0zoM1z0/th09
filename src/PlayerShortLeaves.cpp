@@ -1,27 +1,16 @@
 #include <stddef.h>
 #include "AnmManager.hpp"
 #include "PlayerCollisionRegionCreate.hpp"
+#include "PlayerLifecycleView.hpp"
 
-struct PlayerAnmVmBlendModeView
+void PlayerAnmVmView::SetBlendModeAdditive()
 {
-    unsigned char unknown000[0x1F8];
-    unsigned int flags1F8;
-
-    void SetBlendModeAdditive();
-    void SetBlendModeNormal();
-};
-
-typedef char PlayerBlendFlagsAt1F8[
-    (offsetof(PlayerAnmVmBlendModeView, flags1F8) == 0x1F8) ? 1 : -1];
-
-void PlayerAnmVmBlendModeView::SetBlendModeAdditive()
-{
-    flags1F8 = (flags1F8 & ~0x20u) | 0x10u;
+    flagsWord = (flagsWord & ~0x20u) | 0x10u;
 }
 
-void PlayerAnmVmBlendModeView::SetBlendModeNormal()
+void PlayerAnmVmView::SetBlendModeNormal()
 {
-    flags1F8 &= ~0x30u;
+    flagsWord &= ~0x30u;
 }
 
 // The Player preload leaf reads the original ANM loader's +4 file pointer;

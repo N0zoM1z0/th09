@@ -686,3 +686,16 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
 - Selected PlayerRuntime replay passed 21 exact units, five carriers,
   5,391 bytes and 288 relocations. Eleven regenerated local labels were
   address-verified before rebinding. No full cold replay ran.
+
+## Player ANM blend owner consolidation (2026-11-20)
+
+- Removed PlayerRespawnBlendView, unused PlayerRespawnVmView and the separate
+  sparse PlayerAnmVmBlendModeView layout. The blend methods are now members
+  of the canonical PlayerAnmVmView / AnmVm storage and operate on flagsWord
+  at +0x1F8.
+- PlayerTransitionSpecial calls mainVm directly. The two exact leaf symbols
+  and both caller relocations now name PlayerAnmVmView.
+- Selected replay of PlayerRuntime.cpp and PlayerShortLeaves.cpp passed 25
+  exact units, six compiler carriers, 5,442 bytes and 289 relocations.
+  Eleven regenerated local labels were verified at unchanged destinations.
+  No full cold replay ran.

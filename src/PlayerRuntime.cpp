@@ -463,21 +463,6 @@ void __fastcall PlayerUpdateOwnerState(void *opaqueState)
 }
 
 
-struct PlayerRespawnVmView
-{
-    unsigned char unknown000[0x18];
-    float scaleX18;
-    float scaleY1C;
-    unsigned char unknown020[0x1F0 - 0x20];
-    unsigned int color1F0;
-};
-
-struct PlayerRespawnBlendView
-{
-    void SetBlendModeAdditive();
-    void SetBlendModeNormal();
-};
-
 static void PlayerTransitionSpecial(PlayerLifecycleView *player)
 {
     player->state3031C.transitionCounter18 = 60;
@@ -491,8 +476,7 @@ static void PlayerTransitionSpecial(PlayerLifecycleView *player)
         value + value + 1.0f;
     player->mainVm.scale.x =
         1.0f - value;
-    reinterpret_cast<PlayerRespawnBlendView *>(&player->mainVm)
-        ->SetBlendModeAdditive();
+    player->mainVm.SetBlendModeAdditive();
 
     player->movementFields1CCC.speedMultiplier1CE0 = 1.0f;
     player->movementFields1CCC.speedMultiplier1CDC = 1.0f;
@@ -516,8 +500,7 @@ static void PlayerTransitionSpecial(PlayerLifecycleView *player)
         player->mainVm.scale.x = 1.0f;
         player->mainVm.scale.y = 1.0f;
         player->mainVm.color1 = 0xFFFFFFFF;
-        reinterpret_cast<PlayerRespawnBlendView *>(&player->mainVm)
-            ->SetBlendModeNormal();
+        player->mainVm.SetBlendModeNormal();
         player->position1B88.x = 0.0f;
         player->position1B88.y = 384.0f;
     }
