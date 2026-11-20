@@ -444,7 +444,7 @@ int AsciiManager::OnUpdate(AsciiManager *ascii)
     int popupIndex;
 
     if (g_GameManager.inGameMenu == 0) {
-        if (reinterpret_cast<unsigned char *>(&g_GameManager)[0x13D] == 0 &&
+        if (g_GameManager.menuState97C8Active == 0 &&
             (g_GameManager.flags & 0x1800u) == 0) {
             popupBank = &ascii->scorePopups[0][0];
             for (sideFlags = reinterpret_cast<unsigned char *>(&g_GameManager.sides[0].flags);
@@ -473,11 +473,11 @@ int AsciiManager::OnUpdate(AsciiManager *ascii)
         ascii->pauseMenu.OnUpdate();
     }
 
-    if (reinterpret_cast<unsigned char *>(&g_GameManager)[0x13D] != 0 &&
+    if (g_GameManager.menuState97C8Active != 0 &&
         ascii->menuState97C8.OnUpdate()) {
         return CHAIN_CALLBACK_RESULT_BREAK;
     }
-    if (reinterpret_cast<unsigned char *>(&g_GameManager)[0x13E] != 0 &&
+    if (g_GameManager.menuStateA7A8Active != 0 &&
         ascii->menuStateA7A8.OnUpdate()) {
         return CHAIN_CALLBACK_RESULT_BREAK;
     }
