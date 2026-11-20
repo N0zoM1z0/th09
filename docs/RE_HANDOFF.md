@@ -11,7 +11,7 @@ KNOWLEDGE_BASE.md and generated counts live in PROGRESS.md.
   SHA-256 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 - Compiler: pinned VC7.1 with each owner's profile in config/match-units.toml
   or config/frontiers.toml. Never change profiles to chase register choices.
-- Stage: exact reconstruction. Latest source checkpoint: b22cc6ba (native PlayerShot owner in draw callback). Local main has commits beyond origin/main; do not assume
+- Stage: exact reconstruction. Latest source checkpoint: 5e79811e (Effect follow-player callback uses native Player owners); additional ECL owner cleanup is recorded below. Local main has commits beyond origin/main; do not assume
   local commits have been pushed. Inspect git status and git log before work.
 - Worktree was clean at this handoff update. No interrupted source edits were found.
 - Ledger: 2,248 tracked function candidates; origin/boundary review pending 0;
@@ -482,3 +482,24 @@ ahead of `origin/main`. No push was performed.
 Do not promote any of these boss candidates or rebaseline their frontiers.
 Continue to work from the current natural C++ source and target CFG; no ASM,
 inline assembly, register hints, padding or synthetic bytes were introduced.
+
+
+## Continuation after 5e79811e (2026-11-20)
+
+- 5e79811e removes the sparse Player and Side records from
+  EffectFollowPlayerUpdate; the 38-byte callback remains exact and its
+  changed-source replay passed.
+- The following ECL helper checkpoint replaces the unused private
+  EclHelperEnemyView layout with compile-time checks against the shared
+  EnemyView. InterpolateLinear and InterpolateHermite remain exact at
+  74 and 188 bytes; their changed-source replay passed 262 physical bytes
+  and 12 relocations.
+- EffectUpdateCallbackType1Type2 already reads the random-axes side's
+  character through AsciiGameManagerSideView; it remains exact at 775 bytes
+  and 33 relocation fields.
+- Boss priorities remain EnemyManager::OnUpdate (3,900 bytes, two
+  register-selection differences), CheckBulletCollision (maintained source
+  is still REGRESSED against the 842-byte ratchet), and
+  UpdateNetworkService (1,633-byte candidate, REGRESSED against 1,629).
+  Continue from target CFG and natural C++; do not rebaseline or use ASM,
+  register forcing, padding or synthetic bytes.

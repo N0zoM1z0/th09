@@ -1950,3 +1950,18 @@ side-character prefix. The random-axes bullet speed adjustment reads
 `AsciiGameManagerSideView` at +0x20. Its 775-byte body remains exact with all
 33 relocation fields. Both changed-source scoped replays and CI passed; no
 full cold replay ran.
+
+
+## 2026-11-20 ECL interpolation helpers use the shared Enemy owner
+
+EclHelpers.cpp no longer defines a private EclHelperEnemyView spanning
+the Enemy's ECL contexts, operand banks, movement state, bullet descriptor,
+flags, animation selectors and child-block table. Those offsets are now
+asserted directly against the canonical EnemyView in EnemyManager.hpp.
+The unused HelperView reinterpret-cast adapter is removed; interpolation
+callbacks already receive the native EnemyView pointer and resolve operands
+through its methods. The two original interpolators remain exact: linear is
+74/74 bytes with three relocation fields; Hermite is 188/188 bytes with nine
+relocation fields. Changed-source scoped replay passed both functions (262
+physical bytes, 12 relocations). This removes a duplicate 67-line partial
+Enemy layout without changing either callback's ABI or exactness credit.

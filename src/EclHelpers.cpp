@@ -10,80 +10,19 @@
 namespace
 {
 
-struct EclHelperEnemyView
-{
-    EnemyManagerView *manager0000;
-    unsigned char unknown0004[0x07F4 - 0x0004];
-    Th09EclContextView mainContext07F4;
-    Th09EclContextView mainCallStack0A20[TH09_ECL_MAIN_CALL_STACK_CAPACITY];
-    Th09EclContextView *activeContext2CE0;
-    Th09EclContextView *activeCallStack2CE4;
-    int intVariables2CE8[8];
-    float floatVariables2D08[8];
-    short mainCallDepth2D28;
-    short activeCallDepth2D2A;
-    unsigned char unknown2D2C[0x04];
-    short subroutineSlots2D30[32];
-    short pendingSubroutineId2D70;
-    unsigned char unknown2D72[0x02];
-    Float3 position2D74;
-    Float3 positionOffset2D80;
-    Float3 velocity2D8C;
-    unsigned char unknown2D98[0x2DD4 - 0x2D98];
-    Float3 worldPosition2DD4;
-    float movementAngle2DE0;
-    float angularVelocity2DE4;
-    float orbitAngle2DE8;
-    float orbitAngularVelocity2DEC;
-    unsigned char unknown2DF0[0x04];
-    float speed2DF4;
-    float acceleration2DF8;
-    float orbitRadius2DFC;
-    float radialVelocity2E00;
-    Float3 shootOffset2E04;
-    Float3 movementDelta2E10;
-    Float3 movementOrigin2E1C;
-    Th09EclTimerStorageView movementTimer2E28;
-    int movementDuration2E34;
-    unsigned char unknown2E38[0x2E74 - 0x2E38];
-    BulletSpawnDescriptor bulletDescriptor2E74;
-    unsigned char unknown3088[0x337C - 0x3088];
-    unsigned int primaryFlags337C;
-    unsigned int secondaryFlags3380;
-    unsigned char unknown3384[0x02];
-    signed char anmDirection3386;
-    unsigned char unknown3387[0x03];
-    short idleAnm338A;
-    short idleFromLeftAnm338C;
-    short idleFromRightAnm338E;
-    short moveLeftAnm3390;
-    short moveRightAnm3392;
-    short specialAnm3394;
-    unsigned char unknown3396[0x02];
-    Th09EclRunMovement::EnemyFloat2 movementLowerBounds3398;
-    Th09EclRunMovement::EnemyFloat2 movementUpperBounds33A0;
-    float minimumPlayerDistanceSquared33A8;
-    unsigned char unknown33AC[0x2C];
-    void *childEclBlocks33D8[4];
-};
-
 typedef char EclHelperActiveContextAt2CE0[
-    (offsetof(EclHelperEnemyView, activeContext2CE0) == 0x2CE0) ? 1 : -1];
+    (offsetof(EnemyView, activeContext2CE0) == 0x2CE0) ? 1 : -1];
 typedef char EclHelperPositionAt2D74[
-    (offsetof(EclHelperEnemyView, position2D74) == 0x2D74) ? 1 : -1];
+    (offsetof(EnemyView, position2D74) == 0x2D74) ? 1 : -1];
 typedef char EclHelperMovementAt2DE0[
-    (offsetof(EclHelperEnemyView, movementAngle2DE0) == 0x2DE0) ? 1 : -1];
+    (offsetof(EnemyView, movementAngle2DE0) == 0x2DE0) ? 1 : -1];
 typedef char EclHelperBulletAt2E74[
-    (offsetof(EclHelperEnemyView, bulletDescriptor2E74) == 0x2E74) ? 1 : -1];
+    (offsetof(EnemyView, bulletDescriptor2E74) == 0x2E74) ? 1 : -1];
 typedef char EclHelperFlagsAt337C[
-    (offsetof(EclHelperEnemyView, primaryFlags337C) == 0x337C) ? 1 : -1];
+    (offsetof(EnemyView, primaryFlags337C) == 0x337C) ? 1 : -1];
 typedef char EclHelperChildrenAt33D8[
-    (offsetof(EclHelperEnemyView, childEclBlocks33D8) == 0x33D8) ? 1 : -1];
+    (offsetof(EnemyView, childEclBlocks33D8) == 0x33D8) ? 1 : -1];
 
-inline EclHelperEnemyView *HelperView(EnemyView *enemy)
-{
-    return reinterpret_cast<EclHelperEnemyView *>(enemy);
-}
 
 void __fastcall InterpolateLinear(
     EnemyView *enemy, Th09EclInterpolationSlotView *slot, float progress)
