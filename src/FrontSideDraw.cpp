@@ -101,10 +101,10 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     }
 
     cursor = &frontSide->vm3CBC.pos;
-    cursor->x = g_GameManager.TransformPopupX(reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(cursor) - offsetof(AnmVm, pos))->pos2.x);
-    cursor->y = g_GameManager.TransformPopupY(reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(cursor) - offsetof(AnmVm, pos))->pos2.y);
-    cursor->z = 0.0f;
-    g_AnmManager->DrawNoRotation(reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(cursor) - offsetof(AnmVm, pos)));
+    frontSide->vm3CBC.pos.x = g_GameManager.TransformPopupX(frontSide->vm3CBC.pos2.x);
+    frontSide->vm3CBC.pos.y = g_GameManager.TransformPopupY(frontSide->vm3CBC.pos2.y);
+    frontSide->vm3CBC.pos.z = 0.0f;
+    g_AnmManager->DrawNoRotation(&frontSide->vm3CBC);
 
     cursor = &frontSide->scoreVms3F60[0].pos;
     for (i = 0; i < 10; ++i, cursor = reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(cursor) + sizeof(AnmVm)))
@@ -116,9 +116,9 @@ int FrontSide::OnDraw(FrontSide *frontSide)
     }
 
     cursor = &frontSide->vm59C8.pos;
-    cursor->x = g_GameManager.TransformPopupX(reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(cursor) - offsetof(AnmVm, pos))->pos2.x);
-    cursor->y = g_GameManager.TransformPopupY(reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(cursor) - offsetof(AnmVm, pos))->pos2.y);
-    g_AnmManager->DrawNoRotation(reinterpret_cast<AnmVm *>(reinterpret_cast<unsigned char *>(cursor) - offsetof(AnmVm, pos)));
+    frontSide->vm59C8.pos.x = g_GameManager.TransformPopupX(frontSide->vm59C8.pos2.x);
+    frontSide->vm59C8.pos.y = g_GameManager.TransformPopupY(frontSide->vm59C8.pos2.y);
+    g_AnmManager->DrawNoRotation(&frontSide->vm59C8);
 
     cursor = &frontSide->meterVms5C6C[0].pos;
     for (i = 0; i < 4; ++i, cursor = reinterpret_cast<Float3 *>(reinterpret_cast<unsigned char *>(cursor) + sizeof(AnmVm)))
