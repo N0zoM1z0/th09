@@ -15,22 +15,8 @@ typedef char FrontEnemyIndicatorNativeVmFields[
 extern AsciiGameManagerView g_GameManager;
 extern Supervisor g_Supervisor;
 
-// Retail uses 0x2A4-byte native VM slots in the real FrontFactory
-// allocation and two 0x38-byte side records in the real GameManager.
-static __forceinline AnmVm &NativeFrontIndicatorVm(
-    FrontFactoryConstructView *owner, int side)
-{
-    return *reinterpret_cast<AnmVm *>(
-        reinterpret_cast<unsigned char *>(&owner->markerVms123F4[0]) +
-        static_cast<unsigned int>(side) * sizeof(owner->markerVms123F4[0]));
-}
-static __forceinline AsciiGameManagerSideView &NativeFrontIndicatorSide(int side)
-{
-    return *reinterpret_cast<AsciiGameManagerSideView *>(
-        reinterpret_cast<unsigned char *>(&g_GameManager.sides[0]) +
-        static_cast<unsigned int>(side) * sizeof(g_GameManager.sides[0]));
-}
-
+// Directly index the shared native VM and GameManager side arrays. The
+// unsigned i386 side index retains the original unguarded element stride.
 void FrontFactoryConstructView::SetSideEnemyIndicatorPosition(
     int sideIndex, const Float3 *enemyPosition)
 {
@@ -38,24 +24,24 @@ void FrontFactoryConstructView::SetSideEnemyIndicatorPosition(
 
     if (enemyPosition->x < -112.0f || enemyPosition->x > 112.0f)
     {
-        NativeFrontIndicatorVm(this, sideIndex).color1Script.a = 0;
+        markerVms123F4[static_cast<unsigned int>(sideIndex)].color1Script.a = 0;
         return;
     }
 
     float distance =
-        NativeFrontIndicatorSide(sideIndex).player->position.x -
+        g_GameManager.sides[static_cast<unsigned int>(sideIndex)].player->position.x -
         enemyPosition->x;
     if (distance < 0.0f)
         distance = -distance;
 
     if (distance < 64.0f)
-        NativeFrontIndicatorVm(this, sideIndex).color1Script.a =
+        markerVms123F4[static_cast<unsigned int>(sideIndex)].color1Script.a =
             static_cast<unsigned char>(distance) * 3 + 64;
     else
-        NativeFrontIndicatorVm(this, sideIndex).color1Script.a = 0xFF;
+        markerVms123F4[static_cast<unsigned int>(sideIndex)].color1Script.a = 0xFF;
 
-    NativeFrontIndicatorVm(this, sideIndex).pos.x =
+    markerVms123F4[static_cast<unsigned int>(sideIndex)].pos.x =
         g_GameManager.TransformPopupX(enemyPosition->x);
-    NativeFrontIndicatorVm(this, sideIndex).pos.y = 472.0f;
-    NativeFrontIndicatorVm(this, sideIndex).pos.z = 0.0f;
+    markerVms123F4[static_cast<unsigned int>(sideIndex)].pos.y = 472.0f;
+    markerVms123F4[static_cast<unsigned int>(sideIndex)].pos.z = 0.0f;
 }
