@@ -453,8 +453,8 @@ The following source checkpoints are now on local `main`; all use the
   passed 329 bytes and six relocation fields across three carriers.
 
 The authored exact-function count remains **1,026**. No whole-product cold
-replay was run. Basic CI passes and the worktree is clean; local `main` is
-13 commits ahead of `origin/main`.
+replay was run. Basic CI passes and the worktree is clean; local `main` remains
+ahead of `origin/main`. No push was performed.
 
 ### Boss continuation results
 
