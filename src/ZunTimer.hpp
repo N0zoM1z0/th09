@@ -37,3 +37,9 @@ struct ZunTimer
 typedef char ZunTimerSizeIs0C[(sizeof(ZunTimer) == 0x0C) ? 1 : -1];
 
 #include "ZunTimerGreaterEqual.inl"
+
+// Share the signed comparison while preserving its original call boundary.
+__declspec(noinline) inline unsigned int ZunTimer::operator<(int value)
+{
+    return this->current < value;
+}

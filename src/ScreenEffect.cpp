@@ -249,44 +249,48 @@ int ScreenEffect::CalcShakeEnvelope(ScreenEffect *screenEffect)
 
     screenEffect->timer++;
 
-    int endFrame = screenEffect->shakeEnvelope.fadeInFrames;
-    if (screenEffect->timer < endFrame)
+    const int fadeInEnd = screenEffect->shakeEnvelope.fadeInFrames;
+    if (screenEffect->timer < fadeInEnd)
     {
-        shakeAmount = static_cast<float>(screenEffect->timer) / endFrame;
-    }
-    else if (screenEffect->timer < static_cast<int>(
-        static_cast<unsigned int>(endFrame) +
-        static_cast<unsigned int>(screenEffect->shakeEnvelope.holdFrames)))
-    {
-        shakeAmount = 1.0f;
+        shakeAmount = static_cast<double>(static_cast<float>(screenEffect->timer)) / fadeInEnd;
+        shakeAmount = static_cast<float>(screenEffect->duration) * shakeAmount;
     }
     else
     {
-        // The original loads the hold and fade dwords independently,
-        // combines them, then extends the final envelope endpoint.
-        // The two qualified references keep the loads separate in this
-        // VC7.1 build. The original source qualifiers are unknown.
-        // See the shake envelope compiler trace in docs/KNOWLEDGE_BASE.md.
-        const volatile int &fade = screenEffect->shakeEnvelope.fadeOutFrames;
-        const volatile int &hold = screenEffect->shakeEnvelope.holdFrames;
-        // The original i386 endpoint additions wrap as native DWORDs.
-        // Preserve the signed timer comparison on the resulting word.
-        unsigned int update =
-            static_cast<unsigned int>(hold) + static_cast<unsigned int>(fade);
-        endFrame = static_cast<unsigned int>(endFrame) + update;
-        if (screenEffect->timer < endFrame)
+        if (screenEffect->timer < static_cast<int>(
+            static_cast<unsigned int>(fadeInEnd) +
+            static_cast<unsigned int>(screenEffect->shakeEnvelope.holdFrames)))
         {
-            shakeAmount =
-                (static_cast<float>(static_cast<unsigned int>(endFrame)) - static_cast<float>(screenEffect->timer)) /
-                static_cast<unsigned int>(screenEffect->shakeEnvelope.fadeOutFrames);
+            shakeAmount = 1.0f;
         }
         else
         {
-            return CHAIN_CALLBACK_RESULT_CONTINUE_AND_REMOVE_JOB;
+            const unsigned int remainingDuration =
+                static_cast<unsigned int>(screenEffect->shakeEnvelope.holdFrames) +
+                static_cast<unsigned int>(screenEffect->shakeEnvelope.fadeOutFrames);
+            // Endpoints wrap as 32-bit words before the signed timer comparison.
+            if (screenEffect->timer < static_cast<int>(
+                    static_cast<unsigned int>(fadeInEnd) + remainingDuration))
+            {
+                shakeAmount = static_cast<float>(
+                    static_cast<unsigned int>(fadeInEnd) + remainingDuration) -
+                    static_cast<float>(screenEffect->timer);
+
+                // Read the native fade-out word as an unsigned frame count.
+                unsigned int fadeOutFrames;
+                memcpy(&fadeOutFrames, &screenEffect->shakeEnvelope.fadeOutFrames,
+                       sizeof fadeOutFrames);
+                shakeAmount /= fadeOutFrames;
+            }
+            else
+            {
+                return CHAIN_CALLBACK_RESULT_CONTINUE_AND_REMOVE_JOB;
+            }
         }
+
+        shakeAmount = static_cast<float>(screenEffect->duration) * shakeAmount;
     }
 
-    shakeAmount = static_cast<float>(screenEffect->duration) * shakeAmount;
     switch (g_ReplayRng.GetRandomU32InRange(SCREEN_SHAKE_AXIS_CHOICES))
     {
     case SCREEN_SHAKE_AXIS_ZERO:

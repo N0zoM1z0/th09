@@ -15,6 +15,12 @@ KNOWLEDGE_BASE.md and generated counts live in PROGRESS.md.
   all 1,238 bytes and 53 relocations. Its canonical replay also verifies
   the USER format strings and 27 name pointers.
   See [the replay payload and data proof](KNOWLEDGE_BASE.md#2026-11-20-savereplay-payload-copy-and-user-tables).
+- `ScreenEffect::CalcShakeEnvelope` now matches all 336 bytes and 20
+  relocation fields, including both float literals. Replay with
+  `python3 -B scripts/replay-scoped-exact.py --unit screen-effect-calc-shake-envelope`.
+  The shared timer comparison and unsigned frame read explain how an
+  earlier allocation changed both switches.
+  See [the compiler proof](KNOWLEDGE_BASE.md#2026-11-20-shake-envelope-compiler-context).
 - See [generated progress](PROGRESS.md) for current ledger totals.
 - Complete function inventory is still unproven; callback tables need a
   separate audit. Whole Windows i386 product closure remains open. Semantic
@@ -35,17 +41,6 @@ buffer at the reviewed original address. The current Enemy update comparison
 still has two register differences.
 See [the schedule storage proof](KNOWLEDGE_BASE.md#2026-11-20-enemy-update-schedule-storage).
 
-The current focus is `ScreenEffect::CalcShakeEnvelope`. Rebuild it with
-`python3 -B scripts/check-frontier.py screen-shake-envelope --show`.
-A 336-byte control using the same hold-plus-fade duration in the timer
-comparison and the fade-out ratio matches through `+0xBD`. The
-[compiler trace](KNOWLEDGE_BASE.md#2026-11-20-shake-envelope-compiler-context)
-ties the remaining differences to the register sequence for the six
-animation-manager loads. The scratch selection at `+0x91` advances the
-cursor before the first switch. An explicit frame-count conversion
-preserves the original switch sequence and adds a three-byte stack store
-for the denominator FILD.
-
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | EnemyManagerView::OnUpdate | 0x00410730 | 3,900/3,900 bytes; 2 differences (OK) | Making the real `ZunTimer::HasTickedEvery` body visible recovers the retail EAX choice. The same build introduces four differences in the force-death vector call and 41 in the bullet descriptor. See the [compiler context comparison](KNOWLEDGE_BASE.md#2026-11-20-enemy-update-schedule-storage). |
@@ -53,7 +48,6 @@ for the denominator FILD.
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes; 4 differences (OK) | Focus-mode load order at +0x127..+0x12A. Retail loads g_GameConfiguration before player sideIndex; current source emits the reverse order. |
 | PlayerLifecycleView::UpdateChargeAttack | 0x0041F810 | 1,210/1,210 bytes; 183 differences (OK) | Boss register allocation: retail loads the full DWORD sideIndex into EDI and forms the ReplayInputState pointer in EBX (0x8E stride). Current short-side/input locals allocate the opposite way; widening/removing locals regressed hundreds of bytes. |
 | PlayerLifecycleView::CheckBulletCollision | 0x0041DFF0 | 849/862 bytes; 539 differences (REGRESSED) | Preserve the 0x34-byte target frame and recover the target CFG: circle check and shared hit dispatcher at +0x7E precede rotated-rectangle/AABB paths. Valid region types are 1/2/3 with delay <= 0; kinds 2/3 reward only for a non-null bullet with word +0x10C0 equal to zero. Candidate grew from the 842-byte frontier baseline; do not rebaseline. |
-| ScreenEffect::CalcShakeEnvelope | 0x004227A0 | 336/336 bytes; 26 differences (OK) | The phase-split probe restores EDI for the receiver and ESI for its timer. Four differing bytes precede the RNG calls, and the later register pass changes six pointer loads in the switches. |
 | TitleScreenView::DrawReplayMenu | 0x004234F6 | 1,280/1,280 bytes; 29 differences (OK) | Continue from the native replay-row/VM layout and exact caller evidence; preserve all 29 recorded positions. |
 | TitleScreenView::OnUpdateResult | 0x004266B5 | 484/485 bytes; 167 differences (OK) | Source is one byte shorter than the target owner. Character-array cursor is natural, but the complete owner remains nonexact. |
 | Supervisor::UpdateNetworkService | 0x00430AA0 | 1,633/1,633 bytes; 307 differences (REGRESSED) | The current natural-C++ candidate restores the 0x14-byte frame and EBX's mutually exclusive prediction-frame / prefill-counter lifetime. It retains the handshake and frame-packet receivers across RNG calls and uses live side/frame reloads in the second prediction call. Still four bytes above the 1,629-byte ratchet; do not rebaseline. |

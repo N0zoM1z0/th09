@@ -88,11 +88,6 @@ float __stdcall CubicHermiteInterpolateScalar(
     float time);
 
 
-unsigned int ZunTimer::operator<(int value)
-{
-    return this->current < value;
-}
-
 float __stdcall CubicHermiteInterpolateScalar(
     float startValue,
     float endValue,

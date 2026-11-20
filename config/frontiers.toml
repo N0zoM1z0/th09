@@ -74,17 +74,6 @@ candidate_size = 36
 target_sha256 = "d949efa79204e2332ebfe977142934ba6e539d41133086b5fc98803663f50630"
 residual = ["3-E", "13-16", "1B-23"]
 
-[frontier.screen-shake-envelope]
-function = "ScreenEffect::CalcShakeEnvelope"
-source = "src/ScreenEffect.cpp"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-symbol = "?CalcShakeEnvelope@ScreenEffect@@SIHPAU1@@Z"
-address = 0x004227A0
-size = 336
-candidate_size = 336
-target_sha256 = "1d33957d51f8cc170471b9673a938899281cfa07fbed746eb0843e62e2597472"
-residual = ["B", "D", "12", "18", "1A", "1F", "26", "2A", "36", "44", "5B", "5E", "66", "85", "92", "95", "98", "A4", "109", "115", "123", "12D", "13B", "142", "147", "14B"]
-
 [frontier.title-update-result]
 function = "TitleScreenView::OnUpdateResult"
 source = "src/TitleScreen.cpp"

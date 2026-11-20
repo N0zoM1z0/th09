@@ -6981,6 +6981,37 @@ relocations = [
   { offset = 0x12D, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
 ]
 
+[units.screen-effect-calc-shake-envelope]
+source = "src/ScreenEffect.cpp"
+object = "build/matching/ScreenEffect.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ScreenEffect::CalcShakeEnvelope"]
+symbol = "?CalcShakeEnvelope@ScreenEffect@@SIHPAU1@@Z"
+target_address = 0x004227A0
+size = 0x150
+relocations = [
+  { offset = 0x06, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x348 },
+  { offset = 0x21, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510, addend = 0x0 },
+  { offset = 0x2F, type = "REL32", symbol = "??MZunTimer@@QAEIH@Z", target = 0x00401540, addend = 0x0 },
+  { offset = 0x3A, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0, addend = 0x0 },
+  { offset = 0x4A, type = "REL32", symbol = "??MZunTimer@@QAEIH@Z", target = 0x00401540, addend = 0x0 },
+  { offset = 0x54, type = "DIR32", symbol = "__real@3f800000", target = 0x0048E2A4, addend = 0x0 },
+  { offset = 0x68, type = "REL32", symbol = "??MZunTimer@@QAEIH@Z", target = 0x00401540, addend = 0x0 },
+  { offset = 0x80, type = "DIR32", symbol = "__real@4f800000", target = 0x0048E2A8, addend = 0x0 },
+  { offset = 0x8A, type = "REL32", symbol = "??BZunTimer@@QAEMXZ", target = 0x004014F0, addend = 0x0 },
+  { offset = 0x9D, type = "DIR32", symbol = "__real@4f800000", target = 0x0048E2A8, addend = 0x0 },
+  { offset = 0xA9, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C, addend = 0x0 },
+  { offset = 0xB5, type = "REL32", symbol = "?GetRandomU32InRange@RngRuntimeView@@QAEII@Z", target = 0x004048E0, addend = 0x0 },
+  { offset = 0xC9, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550, addend = 0x0 },
+  { offset = 0xD9, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550, addend = 0x0 },
+  { offset = 0xE4, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550, addend = 0x0 },
+  { offset = 0xEE, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C, addend = 0x0 },
+  { offset = 0xF3, type = "REL32", symbol = "?GetRandomU32InRange@RngRuntimeView@@QAEII@Z", target = 0x004048E0, addend = 0x0 },
+  { offset = 0x105, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550, addend = 0x0 },
+  { offset = 0x11F, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550, addend = 0x0 },
+  { offset = 0x134, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550, addend = 0x0 },
+]
+
 [units.screen-effect-initialize-timer]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"

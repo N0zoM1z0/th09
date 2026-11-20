@@ -1759,11 +1759,9 @@ assembly, padding or synthetic bytes to force target instructions.
 `fadeOutFrames` members occupy +0x00/+0x04/+0x08 in a 0x0C-byte record;
 the enclosing union remains at `ScreenEffect` +0x1C and preserves the
 existing `rawParameter0/1/2` aliases. Compile-time size and member-offset
-assertions keep the native layout explicit. This is a source-type recovery,
-not a new exact-function claim: `CalcShakeEnvelope` remains 336/336 bytes
-with 26 differences. Typed timer/owner aliases were also probed against its
-VC7.1 output and rejected when they expanded the function or changed many
-more instructions.
+assertions keep the native layout explicit. This type recovery left
+`CalcShakeEnvelope` with 26 register-encoding differences at the time.
+See the compiler context below for their resolution.
 
 The header change passed the focused changed-source replay across 21 compiler
 carriers: 100 exact units, 40,016 physical bytes and 2,487 relocation fields.
@@ -1777,245 +1775,70 @@ count remains 1,026.
 
 ## 2026-11-20 Shake envelope compiler context
 
-A fresh complete replay at `0x004227A0` binds all 20 relocation fields
-and both float literals. The maintained 336-byte candidate differs in 26
-register encodings. The target uses EDI for `ScreenEffect` and ESI for its
-timer. The candidate assigns the two receivers in the opposite order.
+`ScreenEffect::CalcShakeEnvelope` matches the complete 336-byte owner at
+`0x004227A0..0x004228EF` under pinned VC7.1 /O2 /Ob1 /Oy-. Its canonical
+comparison replays all 20 fields, including three calls to the signed timer
+comparison, two timer float calls, one timer increment and two bounded RNG
+calls. The 1.0f and 2^32 float definitions also match their original bytes.
+The next independent owner starts at `0x004228F0`.
 
-On a disposable copy of `ScreenEffect.cpp`, remove `volatile` from the two
-phase-length references and compile with the frontier profile. That folds
-one phase-length load into the addition and emits 334 bytes. Add the real
-out-of-line `ZunTimer::operator<` definition from
-`src/BackgroundStageScript.cpp` to the same copy. Both loads return at
-`+0x5A` and `+0x5D`, and the eight calls retain their original offsets
-and destinations. The 336-byte probe has 79 byte differences after replaying
-its 20 relocations. Three ANM pointer operands move in the final switches.
-The complete probe carrier still passes all 16 siblings from
-`ScreenEffect.obj` and the timer comparison itself.
+The visible `ZunTimer::operator<` body lets C2 analyze the effects of those
+three calls. The repository shares its real signed comparison as a
+noinline COMDAT, following the existing greater-or-equal operator pattern.
+This preserves the 20-byte callee, the original call sites and one linkable
+definition. The original source annotation and translation-unit grouping
+are unknown. With just the external declaration, the exact source body
+has 101 differing bytes in the full ScreenEffect carrier.
 
-Read-only traces of VC7.1 C2 at `0x107833F2` and `0x10782A1D` give the same
-receiver decision with both sets of loads. C2 scores the effect receiver
-first with mask `0x190` and selects descriptor 7 (ESI). The timer is scored
-next with mask `0x110` and receives descriptor 8 (EDI). The objects emitted
-under the debugger reproduce both full-size controls, including their COFF
-fields. Timer pointer/reference spelling, cached versus repeated endpoint
-expressions, and case order probes retain the receiver assignment in the
-closest candidates. The 26-byte frontier remains the maintained candidate.
+The affected replay covers all 11 source carriers with reviewed calls to
+the comparison, across 17 compiler jobs. All 158 exact units pass,
+including 73,568 physical bytes and 3,414 relocation fields. Each emitted
+timer comparison COMDAT also matches the original 20 bytes. The direct
+charge-attack caller and the Enemy update frontier retain their recorded
+residuals. A standalone caller under /O1 or /O2 /Os emits an 18-byte
+comparison. All 13 current size-optimized carrier builds that include
+ZunTimer.hpp have zero definitions of this COMDAT.
 
-The insertion routine at `0x10782B26` orders the allocation queue by the
-signed weight at record `+0x0C`. The effect and timer weights are respectively
-57 and 46 in the maintained body, and 51 and 48 with the visible comparison
-and plain field reads. To reverse their order, give the fade-in arm its
-amplitude multiplication and place the shared hold/fade-out multiplication
-inside the other arm. Keep the plain field reads and the real comparison
-definition in the same translation unit. C2 merges the multiply back into
-one instruction and scores the effect at 48 and the timer at 50. The result
-uses the original EDI and ESI roles.
+The fade-in arm and the shared hold/fade-out arm each scale their ratio
+by the amplitude. VC7.1 merges them into the one original x87 multiply.
+This phase structure changes receiver weights upstream of the global
+allocator. With one source multiply in the RNG block, C2 gives more weight
+to the effect receiver. With the split amplitude, it assigns the timer
+first and uses the original ESI for the timer, EDI for the effect and EBX
+for the endpoint. The allocator queues the signed weights at record
+`+0x0C` in C2 `0x10782B26`. Explicitly promoting the returned fade-in
+timer value to double recovers FIDIV at `+0x3E`. Reusing the unsigned
+hold-plus-fade duration in the endpoint comparison and numerator recovers
+the field reads at `+0x5A` and `+0x5D` and keeps them unqualified.
 
-The complete `ScreenEffect.cpp` control with this phase structure emits
-336 bytes and 20 relocations. Up to the first RNG call, only four bytes
-differ at `+0x5B`, `+0x61`, `+0x92`, and `+0x98`. The remaining
-differences are in the two switches, for 58 total after relocation replay.
-The 16 siblings and the timer comparison retain their exact bytes.
+The final ratio interprets the same native fade-out word as an unsigned
+count after the timer float call. A four-byte memcpy into an unsigned
+local expresses that representation read without aliasing through a
+different pointer type. VC7.1 expands it inline and emits the original
+MOV and field-based FILD. In an otherwise identical cast-only control the
+336-byte body matches through `+0xBD`. C2's local scratch selection for
+the sign load at `+0x91` then leaves the first animation pointer load
+starting at ECX. Both axes use ECX, EDX and EAX in the control. Both use
+EAX, ECX and EDX in the target. Four relocation fields move because the
+EAX load has the shorter encoding.
 
-Same-run snapshots at `0x1077C0FA` and `0x107B1490` preserve the identity of
-the six animation-manager pointer loads. Their destinations are still
-virtual at global allocator exit. Hardware watchpoints identify the later
-destination writes at `0x10775AC4`. The maintained output chooses EAX, ECX,
-EDX for the negative, positive and zero cases on each axis. The phase probe
-chooses EDX, EAX, ECX. At `0x10775ACC`, both builds have EAX, ECX and EDX
-free for the first switch load. The candidate list cursor at `0x108A7D0C`
-starts at EAX in the maintained build and at EDX in the phase probe. The
-same cursor also differs when assigning the fade denominator's sign-test
-temporary at `+0x91`. Alternate case order, simple inline setters and
-co-visible RNG methods preserve the shifted choices in the full-size probes.
+The exact representation-read control already has EAX assigned to the
+sign load when C2 returns from global allocation at `0x1077C0FA`. The
+cursor at `0x108A7D0C` advances at `0x10776893` exactly six times, once
+per animation pointer load. A debugger build reproduces the 336 bytes,
+all 20 relocation fields and both float definitions. An explicit signed
+float conversion with a conditional 2^32 adjustment also avoids consuming
+the scratch register, but shares one signed integer temporary and emits an
+extra three-byte store for a stack-based FILD.
 
-Tracing the cursor update at `0x10776893` locates the split at the hold-end
-comparison. In the maintained build, the temporary defined at `+0x43`
-is still virtual after global allocation. The local allocator assigns
-EAX there, ECX at `+0x5D` and EDX at `+0x91`, wrapping the cursor back to
-EAX for the first switch load. The phase-split probe already carries a
-physical EAX descriptor at `+0x43` when the global pass returns. Its local
-sequence starts at `+0x5D` and reaches the first switch load at EDX.
-
-A plain C++ control restores the maintained local sequence. Keep the
-original single amplitude multiply and the real `ZunTimer::operator<`
-definition visible. Compute the final endpoint with a small inline helper
-taking the current endpoint as `unsigned int` and the phase record by
-`const ScreenShakeEnvelopeView &`. Return the unsigned sum of that
-endpoint, hold and fade-out, and keep the caller's signed timer comparison.
-The complete carrier emits 336 bytes with all 20 operands at their
-original offsets and both float literals verified. It differs at the
-maintained 26 positions plus `+0x61` and `+0x63`. Its two switches use
-the original pointer registers, with differences in the receiver pops.
-All 16 siblings and the timer comparison remain exact in this control.
-The single inline endpoint helper scores the effect at 53 and the timer at
-44. A nested sum helper plus an inline unsigned-to-float conversion scores
-them at 50 and 46 and emits identical bytes and COFF fields. These
-variations change the weights while preserving the local sequence.
-
-Watch the weight writes at `0x10783A56`, `0x1078292A` and `0x10783A7D`
-before the allocator scores the receivers. The basic block's instruction
-list identifies which source phase contributes each difference. Both
-controls start at effect 20 and timer 24 after incrementing the timer and
-checking the fade-in endpoint. The contributions change as follows.
-
-| Block | Inline endpoint, effect / timer | Split amplitude, effect / timer |
-| --- | ---: | ---: |
-| Fade-in ratio | -1 / 2 | 4 / 4 |
-| Hold-end comparison | 6 / 6 | 8 / 8 |
-| Fade-out endpoint comparison | 12 / 6 | 8 / 8 |
-| Fade-out ratio | 6 / 6 | 6 / 6 |
-| Final amplitude | 10 / 0 | 2 / 0 |
-
-The inline-endpoint control scores the final amplitude in the first RNG
-dispatch block with weight 5. In the split control it is a separate block
-with weight 1. Both produce the same final x87 multiply at `+0xAD`.
-The hold-end computation at `+0x46` likewise looks identical in the
-emitted code. Before global allocation, the inline-endpoint control
-uses an in-place add with one temporary for load, add and push. The
-split control uses an address expression with a distinct result
-temporary, then emits the same add. Changing the source spelling to
-`+=` or passing the sum through a small inline helper preserves these
-two outcomes.
-
-The split control already has the address expression at the compiler
-driver's allocation entry (`0x1077C08E`), before preliminary allocation.
-The destination of the hold load at `+0x43` enters the global pass as
-virtual register 11. Allocating the endpoint loaded at `+0x25` (virtual
-register 6, emitted as EBX) returns the rewrite set `{1, 2, 11}`.
-The rewrite at `0x1078B2AA` rebinds the hold operand at `0x1078B8D8`
-before register 11 reaches its own scoring call. The final global pass
-writes the EAX descriptor at `0x10785F12`. The debugger build retains all
-336 bytes and the same 20 relocation rows as the cold split build.
-
-Passing the envelope by const reference to the inline endpoint helper
-changes the split-amplitude control's allocation. The endpoint at `+0x25`
-receives EBX and requests a rewrite of `{1, 2}`. The hold temporary stays in
-the local allocator's sequence. This restores the switch pointer
-encodings and their relocation positions. The effect and timer weights
-are 50 and 46, so the receivers still have the opposite roles from the
-target. The complete ScreenEffect carrier emits the same 336 bytes and
-20 COFF fields as the single-multiply inline-endpoint control. Passing the
-three frame counts by value instead reproduces the 58-byte split residual.
-
-CirnoLab's nonmatching `OnUpdateShakeRamp` at the same address uses
-`DWORD` hold and fade-out members. Matching the member types locally,
-or flattening both fields into the effect as in that checkout, preserves
-the plain and split controls' complete bytes and COFF fields. The
-native signed-member probes use explicit unsigned arithmetic for these
-values and produce the same code.
-
-The hold load at `+0x5A` has a separate allocation path from the fade
-load at `+0x5D`. In the maintained build, the global finalizer writes the
-hold load's physical EAX descriptor at `0x10785F12`. In the two plain C++
-controls the hold load is inserted while legalizing the ADD at `+0x60`.
-The scratch selector at `0x10785179` uses the index at `0x108B022C`,
-which resets per block at `0x10784DFB`. In the direct split-amplitude
-control, the selector considers ECX for the following ADD at `+0x62`.
-That proposal advances the index without inserting a load. Legalizing
-`+0x60` next selects EDX despite ECX being eligible. In the inline-endpoint
-control, ECX is already excluded at `+0x60`. Both builds write the scratch
-descriptor at `0x10789363`, independently of the cursor that selects the
-fade-load and switch registers. Same-run emission links the inserted
-operand to `+0x5A` and preserves all cold bytes and COFF fields.
-
-The caller tests bit `0x400` of the opcode flags at `0x10784F4A` before
-requesting this scratch register. ADD (`0x2D`) passes that test and LEA
-(`0x12`) skips it. The direct split-amplitude probe keeps the hold-end
-calculation at `+0x46` as LEA past global allocation. During emission,
-C2 finds that the destination shares a physical register with an address
-component and rewrites the opcode to ADD at `0x1072E5FE`. The addition
-at `+0x62` enters this pipeline as ADD. Writing the two final increments
-as separate statements and nesting a duration helper preserve the
-existing two-ADD layouts.
-
-Inline endpoint accessors, reversing the sum's operands, and moving the
-hold predicate into an inline helper retain the same two byte patterns.
-Using a separate result for the fade-out endpoint introduces a three-byte
-reload of the fade-in endpoint from the conversion slot. Writing the final
-endpoint assignment inside the timer condition preserves the direct and
-inline split-amplitude patterns. Signed-return and const-member variants
-of the visible timer comparison reproduce its 20-byte body and preserve
-both callers' code, operand offsets and call destinations.
-
-A separate unsigned fade-out endpoint combined with a named float fade-in
-length recovers the original EDI, ESI and EBX assignments in the direct
-split-amplitude probe. Write the fade-out subtraction and division as
-separate assignments to reproduce `+0x00..+0x37` and
-`+0x64..+0xBC`, including the EAX denominator at `+0x91`. The fade-in uses
-FILD and FDIVP in place of FIDIV, and the final endpoint folds the
-fade-out field into an ADD. Those size changes compensate each other.
-The complete 336-byte carrier still differs at 116 bytes after replaying
-its 20 relocations, six of which move.
-
-In the same probe, explicitly promote the timer's float result to
-`double` in the fade-in division and use the integer length directly.
-The allocation trace retains the same timer and effect weights (52 and
-50), and the compiler restores FIDIV at `+0x3E`. The complete carrier
-matches through `+0x41`, then falls two bytes short at the final endpoint
-sum. After accounting for that shift and rebinding operands, the
-instructions corresponding to `+0x64..+0xBC` also match. The denominator
-load in this carrier uses the local scratch selector and advances it
-from EAX to ECX. The first animation pointer load then uses ECX.
-
-The 334-byte form depends on visibility of the timer comparison body.
-Moving it out of the carrier restores the 339-byte shape with the
-receivers swapped. Making the real postfix or bounded RNG body visible
-preserves the 334-byte result. A named float timer getter also preserves
-both tested callers after rebinding the two calls to `0x004014F0`. A
-double getter matches the same four-byte leaf. Its caller differs from
-the pinned target in each tested expression.
-
-The 334-byte probe already presents the final ADD's fade-out input as a
-memory operand at C2's allocation entry. Keep the split amplitude,
-explicitly promote the fade-in timer result to `double`, and compute
-`remainingDuration` as the unsigned sum of the hold and fade-out fields.
-Use `static_cast<unsigned int>(endFrame) + remainingDuration` in both the
-signed timer comparison and the unsigned-to-float endpoint conversion
-for the subtraction. Keep that subtraction and the division in separate
-assignments. With the timer comparison visible, this restores the two
-independent frame loads and the complete 336-byte extent.
-
-The resulting carrier matches the first 190 bytes through `+0xBD`. The
-78 residual bytes come from the six animation-manager loads at the
-original destinations, with four relocation fields shifted. Comparing
-all 132 decoded instructions by branch identity and normalizing only
-those pointer registers and their associated memory operands gives
-identical instruction sequences. The original uses EAX, ECX and EDX on
-each axis. The candidate uses ECX, EDX and EAX. In the debugger build,
-the denominator load at `+0x91` is the first local scratch selection
-that advances the cursor. The following pointer load starts at ECX.
-The complete source carrier, isolated control and debugger build agree
-on all 336 bytes and 20 COFF fields.
-
-An explicit signed conversion isolates the remaining allocation. In the
-same split-amplitude probe, read the fade-out field into an `int`,
-convert it to float, and add `4294967296.0f` if the integer is negative
-before dividing. In the automatic unsigned conversion, the load at
-`+0x91` already exists at C2's driver entry. Its anonymous destination is
-still virtual when global allocation returns. In the explicit control,
-global allocation assigns the source value EAX and adds a store to the
-conversion stack slot. FILD reads the slot, and the local scratch cursor
-stays at EAX until the first animation-manager load.
-
-The explicit control emits 339 bytes. Through `+0x93`, only three
-forward branch displacements differ. All original bytes from
-`+0x99` through the return sequence match after the three-byte shift and
-operand rebinding. Both axes have the original EAX, ECX and EDX sequence.
-The remaining instruction difference is the sign test and stack-based
-FILD in place of the original field-based FILD followed by the sign
-test. The full carrier and debugger build agree on all 339 bytes and
-20 COFF fields. Separate typed views of the same field still share the
-stack slot. Capturing the sign before the timer float call can keep FILD
-on the field, and changes the register use and endpoint calculation
-ahead of that call.
-
-Wrapping the three timer comparisons in small inline helpers, using an
-instance-method receiver, or inlining the axis writes after each RNG
-call preserves the existing 28- or 58-byte patterns in the closest
-controls. The maintained frontier remains at 26 differences.
-
+The two scratch selectors are independent. While investigating the
+older split-amplitude controls, legalizing a proposed ADD advanced the
+per-block selector at `0x10785179` without necessarily emitting a load.
+The cursor at `0x108A7D0C` chooses the later virtual sign and switch
+operands. At the final encoding, an earlier LEA can become ADD when
+physical register assignment makes its destination share an address
+component. Emitted instruction shape alone can therefore hide the
+allocator decisions responsible for differences later in the same owner.
 
 ## 2026-11-20 Player-shot trail segment count
 
