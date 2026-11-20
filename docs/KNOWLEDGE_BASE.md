@@ -1888,6 +1888,24 @@ The rewrite at `0x1078B2AA` rebinds the hold operand at `0x1078B8D8`
 before register 11 reaches its own scoring call. The final global pass
 writes the EAX descriptor at `0x10785F12`. The debugger build retains all
 336 bytes and the same 20 relocation rows as the cold split build.
+
+Passing the envelope by const reference to the inline endpoint helper
+changes the split-amplitude control's allocation. The endpoint at `+0x25`
+receives EBX and requests a rewrite of `{1, 2}`. The hold temporary stays in
+the local allocator's sequence. This restores the switch pointer
+encodings and their relocation positions. The effect and timer weights
+are 50 and 46, so the receivers still have the opposite roles from the
+target. The complete ScreenEffect carrier emits the same 336 bytes and
+20 COFF fields as the single-multiply inline-endpoint control. Passing the
+three frame counts by value instead reproduces the 58-byte split residual.
+
+CirnoLab's nonmatching `OnUpdateShakeRamp` at the same address uses
+`DWORD` hold and fade-out members. Matching the member types locally,
+or flattening both fields into the effect as in that checkout, preserves
+the plain and split controls' complete bytes and COFF fields. The
+native signed-member probes use explicit unsigned arithmetic for these
+values and produce the same code.
+
 Inline endpoint accessors, reversing the sum's operands, and moving the
 hold predicate into an inline helper retain the same two byte patterns.
 Using a separate result for the fade-out endpoint introduces a three-byte
