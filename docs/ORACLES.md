@@ -26,6 +26,8 @@ Documentation/test-only changes do not need target or compiler replay.
 The comparator reports checked compiler literals in `literal_definitions`
 and checked named initializers in `data_initializers`. The EclHelpers
 comparison checks all eight slots of the interpolation callback table.
+The SaveReplay comparison checks the complete character, mode and
+difficulty tables, including all 27 pointers and their Shift-JIS strings.
 An operand targeting an external table establishes its address in the
 original image. A table-content claim requires the separate defining-object
 comparison. Native linkage requires a matched rebuilt PE and map.

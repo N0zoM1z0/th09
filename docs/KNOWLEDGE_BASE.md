@@ -2308,10 +2308,9 @@ replay because two GameManager operands moved. UpdateMovementAndOptions
 has four structural differences and at least eight after replaying its
 shifted configuration operand. The Effect callback had four structural
 differences and eight after replaying its shifted manager operand before the
-accessor visibility recovery below. EnemyManager::OnUpdate and SaveReplay
-retain two structural differences each. SaveReplay still needs real
-providers for its format strings and replay name tables. CirnoLab's table
-contracts identify the three name tables and their extents.
+accessor visibility recovery below. At the time of this audit,
+EnemyManager::OnUpdate and SaveReplay each had two structural differences.
+CirnoLab's table contracts identify the three name tables and their extents.
 
 Native link identity remains a separate open question for exact callers.
 Nine g_GameManager COFF names account for 1,031 fields in the exact ledger
@@ -2446,3 +2445,29 @@ units. Player's callback uses its constructor carrier because
 definitions in the selected objects are identical 20-byte COMDATs. These
 comparisons establish function-level compiler contexts. The retail
 translation-unit partition remains open.
+
+## 2026-11-20 SaveReplay payload copy and USER tables
+
+The shared inline payload copy reproduces the full Japanese v1.50a
+`ReplayManagerView::SaveReplay` function at `0x00420C60` under the
+existing VC7.1 `/O2 /Ob1` profile. A file offset includes the 0xC0-byte
+uncompressed header. Stage headers, input chunks and FPS chunks use the
+same conversion to an offset within the compression buffer. Inlining
+this copy makes VC7.1 load the buffer base into EDI for the eight-DWORD
+stage-header copy at +0xB6/+0xB9. This closes the two remaining bytes.
+
+Direct aggregate assignment and direct intrinsic `memcpy` both load the
+base into ECX. The enclosing stack frame and remaining code agree in
+both controls. Moving the real replay constructors into the same
+translation unit also retains the two differences. CirnoLab's replay
+carrier has the same ECX copy setup with and without its precompiled
+header. The shared copy accounts for the observed difference in the
+maintained source and compiler profile.
+
+The canonical comparison covers 1,238 bytes and 53 code relocations.
+The object defines the USER format strings and the original 108-byte
+block of character, mode and difficulty tables at `0x004A1C78`.
+The oracle checks all 27 table relocations and the pointed-to strings,
+including the shared Extra literal. A swapped pair of table targets, a
+nonzero table addend and a changed format byte each fail comparison with
+the caller's code and relocation set intact.

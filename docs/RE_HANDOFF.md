@@ -11,10 +11,10 @@ KNOWLEDGE_BASE.md and generated counts live in PROGRESS.md.
   SHA-256 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 - Compiler: pinned VC7.1 with each owner's profile in config/match-units.toml
   or config/frontiers.toml. Never change profiles to chase register choices.
-- Stage: exact reconstruction. `EffectManager::AddedCallback` now matches all
-  51 bytes and four relocations. Its pinned `/O2 /Ob0` carrier sees the shared
-  inline `AnmManager::GetAnm` definition and emits both callable bodies.
-  See [the accessor visibility finding](KNOWLEDGE_BASE.md#2026-11-20-effectmanageraddedcallback-visibility).
+- Stage: exact reconstruction. `ReplayManagerView::SaveReplay` now matches
+  all 1,238 bytes and 53 relocations. Its canonical replay also verifies
+  the USER format strings and 27 name pointers.
+  See [the replay payload and data proof](KNOWLEDGE_BASE.md#2026-11-20-savereplay-payload-copy-and-user-tables).
 - See [generated progress](PROGRESS.md) for current ledger totals.
 - Complete function inventory is still unproven; callback tables need a
   separate audit. Whole Windows i386 product closure remains open. Semantic
@@ -33,7 +33,6 @@ UpdateMovementAndOptions.
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | EnemyManagerView::OnUpdate | 0x00410730 | 3,900/3,900 bytes; 2 differences (OK) | Source now mirrors retail short-circuit CFG: side-state bit is tested before the category read, and the early draw path falls into the shared append. The index-register choice differs at +0x19C/+0x1A3 (retail EAX, candidate ECX). |
-| ReplayManagerView::SaveReplay | 0x00420C60 | 1,238/1,238 bytes; 2 differences (OK) | Stage-header REP MOVSD destination setup at +0xB6/+0xB9: retail `mov edi,[ebp-0x10]; lea edi,[edi+ebx-0xC0]`; candidate uses ECX as the LEA base. Direct typed assignment, C++ reference, mutable/typed cursor and direct source-header pointer probes did not change the two bytes. A saved stageRoot plus a sizing-only cursor matched +0x36 but left 6 differences (two stack-home stores reversed plus the EDI/ECX pair); reverted. Preserve the native POD copy and caller proofs. |
 | ReplayManagerView::BeginPlaybackStage | 0x00420840 | 540/540 bytes; 13 structural differences (OK), 19 after relocation replay | EDX/ESI register lifetime around the playback-stage byte and side-0 runtime pointer. Two shifted GameManager operands account for six additional differing bytes. |
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes; 4 differences (OK) | Focus-mode load order at +0x127..+0x12A. Retail loads g_GameConfiguration before player sideIndex; current source emits the reverse order. |
 | PlayerLifecycleView::UpdateChargeAttack | 0x0041F810 | 1,210/1,210 bytes; 183 differences (OK) | Boss register allocation: retail loads the full DWORD sideIndex into EDI and forms the ReplayInputState pointer in EBX (0x8E stride). Current short-side/input locals allocate the opposite way; widening/removing locals regressed hundreds of bytes. |
@@ -83,9 +82,9 @@ src/EnemyManagerCore.inl`: two EclManager compiler profiles, 84 exact units,
 45,420 physical bytes and 1,987 relocation fields. This is a scoped carrier
 proof, not a whole-product cold replay.
 
-The separate Etama fsincos helper is 36/33 bytes with 25 differences; it is
-not one of the 11 source-present authored owners. Natural sinf/cosf remains
-nonexact. Do not add assembly or padding.
+The separate Etama fsincos helper is 36/33 bytes with 25 differences.
+Its origin remains unresolved. Natural sinf/cosf remains nonexact.
+Do not add assembly or padding.
 
 ## Recent local source checkpoints
 

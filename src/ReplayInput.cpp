@@ -126,18 +126,46 @@ extern u32 g_ReplayHeaderValue1D4;
 extern u32 g_ReplayHeaderValue1D8;
 
 extern char g_ReplayPlayTimeText[];
-extern const char *g_ReplayDifficultyNames[];
-extern const char *g_ReplayModeNames[];
-extern const char *g_ReplayCharacterNames[];
-extern const char g_ReplayInfoPlayerNameFormat[];
-extern const char g_ReplayInfoPlayTimeFormat[];
-extern const char g_ReplayInfoDifficultyFormat[];
-extern const char g_ReplayInfoModeFormat[];
-extern const char g_ReplayInfoCharacterFormat[];
-extern const char g_ReplayInfoVersusCharactersFormat[];
-extern const char g_ReplayInfoInitialHealthFormat[];
-extern const char g_ReplayInfoVersionFormat[];
-extern const char g_ReplayVersionText[];
+
+// Names shared by the Shift-JIS USER section and the replay menu.
+const char *g_ReplayCharacterNames[16] =
+{
+    "\x97\xec\x96\xb2",
+    "\x96\x82\x97\x9d\x8d\xb9",
+    "\x8d\xe7\x96\xe9",
+    "\x97\x64\x96\xb2",
+    "\x97\xe9\x90\xe5",
+    "\x83\x60\x83\x8b\x83\x6d",
+    "\x83\x8a\x83\x8a\x83\x4a",
+    "\x83\x7e\x83\x58\x83\x65\x83\x42\x83\x41",
+    "\x82\xc4\x82\xee",
+    "\x97\x48\x8d\x81",
+    "\x95\xb6",
+    "\x83\x81\x83\x66\x83\x42\x83\x58\x83\x93",
+    "\x8f\xac\x92\xac",
+    "\x8e\x6c\x8b\x47\x89\x66\x95\x50",
+    "\x83\x81\x83\x8b\x83\x89\x83\x93",
+    "\x83\x8b\x83\x69\x83\x54",
+};
+
+const char *g_ReplayModeNames[6] =
+{
+    "Story",
+    "Extra",
+    "Match \x90\x6c vs \x90\x6c",
+    "Match \x90\x6c vs \x8e\xae",
+    "Match \x8e\xae vs \x90\x6c",
+    "Match \x8e\xae vs \x8e\xae",
+};
+
+const char *g_ReplayDifficultyNames[5] =
+{
+    "Easy",
+    "Normal",
+    "Hard",
+    "Lunatic",
+    "Extra",
+};
 
 namespace FileSystem
 {
@@ -800,8 +828,13 @@ static char *AppendReplayFormat(char *buffer, const char *format, ...)
     return buffer + strlen(buffer);
 }
 
-// Replay-info text is read directly from the original native pointer
-// tables; no additional lookup helper or bounds check is introduced.
+// File offsets include the uncompressed header. The compression buffer
+// begins at the payload that follows it.
+static inline void CopyReplayPayloadAtFileOffset(u8 *payload, unsigned int fileOffset,
+                                                 const void *source, size_t length)
+{
+    memcpy(payload + fileOffset - sizeof(ReplayHeaderView), source, length);
+}
 
 int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *replayPath, const char *replayName)
 {
@@ -846,19 +879,13 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
             if (frameHeader != NULL)
             {
                 const ReplayBufferLink *link = &replayManager->stageBuffers[loopIndex];
-                // Copy the native 0x20-byte frame header as its real POD record.
-                ReplayFrameDataStartView *destination =
-                    reinterpret_cast<ReplayFrameDataStartView *>(
-                        tempBuffer + currentOffset - sizeof(ReplayHeaderView));
-                // Copy the complete native POD frame record. VC7.1 emits
-                // the original eight-DWORD REP MOVSD aggregate assignment.
-                *destination = *frameHeader;
+                CopyReplayPayloadAtFileOffset(tempBuffer, currentOffset, frameHeader, sizeof(*frameHeader));
                 replayCopy.frameOffset[stream][loopIndex] = currentOffset;
                 currentOffset += sizeof(*frameHeader);
                 for (; link != NULL; link = link->next)
                 {
                     unsigned int streamSize = link->frameCount * ReplayRecordingCapacity::InputFrameBytes;
-                    memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), link->input[stream], streamSize);
+                    CopyReplayPayloadAtFileOffset(tempBuffer, currentOffset, link->input[stream], streamSize);
                     currentOffset += streamSize;
                 }
             }
@@ -874,7 +901,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
             for (; link != NULL; link = link->next)
             {
                 int fpsSize = link->frameCount / ReplayRecordingCapacity::FramesPerFpsSample;
-                memcpy(tempBuffer + currentOffset - sizeof(ReplayHeaderView), link->fps, fpsSize);
+                CopyReplayPayloadAtFileOffset(tempBuffer, currentOffset, link->fps, fpsSize);
                 currentOffset += fpsSize;
             }
         }
@@ -894,29 +921,34 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     char infoBuffer[1024];
     memset(infoBuffer, 0, sizeof(infoBuffer));
     char *infoCursor = infoBuffer;
-    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoPlayerNameFormat, replayName);
-    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoPlayTimeFormat, g_ReplayPlayTimeText);
-    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoDifficultyFormat, g_ReplayDifficultyNames[g_GameManager.difficulty]);
+    infoCursor = AppendReplayFormat(infoCursor,
+        "\x83\x76\x83\x8c\x83\x43\x83\x84\x81\x5b\x96\xbc\t%s\r\n", replayName);
+    infoCursor = AppendReplayFormat(infoCursor,
+        "\x83\x76\x83\x8c\x83\x43\x8e\x9e\x8d\x8f\t%s\r\n", g_ReplayPlayTimeText);
+    infoCursor = AppendReplayFormat(infoCursor,
+        "\x93\xef\x88\xd5\x93\x78\t\t%s\r\n", g_ReplayDifficultyNames[g_GameManager.difficulty]);
     int mode = g_GameManager.gameMode;
     if (mode == 2)
         // Retail adds to a native DWORD before indexing the replay mode names.
         mode = static_cast<int>(
             static_cast<unsigned int>(g_GameManager.replayMode114) + 2u);
-    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoModeFormat, g_ReplayModeNames[mode]);
+    infoCursor = AppendReplayFormat(infoCursor, "\x83\x82\x81\x5b\x83\x68\t\t%s\r\n", g_ReplayModeNames[mode]);
     if (!g_GameManager.IsGameMode2())
     {
-        infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoCharacterFormat,
+        infoCursor = AppendReplayFormat(infoCursor, "\x8e\x67\x97\x70\x83\x4c\x83\x83\x83\x89\t\t%s\r\n",
             g_ReplayCharacterNames[g_GameManager.sides[0].character20]);
     }
     else
     {
-        infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoVersusCharactersFormat,
+        infoCursor = AppendReplayFormat(infoCursor, "\x91\xce\x90\xed\x83\x4c\x83\x83\x83\x89\t\t%s vs %s\r\n",
             g_ReplayCharacterNames[g_GameManager.sides[0].character20],
             g_ReplayCharacterNames[g_GameManager.sides[1].character20]);
     }
-    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoInitialHealthFormat,
+    infoCursor = AppendReplayFormat(infoCursor, "\x8f\x89\x8a\xfa\x91\xcc\x97\xcd\t\t%1.1f vs %1.1f\r\n",
         g_GameManager.value378 * 0.5f, g_GameManager.value37C * 0.5f);
-    infoCursor = AppendReplayFormat(infoCursor, g_ReplayInfoVersionFormat, g_ReplayVersionText);
+    infoCursor = AppendReplayFormat(infoCursor,
+        "\x83\x51\x81\x5b\x83\x80\x82\xcc\x83\x6f\x81\x5b\x83\x57\x83\x87\x83\x93\t%s\r\n",
+        "\x93\x8c\x95\xfb\x89\xd4\x89\x66\x92\xcb ver 1.50a");
     // The resulting wire header length is a signed 32-bit field; the retail
     // ADD itself wraps as a native DWORD before its value is stored.
     infoHeader.size = static_cast<int>(

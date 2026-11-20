@@ -437,6 +437,65 @@ def verify_ecl_interpolation_table(path: Path, image: bytes, units: dict) -> dic
             "size": table_size, "relocations": len(fields)}
 
 
+def verify_replay_name_tables(path: Path, image: bytes, expected: list[dict],
+                              actual: list[dict]) -> dict:
+    """Verify the contiguous character, mode and difficulty name tables."""
+    address = 0x004A1C78
+    offsets = {
+        "?g_ReplayCharacterNames@@3PAPBDA": 0,
+        "?g_ReplayModeNames@@3PAPBDA": 16 * 4,
+        "?g_ReplayDifficultyNames@@3PAPBDA": (16 + 6) * 4,
+    }
+    size = (16 + 6 + 5) * 4
+    data, sections, symbols = read_coff_object(path)
+    owners = [symbol for symbol in symbols.values()
+              if symbol["name"] in offsets and symbol["section"] > 0]
+    if (len(owners) != len(offsets)
+            or {owner["name"]: owner["value"] for owner in owners} != offsets
+            or len({owner["section"] for owner in owners}) != 1):
+        raise ValueError("invalid COFF definitions for the replay name tables")
+    section_index = owners[0]["section"]
+    targets = {row["symbol"]: row["target"] for row in expected if row["symbol"] in offsets}
+    if targets != {name: address + offset for name, offset in offsets.items()}:
+        raise ValueError("replay name table bindings differ from the original")
+    for row in actual:
+        if row["symbol"] in offsets and (
+                row["type_id"] != 0x0006 or row["addend"] != 0
+                or row["symbol_section"] != section_index
+                or row["symbol_value"] != offsets[row["symbol"]]):
+            raise ValueError(f"invalid caller reference to replay name table at +{row['offset']:#x}")
+
+    section = sections[section_index - 1]
+    start = section["raw_offset"]
+    if section["size"] != size or not section["flags"] & 0x40 or not 0 < start <= len(data) - size:
+        raise ValueError("replay name tables do not occupy their full initialized COFF section")
+    fields = sorted(struct.unpack_from("<IIH", data, section["reloc_offset"] + index * 10)
+                    for index in range(section["reloc_count"]))
+    if [offset for offset, _, _ in fields] != list(range(0, size, 4)):
+        raise ValueError("expected one COFF relocation per replay name table slot")
+
+    original = pe_bytes_at(image, address, size)
+    literal_fields = []
+    expected_literals = []
+    literal_targets = {}
+    for offset, index, kind in fields:
+        symbol = symbols.get(index)
+        if (kind != 0x0006 or data[start + offset:start + offset + 4] != bytes(4)
+                or not symbol or not symbol["name"].startswith("??_C@_0")):
+            raise ValueError(f"invalid replay name table entry at +{offset:#x}")
+        name = symbol["name"]
+        target = struct.unpack_from("<I", original, offset)[0]
+        if literal_targets.setdefault(target, name) != name:
+            raise ValueError(f"inconsistent literal identity for replay name at {target:#x}")
+        literal_fields.append(dict(offset=offset, symbol=name, addend=0,
+                                   symbol_section=symbol["section"], symbol_value=symbol["value"]))
+        expected_literals.append(dict(offset=offset, target=target))
+
+    literals = validate_literal_definitions(path, literal_fields, image, expected_literals)
+    return {"symbols": list(offsets), "target_address": f"0x{address:08X}",
+            "size": size, "relocations": len(fields), "literal_definitions": literals}
+
+
 def verify_exception_handlers(path, owner, expected, actual, image):
     roots = [field for field in expected if field["symbol"].startswith("__ehhandler$")]
     if not roots:
@@ -540,6 +599,9 @@ def compare_unit(name: str) -> dict[str, object]:
     data_initializers = []
     if name in ECL_INTERPOLATION_UNITS:
         data_initializers.append(verify_ecl_interpolation_table(object_path, image, units))
+    if name == "replay-save":
+        data_initializers.append(verify_replay_name_tables(
+            object_path, image, normalized_expected, actual))
     exception_handlers = verify_exception_handlers(
         object_path, unit["symbol"], normalized_expected, actual, image)
 
