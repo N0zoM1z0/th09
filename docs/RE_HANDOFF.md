@@ -11,29 +11,24 @@ KNOWLEDGE_BASE.md and generated counts live in PROGRESS.md.
   SHA-256 10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822.
 - Compiler: pinned VC7.1 with each owner's profile in config/match-units.toml
   or config/frontiers.toml. Never change profiles to chase register choices.
-- Stage: exact reconstruction. Latest source checkpoint: 8b4a1c60 (Effect +0xC9 draw flag recovered across the callback family); subsequent boss-frontier probes are recorded below. Local main has commits beyond origin/main; do not assume
-  local commits have been pushed. Inspect git status and git log before work.
-- Worktree was clean at this handoff update. No interrupted source edits were found.
-- Ledger: 2,248 tracked function candidates; origin/boundary review pending 0;
-  reviewed but origin-unresolved 35; authored 1,037; excluded 1,176;
-  1,037 authored mappings have source; 1,026 canonical exact functions;
-  11 source-present authored functions remain nonexact (13,353 bytes).
+- Stage: exact reconstruction. `EffectManager::AddedCallback` now matches all
+  51 bytes and four relocations. Its pinned `/O2 /Ob0` carrier sees the shared
+  inline `AnmManager::GetAnm` definition and emits both callable bodies.
+  See [the accessor visibility finding](KNOWLEDGE_BASE.md#2026-11-20-effectmanageraddedcallback-visibility).
+- See [generated progress](PROGRESS.md) for current ledger totals.
 - Complete function inventory is still unproven; callback tables need a
   separate audit. Whole Windows i386 product closure remains open. Semantic
   runtime validation and portability have not started.
-- Source-naturalization commits do not increase exact-function credit.
-  The exact count remains 1,026.
 
 ## Current nonexact owners
 
-The table is the validator-backed list of all 11 source-present authored
+The table is the validator-backed list of the source-present authored
 nonexact owners. Run check-frontier.py NAME --show for a fresh local
 comparison. An OK result means only that the recorded frontier baseline was
 not worsened; it does not mean exact. Do not rebaseline REGRESSED candidates.
 The residual counts mask COFF relocation fields. Replaying those fields
-adds six differing bytes in BeginPlaybackStage and four each in
-UpdateMovementAndOptions and EffectManager::AddedCallback. The CirnoLab
-cross-check and its header-visibility experiment are in KNOWLEDGE_BASE.md.
+adds six differing bytes in BeginPlaybackStage and four in
+UpdateMovementAndOptions.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
@@ -43,7 +38,6 @@ cross-check and its header-visibility experiment are in KNOWLEDGE_BASE.md.
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes; 4 differences (OK) | Focus-mode load order at +0x127..+0x12A. Retail loads g_GameConfiguration before player sideIndex; current source emits the reverse order. |
 | PlayerLifecycleView::UpdateChargeAttack | 0x0041F810 | 1,210/1,210 bytes; 183 differences (OK) | Boss register allocation: retail loads the full DWORD sideIndex into EDI and forms the ReplayInputState pointer in EBX (0x8E stride). Current short-side/input locals allocate the opposite way; widening/removing locals regressed hundreds of bytes. |
 | PlayerLifecycleView::CheckBulletCollision | 0x0041DFF0 | 849/862 bytes; 539 differences (REGRESSED) | Preserve the 0x34-byte target frame and recover the target CFG: circle check and shared hit dispatcher at +0x7E precede rotated-rectangle/AABB paths. Valid region types are 1/2/3 with delay <= 0; kinds 2/3 reward only for a non-null bullet with word +0x10C0 equal to zero. Candidate grew from the 842-byte frontier baseline; do not rebaseline. |
-| EffectManager::AddedCallback | 0x0040D1C0 | 51/51 bytes; 4 differences (OK) | Four setup bytes concern the ANM-manager/context receiver order. Retail loads the global manager before preserving the callback context; simple helper, pointer and reference rewrites did not reproduce it. |
 | ScreenEffect::CalcShakeEnvelope | 0x004227A0 | 336/336 bytes; 26 differences (OK) | Retain signed timer comparisons, DWORD endpoint arithmetic and X87 conversion order; receiver/timer alias probes did not improve the owner. |
 | TitleScreenView::DrawReplayMenu | 0x004234F6 | 1,280/1,280 bytes; 29 differences (OK) | Continue from the native replay-row/VM layout and exact caller evidence; preserve all 29 recorded positions. |
 | TitleScreenView::OnUpdateResult | 0x004266B5 | 484/485 bytes; 167 differences (OK) | Source is one byte shorter than the target owner. Character-array cursor is natural, but the complete owner remains nonexact. |
@@ -165,11 +159,10 @@ The remaining failed boss and leaf experiments are recorded in
 - UpdateMovementAndOptions remains 1,900 bytes with four residual bytes at
   +0x127..+0x12A. A sequenced local `GameConfiguration *` snapshot still lets
   VC7.1 emit the player-side load before the global configuration load.
-- ReplaySave and EffectManager::AddedCallback remain at two and four residuals
-  respectively. Reusing one stage-buffer base across both payload loops grew
+- Reusing one stage-buffer base across both payload loops grew
   ReplaySave from two to six differences; direct assignment/cursor/memcpy
   variants also retained the two-byte EDI/ECX destination-base residual.
-  Callback manager/context aliases did not improve AddedCallback. EnemyManager::OnUpdate remains at its two
+  EnemyManager::OnUpdate remains at its two
   EAX/ECX draw-group index residuals; const locals and typed pointer addition
   did not change the generated code.
 

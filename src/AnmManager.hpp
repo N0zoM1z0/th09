@@ -4,12 +4,10 @@
 
 #if defined(TH09_ANM_MANAGER_LIFECYCLE_LAYOUT)
 #include "AnmVmLifecycle.hpp"
-#else
-struct AnmVm;
 #endif
-struct AnmRawInstr;
-struct AnmEntry;
-struct AnmRawEntry;
+
+#include "AnmManagerFileSlotView.hpp"
+
 struct AnmTextureHeader;
 struct IDirect3DTexture8;
 struct VertexTex1DiffuseXyzrhw;
@@ -39,35 +37,6 @@ class AnmLoadedSprite
 };
 
 typedef char AnmLoadedSpriteSizeIs44[(sizeof(AnmLoadedSprite) == 0x44) ? 1 : -1];
-
-class AnmLoaded
-{
-  public:
-    // Independently original-bound +0x00..+0x1C resource slot. Its physical
-    // fields are already used by the exact ANM loader, runtime and SetSprite.
-    int anmIdx;
-    AnmRawEntry *rawData04;
-    int totalEntries08;
-    AnmLoadedSprite *sprites0C;
-    AnmRawInstr **scripts10;
-    AnmEntry *textures14;
-    union {
-        int postloadEntryNumber18;
-        int numberEntriesToBeLoaded18;
-    };
-
-    void LoadSprite(int spriteIndex, AnmLoadedSprite *loadedSprite);
-    AnmLoadedSprite *GetSprite(int spriteIndex);
-    void InitializeAndSetSprite(AnmVm *vm, int spriteIndex);
-    void ExecuteAnmIdx(AnmVm *vm, int scriptIndex);
-    void SetAndExecuteScriptIdx(AnmVm *vm, int scriptIndex);
-    int SetSprite(AnmVm *vm, int spriteIndex);
-    void SetAndExecuteScript(AnmVm *vm, AnmRawInstr *beginningOfScript);
-    void ExecuteAnmIdxArray(AnmVm *vm, int scriptIndex, int count);
-};
-
-typedef char AnmLoadedNativeSizeIs1C[
-    (sizeof(AnmLoaded) == 0x1C) ? 1 : -1];
 
 enum AnmFileSlot
 {
@@ -123,7 +92,7 @@ class AnmManager
     int SpriteHasTexture(AnmVm *vm);
     void DrawPlayerBullet(AnmVm *vm);
     AnmLoaded *LoadAnm(int anmIdx, const char *filename);
-    AnmLoaded *GetAnm(int anmIdx);
+    inline AnmLoaded *GetAnm(int anmIdx);
     AnmLoaded *ReadAnmEntries(int anmIdx, const char *filename);
     int CreateEmptyTexture(IDirect3DTexture8 **outTexture, int width, int height, int format);
     int CreateTextureFromFile(AnmEntry *entry, int format, int colorKey);
@@ -245,3 +214,11 @@ typedef char AnmManagerSizeIs2B2934[
 #endif
 
 extern AnmManager *g_AnmManager;
+
+inline AnmLoaded *AnmManager::GetAnm(int anmIdx)
+{
+    AnmManagerReadView *manager = reinterpret_cast<AnmManagerReadView *>(this);
+    return &reinterpret_cast<AnmManagerReadSlotView *>(
+        reinterpret_cast<unsigned int>(&manager->slots[0]) +
+        static_cast<unsigned int>(anmIdx) * sizeof(manager->slots[0]))->loaded;
+}

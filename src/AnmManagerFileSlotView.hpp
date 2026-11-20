@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AnmManager.hpp"
+#include "AnmLoaded.hpp"
 #include <stddef.h>
 
 // One target-bound view of the ANM manager file-slot region, shared by

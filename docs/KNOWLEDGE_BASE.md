@@ -2306,12 +2306,12 @@ The frontier counts measure bytes after masking candidate COFF fields.
 BeginPlaybackStage has 13 structural differences and 19 after relocation
 replay because two GameManager operands moved. UpdateMovementAndOptions
 has four structural differences and at least eight after replaying its
-shifted configuration operand. The maintained Effect callback has four
-structural differences and eight after replaying its shifted manager
-operand. EnemyManager::OnUpdate and SaveReplay retain two structural
-differences each. SaveReplay still needs real providers for its format
-strings and replay name tables. CirnoLab's table contracts identify the
-three name tables and their extents.
+shifted configuration operand. The Effect callback had four structural
+differences and eight after replaying its shifted manager operand before the
+accessor visibility recovery below. EnemyManager::OnUpdate and SaveReplay
+retain two structural differences each. SaveReplay still needs real
+providers for its format strings and replay name tables. CirnoLab's table
+contracts identify the three name tables and their extents.
 
 Native link identity remains a separate open question for exact callers.
 Nine g_GameManager COFF names account for 1,031 fields in the exact ledger
@@ -2420,3 +2420,29 @@ The original Background::Create cleanup reads EBP-0x10. Changing the
 private COFF copy to EBP-0x14 now fails at 0x0048D212. Redirecting the
 unwind action to the handler entry also fails, while both mutations
 leave the caller's code and relocation set intact.
+
+## 2026-11-20 EffectManager::AddedCallback visibility
+
+Pinned VC7.1 with `/O2 /Ob0` reproduces the Japanese v1.50a callback at
+`0x0040D1C0` when the real inline `AnmManager::GetAnm` definition is
+visible. The comparison covers all 51 bytes, both calls, the manager
+global and the ten-byte `etama.anm` literal. The visible inline accessor
+lets VC7.1 reuse the manager across calls while retaining a call to
+`GetAnm`. The same object emits the exact 20-byte accessor at
+`0x00401660`.
+
+With just the accessor declaration, the direct callback reloads the manager
+and emits five relocation fields. A visible non-inline definition reuses
+ECX across calls and emits a 45-byte callback. With the inline definition
+and `/Ob1`, the compiler expands the accessor and emits a 47-byte
+callback. These controls isolate declaration, definition and inlining
+effects independently of the callback's local variable spellings.
+
+The Effect callback has a dedicated `/Ob0` carrier. The other EffectManager
+units compare under `/Ob1`. All six existing callbacks that call the same
+accessor compare exactly under `/Ob0`, as do the other fourteen FrontSide
+units. Player's callback uses its constructor carrier because
+`PlayerUpdateCommon` requires its `/Ob1` carrier. All emitted `GetAnm`
+definitions in the selected objects are identical 20-byte COMDATs. These
+comparisons establish function-level compiler contexts. The retail
+translation-unit partition remains open.

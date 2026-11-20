@@ -2,7 +2,6 @@
 #include "EffectNativePoolCapacity.hpp"
 #include "GameplaySetupNativeSides.hpp"
 #include "AnmManager.hpp"
-#include "EtamaAnmResourceSlot.hpp"
 #include "AnmVmLifecycle.hpp"
 #include "AsciiManager.hpp"
 #include "AsciiGameManagerView.hpp"
@@ -373,24 +372,6 @@ int EffectManager::OnDrawShared(EffectManager *effectManager)
         }
     }
     return CHAIN_CALLBACK_RESULT_CONTINUE;
-}
-
-// Resolve the already resident shared projectile/Effect ANM first, then
-// preload the native slot if needed. Publish only the final handle after the
-// optional preload, matching the callback's native member-write boundary.
-static inline AnmLoaded *ResolveEffectAnm(AnmManager *anmManager)
-{
-    AnmLoaded *loadedAnm = anmManager->GetAnm(ANM_FILE_SLOT_ETAMA);
-    if (loadedAnm->rawData04 == NULL)
-        loadedAnm = anmManager->PreloadAnm(ANM_FILE_SLOT_ETAMA, "etama.anm");
-    return loadedAnm;
-}
-
-int EffectManager::AddedCallback(void *context)
-{
-    AnmLoaded *loadedAnm = ResolveEffectAnm(g_AnmManager);
-    static_cast<EffectManager *>(context)->effectAnm = loadedAnm;
-    return 0;
 }
 
 int EffectManager::ReleasePool()

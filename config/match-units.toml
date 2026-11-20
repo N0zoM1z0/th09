@@ -7122,6 +7122,21 @@ relocations = [
   { offset = 0x72, type = "REL32", symbol = "?Draw2D@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x0043AB50 },
 ]
 
+[units.effect-added-callback]
+source = "src/EffectManagerAddedCallback.cpp"
+object = "build/matching/EffectManagerAddedCallback.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["EffectManager::AddedCallback"]
+symbol = "?AddedCallback@EffectManager@@SIHPAX@Z"
+target_address = 0x0040D1C0
+size = 0x33
+relocations = [
+  { offset = 0x04, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550, addend = 0 },
+  { offset = 0x0F, type = "REL32", symbol = "?GetAnm@AnmManager@@QAEPAVAnmLoaded@@H@Z", target = 0x00401660, addend = 0 },
+  { offset = 0x1B, type = "DIR32", symbol = "??_C@_09NMANGJFI@etama?4anm?$AA@", target = 0x0048E488, addend = 0 },
+  { offset = 0x24, type = "REL32", symbol = "?PreloadAnm@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z", target = 0x0043C7A0, addend = 0 },
+]
+
 [units.effect-manager-release-pool]
 source = "src/EffectManager.cpp"
 object = "build/matching/EffectManager.obj"
@@ -7822,9 +7837,9 @@ relocations = [
 ]
 
 [units.anm-manager-get-anm]
-source = "src/AnmManagerBackground.cpp"
-object = "build/matching/AnmManagerBackground.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+source = "src/EffectManagerAddedCallback.cpp"
+object = "build/matching/EffectManagerAddedCallback.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::GetAnm"]
 symbol = "?GetAnm@AnmManager@@QAEPAVAnmLoaded@@H@Z"
 target_address = 0x00401660
@@ -9134,7 +9149,7 @@ relocations = [
 [units.enemy-manager-added-callback]
 source = "src/EnemyManagerLifecycle.cpp"
 object = "build/matching/EnemyManagerLifecycleAdded.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["EnemyManagerView::AddedCallback"]
 symbol = "?AddedCallback@EnemyManagerView@@SIHPAU1@@Z"
 target_address = 0x00411DB0
@@ -9685,7 +9700,7 @@ relocations = [
 [units.front-side-reset]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["FrontSide::Reset"]
 symbol = "?Reset@FrontSide@@QAEHXZ"
 target_address = 0x00418920
@@ -9695,7 +9710,7 @@ relocations = []
 [units.front-side-release-optional-anm]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["FrontSide::ReleaseOptionalAnm"]
 symbol = "?ReleaseOptionalAnm@@YIHPAUFrontSide@@@Z"
 target_address = 0x00418930
@@ -9708,7 +9723,7 @@ relocations = [
 [units.front-side-destroy]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["FrontSide::Destroy"]
 symbol = "?Destroy@FrontSide@@SIXPAU1@@Z"
 target_address = 0x0041a1d0
@@ -9725,7 +9740,7 @@ relocations = [
 [units.front-side-load-script-67]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["FrontSide::LoadScript67"]
 symbol = "?LoadScript67@FrontSide@@QAEXXZ"
 target_address = 0x0041a210
@@ -9737,7 +9752,7 @@ relocations = [
 [units.front-side-reset-transition-state]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["FrontSide::ResetTransitionState"]
 symbol = "?ResetTransitionState@FrontSide@@QAEXXZ"
 target_address = 0x0041a230
@@ -9750,7 +9765,7 @@ relocations = [
 [units.front-side-activate-meter-vms]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["FrontSide::ActivateMeterVms"]
 symbol = "?ActivateMeterVms@FrontSide@@QAEXXZ"
 target_address = 0x0041a270
@@ -9765,7 +9780,7 @@ relocations = [
 [units.front-side-deactivate-meter-vms]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["FrontSide::DeactivateMeterVms"]
 symbol = "?DeactivateMeterVms@FrontSide@@QAEXXZ"
 target_address = 0x0041a2d0
@@ -9780,7 +9795,7 @@ relocations = [
 [units.front-side-update-meter-hundreds]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["FrontSide::UpdateMeterHundreds"]
 symbol = "?UpdateMeterHundreds@FrontSide@@QAEHH@Z"
 target_address = 0x0041a320
@@ -9795,7 +9810,7 @@ relocations = [
 [units.front-side-clear-state]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["FrontSide::ClearState"]
 symbol = "?ClearState@FrontSide@@QAEXH@Z"
 target_address = 0x0041a380
@@ -9808,7 +9823,7 @@ relocations = [
 [units.front-side-reset-pattern-timing]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["FrontSide::ResetPatternTiming"]
 symbol = "?ResetPatternTiming@FrontSide@@QAEXXZ"
 target_address = 0x0041a3c0
@@ -9820,7 +9835,7 @@ relocations = [
 [units.front-side-set-pattern-timing]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["FrontSide::SetPatternTiming"]
 symbol = "?SetPatternTiming@FrontSide@@QAEHH@Z"
 target_address = 0x0041a3e0
@@ -9838,7 +9853,7 @@ relocations = [
 [units.front-side-set-timing-digits]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["FrontSide::SetTimingDigits"]
 symbol = "?SetTimingDigits@FrontSide@@QAEHH@Z"
 target_address = 0x00418950
@@ -9854,7 +9869,7 @@ relocations = [
 [units.front-side-create]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["FrontSide::Create"]
 symbol = "?Create@FrontSide@@SIPAU1@H@Z"
 target_address = 0x0041a5d0
@@ -19089,7 +19104,7 @@ relocations = [
 [units.front-side-added-callback]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["FrontSide::AddedCallback"]
 symbol = "?AddedCallback@FrontSide@@SIHPAU1@@Z"
 target_address = 0x0041A000
@@ -20130,7 +20145,7 @@ relocations = [
 [units.front-side-on-update]
 source = "src/FrontSide.cpp"
 object = "build/matching/FrontSide.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["FrontSide::OnUpdate"]
 symbol = "?OnUpdate@FrontSide@@SIHPAU1@@Z"
 target_address = 0x00418A90
@@ -22654,8 +22669,8 @@ relocations = [
 
 [units.player-added-callback]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerLifecycleView::AddedCallback"]
 symbol = "?AddedCallback@PlayerLifecycleView@@SIHPAU1@@Z"
 target_address = 0x0041EE50
@@ -22805,7 +22820,7 @@ relocations = [
 [units.background-added-callback]
 source = "src/Background.cpp"
 object = "build/matching/BackgroundAddedCallback.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Background::AddedCallback"]
 symbol = "?AddedCallback@Background@@SIHPAU1@@Z"
 target_address = 0x00403830
@@ -25842,7 +25857,7 @@ relocations = [
 [units.front-added-callback]
 source = "src/FrontAddedCallback.cpp"
 object = "build/matching/FrontAddedCallback.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["FrontAddedCallback"]
 symbol = "?FrontAddedCallback@@YIHPAX@Z"
 target_address = 0x00418480
