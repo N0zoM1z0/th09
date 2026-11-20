@@ -25,25 +25,8 @@ struct PlayerShotSpawn6SideView
     PlayerShotSpawn6EffectManagerView *effectManager0C;
 };
 
-struct PlayerShotSpawn6DescriptorView
-{
-    short scheduleValue00;
-    unsigned char unknown02[0x16];
-    float speed18;
-    unsigned char unknown1C[0x1C];
-};
-
-struct PlayerShotSpawn6ShotView
-{
-    unsigned char unknown000[0x2A4];
-    PlayerShotSpawn6Vec3 position2A4;
-    unsigned char unknown2B0[0x43C - 0x2B0];
-    float velocityX43C;
-    float velocityY440;
-    unsigned char unknown444[0x450 - 0x444];
-    float angle450;
-};
-
+struct PlayerShotSpawn6DescriptorView;
+struct PlayerShotSpawn6ShotView;
 struct PlayerShotSpawn6PlayerView
 {
     unsigned char unknown0000[0x0C];
@@ -57,17 +40,20 @@ int __fastcall PlayerShotSpawnCallbackType6(
     int value,
     PlayerShotSpawn6DescriptorView *entry)
 {
-    if (value == entry->scheduleValue00)
+    PlayerShtDescriptorView *nativeEntry =
+        reinterpret_cast<PlayerShtDescriptorView *>(entry);
+    if (value == nativeEntry->fireInterval)
     {
+        PlayerShotCtorView *nativeShot =
+            reinterpret_cast<PlayerShotCtorView *>(shot);
         reinterpret_cast<PlayerLifecycleView *>(player)->InitializeShot(
-            reinterpret_cast<PlayerShotCtorView *>(shot),
-            reinterpret_cast<PlayerShtDescriptorView *>(entry));
-        shot->position2A4 =
+            nativeShot, nativeEntry);
+        reinterpret_cast<PlayerShotSpawn6Vec3 &>(nativeShot->position2A4) =
             player->sideState0C->effectManager0C->GetFixedSlotEffect(5)
                 ->position0C;
-        shot->angle450 = -1.5707964f;
-        shot->velocityX43C = 0.0f;
-        shot->velocityY440 = -entry->speed18;
+        nativeShot->angle450 = -1.5707964f;
+        nativeShot->velocity43C.x = 0.0f;
+        nativeShot->velocity43C.y = -nativeEntry->speed18;
         return 1;
     }
     return 0;

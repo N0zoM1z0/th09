@@ -1812,3 +1812,23 @@ embedded VM scale at +0x18/+0x1C, and interpolates the four BGRA bytes at
 the decorated ABI symbol is unchanged. The 293-byte function remains exact,
 including all five relocations and three compiler literal definitions. This
 is a native ownership/type recovery, not new exact-function credit.
+
+## 2026-11-20 Player-shot spawn/update callbacks share native shot and SHT views
+
+The remaining sparse shot layouts in spawn Type2/Type6 and update Type5/
+Type6/Type7 have been replaced with the existing `PlayerShotCtorView`.
+Spawn Type2 now writes its native +0x43C velocity and +0x450 angle through
+that view. Spawn Type6 also uses the real `PlayerShtDescriptorView` for its
++0x00 fire interval and +0x18 speed, and copies the fixed-slot effect's
+position into the native +0x2A4 shot position. Update Type5 addresses the
+native velocity, +0x454 timer, +0x462 state, +0x470 mode and +0x472 flag;
+update Type6/Type7 share the native velocity, speed and angle members.
+
+The multi-callback spawn translation unit also dropped its duplicate sparse
+SHT descriptor and now uses the real descriptor's +0x00 fire interval and
++0x14 angle in Type2/Type4/Type5. All original callback parameter tags remain
+forward-declared and unchanged, preserving decorated ABI names. The seven
+affected callback bodies remain exact: spawn Type2/4/5/6 are 68/44/72/119
+bytes; update Type5/6/7 are 86/98/98 bytes. Their 15 relocation fields were
+validated by the four changed-source scoped replays; no cold replay was run.
+This is shared native C++ ownership recovery, not new exact-function credit.

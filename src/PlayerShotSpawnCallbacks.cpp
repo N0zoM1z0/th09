@@ -34,23 +34,8 @@ struct PlayerShotSpawnSideView
     PlayerShotSpawnEffectManagerView *effectManager0C;
 };
 
-struct PlayerShotSpawnDescriptorView
-{
-    short scheduleValue00;
-    unsigned char unknown02[0x12];
-    float angle14;
-    unsigned char unknown18[0x20];
-};
-
-struct PlayerShotSpawnShotView
-{
-    unsigned char unknown000[0x43C];
-    PlayerShotSpawnVec3 velocity43C;
-    unsigned char unknown448[0x450 - 0x448];
-    float angle450;
-    unsigned char unknown454[0x484 - 0x454];
-};
-
+struct PlayerShotSpawnDescriptorView;
+struct PlayerShotSpawnShotView;
 struct PlayerShotSpawnPlayerView
 {
     unsigned char unknown0000[0x0C];
@@ -66,14 +51,17 @@ int __fastcall PlayerShotSpawnCallbackType2(
     int value,
     PlayerShotSpawnDescriptorView *entry)
 {
-    if (value == entry->scheduleValue00)
+    PlayerShtDescriptorView *nativeEntry =
+        reinterpret_cast<PlayerShtDescriptorView *>(entry);
+    if (value == nativeEntry->fireInterval)
     {
+        PlayerShotCtorView *nativeShot =
+            reinterpret_cast<PlayerShotCtorView *>(shot);
         reinterpret_cast<PlayerLifecycleView *>(player)->InitializeShot(
-            reinterpret_cast<PlayerShotCtorView *>(shot),
-            reinterpret_cast<PlayerShtDescriptorView *>(entry));
-        shot->velocity43C.x = 0.0f;
-        shot->velocity43C.y = 0.0f;
-        shot->angle450 = entry->angle14;
+            nativeShot, nativeEntry);
+        nativeShot->velocity43C.x = 0.0f;
+        nativeShot->velocity43C.y = 0.0f;
+        nativeShot->angle450 = nativeEntry->angle14;
         return 1;
     }
 
@@ -86,7 +74,7 @@ int __fastcall PlayerShotSpawnCallbackType4(
     int value,
     PlayerShotSpawnDescriptorView *entry)
 {
-    if (value == entry->scheduleValue00)
+    if (value == reinterpret_cast<PlayerShtDescriptorView *>(entry)->fireInterval)
     {
         player->sideState0C->effectManager0C->SpawnEffectInFixedSlot(
             35, &player->position1B88, 5,
@@ -105,7 +93,7 @@ int __fastcall PlayerShotSpawnCallbackType5(
         player->sideState0C->effectManager0C->GetFixedSlotEffect(5);
 
     if (effect->activeC4 == 0 &&
-        value == entry->scheduleValue00)
+        value == reinterpret_cast<PlayerShtDescriptorView *>(entry)->fireInterval)
     {
         reinterpret_cast<PlayerLifecycleView *>(player)->InitializeShot(
             reinterpret_cast<PlayerShotCtorView *>(shot),
