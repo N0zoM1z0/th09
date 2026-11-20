@@ -1,38 +1,26 @@
 #include "AsciiGameManagerView.hpp"
 #include "AnmManager.hpp"
+#include "PlayerLifecycleView.hpp"
 
 struct PlayerShotDraw1PlayerView;
-
-struct PlayerShotDraw1Vec3
-{
-    float x;
-    float y;
-    float z;
-};
-
-struct PlayerShotDraw1ShotView
-{
-    unsigned char unknown000[0x1F3];
-    unsigned char alpha1F3;
-    unsigned char unknown1F4[0x208 - 0x1F4];
-    PlayerShotDraw1Vec3 vmPosition208;
-    unsigned char unknown214[0x2B0 - 0x214];
-    PlayerShotDraw1Vec3 history2B0[32];
-    unsigned char unknown430[0x46A - 0x430];
-    short trailSegmentCount46A;
-};
+// Retain the original callback's opaque argument tag for its ABI symbol.
+struct PlayerShotDraw1ShotView;
 
 int __fastcall PlayerShotDrawCallbackType1(
     PlayerShotDraw1PlayerView *,
     PlayerShotDraw1ShotView *shot)
 {
-    unsigned int alpha = shot->alpha1F3;
+    // Recover the full constructed PlayerShot allocation instead of
+    // maintaining a second sparse view of its VM/history/trail tail.
+    PlayerShotCtorView *nativeShot =
+        reinterpret_cast<PlayerShotCtorView *>(shot);
+    unsigned int alpha = nativeShot->vm.color1Bytes[3];
     int index = 0;
 
-    if (2 * shot->trailSegmentCount46A > 0)
+    if (2 * nativeShot->trailSegmentCount46A > 0)
     {
         int alphaAccumulator = 0;
-        PlayerShotDraw1Vec3 *point = shot->history2B0;
+        PlayerConstructedVector3View *point = nativeShot->trailVectors2B0;
 
         do
         {
@@ -41,38 +29,38 @@ int __fastcall PlayerShotDrawCallbackType1(
             {
                 // The invalid-history sentinel exits this drawn-trail path
                 // after restoring the shared VM alpha byte.
-                shot->alpha1F3 = static_cast<unsigned char>(alpha);
+                nativeShot->vm.color1Bytes[3] = static_cast<unsigned char>(alpha);
                 return 0;
             }
 
-            shot->vmPosition208.x =
+            nativeShot->vm.pos.x =
                 g_GameManager.TransformPopupX(point->x);
-            shot->vmPosition208.y =
+            nativeShot->vm.pos.y =
                 g_GameManager.TransformPopupY(point->y);
-            shot->vmPosition208.z = 0.0f;
+            nativeShot->vm.pos.z = 0.0f;
 
-            shot->alpha1F3 = static_cast<unsigned char>(
+            nativeShot->vm.color1Bytes[3] = static_cast<unsigned char>(
                 alpha -
                 alphaAccumulator /
-                    (2 * shot->trailSegmentCount46A));
+                    (2 * nativeShot->trailSegmentCount46A));
 
             g_AnmManager->Draw2D(
-                reinterpret_cast<AnmVm *>(shot));
+                &nativeShot->vm);
 
             ++index;
             // The original drawn trail advances through genuine contiguous
         // 0x0C-byte shot history records using an i386 DWORD address,
         // not a guessed independent C++ pointer/array bound.
-        point = reinterpret_cast<PlayerShotDraw1Vec3 *>(
+        point = reinterpret_cast<PlayerConstructedVector3View *>(
             reinterpret_cast<unsigned int>(point) + sizeof(*point));
             alphaAccumulator += alpha;
         }
-        while (index < 2 * shot->trailSegmentCount46A);
-        shot->alpha1F3 = static_cast<unsigned char>(alpha);
+        while (index < 2 * nativeShot->trailSegmentCount46A);
+        nativeShot->vm.color1Bytes[3] = static_cast<unsigned char>(alpha);
         return 0;
     }
 
     // The zero-trip path has a separate physical restore/return tail in TH09.
-    shot->alpha1F3 = static_cast<unsigned char>(alpha);
+    nativeShot->vm.color1Bytes[3] = static_cast<unsigned char>(alpha);
     return 0;
 }

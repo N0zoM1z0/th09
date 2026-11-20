@@ -1786,3 +1786,17 @@ two 0x0C-byte history samples per segment; `PlayerShotDrawCallbackType1`
 uses the same +0x46A count and draws `2 * trailSegmentCount46A` samples. The
 existing 0x484-byte shot extent and +0x46A offset assertion remain intact.
 This is a native field-meaning recovery, not new function-exactness credit.
+
+
+## 2026-11-20 Player-shot draw callback uses the native owner
+
+`PlayerShotDrawCallbackType1` no longer carries its own sparse
+`PlayerShotDraw1ShotView` layout for the +0x1F3 alpha byte, +0x208 VM
+position, +0x2B0 history array and +0x46A trail count. Its callback ABI tag
+remains opaque and unchanged, while the body recovers the actual
+`PlayerShotCtorView` and uses its embedded `PlayerAnmVmView`, constructed
+trail-vector array and `trailSegmentCount46A`. The function still matches all
+204 original bytes and six relocation fields under its native VC7.1 profile.
+This unifies the draw callback with the same 0x484-byte shot allocation used
+by spawn, update, damage and initialization code; it adds no exact-function
+credit because the callback was already exact.
