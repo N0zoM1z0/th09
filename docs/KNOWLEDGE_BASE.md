@@ -2513,3 +2513,31 @@ Removing the bullet descriptor and its spawn call while keeping the timer
 and effect calls leaves the early ECX choice. Removing movement or the
 secondary animation loop independently preserves the two carriers' original
 register choices. These controls point to the timer/effect context.
+
+## 2026-11-20 Replay playback side-state load
+
+Original `BeginPlaybackStage` stores replay byte `+0x1E7` into GameManager
+`+0x37C`, reads byte `+0x1E8`, and then loads the side-0 runtime pointer
+from GameManager `+0x1C`. The maintained build moves the pointer load ahead
+of that store. Explicit relocation replay covers all 540 bytes and finds
+19 differences. CirnoLab's `PlayAddedCallback` independently reproduces the
+same shifted operands under its documented VC7.1 profile.
+
+Using an `AsciiGameManagerSideView &` for both `sides[0].runtime` and
+`sides[0].value30` restores both original operand locations. The `DIR32`
+fields at `+0x14D` and `+0x15D` use the original GameManager base `0x004A7D90`
+with addends `0x37C` and `0x1C`. All 32 fields agree with the original.
+Nine byte differences remain from `+0x152` to `+0x17A`. VC7.1 uses EDX to
+hold the runtime pointer through the first score store and ESI for the
+replay bytes and score value. The original uses the opposite assignment.
+The earlier volatile probe also left nine differences. The new probe uses
+an ordinary typed reference and remains outside the strict frontier.
+
+Replacing the stage/runtime scratch union with distinct typed locals emits
+the same 540-byte instruction stream and 32 COFF fields, including ESI
+reuse for the stage index and the side runtime pointer.
+
+`PlayerLifecycleView::InitializeAddedState` at `0x0041ED43` reads
+`0x004A8108 + sideIndex * 4`, confirming that GameManager `+0x378` and
+`+0x37C` form a side-indexed pair. Modelling the pair as an array in the
+playback probe preserves the nine differences.
