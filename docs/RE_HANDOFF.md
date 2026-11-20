@@ -40,7 +40,9 @@ The current focus is `ScreenEffect::CalcShakeEnvelope`. Rebuild it with
 Splitting phase amplitude calculation with the timer comparison visible
 recovers the original object and timer registers.
 The [compiler trace](KNOWLEDGE_BASE.md#2026-11-20-shake-envelope-compiler-context)
-locates the remaining switch register choices after global allocation.
+links the switch register choices to the hold-end temporary. An inline
+endpoint sum also provides a plain C++ control with all 20 relocation
+positions and 28 byte differences.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |

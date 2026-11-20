@@ -1830,6 +1830,30 @@ same cursor also differs when assigning the fade denominator's sign-test
 temporary at `+0x91`. Alternate case order, simple inline setters and
 co-visible RNG methods preserve the shifted choices in the full-size probes.
 
+Tracing the cursor update at `0x10776893` locates the split at the hold-end
+comparison. In the maintained build, the temporary defined at `+0x43`
+is still virtual after global allocation. The local allocator assigns
+EAX there, ECX at `+0x5D` and EDX at `+0x91`, wrapping the cursor back to
+EAX for the first switch load. The phase-split probe already carries a
+physical EAX descriptor at `+0x43` when the global pass returns. Its local
+sequence starts at `+0x5D` and reaches the first switch load at EDX.
+
+A plain C++ control restores the maintained local sequence. Keep the
+original single amplitude multiply and the real `ZunTimer::operator<`
+definition visible. Compute the final endpoint with a small inline helper
+taking the current endpoint as `unsigned int` and the phase record by
+`const ScreenShakeEnvelopeView &`. Return the unsigned sum of that
+endpoint, hold and fade-out, and keep the caller's signed timer comparison.
+The complete carrier emits 336 bytes with all 20 operands at their
+original offsets and both float literals verified. It differs at the
+maintained 26 positions plus `+0x61` and `+0x63`. Its two switches use
+the original pointer registers, with differences in the receiver pops.
+All 16 siblings and the timer comparison remain exact in this control.
+The single inline endpoint helper scores the effect at 53 and the timer at
+44. A nested sum helper plus an inline unsigned-to-float conversion scores
+them at 50 and 46 and emits identical bytes and COFF fields. These
+variations change the weights while preserving the local sequence.
+
 
 ## 2026-11-20 Player-shot trail segment count
 
