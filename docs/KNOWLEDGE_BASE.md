@@ -1924,3 +1924,14 @@ also type their +0x30 pool pointer as `Effect *` while retaining the distinct
 original callback method/return tags used by their relocations. All five
 functions remain exact (329 physical bytes, six relocation fields) across
 three changed-source carriers.
+
+## 2026-11-20 Effect follow-player callback uses native Player owners
+
+`EffectFollowPlayerUpdate` no longer carries private sparse Player and Side
+records. Its `sideState` pointer is the shared `PlayerSideStateView`
+(`AsciiGameManagerSideView`) and its +0x04 `player04` pointer is the native
+`PlayerLifecycleView`. The followed position is the real Player +0x1B88
+`position1B88` record; compile-time checks bind both offsets and the matching
+three-float storage size. The callback remains byte-exact at 38/38 bytes with
+no relocations. Its changed-source replay passed the one affected exact unit;
+no cold replay ran.
