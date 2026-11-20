@@ -1802,6 +1802,34 @@ fields. Timer pointer/reference spelling, cached versus repeated endpoint
 expressions, and case order probes retain the receiver assignment in the
 closest candidates. The 26-byte frontier remains the maintained candidate.
 
+The insertion routine at `0x10782B26` orders the allocation queue by the
+signed weight at record `+0x0C`. The effect and timer weights are respectively
+57 and 46 in the maintained body, and 51 and 48 with the visible comparison
+and plain field reads. To reverse their order, give the fade-in arm its
+amplitude multiplication and place the shared hold/fade-out multiplication
+inside the other arm. Keep the plain field reads and the real comparison
+definition in the same translation unit. C2 merges the multiply back into
+one instruction and scores the effect at 48 and the timer at 50. The result
+uses the original EDI and ESI roles.
+
+The complete `ScreenEffect.cpp` control with this phase structure emits
+336 bytes and 20 relocations. Up to the first RNG call, only four bytes
+differ at `+0x5B`, `+0x61`, `+0x92`, and `+0x98`. The remaining
+differences are in the two switches, for 58 total after relocation replay.
+The 16 siblings and the timer comparison retain their exact bytes.
+
+Same-run snapshots at `0x1077C0FA` and `0x107B1490` preserve the identity of
+the six animation-manager pointer loads. Their destinations are still
+virtual at global allocator exit. Hardware watchpoints identify the later
+destination writes at `0x10775AC4`. The maintained output chooses EAX, ECX,
+EDX for the negative, positive and zero cases on each axis. The phase probe
+chooses EDX, EAX, ECX. At `0x10775ACC`, both builds have EAX, ECX and EDX
+free for the first switch load. The candidate list cursor at `0x108A7D0C`
+starts at EAX in the maintained build and at EDX in the phase probe. The
+same cursor also differs when assigning the fade denominator's sign-test
+temporary at `+0x91`. Alternate case order, simple inline setters and
+co-visible RNG methods preserve the shifted choices in the full-size probes.
+
 
 ## 2026-11-20 Player-shot trail segment count
 
