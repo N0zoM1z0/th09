@@ -1989,6 +1989,28 @@ that advances the cursor. The following pointer load starts at ECX.
 The complete source carrier, isolated control and debugger build agree
 on all 336 bytes and 20 COFF fields.
 
+An explicit signed conversion isolates the remaining allocation. In the
+same split-amplitude probe, read the fade-out field into an `int`,
+convert it to float, and add `4294967296.0f` if the integer is negative
+before dividing. In the automatic unsigned conversion, the load at
+`+0x91` already exists at C2's driver entry. Its anonymous destination is
+still virtual when global allocation returns. In the explicit control,
+global allocation assigns the source value EAX and adds a store to the
+conversion stack slot. FILD reads the slot, and the local scratch cursor
+stays at EAX until the first animation-manager load.
+
+The explicit control emits 339 bytes. Through `+0x93`, only three
+forward branch displacements differ. All original bytes from
+`+0x99` through the return sequence match after the three-byte shift and
+operand rebinding. Both axes have the original EAX, ECX and EDX sequence.
+The remaining instruction difference is the sign test and stack-based
+FILD in place of the original field-based FILD followed by the sign
+test. The full carrier and debugger build agree on all 339 bytes and
+20 COFF fields. Separate typed views of the same field still share the
+stack slot. Capturing the sign before the timer float call can keep FILD
+on the field, and changes the register use and endpoint calculation
+ahead of that call.
+
 Wrapping the three timer comparisons in small inline helpers, using an
 instance-method receiver, or inlining the axis writes after each RNG
 call preserves the existing 28- or 58-byte patterns in the closest

@@ -42,7 +42,9 @@ comparison and the fade-out ratio matches through `+0xBD`. The
 [compiler trace](KNOWLEDGE_BASE.md#2026-11-20-shake-envelope-compiler-context)
 ties the remaining differences to the register sequence for the six
 animation-manager loads. The scratch selection at `+0x91` advances the
-cursor before the first switch.
+cursor before the first switch. An explicit frame-count conversion
+preserves the original switch sequence and adds a three-byte stack store
+for the denominator FILD.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
