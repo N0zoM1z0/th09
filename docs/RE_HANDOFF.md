@@ -43,9 +43,13 @@ See [the schedule storage proof](KNOWLEDGE_BASE.md#2026-11-20-enemy-update-sched
 
 The current focus is `EnemyManagerView::OnUpdate`. Rebuild it with
 `python3 -B scripts/check-frontier.py enemy-on-update --show`.
-The timer-definition control restores the draw-group index register.
-The remaining changes in that control sit in the force-death vector
-and bullet descriptor paths. See the [compiler context comparison](KNOWLEDGE_BASE.md#2026-11-20-enemy-update-schedule-storage).
+The visible timer and an earlier aim-mode initialization together
+reproduce the original draw-group index and bullet descriptor.
+That control has four differences in the force-death vector call.
+See the [compiler context comparison](KNOWLEDGE_BASE.md#2026-11-20-enemy-update-schedule-storage).
+Regenerate the controls with `python3 -B .analysis/enemy-update-focus/prepare.py`
+and trace the register list with
+`python3 -B .analysis/enemy-update-focus/trace.py arg-cursor stand_opaque stand_visible`.
 
 Player movement is paused at the 8-byte relocation-replayed residual.
 The [compiler analysis](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads)
@@ -53,7 +57,7 @@ records the allocation, instruction scheduling and direction-join controls.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| EnemyManagerView::OnUpdate | 0x00410730 | 3,900/3,900 bytes; 2 differences (OK) | Making the real `ZunTimer::HasTickedEvery` body visible recovers the retail EAX choice. The same build introduces four differences in the force-death vector call and 41 in the bullet descriptor. See the [compiler context comparison](KNOWLEDGE_BASE.md#2026-11-20-enemy-update-schedule-storage). |
+| EnemyManagerView::OnUpdate | 0x00410730 | 3,900/3,900 bytes; 2 differences (OK) | The visible-timer and early-aim control recovers the original draw-group index and bullet descriptor. Its four remaining bytes are in the force-death vector call. |
 | ReplayManagerView::BeginPlaybackStage | 0x00420840 | 540/540 bytes; 13 structural differences (OK), 19 after relocation replay | A native side-0 reference restores the positions of both GameManager operands. It leaves nine register-selection differences around the two replay bytes and the first score store. |
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes; 4 differences (OK) | Focus-mode load order at +0x127..+0x12A. Retail loads g_GameConfiguration before player sideIndex; current source emits the reverse order. |
 | PlayerLifecycleView::UpdateChargeAttack | 0x0041F810 | 1,210/1,210 bytes; 183 differences (OK) | Boss register allocation: retail loads the full DWORD sideIndex into EDI and forms the ReplayInputState pointer in EBX (0x8E stride). Current short-side/input locals allocate the opposite way; widening/removing locals regressed hundreds of bytes. |

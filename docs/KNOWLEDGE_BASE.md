@@ -2811,6 +2811,35 @@ and effect calls leaves the early ECX choice. Removing movement or the
 secondary animation loop independently preserves the two carriers' original
 register choices. These controls point to the timer/effect context.
 
+In the timer-visible build, assigning `descriptor.aimMode = 0` before
+`descriptor.bulletType = 1` restores the full bullet descriptor region.
+The 3,900-byte owner then has four differences at +0x1BA, +0x1BF,
++0x1C1 and +0x1C3. All 97 fields and 69 ordered calls agree. The
+force-death vector call still passes its offset pointer in ECX and
+forms the return-storage address in EDX. The original uses EDX and
+EAX respectively. Moving the timer definition next to the greater-than
+operator or after the Enemy body gives the same four differences.
+An ordinary effect receiver also gives the same result in this control.
+
+The timer body matches all 33 bytes in that object. The four exact
+co-visible ExAttack timer callers also pass complete comparison.
+A standalone Enemy carrier that leaves RunEcl external reproduces
+the two original differences with the opaque timer and the four
+vector differences with the visible timer and changed descriptor order.
+
+In the standalone pair, the side-state load at +0x16F always emits
+`mov eax,[esi+0x320]`. With the timer opaque, its local allocation
+advances the scratch-register list to ECX. The following draw index
+takes ECX and leaves EDX for the force-death offset pointer. With the
+timer visible, global allocation assigns EAX to the side-state load
+before the scratch pass. The draw index takes EAX and leaves ECX for
+the offset pointer. The compiler updates the list cursor at
+`0x10776893`. This accounts for the differing argument registers
+with the same vector operations at global allocator exit.
+Taking a const reference to the side-state pointer slot restores
+the original vector registers in the timer-visible control. That
+build again uses ECX for the draw index and changes the descriptor.
+
 ## 2026-11-20 Replay playback side-state load
 
 Original `BeginPlaybackStage` stores replay byte `+0x1E7` into GameManager
