@@ -3360,34 +3360,42 @@ the packet sender, and the WinMain carrier that sets the network pointer.
 
 ## 2026-11-21 Etama paired trigonometric helper
 
-The verified TH09 body at 0x00412780 has 33 bytes and no relocation
-operands. It homes two fastcall output pointers, executes one FSINCOS,
-then stores cosine before sine. RET 4 ends at 0x004127A0 and the following
-15 CC bytes are unowned. The only direct call is at 0x00413C3B in
-EtamaController::OnDraw. It passes separate output slots and the laser
-angle. The PE contains no absolute pointer to the helper.
+Pinned VC7.1 reproduces all 33 bytes of `fsincos` at 0x00412780
+with zero relocations or owned data. The helper executes a single
+FSINCOS and stores cosine before sine. RET 4 ends at 0x004127A0.
+The following 15 CC bytes are unowned. The sole direct call is at
+0x00413C3B in EtamaController::OnDraw. It passes distinct output slots
+and the laser angle. The PE contains no absolute pointer to the helper.
 
-The maintained C++ candidate now stores cosine first. It still emits two
-REL32 calls to `@cosf@4` and `@sinf@4`. The same COFF object defines both
-12-byte wrappers and reproduces their original bodies at 0x00401060 and
-0x00401070. The full helper remains 36/33 bytes with 25 differences
-after field masking and 33 after replay. The whole-carrier controls
-cover both output orders, float and double evaluation, and a declaration
-with no visible definition. The double-local pair emits 20 bytes with
-separate FCOS and FSIN and no relocations. VC7.1 issues C4163 for
-`sincos`, `sincosf`, and `fsincos` when requested as intrinsics. The
-compiler's matching mnemonic strings are in its instruction-name tables.
+```bash
+python3 -B scripts/build-match-unit.py --unit etama-fsincos
+python3 -B scripts/compare-coff-function.py --unit etama-fsincos
+```
 
-OnDraw retains all 600 bytes, 27 fields and seven checked literals in
-these builds. DrawSingleBullet and EtamaController::AddedCallback also
-replay exact. The declaration control renumbers private labels which
-retain their original same-section destinations. A cold replay of the
-maintained carrier passes the three authored units and the folded SDK
-pointer conversion alias passes its separate comparator.
+The operator approved restoring the existing x87 implementation only
+for this helper. The cold comparison of that carrier also passed all
+three authored Etama units and the folded SDK pointer conversion alias.
+OnDraw retains its 600 bytes, 27 relocation fields and seven checked
+literals, including the reviewed call to 0x00412780.
 
-The adjacent TH08 1.00d body at 0x00433880 reproduces all 33 bytes and
-has three direct calls from its bullet and laser paths. The reviewed
-TH095 binary has no identical body. A local scan of 250 installed
-VC7.1 and SDK archive/object files found no complete 33-byte occurrence.
-The pinned D3DX `sincosf` member instead uses three cdecl stack
-arguments and a 19-byte body. TH09 source/library origin remains unknown.
+The natural C++ float form emitted calls to the exact 12-byte
+`@cosf@4` and `@sinf@4` wrappers at 0x00401060 and 0x00401070.
+It reached 36/33 bytes with 25 differing bytes after relocation
+masking and 33 after replay. Using double locals emitted separate
+FCOS and FSIN in a 20-byte body without relocations. Those two C2
+nodes were already distinct at allocation entry at 0x1077C08E and
+survived through emission at 0x107B1490. In the historical x87 control,
+C1xx returned the paired opcode 0xD5 from its mnemonic lookup at
+0x1042DB2C. The paired instruction was already present outside the
+ordinary C2 block list at allocator entry. The emitter wrote D9 FB
+at helper offset 0xF. Changing definition visibility preserved the
+complete caller and siblings.
+
+The adjacent TH08 1.00d body at 0x00433880 has the same 33 bytes and
+three direct calls. The reviewed TH095 binary has no identical body.
+A scan of 250 installed VC7.1 and SDK archive/object files found no
+complete occurrence. The pinned D3DX `sincosf` member has a distinct
+19-byte cdecl body. Original source or library provenance for the TH09
+helper remains unresolved. The `etama-fsincos` match unit records its
+byte-exact code generation while the origin ledger retains its review
+status. Authored progress is unchanged.

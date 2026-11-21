@@ -26611,6 +26611,17 @@ relocations = [
   { offset = 0x39C, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
 ]
 
+# The x87 helper has exact codegen and unresolved original provenance.
+[units.etama-fsincos]
+source = "src/EtamaControllerDraw.cpp"
+object = "build/matching/EtamaControllerDraw.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+functions = ["fsincos"]
+symbol = "?fsincos@@YIXPAM0M@Z"
+target_address = 0x00412780
+size = 0x21
+relocations = []
+
 [units.etama-controller-on-draw]
 source = "src/EtamaControllerDraw.cpp"
 object = "build/matching/EtamaControllerDraw.obj"

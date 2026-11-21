@@ -12,17 +12,3 @@ size = 1900
 candidate_size = 1900
 target_sha256 = "64ea64884e978540c718d1691a4ae1b9866aaa8ec2296bafb158c4d8b1c628ca"
 residual = ["127-12A"]
-
-# Natural C++ replacement for the legacy unclassified x87 helper. Its
-# origin remains unresolved; this is a reproducible nonexact diagnostic,
-# not an authored-exact claim or permission to use handwritten assembly.
-[frontier.etama-fsincos]
-function = "fsincos"
-source = "src/EtamaControllerDraw.cpp"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
-symbol = "?fsincos@@YIXPAM0M@Z"
-address = 0x00412780
-size = 33
-candidate_size = 36
-target_sha256 = "d949efa79204e2332ebfe977142934ba6e539d41133086b5fc98803663f50630"
-residual = ["3-E", "13-16", "1B-23"]

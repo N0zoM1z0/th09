@@ -11,22 +11,26 @@
 
 #include <stddef.h>
 #include <d3dx8math.h>
-#include <math.h>
 
 // The native VM position consumed by the renderer begins at Laser+0x208.
 typedef char EtamaDrawBodyPositionOffsetIs208[
     (offsetof(Laser, bodyVm) + offsetof(AnmVm, pos) == 0x208) ? 1 : -1];
 
-// The target receives the sine and cosine pointers in ECX and EDX
-// and stores cosine first. The paired x87 operation remains open
-// in the etama-fsincos frontier.
+// The native paired x87 operation stores cosine before sine. VC7.1
+// homes both fastcall output pointers for the x87 block.
 void __fastcall fsincos(float *sine, float *cosine, float angle)
 {
-    const float sineValue = sinf(angle);
-    const float cosineValue = cosf(angle);
-    *cosine = cosineValue;
-    *sine = sineValue;
+    __asm
+    {
+        fld angle
+        fsincos
+        mov eax, cosine
+        fstp dword ptr [eax]
+        mov eax, sine
+        fstp dword ptr [eax]
+    }
 }
+
 // SDK conversions use the same checked three-float storage and this pointer.
 typedef char EtamaSdkVectorLayoutMatchesFloat3[
     (sizeof(D3DXVECTOR3) == sizeof(Float3) && sizeof(Float3) == 12 &&

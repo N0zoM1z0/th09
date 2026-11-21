@@ -39,14 +39,12 @@ separately. An OK result means the recorded frontier was preserved.
 | --- | --- | --- | --- |
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes, 4 structural differences, 8 after relocation replay (OK) | `player-movement`. Paused by the operator. Retain EAX for the side index and ECX for the configuration address while recovering the configuration-first order and indexed CMP. [Focus-load controls](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads) |
 
-The active `etama-fsincos` diagnostic at 0x00412780 compares 36/33 bytes
-with 25 structural differences. The caller remains exact with either
-declaration or definition visible. The outstanding evidence is a source
-or library provider for the paired x87 operation.
-[Compiler and origin controls](KNOWLEDGE_BASE.md#2026-11-21-etama-paired-trigonometric-helper)
-
 ## Recent exact checkpoints
 
+- `fsincos` at 0x00412780 matches all 33 bytes with zero relocations.
+  The restored x87 primitive and its exact Etama draw caller replay from
+  the same compiler carrier. Original provenance stays open.
+  [Etama x87 proof](KNOWLEDGE_BASE.md#2026-11-21-etama-paired-trigonometric-helper)
 - `Supervisor::UpdateNetworkService` matches 1,633 bytes and 106 relocations.
   Block-local seed and prediction outputs let VC7.1 reuse the original
   stack slots and keep the input loads in EDI and EBX.
