@@ -10,6 +10,7 @@
 #include <string.h>
 #include <windows.h>
 #include <d3d8.h>
+#include <d3dx8.h>
 
 
 // DrawTextLeft/Centered traverse the same 0x2A4 ANM VM and 0x44 sprite
@@ -79,11 +80,6 @@ typedef char AnmSurfaceSlotSizeIs120[
 typedef char AnmSurfaceSlotTexturesAt38[
     (offsetof(AnmSurfaceSlotView, textures) == 0x38) ? 1 : -1];
 
-HRESULT WINAPI D3DXLoadSurfaceFromSurface(
-    IDirect3DSurface8 *destSurface, const PALETTEENTRY *destPalette,
-    const RECT *destRect, IDirect3DSurface8 *srcSurface,
-    const PALETTEENTRY *srcPalette, const RECT *srcRect,
-    unsigned long filter, D3DCOLOR colorKey);
 
 static __inline AnmManagerSurfaceView *SurfaceManager(AnmManager *manager)
 {

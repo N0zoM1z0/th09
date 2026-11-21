@@ -6,21 +6,8 @@
 #include <math.h>
 #include <windows.h>
 #include <d3d8.h>
+#include <d3dx8math.h>
 
-struct D3DXVECTOR3 : public D3DVECTOR {};
-struct D3DXMATRIX : public D3DMATRIX {};
-
-D3DXMATRIX *WINAPI D3DXMatrixLookAtLH(
-    D3DXMATRIX *out,
-    const D3DXVECTOR3 *eye,
-    const D3DXVECTOR3 *at,
-    const D3DXVECTOR3 *up);
-D3DXMATRIX *WINAPI D3DXMatrixPerspectiveFovLH(
-    D3DXMATRIX *out, float fovY, float aspect, float nearZ, float farZ);
-D3DXVECTOR3 *__fastcall D3DXVec3Cross(
-    D3DXVECTOR3 *out, const D3DXVECTOR3 *first, const D3DXVECTOR3 *second);
-D3DXVECTOR3 *WINAPI D3DXVec3Normalize(
-    D3DXVECTOR3 *out, const D3DXVECTOR3 *vector);
 float __cdecl SupervisorCameraTan(float value);
 
 // Camera methods use the actual 0xF0-byte record belonging to Supervisor.

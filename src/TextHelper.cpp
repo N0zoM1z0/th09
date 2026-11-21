@@ -2,6 +2,7 @@
 #include "Supervisor.hpp"
 
 #include <string.h>
+#include <d3dx8.h>
 
 struct TextHelperBitmapInfo
 {

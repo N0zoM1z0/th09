@@ -2,11 +2,6 @@
 
 #include <string.h>
 
-HRESULT WINAPI D3DXLoadSurfaceFromSurface(
-    IDirect3DSurface8 *destSurface, const PALETTEENTRY *destPalette,
-    const RECT *destRect, IDirect3DSurface8 *srcSurface,
-    const PALETTEENTRY *srcPalette, const RECT *srcRect,
-    unsigned long filter, D3DCOLOR colorKey);
 
 void TextHelper::RenderTextToTextureBold(
     int x, int y, int width, int height, int fontWidth, int fontHeight,

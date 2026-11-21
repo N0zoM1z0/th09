@@ -19,10 +19,7 @@
 #include <math.h>
 #include <windows.h>
 #include <d3d8.h>
-
-struct D3DXVECTOR3 : public D3DVECTOR {};
-D3DXVECTOR3 *WINAPI D3DXVec3Normalize(
-    D3DXVECTOR3 *out, const D3DXVECTOR3 *vector);
+#include <d3dx8math.h>
 
 // The stage-script opcode payload is the native RawStageInstr::args[3].
 // Cast only where wire words are reinterpreted as float/Float3 data; keep

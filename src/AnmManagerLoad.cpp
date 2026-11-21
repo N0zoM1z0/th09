@@ -146,6 +146,9 @@ extern const char g_AnmCorruptedMessage[];
 extern const char g_AnmWrongVersionMessage[];
 extern const char g_AnmTextureMessage[];
 
+// The D3DX8 entry points have C linkage in the SDK headers.
+extern "C"
+{
 HRESULT WINAPI D3DXCreateTextureFromFileInMemoryEx(
     IDirect3DDevice8 *device, const void *srcData, unsigned int srcDataSize,
     unsigned int width, unsigned int height, unsigned int mipLevels,
@@ -161,6 +164,7 @@ HRESULT WINAPI D3DXLoadSurfaceFromSurface(
     const RECT *destRect, IDirect3DSurface8 *srcSurface,
     const PALETTEENTRY *srcPalette, const RECT *srcRect,
     unsigned long filter, D3DCOLOR colorKey);
+}
 
 static __inline AnmManagerLoadSlotView *AnmLoadSlot(AnmManager *manager, int anmIdx)
 {
@@ -684,6 +688,8 @@ AnmManager::AnmManager()
     cameraMode12888 = 0xFF;
 }
 
+// TH09 strides this record by 0x14 bytes: the DirectX 8.0 layout without
+// the later ResourceType and ImageFileFormat members.
 struct D3DXIMAGE_INFO
 {
     unsigned int Width;
@@ -716,7 +722,7 @@ typedef char AnmLoadSurfaceInfoAt125FC[
 
 extern const char g_AnmSurfaceCannotLoadMessage[];
 
-HRESULT WINAPI D3DXLoadSurfaceFromFileInMemory(
+extern "C" HRESULT WINAPI D3DXLoadSurfaceFromFileInMemory(
     IDirect3DSurface8 *destSurface, const PALETTEENTRY *destPalette,
     const RECT *destRect, const void *srcData, unsigned int srcDataSize,
     const RECT *srcRect, unsigned long filter, D3DCOLOR colorKey,

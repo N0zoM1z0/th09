@@ -8,12 +8,7 @@
 #include <math.h>
 #include <windows.h>
 #include <d3d8.h>
-
-struct D3DXMATRIX : public D3DMATRIX {};
-D3DXMATRIX *WINAPI D3DXMatrixMultiply(D3DXMATRIX *out, const D3DXMATRIX *left, const D3DXMATRIX *right);
-D3DXMATRIX *WINAPI D3DXMatrixRotationX(D3DXMATRIX *out, float angle);
-D3DXMATRIX *WINAPI D3DXMatrixRotationY(D3DXMATRIX *out, float angle);
-D3DXMATRIX *WINAPI D3DXMatrixRotationZ(D3DXMATRIX *out, float angle);
+#include <d3dx8math.h>
 // Neutral view of the shared 0x0040F1C0 float absolute-value helper; owner/origin remain review.
 long double __stdcall AnmDraw3DAbs(float value);
 

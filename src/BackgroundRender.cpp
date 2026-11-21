@@ -6,6 +6,7 @@
 
 #include <windows.h>
 #include <d3d8.h>
+#include <d3dx8math.h>
 #include <math.h>
 #include <stddef.h>
 
@@ -18,22 +19,6 @@ typedef char BackgroundRenderFloat2SizeIs08[
 typedef char BackgroundRenderFloat3SizeIs0C[
     (sizeof(Float3) == 0x0C) ? 1 : -1];
 
-struct D3DXVECTOR3 : public D3DVECTOR {};
-struct D3DXMATRIX : public D3DMATRIX {};
-
-D3DXVECTOR3 *WINAPI D3DXVec3Normalize(
-    D3DXVECTOR3 *out, const D3DXVECTOR3 *vector);
-D3DXVECTOR3 *WINAPI D3DXVec3Project(
-    D3DXVECTOR3 *out,
-    const D3DXVECTOR3 *vector,
-    const D3DVIEWPORT8 *viewport,
-    const D3DXMATRIX *projection,
-    const D3DXMATRIX *view,
-    const D3DXMATRIX *world);
-float __fastcall D3DXVec3Length(const D3DXVECTOR3 *value);
-float __fastcall D3DXVec3LengthSq(const D3DXVECTOR3 *value);
-float __fastcall D3DXVec3Dot(
-    const D3DXVECTOR3 *lhs, const D3DXVECTOR3 *rhs);
 
 struct AnmProjectionContextView
 {
