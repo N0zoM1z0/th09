@@ -1157,33 +1157,6 @@ void TitleScreenView::UpdateScreen16SelectionVisuals(i32 unusedSide, i32 selecte
     }
 }
 
-int TitleScoreRecordView::InsertIntoTable()
-{
-    i32 rankIndex;
-    for (rankIndex = 0; rankIndex < 5; rankIndex++)
-    {
-        if (score >= g_TitleScoreTable[category0][category1][rankIndex].score)
-            break;
-    }
-
-    if (rankIndex < 5)
-    {
-        for (i32 index = 4; index > rankIndex; index--)
-        {
-            g_TitleScoreTable[category0][category1][index] =
-                g_TitleScoreTable[category0][category1][index - 1];
-            g_TitleScoreTable[category0][category1][index].rank = (u8)index;
-        }
-
-        g_TitleScoreTable[category0][category1][rankIndex] = *this;
-        g_TitleScoreTable[category0][category1][rankIndex].rank = (u8)rankIndex;
-        return rankIndex;
-    }
-
-    return 99;
-}
-
-
 int TitleScreenView::OnUpdateCharacterSelect()
 {
     char characters[2];

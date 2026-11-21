@@ -2830,8 +2830,8 @@ relocations = [
 ]
 
 [units.score-record-insert]
-source = "src/TitleScreen.cpp"
-object = "build/matching/TitleScoreRecord.obj"
+source = "src/ScoreData.cpp"
+object = "build/matching/ScoreDataScoreRecords.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["TitleScoreRecordView::InsertIntoTable"]
 symbol = "?InsertIntoTable@TitleScoreRecordView@@QAEHXZ"
