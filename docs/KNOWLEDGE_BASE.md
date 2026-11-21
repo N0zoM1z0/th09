@@ -1684,6 +1684,31 @@ declarations of `g_Supervisor`. ReplayInput uses `SupervisorReplayView`
 and movement uses the native `Supervisor` type. This is an untested
 compiler context with a source-level declaration conflict.
 
+### 2026-11-21 allocator-entry IL and source-shape batch
+
+At allocator entry `0x1077C08E`, the maintained join block holds one
+explicit MOV of the live side into a temporary. The compare's indexed
+operand uses that temporary as base. It uses the configuration global
+directly as a register-class variable reference for the index. The
+helper at `0x1075F093` links the reload created during allocation
+immediately before the using instruction, so it always follows the side
+MOV. The scheduler tie at `0x107B7396` compares 16-bit ordinals at
+record `+0x36`, not node addresses. The ignored
+`.analysis/movement-focus/trace-ildump.py` prints that IL window
+through `trace-run.py`.
+
+These full-owner variants kept the eight-byte residual unchanged:
+`this->` throughout, a ternary stored directly to the bitfield, commuted
+index and pointer-sum spellings, byte-offset casts, unsigned side and
+index types, char or int casts of the mode byte, and a plain inline mode
+accessor. Using `this->sideIndex` only at the lookup flips the SIB byte.
+Inverting the mode branch, a one-case switch, a row-end helper or
+separate bitfield stores regress the owner. A diagnostic volatile
+configuration load still emits the side first and flips the SIB, so an
+explicit early configuration MOV is not sufficient by itself. Defining
+`ReplayInputState::IsHeld` in the carrier inlines all nine calls and
+grows the owner to 1,916 bytes.
+
 ### Retained compiler controls
 
 The ignored `.analysis/movement-focus/` directory contains the merged
