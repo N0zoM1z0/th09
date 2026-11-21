@@ -34,11 +34,50 @@ typedef char ReplayMenuTimerAt1B230[
     (offsetof(TitleScreenView, stateTimer2) == 0x1B230) ? 1 : -1];
 
 extern AsciiManager g_AsciiManager;
-extern const char *g_ReplayDifficultyNames[];
-extern const char *g_ReplayModeNames[];
-extern const char *g_ReplayCharacterNames[];
-extern const char *g_ReplayStoryModeName[];
-extern const char *g_ReplayExtraModeName[];
+// The title menu has its own display tables at 0x004A1CF8.
+const char *g_TitleReplayCharacterNames[17] =
+{
+    "Reimu   ",
+    "Marisa  ",
+    "Sakuya  ",
+    "Youmu   ",
+    "Reisen  ",
+    "Cirno   ",
+    "Lyrica",
+    "Mystia  ",
+    "Tewi    ",
+    "Yuka    ",
+    "Aya     ",
+    "Medicine",
+    "Komachi ",
+    "Sikieiki",
+    "Marlin  ",
+    "Lunasa  ",
+    "     ",
+};
+
+const char *g_TitleReplayDifficultyNames[5] =
+{
+    "Easy   ",
+    "Normal ",
+    "Hard   ",
+    "Lunatic",
+    "Extra  ",
+};
+
+const char *g_TitleReplayModeNames[2] =
+{
+    "Story Mode",
+    "Extra Mode",
+};
+
+const char *g_TitleReplayMatchNames[4] =
+{
+    "Human vs Human",
+    "Human vs Com",
+    "Com vs Human",
+    "Com vs Com",
+};
 
 // Replay header values address the original name-pointer tables directly.
 
@@ -139,14 +178,14 @@ int TitleScreenView::DrawReplayMenu()
         {
             sprintf(
                 buffer, "%s  -%s-",
-                g_ReplayStoryModeName[0],
-                g_ReplayDifficultyNames[replayValue.value0D7]);
+                g_TitleReplayModeNames[0],
+                g_TitleReplayDifficultyNames[replayValue.value0D7]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
             g_AsciiManager.AddFormatText(&textPosition, buffer);
         }
         else if (replays[selected].value1E4 == 1)
         {
-            sprintf(buffer, "%s", g_ReplayExtraModeName[0]);
+            sprintf(buffer, "%s", g_TitleReplayModeNames[1]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
             g_AsciiManager.AddFormatText(&textPosition, buffer);
         }
@@ -154,8 +193,8 @@ int TitleScreenView::DrawReplayMenu()
         {
             sprintf(
                 buffer, "%s  -%s-",
-                g_ReplayModeNames[replayValue.value1E5],
-                g_ReplayDifficultyNames[replayValue.value0D7]);
+                g_TitleReplayMatchNames[replayValue.value1E5],
+                g_TitleReplayDifficultyNames[replayValue.value0D7]);
             position.x = 320.0f - (float)strlen(buffer) * 4.5f;
             g_AsciiManager.AddFormatText(&textPosition, buffer);
         }
@@ -172,8 +211,8 @@ int TitleScreenView::DrawReplayMenu()
                 g_AsciiManager.AddFormatText(
                     &textPosition,
                     "%.8s vs %.8s",
-                    g_ReplayCharacterNames[replayValue.frameStart[0][i]->value06],
-                    g_ReplayCharacterNames[replayValue.frameStart[1][i]->value06]);
+                    g_TitleReplayCharacterNames[replayValue.frameStart[0][i]->value06],
+                    g_TitleReplayCharacterNames[replayValue.frameStart[1][i]->value06]);
                 position.y += 13.0f;
             }
         }

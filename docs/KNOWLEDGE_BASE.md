@@ -3085,3 +3085,28 @@ The scoped replay rebuilds `src/ReplayInput.cpp` and
 `src/ReplayRuntimeLeaves.cpp` with their canonical profiles. The relevant
 separate callers are `replay-stage-dispatch`, `win-main` and
 `supervisor-network-message-handler`.
+
+## 2026-11-21 Title replay caption tables
+
+`TitleScreenView::DrawReplayMenu` references a continuous block of four
+caption tables at `0x004A1CF8–0x004A1D67`. They begin at `0x004A1CF8`,
+`0x004A1D3C`, `0x004A1D50`, and `0x004A1D58` and contain respectively
+17 character names, five difficulties, two replay modes, and four match
+labels. The preceding slot points to the name-entry alphabet and the
+next table begins at `0x004A1D68`. The replay USER record uses its own
+separate name arrays. Its character captions are Shift-JIS, while the
+menu uses the original fixed-width display labels. The old declarations
+used the USER record symbols for three menu roles and left the two mode
+labels without definitions.
+
+The menu source now defines its own caption arrays. The pinned build
+reproduces the complete 112-byte initialized table section with one
+zero-addend DIR32 field per slot. Each of the 28 string definitions agrees
+with the original pointer destination. The entire draw body has 1,280
+bytes and all 57 original operand fields, including 30 references to
+16 code literals. It still has 29 differing instruction bytes. The
+target uses EDX for the selected index and ECX for the animation timer
+and caption scratch. The current compiler exchanges those two
+registers and stores the replay pointer before the selected index.
+The affected region starts at `+0x184`, and the last difference is
+`+0x321`. The menu remains in the frontier ledger.

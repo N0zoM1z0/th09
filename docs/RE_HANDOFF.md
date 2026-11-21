@@ -48,12 +48,18 @@ Player movement is paused at the 8-byte relocation-replayed residual.
 The [compiler analysis](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads)
 records the allocation, instruction scheduling and direction-join controls.
 
+The current focus is `TitleScreenView::DrawReplayMenu` at `0x004234F6`.
+Use `python3 -B scripts/check-frontier.py title-draw-replay-menu --show`.
+The [caption-table proof](KNOWLEDGE_BASE.md#2026-11-21-title-replay-caption-tables)
+binds the menu's own tables and isolates the remaining selected-row
+register and stack-store differences.
+
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes; 4 differences (OK) | Focus-mode load order at +0x127..+0x12A. Retail loads g_GameConfiguration before player sideIndex; current source emits the reverse order. |
 | PlayerLifecycleView::UpdateChargeAttack | 0x0041F810 | 1,210/1,210 bytes; 183 differences (OK) | Boss register allocation: retail loads the full DWORD sideIndex into EDI and forms the ReplayInputState pointer in EBX (0x8E stride). Current short-side/input locals allocate the opposite way; widening/removing locals regressed hundreds of bytes. |
 | PlayerLifecycleView::CheckBulletCollision | 0x0041DFF0 | 849/862 bytes; 539 differences (REGRESSED) | Preserve the 0x34-byte target frame and recover the target CFG: circle check and shared hit dispatcher at +0x7E precede rotated-rectangle/AABB paths. Valid region types are 1/2/3 with delay <= 0; kinds 2/3 reward only for a non-null bullet with word +0x10C0 equal to zero. Candidate grew from the 842-byte frontier baseline; do not rebaseline. |
-| TitleScreenView::DrawReplayMenu | 0x004234F6 | 1,280/1,280 bytes; 29 differences (OK) | Continue from the native replay-row/VM layout and exact caller evidence; preserve all 29 recorded positions. |
+| TitleScreenView::DrawReplayMenu | 0x004234F6 | 1,280/1,280 bytes; 29 differences (OK) | The selected index uses ECX where the target uses EDX. The selected record and index stack stores also appear in reverse order. The title's four caption tables now have their own verified definitions. |
 | TitleScreenView::OnUpdateResult | 0x004266B5 | 484/485 bytes; 167 differences (OK) | Source is one byte shorter than the target owner. Character-array cursor is natural, but the complete owner remains nonexact. |
 | Supervisor::UpdateNetworkService | 0x00430AA0 | 1,633/1,633 bytes; 307 differences (REGRESSED) | The current natural-C++ candidate restores the 0x14-byte frame and EBX's mutually exclusive prediction-frame / prefill-counter lifetime. It retains the handshake and frame-packet receivers across RNG calls and uses live side/frame reloads in the second prediction call. Still four bytes above the 1,629-byte ratchet; do not rebaseline. |
 
