@@ -1682,6 +1682,17 @@ history and coordinate-clamp rewrites preserve those load and compare
 bytes in the native, fresh-side and configuration-first aggregate
 controls. Some change code or relocations later in the extent.
 
+The direction-selection join at `0x0041C296` has eight jump
+predecessors and one fallthrough. Each writes the direction immediate
+before entering the join. Flat branches and saved input results
+reproduce the respective load choices. The configuration-first
+aggregate admits EAX, ECX and EDX at equal costs and takes EAX. The
+side then admits ECX and EDX. Computing a direction local and writing
+it between the configuration and side reads gives the original ECX,
+EAX and indexed CMP, with the common direction store between the
+loads. That probe changes the direction-selection CFG and has a
+1,836-byte physical extent.
+
 The same-unit input control retains EBX for the side index, loads the
 configuration into EAX, and changes the entry's floating-point zero
 initialization. Zeroing a two-float speed aggregate with the `memset`
