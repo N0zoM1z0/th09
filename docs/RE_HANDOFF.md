@@ -27,69 +27,51 @@ python3 -B scripts/check-frontier.py NAME --show
 python3 -B scripts/ghidra-analysis.py --function ADDRESS
 ```
 
-## Current nonexact owners
+## Player movement handoff
 
-The table records the last measured physical extents. Frontier counts
-mask candidate COFF fields. Compare relocation identities and addends
-separately. An OK result means the recorded frontier was preserved.
-[Frontier manifest](../config/frontiers.toml)
+The single-function exact reconstruction is paused for handoff. The
+latest cold build reproduced the recorded frontier. [PlayerMovement.cpp](../src/PlayerMovement.cpp) · [Frontier manifest](../config/frontiers.toml)
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes, 4 structural differences, 8 after relocation replay (OK) | Active owner, `player-movement`. The direction-join control reproduces the focus lookup and all relocation positions. It still differs in the flag update and first effect call. [Direction-join control](KNOWLEDGE_BASE.md#2026-11-21-player-movement-direction-join-and-scratch-allocation) |
+| PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes, 4 differences with relocation bytes masked, 8 after relocation replay | Recover the original order of the two loads at 0x0041C296. [Compiler evidence](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads) |
 
-`src/PlayerMovement.cpp` now defines the 16-entry focus-effect table.
-The cold frontier object's 64-byte `.data` section matches the original
-table at `0x004A1A10`. The movement DIR32 reference at `+0x1B5` has a zero
-addend and binds to the definition in that object.
+The original loads configuration into ECX, then the live Player side into
+EAX. The maintained build emits the same two loads in reverse order. The
+configuration DIR32 field moves from `+0x128` to `+0x12B`. The other 65
+fields retain their positions. The 16 focus-effect IDs already have a
+checked 64-byte COFF `.data` definition at the original table reference
+`0x004A1A10`. [Extent and data evidence](KNOWLEDGE_BASE.md#extent-and-owned-data)
 
-The retained control `.analysis/movement-focus/focus-order-control.cpp`
-reproduces the direction join that gives ECX to the configuration and EAX
-to the live side index during global allocation. Replay the scratch allocator
-trace to compare that control with the maintained body. Its first scratch
-request is the bitfield update. The analog threshold's temporary load
-folds into the compare without a scratch-register choice.
-[Allocation and compare cleanup](KNOWLEDGE_BASE.md#local-allocation-and-compare-cleanup)
-The old flag-word load is created after the first bitfield scratch choice.
-[Flag-word lowering](KNOWLEDGE_BASE.md#lowering-the-two-flag-word-reads)
-Keeping the side live in ECX gives EDX to the flag delta and moves the old
-flag word to EDI. [Side lifetime control](KNOWLEDGE_BASE.md#keeping-the-focus-side-live-for-the-first-effect)
+A cold frontier build checks the recorded four masked differences.
+Complete acceptance also covers unmasked bytes, all relocations and
+their destinations, the two switch tables, the focus-effect initializer,
+and affected exact units.
+
+```bash
+python3 -B scripts/check-frontier.py player-movement --show
+```
+
+The local scratch control
+`.analysis/movement-focus/focus-order-control.cpp` reproduces the original
+lookup and all relocation positions. It leaves seven differences in the
+flag update and seven in the first effect call. Its early loads get
+registers globally. The maintained build assigns both loads locally,
+advancing the scratch cursor to EDX before the flag update. A full match
+needs both the retail lookup and the later scratch choices. The retained
+control and debugger recipes live in this checkout's ignored analysis
+directory. [Other measured controls](KNOWLEDGE_BASE.md#2026-11-21-player-movement-direction-join-and-scratch-allocation)
 
 ```bash
 cp src/PlayerMovement.cpp .analysis/movement-focus/focus-current.cpp
 python3 -B .analysis/movement-focus/trace-run.py cursor focus-current focus-order-control
 python3 -B .analysis/movement-focus/trace-run.py flag-liveness focus-current focus-order-control
-python3 -B .analysis/movement-focus/trace-run.py peephole focus-current focus-order-control
-python3 -B .analysis/movement-focus/trace-run.py direction-join-global focus-order-control
 ```
 
-The configuration-load trace follows the temporary `0x26A` instruction
-through unlinking and replacement with an ordinary MOV. The replacement
-attaches to the side load's original successor link in each control.
-[Load replacement](KNOWLEDGE_BASE.md#replacement-of-the-configuration-load)
-
-```bash
-python3 -B .analysis/movement-focus/trace-run.py load-normalization focus-current direct_ref_conditional freshside_ref_split_direct
-```
-
-The position-conversion control changes which copy definition C2
-follows first when forming the indexed operand. The conversion still
-emits its original call.
-[Address-formation comparison](KNOWLEDGE_BASE.md#co-visible-position-conversion-and-indexed-addressing)
-
-```bash
-python3 -B .analysis/movement-focus/position-context.py
-python3 -B .analysis/movement-focus/trace-run.py address-walk focus-current position-visible
-```
-
-The exact post-charge lookup uses the same configuration slot and
-reproduces the maintained movement scheduler's equal load priorities.
-[Scheduler control](KNOWLEDGE_BASE.md#post-charge-lookup-as-a-scheduler-control)
-
-```bash
-cp src/PlayerChargeAttackUpdate.cpp .analysis/movement-focus/focus-charge.cpp
-python3 -B .analysis/movement-focus/trace-run.py peer-scheduling focus-current focus-charge focus-order-control
-```
+The latest slot-access controls retained the known load-order problem or
+put the pointer in EAX. The combined ReplayInput build hit conflicting
+`g_Supervisor` declarations. The paired-copy and helper batch also failed
+to complete. [Interrupted build notes](KNOWLEDGE_BASE.md#configuration-slot-access-and-carrier-boundary)
 
 ## Recent exact checkpoints
 

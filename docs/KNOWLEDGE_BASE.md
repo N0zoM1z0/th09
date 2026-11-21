@@ -1464,518 +1464,257 @@ differences; it was reverted. The maintained 695-difference source and the
 produce the retail EBX snapshot across `GetSeed` without creating a stack home
 or changing the 20-byte local frame.
 
-`PlayerLifecycleView::UpdateMovementAndOptions` was revisited at its four-byte
-configuration/side-index load-order residual. A real inline
-`GameConfiguration::GetSideFocusMode` member accessor and explicit pointer
-addition for the two-byte `sideFocusMode` row both compiled to the same EAX/ECX
-load order. Both source changes were reverted; the maintained 1,900-byte
-candidate remains at four differences.
-
-
 ## 2026-11-20 Player movement focus loads
 
-`PlayerLifecycleView::UpdateMovementAndOptions` has one remaining
-instruction-order difference at `0x0041C296`. The reviewed owner has
-1,835 code bytes, a one-byte alignment NOP and two eight-entry switch
-tables, ending at `0x0041C8DB`. Under pinned VC7.1 /O2 /Ob1 /Oy- all 66
-effective relocation destinations, including 23 calls and the real
-floating-point zero definition, agree. The configuration DIR32 field
-moves from `+0x128` to `+0x12B` in the candidate. After replay, the
-eight differing bytes are `+0x127..+0x12E`.
+`PlayerLifecycleView::UpdateMovementAndOptions` at `0x0041C170` has one
+instruction-order residual under the pinned VC7.1 profile in
+`config/frontiers.toml`. At `0x0041C296`, retail loads the configuration
+pointer into ECX and then the live Player side into EAX. The maintained
+source emits those loads in reverse order. Both feed the same indexed
+byte comparison. After relocation replay, the differing bytes are
+`+0x127..+0x12E`.
 
-The original load uses the slot at `0x004A7E78`, which exact gameplay
-setup creates and populates as `g_GameManager.configurationE8`. The
-movement source now reads that same native member. Its COFF reference
-uses the common GameManager symbol with addend `0xE8`, and all 1,900
-relocation-replayed candidate bytes are identical to the prior build
-with a separate configuration symbol. The caller replay passed all 21
-exact PlayerRuntime units, covering 5,391 physical bytes and 288 fields.
+### Extent and owned data
 
-In the current body, C2 already has the stand-alone side-index MOV at
-allocation driver entry `0x1077C08E`. The address expansion at
-`0x1077EE6B` calls `0x1077C20C` to materialize the configuration
-operand immediately before the compare and after that MOV. This happens
-inside `0x1077C367`, before global allocation. The watchpoint on the
-instruction list catches the insertion at `0x1075F0A1`. Both
-destinations remain virtual at global exit. The scratch selector at
-`0x10775ACC` sees EAX first for the side-index load and ECX next for the
-configuration load. CirnoLab's full player carrier at afebc8b, built
-with its documented profile and umbrella header, also loads the side
-first and puts the configuration relocation at `+0x12B`. Ten compilable
-historical TH09 drafts do the same under the current headers. Including
-the real PlayerRuntime caller or the Float3, timer or ANM script-index
-leaves preserves the order. Sharing the real input-mask and animation-
-interrupt bodies changes other instructions and retains the same order.
-
-A local snapshot with a `const GameConfiguration &configuration` and
-`const int &side`, initialized from the native pointer and live side
-member, produces the two loads in original order at driver entry.
-C2 represents the configuration as a global allocation entry with weight
-12. Its selector at `0x107833F2` admits EAX, ECX and EDX at equal scores
-and selects EAX. The finalizer writes that descriptor at `0x10785F12`.
-The side index is still virtual and the local scratch walk selects ECX
-while EAX holds the configuration. The accumulator's absolute load is
-one byte shorter and the later operand offsets move. A pointer-
-representation copy produces the same first two loads. The debugger
-builds reproduce all 1,900 bytes and 66 COFF fields of their respective
-cold controls. Ordinary inline mode getters and alternate side-argument
-types keep the side-first schedule in the direct-access control.
-
-A second control binds a const reference to the selected mode byte.
-The analog branch uses that byte as its active value when the frame
-threshold is met. VC7.1 folds this use to 1. At global allocation exit,
-the side load still precedes the configuration load, with both
-destinations virtual. Local allocation gives EAX to the side and ECX
-to the configuration. The scheduler at `0x107B54C7` then moves the
-configuration load first. Both MOVs and the configuration DIR32 field
-at `+0x128` now match the original. The maintained direct compare goes
-through the same scheduler. Its two loads have equal priority scores
-and keep their incoming order.
-
-In both controls, the scheduler sees a byte MOV followed by CMP.
-After scheduling, the peephole at `0x107B7DAD` copies the preceding
-MOV's memory operand into the CMP through the write at `0x1075AC02`.
-It then unlinks that MOV. The indexed operand in the maintained body
-stays indexed, and the reference control keeps its single-register
-operand. The watchpoint sees each substitution before object emission.
-In the maintained body, both loads have one edge to the indexed byte
-load. Their scores are both `0xA000`. The ready-list tie-breaker at
-`0x107B7396` uses their incoming ordinals. In the reference control,
-both loads feed the LEA. The byte load writes CL, and C2 recognizes
-that CL and ECX belong to the same register family at the dependency
-insertion call at `0x107B73C7`. The resulting write-order edge adds
-`1 << 10` to the configuration load's score, raising it from
-`0xA800` to `0xAC00`. If the same writer and reader already have a
-register-read edge, C2 merges the write-order constraint into that
-edge at `0x107B4124`. A by-value mode control that writes AL using
-EAX as part of its indexed address demonstrates this merge. Its two
-loads still tie at `0xA000` with one edge apiece. A scalar mode copy
-with a const-reference alias also gives the exact EAX and ECX inputs
-and writes CL through the indexed operand. The same merge and tie
-occur for that register pair.
-
-With separate configuration and side snapshots,
-the global allocator instead gives both inputs weight 16 and assigns
-EAX to the earlier load. Splitting local declarations from their
-assignments, inlining a focus predicate in both argument orders, and
-rewriting the preceding direction branches did not solve that coupling.
-
-The two configuration-first controls reproduce the same load and compare
-encodings across 11 historical movement bodies under the current pinned
-profile. The reference control's LEA can change its SIB operand order
-across those bodies. A read-only `IsHeld` declaration and member accessors
-on either Player or GameManager retain the maintained sequence. Capturing
-the entry side in a reusable local and refreshing it after the direction
-queries also retains the same allocation choices as the separate locals.
-Constructing a two-member snapshot can change the incoming order through
-member initialization. EAX still goes to the first load. Changing the
-outer state guard and sharing a GameManager reference with the playfield
-clamps changed other instructions without resolving the focus lookup.
-Reusing the side-index local for the final focus value also retained the
-two existing allocation outcomes.
-
-The const-reference control still emits `lea eax,[ecx+eax+0xB4]`
-followed by `cmp byte ptr [eax],1` at `+0x12F`. This is two bytes
-longer than the original indexed CMP. The option loop still starts at
-`+0x680`, where the different lead-in length changes the preceding
-alignment jump. Aligning instructions checks 485 other encodings,
-all 62 corresponding direct branches and both tables' 16 destinations.
-The cold and debugger builds of the control agree across all 1,900
-bytes and 66 fields. Direct repeated reads fold to the maintained
-side-first sequence, while keeping the configuration object in a
-reference for both reads gives the shorter EAX absolute load. The
-remaining constraint is to reach scheduling with the indexed byte
-operand and both original register choices. The configuration load needs
-either the earlier incoming ordinal or a separate scheduling edge that
-disappears from the emitted code.
-
-The comparison's SIB operand order also depends on the later movement
-code. Ending the native probe after the playfield clamps changes the
-SIB byte from `0x08` to `0x01`. The first linked address operand already
-refers to the configuration load at global allocator entry. In the full
-body it refers to the side load. Both controls retain the same order for
-the two MOVs. Cutting at the option loop's exit restores the full body's
-SIB byte. Each debug build agrees with its ordinary object and relocation
-fields.
-
-Making the actual `ReplayInputState::IsHeld` definition visible to the
-reference control reveals a second way to form the indexed CMP. It retains
-all nine input calls. At global allocator entry there is still a separate
-LEA and an indirect CMP. The write at `0x107A4378` unlinks that LEA. Before
-global allocation exits, the CMP source changes from kind `0x252` to indexed
-kind `0x253` at `0x1075AC02`, through the call at `0x10778454`. The original
-opaque-call reference control keeps its LEA through the same stage. The
-same elimination is observed in a control with the directional queries
-omitted. Retaining even one opaque directional query preserves the LEA
-in that control family.
-
-Both reference controls enter global allocation with a LEA followed
-by a register copy and a CMP. Each address temporary has one consumer.
-The early substitution pass checks indexed addresses at `0x1072E3CC`.
-It requires allocation class 2 for both address terms. The opaque-call
-control has class 2 for the configuration and class 3 for the freshly
-loaded side index. The check returns zero and `0x10783EF6` marks the
-copy's allocation record with bit `0x400`. The work-list check at
-`0x10783CEA` skips it. Subsequent coalescing at `0x10782850` records
-the LEA as the definition after the substitution opportunity has passed.
-With the input leaf visible, both address terms pass the check. The
-copy coalesces before work-list processing and the record points to
-the LEA definition and the CMP use.
-
-Using the entry's by-value `inputSide` as the focus index also gives two
-class 2 terms and an indexed CMP with all nine calls still opaque.
-That control spills the cached side and loads the configuration into
-EAX. Entry references and pointers to the live side member still take
-the LEA path. Calling through a constant pointer to the real input
-member emits the same direct calls and follows the same address path
-as each corresponding reference or by-value control.
-
-Keeping a separate local copy of the fresh side and binding a const
-reference to that copy also passes the address check. This control
-retains all nine opaque input calls, the original fresh EAX side load
-and ECX configuration load, and one indexed CMP. The side load still
-comes first, and the CMP's SIB operand order is reversed. The complete
-comparison finds nine differing bytes after relocation replay across
-the same 1,900-byte extent, with all 23 call identities in order.
-A reference bound to a temporary copy of the side behaves the same
-way. Adding a separate configuration alias to these forms still
-materializes the configuration after the side in address lowering.
-An aggregate initialized configuration-first reverses the input order
-and retains the indexed CMP, but C2 assigns EAX to the configuration
-and ECX to the side.
-
-The two controls take different allocation paths. In the fresh-side
-control, the side scores 16 and receives EAX globally. Lowering inserts
-the configuration as opcode `0x26A` after the side. Its initial weight
-is 8 and its queue weight falls to -60. It leaves global allocation
-with a scratch record and receives ECX locally. In the configuration-first
-aggregate, both producers are ordinary MOVs and score 16. The weight
-write at `0x1078292A` agrees for the two records. At `0x1077FAE3`,
-the backward instruction walk records ordinal `0x67` for the
-configuration and `0x66` for the side. The equal-weight comparison at
-`0x10782B4E` gives the higher ordinal precedence, so the earlier
-configuration receives EAX. Array-reference or row-pointer snapshots
-defer the configuration load again. Constructor forms and 32-bit
-index types retain either side-first code or EAX for the configuration
-in the full-owner builds. Inline predicates return to side-first code.
-The cold and debugger builds of the allocation controls
-agree across all 1,900 bytes and 66 COFF fields of each control.
-
-The weight trace attributes both 16 scores to a count of four
-multiplied by four at `0x10782919`. Each ordinary MOV contributes two
-at `0x10784C41`, and each of the two address terms contributes two
-at `0x10782695`. The fresh-side control's `0x26A` configuration load
-contributes only its address use before that count is reset. Reusing a
-local across the entry-side load and a fresh read in the aggregate
-leaves the two counts and multiplier equal. Reusing it for either
-effect-call side argument preserves the configuration's EAX choice in
-the aggregate and the side-first order in the other controls.
-The fresh-side and aggregate controls also tie at `0xA000` in the
-later scheduler. Each MOV has a single edge to the indexed byte load,
-so the scheduler retains the respective incoming order.
-
-Full-owner probes defining `g_GameManager` and `g_ReplayInputStates`
-in the movement translation unit reproduce all 1,900 relocation-replayed
-bytes of their respective controls. A separate configuration symbol
-bound to the same target slot does so too. Equivalent option-loop, position
-history and coordinate-clamp rewrites preserve those load and compare
-bytes in the native, fresh-side and configuration-first aggregate
-controls. Some change code or relocations later in the extent.
-
-The direction-selection join at `0x0041C296` has eight jump
-predecessors and one fallthrough. Each writes the direction immediate
-before entering the join. Flat branches and saved input results
-reproduce the respective load choices. The configuration-first
-aggregate admits EAX, ECX and EDX at equal costs and takes EAX. The
-side then admits ECX and EDX. Computing a direction local and writing
-it between the configuration and side reads gives the original ECX,
-EAX and indexed CMP, with the common direction store between the
-loads. That probe changes the direction-selection CFG and has a
-1,836-byte physical extent.
-
-The same-unit input control retains EBX for the side index, loads the
-configuration into EAX, and changes the entry's floating-point zero
-initialization. Zeroing a two-float speed aggregate with the `memset`
-intrinsic gives a 1,900-byte, 66-field control with the configuration
-in ECX and one indexed CMP. It still uses EBX for the side, clears EAX
-ahead of the CMP, and changes the entry. Updating the direction through
-a reference causes a fresh EBX load and keeps the indexed comparison
-when the focus flag uses its direct member. These controls remain
-different from the original across the full extent. Expressing the
-replay counter through byte offsets also did not recover the original.
-
-## 2026-11-21 Player movement direction join and scratch allocation
-
-The pinned VC7.1 compiler can reproduce the original focus lookup at
-`0x0041C296`. A full-unit control reads the live side at each direction
-exit. The neutral and three upward exits also capture the configuration
-pointer first. The remaining exits reach one shared configuration
-assignment. C2 merges those reads back into the original direction join
-after the eight directional input calls and their direction stores.
-The global allocator weighs the side at 63 and the configuration at
-36. It assigns EAX to the side and ECX to the configuration. The
-configuration load, DIR32 field at `+0x128`, side load and indexed
-CMP with SIB byte `0x08` all match the original.
-
-The control uses the existing movement-field reference for both
-position increments. That restores the x87 encodings near `+0x507`.
-Its complete 1,900-byte comparison leaves 14 differing bytes after
-replaying all 66 fields, including the two switch tables. Seven bytes
-are in the bitfield update near `+0x156` and seven are in the first
-effect-call setup near `+0x186`. The maintained source still differs
-by eight bytes, all in the two focus loads.
-
-The scratch selector at `0x10775ACC` sees both focus operands in the
-maintained build. They arrive already bound to EAX and ECX in the
-direction-join control. The local search at `0x10775B45` starts with
-EAX, ECX, EDX in both builds. Each successful local choice advances
-the search at `0x10776893`. In the maintained build the focus loads
-consume the first two choices. The bitfield update takes EDX and the
-first effect receiver takes EAX after the search wraps. In the control
-the bitfield update is the first request. EAX is occupied by the focus
-result, so it takes ECX. The effect receiver then takes EDX and the
-scheduler moves its loads ahead of the color and side pushes. Cold
-and debugger builds reproduce these choices across the complete
-extent. A local configuration allocation could advance the scratch
-search to EDX while retaining the globally bound side.
-
-The 16 focus-effect IDs occupy `0x004A1A10..0x004A1A4F` in the original
-`.data`, between the Player callback tables at `0x004A19D0` and
-`0x004A1A50`. The original 64 bytes decode to
-`10, 16, 17, 18, 26, 24, 27, 25, 28, 29, 30, 31, 32, 33, 36, 37`
-with SHA-256
-`16f82c6f1ce9daef50da8b2236fd0497bd8782926c6ad199a3b23d548d6b1714`.
-The maintained `PlayerMovement.cpp` definition reproduces the complete
-64-byte COFF `.data` section with zero relocations. The zero-addend
-DIR32 field at movement `+0x1B5` names that definition and resolves to
-the original table. The reference at `0x0041C325` is the sole occurrence
-of the table's base DWORD in the original `.text`. File- and block-scope
-variants with internal linkage reproduce the same contents and replayed
-code. The `const` controls place their definitions in `.rdata`. The
-maintained definition retains the existing external declaration's
-linkage. Original linkage is unresolved. All 1,900 raw owner bytes and
-66 field offsets, types, symbol identities and addends agree with the
-declaration-only build. The cold `player-on-update` replay passed the
-21 canonical `PlayerRuntime.cpp` units with 5,391 bytes and 288 fields.
-
-Co-visible exact effect-spawn and animation-script definitions also
-preserve the respective comparisons. A carrier with the real
-PlayerRuntime, short leaves and both angle methods before or after the
-movement body gives the same replayed bytes and relocation identities in
-both controls. Co-visible `ReplayInputState::IsHeld` changes the entry
-allocation and the live side register.
-
-### Co-visible position conversion and indexed addressing
-
-The exact three-byte `PlayerPositionView::operator float *()` body
-changes the focus compare's SIB from `0x08` to `0x01` when visible
-in the maintained movement carrier. The call still targets
-`0x004343D0` near `+0x507`. The two early focus loads retain their
-order and register assignments. The complete comparison gains one
-SIB difference and ten x87 differences in the position increments,
-with the same 66 relocation identities. Placing the definition before
-or after the movement body reproduces the effect. The other three
-real identity bodies in VectorPointerViews, each of which also matches
-the same physical entry, preserve all 1,900 replayed bytes of the
-maintained movement build when made visible individually.
-
-Within the C2 pass at `0x10773108`, the walk at `0x1077302C`
-follows copy definitions in the address expression. The call at
-`0x1079FE1A` constructs the first indexed operand from the two
-terms it found. The maintained body follows the side definition
-first. The visible position conversion follows the configuration
-definition first. Both walks have already produced the side MOV
-by the time they construct the operand. The later replacement
-operand at `0x10778417` preserves the order and uses a new temporary
-for the configuration load. Both controls still put that load
-after the side MOV. The direction-join control uses one indexed-operand
-construction through this path, with both captured values already
-represented. With the position conversion visible in the maintained body,
-using the existing movement-field reference for both position
-increments restores the original address-term order at driver entry
-and the original x87 order at emission. That control
-reproduces all 1,900 relocation-replayed bytes of the maintained
-movement build, including the eight-byte focus-load residual.
-
-Explicit branches assigning 0 or 1 for the threshold and digital
-focus predicates reproduce the same SIB and x87 differences with
-the position definition hidden. Combining those branches with
-the visible definition restores the SIB byte. The horizontal
-movement-field reference then reproduces the complete maintained
-comparison. Two- and four-byte outer alignment for GameConfiguration
-preserves each control's complete bytes and relocation identities.
-
-Six equivalent `IsHeld` definitions reproduce the exact 18-byte
-callee and yield the same movement bytes and relocation identities
-as the maintained co-visible definition. The compound assignment
-form emits a 16-byte leaf whose memory AND preserves ECX and changes
-the caller.
-In the direction-join control, capturing the mode byte by value and
-using it as the active value when the analog threshold is met still
-leaves the 14-byte residual. The bitfield update remains the first
-local scratch request.
-
-### Post-charge lookup as a scheduler control
-
-A scan of the tracked TH09 extents found twelve indexed accesses fed
-by independent absolute and base-relative DWORD MOVs in the preceding
-ten instructions, with a call, jump or return ending the scan.
-Movement is the sole result that loads the absolute pointer first.
-The exact post-charge lookup at `0x0041F914` uses the same configuration
-slot and the same side field. It loads the side first and uses the
-opposite SIB encoding.
-
-In both the maintained movement body and the exact post-charge lookup,
-the two destinations remain virtual at global allocation exit. Each
-load has one scheduling edge to the byte load and scores `0xA000`.
-The side has ordinal 1 and the configuration ordinal 2. In the
-direction-join control, C2 has assigned the registers by global exit.
-The two loads still score `0xA000`, with configuration ordinal 2 and
-side ordinal 3. The incoming order survives scheduling in all three
-builds.
-
-Co-visible `UpdateChargeAttack` and `EnterDeathState` definitions,
-placed before or after the movement body, preserve the maintained
-and direction-join comparisons over all 1,900 bytes and 66 fields.
-Both siblings retain their complete canonical comparisons of
-1,210 bytes and 70 fields, and 753 bytes and 38 fields, respectively.
-
-### Local allocation and compare cleanup
-
-A chronological trace of every scratch-register choice at `0x10775ACC`
-and cursor write at `0x10776893` confirms that the maintained movement
-body advances the cursor twice at the focus lookup. The direction-join
-control makes its first request at the flag update. The earlier trace
-showed requests only for instructions that survived emission. The new
-trace also covers eliminated instructions. In both builds the pass at
-`0x10786238` folds a temporary WORD move into the analog hold-threshold
-compare without a cursor write. The late pass at `0x107B5D7B` folds one
-byte move into the mode comparison. It keeps the indexed operand in
-the maintained, direction-join and fresh-side builds. The mode-reference
-build keeps its preceding LEA. This substitution requires a preceding
-MOV and clears the compare's eligibility bit before resuming the
-backward scan. Cold and debugger builds agree over all 1,900 bytes and
-66 fields for each of the four carriers.
-
-Capturing the configuration pointer only in the neutral direction
-branch gives the original load order and field position, with the
-opposite SIB byte and the same two later register differences as the
-direction-join control. Capturing the configuration in the neutral and
-three upward branches restores the original SIB byte when each exit
-captures the side. With only a common configuration read after the
-direction branches, the side load comes first and both later blocks match.
-Using a configuration pointer, row pointer or direct row access for that
-common read gives the same result. A ternary for the focus result and a
-reference to the hold counter preserve the comparisons. Moving bitfield
-stores into the two input branches changes the generated store sequence.
-Testing a copied bitfield record after writing it back restores the
-effect-call instruction order, with a different flag sequence that is
-one byte shorter. Making the real position conversion or Float3
-arithmetic visible preserves the neutral-only control's 15 differing
-bytes. The three DWORD mask declarations tried for `IsHeld` preserve the
-comparisons with the definition hidden. With the definition visible they
-emit a different 16-byte callee and change the movement code. The
-maintained source still has the eight-byte residual.
-
-Co-visible `PlayerAddedState.cpp` preserves all 1,900 replayed movement
-bytes and 66 fields for the maintained, direction-join and fresh-side
-controls. The four canonical siblings in the carrier retain all
-665 physical bytes and 30 fields with their definitions on either
-side of movement. Using a reference to the replay input record,
-direct array indexing or a constant pointer to the real `IsHeld` member
-also preserves both maintained and direction-join comparisons. Saving
-each directional mask result by value and reusing that local for the
-digital focus query preserves the same results.
-
-Caching the existing effect handle only for the first spawn preserves
-both comparisons. Sharing the handle with the removal branch changes
-the stored flag sequence and the extent. Sharing the native position
-alias between the effect calls and the later position updates moves its
-LEA ahead of the focus branch in both controls. It also changes the
-register holding the old flag word in the maintained control.
+- The owner has 1,835 code bytes, one alignment NOP and two eight-entry
+  switch tables. Its 1,900-byte physical extent ends at `0x0041C8DB`
+  inclusive.
+- The configuration slot at `0x004A7E78` is the native GameManager member
+  `configurationE8`. Its DIR32 field uses the GameManager symbol plus
+  addend `0xE8` and moves from retail `+0x128` to candidate `+0x12B`.
+  All 66 effective destinations agree, including 23 calls and the
+  compiler's floating-point zero. The other 65 fields retain their
+  positions.
+- The maintained focus-effect table is the 16 DWORDs at
+  `0x004A1A10..0x004A1A4F` in retail `.data`, between the Player
+  callback arrays at `0x004A19D0` and `0x004A1A50`. The defining COFF
+  `.data` section matches all 64 bytes with zero relocations and SHA-256
+  `16f82c6f1ce9daef50da8b2236fd0497bd8782926c6ad199a3b23d548d6b1714`.
+  The zero-addend DIR32 field at `+0x1B5` binds to that definition.
+  The rebuild preserves the raw owner bytes and field identities from
+  the declaration-only control. The maintained symbol keeps its
+  previous external linkage. Retail linkage remains unresolved.
+- The cold caller replay passed all 21 canonical `PlayerRuntime.cpp`
+  units, covering 5,391 physical bytes and 288 relocation fields.
 
 ### Replacement of the configuration load
 
-At `0x1077EE6B`, C2 expands the raw configuration descriptor into an
-opcode `0x26A` between the live side load and the indexed operation.
-This happens in the maintained build and in a mode-pointer-reference
-control whose source declares the configuration before the side.
-Watching the side load's successor shows that C2 unlinks the pseudo-load
-at `0x1078952D` in the maintained build and at `0x10789246` in the
-reference controls. The builder at `0x1075F004` allocates a new ordinary
-MOV through the common request at `0x10776AE0`. It reuses the freed
-instruction record and links it after the same side load at `0x1075F0A1`.
-This replacement preserves the incoming load order. The direction-join
-control enters allocation with both ordinary MOVs in place and needs
-no expansion for either address term. The debugger and cold objects
-agree across all 1,900 bytes and 66 fields for each traced carrier.
+At allocation driver entry `0x1077C08E`, the maintained carrier already
+has a side MOV. At `0x1077EE6B`, C2 creates opcode `0x26A` for the
+raw configuration slot immediately after that MOV. It unlinks the
+temporary at `0x1078952D` in the maintained carrier and `0x10789246` in
+the reference controls. The builder at `0x1075F004`, reached through
+the request at `0x10776AE0`, reuses the freed record for an ordinary MOV.
+The write at `0x1075F0A1` attaches the replacement after the side load.
+Declaring a configuration alias before the side in source can still
+take this path. Both maintained destinations are virtual at global
+allocator exit.
 
-Capturing a row pointer in the direction branches keeps a separate LEA
-in the configuration-first control. Capturing the configuration base as
-a byte pointer and indexing at the actual `sideFocusMode` member offset
-reproduces the existing direction-join comparison. The indexed byte
-lookup still matches, with 14 later differences. Plain row-end and
-pointer-to-member lookups preserve the maintained eight-byte residual.
-A direct two-bit XOR update and a state reference in the entry guard
-preserve the direction-join comparison, including its two later blocks.
+### Post-charge lookup as a scheduler control
 
-The exact `IsHeld` body combined with the real position, Float3, ANM or
-timer definitions still puts the configuration in EAX. The held-input
-leaf passes its full canonical comparison in all 24 scratch carriers.
-The other co-visible definitions each pass their canonical comparison
-in the eight carriers that include them.
+The exact post-charge lookup at `0x0041F914` has the same absolute slot
+and Player side operands. Both its loads and the maintained movement
+loads reach scheduling with one dependency per load, equal priority
+`0xA000`, and side-first incoming ordinals. The tie-breaker at
+`0x107B7396` keeps that order. A bounded scan of tracked extents found
+twelve indexed accesses with independent absolute and base-relative
+loads within the preceding ten instructions and within one straight-line
+region. Only movement loaded the absolute pointer first.
+
+Binding a reference to the selected mode byte and using its value as
+the analog branch's true result creates a separate LEA. Both pointer
+loads feed it, and the subsequent byte load writes CL. The register
+family check at `0x107B73C7` adds a separate ECX-to-CL write dependency
+and raises the configuration load's priority from `0xA800` to
+`0xAC00`. That recovers the original order and register choices.
+When the byte load directly uses the indexed operand, the existing
+read edge absorbs the write dependency at `0x107B4124`, and the loads
+tie again.
+
+The mode-reference control retains the LEA and emits an indirect CMP.
+The pair is two bytes longer than retail's indexed CMP, with alignment
+absorbing the displacement before the option loop at `+0x680`.
+Instruction alignment verified 485 other encodings, all 62 corresponding
+direct branches and the 16 table destinations.
+
+### Local allocation and compare cleanup
+
+The pre-scheduler pass at `0x10786238` folds the analog threshold's
+temporary WORD load without advancing the scratch cursor. After
+scheduling, the peephole at `0x107B7DAD` replaces a register operand
+in the CMP with the preceding byte MOV's source at `0x1075AC02`.
+It unlinks the MOV and clears the compare's eligibility bit. The
+indexed source stays indexed in the maintained, direction-join and
+fresh-side controls. The mode-reference control retains its LEA.
+
+Global substitution can remove the LEA earlier. The indexed-address
+check at `0x1072E3CC` requires both terms to have allocation class 2.
+With the original input leaf opaque, a direct live-side term has class 3.
+The failure sets bit `0x400` at `0x10783EF6`, and the work-list skips
+the copy at `0x10783CEA`. Giving both terms class 2 allows the LEA to be
+unlinked at `0x107A4378` and the indexed source to replace the indirect
+one. A fresh by-value side with a const-reference alias does this with
+all nine input calls opaque. It leaves nine differences, the eight
+load-order bytes and the opposite SIB byte. Its side gets EAX globally
+with weight 16. The configuration load enters with weight 8 and drops to
+-60 in the queue, leaving ECX to the local chooser.
+
+A configuration-first snapshot can move the load before the side by
+global allocator entry. A configuration reference with the side as a
+live reference scores 12 for the pointer. In a by-value aggregate both
+ordinary MOVs score 16, from two counts for the definition and two for
+the address use, scaled by four at `0x10782919`. The backward ordinal
+walk at `0x1077FAE3` and comparison at `0x10782B4E` give the earlier
+configuration the tie. In both cases the pointer gets EAX, and its
+shorter absolute-load encoding shifts the following code.
+
+### 2026-11-21 Player movement direction join and scratch allocation
+
+The retained `.analysis/movement-focus/focus-order-control.cpp` captures
+the live side at eight jump predecessors and the neutral fallthrough.
+The neutral and three upward exits capture configuration first. The
+other exits use a common configuration assignment. C2 merges those
+reads after the direction stores. Side scores 63 and gets EAX globally.
+Configuration scores 36 and gets ECX globally. The load order, field at
+`+0x128` and indexed CMP with SIB byte `0x08` all match retail. Capturing configuration
+only in the neutral exit keeps the load order and reverses the SIB.
+Using the movement-field reference for both position increments
+restores the original x87 encodings in the retained control.
+
+The complete 1,900-byte join comparison keeps all 66 relocation
+positions. It differs in seven bytes at the flag update near `+0x156`
+and seven in the first effect call near `+0x186`. The maintained
+carrier makes two local scratch requests at the lookup. The join
+has both registers assigned globally, so its first local request
+is the flag delta. The cursor advances at `0x10776893` in the
+EAX, ECX, EDX sequence. With the computed focus result occupying
+EAX, the join chooses ECX for the delta and EDX for the first effect
+receiver. The maintained carrier chooses EDX for the delta and
+wraps to EAX for the receiver. The receiver's register affects
+scheduling of its loads relative to the argument pushes.
 
 ### Lowering the two flag-word reads
 
-At the first bitfield scratch request, EAX is occupied by the computed
-focus result. Both ECX and EDX are free in the maintained and direction-
-join carriers. The XOR that produces the updated flags still has two
-memory operands at global allocation exit. During local lowering C2
-inserts the old-word MOV just before that XOR at `0x1075F099` and binds
-the XOR destination at `0x1075A482`. The scheduler moves the MOV ahead
-of the two delta operations at `0x107B54CC`. The maintained build gives
-EDX to the delta and ECX to the old word. The direction-join build makes
-the opposite choices. The old-word register is selected after the delta
-request.
+ECX and EDX are both free when the delta request starts in the
+maintained and join controls. The later XOR still has two memory
+operands at global allocation exit. Local lowering inserts the
+old-word MOV before the XOR at `0x1075F099` and binds the destination
+at `0x1075A482`. The scheduler moves that MOV ahead of the delta
+operations at `0x107B54CC`. The old word gets ECX in the maintained
+carrier and EDX in the join.
 
-Putting the unfocused block first in source with an explicit edge to the
-focused block reproduces the maintained eight-byte and direction-join
-14-byte comparisons. Inverting the branch changes the physical layout
-of the two switch bodies. The first scratch request in both direction-join
-controls is still the bitfield update.
-
-A control snapshots the old flags before the analog threshold or after
-the digital query, then uses the saved word in the two-bit update. C2
-merges the reads into one load and a register copy. The first effect
-receiver takes EAX, with the original argument and receiver instruction
-order. The flag region is five bytes shorter before its conditional
-branch. Copying just the analog count with the `memcpy` intrinsic
-reproduces the direction-join control's 14 differences and scratch
-choices. The six traced carriers agree with their cold objects across
-their full extents and all 66 relocation fields.
+A source snapshot of the old flags before the analog threshold or
+after the digital query merges the reads into one load and a register
+copy. The first effect receiver returns to EAX with its original
+instruction order, while the flag region before the branch is five
+bytes shorter. A direct two-bit XOR update, an entry-state reference
+and an intrinsic copy of only the analog count all reproduce the
+join's original two residual regions. Putting the unfocused branch
+first with an explicit forward edge also preserves the residual.
+Inverting the branch rearranges both switches and leaves the first
+local request at the flag update.
 
 ### Keeping the focus side live for the first effect
 
-Reusing the focus lookup's side snapshot for the first effect call makes
-VC7.1 keep that value through the flag update. In the direction-join
-control with the input definition hidden, the compiler assigns EDI to
-the side, spills the input receiver and loads the configuration into
-EAX. In the fresh-side control it spills the side around `IsHeld` and
-reloads it into ECX. Using a reference to the live Player member instead
-lets the compiler reload the side at the original first-effect site.
-That control has nine differing bytes at the focus lookup.
+Using the lookup's by-value side snapshot as the first effect argument
+extends it through the flag update. The join assigns EDI to the side,
+spills the input receiver and assigns EAX to the configuration.
+The fresh-side control spills the side around `IsHeld` and reloads
+ECX. A live reference instead lets C2 reload the side at the original
+call site, leaving only the nine-byte lookup residual.
 
-A split-source control takes the first effect's side from the lookup
-before the analog threshold and refreshes it after the digital query.
-Its configuration-first loads and indexed CMP match the original.
-Immediately before the first flag scratch choice, the cursor is at its
-initial position and EAX and ECX are both occupied. The selector gives
-EDX to the flag delta. The preserved side stays in ECX, so the second
-flag load uses EDI and the effect call pushes the cached side. The
-target reloads the side at that call. The traced and cold objects agree
-over 1,900 bytes and 66 fields for each of these controls. Across the 32
-co-visible input controls the real `IsHeld` definition also reproduces
-its 18-byte body with zero relocations.
+On the direction-join body, assigning the first effect's side from
+the lookup before the analog threshold and refreshing it after the
+digital query preserves the original lookup. EAX and ECX are both
+occupied at the first bitfield request, so the delta gets EDX.
+The cached side stays live in ECX. The old flag word then gets EDI
+and the effect call pushes the cached side, while retail reloads it.
+This control identifies the register pressure that recovers EDX
+and the later effects of keeping that pressure alive.
+
+### Co-visible position conversion and indexed addressing
+
+The exact three-byte `PlayerPositionView::operator float *()` body at
+`0x004343D0` changes the maintained comparison's SIB from `0x08` to
+`0x01` when visible before or after movement. It still emits the
+original call and also changes ten later x87 bytes. Using the native
+movement-field reference for both position increments restores the
+SIB and x87 encodings, leaving the original eight-byte residual.
+
+The address walk at `0x1077302C` follows copy definitions and constructs
+the first indexed operand at `0x1079FE1A`. The visible position body
+makes it follow the configuration definition first. Both versions
+already have the side MOV at that point, so the later replacement at
+`0x10778417` preserves their respective SIB order with a late
+configuration load. Truncating the probe after the clamps also
+reverses the SIB. Keeping the option loop restores it.
+
+Making the real `IsHeld` body visible gives both address terms class
+2 and removes the LEA in the mode-reference control. The same nine
+calls remain, but entry allocation, the live side register and the
+configuration's assignment change. Six equivalent 18-byte input
+leaves preserve that outcome. DWORD-mask and compound-assignment
+controls can compile to a separate 16-byte leaf and change the caller.
+The original 18-byte body also stayed exact in the later co-visible
+position, Float3, ANM and timer controls.
+
+Co-visible PlayerRuntime, PlayerAddedState, charge, death, effect-spawn,
+animation-script and Float3 leaves preserve the lookup in the relevant
+maintained and join carriers. The four exact PlayerAddedState units
+replayed 665 bytes and 30 fields in their shared carriers. Charge and
+death stayed exact across 1,210 bytes and 70 fields and 753 bytes and
+38 fields, respectively. CirnoLab's complete player carrier at
+`afebc8b` and ten compilable historical TH09 drafts also retain the
+side-first residual under their tested contexts.
+
+### Configuration slot access and carrier boundary
+
+The last completed slot batch used the native member address, pointers
+to members, a typed byte offset and a DWORD address. Ordinary
+dereferences and typed pointer copies preserve the maintained load
+order. A four-byte `memcpy` snapshot of the slot gives the pointer
+EAX and the shorter absolute load. The direction-join slot variants
+retain their lookup and the two later register residuals. Some also
+change the x87 position operand order.
+
+The paired-copy and accessor batch ended with compile errors in the
+named fresh-side helper variants and produced no completed comparison.
+The proposed combined `ReplayInput.cpp` carrier stopped on conflicting
+declarations of `g_Supervisor`. ReplayInput uses `SupervisorReplayView`
+and movement uses the native `Supervisor` type. This is an untested
+compiler context with a source-level declaration conflict.
+
+### Retained compiler controls
+
+The ignored `.analysis/movement-focus/` directory contains the merged
+direction, fresh-side and mode-reference sources with their GDB trace
+recipes. These reproduce the distinct allocation and address-lowering
+paths for the unresolved owner. `probe.py` checks the target and
+compiler inputs and replays complete function objects through their
+COFF fields. `trace-run.py` compiles a selected source under the
+pinned profile and supplies its object and trace. The checkout's
+[handoff](RE_HANDOFF.md#player-movement-handoff) lists the shortest replay.
+
+Read back the cold frontier object with the local relocation replay.
+
+```bash
+python3 -B - <<'PY'
+from pathlib import Path
+import sys
+
+sys.path.insert(0, '.analysis/movement-focus')
+from probe import SYMBOL, examine
+
+body, fields, _, differences = examine(Path('build/frontier/player-movement.obj'), SYMBOL)
+print(len(body), len(fields), [hex(offset) for offset in differences])
+PY
+```
+
+Secondary trace recipes cover the slot MOV replacement in
+`load-normalization`, compare folding in `peephole`, SIB terms in
+`address-walk` and the post-charge control in `peer-scheduling`.
+Debugger-built objects were compared with their cold counterparts over
+each tested extent and all its fields.
 
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 
@@ -2028,13 +1767,6 @@ The ReplaySave stage-buffer-base experiment was extended to reuse one captured
 base for both input and FPS payload loops. It retained the 1,238-byte extent
 but regressed from two differences to six. The frame-header destination still
 uses ECX as the LEA base instead of retail EDI. The source was reverted.
-
-A `GameConfiguration *configuration = g_GameConfiguration` snapshot in
-`UpdateMovementAndOptions` did not sequence the configuration load ahead of
-`player->sideIndex`: VC7.1 still emitted the side load first. The four-byte
-residual at +0x127..+0x12A remains unchanged, and the local snapshot was
-reverted.
-
 
 ## ReplaySave stage-root lifetime and frame-row cursor probes (2026-11-19)
 
