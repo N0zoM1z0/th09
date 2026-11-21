@@ -47,16 +47,18 @@ checkpoints below, the link reports this work:
 
 | Work | Count | Next action |
 | --- | ---: | --- |
-| Duplicate definitions from ten sources compiled under two profiles | 196 symbols | Recover the original translation units. Use address neighbourhoods; see below |
+| Duplicate definitions from nine sources compiled under two profiles | about 150 symbols | Recover the original translation units. Use address neighbourhoods; see below |
 | Data symbols with no definition | 379 | Define each global once, with its initializer for `.data` and `.rdata` |
 | Calls through view-type aliases of exact functions | 136 symbols, 81 functions | Use the real type. Identical bodies folded by the linker need their own definitions instead |
 | Functions without exact source | 10 | Movement owner, 5 unknown constructors, 4 compiler-generated helpers |
 
-Ten sources have no single profile that keeps all their units exact.
-Most minority units lie in another module's address range. Examples are
-`AnmManager::SpriteHasTexture` and `AsciiManager::SetScale` inside the
-`/O1` Title block, and `TitleScoreRecordView::InsertIntoTable` beside
-ScoreData. Those bodies belong to another translation unit. Constructors
+Nine sources have no single profile that keeps all their units exact.
+Most minority units lie in another module's address range. Moving
+`TitleScoreRecordView::InsertIntoTable` into the ScoreData carrier it
+precedes resolved TitleScreen. `AnmManager::SpriteHasTexture` and
+`AsciiManager::SetScale` sit unaligned inside the `/O1` Title block. They
+are probably header inline bodies that only the `/O1` unit emitted, so
+check each caller's call or inline expansion before moving them. Constructors
 needing `/Ob0` inside an `/Ob1` range, such as AnmManager, CardAttack and
 Player, point to a callee that the original did not inline. `EclManager.cpp`
 spans `0x004010B0..0x0044C790` and combines many original units.
