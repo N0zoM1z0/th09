@@ -3305,15 +3305,32 @@ and target once the displaced blocks are accounted for.
 
 Making the exact PopFrame body co-visible changed the later layout
 and register scheduling without changing the call inventory. Making
-GetSeed visible removed a receiver relocation which retail retains.
+GetSeed visible preserved the seed calls and receiver loads. VC7.1
+kept the outgoing frame value in EDX across GetSeed and removed the
+original checksum reload from 0x004B40A0.
 Renaming receiver aliases, changing only the spelling of the packet-ready
 condition, and duplicating retry cleanup reproduced the same deferred
 retry. Reloading the receiver after both publication paths produced
-the correct EDI readiness read in a control but disturbed clock
-allocation and enlarged the scratch frame through an input-word spill.
+the correct EDI readiness read in a control but kept the clock in EBX
+across frame prediction. The resulting frame-counter spill at EBP-4
+displaced the scratch record and grew the frame to 0x18 bytes.
+
+A standalone input array produced the original EDI/EBX first loads and
+the two fastcall argument moves. VC7.1 placed it at EBP-8 and EBP-6,
+moving the PopFrame scratch and result DWORD as well. A reference to
+the existing frame-timing record preserved both the maintained
+candidate and the receiver-refresh control byte for byte.
+
+The retry displacement persists with the later timeout-to-retry edge
+removed. Further controls omitted the final input publication, final
+PopFrame calls, frame commit, handshake, or prefill in isolation.
+Each still placed the retry out of line from the packet-ready check.
+A debugger trace of the maintained carrier reached the pinned C2
+allocator and skipped the profile-guided trace-formation entry.
 
 The two contiguous 12-byte outgoing packet slots at 0x004B409C and
 0x004B40A8 and the network pointer cell at 0x004B42D0 lie in the
-zero-filled portion of the original data section. The three connection
-message operands select distinct terminated strings in file-backed
-read-only data. These are external data bindings for this code owner.
+zero-filled portion of the original data section. The disconnect, wait,
+and search messages select distinct terminated strings at 0x00490A88,
+0x00490AA8, and 0x00490AC4 in file-backed read-only data. These are
+external data bindings for this code owner.

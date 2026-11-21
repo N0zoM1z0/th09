@@ -47,8 +47,7 @@ extern int __fastcall SupervisorSubthreadIsRunning(Supervisor *supervisor);
 // Retail uses the same eight-byte stack window in two mutually exclusive
 // phases. The handshake writes seeds at -0xC/-0xA and prediction at -0x8;
 // the final frame instead writes prediction at -0xC and seeds at -0x8/-0x6.
-// The adjacent input/frame home at -0x14 is separately reused for the
-// frame counter during prediction and the two input words during consumption.
+// The final input pair uses the adjacent stack words at EBP-0x14 and EBP-0x12.
 struct NetworkPopFrameScratch
 {
     union
