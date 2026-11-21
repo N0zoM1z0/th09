@@ -2,17 +2,6 @@
 # residual: hex byte offsets (ranges) that differ from the original after relocation
 # fields are masked. Never edit by hand; record improvements with --update.
 
-[frontier.enemy-on-update]
-function = "EnemyManagerView::OnUpdate"
-source = "src/EclManager.cpp"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-symbol = "?OnUpdate@EnemyManagerView@@SIHPAU1@@Z"
-address = 0x00410730
-size = 3900
-candidate_size = 3900
-target_sha256 = "a7f01c2ff0bda79d1fd17ac9170dc3560d4089457455d7928776df8556f1bc75"
-residual = ["19C", "1A3"]
-
 [frontier.replay-begin-playback]
 function = "ReplayManagerView::BeginPlaybackStage"
 source = "src/ReplayInput.cpp"

@@ -86,9 +86,8 @@ void EnemyView::AppendPlayerCollisionBox(
             0);
 }
 
-// Maintained non-exact reconstruction of the EnemyManager calc callback at
-// 0x410730.  The private views below expose only target-observed offsets.  The
-// helper names describe roles; original names remain unknown.
+// EnemyManager calc callback at 0x410730. The private views below expose
+// target-observed offsets. Helper names describe their roles.
 
 enum EnemyCoreFlags
 {
@@ -334,7 +333,6 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
     int trailIndex;
     int hitKind;
     int enemyIndex;
-    EnemyView **drawHead;
 
     if ((g_GameManager.flags & 0x1800) != 0)
         return 1;
@@ -400,12 +398,20 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
         }
 
         // The native side +0x34 gate is the shared GameManager bitfield.
-        int sideCategory;
-        if (manager->sideState320->flagBits34.bit0 == 0 ||
-            ((sideCategory =
-                enemy->secondaryFlagBits3380.category.sideCategory10_11) == 1) ||
-            sideCategory == 2)
+        if (manager->sideState320->flagBits34.bit0 != 0)
         {
+            const unsigned int sideCategory =
+                enemy->secondaryFlagBits3380.category.sideCategory10_11;
+            if (sideCategory != 1 && sideCategory != 2)
+            {
+                if (primaryFlags.noSprite04 != 0)
+                    continue;
+                EnemyView **drawHead = &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
+                enemy->nextInDrawGroup04 = *drawHead;
+                *drawHead = enemy;
+                continue;
+            }
+        }
 
         {
             damageOccurred = 0;
@@ -437,10 +443,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             {
                 if (enemy->specialAttackTimer5424.HasTickedEvery(2))
                 {
-                    // Preserve the native volatile side-state field read: VC7.1
-                    // then keeps the following threshold/descriptor schedule.
-                    volatile EnemySideStateView *sideState = manager->sideState320;
-                    sideState->effectManager0C->SpawnEffect(
+                    manager->sideState320->effectManager0C->SpawnEffect(
                         9,
                         reinterpret_cast<EffectFloat3 *>(&enemy->position2D74),
                         1,
@@ -457,8 +460,8 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                     descriptor.position =
                         reinterpret_cast<const Float3 &>(enemy->position2D74);
                     EnemySideStateView &spawnSide = *manager->sideState320;
-                    descriptor.bulletType = 1;
                     descriptor.aimMode = 0;
+                    descriptor.bulletType = 1;
                     descriptor.count1 =
                         static_cast<short>(spawnSide.characterIndex20 == 13 ? 1 : 3);
                     descriptor.speed1 =
@@ -965,22 +968,10 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
         if (enemy->primaryFlagBits337C.noSprite04 == 0 &&
             enemy->primaryFlagBits337C.active00 != 0)
         {
-            drawHead = &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
+            EnemyView **drawHead = &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
+            enemy->nextInDrawGroup04 = *drawHead;
+            *drawHead = enemy;
         }
-        else
-            continue;
-        }
-        else
-        {
-            if (primaryFlags.noSprite04 != 0)
-                continue;
-            drawHead = &manager->drawGroupHeads2AC410[enemy->drawGroup3387];
-        }
-
-    append_enemy_to_draw_group:
-        // Shared draw-head append uses the native Enemy object.
-        enemy->nextInDrawGroup04 = *drawHead;
-        *drawHead = enemy;
     }
 
     manager->frameTimer2AC404++;

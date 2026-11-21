@@ -808,6 +808,7 @@ th09_ecl_select_next_context:
 // The unique original TU partition remains unknown. Keep operator+= in its
 // independent Float3 TU: exposing it here changes the exact trail owners.
 #include "Float3Core.inl"
+#include "ZunTimerHasTickedEvery.inl"
 #include "EnemyManagerCore.inl"
 #include "PlayerPositionCallback30404Type11.inl"
 #include "PlayerPositionCallback30404Type4Type8.inl"

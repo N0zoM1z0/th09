@@ -1,4 +1,4 @@
-# TH09 reconstruction — current agent handoff (2026-11-20)
+# TH09 reconstruction — current agent handoff (2026-11-21)
 
 This is the single current restart guide. Read AGENTS.md first. The canonical
 target, ledgers, current source and comparison scripts outrank prose. This
@@ -21,6 +21,10 @@ KNOWLEDGE_BASE.md and generated counts live in PROGRESS.md.
   The shared timer comparison and unsigned frame read explain how an
   earlier allocation changed both switches.
   See [the compiler proof](KNOWLEDGE_BASE.md#2026-11-20-shake-envelope-compiler-context).
+- `EnemyManagerView::OnUpdate` matches its 3,900-byte physical extent and
+  all 97 relocations, including the four-entry switch table.
+  Replay with `python3 -B scripts/replay-scoped-exact.py --source src/EclManager.cpp`.
+  See [the timer and draw-list compiler evidence](KNOWLEDGE_BASE.md#2026-11-21-enemy-update-exact).
 - See [generated progress](PROGRESS.md) for current ledger totals.
 - Complete function inventory is still unproven; callback tables need a
   separate audit. Whole Windows i386 product closure remains open. Semantic
@@ -36,28 +40,12 @@ The residual counts mask COFF relocation fields. Replaying those fields
 adds six differing bytes in BeginPlaybackStage and four in
 UpdateMovementAndOptions.
 
-Enemy update, initialization and reset now use one 256-byte schedule
-buffer at the reviewed original address. The current Enemy update comparison
-still has two register differences.
-See [the schedule storage proof](KNOWLEDGE_BASE.md#2026-11-20-enemy-update-schedule-storage).
-
-The current focus is `EnemyManagerView::OnUpdate`. Rebuild it with
-`python3 -B scripts/check-frontier.py enemy-on-update --show`.
-The visible timer and an earlier aim-mode initialization together
-reproduce the original draw-group index and bullet descriptor.
-That control has four differences in the force-death vector call.
-See the [compiler context comparison](KNOWLEDGE_BASE.md#2026-11-20-enemy-update-schedule-storage).
-Regenerate the controls with `python3 -B .analysis/enemy-update-focus/prepare.py`
-and trace the register list with
-`python3 -B .analysis/enemy-update-focus/trace.py arg-cursor stand_opaque stand_visible`.
-
 Player movement is paused at the 8-byte relocation-replayed residual.
 The [compiler analysis](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads)
 records the allocation, instruction scheduling and direction-join controls.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| EnemyManagerView::OnUpdate | 0x00410730 | 3,900/3,900 bytes; 2 differences (OK) | The visible-timer and early-aim control recovers the original draw-group index and bullet descriptor. Its four remaining bytes are in the force-death vector call. |
 | ReplayManagerView::BeginPlaybackStage | 0x00420840 | 540/540 bytes; 13 structural differences (OK), 19 after relocation replay | A native side-0 reference restores the positions of both GameManager operands. It leaves nine register-selection differences around the two replay bytes and the first score store. |
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes; 4 differences (OK) | Focus-mode load order at +0x127..+0x12A. Retail loads g_GameConfiguration before player sideIndex; current source emits the reverse order. |
 | PlayerLifecycleView::UpdateChargeAttack | 0x0041F810 | 1,210/1,210 bytes; 183 differences (OK) | Boss register allocation: retail loads the full DWORD sideIndex into EDI and forms the ReplayInputState pointer in EBX (0x8E stride). Current short-side/input locals allocate the opposite way; widening/removing locals regressed hundreds of bytes. |
@@ -95,16 +83,6 @@ Since the previous handoff, commit 9f223ed4 preserves native DWORD wrapping
 in the collision reward-side arithmetic. The changed carrier passed its
 scoped replay: five exact units, 1,220 physical bytes, 32 relocation fields.
 This does not grant exactness to CheckBulletCollision itself.
-
-Commit 7adfc808 restructures EnemyManager::OnUpdate to match the original
-short-circuit branch order: the side-state bit is tested first, the category
-byte is read only when required, and the early draw path joins the shared
-append. The function remains 3,900/3,900 bytes with the same two EAX/ECX
-register-selection differences; no frontier was rebaselined. The changed
-carrier passed `scripts/replay-scoped-exact.py --changed-file
-src/EnemyManagerCore.inl`: two EclManager compiler profiles, 84 exact units,
-45,420 physical bytes and 1,987 relocation fields. This is a scoped carrier
-proof, not a whole-product cold replay.
 
 The separate Etama fsincos helper is 36/33 bytes with 25 differences.
 Its origin remains unresolved. Natural sinf/cosf remains nonexact.
@@ -169,9 +147,6 @@ The remaining failed boss and leaf experiments are recorded in
   sender lifetimes, plus the final packed-input locals. The stack remains
   0x14. Continue on the packet-ready/shared-wait layout and remaining packet
   queue code; do not rebaseline or use register hints/volatile aliases.
-- EnemyManager::OnUpdate remains at its two EAX/ECX draw-group index residuals.
-  Scoped category temporaries, a shared helper and local index variables did
-  not change the generated code.
 - UpdateChargeAttack remains 1,210 bytes with 183 differences. A full-DWORD
   side local plus direct input-row calls can reproduce the target entry
   (EDI=side, EBX=input pointer), but keeping that local alive for later sound
@@ -185,9 +160,6 @@ The remaining failed boss and leaf experiments are recorded in
 - Reusing one stage-buffer base across both payload loops grew
   ReplaySave from two to six differences; direct assignment/cursor/memcpy
   variants also retained the two-byte EDI/ECX destination-base residual.
-  EnemyManager::OnUpdate remains at its two
-  EAX/ECX draw-group index residuals; const locals and typed pointer addition
-  did not change the generated code.
 
 ## Additional IDA boss captures (2026-11-19)
 
@@ -268,9 +240,7 @@ Prioritize boss control flow and then close near-exact leaves:
    those roles but changed the later attack CFG to 1,202/503. Preserve the
    1,210/183 frontier while finding the same lifetimes without changing label
    layout or the later attack branches.
-4. EnemyManager::OnUpdate: revisit the remaining EAX/ECX draw-group index only
-   after the two large owners have advanced.
-5. Close the near-exact ReplaySave, Player movement and Effect callback leaves.
+4. Recheck the near-exact owners in the current frontier table.
 
 All failed variants outside the committed network-service recovery are
 restored. Do not copy diagnostic variants from .analysis into maintained source.
@@ -423,10 +393,6 @@ update or a source change:
   `AnmVm *` or introducing a non-inlined owner-recovery helper regressed the
   complete owner. Those variants were discarded; only the direct typed
   single-VM accesses listed above remain.
-- `EnemyManager::OnUpdate`: additional array-reference, pointer-to-array,
-  pointer-base and inline append-helper forms retained the same two-byte
-  EAX/ECX draw-group index residual. All probes were reverted; the maintained
-  3,900-byte source remains unchanged.
 - `CheckBulletCollision`: target-polarity dispatch, dispatcher-in-circle,
   single-inner-loop, and radius-condition inversion forms were compiled. The
   best new label/loop trial was 848/862 bytes with 569 differences, worse than
@@ -478,9 +444,6 @@ ahead of `origin/main`. No push was performed.
 
 ### Boss continuation results
 
-- `EnemyManager::OnUpdate` remains 3,900/3,900 bytes with two EAX/ECX index
-  register differences. Function-scope index types, pointer/reference
-  aliases, array-reference forms and append helpers did not improve it.
 - `CheckBulletCollision` remains 849/862 bytes with 539 differing positions
   and is still REGRESSED against the strict 842-byte/705-difference ratchet.
   A new IDA-CFG reconstruction tried the circle-first, shared-dispatch,
@@ -517,10 +480,8 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
 - EffectUpdateCallbackType1Type2 already reads the random-axes side's
   character through AsciiGameManagerSideView; it remains exact at 775 bytes
   and 33 relocation fields.
-- Boss priorities remain EnemyManager::OnUpdate (3,900 bytes, two
-  register-selection differences), CheckBulletCollision (maintained source
-  is still REGRESSED against the 842-byte ratchet), and
-  UpdateNetworkService (1,633-byte candidate, REGRESSED against 1,629).
+- CheckBulletCollision and UpdateNetworkService remain REGRESSED against
+  their recorded frontier ratchets.
   Continue from target CFG and natural C++; do not rebaseline or use ASM,
   register forcing, padding or synthetic bytes.
 
@@ -539,16 +500,12 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
   and EffectPlayerStripFamily.cpp passed five carriers, 104 exact units,
   49,253 bytes and 2,148 relocations. Basic CI passed; no cold replay ran.
 - Exact authored function credit remains 1,026. Continue to prioritize the
-  three nonexact gameplay bosses in the table above; do not promote or
+  nonexact gameplay bosses in the table above; do not promote or
   rebaseline REGRESSED candidates.
 
 
 ## Continuation after 8b4a1c60 (2026-11-20)
 
-- EnemyManager::OnUpdate was rebuilt after the Effect header changes and
-  remains 3,900/3,900 bytes with the same two draw-group register differences
-  at +0x19A/+0x1A1. Branch-local pointer/reference/array aliases and explicit
-  index casts did not alter the residual.
 - CheckBulletCollision cursor-home experiments were reverted. Removing the
   redundant entry home store yielded 837/862 bytes with 706 differences and
   105 new offsets; making the scratch union the only scan cursor yielded
@@ -583,9 +540,6 @@ inline assembly, register hints, padding or synthetic bytes were introduced.
   The best fresh natural-C++ candidate was 845/862 bytes / 581 differences,
   worse than the maintained 849/862 / 539 frontier, so all experiments were
   reverted. Do not rebaseline.
-- EnemyManager::OnUpdate remains 3,900/3,900 bytes with only the two
-  +0x19C/+0x1A3 MOVZX/LEA register choices remaining. Several natural pointer,
-  index, helper and lifetime variants were tried and reverted.
 - The collision-region owner and Deactivate leaf changes are committed
   separately and their 19-unit selected replay passed. Current exact count
   remains 1,026; no full cold replay ran.

@@ -2840,6 +2840,36 @@ Taking a const reference to the side-state pointer slot restores
 the original vector registers in the timer-visible control. That
 build again uses ECX for the draw index and changes the descriptor.
 
+## 2026-11-21 Enemy update exact
+
+Pinned VC7.1 reproduces all 3,900 physical bytes of
+`EnemyManagerView::OnUpdate` at `0x00410730`. The comparison includes
+97 COFF relocations, the alignment byte and all four switch entries.
+Independent replay also confirmed all 69 direct call identities, the five
+read-only float definitions and both folded callback bodies. The canonical
+comparison rejects separate mutations to the draw instruction, a schedule
+relocation addend and the first switch destination's COFF definition.
+The exact `ZunTimer::HasTickedEvery` definition now shares the ECL compilation
+unit with its Enemy and ExAttack callers. Original translation-unit
+ownership remains unresolved.
+
+When the timer definition is visible, VC7.1 initially gives the side gate
+and the later effect receiver one allocation record. The output reloads
+the side pointer in the effect branch, but the gate's EAX is already
+assigned before local allocation. The early draw index then takes EAX.
+The CirnoLab control exposed a second local request before the vector
+call. Its early append reads the old draw head into ECX before VC7.1
+merges that append with the normal path. The scratch list advances to EDX
+even though the separate early read disappears from the final code.
+
+Writing the append in both source paths reproduces this sequence. The
+retained force-death call uses EDX for the offset argument and EAX for the
+hidden return buffer. Initializing the descriptor's aim mode before the
+bullet type restores the remaining descriptor order. With the timer
+visible, the effect receiver uses the shared side type directly. The
+canonical comparison runs with
+`python3 -B scripts/replay-scoped-exact.py --source src/EclManager.cpp`.
+
 ## 2026-11-20 Replay playback side-state load
 
 Original `BeginPlaybackStage` stores replay byte `+0x1E7` into GameManager
