@@ -54,6 +54,9 @@ control leaves a separate LEA before the compare. Compare the scheduler inputs
 with `python3 -B .analysis/movement-focus/trace-run.py focus-schedule direct_ref_conditional native`.
 For dependency insertion and the ready-list tie-breaker, use the same controls
 with `trace-run.py readiness direct_ref_conditional native`.
+The `direct_ref_visible.cpp` carrier includes the exact input leaf and shows
+how global allocation can remove the LEA. Compare it with the opaque-call
+control using `trace-run.py lea-elimination direct_ref_visible direct_ref_conditional`.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |

@@ -1586,6 +1586,39 @@ operand and both original register choices. The configuration load needs
 either the earlier incoming ordinal or a separate scheduling edge that
 disappears from the emitted code.
 
+The comparison's SIB operand order also depends on the later movement
+code. Ending the native probe after the playfield clamps changes the
+SIB byte from `0x08` to `0x01`. The first linked address operand already
+refers to the configuration load at global allocator entry. In the full
+body it refers to the side load. Both controls retain the same order for
+the two MOVs. Cutting at the option loop's exit restores the full body's
+SIB byte. Each debug build agrees with its ordinary object and relocation
+fields.
+
+Making the actual `ReplayInputState::IsHeld` definition visible to the
+reference control reveals a second way to form the indexed CMP. It retains
+all nine input calls. At global allocator entry there is still a separate
+LEA and an indirect CMP. The write at `0x107A4378` unlinks that LEA. Before
+global allocation exits, the CMP source changes from kind `0x252` to indexed
+kind `0x253` at `0x1075AC02`, through the call at `0x10778454`. The original
+opaque-call reference control keeps its LEA through the same stage. The
+same elimination is observed in a control with the directional queries
+omitted. Retaining even one opaque directional query preserves the LEA
+in that control family.
+
+The same-unit input control retains EBX for the side index, loads the
+configuration into EAX, and changes the entry's floating-point zero
+initialization. Zeroing a two-float speed aggregate with the `memset`
+intrinsic gives a 1,900-byte, 66-field control with the configuration
+in ECX and one indexed CMP. It still uses EBX for the side, clears EAX
+ahead of the CMP, and changes the entry. Updating the direction through
+a reference causes a fresh EBX load and keeps the indexed comparison
+when the focus flag uses its direct member. These controls remain
+different from the original across the full extent. Expressing the
+replay counter through byte offsets also did not recover the original.
+The remaining question for this route is which address substitution input
+permits LEA removal with both native scratch register assignments intact.
+
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 
 IDA's `UpdateChargeAttack` entry is precise: EDI holds the full DWORD
