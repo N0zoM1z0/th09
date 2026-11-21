@@ -59,6 +59,15 @@ python3 -B .analysis/movement-focus/position-context.py
 python3 -B .analysis/movement-focus/trace-run.py address-walk focus-current position-visible
 ```
 
+The exact post-charge lookup uses the same configuration slot and
+reproduces the maintained movement scheduler's equal load priorities.
+[Scheduler control](KNOWLEDGE_BASE.md#post-charge-lookup-as-a-scheduler-control)
+
+```bash
+cp src/PlayerChargeAttackUpdate.cpp .analysis/movement-focus/focus-charge.cpp
+python3 -B .analysis/movement-focus/trace-run.py peer-scheduling focus-current focus-charge focus-order-control
+```
+
 ## Recent exact checkpoints
 
 - `fsincos` at 0x00412780 matches all 33 bytes with zero relocations.

@@ -1804,6 +1804,31 @@ using it as the active value when the analog threshold is met still
 leaves the 14-byte residual. The bitfield update remains the first
 local scratch request.
 
+### Post-charge lookup as a scheduler control
+
+A scan of the tracked TH09 extents found twelve indexed accesses fed
+by independent absolute and base-relative DWORD MOVs in the preceding
+ten instructions, with a call, jump or return ending the scan.
+Movement is the sole result that loads the absolute pointer first.
+The exact post-charge lookup at `0x0041F914` uses the same configuration
+slot and the same side field. It loads the side first and uses the
+opposite SIB encoding.
+
+In both the maintained movement body and the exact post-charge lookup,
+the two destinations remain virtual at global allocation exit. Each
+load has one scheduling edge to the byte load and scores `0xA000`.
+The side has ordinal 1 and the configuration ordinal 2. In the
+direction-join control, C2 has assigned the registers by global exit.
+The two loads still score `0xA000`, with configuration ordinal 2 and
+side ordinal 3. The incoming order survives scheduling in all three
+builds.
+
+Co-visible `UpdateChargeAttack` and `EnterDeathState` definitions,
+placed before or after the movement body, preserve the maintained
+and direction-join comparisons over all 1,900 bytes and 66 fields.
+Both siblings retain their complete canonical comparisons of
+1,210 bytes and 70 fields, and 753 bytes and 38 fields, respectively.
+
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 
 IDA's `UpdateChargeAttack` entry is precise: EDI holds the full DWORD
