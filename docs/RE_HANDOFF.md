@@ -15,6 +15,11 @@ KNOWLEDGE_BASE.md and generated counts live in PROGRESS.md.
   all 1,238 bytes and 53 relocations. Its canonical replay also verifies
   the USER format strings and 27 name pointers.
   See [the replay payload and data proof](KNOWLEDGE_BASE.md#2026-11-20-savereplay-payload-copy-and-user-tables).
+- `ReplayManagerView::BeginPlaybackStage` matches all 540 bytes and 32
+  relocations. The co-visible `RngRuntimeView::SetSeed` definition retains
+  its 14-byte match. Replay both with
+  `python3 -B scripts/replay-scoped-exact.py --source src/ReplayInput.cpp`.
+  See [the replay seed scheduling proof](KNOWLEDGE_BASE.md#2026-11-21-co-visible-replay-seed-and-exact-playback).
 - `ScreenEffect::CalcShakeEnvelope` now matches all 336 bytes and 20
   relocation fields, including both float literals. Replay with
   `python3 -B scripts/replay-scoped-exact.py --unit screen-effect-calc-shake-envelope`.
@@ -37,33 +42,7 @@ nonexact owners. Run check-frontier.py NAME --show for a fresh local
 comparison. An OK result means only that the recorded frontier baseline was
 not worsened; it does not mean exact. Do not rebaseline REGRESSED candidates.
 The residual counts mask COFF relocation fields. Replaying those fields
-adds six differing bytes in BeginPlaybackStage and four in
-UpdateMovementAndOptions.
-
-The current focus is `ReplayManagerView::BeginPlaybackStage` at
-`0x00420840`. Rebuild the maintained source with
-`python3 -B scripts/check-frontier.py replay-begin-playback --show`.
-The [scheduler comparison](KNOWLEDGE_BASE.md#2026-11-21-replay-playback-scheduling-across-the-restore-block)
-explains how the score loop and configuration destination change the
-side-state read more than 100 bytes earlier. The configuration control
-matches the first 470 bytes. Its remaining differences start in the
-cursor and configuration tail.
-The isolated controls in `.analysis/playback-expr/` use the existing
-`probe.py` and `trace-run.py` with `focus-base`, `focus-score`,
-`focus-config-right` and `focus-config-order`. They retain the natural
-source shapes needed to reproduce both compiler scheduling paths.
-Run `python3 -B .analysis/playback-expr/trace-run.py block-cut focus-base focus-config-right`
-for the scheduler boundary and use `lives-edges focus-base focus-config-order`
-with the same runner for the dependency that changes without moving the call.
-Use `lives-edges focus-base focus-double-left` to see a conversion record
-move the RNG call out of the scheduler region with identical emitted code
-and relocations. This isolates the region cutoff from the relative priorities
-that still favor the early side-state load. Use `score-home focus-base focus-score`
-to trace the right frame's extra register copy and stack store through allocation.
-Use `priority focus-base focus-ref focus-right-reference` to reproduce
-the full dependency and priority comparison. Both side-reference controls
-produce the same nine register differences, including the assignment of
-the left runtime pointer to EDX.
+adds four differing bytes in `UpdateMovementAndOptions`.
 
 Player movement is paused at the 8-byte relocation-replayed residual.
 The [compiler analysis](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads)
@@ -71,7 +50,6 @@ records the allocation, instruction scheduling and direction-join controls.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| ReplayManagerView::BeginPlaybackStage | 0x00420840 | 540/540 bytes; 13 structural differences (OK), 19 after relocation replay | A side reference restores both field offsets with nine register differences. The early configuration binding restores the complete 470-byte prefix and leaves cursor, configuration and seed scheduling in the tail. |
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes; 4 differences (OK) | Focus-mode load order at +0x127..+0x12A. Retail loads g_GameConfiguration before player sideIndex; current source emits the reverse order. |
 | PlayerLifecycleView::UpdateChargeAttack | 0x0041F810 | 1,210/1,210 bytes; 183 differences (OK) | Boss register allocation: retail loads the full DWORD sideIndex into EDI and forms the ReplayInputState pointer in EBX (0x8E stride). Current short-side/input locals allocate the opposite way; widening/removing locals regressed hundreds of bytes. |
 | PlayerLifecycleView::CheckBulletCollision | 0x0041DFF0 | 849/862 bytes; 539 differences (REGRESSED) | Preserve the 0x34-byte target frame and recover the target CFG: circle check and shared hit dispatcher at +0x7E precede rotated-rectangle/AABB paths. Valid region types are 1/2/3 with delay <= 0; kinds 2/3 reward only for a non-null bullet with word +0x10C0 equal to zero. Candidate grew from the 842-byte frontier baseline; do not rebaseline. |
@@ -143,12 +121,10 @@ ledger count.
 
 ## Latest source work and boss probes (2026-11-19)
 
-Two source commits restored `BeginPlaybackStage` to its recorded strict
-frontier: `bb6c3c82` removes the `volatile` runtime-pointer alias, and
-`fee10d43` simplifies it to the direct typed member read. It is now 540/540
-bytes with the original 13 differences; it is not exact-function completion.
-The remaining failed boss and leaf experiments are recorded in
-`KNOWLEDGE_BASE.md` and were reverted. The worktree is clean.
+Commits `bb6c3c82` and `fee10d43` recovered the direct typed side-runtime
+read and the original playback frontier. The co-visible seed definition
+above resolves that frontier. See `KNOWLEDGE_BASE.md` for the other probes
+from this checkpoint.
 
 - CheckBulletCollision remains the primary large target. The fresh IDA review
   confirms a nested region-filter loop: zero-radius rectangle/AABB tests stay

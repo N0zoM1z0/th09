@@ -2872,6 +2872,9 @@ canonical comparison runs with
 
 ## 2026-11-20 Replay playback side-state load
 
+These measurements use the playback source before the
+[co-visible seed match](#2026-11-21-co-visible-replay-seed-and-exact-playback).
+
 Original `BeginPlaybackStage` stores replay byte `+0x1E7` into GameManager
 `+0x37C`, reads byte `+0x1E8`, and then loads the side-0 runtime pointer
 from GameManager `+0x1C`. The maintained build moves the pointer load ahead
@@ -3037,3 +3040,48 @@ comparison of the remaining candidates still requires ESI at `+0x15B`.
 The pinned frontend rejects `__restrict` with C4235 and
 `__declspec(noalias)` with C2485. Reference and receiver forms of the
 replay manager parameter preserve their respective baseline byte streams.
+
+### Copy removal and memory ranges before scheduling
+
+After global allocation, the baseline and the score-loop control both
+contain integer copies whose source and destination use the same physical
+register. C2 compares their descriptors at `0x10779F26` and unlinks the
+move through `0x1075F13C` before building the scheduling region. The
+observed ESI self-copy reaches that path in both controls. The score
+loop's ECX-to-EDX copy keeps distinct descriptors and remains an emitted
+instruction. Ordinary integer copies therefore provide no counterpart
+to the non-emitting floating-point conversion in these builds.
+
+The memory comparison at `0x107B0138` returns disjoint for the two
+four-byte ranges at GameManager `+0x37C` and `+0x1C` in both the baseline
+and the side-reference control. It reports possible overlap between
+the `+0x1C` load and the indirect first score store. Using native
+two-entry arrays for initial lives and recorded side options, or
+accessing the same fields by pointer-to-member, does not produce a
+variant with the complete original instruction stream.
+
+## 2026-11-21 Co-visible replay seed and exact playback
+
+`ReplayManagerView::BeginPlaybackStage` at `0x00420840` reproduces all
+540 bytes and all 32 original relocation fields when C2 sees the
+`RngRuntimeView::SetSeed` definition in the same translation unit.
+The setter reads its unsigned-short parameter through a const reference
+and reproduces its own 14 bytes at `0x00420160`. The parameter remains a
+word passed by value in the existing thiscall interface. The original
+translation-unit partition remains unproven.
+
+The seed call stays at playback offset `+0x207` and scheduler ordinal 81.
+When the setter is external to the compiled unit, the initial-lives store
+and the side-pointer load both have outgoing dependencies on the call.
+Giving C2 the direct value-assignment setter body removes both edges and
+leaves the 19-byte replayed residual. Reading the seed argument through the
+reference retains the store's `0x20` dependency on the call and removes
+the side load's `0x40` dependency. This ties their priorities at `0x19000`.
+The store emits at `+0x14B` and the pointer load emits into ESI at
+`+0x15B`. The same result was independently reproduced by reading the
+parameter through a typed pointer.
+
+The scoped replay rebuilds `src/ReplayInput.cpp` and
+`src/ReplayRuntimeLeaves.cpp` with their canonical profiles. The relevant
+separate callers are `replay-stage-dispatch`, `win-main` and
+`supervisor-network-message-handler`.

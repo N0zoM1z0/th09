@@ -568,6 +568,13 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
 
 
 
+// The addressable seed argument preserves the VC7.1 playback schedule.
+void RngRuntimeView::SetSeed(unsigned short newSeed)
+{
+    const unsigned short &restored = newSeed;
+    this->seed = restored;
+}
+
 int ReplayManagerView::BeginPlaybackStage(ReplayManagerView *replayManager)
 {
     i32 fileSize;

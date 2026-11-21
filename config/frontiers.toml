@@ -2,17 +2,6 @@
 # residual: hex byte offsets (ranges) that differ from the original after relocation
 # fields are masked. Never edit by hand; record improvements with --update.
 
-[frontier.replay-begin-playback]
-function = "ReplayManagerView::BeginPlaybackStage"
-source = "src/ReplayInput.cpp"
-profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-symbol = "?BeginPlaybackStage@ReplayManagerView@@SIHPAU1@@Z"
-address = 0x00420840
-size = 540
-candidate_size = 540
-target_sha256 = "af0dd0d85e36de147b67c07e8790bd200adb04f2862496dac928b3731dff5f64"
-residual = ["14B-14C", "151-152", "157-15F"]
-
 [frontier.player-movement]
 function = "PlayerLifecycleView::UpdateMovementAndOptions"
 source = "src/PlayerMovement.cpp"

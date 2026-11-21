@@ -2214,6 +2214,49 @@ relocations = [
   { offset = 0x242, type = "REL32", symbol = "?Free@ZunMemory@@QAEXPAX@Z", target = 0x00401360 },
 ]
 
+[units.replay-manager-begin-playback-stage]
+source = "src/ReplayInput.cpp"
+object = "build/matching/ReplayInputNoEh.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+functions = ["ReplayManagerView::BeginPlaybackStage"]
+symbol = "?BeginPlaybackStage@ReplayManagerView@@SIHPAU1@@Z"
+target_address = 0x00420840
+size = 0x21C
+relocations = [
+  { offset = 0x017, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x134 },
+  { offset = 0x02D, type = "REL32", symbol = "?OpenFile@FileSystem@@YIPAEPBDPAHH@Z", target = 0x0042C970 },
+  { offset = 0x03A, type = "REL32", symbol = "?LoadReplayData@ReplayManagerView@@SIPAUReplayDataView@@PAU2@H@Z", target = 0x004205E0 },
+  { offset = 0x05D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0xFC },
+  { offset = 0x076, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x07B, type = "REL32", symbol = "?IsGameMode0@AsciiGameManagerView@@QAEHXZ", target = 0x0040E470 },
+  { offset = 0x084, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x089, type = "REL32", symbol = "?IsGameMode1@AsciiGameManagerView@@QAEHXZ", target = 0x00404970 },
+  { offset = 0x0B0, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0xD8 },
+  { offset = 0x0D7, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x20 },
+  { offset = 0x0E1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x58 },
+  { offset = 0x0EB, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x28 },
+  { offset = 0x0F5, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x60 },
+  { offset = 0x0FF, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x2C },
+  { offset = 0x109, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x64 },
+  { offset = 0x113, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0xF4 },
+  { offset = 0x11D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x138 },
+  { offset = 0x12D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x11C },
+  { offset = 0x13D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x378 },
+  { offset = 0x14D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x37C },
+  { offset = 0x15D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x1C },
+  { offset = 0x163, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x30 },
+  { offset = 0x173, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x68 },
+  { offset = 0x180, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x54 },
+  { offset = 0x18B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x1C },
+  { offset = 0x196, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x54 },
+  { offset = 0x1A6, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x1C },
+  { offset = 0x1BE, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x54 },
+  { offset = 0x1CC, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x1C },
+  { offset = 0x1EA, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0xE8 },
+  { offset = 0x202, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
+  { offset = 0x208, type = "REL32", symbol = "?SetSeed@RngRuntimeView@@QAEXG@Z", target = 0x00420160 },
+]
+
 [units.replay-manager-begin-recording-stage]
 source = "src/ReplayInput.cpp"
 object = "build/matching/ReplayInputNoEh.obj"
@@ -10601,9 +10644,9 @@ size = 0x04
 relocations = []
 
 [units.replay-rng-set-seed]
-source = "src/ReplayRuntimeLeaves.cpp"
-object = "build/matching/ReplayRuntimeLeaves.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+source = "src/ReplayInput.cpp"
+object = "build/matching/ReplayInputNoEh.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["RngRuntimeView::SetSeed"]
 symbol = "?SetSeed@RngRuntimeView@@QAEXG@Z"
 target_address = 0x00420160
