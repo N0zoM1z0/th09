@@ -1644,6 +1644,23 @@ An aggregate initialized configuration-first reverses the input order
 and retains the indexed CMP, but C2 assigns EAX to the configuration
 and ECX to the side.
 
+The two controls take different allocation paths. In the fresh-side
+control, the side scores 16 and receives EAX globally. Lowering inserts
+the configuration as opcode `0x26A` after the side. Its initial weight
+is 8 and its queue weight falls to -60. It leaves global allocation
+with a scratch record and receives ECX locally. In the configuration-first
+aggregate, both producers are ordinary MOVs and score 16. The weight
+write at `0x1078292A` agrees for the two records. At `0x1077FAE3`,
+the backward instruction walk records ordinal `0x67` for the
+configuration and `0x66` for the side. The equal-weight comparison at
+`0x10782B4E` gives the higher ordinal precedence, so the earlier
+configuration receives EAX. Array-reference or row-pointer snapshots
+defer the configuration load again. Constructor forms and 32-bit
+index types retain either side-first code or EAX for the configuration
+in the full-owner builds. Inline predicates return to side-first code.
+The cold and debugger builds of the allocation controls
+agree across all 1,900 bytes and 66 COFF fields of each control.
+
 The same-unit input control retains EBX for the side index, loads the
 configuration into EAX, and changes the entry's floating-point zero
 initialization. Zeroing a two-float speed aggregate with the `memset`

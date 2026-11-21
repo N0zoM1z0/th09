@@ -62,6 +62,10 @@ the three controls. The opaque-call control's direct side load fails.
 `freshside_ref_split_direct.cpp` passes by taking a reference to
 a fresh local copy of the side. It keeps the original registers and an
 indexed CMP. The load order and SIB operand order still differ.
+Run `trace-run.py focus-allocation eval_cfg_first freshside_ref_split_direct`
+to compare the global weights, instruction ordinals and local requests.
+With both loads eligible for global allocation at weight 16, the earlier
+load receives EAX.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
