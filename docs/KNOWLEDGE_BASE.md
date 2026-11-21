@@ -1768,17 +1768,31 @@ real identity bodies in VectorPointerViews, each of which also matches
 the same physical entry, preserve all 1,900 replayed bytes of the
 maintained movement build when made visible individually.
 
-The two versions form their indexed operands inside
-`0x10773108`, called by the C2 pass at `0x1075F923`.
-The maintained body places the side first, and the visible position
-conversion places the configuration first. That order survives entry
-to the allocation driver at `0x1077C08E`, where the configuration
-load has yet to be materialized. With the position conversion visible,
+Within the C2 pass at `0x10773108`, the walk at `0x1077302C`
+follows copy definitions in the address expression. The call at
+`0x1079FE1A` constructs the first indexed operand from the two
+terms it found. The maintained body follows the side definition
+first. The visible position conversion follows the configuration
+definition first. Both walks have already produced the side MOV
+by the time they construct the operand. The later replacement
+operand at `0x10778417` preserves the order and uses a new temporary
+for the configuration load. Both controls still put that load
+after the side MOV. The direction-join control uses one indexed-operand
+construction through this path, with both captured values already
+represented. With the position conversion visible in the maintained body,
 using the existing movement-field reference for both position
 increments restores the original address-term order at driver entry
 and the original x87 order at emission. That control
 reproduces all 1,900 relocation-replayed bytes of the maintained
 movement build, including the eight-byte focus-load residual.
+
+Explicit branches assigning 0 or 1 for the threshold and digital
+focus predicates reproduce the same SIB and x87 differences with
+the position definition hidden. Combining those branches with
+the visible definition restores the SIB byte. The horizontal
+movement-field reference then reproduces the complete maintained
+comparison. Two- and four-byte outer alignment for GameConfiguration
+preserves each control's complete bytes and relocation identities.
 
 Six equivalent `IsHeld` definitions reproduce the exact 18-byte
 callee and yield the same movement bytes and relocation identities

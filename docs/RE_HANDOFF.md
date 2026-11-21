@@ -49,13 +49,14 @@ python3 -B .analysis/movement-focus/trace-run.py flag-residual focus-current foc
 python3 -B .analysis/movement-focus/trace-run.py direction-join-global focus-order-control
 ```
 
-The position-conversion control reproduces an earlier change in how C2
-forms the indexed operand. The conversion still emits its original call.
+The position-conversion control changes which copy definition C2
+follows first when forming the indexed operand. The conversion still
+emits its original call.
 [Address-formation comparison](KNOWLEDGE_BASE.md#co-visible-position-conversion-and-indexed-addressing)
 
 ```bash
 python3 -B .analysis/movement-focus/position-context.py
-python3 -B .analysis/movement-focus/trace-run.py address-formation focus-current position-visible position-visible-runtime
+python3 -B .analysis/movement-focus/trace-run.py address-walk focus-current position-visible
 ```
 
 ## Recent exact checkpoints
