@@ -1538,12 +1538,20 @@ MOV's memory operand into the CMP through the write at `0x1075AC02`.
 It then unlinks that MOV. The indexed operand in the maintained body
 stays indexed, and the reference control keeps its single-register
 operand. The watchpoint sees each substitution before object emission.
-In the maintained body, both pointer/index loads have one edge to the byte
-load. In the reference control, both loads feed the LEA, and the
-configuration load has a second, zero-latency edge to the byte load.
-The scheduler has assigned CL to that load in the reference control
-and DL in the maintained body. The extra edge distinguishes the two
-load priorities. With separate configuration and side snapshots,
+In the maintained body, both loads have one edge to the indexed byte
+load. Their scores are both `0xA000`. The ready-list tie-breaker at
+`0x107B7396` uses their incoming ordinals. In the reference control,
+both loads feed the LEA. The byte load writes CL, and C2 recognizes
+that CL and ECX belong to the same register family at the dependency
+insertion call at `0x107B73C7`. The resulting write-order edge adds
+`1 << 10` to the configuration load's score, raising it from
+`0xA800` to `0xAC00`. If the same writer and reader already have a
+register-read edge, C2 merges the write-order constraint into that
+edge at `0x107B4124`. A by-value mode control that writes AL using
+EAX as part of its indexed address demonstrates this merge. Its two
+loads still tie at `0xA000` with one edge apiece.
+
+With separate configuration and side snapshots,
 the global allocator instead gives both inputs weight 16 and assigns
 EAX to the earlier load. Splitting local declarations from their
 assignments, inlining a focus predicate in both argument orders, and
@@ -1556,6 +1564,12 @@ across those bodies. A read-only `IsHeld` declaration and member accessors
 on either Player or GameManager retain the maintained sequence. Capturing
 the entry side in a reusable local and refreshing it after the direction
 queries also retains the same allocation choices as the separate locals.
+Constructing a two-member snapshot can change the incoming order through
+member initialization. EAX still goes to the first load. Changing the
+outer state guard and sharing a GameManager reference with the playfield
+clamps changed other instructions without resolving the focus lookup.
+Reusing the side-index local for the final focus value also retained the
+two existing allocation outcomes.
 
 The const-reference control still emits `lea eax,[ecx+eax+0xB4]`
 followed by `cmp byte ptr [eax],1` at `+0x12F`. This is two bytes
@@ -1568,8 +1582,9 @@ bytes and 66 fields. Direct repeated reads fold to the maintained
 side-first sequence, while keeping the configuration object in a
 reference for both reads gives the shorter EAX absolute load. The
 remaining constraint is to reach scheduling with the indexed byte
-operand already formed and recover configuration-first priority with
-both original register choices.
+operand and both original register choices. The configuration load needs
+either the earlier incoming ordinal or a separate scheduling edge that
+disappears from the emitted code.
 
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 

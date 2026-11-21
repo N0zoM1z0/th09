@@ -52,6 +52,8 @@ to EAX (`snapshot_ref_native.cpp`), and configuration-first scheduling to
 the original ECX/EAX registers (`direct_ref_conditional.cpp`). The last
 control leaves a separate LEA before the compare. Compare the scheduler inputs
 with `python3 -B .analysis/movement-focus/trace-run.py focus-schedule direct_ref_conditional native`.
+For dependency insertion and the ready-list tie-breaker, use the same controls
+with `trace-run.py readiness direct_ref_conditional native`.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
