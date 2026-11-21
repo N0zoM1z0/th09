@@ -86,16 +86,21 @@ enum PlayerChargeFrameTiming
 
 struct FocusModesForSide
 {
-    int side;
-    const u8 (&modes)[2];
+    const u8 *rowEnd;
+    int offsetFromEnd;
 
-    u8 Read() const { return modes[side]; }
+    u8 Read() const
+    {
+        return rowEnd[offsetFromEnd];
+    }
 };
 
-// Keep the side and the current configuration row together for each lookup.
 static inline u8 ReadFocusMode(int side, const GameConfiguration *configuration)
 {
-    const FocusModesForSide options = {side, configuration->sideFocusMode};
+    const FocusModesForSide options = {
+        configuration->sideFocusMode + GameplaySetupNativeSides::PlayableCount,
+        side - GameplaySetupNativeSides::PlayableCount
+    };
     return options.Read();
 }
 
@@ -103,7 +108,7 @@ int PlayerLifecycleView::UpdateChargeAttack()
 {
     // PlayerRegisterChain is only called from GameManagerSetup's two-side
     // setup loop; the playable side index is therefore always 0 or 1.
-    int side = sideIndex;
+    const int side = sideIndex;
     volatile u8 sideMode;
     u8 modeSnapshot;
     int previousLevel;

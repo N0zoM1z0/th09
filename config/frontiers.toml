@@ -13,17 +13,6 @@ candidate_size = 1900
 target_sha256 = "64ea64884e978540c718d1691a4ae1b9866aaa8ec2296bafb158c4d8b1c628ca"
 residual = ["127-12A"]
 
-[frontier.player-charge-attack]
-function = "PlayerLifecycleView::UpdateChargeAttack"
-source = "src/PlayerChargeAttackUpdate.cpp"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-symbol = "?UpdateChargeAttack@PlayerLifecycleView@@QAEHXZ"
-address = 0x0041F810
-size = 1210
-candidate_size = 1210
-target_sha256 = "6c24be1a012fc3fa6148bd09954443318cc9db33d6b69a26ca1a778dfe6e5015"
-residual = ["30", "4E"]
-
 # Intentional rebaseline: removed the non-semantic 9-byte inline-assembly
 # loop-entry jump/NOP sequence from the source. This is a natural-C++ baseline
 # correction (842/862, 705 differences), not a reconstruction improvement.

@@ -1027,9 +1027,9 @@ Likewise the 15-byte angle wrapper at `0x405700` is reproducible by both SDK
   The target loads the global GameConfiguration pointer into ECX before the
   Player side index into EAX; the maintained source reverses these loads.
   Pointer/reference/array-view source variants did not close the sequence.
-- UpdateChargeAttack is 1,210/1,210 bytes with 183 differences. The target
+- UpdateChargeAttack was 1,210/1,210 bytes with 183 differences. The target
   reads the 32-bit Player side index into EDI and derives the ReplayInputState
-  pointer in EBX using the 0x8E stride. The current short local puts the
+  pointer in EBX using the 0x8E stride. The short local put the
   sign-extended side in EBX and input pointer in EDI; simple int/pointer
   rewrites greatly regress the rest of the owner.
 - CheckBulletCollision target facts: 0x34-byte local frame; EBX bullet, ESI
@@ -1710,8 +1710,8 @@ IDA's `UpdateChargeAttack` entry is precise: EDI holds the full DWORD
 `sideIndex`, EAX forms `sideIndex * 0x8E`, and EBX receives the
 `ReplayInputState` record pointer. EDI remains the side value for the two
 configuration-row reads, then is reused for the `timer303A4` receiver after
-those reads; EBX is reused for `timer303B0`. The maintained source currently
-reverses the initial pair (EBX=side, EDI=input record) and remains at
+those reads; EBX is reused for `timer303B0`. The candidate at this checkpoint
+reversed the initial pair (EBX=side, EDI=input record) and was at
 1,210/1,210 bytes with 183 differences.
 
 New natural-C++ probes established both sides of the lifetime problem:
@@ -1735,11 +1735,8 @@ New natural-C++ probes established both sides of the lifetime problem:
   to 1,205/1,210 bytes with 864 differences, but does not recover the target
   entry registers.
 
-All variants were reverted. The next useful attempt must retain the target
-EDI/EBX assignment through the initial input/configuration checks while
-naturally ending the side value's live range before the timer receivers reuse
-EDI/EBX. Do not use register hints, volatile aliases, inline assembly or
-padding.
+These variants were reverted. The [later exact lookup](#2026-11-21-chargeattack-input-and-timer-allocation)
+recovers the initial roles and the reuse of the timer receivers.
 
 ## Collision triple-loop and near-leaf follow-up (2026-11-19)
 
@@ -1812,10 +1809,8 @@ The native entry needs EDI=the full DWORD `sideIndex` and EBX=the
   experiment was not promoted, and no exact-function oracle replay was
   available for `UpdateChargeAttack`.
 
-The next charge attempt should preserve the baseline 1,210/183 control-flow
-layout while finding a way to end the DWORD side local's live range before the
-cooldown receiver reuse. Do not copy the 1,202/503 experiment into maintained
-source.
+The [later exact lookup](#2026-11-21-chargeattack-input-and-timer-allocation)
+preserves the retail layout and ends the side lifetime before cooldown.
 
 `CheckBulletCollision` was also tested with a shared direct-hit/reward
 hit-count tail:
@@ -1976,8 +1971,8 @@ run. The canonical authored exact count remains 1,026.
   candidate. Several pointer-alias forms changed residual offsets without
   reducing their count; no frontier or source was changed.
 - `UpdateChargeAttack` unsigned DWORD side locals and pointer/reference input
-  variants still produced 1,209/1,210 bytes with 717 differences. They were
-  reverted; keep the 1,210/1,210-byte, 183-difference baseline.
+  variants produced 1,209/1,210 bytes with 717 differences. They were
+  reverted to the 1,210-byte candidate with 183 differences.
 
 These are bounded compiler experiments, not proof that the natural C++ search
 space is exhausted. Do not add register hints, volatile aliases, handwritten
@@ -3202,89 +3197,40 @@ bindings.
 
 ## 2026-11-21 ChargeAttack input and timer allocation
 
-Binding the current two-byte configuration row and the DWORD side in a
-typed lookup recovers the original entry allocation and all 70 relocation
-offsets in the 1,210-byte owner. All 58 calls, 12 data operands, and five
-float definitions verify against the original. The remaining two bytes
-are the SIB encodings at `+0x30` and `+0x4E`. The original uses EDI as the
-base and ECX or EDX as the index. The maintained object exchanges these
-additive address terms. The post-cooldown configuration read and both
-sound-side reloads match in place.
+`PlayerLifecycleView::UpdateChargeAttack` matches all 1,210 bytes at
+`0x0041F810–0x0041FCC9` under the pinned VC7.1 profile. The unit checks
+58 call relocations, 12 data relocations, and all five referenced four-byte
+float definitions. The input address uses the 0x8E-stride replay records
+at `0x004ACE18`. The three configuration-pointer reads use `0x004A7E78`,
+the GameManager `+0xE8` slot. The configuration row begins at `+0xB4`.
 
-At allocator entry, the row lookup's early addresses are `0x252` LEAs.
-C2 substitutes `0x253` indexed operands before allocation exits. Their
-first linked component is the configuration temporary and the second is
-the side in EDI. The earlier short-side and input-pointer build enters
-allocation with two `0x253` operands and puts the side first. Debugger
-and cold builds agree in both cases. Commuting additive terms, using
-the GameManager member for the same pointer slot, and omitting later
-attack, timer, or firing branches preserve the row lookup's two SIB bytes.
+The exact source binds the one-past pointer of the current two-byte mode
+row and the signed offset from that end at both early lookups. VC7.1 folds
+these into `[edi+ecx+0xB4]` and `[edi+edx+0xB4]`. The DWORD side stays in
+EDI and the single replay input receiver stays in EBX for all six input
+queries. The fallback byte keeps its `EBP-1` home. The third configuration
+read and both sound-side reloads use the live side member.
 
-Binding the saturation-path increment and threshold check to one reference
-to `timer3038C` moves the receiver address calculation to original offset
-`+0x2B3`. Pinned VC7.1 reproduces three additional ordinary byte positions
-in the 1,210-byte owner. The previous candidate's 70 COFF records retain
-their offsets, types, symbols, and addends. In target instruction order,
-all 58 calls and 12 data operands resolve to their reviewed destinations.
-Fourteen fields differed in physical offset at that checkpoint. The five
-scalar definitions matched their original four-byte literals. That build
-had 180 structural differences.
+The earlier row-start lookup entered global allocation with a `0x252` LEA
+for the row base and a zero-displacement `0x253` consumer. The substitution
+at `0x1075AC02` folded the displacement into that operand while retaining
+the configuration-first ordering. A 16-bit side snapshot put the side
+first in both operands and shifted every relocation by one byte through
+its entry MOVZX. A DWORD lookup of the whole configuration and a byte
+offset also put the side first, but it selected EAX for the configuration
+pointer. Commuting additive expressions and isolated late branch cuts in
+the row-start control left both SIB differences.
 
-The earlier candidate first differed at `0x0041F818`. The original saves EDI,
-loads the DWORD side there, and builds the 0x8E-stride input pointer in
-EBX. The earlier build loaded a sign-extended word into EBX and formed
-the input pointer in EDI. Using a full-width side with direct array calls
-and the existing mode snapshot yields 1,211 bytes. Its BL comparison
-adds one byte before the timer path. After aligning that shift at
-`+0x11B`, the later ordinary bytes agree apart from the two input
-receiver registers at `+0x1D0` and `+0x1E9`.
+In the byte-offset control, making both genuine `ZunTimer::operator==`
+and `operator>` definitions visible recovered ECX for the first
+configuration read. Either definition alone kept EAX. Omitting the cooldown
+branch also recovered ECX in that control. Using the byte-offset lookup
+only for the first test with both comparisons visible left a single SIB
+byte at `+0x4E`. The fallback still needed its deferred configuration load
+and the side-first address. Both row-end lookups reproduce that combination
+with the existing timer declarations. The exact carrier keeps the original
+comparison calls and the original saturation-timer address at `+0x2B3`.
 
-Read-only C2 traces identify the side-member load and the input-record LEA
-at the allocator input. The direct-array build assigns EDI to the input
-address at weight 40, then EBX to the side at weight 36. Omitting the warm-up
-Focus query or the fallback Focus query in a scratch build reduces the input
-weight to 36. The allocator then visits the side first and produces the
-original DWORD load into EDI and input address in EBX. Omitting the warm-up
-Shot query leaves the input at 37 and retains the reversed register choices.
-Each debugger build agrees with its cold object on the complete function
-and all COFF relocation records. The two indexed configuration operands
-still reverse the base and index in the warm-up Focus omission.
-
-Omission controls for the three attack levels, release, warm-up and
-cooldown after input, sound calls, and final firing leave the direct-array
-entry allocation unchanged. Keeping the entry side for either sound call
-flips the registers. Caching it only for the first sound reproduces the
-first 32 relocation offsets and bindings. The two indexed configuration
-operands still reverse their base and index. The original reloads the side
-before that sound, and the cached control changes the warm-up timer's
-receiver. Its remaining 38 fields shift by three bytes. Refreshing the
-same local in place of any of the three later side reads preserves the
-reloads and returns to the reversed entry registers.
-
-An inlined two-member lookup snapshot of the side and configuration pointer
-at each early read also produces EDI for the side and EBX for the input.
-It retains the later side reloads and all 70 ordered destination bindings.
-Both lookups are required for the flip. This 1,206-byte control uses two
-shorter EAX absolute loads and changes later scratch-register selection.
-Both the whole-configuration aggregate and scalar controls have indexed
-configuration operands at global allocator entry. Using a scalar
-by-value or reference-return lookup alone reproduces the direct-array
-instruction stream. Capturing the configuration row in the aggregate
-instead of the whole configuration pointer selects the original ECX and
-EDX loads and brings every subsequent instruction back into alignment.
-
-Exposing the real `IsHeld` body recovers the two entry registers and
-coalesces two configuration-pointer loads. The three original loads
-select the shared `GameManager + 0xE8` slot at `0x004A7E78`. Spelling it
-through the member in one input arm and the direct symbol in the other
-keeps all three relocations and returns to EBX for the side. With both
-input bodies visible and a reference to the live side, the two spellings
-keep all three loads and give the input record EDX. Hiding the visible
-timer comparisons or compiling with the full `PlayerRuntime.cpp` caller
-preserves the corresponding caller stream. Splitting the firing, warm-up
-and release edges into explicit blocks also preserves it. Calling through
-a constant pointer to `IsHeld` keeps the direct call and preserves the
-corresponding visible or opaque stream. The row lookup recovers all three
-configuration loads, the original entry registers, and the one-byte mode
-home together. Using the two configuration spellings with the row lookup
-and the real `IsHeld` definition still leaves the same two SIB bytes.
+The cold scoped replay passed 24 exact units in eight compiler jobs,
+including the charge owner, its PlayerRuntime caller carrier, and both
+replay input leaves.
