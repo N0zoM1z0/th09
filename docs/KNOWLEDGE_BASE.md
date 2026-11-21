@@ -3199,3 +3199,41 @@ start at `0x004A8180` plus `0x4C`, `0x5C`, and `0x6C`. The unlock sequence
 counter at `0x004AC8D4` lies in the PE's zero-filled data range and has eight
 references inside this owner. These shared operands retain their original
 bindings.
+
+## 2026-11-21 ChargeAttack input and timer allocation
+
+Binding the saturation-path increment and threshold check to one reference
+to `timer3038C` moves the receiver address calculation to original offset
+`+0x2B3`. Pinned VC7.1 reproduces three additional ordinary byte positions
+in the 1,210-byte owner. All 70 relocation records retain their offsets,
+types, symbols, and addends. The five scalar definitions match their
+original four-byte literals. The remaining structural count is 180.
+
+The first disagreement begins at `0x0041F818`. The original saves EDI,
+loads the DWORD side there, and builds the 0x8E-stride input pointer in
+EBX. The maintained build loads a sign-extended word into EBX and forms
+the input pointer in EDI. Using a full-width side with direct array calls
+and the existing mode snapshot yields 1,211 bytes. Its BL comparison
+adds one byte before the timer path. After aligning that shift at
+`+0x11B`, the later ordinary bytes agree apart from the two input
+receiver registers at `+0x1D0` and `+0x1E9`.
+
+In a read-only C2 allocation trace, the direct-array build considers the
+input record with score `0x2D` before the side range at `0x20` and takes
+EDI. Using the cached side in both sound calls raises its score to
+`0x43`. It takes EDI first and the input record gets EBX, but this
+also removes the real side-member reloads and changes later receiver
+allocation. The debugger and cold objects agree for both controls.
+
+Exposing the real `IsHeld` body recovers the two entry registers and
+coalesces two configuration-pointer loads. The three original loads
+select the shared `GameManager + 0xE8` slot at `0x004A7E78`. Spelling it
+through the member in one input arm and the direct symbol in the other
+keeps all three relocations and returns to EBX for the side. With both
+input bodies visible and a reference to the live side, the two spellings
+keep all three loads and give the input record EDX. Hiding the visible
+timer comparisons or compiling with the full `PlayerRuntime.cpp` caller
+preserves the corresponding caller stream. Splitting the firing, warm-up
+and release edges into explicit blocks also preserves it. Exact closure
+requires all three configuration loads, the original entry registers,
+and the one-byte mode home in the same build.

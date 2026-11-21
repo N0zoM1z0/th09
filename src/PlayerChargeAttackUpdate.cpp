@@ -145,9 +145,10 @@ int PlayerLifecycleView::UpdateChargeAttack()
                 g_Supervisor.framerateMultiplier5B8 * primaryShtFile->chargeRate24;
             if (scalar30384 >= scalar30388)
             {
+                ZunTimer &maxHoldTimer = timer3038C;
                 scalar30384 = scalar30388;
-                timer3038C++;
-                if (timer3038C >= PLAYER_CHARGE_AUTORELEASE_FRAMES)
+                maxHoldTimer++;
+                if (maxHoldTimer >= PLAYER_CHARGE_AUTORELEASE_FRAMES)
                 {
                     goto resolveAttack;
                 }
