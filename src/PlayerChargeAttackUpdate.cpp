@@ -84,24 +84,38 @@ enum PlayerChargeFrameTiming
     PLAYER_CHARGE_METER_INTERVAL = 100
 };
 
+struct FocusModesForSide
+{
+    int side;
+    const u8 (&modes)[2];
+
+    u8 Read() const { return modes[side]; }
+};
+
+// Keep the side and the current configuration row together for each lookup.
+static inline u8 ReadFocusMode(int side, const GameConfiguration *configuration)
+{
+    const FocusModesForSide options = {side, configuration->sideFocusMode};
+    return options.Read();
+}
+
 int PlayerLifecycleView::UpdateChargeAttack()
 {
     // PlayerRegisterChain is only called from GameManagerSetup's two-side
     // setup loop; the playable side index is therefore always 0 or 1.
-    short side = static_cast<short>(sideIndex);
+    int side = sideIndex;
     volatile u8 sideMode;
     u8 modeSnapshot;
     int previousLevel;
-    ReplayInputState *input = &g_ReplayInputStates[side];
     // Both focus-mode tests and the post-charge test reread the real
     // two-byte configuration row, without caching the mode across calls.
-    if ((input->WasPressed(PLAYER_CHARGE_BUTTON_SHOOT) &&
-         !(g_GameConfiguration->sideFocusMode[side] == PLAYER_CHARGE_FROM_FOCUS_INPUT &&
-           input->IsHeld(PLAYER_CHARGE_BUTTON_FOCUS))) ||
-        ((modeSnapshot = g_GameConfiguration->sideFocusMode[side],
+    if ((g_ReplayInputStates[side].WasPressed(PLAYER_CHARGE_BUTTON_SHOOT) &&
+         !(ReadFocusMode(side, g_GameConfiguration) == PLAYER_CHARGE_FROM_FOCUS_INPUT &&
+           g_ReplayInputStates[side].IsHeld(PLAYER_CHARGE_BUTTON_FOCUS))) ||
+        ((modeSnapshot = ReadFocusMode(side, g_GameConfiguration),
           sideMode = modeSnapshot, modeSnapshot == PLAYER_CHARGE_FROM_FOCUS_INPUT) &&
-         input->IsHeld(PLAYER_CHARGE_BUTTON_SHOOT) &&
-         !input->IsHeld(PLAYER_CHARGE_BUTTON_FOCUS)))
+         g_ReplayInputStates[side].IsHeld(PLAYER_CHARGE_BUTTON_SHOOT) &&
+         !g_ReplayInputStates[side].IsHeld(PLAYER_CHARGE_BUTTON_FOCUS)))
     {
         if (timer303B0 == 0)
         {
@@ -129,8 +143,8 @@ int PlayerLifecycleView::UpdateChargeAttack()
             goto afterCharge;
         }
     }
-    else if ((sideMode == PLAYER_CHARGE_FROM_FOCUS_INPUT && input->IsHeld(PLAYER_CHARGE_BUTTON_FOCUS)) ||
-             (sideMode == PLAYER_CHARGE_FROM_SHOT_INPUT && input->IsHeld(PLAYER_CHARGE_BUTTON_SHOOT)))
+    else if ((sideMode == PLAYER_CHARGE_FROM_FOCUS_INPUT && g_ReplayInputStates[side].IsHeld(PLAYER_CHARGE_BUTTON_FOCUS)) ||
+             (sideMode == PLAYER_CHARGE_FROM_SHOT_INPUT && g_ReplayInputStates[side].IsHeld(PLAYER_CHARGE_BUTTON_SHOOT)))
     {
         timer303BC++;
         if (timer303BC >= PLAYER_CHARGE_MIN_HOLD_FRAMES && flagBits1B80.chargeAttackActive02 == 0)

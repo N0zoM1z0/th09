@@ -3202,19 +3202,37 @@ bindings.
 
 ## 2026-11-21 ChargeAttack input and timer allocation
 
+Binding the current two-byte configuration row and the DWORD side in a
+typed lookup recovers the original entry allocation and all 70 relocation
+offsets in the 1,210-byte owner. All 58 calls, 12 data operands, and five
+float definitions verify against the original. The remaining two bytes
+are the SIB encodings at `+0x30` and `+0x4E`. The original uses EDI as the
+base and ECX or EDX as the index. The maintained object exchanges these
+additive address terms. The post-cooldown configuration read and both
+sound-side reloads match in place.
+
+At allocator entry, the row lookup's early addresses are `0x252` LEAs.
+C2 substitutes `0x253` indexed operands before allocation exits. Their
+first linked component is the configuration temporary and the second is
+the side in EDI. The earlier short-side and input-pointer build enters
+allocation with two `0x253` operands and puts the side first. Debugger
+and cold builds agree in both cases. Commuting additive terms, using
+the GameManager member for the same pointer slot, and omitting later
+attack, timer, or firing branches preserve the row lookup's two SIB bytes.
+
 Binding the saturation-path increment and threshold check to one reference
 to `timer3038C` moves the receiver address calculation to original offset
 `+0x2B3`. Pinned VC7.1 reproduces three additional ordinary byte positions
 in the 1,210-byte owner. The previous candidate's 70 COFF records retain
 their offsets, types, symbols, and addends. In target instruction order,
 all 58 calls and 12 data operands resolve to their reviewed destinations.
-Fourteen fields still differ in physical offset. The five scalar
-definitions match their original four-byte literals. The remaining
-structural count is 180.
+Fourteen fields differed in physical offset at that checkpoint. The five
+scalar definitions matched their original four-byte literals. That build
+had 180 structural differences.
 
-The first disagreement begins at `0x0041F818`. The original saves EDI,
+The earlier candidate first differed at `0x0041F818`. The original saves EDI,
 loads the DWORD side there, and builds the 0x8E-stride input pointer in
-EBX. The maintained build loads a sign-extended word into EBX and forms
+EBX. The earlier build loaded a sign-extended word into EBX and formed
 the input pointer in EDI. Using a full-width side with direct array calls
 and the existing mode snapshot yields 1,211 bytes. Its BL comparison
 adds one byte before the timer path. After aligning that shift at
@@ -3234,9 +3252,26 @@ still reverse the base and index in the warm-up Focus omission.
 
 Omission controls for the three attack levels, release, warm-up and
 cooldown after input, sound calls, and final firing leave the direct-array
-entry allocation unchanged. Caching the side for sound does flip the
-registers. The original reloads the side member for each sound call, and
-the cached control also changes later receiver allocation.
+entry allocation unchanged. Keeping the entry side for either sound call
+flips the registers. Caching it only for the first sound reproduces the
+first 32 relocation offsets and bindings. The two indexed configuration
+operands still reverse their base and index. The original reloads the side
+before that sound, and the cached control changes the warm-up timer's
+receiver. Its remaining 38 fields shift by three bytes. Refreshing the
+same local in place of any of the three later side reads preserves the
+reloads and returns to the reversed entry registers.
+
+An inlined two-member lookup snapshot of the side and configuration pointer
+at each early read also produces EDI for the side and EBX for the input.
+It retains the later side reloads and all 70 ordered destination bindings.
+Both lookups are required for the flip. This 1,206-byte control uses two
+shorter EAX absolute loads and changes later scratch-register selection.
+Both the whole-configuration aggregate and scalar controls have indexed
+configuration operands at global allocator entry. Using a scalar
+by-value or reference-return lookup alone reproduces the direct-array
+instruction stream. Capturing the configuration row in the aggregate
+instead of the whole configuration pointer selects the original ECX and
+EDX loads and brings every subsequent instruction back into alignment.
 
 Exposing the real `IsHeld` body recovers the two entry registers and
 coalesces two configuration-pointer loads. The three original loads
@@ -3249,6 +3284,7 @@ timer comparisons or compiling with the full `PlayerRuntime.cpp` caller
 preserves the corresponding caller stream. Splitting the firing, warm-up
 and release edges into explicit blocks also preserves it. Calling through
 a constant pointer to `IsHeld` keeps the direct call and preserves the
-corresponding visible or opaque stream. Exact closure requires all three
+corresponding visible or opaque stream. The row lookup recovers all three
 configuration loads, the original entry registers, and the one-byte mode
-home in the same build.
+home together. Using the two configuration spellings with the row lookup
+and the real `IsHeld` definition still leaves the same two SIB bytes.

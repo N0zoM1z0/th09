@@ -22,7 +22,7 @@ address = 0x0041F810
 size = 1210
 candidate_size = 1210
 target_sha256 = "6c24be1a012fc3fa6148bd09954443318cc9db33d6b69a26ca1a778dfe6e5015"
-residual = ["8-A", "C-11", "14-16", "1B-1F", "24-29", "30", "37", "3B", "45", "47", "4D-4E", "53-5C", "5E-63", "68-6E", "70-75", "7A-80", "82-85", "87-8D", "92-9A", "9C-A0", "A5-AD", "B2-B6", "BB-C7", "CC-D4", "D9-DD", "E2-E6", "E8-EA", "EF-F3", "F8-100", "105-108", "10F", "1D0", "1E9", "23B", "23E", "240", "242", "248", "24D", "25B", "25E", "280", "28B", "2AE", "2B9-2C0"]
+residual = ["30", "4E"]
 
 # Intentional rebaseline: removed the non-semantic 9-byte inline-assembly
 # loop-entry jump/NOP sequence from the source. This is a natural-C++ baseline

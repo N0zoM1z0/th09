@@ -1,10 +1,10 @@
 # TH09 reconstruction handoff (2026-11-21)
 
-Resume `player-charge-attack` in the existing checkout. The held Focus
-queries can flip the allocator in omission controls, and the original
-uses the same input receiver across all six queries. Recover that entry
-allocation with all three configuration reads and the mode-byte home.
-Player movement remains paused by the operator.
+Resume `player-charge-attack` in the existing checkout. The typed
+configuration-row lookup recovers the original entry registers and all
+70 relocation offsets. The two remaining SIB bytes at `+0x30` and `+0x4E`
+come from LEA substitution during global allocation. Player movement
+remains paused by the operator.
 [Current charge evidence](KNOWLEDGE_BASE.md#2026-11-21-chargeattack-input-and-timer-allocation)
 [Progress](PROGRESS.md)
 
@@ -44,7 +44,7 @@ Both REGRESSED owners still have strict baselines in the manifest.
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes, 4 structural differences, 8 after relocation replay (OK) | `player-movement`. Paused by the operator. Retain EAX for the side index and ECX for the configuration address while recovering the configuration-first order and indexed CMP. [Focus-load controls](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads) |
-| PlayerLifecycleView::UpdateChargeAttack | 0x0041F810 | 1,210/1,210 bytes, 180 differences (OK) | `player-charge-attack`. Preserve the three configuration-pointer loads while recovering EDI for the full DWORD side and EBX for the input receiver. Both registers are reused by later timers. [Input and timer allocation](KNOWLEDGE_BASE.md#2026-11-21-chargeattack-input-and-timer-allocation) |
+| PlayerLifecycleView::UpdateChargeAttack | 0x0041F810 | 1,210/1,210 bytes, 2 differences (OK) | `player-charge-attack`. Recover EDI as the SIB base and ECX or EDX as the index in the two early configuration reads. [Input and timer allocation](KNOWLEDGE_BASE.md#2026-11-21-chargeattack-input-and-timer-allocation) |
 | PlayerLifecycleView::CheckBulletCollision | 0x0041DFF0 | 849/862 bytes, 539 differences (REGRESSED against the 842-byte baseline) | `player-bullet-collision`. Preserve the 0x34 frame and EDI=Player, ESI=slot, EBX=Bullet. Compare the X87 radius edge and the circle/shared-dispatch/rectangle order. [CFG and register controls](KNOWLEDGE_BASE.md#2026-11-20-checkbulletcollision-boss-cfg-and-register-frontier) |
 | Supervisor::UpdateNetworkService | 0x00430AA0 | 1,633/1,633 bytes, 307 differences (REGRESSED against the 1,629-byte baseline) | `supervisor-network-service`. Keep the 0x14 frame, EBX frame/prefill lifetime and sender reloads. The target branches from the +0x3F8 packet-ready test to +0x422 input handling. Prior source labels and split wait returns left the emitted return block out of line. [Frame and packet recovery](KNOWLEDGE_BASE.md#updatenetworkservice-native-frameprediction-and-packet-flow-recovery-2026-11-19) |
 
