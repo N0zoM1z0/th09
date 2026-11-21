@@ -1,9 +1,10 @@
 # TH09 reconstruction handoff (2026-11-21)
 
-Resume `player-charge-attack` in the existing checkout. The saturating
-charge timer now forms its receiver at the original instruction boundary.
-The input path still needs the native side register, receiver, and
-mode-byte home together. Player movement remains paused by the operator.
+Resume `player-charge-attack` in the existing checkout. The held Focus
+queries can flip the allocator in omission controls, and the original
+uses the same input receiver across all six queries. Recover that entry
+allocation with all three configuration reads and the mode-byte home.
+Player movement remains paused by the operator.
 [Current charge evidence](KNOWLEDGE_BASE.md#2026-11-21-chargeattack-input-and-timer-allocation)
 [Progress](PROGRESS.md)
 
