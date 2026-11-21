@@ -68,7 +68,10 @@ typedef char PlayerMovementPlayfieldWidthAt368[
     (offsetof(AsciiGameManagerView, coordinate368) == 0x368) ? 1 : -1];
 typedef char PlayerMovementPlayfieldHeightAt36C[
     (offsetof(AsciiGameManagerView, coordinate36C) == 0x36C) ? 1 : -1];
-extern int g_PlayerFocusEffectIds[];
+int g_PlayerFocusEffectIds[16] = {
+    10, 16, 17, 18, 26, 24, 27, 25,
+    28, 29, 30, 31, 32, 33, 36, 37
+};
 extern AnmManager *g_AnmManager;
 
 int PlayerLifecycleView::UpdateMovementAndOptions()

@@ -38,6 +38,11 @@ separately. An OK result means the recorded frontier was preserved.
 | --- | --- | --- | --- |
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes, 4 structural differences, 8 after relocation replay (OK) | Active owner, `player-movement`. The direction-join control reproduces the focus lookup and all relocation positions. It still differs in the flag update and first effect call. [Direction-join control](KNOWLEDGE_BASE.md#2026-11-21-player-movement-direction-join-and-scratch-allocation) |
 
+`src/PlayerMovement.cpp` now defines the 16-entry focus-effect table.
+The cold frontier object's 64-byte `.data` section matches the original
+table at `0x004A1A10`. The movement DIR32 reference at `+0x1B5` has a zero
+addend and binds to the definition in that object.
+
 The retained control `.analysis/movement-focus/focus-order-control.cpp`
 reproduces the direction join that gives ECX to the configuration and EAX
 to the live side index during global allocation. Replay the scratch allocator

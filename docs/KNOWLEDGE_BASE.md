@@ -1739,20 +1739,31 @@ and debugger builds reproduce these choices across the complete
 extent. A local configuration allocation could advance the scratch
 search to EDX while retaining the globally bound side.
 
-The 16 focus-effect IDs at `0x004A1A10` end at the reviewed callback
-table at `0x004A1A50`. The original 64 bytes decode to
+The 16 focus-effect IDs occupy `0x004A1A10..0x004A1A4F` in the original
+`.data`, between the Player callback tables at `0x004A19D0` and
+`0x004A1A50`. The original 64 bytes decode to
 `10, 16, 17, 18, 26, 24, 27, 25, 28, 29, 30, 31, 32, 33, 36, 37`
 with SHA-256
 `16f82c6f1ce9daef50da8b2236fd0497bd8782926c6ad199a3b23d548d6b1714`.
-A trial initialized COFF definition reproduces those bytes and leaves
-all 1,900 replayed code and tail bytes and 66 fields identical to each
-corresponding declaration-only build. Co-visible exact effect-spawn
-and animation-script definitions also preserve the respective
-comparisons. A carrier with the real PlayerRuntime, short leaves and
-both angle methods before or after the movement body gives the same
-replayed bytes and relocation identities in both controls. Co-visible
-`ReplayInputState::IsHeld` changes the entry allocation and the live
-side register.
+The maintained `PlayerMovement.cpp` definition reproduces the complete
+64-byte COFF `.data` section with zero relocations. The zero-addend
+DIR32 field at movement `+0x1B5` names that definition and resolves to
+the original table. The reference at `0x0041C325` is the sole occurrence
+of the table's base DWORD in the original `.text`. File- and block-scope
+variants with internal linkage reproduce the same contents and replayed
+code. The `const` controls place their definitions in `.rdata`. The
+maintained definition retains the existing external declaration's
+linkage. Original linkage is unresolved. All 1,900 raw owner bytes and
+66 field offsets, types, symbol identities and addends agree with the
+declaration-only build. The cold `player-on-update` replay passed the
+21 canonical `PlayerRuntime.cpp` units with 5,391 bytes and 288 fields.
+
+Co-visible exact effect-spawn and animation-script definitions also
+preserve the respective comparisons. A carrier with the real
+PlayerRuntime, short leaves and both angle methods before or after the
+movement body gives the same replayed bytes and relocation identities in
+both controls. Co-visible `ReplayInputState::IsHeld` changes the entry
+allocation and the live side register.
 
 ### Co-visible position conversion and indexed addressing
 
@@ -1865,6 +1876,23 @@ bytes. The three DWORD mask declarations tried for `IsHeld` preserve the
 comparisons with the definition hidden. With the definition visible they
 emit a different 16-byte callee and change the movement code. The
 maintained source still has the eight-byte residual.
+
+Co-visible `PlayerAddedState.cpp` preserves all 1,900 replayed movement
+bytes and 66 fields for the maintained, direction-join and fresh-side
+controls. The four canonical siblings in the carrier retain all
+665 physical bytes and 30 fields with their definitions on either
+side of movement. Using a reference to the replay input record,
+direct array indexing or a constant pointer to the real `IsHeld` member
+also preserves both maintained and direction-join comparisons. Saving
+each directional mask result by value and reusing that local for the
+digital focus query preserves the same results.
+
+Caching the existing effect handle only for the first spawn preserves
+both comparisons. Sharing the handle with the removal branch changes
+the stored flag sequence and the extent. Sharing the native position
+alias between the effect calls and the later position updates moves its
+LEA ahead of the focus branch in both controls. It also changes the
+register holding the old flag word in the maintained control.
 
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 
