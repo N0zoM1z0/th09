@@ -58,6 +58,15 @@ python3 -B .analysis/movement-focus/trace-run.py peephole focus-current focus-or
 python3 -B .analysis/movement-focus/trace-run.py direction-join-global focus-order-control
 ```
 
+The configuration-load trace follows the temporary `0x26A` instruction
+through unlinking and replacement with an ordinary MOV. The replacement
+attaches to the side load's original successor link in each control.
+[Load replacement](KNOWLEDGE_BASE.md#replacement-of-the-configuration-load)
+
+```bash
+python3 -B .analysis/movement-focus/trace-run.py load-normalization focus-current direct_ref_conditional freshside_ref_split_direct
+```
+
 The position-conversion control changes which copy definition C2
 follows first when forming the indexed operand. The conversion still
 emits its original call.

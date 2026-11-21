@@ -1894,6 +1894,37 @@ alias between the effect calls and the later position updates moves its
 LEA ahead of the focus branch in both controls. It also changes the
 register holding the old flag word in the maintained control.
 
+### Replacement of the configuration load
+
+At `0x1077EE6B`, C2 expands the raw configuration descriptor into an
+opcode `0x26A` between the live side load and the indexed operation.
+This happens in the maintained build and in a mode-pointer-reference
+control whose source declares the configuration before the side.
+Watching the side load's successor shows that C2 unlinks the pseudo-load
+at `0x1078952D` in the maintained build and at `0x10789246` in the
+reference controls. The builder at `0x1075F004` allocates a new ordinary
+MOV through the common request at `0x10776AE0`. It reuses the freed
+instruction record and links it after the same side load at `0x1075F0A1`.
+This replacement preserves the incoming load order. The direction-join
+control enters allocation with both ordinary MOVs in place and needs
+no expansion for either address term. The debugger and cold objects
+agree across all 1,900 bytes and 66 fields for each traced carrier.
+
+Capturing a row pointer in the direction branches keeps a separate LEA
+in the configuration-first control. Capturing the configuration base as
+a byte pointer and indexing at the actual `sideFocusMode` member offset
+reproduces the existing direction-join comparison. The indexed byte
+lookup still matches, with 14 later differences. Plain row-end and
+pointer-to-member lookups preserve the maintained eight-byte residual.
+A direct two-bit XOR update and a state reference in the entry guard
+preserve the direction-join comparison, including its two later blocks.
+
+The exact `IsHeld` body combined with the real position, Float3, ANM or
+timer definitions still puts the configuration in EAX. The held-input
+leaf passes its full canonical comparison in all 24 scratch carriers.
+The other co-visible definitions each pass their canonical comparison
+in the eight carriers that include them.
+
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 
 IDA's `UpdateChargeAttack` entry is precise: EDI holds the full DWORD
