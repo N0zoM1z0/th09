@@ -309,14 +309,12 @@ HOST_WAIT_STATE_CHECK:
                 }
 
                 SupervisorNetworkState *readyNetwork = g_SupervisorNetworkState;
-                if (readyNetwork->packetReady != 0)
-                    goto HAVE_PACKET;
+                if (readyNetwork->packetReady == 0)
+                {
+                    scratch.returnValue = NETWORK_SERVICE_RETRY_FRAME;
+                    goto RETURN_FRAME_RESULT;
+                }
 
-            WAIT_FOR_FRAME:
-                scratch.returnValue = NETWORK_SERVICE_RETRY_FRAME;
-                goto RETURN_FRAME_RESULT;
-
-            HAVE_PACKET:
                 g_NetworkFramePacket.words.input =
                     static_cast<unsigned short>(Controller::GetInput(
                         g_SupervisorNetworkState->localSide));
@@ -363,7 +361,10 @@ HOST_WAIT_STATE_CHECK:
             this->networkTiming458.frameStartTime = now;
 
         if (now - this->networkTiming458.frameStartTime <= NETWORK_FRAME_WAIT_MS)
-            goto WAIT_FOR_FRAME;
+        {
+            scratch.returnValue = NETWORK_SERVICE_RETRY_FRAME;
+            goto RETURN_FRAME_RESULT;
+        }
 
         if (now - this->networkTiming458.frameStartTime > NETWORK_DISCONNECT_TIMEOUT_MS)
         {

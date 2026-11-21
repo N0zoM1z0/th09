@@ -3286,7 +3286,7 @@ DWORD reloads at EBP-0x14 and EBP-0x12 and the EDI/EBX lifetimes through
 the final OR. The `ApplyNetworkInput` interface still consumes a word.
 Testing the flag byte's high bit recovers the native JNS.
 
-The 1,633-byte candidate has 302 masked differences and 406 after
+The 1,633-byte candidate has 282 masked differences and 389 after
 relocation replay. All 106 types and destinations bind, including 41
 relative calls and both timer imports. Seventy-eight fields match at
 their original offsets. The standalone frontier still reports REGRESSED
@@ -3296,24 +3296,31 @@ The first difference is the +0x256 branch displacement. Instructions
 align through +0x3F7 after accounting for branches into the tail. The
 original loads the readiness receiver into EDI at +0x3F8 and falls
 through to the retry block at +0x408 when no packet is ready. The
-candidate reloads through EAX and places retry beside the later timeout
-decision. The timeout's native +0x554 JBE targets the earlier retry.
-The other remaining work is the receiver and timer reload at +0x50A
-on paths that publish or predict a frame, and the final PopFrame argument
-and store order. The packet publish instructions align between source
-and target once the displaced blocks are accounted for.
+candidate uses a one-byte-shorter EAX reload and falls through at
++0x407. Each retry branch now sets the result before entering the
+shared cleanup. VC7.1 emits the short JNE after checking readiness
+and merges the later timeout at +0x553 into a backward JBE to the
+early retry. C2 already presents the retry-result assignment in the
+block immediately following the readiness branch at allocator entry.
+The remaining work includes the readiness receiver, the receiver and
+timer reload at +0x50A on paths that publish or predict a frame, and
+the final PopFrame argument and store order. The packet publish
+instructions align after allowing for the shifted addresses.
 
 Making the exact PopFrame body co-visible changed the later layout
 and register scheduling without changing the call inventory. Making
 GetSeed visible preserved the seed calls and receiver loads. VC7.1
 kept the outgoing frame value in EDX across GetSeed and removed the
 original checksum reload from 0x004B40A0.
-Renaming receiver aliases, changing only the spelling of the packet-ready
-condition, and duplicating retry cleanup reproduced the same deferred
-retry. Reloading the receiver after both publication paths produced
-the correct EDI readiness read in a control but kept the clock in EBX
-across frame prediction. The resulting frame-counter spill at EBP-4
-displaced the scratch record and grew the frame to 0x18 bytes.
+Renaming receiver aliases, sharing a timer value across the phases,
+and giving both modes their own copy of the publication path did not
+recover the register choice. Co-visible definitions of DrawTextCentered,
+GetInput, ApplyNetworkInput and the lock and session helpers left the
+candidate bytes and references unchanged. Reloading the receiver after
+both publication paths produced the correct EDI readiness read in a
+control but kept the clock in EBX across frame prediction. The resulting
+frame-counter spill at EBP-4 displaced the scratch record and grew the
+frame to 0x18 bytes.
 
 A standalone input array produced the original EDI/EBX first loads and
 the two fastcall argument moves. VC7.1 placed it at EBP-8 and EBP-6,
@@ -3321,10 +3328,6 @@ moving the PopFrame scratch and result DWORD as well. A reference to
 the existing frame-timing record preserved both the maintained
 candidate and the receiver-refresh control byte for byte.
 
-The retry displacement persists with the later timeout-to-retry edge
-removed. Further controls omitted the final input publication, final
-PopFrame calls, frame commit, handshake, or prefill in isolation.
-Each still placed the retry out of line from the packet-ready check.
 A debugger trace of the maintained carrier reached the pinned C2
 allocator and skipped the profile-guided trace-formation entry.
 
