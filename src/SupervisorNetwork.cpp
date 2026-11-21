@@ -43,64 +43,6 @@ extern const char g_NetworkSearchingMessage[];
 extern unsigned short __fastcall ApplyNetworkInput(int side, unsigned short input);
 extern int __fastcall SupervisorSubthreadIsRunning(Supervisor *supervisor);
 
-// PopFrame returns a seed and a predicted-frame value through pointers.
-// Retail uses the same eight-byte stack window in two mutually exclusive
-// phases. The handshake writes seeds at -0xC/-0xA and prediction at -0x8;
-// the final frame instead writes prediction at -0xC and seeds at -0x8/-0x6.
-// The final input pair uses the adjacent stack words at EBP-0x14 and EBP-0x12.
-struct NetworkPopFrameScratch
-{
-    union
-    {
-        struct First
-        {
-            unsigned short seed;
-            unsigned short overlap;
-            unsigned int predicted;
-        } first;
-        struct Second
-        {
-            unsigned short overlap;
-            unsigned short seed;
-            unsigned int predicted;
-        } second;
-        struct FinalFrame
-        {
-            unsigned int predicted;
-            unsigned short firstSeed;
-            unsigned short secondSeed;
-        } finalFrame;
-    };
-};
-
-typedef char NetworkPopFrameScratchLayout[
-    (sizeof(NetworkPopFrameScratch) == 8 &&
-     offsetof(NetworkPopFrameScratch, first.seed) == 0 &&
-     offsetof(NetworkPopFrameScratch, second.seed) == 2 &&
-     offsetof(NetworkPopFrameScratch, first.predicted) == 4 &&
-     offsetof(NetworkPopFrameScratch, second.predicted) == 4 &&
-     offsetof(NetworkPopFrameScratch, finalFrame.predicted) == 0 &&
-     offsetof(NetworkPopFrameScratch, finalFrame.firstSeed) == 4 &&
-     offsetof(NetworkPopFrameScratch, finalFrame.secondSeed) == 6) ? 1 : -1];
-struct NetworkServiceStackScratch
-{
-    // The first two words hold the final input pair.
-    unsigned short inputs[4];
-    NetworkPopFrameScratch popFrame;
-    int returnValue;
-};
-typedef char NetworkServiceStackScratchLayout[
-    (sizeof(NetworkServiceStackScratch) == 20 &&
-     offsetof(NetworkServiceStackScratch, inputs) == 0 &&
-     offsetof(NetworkServiceStackScratch, popFrame) == 8 &&
-     offsetof(NetworkServiceStackScratch, returnValue) == 16 &&
-     sizeof(int) == 4 &&
-     offsetof(NetworkServiceStackScratch, popFrame.first.seed) == 8 &&
-     offsetof(NetworkServiceStackScratch, popFrame.first.predicted) == 12 &&
-     offsetof(NetworkServiceStackScratch, popFrame.finalFrame.predicted) == 8 &&
-     offsetof(NetworkServiceStackScratch, popFrame.finalFrame.firstSeed) == 12 &&
-     offsetof(NetworkServiceStackScratch, popFrame.finalFrame.secondSeed) == 14) ? 1 : -1];
-
 // Values are taken from the original network service's state and packet
 // transitions. The original identifier spelling is not established.
 enum NetworkSessionPhase
@@ -143,11 +85,7 @@ enum NetworkServiceLimits
 
 int Supervisor::UpdateNetworkService()
 {
-    // The native return DWORD serves completion and reset/stop paths;
-    // the early retry result is a fixed value. The input words and PopFrame
-    // output retain their original stack offsets.
-    NetworkServiceStackScratch scratch;
-    scratch.returnValue = NETWORK_SERVICE_FRAME_READY;
+    int frameResult = NETWORK_SERVICE_FRAME_READY;
     int stateReturnValue;
 
     this->EnterCriticalSectionWrapper(4);
@@ -300,10 +238,10 @@ HOST_WAIT_STATE_CHECK:
 
                     if (g_SupervisorNetworkState->syncValue != 0)
                     {
-                        this->PopFrame(0, &scratch.popFrame.first.seed,
-                                       &scratch.popFrame.first.predicted);
-                        this->PopFrame(1, &scratch.popFrame.second.seed,
-                                       &scratch.popFrame.second.predicted);
+                        unsigned short handshakeSeeds[2];
+                        unsigned int handshakePrediction;
+                        this->PopFrame(0, &handshakeSeeds[0], &handshakePrediction);
+                        this->PopFrame(1, &handshakeSeeds[1], &handshakePrediction);
                     }
                     g_SupervisorNetworkState->initialFramesQueued = 1;
                     frameNetwork = g_SupervisorNetworkState;
@@ -311,7 +249,7 @@ HOST_WAIT_STATE_CHECK:
 
                 if (frameNetwork->packetReady == 0)
                 {
-                    scratch.returnValue = NETWORK_SERVICE_RETRY_FRAME;
+                    frameResult = NETWORK_SERVICE_RETRY_FRAME;
                     goto RETURN_FRAME_RESULT;
                 }
 
@@ -364,7 +302,7 @@ HOST_WAIT_STATE_CHECK:
 
         if (now - this->networkTiming458.frameStartTime <= NETWORK_FRAME_WAIT_MS)
         {
-            scratch.returnValue = NETWORK_SERVICE_RETRY_FRAME;
+            frameResult = NETWORK_SERVICE_RETRY_FRAME;
             goto RETURN_FRAME_RESULT;
         }
 
@@ -392,22 +330,21 @@ HOST_WAIT_STATE_CHECK:
     }
 
     {
+        unsigned short inputs[2];
+        unsigned short frameSeeds[2];
+        unsigned int framePrediction;
         this->networkTiming458.confirmedFrame = this->networkTiming458.frameCounter;
         this->networkTiming458.frameMode = NETWORK_FRAME_PREPARING;
-        scratch.inputs[0] = static_cast<unsigned short>(
-            this->PopFrame(0, &scratch.popFrame.finalFrame.firstSeed,
-                           &scratch.popFrame.finalFrame.predicted));
-        scratch.inputs[1] = static_cast<unsigned short>(
-            this->PopFrame(1, &scratch.popFrame.finalFrame.secondSeed,
-                           &scratch.popFrame.finalFrame.predicted));
+        inputs[0] = this->PopFrame(0, &frameSeeds[0], &framePrediction);
+        inputs[1] = this->PopFrame(1, &frameSeeds[1], &framePrediction);
         // Publish each 16-bit input, then publish their combined mask.
-        const unsigned short firstInput = scratch.inputs[0];
+        const unsigned short firstInput = inputs[0];
         ApplyNetworkInput(0, firstInput);
-        const unsigned short secondInput = scratch.inputs[1];
+        const unsigned short secondInput = inputs[1];
         ApplyNetworkInput(1, secondInput);
         ApplyNetworkInput(2, firstInput | secondInput);
     RETURN_FRAME_RESULT:
         this->LeaveCriticalSectionWrapper(4);
-        return scratch.returnValue;
+        return frameResult;
     }
 }

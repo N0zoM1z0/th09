@@ -3277,22 +3277,21 @@ owners, and the Etama update caller.
 
 ## 2026-11-21 Network service retry and input context
 
-The maintained `Supervisor::UpdateNetworkService` code uses a shared
-lock-release tail for frame-ready and retry-frame results. Pinned VC7.1
-duplicates the tail and emits the original push and receiver setup in
-both copies. The final input words live in one typed array. Reading the
-two unsigned-short snapshots in publication order recovers the native
-DWORD reloads at EBP-0x14 and EBP-0x12 and the EDI/EBX lifetimes through
-the final OR. The `ApplyNetworkInput` interface still consumes a word.
-Testing the flag byte's high bit recovers the native JNS.
+Pinned VC7.1 reproduces all 1,633 bytes and 106 relocations of
+`Supervisor::UpdateNetworkService` at 0x00430AA0. The extent ends at
+the RET at 0x00431100. The following 15 CC bytes are unowned.
 
-The 1,633-byte candidate has 12 differing bytes after relocation replay.
-All 106 relocation positions, types, and destinations agree, including
-41 relative calls and both timer imports. The first difference is at
-`+0x626`, where the call argument loads from EBP-0x14 into EDX. The
-original loads EDI first and then copies it to EDX. The second input has
-the corresponding difference with EBX at EBP-0x12. The standalone
-frontier still reports REGRESSED against the 1,629-byte baseline.
+```bash
+python3 -B scripts/replay-scoped-exact.py --unit supervisor-network-service
+```
+
+The two PopFrame phases each use a block-local seed pair and prediction.
+VC7.1 reuses EBP-0xC and EBP-0x8 when their roles exchange. The result
+DWORD is at EBP-4. A standalone input array retains the word stores at
+EBP-0x14 and EBP-0x12 and the DWORD reloads into EDI and EBX before
+the EDX argument moves. The fastcall interface consumes the low word.
+Both phase-local output objects are needed to recover the stack
+displacements and preserve every relocation.
 
 The readiness jump at `+0x2E7` targets `+0x3FE`. It passes over the
 receiver reload at `+0x3F8` when the initial frames are already queued.
@@ -3311,15 +3310,12 @@ C2 presents the retry-result assignment in the block immediately
 following the readiness branch at allocator entry.
 
 Making the exact PopFrame body co-visible changed the later layout
-and register scheduling without changing the call inventory. Making
-GetSeed visible preserved the seed calls and receiver loads. VC7.1
-kept the outgoing frame value in EDX across GetSeed and removed the
-original checksum reload from 0x004B40A0.
-Renaming receiver aliases, sharing a timer value across the phases,
-and giving both modes their own copy of the publication path did not
-recover the register choice. Co-visible definitions of DrawTextCentered,
-GetInput, ApplyNetworkInput and the lock and session helpers left the
-candidate bytes and references unchanged. Reloading the receiver after
+and register scheduling without changing the call inventory. With
+GetSeed visible, VC7.1 kept the outgoing frame value in EDX across the
+call and removed the original checksum reload from 0x004B40A0.
+Co-visible definitions of DrawTextCentered, GetInput, ApplyNetworkInput
+and the lock and session helpers left the candidate bytes and references
+unchanged. Reloading the receiver after
 both publication paths alone gave the shared network pointer EDI in the
 C2 allocator and assigned a timer-import partition across the prediction
 interval to EBX. The resulting frame-counter spill at EBP-4 displaced the
@@ -3327,25 +3323,37 @@ scratch record and grew the frame to 0x18 bytes. Tying the readiness and
 controller-side reads to the conditional receiver restored the original
 allocation through the queue check.
 
-A standalone input array produces the original EDI/EBX first loads and
-the two fastcall argument moves. VC7.1 places it at EBP-8 and EBP-6 and
-moves the PopFrame outputs and result DWORD by eight bytes. That
-control has 16 differing stack displacements and otherwise matches
-the original through all 1,633 bytes and 106 relocations. With the
-shared scratch record, C2 assigns the named snapshots to EDI and EBX
-and assigns distinct scratch-derived arguments to EDX. Reading both
-inputs before either call moves the first ApplyNetworkInput relocation.
-In the standalone control, the source-symbol displacements survive
-global register allocation. C2 rewrites them during stack layout in
-`0x10790AD6` at the store at `0x10790EB5`. It assigns the input
-array at EBP-8 first and the scratch record at EBP-0x14 second.
+A shared scratch record preserved the target stack offsets but changed
+12 bytes in the two input reloads and copies. C2 inserts `0x26A` loads
+for the record members inside `0x1077C367`, before global allocation.
+The inserted load lands in EDX and is copied to EDI or EBX. An
+independent input array gives a direct load into each saved register.
+Leaving the other 12 bytes in a single aggregate puts the input array
+at EBP-8 instead. The stack candidate sort at `0x10788672` compares
+effective access spans. The two input reloads span six bytes, rounded
+to eight by stack layout. Splitting the aggregate into two function-wide
+4-byte output unions plus a separate result matched the final input
+instructions but left eight incorrect stack displacements. Splitting
+only the seeds or only the prediction by phase grew the frame. Giving
+both output objects their own phase-local lifetime reproduces the
+original 0x14-byte frame without an explicit storage overlay.
 
-A debugger trace of the maintained carrier reached the pinned C2
-allocator and skipped the profile-guided trace-formation entry.
+The two 12-byte outgoing packet slots at 0x004B409C and 0x004B40A8
+and the 4-byte network pointer cell at 0x004B42D0 are in the zero-filled
+portion of the original data section. All 18 packet references resolve
+to the respective base plus the original wire-field offset. The
+three message references point to distinct NUL-terminated CP932 strings
+in file-backed read-only data. These remain external bindings in
+the COFF carrier. The following sizes and SHA-256 digests include the
+terminating NUL.
 
-The two contiguous 12-byte outgoing packet slots at 0x004B409C and
-0x004B40A8 and the network pointer cell at 0x004B42D0 lie in the
-zero-filled portion of the original data section. The disconnect, wait,
-and search messages select distinct terminated strings at 0x00490A88,
-0x00490AA8, and 0x00490AC4 in file-backed read-only data. These are
-external data bindings for this code owner.
+| Message | Target address | Bytes | SHA-256 |
+| --- | --- | ---: | --- |
+| Disconnect | 0x00490A88 | 31 | `e090f2f63c305d57e9f325cdf0664f68bd271d2669df717cf28032db956f2335` |
+| Wait | 0x00490AA8 | 25 | `426343891901918c1bb6f3587faa04ee41eacc42f494991007312fc13c5d9017` |
+| Search | 0x00490AC4 | 29 | `3c97c551d2d16a54d5eaa65473067a9f1a96e85b23eacfa7c5f422972b682ce9` |
+
+The cold scoped replay passed nine exact units across eight compiler
+jobs, covering 5,014 physical bytes and 371 relocations. This includes
+the service, its OnUpdate caller, the input and frame-queue functions,
+the packet sender, and the WinMain carrier that sets the network pointer.
