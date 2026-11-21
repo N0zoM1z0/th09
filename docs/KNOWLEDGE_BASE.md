@@ -1704,6 +1704,56 @@ when the focus flag uses its direct member. These controls remain
 different from the original across the full extent. Expressing the
 replay counter through byte offsets also did not recover the original.
 
+## 2026-11-21 Player movement direction join and scratch allocation
+
+The pinned VC7.1 compiler can reproduce the original focus lookup at
+`0x0041C296`. A full-unit control reads the live side at each direction
+exit. The neutral and three upward exits also capture the configuration
+pointer first. The remaining exits reach one shared configuration
+assignment. C2 merges those reads back into the original direction join
+after the eight directional input calls and their direction stores.
+The global allocator weighs the side at 63 and the configuration at
+36. It assigns EAX to the side and ECX to the configuration. The
+configuration load, DIR32 field at `+0x128`, side load and indexed
+CMP with SIB byte `0x08` all match the original.
+
+The control uses the existing movement-field reference for both
+position increments. That restores the x87 encodings near `+0x507`.
+Its complete 1,900-byte comparison leaves 14 differing bytes after
+replaying all 66 fields, including the two switch tables. Seven bytes
+are in the bitfield update near `+0x156` and seven are in the first
+effect-call setup near `+0x186`. The maintained source still differs
+by eight bytes, all in the two focus loads.
+
+The scratch selector at `0x10775ACC` sees both focus operands in the
+maintained build. They arrive already bound to EAX and ECX in the
+direction-join control. The local search at `0x10775B45` starts with
+EAX, ECX, EDX in both builds. Each successful local choice advances
+the search at `0x10776893`. In the maintained build the focus loads
+consume the first two choices. The bitfield update takes EDX and the
+first effect receiver takes EAX after the search wraps. In the control
+the bitfield update is the first request. EAX is occupied by the focus
+result, so it takes ECX. The effect receiver then takes EDX and the
+scheduler moves its loads ahead of the color and side pushes. Cold
+and debugger builds reproduce these choices across the complete
+extent. A local configuration allocation could advance the scratch
+search to EDX while retaining the globally bound side.
+
+The 16 focus-effect IDs at `0x004A1A10` end at the reviewed callback
+table at `0x004A1A50`. The original 64 bytes decode to
+`10, 16, 17, 18, 26, 24, 27, 25, 28, 29, 30, 31, 32, 33, 36, 37`
+with SHA-256
+`16f82c6f1ce9daef50da8b2236fd0497bd8782926c6ad199a3b23d548d6b1714`.
+A trial initialized COFF definition reproduces those bytes and leaves
+all 1,900 replayed code and tail bytes and 66 fields identical to each
+corresponding declaration-only build. Co-visible exact effect-spawn
+and animation-script definitions also preserve the respective
+comparisons. A carrier with the real PlayerRuntime, short leaves and
+both angle methods before or after the movement body gives the same
+replayed bytes and relocation identities in both controls. Co-visible
+`ReplayInputState::IsHeld` changes the entry allocation and the live
+side register.
+
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 
 IDA's `UpdateChargeAttack` entry is precise: EDI holds the full DWORD

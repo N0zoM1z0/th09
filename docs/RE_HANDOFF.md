@@ -1,6 +1,5 @@
 # TH09 reconstruction handoff (2026-11-21)
 
-Player movement remains paused by the operator.
 [Progress](PROGRESS.md)
 
 ## Start the session
@@ -37,7 +36,18 @@ separately. An OK result means the recorded frontier was preserved.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes, 4 structural differences, 8 after relocation replay (OK) | `player-movement`. Paused by the operator. Retain EAX for the side index and ECX for the configuration address while recovering the configuration-first order and indexed CMP. [Focus-load controls](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads) |
+| PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes, 4 structural differences, 8 after relocation replay (OK) | Active owner, `player-movement`. The direction-join control reproduces the focus lookup and all relocation positions. It still differs in the flag update and first effect call. [Direction-join control](KNOWLEDGE_BASE.md#2026-11-21-player-movement-direction-join-and-scratch-allocation) |
+
+The retained control `.analysis/movement-focus/focus-order-control.cpp`
+reproduces the direction join that gives ECX to the configuration and EAX
+to the live side index during global allocation. Replay the scratch allocator
+trace to compare that control with the maintained body.
+
+```bash
+cp src/PlayerMovement.cpp .analysis/movement-focus/focus-current.cpp
+python3 -B .analysis/movement-focus/trace-run.py flag-residual focus-current focus-order-control
+python3 -B .analysis/movement-focus/trace-run.py direction-join-global focus-order-control
+```
 
 ## Recent exact checkpoints
 
