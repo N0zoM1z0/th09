@@ -83,36 +83,16 @@ typedef char NetworkPopFrameScratchLayout[
      offsetof(NetworkPopFrameScratch, finalFrame.predicted) == 0 &&
      offsetof(NetworkPopFrameScratch, finalFrame.firstSeed) == 4 &&
      offsetof(NetworkPopFrameScratch, finalFrame.secondSeed) == 6) ? 1 : -1];
-// The native eight-byte home at EBP-0x14 holds either the frame counter
-// or two player input words. The compiler can load the encompassing DWORD,
-// but the input API consumes the actual low 16-bit field.
-struct NetworkServiceInputScratch
-{
-    unsigned short side0;
-    unsigned short side1;
-    unsigned short reserved0;
-    unsigned short reserved1;
-};
-
-union NetworkServiceInputFrameScratch
-{
-    NetworkServiceInputScratch inputs;
-    unsigned int frame;
-};
 struct NetworkServiceStackScratch
 {
-    NetworkServiceInputFrameScratch inputFrame;
+    // The first two words hold the final input pair.
+    unsigned short inputs[4];
     NetworkPopFrameScratch popFrame;
     int returnValue;
 };
 typedef char NetworkServiceStackScratchLayout[
     (sizeof(NetworkServiceStackScratch) == 20 &&
-     offsetof(NetworkServiceStackScratch, inputFrame) == 0 &&
-     offsetof(NetworkServiceInputFrameScratch, inputs) == 0 &&
-     offsetof(NetworkServiceInputFrameScratch, frame) == 0 &&
-     sizeof(NetworkServiceInputScratch) == 8 &&
-     offsetof(NetworkServiceInputFrameScratch, inputs.side0) == 0 &&
-     offsetof(NetworkServiceInputFrameScratch, inputs.side1) == 2 &&
+     offsetof(NetworkServiceStackScratch, inputs) == 0 &&
      offsetof(NetworkServiceStackScratch, popFrame) == 8 &&
      offsetof(NetworkServiceStackScratch, returnValue) == 16 &&
      sizeof(int) == 4 &&
@@ -165,8 +145,8 @@ enum NetworkServiceLimits
 int Supervisor::UpdateNetworkService()
 {
     // The native return DWORD serves completion and reset/stop paths;
-    // the early retry result is a fixed value. Input/frame and PopFrame
-    // homes retain their original overlapped native stack offsets.
+    // the early retry result is a fixed value. The input words and PopFrame
+    // output retain their original stack offsets.
     NetworkServiceStackScratch scratch;
     scratch.returnValue = NETWORK_SERVICE_FRAME_READY;
     int stateReturnValue;
@@ -335,8 +315,7 @@ HOST_WAIT_STATE_CHECK:
 
             WAIT_FOR_FRAME:
                 scratch.returnValue = NETWORK_SERVICE_RETRY_FRAME;
-                this->LeaveCriticalSectionWrapper(4);
-                return scratch.returnValue;
+                goto RETURN_FRAME_RESULT;
 
             HAVE_PACKET:
                 g_NetworkFramePacket.words.input =
@@ -405,7 +384,7 @@ HOST_WAIT_STATE_CHECK:
         this->LeaveCriticalSectionWrapper(4);
         if ((Controller::GetInput(2) & 2) != 0)
             return NETWORK_SERVICE_RESET;
-        if (this->flagsLow5D4 >= 0 || SupervisorSubthreadIsRunning(this))
+        if ((this->flagsLow5D4 & 0x80) == 0 || SupervisorSubthreadIsRunning(this))
             return stateReturnValue;
         return NETWORK_SERVICE_STOP;
     }
@@ -413,20 +392,19 @@ HOST_WAIT_STATE_CHECK:
     {
         this->networkTiming458.confirmedFrame = this->networkTiming458.frameCounter;
         this->networkTiming458.frameMode = NETWORK_FRAME_PREPARING;
-        scratch.inputFrame.inputs.side0 = static_cast<unsigned short>(
+        scratch.inputs[0] = static_cast<unsigned short>(
             this->PopFrame(0, &scratch.popFrame.finalFrame.firstSeed,
                            &scratch.popFrame.finalFrame.predicted));
-        scratch.inputFrame.inputs.side1 = static_cast<unsigned short>(
+        scratch.inputs[1] = static_cast<unsigned short>(
             this->PopFrame(1, &scratch.popFrame.finalFrame.secondSeed,
                            &scratch.popFrame.finalFrame.predicted));
-        // ApplyNetworkInput consumes the first 16-bit player word. Retail
-        // happens to load its enclosing DWORD; the high word is not an input
-        // parameter and VC7.1 retains the same native load for this member.
-        const unsigned int secondInput = scratch.inputFrame.inputs.side1;
-        const unsigned int packedInput = scratch.inputFrame.frame;
-        ApplyNetworkInput(0, packedInput);
+        // Publish each 16-bit input, then publish their combined mask.
+        const unsigned short firstInput = scratch.inputs[0];
+        ApplyNetworkInput(0, firstInput);
+        const unsigned short secondInput = scratch.inputs[1];
         ApplyNetworkInput(1, secondInput);
-        ApplyNetworkInput(2, packedInput | secondInput);
+        ApplyNetworkInput(2, firstInput | secondInput);
+    RETURN_FRAME_RESULT:
         this->LeaveCriticalSectionWrapper(4);
         return scratch.returnValue;
     }

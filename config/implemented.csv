@@ -614,7 +614,7 @@ TitleScreenView::OnUpdateMusicRoom
 TitleScreenView::UpdateReplaySave
 TitleScreenView::OnUpdateStartMenu
 TitleScreenView::OnUpdateDifficultySelect
-SupervisorServiceUpdate
+Supervisor::UpdateNetworkService
 Supervisor::OnUpdate
 Supervisor::Supervisor
 PauseMenu::OnUpdate

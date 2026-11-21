@@ -38,7 +38,7 @@ separately. An OK result means the recorded frontier was preserved.
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes, 4 structural differences, 8 after relocation replay (OK) | `player-movement`. Paused by the operator. Retain EAX for the side index and ECX for the configuration address while recovering the configuration-first order and indexed CMP. [Focus-load controls](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads) |
-| Supervisor::UpdateNetworkService | 0x00430AA0 | 1,633/1,633 bytes, 307 differences (REGRESSED against the 1,629-byte baseline) | `supervisor-network-service`. Keep the 0x14 frame, EBX frame/prefill lifetime and sender reloads. The target branches from the +0x3F8 packet-ready test to +0x422 input handling. Prior source labels and split wait returns left the emitted return block out of line. [Frame and packet recovery](KNOWLEDGE_BASE.md#updatenetworkservice-native-frameprediction-and-packet-flow-recovery-2026-11-19) |
+| Supervisor::UpdateNetworkService | 0x00430AA0 | 1,633/1,633 bytes, 302 masked differences (REGRESSED against the 1,629-byte baseline) | `supervisor-network-service` is the active owner. Preserve the 0x14 frame and outbound packet code. Recover the early retry block, post-publication receiver and timer reloads, and final input scheduling. [Target layout and compiler controls](KNOWLEDGE_BASE.md#2026-11-21-network-service-retry-and-input-context) |
 
 The `etama-fsincos` diagnostic remains open for origin review.
 

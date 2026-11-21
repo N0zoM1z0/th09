@@ -615,7 +615,7 @@ TitleScreenView::OnUpdateMusicRoom,0x00426E05,function
 TitleScreenView::UpdateReplaySave,0x00429662,function
 TitleScreenView::OnUpdateStartMenu,0x00429E23,function
 TitleScreenView::OnUpdateDifficultySelect,0x0042A45B,function
-SupervisorServiceUpdate,0x00430AA0,function
+Supervisor::UpdateNetworkService,0x00430AA0,function
 Supervisor::OnUpdate,0x00431110,function
 Supervisor::Supervisor,0x00431500,function
 PauseMenu::OnUpdate,0x00434740,function

@@ -3274,3 +3274,46 @@ The final scoped cold replay passed 36 exact units across eight compiler
 jobs, covering 13,473 physical bytes and 732 relocation fields. This
 includes the collision carrier, the GameManager setup and cleanup
 owners, and the Etama update caller.
+
+## 2026-11-21 Network service retry and input context
+
+The maintained `Supervisor::UpdateNetworkService` code uses a shared
+lock-release tail for frame-ready and retry-frame results. Pinned VC7.1
+duplicates the tail and emits the original push and receiver setup in
+both copies. The final input words live in one typed array. Reading the
+two unsigned-short snapshots in publication order recovers the native
+DWORD reloads at EBP-0x14 and EBP-0x12 and the EDI/EBX lifetimes through
+the final OR. The `ApplyNetworkInput` interface still consumes a word.
+Testing the flag byte's high bit recovers the native JNS.
+
+The 1,633-byte candidate has 302 masked differences and 406 after
+relocation replay. All 106 types and destinations bind, including 41
+relative calls and both timer imports. Seventy-eight fields match at
+their original offsets. The standalone frontier still reports REGRESSED
+against the 1,629-byte baseline.
+
+The first difference is the +0x256 branch displacement. Instructions
+align through +0x3F7 after accounting for branches into the tail. The
+original loads the readiness receiver into EDI at +0x3F8 and falls
+through to the retry block at +0x408 when no packet is ready. The
+candidate reloads through EAX and places retry beside the later timeout
+decision. The timeout's native +0x554 JBE targets the earlier retry.
+The other remaining work is the receiver and timer reload at +0x50A
+on paths that publish or predict a frame, and the final PopFrame argument
+and store order. The packet publish instructions align between source
+and target once the displaced blocks are accounted for.
+
+Making the exact PopFrame body co-visible changed the later layout
+and register scheduling without changing the call inventory. Making
+GetSeed visible removed a receiver relocation which retail retains.
+Renaming receiver aliases, changing only the spelling of the packet-ready
+condition, and duplicating retry cleanup reproduced the same deferred
+retry. Reloading the receiver after both publication paths produced
+the correct EDI readiness read in a control but disturbed clock
+allocation and enlarged the scratch frame through an input-word spill.
+
+The two contiguous 12-byte outgoing packet slots at 0x004B409C and
+0x004B40A8 and the network pointer cell at 0x004B42D0 lie in the
+zero-filled portion of the original data section. The three connection
+message operands select distinct terminated strings in file-backed
+read-only data. These are external data bindings for this code owner.
