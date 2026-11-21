@@ -2979,3 +2979,29 @@ side-state schedule. Capturing the destination slot by reference,
 binding the replay configuration source separately, and giving the
 lives conversion explicit integer locals each preserve the baseline
 when the rest of the emitted code agrees.
+
+In the score-loop control, both extra instructions are materialized before
+scheduling. At the C2 global allocation entry `0x1077C0F5`, the second
+score read has a separate address temporary. Its source resolves to the
+right frame already in ECX and its destination resolves to EDX, producing
+the two-byte copy at `+0x182`. The three-byte store at `+0x1A3` starts as
+opcode `0x26B` for the right frame's stack slot. Global allocation turns it
+into a move from ECX to `[ebp-8]`. The subsequent right-side float
+conversion uses the same frame from ECX and the first conversion reuses
+the stack slot. Populating the score-loop array from scalar frame pointers
+removes both instructions and restores the baseline schedule.
+
+A separate control passes the left replay byte through a `double` before
+the float store. C2 inserts an opcode `0x269` conversion record in the
+scheduler. It contributes to the region cutoff and emits zero bytes. The
+RNG call still assembles at `+0x207` and falls outside the region containing
+the side load. The initial-lives store and the side load each lose one
+outgoing edge, leaving scheduling priorities `0x17800` and `0x17C00`
+respectively. The control reproduces all 540 baseline bytes and 32 COFF
+fields in both the isolated function and the full ReplayInput.cpp carrier.
+The baseline residual is still 19 bytes after relocation replay. Relative
+to this control, the score loop adds exactly one outgoing edge from the
+initial-lives store, a register dependency on the ECX-to-EDX copy at
+`+0x182`. The side load keeps the same outgoing dependencies. This accounts
+for the tied priorities in the score loop and isolates the missing
+scheduling change from the region cutoff.
