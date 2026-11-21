@@ -27,6 +27,46 @@ python3 -B scripts/check-frontier.py NAME --show
 python3 -B scripts/ghidra-analysis.py --function ADDRESS
 ```
 
+## Whole-image link and position independence
+
+The operator selected Windows i386 product closure, aiming at position
+independence (PI) as in TH08. PI here means code and data can move at link
+time while every reference still reaches its intended function, object and
+field. [TH08 acceptance checks](../../../th08-reconstruction/th08/docs/POSITION_INDEPENDENCE.md)
+The first step is a link of every canonical exact carrier with the pinned
+VC7.1 linker and libraries. It lists the remaining closure work.
+
+```bash
+python3 -B scripts/trial-link.py build    # about 9 minutes, serial, nice
+python3 -B scripts/trial-link.py link     # classify LNK2005/LNK2001/LNK2019
+python3 -B scripts/trial-link.py verify   # units vs trial carriers and profiles
+```
+
+The trial carriers reproduce all 1,084 canonical units. After the
+checkpoints below, the link reports this work:
+
+| Work | Count | Next action |
+| --- | ---: | --- |
+| Duplicate definitions from ten sources compiled under two profiles | 196 symbols | Recover the original translation units. Use address neighbourhoods; see below |
+| Data symbols with no definition | 379 | Define each global once, with its initializer for `.data` and `.rdata` |
+| Calls through view-type aliases of exact functions | 136 symbols, 81 functions | Use the real type. Identical bodies folded by the linker need their own definitions instead |
+| Functions without exact source | 10 | Movement owner, 5 unknown constructors, 4 compiler-generated helpers |
+
+Ten sources have no single profile that keeps all their units exact.
+Most minority units lie in another module's address range. Examples are
+`AnmManager::SpriteHasTexture` and `AsciiManager::SetScale` inside the
+`/O1` Title block, and `TitleScoreRecordView::InsertIntoTable` beside
+ScoreData. Those bodies belong to another translation unit. Constructors
+needing `/Ob0` inside an `/Ob1` range, such as AnmManager, CardAttack and
+Player, point to a callee that the original did not inline. `EclManager.cpp`
+spans `0x004010B0..0x0044C790` and combines many original units.
+
+The D3DX8 library in TH09 likely predates the pinned SDK. The pinned
+`D3DXIMAGE_INFO` is 0x1C bytes, while TH09's surface table uses 0x14-byte
+records, the DirectX 8.0 layout. Library provenance for libcmt and d3dx8
+is still open. The trial link uses the VC7.1 copies. It drops `libci`,
+`libc` and `amdmath`, which d3dx8.lib requests.
+
 ## Player movement handoff
 
 The single-function exact reconstruction is paused for handoff. The
