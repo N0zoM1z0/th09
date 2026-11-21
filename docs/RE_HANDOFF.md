@@ -55,8 +55,13 @@ with `python3 -B .analysis/movement-focus/trace-run.py focus-schedule direct_ref
 For dependency insertion and the ready-list tie-breaker, use the same controls
 with `trace-run.py readiness direct_ref_conditional native`.
 The `direct_ref_visible.cpp` carrier includes the exact input leaf and shows
-how global allocation can remove the LEA. Compare it with the opaque-call
-control using `trace-run.py lea-elimination direct_ref_visible direct_ref_conditional`.
+how global allocation can remove the LEA. Run
+`trace-run.py substitution-copy direct_ref_visible direct_ref_conditional freshside_ref_split_direct`
+to compare the address-term classes and the substitution check across
+the three controls. The opaque-call control's direct side load fails.
+`freshside_ref_split_direct.cpp` passes by taking a reference to
+a fresh local copy of the side. It keeps the original registers and an
+indexed CMP. The load order and SIB operand order still differ.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |

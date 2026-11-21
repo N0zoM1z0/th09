@@ -1549,7 +1549,10 @@ insertion call at `0x107B73C7`. The resulting write-order edge adds
 register-read edge, C2 merges the write-order constraint into that
 edge at `0x107B4124`. A by-value mode control that writes AL using
 EAX as part of its indexed address demonstrates this merge. Its two
-loads still tie at `0xA000` with one edge apiece.
+loads still tie at `0xA000` with one edge apiece. A scalar mode copy
+with a const-reference alias also gives the exact EAX and ECX inputs
+and writes CL through the indexed operand. The same merge and tie
+occur for that register pair.
 
 With separate configuration and side snapshots,
 the global allocator instead gives both inputs weight 16 and assigns
@@ -1606,6 +1609,41 @@ same elimination is observed in a control with the directional queries
 omitted. Retaining even one opaque directional query preserves the LEA
 in that control family.
 
+Both reference controls enter global allocation with a LEA followed
+by a register copy and a CMP. Each address temporary has one consumer.
+The early substitution pass checks indexed addresses at `0x1072E3CC`.
+It requires allocation class 2 for both address terms. The opaque-call
+control has class 2 for the configuration and class 3 for the freshly
+loaded side index. The check returns zero and `0x10783EF6` marks the
+copy's allocation record with bit `0x400`. The work-list check at
+`0x10783CEA` skips it. Subsequent coalescing at `0x10782850` records
+the LEA as the definition after the substitution opportunity has passed.
+With the input leaf visible, both address terms pass the check. The
+copy coalesces before work-list processing and the record points to
+the LEA definition and the CMP use.
+
+Using the entry's by-value `inputSide` as the focus index also gives two
+class 2 terms and an indexed CMP with all nine calls still opaque.
+That control spills the cached side and loads the configuration into
+EAX. Entry references and pointers to the live side member still take
+the LEA path. Calling through a constant pointer to the real input
+member emits the same direct calls and follows the same address path
+as each corresponding reference or by-value control.
+
+Keeping a separate local copy of the fresh side and binding a const
+reference to that copy also passes the address check. This control
+retains all nine opaque input calls, the original fresh EAX side load
+and ECX configuration load, and one indexed CMP. The side load still
+comes first, and the CMP's SIB operand order is reversed. The complete
+comparison finds nine differing bytes after relocation replay across
+the same 1,900-byte extent, with all 23 call identities in order.
+A reference bound to a temporary copy of the side behaves the same
+way. Adding a separate configuration alias to these forms still
+materializes the configuration after the side in address lowering.
+An aggregate initialized configuration-first reverses the input order
+and retains the indexed CMP, but C2 assigns EAX to the configuration
+and ECX to the side.
+
 The same-unit input control retains EBX for the side index, loads the
 configuration into EAX, and changes the entry's floating-point zero
 initialization. Zeroing a two-float speed aggregate with the `memset`
@@ -1616,8 +1654,6 @@ a reference causes a fresh EBX load and keeps the indexed comparison
 when the focus flag uses its direct member. These controls remain
 different from the original across the full extent. Expressing the
 replay counter through byte offsets also did not recover the original.
-The remaining question for this route is which address substitution input
-permits LEA removal with both native scratch register assignments intact.
 
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 
