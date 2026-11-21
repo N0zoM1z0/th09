@@ -2958,10 +2958,22 @@ right input cursor provides the second control. It keeps the original
 470-byte prefix, then changes the tail schedule and emits a two-byte
 copy to EDI. Ordering the cursor stores as left, FPS, right, then the
 third stream yields the original 540-byte extent and 32 COFF fields
-with 39 replayed byte differences starting at +0x1D6. The current
-source and frontier remain the canonical baseline.
+with 39 replayed byte differences starting at +0x1D6. All three
+controls reproduce their results in the real ReplayInput.cpp compilation
+unit.
 
-The maintained source already has the original tail. The remaining
+The base and the 540-byte cursor-order control both retain the RNG call
+at scheduler ordinal 81 and the side-load dependency on that call. In
+the cursor-order control, EDX also receives the FPS pointer and the
+configuration pointer. These two later writes and the single MOVZX seed
+read give the +0x37C store one extra outgoing edge. Its priority rises
+to `0x19400`, tying the side load. The baseline and the cursor-order
+control each reach the same graph boundary. The 545-byte score loop
+and 542-byte right-cursor binding instead place the call beyond that
+boundary. Their earlier graph ends with the sentinel at ordinal 82 and
+clears the pending reads at `0x107B4642`.
+
+The maintained source has the original tail. The remaining
 experiment is to preserve that tail while reproducing the earlier
 side-state schedule. Capturing the destination slot by reference,
 binding the replay configuration source separately, and giving the

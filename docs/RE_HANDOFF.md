@@ -52,6 +52,9 @@ The isolated controls in `.analysis/playback-expr/` use the existing
 `probe.py` and `trace-run.py` with `focus-base`, `focus-score`,
 `focus-config-right` and `focus-config-order`. They retain the natural
 source shapes needed to reproduce both compiler scheduling paths.
+Run `python3 -B .analysis/playback-expr/trace-run.py block-cut focus-base focus-config-right`
+for the scheduler boundary and use `lives-edges focus-base focus-config-order`
+with the same runner for the dependency that changes without moving the call.
 
 Player movement is paused at the 8-byte relocation-replayed residual.
 The [compiler analysis](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads)
