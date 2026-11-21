@@ -2931,3 +2931,39 @@ input cursors, and copying configuration through alternative source forms
 preserve the early register choices in the candidates that match their
 original instruction ranges. Flattening the replay layout or expressing its
 header and payload as members also preserves the two baseline results.
+
+## 2026-11-21 Replay playback scheduling across the restore block
+
+Two natural source controls reproduce the entire original side-state
+sequence at +0x14B through +0x17A, including the runtime pointer load into
+ESI at +0x15B and all operand fields in that interval. The pinned VC7.1
+baseline still emits 540 bytes with 19 differences after relocation
+replay. The typed side-reference control still emits 540 bytes with nine
+differences and allocates EDX to the runtime pointer.
+
+The baseline assigns the side pointer to ESI before scheduling. Its
+scheduler record has priority `0x19400`, above the `0x19000` priority
+of the preceding GameManager +0x37C store. This lets C2 hoist the pointer
+over that store. The dependency graph also connects the earlier side
+pointer load to the final RNG seed call. The backend inserts that edge
+from its memory access list at `0x107B8187`.
+
+Representing the two score destinations with a loop over the two recorded
+frame pointers removes that edge. The compiler expands the loop into
+two stores, and the pointer and the +0x37C store both have priority
+`0x18800`. The store wins by its earlier ordinal. The 545-byte control
+retains a separate copy for the second frame pointer and a stack store
+at +0x1A3. Taking the configuration destination before restoring the
+right input cursor provides the second control. It keeps the original
+470-byte prefix, then changes the tail schedule and emits a two-byte
+copy to EDI. Ordering the cursor stores as left, FPS, right, then the
+third stream yields the original 540-byte extent and 32 COFF fields
+with 39 replayed byte differences starting at +0x1D6. The current
+source and frontier remain the canonical baseline.
+
+The maintained source already has the original tail. The remaining
+experiment is to preserve that tail while reproducing the earlier
+side-state schedule. Capturing the destination slot by reference,
+binding the replay configuration source separately, and giving the
+lives conversion explicit integer locals each preserve the baseline
+when the rest of the emitted code agrees.

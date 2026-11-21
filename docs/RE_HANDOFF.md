@@ -40,13 +40,26 @@ The residual counts mask COFF relocation fields. Replaying those fields
 adds six differing bytes in BeginPlaybackStage and four in
 UpdateMovementAndOptions.
 
+The current focus is `ReplayManagerView::BeginPlaybackStage` at
+`0x00420840`. Rebuild the maintained source with
+`python3 -B scripts/check-frontier.py replay-begin-playback --show`.
+The [scheduler comparison](KNOWLEDGE_BASE.md#2026-11-21-replay-playback-scheduling-across-the-restore-block)
+explains how the score loop and configuration destination change the
+side-state read more than 100 bytes earlier. The configuration control
+matches the first 470 bytes. Its remaining differences start in the
+cursor and configuration tail.
+The isolated controls in `.analysis/playback-expr/` use the existing
+`probe.py` and `trace-run.py` with `focus-base`, `focus-score`,
+`focus-config-right` and `focus-config-order`. They retain the natural
+source shapes needed to reproduce both compiler scheduling paths.
+
 Player movement is paused at the 8-byte relocation-replayed residual.
 The [compiler analysis](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads)
 records the allocation, instruction scheduling and direction-join controls.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
-| ReplayManagerView::BeginPlaybackStage | 0x00420840 | 540/540 bytes; 13 structural differences (OK), 19 after relocation replay | A native side-0 reference restores the positions of both GameManager operands. It leaves nine register-selection differences around the two replay bytes and the first score store. |
+| ReplayManagerView::BeginPlaybackStage | 0x00420840 | 540/540 bytes; 13 structural differences (OK), 19 after relocation replay | A side reference restores both field offsets with nine register differences. The early configuration binding restores the complete 470-byte prefix and leaves cursor, configuration and seed scheduling in the tail. |
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes; 4 differences (OK) | Focus-mode load order at +0x127..+0x12A. Retail loads g_GameConfiguration before player sideIndex; current source emits the reverse order. |
 | PlayerLifecycleView::UpdateChargeAttack | 0x0041F810 | 1,210/1,210 bytes; 183 differences (OK) | Boss register allocation: retail loads the full DWORD sideIndex into EDI and forms the ReplayInputState pointer in EBX (0x8E stride). Current short-side/input locals allocate the opposite way; widening/removing locals regressed hundreds of bytes. |
 | PlayerLifecycleView::CheckBulletCollision | 0x0041DFF0 | 849/862 bytes; 539 differences (REGRESSED) | Preserve the 0x34-byte target frame and recover the target CFG: circle check and shared hit dispatcher at +0x7E precede rotated-rectangle/AABB paths. Valid region types are 1/2/3 with delay <= 0; kinds 2/3 reward only for a non-null bullet with word +0x10C0 equal to zero. Candidate grew from the 842-byte frontier baseline; do not rebaseline. |
