@@ -53,6 +53,10 @@ Use `python3 -B scripts/check-frontier.py title-draw-replay-menu --show`.
 The [caption-table proof](KNOWLEDGE_BASE.md#2026-11-21-title-replay-caption-tables)
 binds the menu's own tables and isolates the remaining selected-row
 register and stack-store differences.
+The [row conversion control](KNOWLEDGE_BASE.md#selected-row-conversion)
+isolates those differences to one addressing choice in a 1,283-byte
+probe. The next comparison needs the original stack-based `fild` at
+`+0x1B2` while retaining the original index, pointer, and timer order.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |

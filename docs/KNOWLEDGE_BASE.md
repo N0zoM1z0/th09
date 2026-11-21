@@ -3110,3 +3110,32 @@ and caption scratch. The current compiler exchanges those two
 registers and stores the replay pointer before the selected index.
 The affected region starts at `+0x184`, and the last difference is
 `+0x321`. The menu remains in the frontier ledger.
+
+### Selected row conversion
+
+The remaining register differences originate in VC7.1 global allocation.
+In the maintained source, the selected-index range admits ECX, EDX, ESI,
+and EDI at equal cost and takes ECX. The timer is allocated afterward and
+takes EDX. The index and replay pointer are spilled in the opposite
+order from the original. Rebuilding CirnoLab's complete `mainmenu.cpp`
+at `afebc8b` with the pinned `/O1 /Ob1` compiler reproduces the same 29
+differing positions and 57 operand coordinates and types. Precompiling
+its `global.h` leaves both the body and relocation records unchanged.
+
+Changing only the Y-coordinate expression to
+`position.y = (float)selectedReplay * 13.0f + 90.0f;` reproduces the
+original EDX index, ECX timer, and index-before-pointer stack stores.
+The allocator now sees an address for `this+0xC908` and an indirect index
+load. It assigns the timer to ECX globally and the index to EDX during
+local allocation. The integer-to-float instruction at `+0x1B2` reads
+`[ebx+0xC908]` in this control. The original reads the saved index at
+`[ebp-0x1c]`. The encoding adds three bytes. Aligning all 376
+instructions and resolving relative operands proves that the other
+instructions, branch destinations, and 57 relocation identities agree.
+
+Capturing that field as a float before the column test also emits the
+original saved-index operand and register assignment. It moves the
+`fild` before the column branch and leaves a different order of integer
+and floating-point operations through `+0x1DA`. Keep the 1,280-byte
+maintained source while recovering the stack operand at the original
+branch join.
