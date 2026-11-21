@@ -1754,6 +1754,42 @@ replayed bytes and relocation identities in both controls. Co-visible
 `ReplayInputState::IsHeld` changes the entry allocation and the live
 side register.
 
+### Co-visible position conversion and indexed addressing
+
+The exact three-byte `PlayerPositionView::operator float *()` body
+changes the focus compare's SIB from `0x08` to `0x01` when visible
+in the maintained movement carrier. The call still targets
+`0x004343D0` near `+0x507`. The two early focus loads retain their
+order and register assignments. The complete comparison gains one
+SIB difference and ten x87 differences in the position increments,
+with the same 66 relocation identities. Placing the definition before
+or after the movement body reproduces the effect. The other three
+real identity bodies in VectorPointerViews, each of which also matches
+the same physical entry, preserve all 1,900 replayed bytes of the
+maintained movement build when made visible individually.
+
+The two versions form their indexed operands inside
+`0x10773108`, called by the C2 pass at `0x1075F923`.
+The maintained body places the side first, and the visible position
+conversion places the configuration first. That order survives entry
+to the allocation driver at `0x1077C08E`, where the configuration
+load has yet to be materialized. With the position conversion visible,
+using the existing movement-field reference for both position
+increments restores the original address-term order at driver entry
+and the original x87 order at emission. That control
+reproduces all 1,900 relocation-replayed bytes of the maintained
+movement build, including the eight-byte focus-load residual.
+
+Six equivalent `IsHeld` definitions reproduce the exact 18-byte
+callee and yield the same movement bytes and relocation identities
+as the maintained co-visible definition. The compound assignment
+form emits a 16-byte leaf whose memory AND preserves ECX and changes
+the caller.
+In the direction-join control, capturing the mode byte by value and
+using it as the active value when the analog threshold is met still
+leaves the 14-byte residual. The bitfield update remains the first
+local scratch request.
+
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 
 IDA's `UpdateChargeAttack` entry is precise: EDI holds the full DWORD
