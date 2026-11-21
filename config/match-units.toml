@@ -357,7 +357,7 @@ relocations = [
 [units.chain-add-calc]
 source = "src/Chain.cpp"
 object = "build/matching/Chain.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Chain::AddToCalcChain"]
 symbol = "?AddToCalcChain@Chain@@QAEHPAVChainElem@@H@Z"
 target_address = 0x0042B1E0
@@ -372,7 +372,7 @@ relocations = [
 [units.chain-add-draw]
 source = "src/Chain.cpp"
 object = "build/matching/Chain.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Chain::AddToDrawChain"]
 symbol = "?AddToDrawChain@Chain@@QAEHPAVChainElem@@H@Z"
 target_address = 0x0042B270
@@ -387,7 +387,7 @@ relocations = [
 [units.chain-elem-constructor]
 source = "src/Chain.cpp"
 object = "build/matching/Chain.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["ChainElem::ChainElem"]
 symbol = "??0ChainElem@@QAE@XZ"
 target_address = 0x0042ABE0
@@ -397,7 +397,7 @@ relocations = []
 [units.chain-elem-destructor]
 source = "src/Chain.cpp"
 object = "build/matching/Chain.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["ChainElem::~ChainElem"]
 symbol = "??1ChainElem@@QAE@XZ"
 target_address = 0x0042AC00
@@ -2073,8 +2073,8 @@ relocations = [
 
 [units.replay-input-update]
 source = "src/ReplayInput.cpp"
-object = "build/matching/ReplayInput.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/ReplayInputNoEh.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["ReplayInputState::Update"]
 symbol = "?Update@ReplayInputState@@QAEXXZ"
 target_address = 0x004200F0
@@ -2083,8 +2083,8 @@ relocations = []
 
 [units.replay-manager-capture-frame-sync-state]
 source = "src/ReplayInput.cpp"
-object = "build/matching/ReplayInput.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/ReplayInputNoEh.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["ReplayManagerView::CaptureFrameSyncState"]
 symbol = "?CaptureFrameSyncState@ReplayManagerView@@SIHPAU1@@Z"
 target_address = 0x00420190
@@ -2122,8 +2122,8 @@ relocations = [
 
 [units.replay-manager-record-input]
 source = "src/ReplayInput.cpp"
-object = "build/matching/ReplayInput.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/ReplayInputNoEh.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["ReplayManagerView::RecordInputAndFps"]
 symbol = "?RecordInputAndFps@ReplayManagerView@@SIHPAU1@@Z"
 target_address = 0x004202A0
@@ -2158,8 +2158,8 @@ relocations = [
 
 [units.replay-manager-playback-input]
 source = "src/ReplayInput.cpp"
-object = "build/matching/ReplayInput.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/ReplayInputNoEh.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["ReplayManagerView::PlaybackInputAndFps"]
 symbol = "?PlaybackInputAndFps@ReplayManagerView@@SIHPAU1@@Z"
 target_address = 0x004204B0
@@ -2191,8 +2191,8 @@ relocations = [
 
 [units.replay-manager-load-replay-data]
 source = "src/ReplayInput.cpp"
-object = "build/matching/ReplayInput.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/ReplayInputNoEh.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["ReplayManagerView::LoadReplayData"]
 symbol = "?LoadReplayData@ReplayManagerView@@SIPAUReplayDataView@@PAU2@H@Z"
 target_address = 0x004205E0
@@ -2391,8 +2391,8 @@ relocations = [
 
 [units.replay-manager-release-core]
 source = "src/ReplayInput.cpp"
-object = "build/matching/ReplayInput.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/ReplayInputNoEh.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["ReleaseReplayManagerCore"]
 symbol = "?ReleaseReplayManagerCore@@YIHPAUReplayManagerView@@@Z"
 target_address = 0x00420a60
@@ -2410,8 +2410,8 @@ relocations = [
 
 [units.replay-manager-release]
 source = "src/ReplayInput.cpp"
-object = "build/matching/ReplayInput.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/ReplayInputNoEh.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["ReplayManagerView::Release"]
 symbol = "?Release@ReplayManagerView@@QAEXXZ"
 target_address = 0x00420ad0
@@ -2441,8 +2441,8 @@ relocations = [
 
 [units.replay-append-format]
 source = "src/ReplayInput.cpp"
-object = "build/matching/ReplayInput.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/ReplayInputNoEh.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["AppendReplayFormat"]
 symbol = "?AppendReplayFormat@@YAPADPADPBDZZ"
 target_address = 0x004200C0
@@ -2453,8 +2453,8 @@ relocations = [
 
 [units.replay-save]
 source = "src/ReplayInput.cpp"
-object = "build/matching/ReplayInput.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/ReplayInputNoEh.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["ReplayManagerView::SaveReplay"]
 symbol = "?SaveReplay@ReplayManagerView@@SIHPAU1@PBD1@Z"
 target_address = 0x00420C60
@@ -2928,8 +2928,8 @@ relocations = [
 
 [units.supervisor-check-version]
 source = "src/SupervisorVersion.cpp"
-object = "build/matching/SupervisorVersion.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SupervisorVersionLoad.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["SupervisorVersionView::CheckVersion"]
 symbol = "?CheckVersion@SupervisorVersionView@@QAEHPBDHH@Z"
 target_address = 0x00430150
@@ -4263,8 +4263,8 @@ relocations = [
 
 [units.soundplayer-preload-bgm]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerLifecycle.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::PreloadBGM"]
 symbol = "?PreloadBGM@SoundPlayer@@QAEHHPAD@Z"
 target_address = 0x0043EA30
@@ -4287,8 +4287,8 @@ relocations = [
 
 [units.soundplayer-stop-bgm]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerLifecycle.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::StopBGM"]
 symbol = "?StopBGM@SoundPlayer@@QAEXXZ"
 target_address = 0x0043EBC0
@@ -4302,8 +4302,8 @@ relocations = [
 
 [units.soundplayer-queue-command]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerLifecycle.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::QueueCommand"]
 symbol = "?QueueCommand@SoundPlayer@@QAEXHHPAD@Z"
 target_address = 0x0043EE40
@@ -4312,8 +4312,8 @@ relocations = []
 
 [units.soundplayer-load-bgm]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerLifecycle.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::LoadBGM"]
 symbol = "?LoadBGM@SoundPlayer@@QAEHH@Z"
 target_address = 0x0043F0A0
@@ -4337,8 +4337,8 @@ relocations = [
 
 [units.soundplayer-get-fmt-index-by-name]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerSupport.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::GetFmtIndexByName"]
 symbol = "?GetFmtIndexByName@SoundPlayer@@QAEHPAD@Z"
 target_address = 0x0043E1F0
@@ -4350,8 +4350,8 @@ relocations = [
 
 [units.soundplayer-constructor]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerProcessQueues.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::SoundPlayer"]
 symbol = "??0SoundPlayer@@QAE@XZ"
 target_address = 0x0043E470
@@ -4360,8 +4360,8 @@ relocations = []
 
 [units.soundplayer-free-preloaded-bgm]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerSupport.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::FreePreloadedBGM"]
 symbol = "?FreePreloadedBGM@SoundPlayer@@QAEXH@Z"
 target_address = 0x0043E4A0
@@ -4373,8 +4373,8 @@ relocations = [
 
 [units.soundplayer-reopen-bgm]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerSupport.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::ReopenBGM"]
 symbol = "?ReopenBGM@SoundPlayer@@QAEHPAD@Z"
 target_address = 0x0043E9E0
@@ -4387,8 +4387,8 @@ relocations = [
 
 [units.soundplayer-bgm-player-thread]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerSupport.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::BGMPlayerThread"]
 symbol = "?BGMPlayerThread@SoundPlayer@@SGKPAX@Z"
 target_address = 0x0043ED80
@@ -4405,8 +4405,8 @@ relocations = [
 
 [units.soundplayer-init-sound-buffers]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerCoreLifecycle.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::InitSoundBuffers"]
 symbol = "?InitSoundBuffers@SoundPlayer@@QAEHXZ"
 target_address = 0x0043EC80
@@ -4424,8 +4424,8 @@ relocations = [
 
 [units.soundplayer-start-bgm]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerCoreLifecycle.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::StartBGM"]
 symbol = "?StartBGM@SoundPlayer@@QAEHPAD@Z"
 target_address = 0x0043EFA0
@@ -4445,8 +4445,8 @@ relocations = [
 
 [units.soundplayer-load-sound]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerLoadSound.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::LoadSound"]
 symbol = "?LoadSound@SoundPlayer@@QAEHHPAD@Z"
 target_address = 0x0043E770
@@ -4486,8 +4486,8 @@ relocations = [
 
 [units.soundplayer-get-wav-format-data]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerLoadSound.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["GetWavFormatData"]
 symbol = "?GetWavFormatData@@YIPAUtWAVEFORMATEX@@PAEPADPAHI@Z"
 target_address = 0x0043E1A0
@@ -4544,8 +4544,8 @@ relocations = [
 
 [units.soundmanager-destructor]
 source = "src/SoundManager.cpp"
-object = "build/matching/SoundManager.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundManagerStreaming.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundManagerProcessView::~SoundManagerProcessView"]
 symbol = "??1SoundManagerProcessView@@QAE@XZ"
 target_address = 0x0043F7A0
@@ -4554,8 +4554,8 @@ relocations = []
 
 [units.soundmanager-set-primary-buffer-format]
 source = "src/SoundManager.cpp"
-object = "build/matching/SoundManager.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundManagerStreaming.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundManagerProcessView::SetPrimaryBufferFormat"]
 symbol = "?SetPrimaryBufferFormat@SoundManagerProcessView@@QAEHKKK@Z"
 target_address = 0x0043F7C0
@@ -4564,8 +4564,8 @@ relocations = []
 
 [units.soundmanager-initialize]
 source = "src/SoundManager.cpp"
-object = "build/matching/SoundManager.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundManagerStreaming.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundManagerProcessView::Initialize"]
 symbol = "?Initialize@SoundManagerProcessView@@QAEHPAUHWND__@@KKKK@Z"
 target_address = 0x00440000
@@ -5028,8 +5028,8 @@ relocations = [
 
 [units.soundplayer-update-fades]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerFades.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::UpdateFades"]
 symbol = "?UpdateFades@SoundPlayer@@QAEXXZ"
 target_address = 0x0042FBE0
@@ -5076,8 +5076,8 @@ relocations = [
 
 [units.soundplayer-fade-out]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerFades.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::FadeOut"]
 symbol = "?FadeOut@SoundPlayer@@QAEXM@Z"
 target_address = 0x0043E4E0
@@ -5950,8 +5950,8 @@ relocations = [
 
 [units.anm-vm-get-int-var]
 source = "src/AnmManagerExecuteScript.cpp"
-object = "build/matching/AnmManagerExecute.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerExecuteScriptExact.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmVm::GetIntVar"]
 symbol = "?GetIntVar@AnmVm@@QAEHH@Z"
 target_address = 0x00436B80
@@ -5977,8 +5977,8 @@ relocations = [
 
 [units.anm-vm-get-float-var-ptr]
 source = "src/AnmManagerExecuteScript.cpp"
-object = "build/matching/AnmManagerExecute.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerExecuteScriptExact.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmVm::GetFloatVarPtr"]
 symbol = "?GetFloatVarPtr@AnmVm@@QAEPAMPAMGI@Z"
 target_address = 0x00436C40
@@ -5995,8 +5995,8 @@ relocations = [
 
 [units.anm-vm-get-int-var-ptr]
 source = "src/AnmManagerExecuteScript.cpp"
-object = "build/matching/AnmManagerExecute.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerExecuteScriptExact.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmVm::GetIntVarPtr"]
 symbol = "?GetIntVarPtr@AnmVm@@QAEPAHPAHGI@Z"
 target_address = 0x00436CD0
@@ -6018,8 +6018,8 @@ relocations = [
 
 [units.anm-vm-get-float-var]
 source = "src/AnmManagerExecuteScript.cpp"
-object = "build/matching/AnmManagerExecute.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerExecuteScriptExact.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmVm::GetFloatVar"]
 symbol = "?GetFloatVar@AnmVm@@QAEMM@Z"
 target_address = 0x00436E30
@@ -8166,8 +8166,8 @@ relocations = [
 
 [units.anm-vm-constructor]
 source = "src/AnmVmLifecycle.cpp"
-object = "build/matching/AnmVmLifecycle.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmVmLifecycleBase.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmVm::AnmVm"]
 symbol = "??0AnmVm@@QAE@XZ"
 target_address = 0x00403A10
@@ -8203,8 +8203,8 @@ relocations = [
 
 [units.background-create]
 source = "src/Background.cpp"
-object = "build/matching/Background.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/BackgroundConstructor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Background::Create"]
 symbol = "?Create@Background@@SIPAU1@H@Z"
 target_address = 0x00403AE0
@@ -8243,8 +8243,8 @@ relocations = [
 
 [units.background-load-stage-data]
 source = "src/Background.cpp"
-object = "build/matching/Background.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/BackgroundConstructor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Background::LoadStageData"]
 symbol = "?LoadStageData@Background@@QAEHPBD@Z"
 target_address = 0x00402570
@@ -8262,8 +8262,8 @@ relocations = [
 
 [units.background-deleted-callback]
 source = "src/Background.cpp"
-object = "build/matching/Background.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/BackgroundConstructor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Background::DeletedCallback"]
 symbol = "?DeletedCallback@Background@@SIHPAU1@@Z"
 target_address = 0x004024D0
@@ -8280,8 +8280,8 @@ relocations = [
 
 [units.background-clear-spell-state]
 source = "src/Background.cpp"
-object = "build/matching/Background.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/BackgroundConstructor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Background::ClearSpellBackgroundState"]
 symbol = "?ClearSpellBackgroundState@Background@@QAEXXZ"
 target_address = 0x004011C0
@@ -8622,8 +8622,8 @@ relocations = [
 # same-COMDAT alignment byte and five-entry switch table through compare_size.
 [units.ending-read-script-parameter]
 source = "src/Ending.cpp"
-object = "build/matching/Ending.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/EndingCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Ending::ReadScriptParameter"]
 symbol = "?ReadScriptParameter@Ending@@QAEHXZ"
 target_address = 0x0040E0D0
@@ -8634,8 +8634,8 @@ relocations = [
 
 [units.ending-draw-fade]
 source = "src/Ending.cpp"
-object = "build/matching/Ending.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/EndingCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Ending::DrawFade"]
 symbol = "?DrawFade@Ending@@QAEXXZ"
 target_address = 0x0040E130
@@ -8646,8 +8646,8 @@ relocations = [
 
 [units.ending-update-fade]
 source = "src/Ending.cpp"
-object = "build/matching/Ending.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/EndingCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Ending::UpdateFade"]
 symbol = "?UpdateFade@Ending@@QAEXXZ"
 target_address = 0x0040E170
@@ -8663,8 +8663,8 @@ relocations = [
 ]
 [units.ending-deleted-callback]
 source = "src/Ending.cpp"
-object = "build/matching/Ending.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/EndingCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Ending::DeletedCallback"]
 symbol = "?DeletedCallback@Ending@@SIHPAU1@@Z"
 target_address = 0x0040E2F0
@@ -8687,8 +8687,8 @@ relocations = [
 
 [units.ending-on-draw]
 source = "src/Ending.cpp"
-object = "build/matching/Ending.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/EndingCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Ending::OnDraw"]
 symbol = "?OnDraw@Ending@@SIHPAU1@@Z"
 target_address = 0x0040E480
@@ -8705,8 +8705,8 @@ relocations = [
 
 [units.ending-load-script]
 source = "src/Ending.cpp"
-object = "build/matching/Ending.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/EndingCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Ending::LoadEndingScript"]
 symbol = "?LoadEndingScript@Ending@@QAEHPBD@Z"
 target_address = 0x0040E4F0
@@ -8724,8 +8724,8 @@ relocations = [
 
 [units.ending-on-update]
 source = "src/Ending.cpp"
-object = "build/matching/Ending.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/EndingCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Ending::OnUpdate"]
 symbol = "?OnUpdate@Ending@@SIHPAU1@@Z"
 target_address = 0x0040EFE0
@@ -8741,8 +8741,8 @@ relocations = [
 
 [units.ending-register-chain]
 source = "src/Ending.cpp"
-object = "build/matching/Ending.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/EndingCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Ending::RegisterChain"]
 symbol = "?RegisterChain@Ending@@SIHXZ"
 target_address = 0x0040F080
@@ -9409,8 +9409,8 @@ relocations = [
 
 [units.enemy-manager-create]
 source = "src/EnemyManagerLifecycle.cpp"
-object = "build/matching/EnemyManagerLifecycleCreate.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/EnemyManagerLifecycleAdded.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["EnemyManagerView::Create"]
 symbol = "?Create@EnemyManagerView@@SIPAU1@H@Z"
 target_address = 0x00412240
@@ -11293,8 +11293,8 @@ relocations = [
 
 [units.replay-release-stage-object]
 source = "src/ReplayInput.cpp"
-object = "build/matching/ReplayInput.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/ReplayInputNoEh.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["ReleaseStageObject"]
 symbol = "?ReleaseStageObject@@YIXPAX@Z"
 target_address = 0x00420C10
@@ -11469,8 +11469,8 @@ relocations = [
 
 [units.soundplayer-play-sound-by-idx]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerPlaySound.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::PlaySoundByIdx"]
 symbol = "?PlaySoundByIdx@SoundPlayer@@QAEXHH@Z"
 target_address = 0x0043E2F0
@@ -11481,8 +11481,8 @@ relocations = [
 
 [units.soundplayer-play-positioned-sound-by-idx]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerPlaySound.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::PlaySoundPositionedByIdx"]
 symbol = "?PlaySoundPositionedByIdx@SoundPlayer@@QAEXHM@Z"
 target_address = 0x0043E380
@@ -12310,8 +12310,8 @@ relocations = []
 
 [units.replay-input-state-constructor]
 source = "src/ReplayInput.cpp"
-object = "build/matching/ReplayInput.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/ReplayInputNoEh.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["ReplayInputState::ReplayInputState"]
 symbol = "??0ReplayInputState@@QAE@XZ"
 target_address = 0x0042B010
@@ -13645,8 +13645,8 @@ relocations = [
 
 [units.chain-release]
 source = "src/ChainRelease.cpp"
-object = "build/matching/ChainRelease.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/ChainReleaseSingle.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Chain::Release"]
 symbol = "?Release@Chain@@QAEXXZ"
 target_address = 0x0042CBE0
@@ -15752,8 +15752,8 @@ relocations = [
 
 [units.player-resolve-pattern-offset]
 source = "src/PlayerGameplayState.cpp"
-object = "build/matching/PlayerGameplayState.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerGameplayState-selector.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerLifecycleView::ResolvePatternOffset"]
 symbol = "?ResolvePatternOffset@PlayerLifecycleView@@QAEPAMHHPAM0@Z"
 target_address = 0x00404710
@@ -17404,8 +17404,8 @@ relocations = [
 
 [units.ending-run-ending-script]
 source = "src/Ending.cpp"
-object = "build/matching/Ending.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/EndingCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Ending::RunEndingScript"]
 symbol = "?RunEndingScript@Ending@@QAEHXZ"
 target_address = 0x0040E8A0
@@ -19172,8 +19172,8 @@ relocations = [
 
 [units.background-on-update]
 source = "src/Background.cpp"
-object = "build/matching/Background.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/BackgroundConstructor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Background::OnUpdate"]
 symbol = "?OnUpdate@Background@@SIHPAU1@@Z"
 target_address = 0x00402350
@@ -19198,8 +19198,8 @@ relocations = [
 
 [units.background-on-draw-high-prio]
 source = "src/Background.cpp"
-object = "build/matching/Background.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/BackgroundConstructor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Background::OnDrawHighPrio"]
 symbol = "?OnDrawHighPrio@Background@@SIHPAU1@@Z"
 target_address = 0x004033E0
@@ -19255,8 +19255,8 @@ relocations = [
 
 [units.background-on-draw-low-prio]
 source = "src/Background.cpp"
-object = "build/matching/Background.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/BackgroundConstructor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["Background::OnDrawLowPrio"]
 symbol = "?OnDrawLowPrio@Background@@SIHPAU1@@Z"
 target_address = 0x00403680
@@ -19584,8 +19584,8 @@ relocations = [
 
 [units.enemy-manager-initialize]
 source = "src/EnemyManagerLifecycle.cpp"
-object = "build/matching/EnemyManagerLifecycleInit.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/EnemyManagerLifecycleAdded.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["EnemyManagerView::Initialize"]
 symbol = "?Initialize@EnemyManagerView@@QAEXXZ"
 target_address = 0x0040FA70
@@ -21442,8 +21442,8 @@ relocations = [
 
 [units.soundplayer-process-queues]
 source = "src/SoundPlayerProcessQueues.cpp"
-object = "build/matching/SoundPlayerProcessQueues.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/SoundPlayerInitializeDSound.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SoundPlayer::ProcessQueues"]
 symbol = "?ProcessQueues@SoundPlayer@@QAEHXZ"
 target_address = 0x0043F1F0

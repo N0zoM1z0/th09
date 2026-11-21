@@ -566,7 +566,7 @@ def verify_exception_handlers(path, owner, expected, actual, image):
         lambda address, size: pe_bytes_at(image, address, size), destinations)]
 
 
-def compare_unit(name: str) -> dict[str, object]:
+def compare_unit(name: str, object_override: Path | None = None) -> dict[str, object]:
     with UNITS_MANIFEST.open("rb") as stream:
         manifest = tomllib.load(stream)
     units = manifest.get("units", {})
@@ -582,7 +582,9 @@ def compare_unit(name: str) -> dict[str, object]:
         raise ValueError(
             f"comparison extent {compare_size:#x} is smaller than coverage size {size:#x}"
         )
-    object_path = (ROOT / str(unit["object"])).resolve()
+    # An override checks the same canonical unit in another build product,
+    # such as a whole-image link carrier, under identical acceptance rules.
+    object_path = (object_override or ROOT / str(unit["object"])).resolve()
     object_path.relative_to(ROOT)
     code, actual = object_function(
         object_path, str(unit["symbol"]), compare_size, include_symbol_locations=True
@@ -707,14 +709,18 @@ def main() -> int:
     parser.add_argument("target_address", type=lambda value: int(value, 0), nargs="?")
     parser.add_argument("size", type=lambda value: int(value, 0), nargs="?")
     parser.add_argument("--unit")
+    parser.add_argument("--object", dest="unit_object", type=Path,
+                        help="with --unit, compare this object instead of the unit's own")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
     try:
         if args.unit:
             if any(value is not None for value in (args.object, args.symbol, args.target_address, args.size)):
                 raise ValueError("--unit cannot be combined with positional diagnostic arguments")
-            report = compare_unit(args.unit)
+            report = compare_unit(args.unit, args.unit_object)
         else:
+            if args.unit_object is not None:
+                raise ValueError("--object requires --unit")
             if any(value is None for value in (args.object, args.symbol, args.target_address, args.size)):
                 raise ValueError("diagnostic mode requires OBJECT SYMBOL TARGET_ADDRESS SIZE")
             report = compare(args.object.resolve(), args.symbol, args.target_address, args.size)
