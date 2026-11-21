@@ -60,6 +60,10 @@ move the RNG call out of the scheduler region with identical emitted code
 and relocations. This isolates the region cutoff from the relative priorities
 that still favor the early side-state load. Use `score-home focus-base focus-score`
 to trace the right frame's extra register copy and stack store through allocation.
+Use `priority focus-base focus-ref focus-right-reference` to reproduce
+the full dependency and priority comparison. Both side-reference controls
+produce the same nine register differences, including the assignment of
+the left runtime pointer to EDX.
 
 Player movement is paused at the 8-byte relocation-replayed residual.
 The [compiler analysis](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads)

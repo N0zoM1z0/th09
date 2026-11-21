@@ -3005,3 +3005,35 @@ initial-lives store, a register dependency on the ECX-to-EDX copy at
 `+0x182`. The side load keeps the same outgoing dependencies. This accounts
 for the tied priorities in the score loop and isolates the missing
 scheduling change from the region cutoff.
+
+### Priority calculation and right-side references
+
+The pinned scheduler at `0x107B5084` calculates these priorities from the
+longest weighted dependency path, the outgoing-edge count, and a bonus for
+the side-pointer load. The path length and edge count each contribute
+`0x400` per unit. The bonus contributes `0x8000`.
+
+| Control | Lives store path + edges | Pointer load path + edges + bonus |
+| --- | ---: | ---: |
+| Maintained source | 70 + 30 | 55 + 14 + 32 |
+| Left float conversion | 65 + 29 | 50 + 13 + 32 |
+| Score loop | 68 + 30 | 53 + 13 + 32 |
+| Early configuration destination and cursor order | 70 + 31 | 55 + 14 + 32 |
+
+The maintained scheduler selects the pointer at cycle 51, ahead of the
+lives store at cycle 52. With tied priorities, it selects the earlier
+lives store at cycle 51 and uses the pointer load at cycle 56, between
+the replay-byte load and its store.
+
+Using one right-side reference for `character20` and `value30` gives the
+same dependency graph, schedule, 540 bytes and 32 COFF relocations as the
+left-side reference control. The right-side control uses the maintained
+left-side source. In both controls C2 allocates the left runtime pointer
+to EDX and adds a register dependency from the lives store to that load.
+The full ReplayInput.cpp build confirms the nine remaining register
+bytes and every original relocation position and destination. A linked
+comparison of the remaining candidates still requires ESI at `+0x15B`.
+
+The pinned frontend rejects `__restrict` with C4235 and
+`__declspec(noalias)` with C2485. Reference and receiver forms of the
+replay manager parameter preserve their respective baseline byte streams.
