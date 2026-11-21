@@ -51,7 +51,7 @@ int PlayerLifecycleView::CheckBulletCollision(
     Bullet *bullet)
 {
 
-    // Overlay geometry, reward payloads and the native cursor home in one frame.
+    // The cancellation reward reuses the two rotation vectors.
     union CollisionScratch
     {
         struct CollisionVectors
@@ -70,27 +70,19 @@ int PlayerLifecycleView::CheckBulletCollision(
             EffectFloat3 effectPosition;
             EffectFloat3 velocity;
         } reward;
-        // The cursor home follows all four physical geometry vectors.
-        struct CursorHome
-        {
-            CollisionVectors frame;
-            PlayerCollisionRegionCreateRegionView **slot;
-        } cursor;
     } scratch;
     typedef char NativeCollisionScratchLayout[
-        (sizeof(CollisionScratch) == 52 &&
+        (sizeof(CollisionScratch) == 48 &&
          offsetof(CollisionScratch, reward.effectPosition) == 24 &&
-         offsetof(CollisionScratch, reward.velocity) == 36 &&
-         offsetof(CollisionScratch, cursor.slot) == 48) ? 1 : -1];
-    // The native cursor home overlays the geometry/reward frame directly.
+         offsetof(CollisionScratch, reward.velocity) == 36) ? 1 : -1];
 
     PlayerCollisionRegionCreateRegionView **slot = activeB100;
     PlayerCollisionRegionCreateRegionView *region;
-    scratch.cursor.slot = slot;
 
     do
     {
-        for (;;)
+        // Scan until an eligible region contains the position.
+        for (;; ++slot)
         {
             region = *slot;
             if (region == NULL)
@@ -98,55 +90,54 @@ int PlayerLifecycleView::CheckBulletCollision(
             if (region->type38 != PLAYER_REGION_DIRECT_HIT &&
                 region->type38 != PLAYER_REGION_BULLET_CANCEL_2 &&
                 region->type38 != PLAYER_REGION_BULLET_CANCEL_3)
-                goto next_region;
+                continue;
             if (region->collisionDelay40 > 0)
-                goto next_region;
+                continue;
+            if (region->radius08 != 0.0)
+            {
+                float xDelta = position->x - region->centerX00;
+                float yDelta = position->y - region->centerY04;
+                if (!(xDelta * xDelta + yDelta * yDelta <
+                      region->radius08 * region->radius08))
+                    continue;
+            }
+            else if (region->angle20 != 0.0f)
+            {
+                scratch.collision.delta.x = position->x - region->centerX00;
+                scratch.collision.delta.y = position->y - region->centerY04;
+                RotatePlayerCollisionVector(
+                    &scratch.collision.rotated, &scratch.collision.delta,
+                    -region->angle20);
+                float halfWidth = (*slot)->halfWidth10;
+                scratch.collision.halfSize.y = (*slot)->halfHeight14;
+                if (!(-halfWidth <= scratch.collision.rotated.x &&
+                      scratch.collision.rotated.x <= halfWidth &&
+                      -scratch.collision.halfSize.y <= scratch.collision.rotated.y &&
+                      scratch.collision.rotated.y <= scratch.collision.halfSize.y))
+                    continue;
+            }
+            else
+            {
+                float minX =
+                    region->centerX00 - region->halfWidth10;
+                scratch.collision.halfSize.y =
+                    region->centerY04 - region->halfHeight14;
+                scratch.collision.boundsMax.x =
+                    region->halfWidth10 + region->centerX00;
+                scratch.collision.boundsMax.y =
+                    region->halfHeight14 + region->centerY04;
+                if (minX > position->x ||
+                    scratch.collision.boundsMax.x < position->x ||
+                    scratch.collision.halfSize.y > position->y ||
+                    scratch.collision.boundsMax.y < position->y)
+                    continue;
+            }
+
             break;
         }
 
-        volatile float &radius = region->radius08;
-        if (radius != 0.0)
         {
-            float xDelta = position->x - region->centerX00;
-            float yDelta = position->y - region->centerY04;
-            if (!(xDelta * xDelta + yDelta * yDelta <
-                  region->radius08 * region->radius08))
-                goto next_region;
-        }
-        else if (region->angle20 != 0.0f)
-        {
-            scratch.collision.delta.x = position->x - region->centerX00;
-            scratch.collision.delta.y = position->y - region->centerY04;
-            RotatePlayerCollisionVector(
-                &scratch.collision.rotated, &scratch.collision.delta,
-                -region->angle20);
-            scratch.collision.halfSize.x = (*slot)->halfWidth10;
-            scratch.collision.halfSize.y = (*slot)->halfHeight14;
-            if (!(-scratch.collision.halfSize.x <= scratch.collision.rotated.x &&
-                  scratch.collision.rotated.x <= scratch.collision.halfSize.x &&
-                  -scratch.collision.halfSize.y <= scratch.collision.rotated.y &&
-                  scratch.collision.rotated.y <= scratch.collision.halfSize.y))
-                goto next_region;
-        }
-        else
-        {
-            scratch.collision.halfSize.x =
-                region->centerX00 - region->halfWidth10;
-            scratch.collision.halfSize.y =
-                region->centerY04 - region->halfHeight14;
-            scratch.collision.boundsMax.x =
-                region->halfWidth10 + region->centerX00;
-            scratch.collision.boundsMax.y =
-                region->halfHeight14 + region->centerY04;
-            if (scratch.collision.halfSize.x > position->x ||
-                scratch.collision.boundsMax.x < position->x ||
-                scratch.collision.halfSize.y > position->y ||
-                scratch.collision.boundsMax.y < position->y)
-                goto next_region;
-        }
-
-        {
-            PlayerCollisionRegionCreateRegionView * volatile hitRegion = *slot;
+            PlayerCollisionRegionCreateRegionView *hitRegion = *slot;
             const int hitType = hitRegion->type38;
             // Both cancellation region kinds share the bullet test; the
             // remaining kind is the direct-hit counter path.
@@ -154,23 +145,18 @@ int PlayerLifecycleView::CheckBulletCollision(
                 goto cancel_bullet;
             if (hitType == PLAYER_REGION_BULLET_CANCEL_3)
                 goto cancel_bullet;
-            hitRegion->hitCount2C = static_cast<int>(
-                static_cast<unsigned int>(hitRegion->hitCount2C) + 1u);
+            PlayerCollisionRegionCreateRegionView *countRegion = *slot;
+            countRegion->hitCount2C = static_cast<int>(
+                static_cast<unsigned int>(countRegion->hitCount2C) + 1u);
             return 2;
         cancel_bullet:
             if (bullet != NULL && bullet->bulletType == 0)
                 break;
-            goto next_region;
+            ++slot;
         }
-
-next_region:
-        ++slot;
     } while (true);
 
-    // Cancellation uses the original position argument after the scan.
-    // Cancellation leaves the region scan before creating the reward effect.
-{
-        scratch.cursor.slot = slot;
+    {
         scratch.reward.effectPosition.x =
             g_GameManager.TransformPopupX(position->x);
         scratch.reward.effectPosition.y =
@@ -226,7 +212,7 @@ next_region:
         this->sideState->AddScore(50);
     }
 
-    PlayerCollisionRegionCreateRegionView *hitRegion = *scratch.cursor.slot;
+    PlayerCollisionRegionCreateRegionView *hitRegion = *slot;
     hitRegion->hitCount2C = static_cast<int>(
         static_cast<unsigned int>(hitRegion->hitCount2C) + 1u);
     return 2;

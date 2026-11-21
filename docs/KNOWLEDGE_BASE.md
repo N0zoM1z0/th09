@@ -3250,8 +3250,9 @@ outside tests, which have different unordered behavior. Computing the
 reward mode before testing the reward cap also recovers the original load
 and arithmetic order at +0x2D5 through +0x2FC.
 
-Pinned VC7.1 now emits 849 of 862 bytes, with 502 masked differences
-(previously 539). The baseline still reports REGRESSED against 842 bytes.
+The reward-storage checkpoint emitted 849 of 862 bytes, with 502 masked differences
+(previously 539) and 577 differences after relocation replay. The baseline
+still reports REGRESSED against 842 bytes.
 All 26 relocation types, destinations and addends were checked against
 the original operands in instruction order, including all 12 calls and
 four literal definitions. Nineteen field offsets remain displaced.
@@ -3259,12 +3260,25 @@ Selected cold replay passed 17 exact units across the collision and
 GameManager setup carriers, covering 5,900 bytes and 447 fields.
 
 The first difference at +0x26 is the null-region branch displacement.
-The original falls through from the circle comparison to the dispatcher
-at +0x8E. The candidate lays out both rectangle paths before that
-dispatcher and places the empty-slot epilogue before the reward.
-Co-visible exact rotation, popup transforms, effect spawning and score
-publication bodies produced no change in the collision function. Exposing
-the full RNG implementation eliminated an original call. The plain-locals
-control showed that VC7.1 can create the cursor home at EBP-4 without a
-manual copy field. It chose different register roles and moved the first
-iteration out of the loop, so its layout remains a diagnostic.
+Co-visible rotation, popup transforms, effect spawning, score publication,
+side selection, sound, respawn and reward application produced identical
+collision bytes within their respective controls. Exposing the full RNG
+implementation retained both RNG calls and removed the second receiver
+reload, which the original requires. A direct nonvolatile radius comparison
+reproduces every candidate byte and relocation.
+
+The inner `for` advances the cursor until an eligible shape contains the
+position. Its successful exit lets VC7.1 place the shared dispatcher at
++0x8E. The rotated half-width and AABB minimum X have separate scalar
+lifetimes. The cursor is live through the reward and acquires its own
+EBP-4 home. The current 862-byte candidate has 302 masked differences
+and 390 after relocation replay. Through +0x1B5 the only four differing
+bytes belong to the three branches into the tail.
+
+The empty-slot epilogue matches all 14 bytes of the original at +0x350,
+but sits at +0x1B6 and shifts all 23 reward relocation fields by +0xE.
+Aligning the reward and direct-hit blocks by their own starts leaves six
+different bytes after applying their relocations at the equivalent
+addresses. Recover the epilogue placement, the ESI reload after AddScore
+and the stack-home store order in the direct-hit exit. The five exact
+collision siblings replayed 1,220 bytes and 32 relocation fields.
