@@ -22,9 +22,9 @@ replays only; no full cold replay for routine iteration.
 Use the live registered repository worktree for source and Git operations,
 `scripts/ghidra-analysis.py` for target-attested local Ghidra analysis, and the
 pinned VC7.1 compiler for byte-exact comparisons. These are separate evidence
-sources. New English commits use `gpt-web: <concise summary>`; checkpoint every
-substantive advance and create multiple commits when a session has multiple
-reviewable advances. Compile serially at lowered priority and preserve complete
+sources. Use the commit prefix in AGENTS.md or the one requested by the
+operator. Checkpoint substantive advances in concise English commits.
+Compile serially at lowered priority and preserve complete
 affected-owner/callee proofs. See [the current restart guide](RE_HANDOFF.md)
 for current source boundaries/residuals and useful commands. Generate totals
 from the canonical ledgers.
@@ -83,6 +83,62 @@ project stay below `.analysis/ghidra-direct/`; no MCP service is needed.
    exact owner still needs complete byte/relocation/source proof and a
    reproducible canonical local build/replay. Use direct local Ghidra with
    mapped-byte attestation and target-bound pinned compiler Oracles.
+
+### Trace a difference through its compiler context
+
+1. Start with the complete maintained translation unit and its pinned
+   profile. Align the original and rebuilt instruction streams by control
+   flow and call destinations when an encoding changes length. Separate the
+   first real divergence from the resulting shifts in branches, table
+   positions and relocations. Keep the full physical comparison for acceptance.
+2. Check the reference at every changed operand. Use the original PE to
+   establish the destination, then inspect the actual COFF symbol, offset,
+   type and addend. A reference to a global proves where the original reads
+   or writes. Compare the defining object's section, neighboring data,
+   pointer slots and actual literal bytes to establish the provider. Check
+   relevant readers and writers as well. The same printed name or a zero
+   masked byte count can hide a wrong definition. [Oracle policy](ORACLES.md)
+3. Compare the full carrier with a controlled build that hides one genuine
+   callee definition behind its declaration. Hold the caller, ABI and flags
+   fixed. A retained call can still change alias analysis, register allocation
+   or scheduling elsewhere in the function. When the residual is in a switch
+   or shared tail, select another branch or handler to isolate in scratch and
+   watch which earlier choices change. Use that information to recover the
+   natural source and original live ranges.
+4. Test isolated hypotheses against the full carrier again. If a one-line
+   control recovers the register and stack-store order but changes an x87
+   operand or moves a branch, use each result to constrain the next C++
+   expression. Read-only C2 allocation and scheduling traces are useful once
+   the candidate is small enough to name the competing live ranges or memory
+   dependencies. Rebuild a comparable reference carrier at its recorded
+   revision when it can distinguish a source hypothesis from a tool or
+   comparison problem. Match routines by original address.
+5. Replay the selected owner and every affected exact callee, sibling and
+   consumer, including readers and writers of a moved definition. Keep the
+   original call and data identities. For regenerated private labels, verify
+   their same-section COFF destinations and original PE operands. Report
+   compiler context demonstrated by the experiment and leave retail
+   translation-unit ownership open unless independent evidence establishes it.
+
+The following controls give concrete starting points.
+
+- **RunEcl.** Varying only the two visibly wrong handlers kept the residual.
+  Temporarily omitting individual neighboring handlers exposed which shared
+  tails affected register choice. Restoring ordinary statements there let
+  VC7.1 form the target merges from the source. [RunEcl controls](KNOWLEDGE_BASE.md#runecl-register-coupling-across-handlers)
+- **Replay playback and Enemy update.** The exact seed setter body changed
+  a memory dependency at a retained call and reordered loads and stores
+  earlier in playback. Making the exact timer comparison visible changed
+  an Enemy scratch-register choice more than 200 bytes before its call.
+  The source recovery then reproduced the draw-list flow and descriptor
+  stores. [Seed proof](KNOWLEDGE_BASE.md#2026-11-21-co-visible-replay-seed-and-exact-playback)
+  [Enemy proof](KNOWLEDGE_BASE.md#2026-11-21-enemy-update-exact)
+- **Replay menu.** The menu and saved USER record have separate caption
+  arrays. Correcting the table definitions left all 29 instruction differences
+  intact. The live-field control restored the register choices and stack
+  stores, leaving one widened `fild` operand after alignment. Sharing a typed
+  slot reference between the lookup and the coordinate recovered the full
+  owner. [Caption and conversion proof](KNOWLEDGE_BASE.md#2026-11-21-title-replay-caption-tables)
 
 ### What to read at a fresh handoff
 

@@ -2545,6 +2545,27 @@ carriers, 5,391 physical bytes and 288 relocation fields. The eleven regenerated
 UpdateBeforeState local COFF labels were rebound only after verifying the
 unchanged owner-relative target addresses. No full cold replay ran.
 
+## RunEcl register coupling across handlers
+
+Commit `5fc16212` recovered the final 30 instruction bytes of
+`EclManager::RunEcl` at `0x004086C0` with pinned VC7.1
+`/O2 /Ob1 /Oy-`. Opcode 4's jump and opcode 155's timeout flag both needed
+ECX where the old build used EAX. Experiments limited to those two
+handlers kept the residual or changed other instructions.
+
+Temporarily omitting individual handlers in scratch showed that the
+register choices in opcodes 155 and 156 moved together when opcodes 134,
+150, 151 or 152 were omitted. Opcode 134 shared a tail with opcode 153.
+Restoring direct timer installs, integer stores and jump statements
+removed the hand-written tail merges and snapshots. VC7.1 still merged
+the original tails. The plain opcode 4 assignment and opcode 155
+bitfield store then reproduced the original instructions.
+
+The canonical `ecl-run-ecl` unit covers 14,792 credited bytes and
+15,564 physical bytes, with both switch tables and 598 relocation
+fields. Rebuilt private labels were accepted after their same-section
+definitions, recorded destinations and PE operands agreed.
+
 ## 2026-11-20 CirnoLab cross-check of the exact-codegen Oracle
 
 The cold replay of 8286742c rebuilt all 422 exact compiler carriers.

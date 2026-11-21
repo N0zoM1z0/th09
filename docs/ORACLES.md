@@ -28,6 +28,9 @@ and checked named initializers in `data_initializers`. The EclHelpers
 comparison checks all eight slots of the interpolation callback table.
 The SaveReplay comparison checks the complete character, mode and
 difficulty tables, including all 27 pointers and their Shift-JIS strings.
+The DrawReplayMenu comparison checks the separate 112-byte title caption
+section and all 28 string pointers. Its two mode references select the
+same table at addends 0 and 4.
 An operand targeting an external table establishes its address in the
 original image. A table-content claim requires the separate defining-object
 comparison. Native linkage requires a matched rebuilt PE and map.
