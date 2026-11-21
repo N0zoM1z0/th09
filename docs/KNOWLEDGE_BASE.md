@@ -3237,48 +3237,40 @@ replay input leaves.
 
 ## 2026-11-21 CheckBulletCollision reward storage and ordered bounds
 
-The cancellation effect manager is the pointer at GameManager +0x7C
-(0x004A7E0C). The gameplay setup thread stores the allocated shared manager
-there, and gameplay cleanup resets the same pool. Collision now uses
-`GameManagerSetupLayout`'s third side record, so the COFF operand binds
-`g_GameManager` with addend +0x7C. The pointer is loaded from the same cell
-as the other reward consumers.
+Pinned VC7.1 reproduces all 862 physical bytes at 0x0041DFF0 through
+0x0041E34D, including all three RET12 sites. The canonical
+`player-check-bullet-collision` comparison verifies 26 relocation
+fields, including 12 direct calls, and the four literal definitions
+for double zero, float zero, 0.5f, and 8.0f.
 
-All four rotated bounds require an ordered inclusive comparison. An
-unordered comparison rejects the rotated hit. AABB uses the original
-outside tests, which have different unordered behavior. Computing the
-reward mode before testing the reward cap also recovers the original load
-and arithmetic order at +0x2D5 through +0x2FC.
+The inner `for` advances the cursor until an eligible shape contains
+the position. Its successful exit places the shared dispatcher at
++0x8E before the rectangle geometry at +0xBB. A positive nonempty-slot
+guard leaves the empty-slot epilogue at +0x350. The rotated half-width
+and AABB minimum X have separate scalar lifetimes. All four rotated
+bounds require ordered inclusive comparisons. The AABB uses outside
+comparisons with different unordered behavior.
 
-The reward-storage checkpoint emitted 849 of 862 bytes, with 502 masked differences
-(previously 539) and 577 differences after relocation replay. The baseline
-still reports REGRESSED against 842 bytes.
-All 26 relocation types, destinations and addends were checked against
-the original operands in instruction order, including all 12 calls and
-four literal definitions. Nineteen field offsets remain displaced.
-Selected cold replay passed 17 exact units across the collision and
-GameManager setup carriers, covering 5,900 bytes and 447 fields.
+The cursor stays live through cancellation and acquires its EBP-4
+home in the compiler. Putting the hit-count update after the outer
+loop lets VC7.1 duplicate the common source exit. The cancellation
+exit reloads ESI after AddScore. The direct-hit exit stores ESI to its
+stack home before incrementing the count. Duplicated source updates
+left six different bytes even after the three exits were placed.
 
-The first difference at +0x26 is the null-region branch displacement.
-Co-visible rotation, popup transforms, effect spawning, score publication,
-side selection, sound, respawn and reward application produced identical
-collision bytes within their respective controls. Exposing the full RNG
-implementation retained both RNG calls and removed the second receiver
-reload, which the original requires. A direct nonvolatile radius comparison
-reproduces every candidate byte and relocation.
+Cancellation reads the pointer at GameManager +0x7C (0x004A7E0C).
+The setup thread stores the shared effect manager in the third side
+record, and cleanup resets that pool. The collision COFF field binds
+`g_GameManager` with addend +0x7C. The coordinate and difficulty
+references use the same owner with addends +0x358 and +0x11C.
+The original reloads the RNG receiver before both calls. Making the
+full RNG implementation co-visible lets VC7.1 retain ECX across the
+first call and drop the second receiver relocation. Rotation, popup
+transforms, side selection, effect spawning, sound, respawn, reward
+application and score publication controls preserved the candidate
+within their respective builds.
 
-The inner `for` advances the cursor until an eligible shape contains the
-position. Its successful exit lets VC7.1 place the shared dispatcher at
-+0x8E. The rotated half-width and AABB minimum X have separate scalar
-lifetimes. The cursor is live through the reward and acquires its own
-EBP-4 home. The current 862-byte candidate has 302 masked differences
-and 390 after relocation replay. Through +0x1B5 the only four differing
-bytes belong to the three branches into the tail.
-
-The empty-slot epilogue matches all 14 bytes of the original at +0x350,
-but sits at +0x1B6 and shifts all 23 reward relocation fields by +0xE.
-Aligning the reward and direct-hit blocks by their own starts leaves six
-different bytes after applying their relocations at the equivalent
-addresses. Recover the epilogue placement, the ESI reload after AddScore
-and the stack-home store order in the direct-hit exit. The five exact
-collision siblings replayed 1,220 bytes and 32 relocation fields.
+The final scoped cold replay passed 36 exact units across eight compiler
+jobs, covering 13,473 physical bytes and 732 relocation fields. This
+includes the collision carrier, the GameManager setup and cleanup
+owners, and the Etama update caller.

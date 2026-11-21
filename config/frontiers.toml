@@ -13,20 +13,6 @@ candidate_size = 1900
 target_sha256 = "64ea64884e978540c718d1691a4ae1b9866aaa8ec2296bafb158c4d8b1c628ca"
 residual = ["127-12A"]
 
-# Intentional rebaseline: removed the non-semantic 9-byte inline-assembly
-# loop-entry jump/NOP sequence from the source. This is a natural-C++ baseline
-# correction (842/862, 705 differences), not a reconstruction improvement.
-[frontier.player-bullet-collision]
-function = "PlayerLifecycleView::CheckBulletCollision"
-source = "src/PlayerCollisionHelpers.cpp"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
-symbol = "?CheckBulletCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@0PAUBullet@@@Z"
-address = 0x0041DFF0
-size = 862
-candidate_size = 842
-target_sha256 = "9dcfe1aca4ac06526072014ee6f956120d9c1d84cc1bba044638556b9b82445c"
-residual = ["E-F", "14-2C", "2F", "31", "34-4A", "4F-5C", "5E", "60-75", "77-92", "97-C8", "CE-DA", "DC-10E", "111-119", "11D-125", "127", "129-131", "133-134", "136-15D", "15F-1B5", "1C1", "1C6-1CB", "1CD-1D0", "1D5", "1DA-1E8", "1ED-1F2", "1F4", "1F9-1FA", "1FF-200", "205-206", "20B-20C", "211-214", "219-221", "226", "22B-240", "245-24A", "24C", "251-255", "25A-25C", "261-28B", "28D-2AF", "2B4-2C8", "2CD", "2D2-2DE", "2E1-2EA", "2EF-2F2", "2F4-30A", "30F-314", "319-31B", "31D-35D"]
-
 # Natural C++ replacement for the legacy unclassified x87 helper. Its
 # origin remains unresolved; this is a reproducible nonexact diagnostic,
 # not an authored-exact claim or permission to use handwritten assembly.

@@ -33,24 +33,21 @@ python3 -B scripts/ghidra-analysis.py --function ADDRESS
 The table records the last measured physical extents. Frontier counts
 mask candidate COFF fields. Compare relocation identities and addends
 separately. An OK result means the recorded frontier was preserved.
-Both REGRESSED owners still have strict baselines in the manifest.
 [Frontier manifest](../config/frontiers.toml)
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes, 4 structural differences, 8 after relocation replay (OK) | `player-movement`. Paused by the operator. Retain EAX for the side index and ECX for the configuration address while recovering the configuration-first order and indexed CMP. [Focus-load controls](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads) |
-| PlayerLifecycleView::CheckBulletCollision | 0x0041DFF0 | 862/862 bytes, 302 masked differences (REGRESSED against the 842-byte baseline) | `player-bullet-collision` is the active owner. The dispatcher and rectangle geometry are in place. Recover the exit order and the cursor register at the two hit-counter updates. [Current compiler and data evidence](KNOWLEDGE_BASE.md#2026-11-21-checkbulletcollision-reward-storage-and-ordered-bounds) |
 | Supervisor::UpdateNetworkService | 0x00430AA0 | 1,633/1,633 bytes, 307 differences (REGRESSED against the 1,629-byte baseline) | `supervisor-network-service`. Keep the 0x14 frame, EBX frame/prefill lifetime and sender reloads. The target branches from the +0x3F8 packet-ready test to +0x422 input handling. Prior source labels and split wait returns left the emitted return block out of line. [Frame and packet recovery](KNOWLEDGE_BASE.md#updatenetworkservice-native-frameprediction-and-packet-flow-recovery-2026-11-19) |
 
-In `CheckBulletCollision`, the circle feeds the shared dispatcher at
-`+0x8E`. The zero-radius branch lands at `+0xBB` before rotated rectangle
-geometry at `+0xCD` and AABB geometry at `+0x14B`. Four paths advance the
-slot at `+0xB3`, `+0x143`, `+0x1A4`, and `+0x1AE`. The reward starts
-at `+0x1B6`, the direct-hit exit at `+0x336`, and the empty-slot exit
-at `+0x350`. The `etama-fsincos` diagnostic remains open for origin review.
+The `etama-fsincos` diagnostic remains open for origin review.
 
 ## Recent exact checkpoints
 
+- `PlayerLifecycleView::CheckBulletCollision` matches 862 bytes and 26
+  relocations. The inner scan and common hit-count exit recover the original
+  dispatcher layout and cursor lifetime.
+  [Collision proof](KNOWLEDGE_BASE.md#2026-11-21-checkbulletcollision-reward-storage-and-ordered-bounds)
 - `PlayerLifecycleView::UpdateChargeAttack` matches 1,210 bytes and 70
   relocations. Two row-end lookups recover the early base/index encodings.
   [Charge input proof](KNOWLEDGE_BASE.md#2026-11-21-chargeattack-input-and-timer-allocation)
