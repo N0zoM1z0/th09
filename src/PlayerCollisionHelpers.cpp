@@ -7,6 +7,7 @@
 #include "RngRuntimeLeaves.hpp"
 #include "ZunTimer.hpp"
 #include "PlayerCollisionRegionCreate.hpp"
+#include "GameplaySetupNativeSides.hpp"
 
 void __fastcall RotatePlayerCollisionVector(
     PlayerPositionView *outVector,
@@ -32,7 +33,6 @@ typedef char PlayerCollisionActiveRegionCursorCountIs514[
          sizeof(((PlayerLifecycleView *)0)->activeB100[0]) == 514) ? 1 : -1];
 
 extern RngRuntimeView g_ReplayRng;
-extern EffectManager *g_PlayerRewardEffectManager;
 
 // The native collision scan accepts kinds 1, 2 and 3. Kind 1 reports a
 // direct hit, while kinds 2 and 3 take the bullet-cancellation path when the
@@ -122,10 +122,10 @@ int PlayerLifecycleView::CheckBulletCollision(
                 -region->angle20);
             scratch.collision.halfSize.x = (*slot)->halfWidth10;
             scratch.collision.halfSize.y = (*slot)->halfHeight14;
-            if (-scratch.collision.halfSize.x > scratch.collision.rotated.x ||
-                scratch.collision.rotated.x > scratch.collision.halfSize.x ||
-                -scratch.collision.halfSize.y > scratch.collision.rotated.y ||
-                scratch.collision.rotated.y > scratch.collision.halfSize.y)
+            if (!(-scratch.collision.halfSize.x <= scratch.collision.rotated.x &&
+                  scratch.collision.rotated.x <= scratch.collision.halfSize.x &&
+                  -scratch.collision.halfSize.y <= scratch.collision.rotated.y &&
+                  scratch.collision.rotated.y <= scratch.collision.halfSize.y))
                 goto next_region;
         }
         else
@@ -187,12 +187,14 @@ next_region:
         scratch.reward.velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
         scratch.reward.velocity.z = 0.0f;
 
+        GameManagerSetupLayout &gameManager =
+            reinterpret_cast<GameManagerSetupLayout &>(g_GameManager);
         Effect *effectBase =
-            g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
-                // A native i386 INC supplies the effect side, including DWORD wrap.
-                static_cast<int>(static_cast<unsigned int>(this->sideIndex) + 1u),
-                &scratch.reward.effectPosition, &scratch.reward.velocity,
-                1, static_cast<unsigned int>(-1));
+            gameManager.sides[GameplaySetupNativeSides::SharedEffectIndex]
+                .effectManager0C->SpawnEffectWithVelocity(
+                    static_cast<int>(static_cast<unsigned int>(this->sideIndex) + 1u),
+                    &scratch.reward.effectPosition, &scratch.reward.velocity,
+                    1, static_cast<unsigned int>(-1));
         g_Supervisor.SelectSide(this->sideIndex);
 
         effectBase->cancel.bulletType = bullet->bulletType;
@@ -206,6 +208,7 @@ next_region:
         g_SoundPlayer.PlaySoundByIdx(
             46, this->sideIndex != 0 ? 500 : -500);
 
+        int rewardMode = (g_GameManager.difficulty11C >= 3) + 2;
         int rewardValue =
             this->ownerState30410.state38;
         if (rewardValue > 100)
@@ -216,8 +219,6 @@ next_region:
             rewardValue = static_cast<int>(
                 static_cast<unsigned int>(rewardValue) * 10u);
 
-        int rewardMode =
-            (g_GameManager.difficulty11C >= 3) + 2;
         this->ownerState30410.ApplyReward(
             position,
             rewardMode, 2, 0, rewardValue);

@@ -39,15 +39,15 @@ Both REGRESSED owners still have strict baselines in the manifest.
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes, 4 structural differences, 8 after relocation replay (OK) | `player-movement`. Paused by the operator. Retain EAX for the side index and ECX for the configuration address while recovering the configuration-first order and indexed CMP. [Focus-load controls](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads) |
-| PlayerLifecycleView::CheckBulletCollision | 0x0041DFF0 | 849/862 bytes, 539 differences (REGRESSED against the 842-byte baseline) | `player-bullet-collision`. Preserve the 0x34 frame and EDI=Player, ESI=slot, EBX=Bullet. Compare the X87 radius edge and the circle/shared-dispatch/rectangle order. [CFG and register controls](KNOWLEDGE_BASE.md#2026-11-20-checkbulletcollision-boss-cfg-and-register-frontier) |
+| PlayerLifecycleView::CheckBulletCollision | 0x0041DFF0 | 849/862 bytes, 502 differences (REGRESSED against the 842-byte baseline) | `player-bullet-collision` is the active owner. Preserve the 0x34 frame and EDI=Player, ESI=slot, EBX=Bullet. Recover the shared dispatcher after the circle and the three exit blocks. [Current compiler and data evidence](KNOWLEDGE_BASE.md#2026-11-21-checkbulletcollision-reward-storage-and-ordered-bounds) |
 | Supervisor::UpdateNetworkService | 0x00430AA0 | 1,633/1,633 bytes, 307 differences (REGRESSED against the 1,629-byte baseline) | `supervisor-network-service`. Keep the 0x14 frame, EBX frame/prefill lifetime and sender reloads. The target branches from the +0x3F8 packet-ready test to +0x422 input handling. Prior source labels and split wait returns left the emitted return block out of line. [Frame and packet recovery](KNOWLEDGE_BASE.md#updatenetworkservice-native-frameprediction-and-packet-flow-recovery-2026-11-19) |
 
-For `CheckBulletCollision`, the target's shared hit
-dispatcher is at `+0x7E`, the zero-radius branch at `+0xAB`, the rotated
-rectangle at `+0xBD`, and the AABB path at `+0x13B`. Geometry hits return
-to the dispatcher, misses advance the slot at `+0x19E`, and cancellation
-exits at `+0x1A6`. The `etama-fsincos` diagnostic remains open for origin
-review.
+In `CheckBulletCollision`, the circle feeds the shared dispatcher at
+`+0x8E`. The zero-radius branch lands at `+0xBB` before rotated rectangle
+geometry at `+0xCD` and AABB geometry at `+0x14B`. Four paths advance the
+slot at `+0xB3`, `+0x143`, `+0x1A4`, and `+0x1AE`. The reward starts
+at `+0x1B6`, the direct-hit exit at `+0x336`, and the empty-slot exit
+at `+0x350`. The `etama-fsincos` diagnostic remains open for origin review.
 
 ## Recent exact checkpoints
 

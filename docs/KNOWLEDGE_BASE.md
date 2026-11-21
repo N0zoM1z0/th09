@@ -1042,11 +1042,11 @@ Likewise the 15-byte angle wrapper at `0x405700` is reproducible by both SDK
   +0xBB. Current 849/862, 539-difference candidate is REGRESSED against the
   842-byte strict frontier baseline.
   Target CFG landmarks, relative to CheckBulletCollision at 0x0041DFF0: region
-  filter +0x20; X87 radius compare +0x3B; circle calculation +0x4D; shared
-  hit dispatcher +0x7E; zero-radius angle branch +0xAB; rotated rectangle
-  +0xBD; AABB +0x13B; next-region cursor advance +0x19E; cancellation exit
-  +0x1A6; direct-hit count/return +0x326. Rectangle/AABB success returns to
-  the +0x7E dispatcher. A nested-loop experiment still emitted the dispatcher
+  filter +0x20; x87 radius compare +0x4B; circle calculation +0x5D; shared
+  hit dispatcher +0x8E; zero-radius angle branch +0xBB; rotated rectangle
+  +0xCD; AABB +0x14B; common cursor advance +0x1AE; cancellation reward
+  +0x1B6; direct-hit count/return +0x336. Rectangle/AABB success returns to
+  the +0x8E dispatcher. A nested-loop experiment still emitted the dispatcher
   at +0x17C (845/862 bytes, 581 differences) and was discarded; the maintained
   candidate remains 849/862 bytes, 539 differences, REGRESSED against the
   842-byte ratchet.
@@ -3234,3 +3234,37 @@ comparison calls and the original saturation-timer address at `+0x2B3`.
 The cold scoped replay passed 24 exact units in eight compiler jobs,
 including the charge owner, its PlayerRuntime caller carrier, and both
 replay input leaves.
+
+## 2026-11-21 CheckBulletCollision reward storage and ordered bounds
+
+The cancellation effect manager is the pointer at GameManager +0x7C
+(0x004A7E0C). The gameplay setup thread stores the allocated shared manager
+there, and gameplay cleanup resets the same pool. Collision now uses
+`GameManagerSetupLayout`'s third side record, so the COFF operand binds
+`g_GameManager` with addend +0x7C. The pointer is loaded from the same cell
+as the other reward consumers.
+
+All four rotated bounds require an ordered inclusive comparison. An
+unordered comparison rejects the rotated hit. AABB uses the original
+outside tests, which have different unordered behavior. Computing the
+reward mode before testing the reward cap also recovers the original load
+and arithmetic order at +0x2D5 through +0x2FC.
+
+Pinned VC7.1 now emits 849 of 862 bytes, with 502 masked differences
+(previously 539). The baseline still reports REGRESSED against 842 bytes.
+All 26 relocation types, destinations and addends were checked against
+the original operands in instruction order, including all 12 calls and
+four literal definitions. Nineteen field offsets remain displaced.
+Selected cold replay passed 17 exact units across the collision and
+GameManager setup carriers, covering 5,900 bytes and 447 fields.
+
+The first difference at +0x26 is the null-region branch displacement.
+The original falls through from the circle comparison to the dispatcher
+at +0x8E. The candidate lays out both rectangle paths before that
+dispatcher and places the empty-slot epilogue before the reward.
+Co-visible exact rotation, popup transforms, effect spawning and score
+publication bodies produced no change in the collision function. Exposing
+the full RNG implementation eliminated an original call. The plain-locals
+control showed that VC7.1 can create the cursor home at EBP-4 without a
+manual copy field. It chose different register roles and moved the first
+iteration out of the loop, so its layout remains a diagnostic.
