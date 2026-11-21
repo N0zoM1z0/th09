@@ -50,10 +50,13 @@ trace to compare that control with the maintained body. Its first scratch
 request is the bitfield update. The analog threshold's temporary load
 folds into the compare without a scratch-register choice.
 [Allocation and compare cleanup](KNOWLEDGE_BASE.md#local-allocation-and-compare-cleanup)
+The old flag-word load is created after the first bitfield scratch choice.
+[Flag-word lowering](KNOWLEDGE_BASE.md#lowering-the-two-flag-word-reads)
 
 ```bash
 cp src/PlayerMovement.cpp .analysis/movement-focus/focus-current.cpp
 python3 -B .analysis/movement-focus/trace-run.py cursor focus-current focus-order-control
+python3 -B .analysis/movement-focus/trace-run.py flag-liveness focus-current focus-order-control
 python3 -B .analysis/movement-focus/trace-run.py peephole focus-current focus-order-control
 python3 -B .analysis/movement-focus/trace-run.py direction-join-global focus-order-control
 ```

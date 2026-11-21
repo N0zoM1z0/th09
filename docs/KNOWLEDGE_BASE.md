@@ -1925,6 +1925,35 @@ leaf passes its full canonical comparison in all 24 scratch carriers.
 The other co-visible definitions each pass their canonical comparison
 in the eight carriers that include them.
 
+### Lowering the two flag-word reads
+
+At the first bitfield scratch request, EAX is occupied by the computed
+focus result. Both ECX and EDX are free in the maintained and direction-
+join carriers. The XOR that produces the updated flags still has two
+memory operands at global allocation exit. During local lowering C2
+inserts the old-word MOV just before that XOR at `0x1075F099` and binds
+the XOR destination at `0x1075A482`. The scheduler moves the MOV ahead
+of the two delta operations at `0x107B54CC`. The maintained build gives
+EDX to the delta and ECX to the old word. The direction-join build makes
+the opposite choices. The old-word register is selected after the delta
+request.
+
+Putting the unfocused block first in source with an explicit edge to the
+focused block reproduces the maintained eight-byte and direction-join
+14-byte comparisons. Inverting the branch changes the physical layout
+of the two switch bodies. The first scratch request in both direction-join
+controls is still the bitfield update.
+
+A control snapshots the old flags before the analog threshold or after
+the digital query, then uses the saved word in the two-bit update. C2
+merges the reads into one load and a register copy. The first effect
+receiver takes EAX, with the original argument and receiver instruction
+order. The flag region is five bytes shorter before its conditional
+branch. Copying just the analog count with the `memcpy` intrinsic
+reproduces the direction-join control's 14 differences and scratch
+choices. The six traced carriers agree with their cold objects across
+their full extents and all 66 relocation fields.
+
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 
 IDA's `UpdateChargeAttack` entry is precise: EDI holds the full DWORD
