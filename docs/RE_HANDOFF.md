@@ -1,13 +1,10 @@
 # TH09 reconstruction handoff (2026-11-21)
 
-Resume in the existing checkout. Commit `587008ef` closed
-`TitleScreenView::DrawReplayMenu` and added the title caption section to its
-canonical comparison. Check the local branch before using a fresh checkout.
-Use the generated ledger for the exact count and remaining authored bytes.
-[Progress](PROGRESS.md)
-
-Earlier probe history is available with
-`git show 587008ef:docs/RE_HANDOFF.md`.
+Resume in the existing checkout. The `title-screen-update-result` unit now
+checks all 485 bytes, 34 relocations, and the result order table and path
+literal for `TitleScreenView::OnUpdateResult`. Player movement remains paused
+by the operator. Use the generated ledger for the exact count and remaining
+authored bytes. [Progress](PROGRESS.md)
 
 ## Start the session
 
@@ -47,12 +44,9 @@ Both REGRESSED owners still have strict baselines in the manifest.
 | PlayerLifecycleView::UpdateMovementAndOptions | 0x0041C170 | 1,900/1,900 bytes, 4 structural differences, 8 after relocation replay (OK) | `player-movement`. Paused by the operator. Retain EAX for the side index and ECX for the configuration address while recovering the configuration-first order and indexed CMP. [Focus-load controls](KNOWLEDGE_BASE.md#2026-11-20-player-movement-focus-loads) |
 | PlayerLifecycleView::UpdateChargeAttack | 0x0041F810 | 1,210/1,210 bytes, 183 differences (OK) | `player-charge-attack`. The entry needs EDI for the full DWORD side index and EBX for the input-row pointer. Both registers are reused by later timer receivers. A side local live through sound pan conflicts with that reuse. [Entry and timer controls](KNOWLEDGE_BASE.md#chargeattack-entry-register-and-timer-reuse-probes-2026-11-19) |
 | PlayerLifecycleView::CheckBulletCollision | 0x0041DFF0 | 849/862 bytes, 539 differences (REGRESSED against the 842-byte baseline) | `player-bullet-collision`. Preserve the 0x34 frame and EDI=Player, ESI=slot, EBX=Bullet. Compare the X87 radius edge and the circle/shared-dispatch/rectangle order. [CFG and register controls](KNOWLEDGE_BASE.md#2026-11-20-checkbulletcollision-boss-cfg-and-register-frontier) |
-| TitleScreenView::OnUpdateResult | 0x004266B5 | 484/485 bytes, 167 differences (OK) | `title-update-result`. Align instruction boundaries and find the first real encoding or CFG divergence before changing the character array or sign extension. The exact `OnUpdateResultNameEntry` sibling shares `src/TitleScreen.cpp`. [Existing Title character-table proof](KNOWLEDGE_BASE.md#2026-11-11-native-title-character-order-unlock-and-screen16-tables) |
 | Supervisor::UpdateNetworkService | 0x00430AA0 | 1,633/1,633 bytes, 307 differences (REGRESSED against the 1,629-byte baseline) | `supervisor-network-service`. Keep the 0x14 frame, EBX frame/prefill lifetime and sender reloads. The target branches from the +0x3F8 packet-ready test to +0x422 input handling. Prior source labels and split wait returns left the emitted return block out of line. [Frame and packet recovery](KNOWLEDGE_BASE.md#updatenetworkservice-native-frameprediction-and-packet-flow-recovery-2026-11-19) |
 
-`title-update-result` is a bounded starting point if Player movement
-remains paused. Begin with the complete Title carrier and keep its exact
-siblings as controls. For `CheckBulletCollision`, the target's shared hit
+For `CheckBulletCollision`, the target's shared hit
 dispatcher is at `+0x7E`, the zero-radius branch at `+0xAB`, the rotated
 rectangle at `+0xBD`, and the AABB path at `+0x13B`. Geometry hits return
 to the dispatcher, misses advance the slot at `+0x19E`, and cancellation
@@ -61,6 +55,9 @@ review.
 
 ## Recent exact checkpoints
 
+- `TitleScreenView::OnUpdateResult` reproduces the original byte load and
+  sign extension when VC7.1 merges the two cursor-direction calls.
+  [Result update proof](KNOWLEDGE_BASE.md#2026-11-21-title-result-cursor-direction)
 - `RunEcl` recovered its final register choices by restoring natural source
   in other handlers. [RunEcl context](KNOWLEDGE_BASE.md#runecl-register-coupling-across-handlers)
 - `EnemyManagerView::OnUpdate` needed the exact timer definition visible in

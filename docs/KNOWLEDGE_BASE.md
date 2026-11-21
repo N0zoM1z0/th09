@@ -691,7 +691,7 @@ relocation fields**. Nine optimizer-private `$L` references in
 `OnUpdateStartMenu` were rebound only after separately proving their
 real same-section COFF definitions, unchanged offsets/types and
 original PE destinations; no other manifest values were modified.
-The still-nonexact sibling `TitleScreen::OnUpdateResult` was also
+At this checkpoint, `TitleScreenView::OnUpdateResult` was also
 checked separately and retains its previous full 485-byte target,
 484-byte candidate, 34 fields and 218 unlike overlapping bytes.
 No exact-function promotion or native Windows runtime proof is claimed.
@@ -3166,3 +3166,36 @@ body, its literal definitions, and the 112-byte caption section. The
 Extra Mode reference uses the same table symbol as Story Mode with a
 four-byte addend. The Shift-JIS USER tables retain their separate
 `replay-save` proof.
+
+## 2026-11-21 Title result cursor direction
+
+In the 484-byte baseline for `TitleScreenView::OnUpdateResult`, the first
+instruction difference after aligning branch destinations was at
+`0x004267B2`. The candidate computed the table-element address in EAX
+and sign-extended the byte from memory. The original reads the table byte
+into CL, pushes stride 2, and sign-extends CL into EDI before pushing
+the other arguments. The following cancel path and initialization block
+agree after accounting for the one-byte shift.
+
+The exact `UpdateScreen8Mode0` sibling uses the same split load and extension
+near its direction-dependent cursor calls. Retaining those direction arms
+with the inactive highlight in both reproduces the original result code.
+VC7.1 merges the arms into one call and preserves the sign-extended value
+for the following score-bank store. A single captured character and call
+produces 483 bytes. Keeping distinct lookup sites on the two unlock-loop
+exits recovers 485 bytes with ten structural differences. Hiding the real
+horizontal and inactive cursor definitions, making the cancel callees visible,
+and making the character table definition visible leave the respective
+single-call instruction streams unchanged. The register and call schedule
+establish this source shape as a matching reconstruction.
+
+The `title-screen-update-result` unit covers `0x004266B5–0x00426899`,
+including nine call and 25 data fields. Both result order operands reach the
+16-byte definition at `0x004A1DAC`. Character selection independently reads
+the equal-valued table at `0x004A1D7C`. The literal definition matches
+`title/result00.png` including its terminator. Input references use replay
+slot 2 word06 at root `0x004ACE18` plus `0x122`. The three PLST unlock rows
+start at `0x004A8180` plus `0x4C`, `0x5C`, and `0x6C`. The unlock sequence
+counter at `0x004AC8D4` lies in the PE's zero-filled data range and has eight
+references inside this owner. These shared operands retain their original
+bindings.

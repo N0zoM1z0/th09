@@ -291,8 +291,10 @@ extern i32 g_GameSide1CharacterSetting;
 extern i32 g_TitleCharacterReturnSelection;
 extern char g_TitleCharacterOrder[16];
 extern char g_TitleCharacterOrder14[16];
-// Runtime character cursor bytes use the original, signed native global selector.
-extern char g_TitleResultCharacterOrder[16];
+// The result browser has its own order table, separate from character selection.
+char g_TitleResultCharacterOrder[16] = {
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 9, 12, 13
+};
 // Title result cursor ordering and PLST unlock flags share precisely one
 // sixteen-character native extent. A separate guessed cursor capacity may
 // silently let the unlock scan wrap outside the original stored row.
@@ -2463,12 +2465,14 @@ int TitleScreenView::OnUpdateResult()
                         static_cast<unsigned int>(FullCharacterSlots));
             }
 
-            // The preceding cursor walk wraps keyboardSelection into the
-            // native 16-byte character-order table before this selected read.
-            // Keep the real array element and its address as ordinary C++.
-            char *characterSlot = &g_TitleResultCharacterOrder[keyboardSelection];
-            char character = *characterSlot;
-            SetCharacterCursorInactive(*characterSlot, 60, FullCharacterSlots, 2);
+            char character = g_TitleResultCharacterOrder[keyboardSelection];
+            // Keep the two direction arms used by character selection.
+            // The result browser uses the inactive highlight in both arms,
+            // which VC7.1 merges into a single call after loading the character.
+            if (direction > 0)
+                SetCharacterCursorInactive(character, 60, FullCharacterSlots, 2);
+            else
+                SetCharacterCursorInactive(character, 60, FullCharacterSlots, 2);
             nameBankIndex = character;
         }
 

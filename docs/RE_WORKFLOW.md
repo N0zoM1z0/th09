@@ -6,13 +6,11 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-The **future milestone** is at least **98% of reviewed authored bytes
-exact**. It has **not** been reached. Consult generated
-[`PROGRESS.md`](PROGRESS.md) or
-`scripts/report-reconstruction-status.py` for the current authored-byte
-denominator, exact count and remaining functions; copied dated percentages
-are not authoritative. Authored-function/byte exactness does not establish
-native Windows build or runtime completion.
+The exact-phase milestone of **98% of reviewed authored bytes** is complete.
+The generated [`PROGRESS.md`](PROGRESS.md) and
+`scripts/report-reconstruction-status.py` report the current authored-byte
+denominator, exact count, and remaining functions. Native Windows build and
+runtime closure have their own acceptance gates.
 Use pinned VC7.1 Oracles and the verified Japanese TH09 1.50a executable.
 For the next reconstruction session, work seriously
 on complete large bosses as well as leaf functions. Re-investigate old claims

@@ -437,6 +437,36 @@ def verify_ecl_interpolation_table(path: Path, image: bytes, units: dict) -> dic
             "size": table_size, "relocations": len(fields)}
 
 
+def verify_title_result_character_order(path: Path, image: bytes,
+                                        expected: list[dict], actual: list[dict]) -> dict:
+    name = "?g_TitleResultCharacterOrder@@3PADA"
+    address, size = 0x004A1DAC, 16
+    data, sections, symbols = read_coff_object(path)
+    owners = [symbol for symbol in symbols.values()
+              if symbol["name"] == name and symbol["section"] > 0]
+    if len(owners) != 1:
+        raise ValueError("expected one defined Title result character order")
+    owner = owners[0]
+    section = sections[owner["section"] - 1]
+    start = section["raw_offset"]
+    if (owner["value"] != 0 or section["size"] != size
+            or not section["flags"] & 0x40 or section["reloc_count"]
+            or not 0 < start <= len(data) - size):
+        raise ValueError("Title result character order does not occupy its full initialized COFF section")
+    if data[start:start + size] != pe_bytes_at(image, address, size):
+        raise ValueError("Title result character order bytes differ from the original")
+
+    offsets = {row["offset"] for row in expected if row["symbol"] == name
+               and row["target"] == address}
+    references = [row for row in actual if row["symbol"] == name]
+    if (len(references) != 2 or len(offsets) != 2
+            or any(row["offset"] not in offsets or row["type_id"] != 0x0006
+                   or row["addend"] != 0 or row["symbol_section"] != owner["section"]
+                   or row["symbol_value"] != owner["value"] for row in references)):
+        raise ValueError("Title result character order references differ from the original")
+    return {"symbol": name, "target_address": f"0x{address:08X}", "size": size, "relocations": 0}
+
+
 def verify_replay_name_tables(path: Path, image: bytes, expected: list[dict],
                               actual: list[dict], *, title_menu: bool = False) -> dict:
     """Verify the original replay caption section and its string definitions."""
@@ -616,6 +646,9 @@ def compare_unit(name: str) -> dict[str, object]:
     data_initializers = []
     if name in ECL_INTERPOLATION_UNITS:
         data_initializers.append(verify_ecl_interpolation_table(object_path, image, units))
+    if name == "title-screen-update-result":
+        data_initializers.append(verify_title_result_character_order(
+            object_path, image, normalized_expected, actual))
     if name in ("replay-save", "title-screen-draw-replay-menu"):
         data_initializers.append(verify_replay_name_tables(
             object_path, image, normalized_expected, actual,

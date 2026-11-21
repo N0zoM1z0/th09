@@ -31,6 +31,8 @@ difficulty tables, including all 27 pointers and their Shift-JIS strings.
 The DrawReplayMenu comparison checks the separate 112-byte title caption
 section and all 28 string pointers. Its two mode references select the
 same table at addends 0 and 4.
+The Title result update checks the defining 16-byte order section and both
+zero-addend references to `0x004A1DAC`, along with the 19-byte surface path.
 An operand targeting an external table establishes its address in the
 original image. A table-content claim requires the separate defining-object
 comparison. Native linkage requires a matched rebuilt PE and map.
