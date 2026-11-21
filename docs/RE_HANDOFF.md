@@ -52,6 +52,8 @@ folds into the compare without a scratch-register choice.
 [Allocation and compare cleanup](KNOWLEDGE_BASE.md#local-allocation-and-compare-cleanup)
 The old flag-word load is created after the first bitfield scratch choice.
 [Flag-word lowering](KNOWLEDGE_BASE.md#lowering-the-two-flag-word-reads)
+Keeping the side live in ECX gives EDX to the flag delta and moves the old
+flag word to EDI. [Side lifetime control](KNOWLEDGE_BASE.md#keeping-the-focus-side-live-for-the-first-effect)
 
 ```bash
 cp src/PlayerMovement.cpp .analysis/movement-focus/focus-current.cpp

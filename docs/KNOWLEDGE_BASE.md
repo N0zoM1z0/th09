@@ -1954,6 +1954,29 @@ reproduces the direction-join control's 14 differences and scratch
 choices. The six traced carriers agree with their cold objects across
 their full extents and all 66 relocation fields.
 
+### Keeping the focus side live for the first effect
+
+Reusing the focus lookup's side snapshot for the first effect call makes
+VC7.1 keep that value through the flag update. In the direction-join
+control with the input definition hidden, the compiler assigns EDI to
+the side, spills the input receiver and loads the configuration into
+EAX. In the fresh-side control it spills the side around `IsHeld` and
+reloads it into ECX. Using a reference to the live Player member instead
+lets the compiler reload the side at the original first-effect site.
+That control has nine differing bytes at the focus lookup.
+
+A split-source control takes the first effect's side from the lookup
+before the analog threshold and refreshes it after the digital query.
+Its configuration-first loads and indexed CMP match the original.
+Immediately before the first flag scratch choice, the cursor is at its
+initial position and EAX and ECX are both occupied. The selector gives
+EDX to the flag delta. The preserved side stays in ECX, so the second
+flag load uses EDI and the effect call pushes the cached side. The
+target reloads the side at that call. The traced and cold objects agree
+over 1,900 bytes and 66 fields for each of these controls. Across the 32
+co-visible input controls the real `IsHeld` definition also reproduces
+its 18-byte body with zero relocations.
+
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 
 IDA's `UpdateChargeAttack` entry is precise: EDI holds the full DWORD
