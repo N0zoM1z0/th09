@@ -3357,3 +3357,37 @@ The cold scoped replay passed nine exact units across eight compiler
 jobs, covering 5,014 physical bytes and 371 relocations. This includes
 the service, its OnUpdate caller, the input and frame-queue functions,
 the packet sender, and the WinMain carrier that sets the network pointer.
+
+## 2026-11-21 Etama paired trigonometric helper
+
+The verified TH09 body at 0x00412780 has 33 bytes and no relocation
+operands. It homes two fastcall output pointers, executes one FSINCOS,
+then stores cosine before sine. RET 4 ends at 0x004127A0 and the following
+15 CC bytes are unowned. The only direct call is at 0x00413C3B in
+EtamaController::OnDraw. It passes separate output slots and the laser
+angle. The PE contains no absolute pointer to the helper.
+
+The maintained C++ candidate now stores cosine first. It still emits two
+REL32 calls to `@cosf@4` and `@sinf@4`. The same COFF object defines both
+12-byte wrappers and reproduces their original bodies at 0x00401060 and
+0x00401070. The full helper remains 36/33 bytes with 25 differences
+after field masking and 33 after replay. The whole-carrier controls
+cover both output orders, float and double evaluation, and a declaration
+with no visible definition. The double-local pair emits 20 bytes with
+separate FCOS and FSIN and no relocations. VC7.1 issues C4163 for
+`sincos`, `sincosf`, and `fsincos` when requested as intrinsics. The
+compiler's matching mnemonic strings are in its instruction-name tables.
+
+OnDraw retains all 600 bytes, 27 fields and seven checked literals in
+these builds. DrawSingleBullet and EtamaController::AddedCallback also
+replay exact. The declaration control renumbers private labels which
+retain their original same-section destinations. A cold replay of the
+maintained carrier passes the three authored units and the folded SDK
+pointer conversion alias passes its separate comparator.
+
+The adjacent TH08 1.00d body at 0x00433880 reproduces all 33 bytes and
+has three direct calls from its bullet and laser paths. The reviewed
+TH095 binary has no identical body. A local scan of 250 installed
+VC7.1 and SDK archive/object files found no complete 33-byte occurrence.
+The pinned D3DX `sincosf` member instead uses three cdecl stack
+arguments and a 19-byte body. TH09 source/library origin remains unknown.

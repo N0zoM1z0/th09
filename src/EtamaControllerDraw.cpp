@@ -17,16 +17,15 @@
 typedef char EtamaDrawBodyPositionOffsetIs208[
     (offsetof(Laser, bodyVm) + offsetof(AnmVm, pos) == 0x208) ? 1 : -1];
 
-// Reconstruct the angle's two trigonometric components as C++ rather
-// than issuing the retail x87 instruction sequence by hand. The original
-// helper receives the outputs in ECX/EDX and consumes one stack float;
-// its exact runtime/library provenance is still unresolved.
+// The target receives the sine and cosine pointers in ECX and EDX
+// and stores cosine first. The paired x87 operation remains open
+// in the etama-fsincos frontier.
 void __fastcall fsincos(float *sine, float *cosine, float angle)
 {
-    float sineValue = sinf(angle);
-    float cosineValue = cosf(angle);
-    *sine = sineValue;
+    const float sineValue = sinf(angle);
+    const float cosineValue = cosf(angle);
     *cosine = cosineValue;
+    *sine = sineValue;
 }
 // SDK conversions use the same checked three-float storage and this pointer.
 typedef char EtamaSdkVectorLayoutMatchesFloat3[
