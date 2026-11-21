@@ -127,7 +127,7 @@ extern u32 g_ReplayHeaderValue1D8;
 
 extern char g_ReplayPlayTimeText[];
 
-// Names shared by the Shift-JIS USER section and the replay menu.
+// Names written to the Shift-JIS replay USER section.
 const char *g_ReplayCharacterNames[16] =
 {
     "\x97\xec\x96\xb2",

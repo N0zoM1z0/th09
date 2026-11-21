@@ -3104,17 +3104,15 @@ reproduces the complete 112-byte initialized table section with one
 zero-addend DIR32 field per slot. Each of the 28 string definitions agrees
 with the original pointer destination. The entire draw body has 1,280
 bytes and all 57 original operand fields, including 30 references to
-16 code literals. It still has 29 differing instruction bytes. The
-target uses EDX for the selected index and ECX for the animation timer
-and caption scratch. The current compiler exchanges those two
-registers and stores the replay pointer before the selected index.
-The affected region starts at `+0x184`, and the last difference is
-`+0x321`. The menu remains in the frontier ledger.
+16 code literals. The table change left 29 differing instruction bytes
+at `+0x185` through `+0x321`. The original uses EDX for the selected index
+and ECX for the animation timer and caption scratch. That build exchanged
+the two registers and stored the replay pointer before the selected index.
 
 ### Selected row conversion
 
-The remaining register differences originate in VC7.1 global allocation.
-In the maintained source, the selected-index range admits ECX, EDX, ESI,
+The register differences originate in VC7.1 global allocation.
+In the 29-byte baseline, the selected-index range admits ECX, EDX, ESI,
 and EDI at equal cost and takes ECX. The timer is allocated afterward and
 takes EDX. The index and replay pointer are spilled in the opposite
 order from the original. Rebuilding CirnoLab's complete `mainmenu.cpp`
@@ -3133,9 +3131,17 @@ local allocation. The integer-to-float instruction at `+0x1B2` reads
 instructions and resolving relative operands proves that the other
 instructions, branch destinations, and 57 relocation identities agree.
 
-Capturing that field as a float before the column test also emits the
-original saved-index operand and register assignment. It moves the
-`fild` before the column branch and leaves a different order of integer
-and floating-point operations through `+0x1DA`. Keep the 1,280-byte
-maintained source while recovering the stack operand at the original
-branch join.
+Capturing that field as a float before the column test emits the original
+saved-index operand and register assignment but moves the `fild` before
+the column branch. The matching source binds one const reference to the
+selected-slot field. Reading through that reference for the record
+lookup, the integer snapshot, and the Y coordinate gives the original
+stack-based `fild` at `+0x1B2`, after the two stack stores and the column
+test. Both a typed pointer and a const reference reproduce the same
+1,280-byte stream with all 57 relocation fields.
+
+The canonical `title-screen-draw-replay-menu` unit compares the complete
+body, its literal definitions, and the 112-byte caption section. The
+Extra Mode reference uses the same table symbol as Story Mode with a
+four-byte addend. The Shift-JIS USER tables retain their separate
+`replay-save` proof.

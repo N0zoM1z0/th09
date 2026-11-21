@@ -63,17 +63,6 @@ candidate_size = 484
 target_sha256 = "526beca1d1f7fe3e410002739257bcf486d0c93e6246fae21f6f7902945e1d48"
 residual = ["E", "15", "CB", "FE-101", "106-10D", "110", "115-119", "11E-122", "125-12A", "12F-136", "13B-13E", "141-143", "146-14F", "154", "159-15A", "15F-168", "16D-17F", "184-187", "18C-18E", "193-19E", "1A3-1AA", "1AF-1CB", "1CE-1D5", "1D7-1E4"]
 
-[frontier.title-draw-replay-menu]
-function = "TitleScreenView::DrawReplayMenu"
-source = "src/TitleScreenReplayMenuDraw.cpp"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
-symbol = "?DrawReplayMenu@TitleScreenView@@QAEHXZ"
-address = 0x004234F6
-size = 1280
-candidate_size = 1280
-target_sha256 = "d0201b3aae3727f7aa773187ac9ac6d21727c86342b657c780cb9353cdc39ed0"
-residual = ["185", "18B", "193", "19D-19E", "1A0-1A1", "1B6", "1BC", "1D3", "24A", "25A", "25C", "271-272", "29D", "2A3", "2C6", "2D7", "2F0", "2F5", "2FD", "304", "308", "316", "319", "31C", "31E", "321"]
-
 [frontier.supervisor-network-service]
 function = "Supervisor::UpdateNetworkService"
 source = "src/SupervisorNetwork.cpp"

@@ -438,15 +438,28 @@ def verify_ecl_interpolation_table(path: Path, image: bytes, units: dict) -> dic
 
 
 def verify_replay_name_tables(path: Path, image: bytes, expected: list[dict],
-                              actual: list[dict]) -> dict:
-    """Verify the contiguous character, mode and difficulty name tables."""
-    address = 0x004A1C78
-    offsets = {
-        "?g_ReplayCharacterNames@@3PAPBDA": 0,
-        "?g_ReplayModeNames@@3PAPBDA": 16 * 4,
-        "?g_ReplayDifficultyNames@@3PAPBDA": (16 + 6) * 4,
-    }
-    size = (16 + 6 + 5) * 4
+                              actual: list[dict], *, title_menu: bool = False) -> dict:
+    """Verify the original replay caption section and its string definitions."""
+    if title_menu:
+        address = 0x004A1CF8
+        tables = (
+            ("?g_TitleReplayCharacterNames@@3PAPBDA", 17),
+            ("?g_TitleReplayDifficultyNames@@3PAPBDA", 5),
+            ("?g_TitleReplayModeNames@@3PAPBDA", 2),
+            ("?g_TitleReplayMatchNames@@3PAPBDA", 4),
+        )
+    else:
+        address = 0x004A1C78
+        tables = (
+            ("?g_ReplayCharacterNames@@3PAPBDA", 16),
+            ("?g_ReplayModeNames@@3PAPBDA", 6),
+            ("?g_ReplayDifficultyNames@@3PAPBDA", 5),
+        )
+    offsets = {}
+    size = 0
+    for symbol, count in tables:
+        offsets[symbol] = size
+        size += count * 4
     data, sections, symbols = read_coff_object(path)
     owners = [symbol for symbol in symbols.values()
               if symbol["name"] in offsets and symbol["section"] > 0]
@@ -458,9 +471,13 @@ def verify_replay_name_tables(path: Path, image: bytes, expected: list[dict],
     targets = {row["symbol"]: row["target"] for row in expected if row["symbol"] in offsets}
     if targets != {name: address + offset for name, offset in offsets.items()}:
         raise ValueError("replay name table bindings differ from the original")
+    expected_addends = {
+        row["offset"]: row.get("addend", 0) if title_menu else 0
+        for row in expected if row["symbol"] in offsets
+    }
     for row in actual:
         if row["symbol"] in offsets and (
-                row["type_id"] != 0x0006 or row["addend"] != 0
+                row["type_id"] != 0x0006 or row["addend"] != expected_addends.get(row["offset"])
                 or row["symbol_section"] != section_index
                 or row["symbol_value"] != offsets[row["symbol"]]):
             raise ValueError(f"invalid caller reference to replay name table at +{row['offset']:#x}")
@@ -599,9 +616,10 @@ def compare_unit(name: str) -> dict[str, object]:
     data_initializers = []
     if name in ECL_INTERPOLATION_UNITS:
         data_initializers.append(verify_ecl_interpolation_table(object_path, image, units))
-    if name == "replay-save":
+    if name in ("replay-save", "title-screen-draw-replay-menu"):
         data_initializers.append(verify_replay_name_tables(
-            object_path, image, normalized_expected, actual))
+            object_path, image, normalized_expected, actual,
+            title_menu=name == "title-screen-draw-replay-menu"))
     exception_handlers = verify_exception_handlers(
         object_path, unit["symbol"], normalized_expected, actual, image)
 

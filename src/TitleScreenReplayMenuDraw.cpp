@@ -133,13 +133,14 @@ int TitleScreenView::DrawReplayMenu()
     }
     else if (currentScreenState == 2)
     {
-        const ReplayDataView &replayValue = replays[selectedReplay];
-        i32 selected = selectedReplay;
+        const i32 &selectedSlot = selectedReplay;
+        const ReplayDataView &replayValue = replays[selectedSlot];
+        i32 selected = selectedSlot;
 
         position.x = 32.0f;
         if (selected >= TitleReplayNativeSlots::RowsPerColumn)
             position.x = 352.0f;
-        position.y = (float)selected * 13.0f + 90.0f;
+        position.y = (float)selectedSlot * 13.0f + 90.0f;
         position.z = 0.0f;
 
         D3DXVECTOR3 target(216.5f, 160.0f, 0.0f);
