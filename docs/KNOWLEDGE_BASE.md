@@ -1829,6 +1829,43 @@ and direction-join comparisons over all 1,900 bytes and 66 fields.
 Both siblings retain their complete canonical comparisons of
 1,210 bytes and 70 fields, and 753 bytes and 38 fields, respectively.
 
+### Local allocation and compare cleanup
+
+A chronological trace of every scratch-register choice at `0x10775ACC`
+and cursor write at `0x10776893` confirms that the maintained movement
+body advances the cursor twice at the focus lookup. The direction-join
+control makes its first request at the flag update. The earlier trace
+showed requests only for instructions that survived emission. The new
+trace also covers eliminated instructions. In both builds the pass at
+`0x10786238` folds a temporary WORD move into the analog hold-threshold
+compare without a cursor write. The late pass at `0x107B5D7B` folds one
+byte move into the mode comparison. It keeps the indexed operand in
+the maintained, direction-join and fresh-side builds. The mode-reference
+build keeps its preceding LEA. This substitution requires a preceding
+MOV and clears the compare's eligibility bit before resuming the
+backward scan. Cold and debugger builds agree over all 1,900 bytes and
+66 fields for each of the four carriers.
+
+Capturing the configuration pointer only in the neutral direction
+branch gives the original load order and field position, with the
+opposite SIB byte and the same two later register differences as the
+direction-join control. Capturing the configuration in the neutral and
+three upward branches restores the original SIB byte when each exit
+captures the side. With only a common configuration read after the
+direction branches, the side load comes first and both later blocks match.
+Using a configuration pointer, row pointer or direct row access for that
+common read gives the same result. A ternary for the focus result and a
+reference to the hold counter preserve the comparisons. Moving bitfield
+stores into the two input branches changes the generated store sequence.
+Testing a copied bitfield record after writing it back restores the
+effect-call instruction order, with a different flag sequence that is
+one byte shorter. Making the real position conversion or Float3
+arithmetic visible preserves the neutral-only control's 15 differing
+bytes. The three DWORD mask declarations tried for `IsHeld` preserve the
+comparisons with the definition hidden. With the definition visible they
+emit a different 16-byte callee and change the movement code. The
+maintained source still has the eight-byte residual.
+
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 
 IDA's `UpdateChargeAttack` entry is precise: EDI holds the full DWORD

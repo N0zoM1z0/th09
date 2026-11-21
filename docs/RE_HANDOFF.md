@@ -41,11 +41,15 @@ separately. An OK result means the recorded frontier was preserved.
 The retained control `.analysis/movement-focus/focus-order-control.cpp`
 reproduces the direction join that gives ECX to the configuration and EAX
 to the live side index during global allocation. Replay the scratch allocator
-trace to compare that control with the maintained body.
+trace to compare that control with the maintained body. Its first scratch
+request is the bitfield update. The analog threshold's temporary load
+folds into the compare without a scratch-register choice.
+[Allocation and compare cleanup](KNOWLEDGE_BASE.md#local-allocation-and-compare-cleanup)
 
 ```bash
 cp src/PlayerMovement.cpp .analysis/movement-focus/focus-current.cpp
-python3 -B .analysis/movement-focus/trace-run.py flag-residual focus-current focus-order-control
+python3 -B .analysis/movement-focus/trace-run.py cursor focus-current focus-order-control
+python3 -B .analysis/movement-focus/trace-run.py peephole focus-current focus-order-control
 python3 -B .analysis/movement-focus/trace-run.py direction-join-global focus-order-control
 ```
 
