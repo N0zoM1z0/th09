@@ -65,7 +65,8 @@ indexed CMP. The load order and SIB operand order still differ.
 Run `trace-run.py focus-allocation eval_cfg_first freshside_ref_split_direct`
 to compare the global weights, instruction ordinals and local requests.
 With both loads eligible for global allocation at weight 16, the earlier
-load receives EAX.
+load receives EAX. Run the same controls with `focus-counts` to trace
+the definition and address-use contributions to those weights.
 
 | Owner | Target address | Current comparison | Remaining work |
 | --- | --- | --- | --- |

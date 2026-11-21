@@ -1661,6 +1661,27 @@ in the full-owner builds. Inline predicates return to side-first code.
 The cold and debugger builds of the allocation controls
 agree across all 1,900 bytes and 66 COFF fields of each control.
 
+The weight trace attributes both 16 scores to a count of four
+multiplied by four at `0x10782919`. Each ordinary MOV contributes two
+at `0x10784C41`, and each of the two address terms contributes two
+at `0x10782695`. The fresh-side control's `0x26A` configuration load
+contributes only its address use before that count is reset. Reusing a
+local across the entry-side load and a fresh read in the aggregate
+leaves the two counts and multiplier equal. Reusing it for either
+effect-call side argument preserves the configuration's EAX choice in
+the aggregate and the side-first order in the other controls.
+The fresh-side and aggregate controls also tie at `0xA000` in the
+later scheduler. Each MOV has a single edge to the indexed byte load,
+so the scheduler retains the respective incoming order.
+
+Full-owner probes defining `g_GameManager` and `g_ReplayInputStates`
+in the movement translation unit reproduce all 1,900 relocation-replayed
+bytes of their respective controls. A separate configuration symbol
+bound to the same target slot does so too. Equivalent option-loop, position
+history and coordinate-clamp rewrites preserve those load and compare
+bytes in the native, fresh-side and configuration-first aggregate
+controls. Some change code or relocations later in the extent.
+
 The same-unit input control retains EBX for the side index, loads the
 configuration into EAX, and changes the entry's floating-point zero
 initialization. Zeroing a two-float speed aggregate with the `memset`
