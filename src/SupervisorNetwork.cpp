@@ -306,10 +306,10 @@ HOST_WAIT_STATE_CHECK:
                                        &scratch.popFrame.second.predicted);
                     }
                     g_SupervisorNetworkState->initialFramesQueued = 1;
+                    frameNetwork = g_SupervisorNetworkState;
                 }
 
-                SupervisorNetworkState *readyNetwork = g_SupervisorNetworkState;
-                if (readyNetwork->packetReady == 0)
+                if (frameNetwork->packetReady == 0)
                 {
                     scratch.returnValue = NETWORK_SERVICE_RETRY_FRAME;
                     goto RETURN_FRAME_RESULT;
@@ -317,7 +317,7 @@ HOST_WAIT_STATE_CHECK:
 
                 g_NetworkFramePacket.words.input =
                     static_cast<unsigned short>(Controller::GetInput(
-                        g_SupervisorNetworkState->localSide));
+                        frameNetwork->localSide));
                 ++this->networkTiming458.frameCounter;
                 this->networkTiming458.frameStartTime = timeGetTime();
             }
@@ -350,10 +350,12 @@ HOST_WAIT_STATE_CHECK:
                 g_NetworkFramePacket.words.input,
                 static_cast<short>(g_NetworkFramePacket.seed));
         }
+        frameNetwork = g_SupervisorNetworkState;
     }
 
-    // Query the other playable side using the live network-side DWORD.
-    if (!this->AreFrameQueuesSynchronized(1 - g_SupervisorNetworkState->localSide))
+    // Publishing and prediction can replace the receiver. The bypass path
+    // carries the receiver already selected by the session phase.
+    if (!this->AreFrameQueuesSynchronized(1 - frameNetwork->localSide))
     {
         DWORD now = timeGetTime();
         this->networkTiming458.waitTime = now;

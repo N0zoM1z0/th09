@@ -3286,26 +3286,29 @@ DWORD reloads at EBP-0x14 and EBP-0x12 and the EDI/EBX lifetimes through
 the final OR. The `ApplyNetworkInput` interface still consumes a word.
 Testing the flag byte's high bit recovers the native JNS.
 
-The 1,633-byte candidate has 282 masked differences and 389 after
-relocation replay. All 106 types and destinations bind, including 41
-relative calls and both timer imports. Seventy-eight fields match at
-their original offsets. The standalone frontier still reports REGRESSED
-against the 1,629-byte baseline.
+The 1,633-byte candidate has 12 differing bytes after relocation replay.
+All 106 relocation positions, types, and destinations agree, including
+41 relative calls and both timer imports. The first difference is at
+`+0x626`, where the call argument loads from EBP-0x14 into EDX. The
+original loads EDI first and then copies it to EDX. The second input has
+the corresponding difference with EBX at EBP-0x12. The standalone
+frontier still reports REGRESSED against the 1,629-byte baseline.
 
-The first difference is the +0x256 branch displacement. Instructions
-align through +0x3F7 after accounting for branches into the tail. The
-original loads the readiness receiver into EDI at +0x3F8 and falls
-through to the retry block at +0x408 when no packet is ready. The
-candidate uses a one-byte-shorter EAX reload and falls through at
-+0x407. Each retry branch now sets the result before entering the
-shared cleanup. VC7.1 emits the short JNE after checking readiness
-and merges the later timeout at +0x553 into a backward JBE to the
-early retry. C2 already presents the retry-result assignment in the
-block immediately following the readiness branch at allocator entry.
-The remaining work includes the readiness receiver, the receiver and
-timer reload at +0x50A on paths that publish or predict a frame, and
-the final PopFrame argument and store order. The packet publish
-instructions align after allowing for the shifted addresses.
+The readiness jump at `+0x2E7` targets `+0x3FE`. It passes over the
+receiver reload at `+0x3F8` when the initial frames are already queued.
+Reloading the receiver only when handshake completes, then using it for
+both readiness and local input, reproduces that edge. Reloading it again
+after publishing or predicting a frame lets the skipped phase enter the
+queue check at `+0x516` with its existing receiver and clock. This
+recovers the original 0x14 stack frame, the two direct timeGetTime calls
+during publication, the receiver and timer reload order at `+0x50A`,
+and the full PopFrame argument and store order.
+
+Each retry branch sets the result before entering the shared cleanup.
+VC7.1 emits the short JNE at `+0x406` after checking readiness and
+merges the timeout at `+0x554` into a backward JBE to the early retry.
+C2 presents the retry-result assignment in the block immediately
+following the readiness branch at allocator entry.
 
 Making the exact PopFrame body co-visible changed the later layout
 and register scheduling without changing the call inventory. Making
@@ -3317,16 +3320,25 @@ and giving both modes their own copy of the publication path did not
 recover the register choice. Co-visible definitions of DrawTextCentered,
 GetInput, ApplyNetworkInput and the lock and session helpers left the
 candidate bytes and references unchanged. Reloading the receiver after
-both publication paths produced the correct EDI readiness read in a
-control but kept the clock in EBX across frame prediction. The resulting
-frame-counter spill at EBP-4 displaced the scratch record and grew the
-frame to 0x18 bytes.
+both publication paths alone gave the shared network pointer EDI in the
+C2 allocator and assigned a timer-import partition across the prediction
+interval to EBX. The resulting frame-counter spill at EBP-4 displaced the
+scratch record and grew the frame to 0x18 bytes. Tying the readiness and
+controller-side reads to the conditional receiver restored the original
+allocation through the queue check.
 
-A standalone input array produced the original EDI/EBX first loads and
-the two fastcall argument moves. VC7.1 placed it at EBP-8 and EBP-6,
-moving the PopFrame scratch and result DWORD as well. A reference to
-the existing frame-timing record preserved both the maintained
-candidate and the receiver-refresh control byte for byte.
+A standalone input array produces the original EDI/EBX first loads and
+the two fastcall argument moves. VC7.1 places it at EBP-8 and EBP-6 and
+moves the PopFrame outputs and result DWORD by eight bytes. That
+control has 16 differing stack displacements and otherwise matches
+the original through all 1,633 bytes and 106 relocations. With the
+shared scratch record, C2 assigns the named snapshots to EDI and EBX
+and assigns distinct scratch-derived arguments to EDX. Reading both
+inputs before either call moves the first ApplyNetworkInput relocation.
+In the standalone control, the source-symbol displacements survive
+global register allocation. C2 rewrites them during stack layout in
+`0x10790AD6` at the store at `0x10790EB5`. It assigns the input
+array at EBP-8 first and the scratch record at EBP-0x14 second.
 
 A debugger trace of the maintained carrier reached the pinned C2
 allocator and skipped the profile-guided trace-formation entry.
