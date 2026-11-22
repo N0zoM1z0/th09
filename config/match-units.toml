@@ -6934,7 +6934,7 @@ relocations = []
 [units.screen-effect-clear]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::Clear"]
 symbol = "?Clear@ScreenEffect@@SIXI@Z"
 target_address = 0x00422200
@@ -6953,7 +6953,7 @@ relocations = [
 [units.screen-effect-set-viewport]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::SetViewport"]
 symbol = "?SetViewport@ScreenEffect@@SIXI@Z"
 target_address = 0x00422290
@@ -6969,7 +6969,7 @@ relocations = [
 [units.screen-effect-calc-fade-in]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::CalcFadeIn"]
 symbol = "?CalcFadeIn@ScreenEffect@@SIHPAU1@@Z"
 target_address = 0x004222C0
@@ -6986,7 +6986,7 @@ relocations = [
 [units.screen-effect-calc-fade-out]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::CalcFadeOut"]
 symbol = "?CalcFadeOut@ScreenEffect@@SIHPAU1@@Z"
 target_address = 0x00422470
@@ -7005,7 +7005,7 @@ relocations = [
 [units.screen-effect-calc-fade-hold]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::CalcFadeHold"]
 symbol = "?CalcFadeHold@ScreenEffect@@SIHPAU1@@Z"
 target_address = 0x004224F0
@@ -7027,7 +7027,7 @@ relocations = [
 [units.screen-effect-calc-arcade-pulse]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::CalcArcadePulse"]
 symbol = "?CalcArcadePulse@ScreenEffect@@SIHPAU1@@Z"
 target_address = 0x004225B0
@@ -7045,7 +7045,7 @@ relocations = [
 [units.screen-effect-calc-shake]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::CalcShake"]
 symbol = "?CalcShake@ScreenEffect@@SIHPAU1@@Z"
 target_address = 0x00422660
@@ -7072,7 +7072,7 @@ relocations = [
 [units.screen-effect-calc-shake-envelope]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::CalcShakeEnvelope"]
 symbol = "?CalcShakeEnvelope@ScreenEffect@@SIHPAU1@@Z"
 target_address = 0x004227A0
@@ -7103,7 +7103,7 @@ relocations = [
 [units.screen-effect-initialize-timer]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::InitializeTimer"]
 symbol = "?InitializeTimer@ScreenEffect@@SIHPAU1@@Z"
 target_address = 0x004228F0
@@ -7115,7 +7115,7 @@ relocations = [
 [units.screen-effect-delete]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::DeleteScreenEffect"]
 symbol = "?DeleteScreenEffect@ScreenEffect@@SIHPAU1@@Z"
 target_address = 0x00422900
@@ -7129,7 +7129,7 @@ relocations = [
 [units.screen-effect-begin-fade-release]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::BeginFadeRelease"]
 symbol = "?BeginFadeRelease@ScreenEffect@@QAEXXZ"
 target_address = 0x00422930
@@ -7141,7 +7141,7 @@ relocations = [
 [units.screen-effect-constructor]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::ScreenEffect"]
 symbol = "??0ScreenEffect@@QAE@XZ"
 target_address = 0x00422950
@@ -7153,7 +7153,7 @@ relocations = [
 [units.screen-effect-draw-full-fade]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::DrawFullFade"]
 symbol = "?DrawFullFade@ScreenEffect@@SIHPAU1@@Z"
 target_address = 0x00422B70
@@ -7169,7 +7169,7 @@ relocations = [
 [units.screen-effect-draw-arcade-fade]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::DrawArcadeFade"]
 symbol = "?DrawArcadeFade@ScreenEffect@@SIHPAU1@@Z"
 target_address = 0x00422BD0
@@ -7181,7 +7181,7 @@ relocations = [
 [units.screen-effect-draw-partial-fade]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::DrawPartialFade"]
 symbol = "?DrawPartialFade@ScreenEffect@@SIHPAU1@@Z"
 target_address = 0x00422C10
@@ -7193,7 +7193,7 @@ relocations = [
 [units.screen-effect-draw-split-fade]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::DrawSplitFade"]
 symbol = "?DrawSplitFade@ScreenEffect@@SIHPAU1@@Z"
 target_address = 0x00422C50
@@ -7206,7 +7206,7 @@ relocations = [
 [units.screen-effect-draw-arcade-pulse]
 source = "src/ScreenEffect.cpp"
 object = "build/matching/ScreenEffect.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::DrawArcadePulse"]
 symbol = "?DrawArcadePulse@ScreenEffect@@SIHPAU1@@Z"
 target_address = 0x00422CD0
@@ -12659,8 +12659,8 @@ size = 0x65
 relocations = []
 
 [units.supervisor-setup-loading-vms-and-capture]
-source = "src/GameManagerSetup.cpp"
-object = "build/matching/GameManagerSetupNoOs.obj"
+source = "src/SupervisorLoadingTransitions.cpp"
+object = "build/matching/SupervisorLoadingTransitions.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["SupervisorSetupLayout::SetupLoadingVmsAndInitCapture"]
 symbol = "?SetupLoadingVmsAndInitCapture@SupervisorSetupLayout@@QAEXPAUSetupLoadingPosition@@@Z"
@@ -19320,8 +19320,8 @@ relocations = [
 
 [units.screen-effect-register-chain]
 source = "src/ScreenEffect.cpp"
-object = "build/matching/ScreenEffectRegister.obj"
-profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/ScreenEffect.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::RegisterChain"]
 symbol = "?RegisterChain@ScreenEffect@@SIPAU1@W4ScreenEffectType@@HHHHHH@Z"
 target_address = 0x00422D20
@@ -19456,8 +19456,8 @@ relocations = [
 
 [units.screen-effect-draw-square]
 source = "src/ScreenEffect.cpp"
-object = "build/matching/ScreenEffectDrawSquare.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+object = "build/matching/ScreenEffect.obj"
+profile = ["/MT", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["ScreenEffect::DrawSquare"]
 symbol = "?DrawSquare@ScreenEffect@@SIXPAUScreenEffectRect@@I@Z"
 target_address = 0x00422960

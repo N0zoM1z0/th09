@@ -1005,28 +1005,6 @@ setup_failed:
     g_SetupStatus = 2;
 }
 
-void SupervisorSetupLayout::SetupLoadingVmsAndInitCapture(
-    SetupLoadingPosition *position)
-{
-    if (loadingVmsHaveBeenSetup == 0)
-    {
-        loadingAnm5D0->ExecuteAnmIdx(&g_SupervisorLoadingVms[0], 0);
-        loadingAnm5D0->ExecuteAnmIdx(&g_SupervisorLoadingVms[1], 1);
-        loadingAnm5D0->ExecuteAnmIdx(&g_SupervisorLoadingVms[2], 2);
-        loadingVmsHaveBeenSetup = 1;
-
-        g_SupervisorLoadingVms[0].pos =
-            *reinterpret_cast<Float3 *>(position);
-        g_SupervisorLoadingVms[1].pos =
-            *reinterpret_cast<Float3 *>(position);
-        g_SupervisorLoadingVms[2].pos =
-            *reinterpret_cast<Float3 *>(position);
-    }
-
-    reinterpret_cast<AnmCaptureRequestView *>(g_AnmManager)
-        ->QueueCaptureRequest(8, 0, 0, 640, 480, 0, 0, 640, 480);
-}
-
 void __fastcall ResetGameManager(GameManagerSetupLayout *manager)
 {
     for (int i = 0; i < 3; ++i)
