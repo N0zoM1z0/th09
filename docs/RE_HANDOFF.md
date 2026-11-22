@@ -179,7 +179,8 @@ git diff --check
 
 ## Private inputs and storage
 
-Preserve the original `resources/th09.exe` and game data, `.tools/`, the
+Preserve the original `resources/th09.exe` and game data (`resources/th09.dat`,
+`resources/th09.cfg`), `.tools/`, the
 `_reference/` checkout, the active Ghidra project
 `.analysis/ghidra-direct/243bffea8dcbe99a/`, and `.analysis/factory-runtime/`.
 These include this game's toolchain, runtime selectors and Wine state.
@@ -193,5 +194,8 @@ retained top-level allocator reports. The small compiler context comprises
 `PlayerCollisionHelpers.natural-preheader-842.cpp`, and
 `PlayerCollisionHelpers.nested-three-loop-849.cpp` controls under
 `.analysis/`. They retain allocator traces and CFG controls for unresolved
-work. Rebuild selected objects when `build/` is absent. Keep cleanup scoped
+work. `.analysis/closure/` keeps the ECL `/Ob0` macro attempt
+(`ecl-macro-ob0.patch`, regenerable with `macroize.py`). Rebuild selected
+objects when `build/` is absent; the game-run Wine prefix
+(`.analysis/game-prefix`) is recreated on first use. Keep cleanup scoped
 to identified disposable outputs. [Shared tools](SHARED_TOOLS.md)

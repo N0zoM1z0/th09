@@ -68,10 +68,11 @@ python3 -B scripts/report-reconstruction-status.py
 source work, all nonexact owners and focused comparison commands.
 [docs/KNOWLEDGE_BASE.md](docs/KNOWLEDGE_BASE.md) keeps verified findings,
 current blockers and useful failed approaches. The candidate inventory is not
-proven complete; the native Windows product is not yet linked/runtime-validated.
+proven complete. A trial whole-image link runs under Wine, but it still borrows
+generated data and view aliases; the faithful Windows product is open.
 
 Only rebuild and compare affected complete owners and their dependencies.
-Use `gpt-web: <English summary>` for coherent local checkpoints and preserve
+Use `claude-opus-5.5: <English summary>` for coherent local checkpoints and preserve
 dirty/untracked operator work. `config/build.toml` records open whole-product
 questions; exact functions do not establish that graph.
 

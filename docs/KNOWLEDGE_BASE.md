@@ -1711,10 +1711,12 @@ grows the owner to 1,916 bytes.
 
 ### Retained compiler controls
 
-The ignored `.analysis/movement-focus/` directory contains the merged
-direction, fresh-side and mode-reference sources with their GDB trace
-recipes. These reproduce the distinct allocation and address-lowering
-paths for the unresolved owner. `probe.py` checks the target and
+The ignored `.analysis/movement-focus/` directory keeps the merged
+direction control (`focus-order-control.cpp`), a copy of the maintained
+source and the GDB trace recipes. The fresh-side and mode-reference
+control sources were removed in the 2026-11-22 cleanup; the sections
+above describe their shapes and results. Rebuild them from those notes
+before tracing their allocation paths again. `probe.py` checks the target and
 compiler inputs and replays complete function objects through their
 COFF fields. `trace-run.py` compiles a selected source under the
 pinned profile and supplies its object and trace. The checkout's
@@ -1740,6 +1742,44 @@ Secondary trace recipes cover the slot MOV replacement in
 `address-walk` and the post-charge control in `peer-scheduling`.
 Debugger-built objects were compared with their cold counterparts over
 each tested extent and all its fields.
+
+## 2026-11-22 whole-image link findings
+
+These conclusions come from linking every canonical carrier with the
+pinned VC7.1 linker (`scripts/trial-link.py`). Each source change was
+checked by a cold scoped replay of its carriers.
+
+- One profile per carrier. Twelve multi-profile sources unify directly.
+  AnmManagerLoad, CardAttack, PlayerRuntime, AnmManagerRuntime and
+  ScreenEffect needed two profiles only because reconstruction-local
+  accessor helpers relied on inline expansion. Writing those expressions
+  directly lets one `/Ob0` profile reproduce every unit. Under `/Ob0`, the
+  real D3DX8 inline vector helpers, `sinf`/`cosf` and member array
+  constructors stay out-of-line calls, as in the original.
+- Header inline bodies as COMDATs. `MidiOutput::PlayFile` (0x00423361),
+  `InputView::IsPressedScrolling` (0x00423158) and
+  `AnmManager::SpriteHasTexture` (0x00423469) are inline bodies that the
+  `/O1` Title unit emitted out of line. A visible body still changes a
+  caller's register allocation. For example, `SetInterruptArray` needs
+  `SpriteHasTexture` visible but not expanded.
+- Real classes reproduce compiler-generated members. The real
+  `DummyMidiTimer`, with no user-declared destructor, emits its
+  constructor, implicit destructor and scalar deleting destructor. They
+  match 0x0042F3B0, 0x0042F3F0 and 0x00431680 byte for byte. The deleting
+  destructor appears only in a `/Ob0` caller. A user-declared destructor
+  adds a vtable store, and the original has none.
+- D3DX8 linkage. Calls must bind to the SDK's C entry points
+  (`_D3DX...@N`). TH09 strides `D3DXIMAGE_INFO` by 0x14 bytes, the
+  DirectX 8.0 layout. The pinned SDK's 8.1 layout is 0x1C bytes.
+- Data identity. Reversing the labelled data blocks found globals that
+  were really fields of larger objects: the score table's name column,
+  the score record's date, GameWindow's power flags and the character
+  resource table's ECL column. Splitting them works in the original
+  layout and fails in the reversed one. Third-party LZSS code addresses
+  the inside of its tables, so its operands must not mark object starts.
+- Attract-mode RNG state is not reproducible across runs of the original.
+  A debugger stop per frame also perturbs timing. A behavioural trace
+  needs replay-driven input.
 
 ## ChargeAttack entry-register and timer-reuse probes (2026-11-19)
 

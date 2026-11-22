@@ -181,7 +181,7 @@ and the existing compiler/analysis frontends. Keep this game's prefix, project,
 Java home/cache, target and compiler profile isolated. Do not install duplicate
 tools or inherit another game's `WINEPREFIX`.
 
-Create concise coherent local commits prefixed `gpt-web: ...` after substantive
+Create concise coherent local commits prefixed `claude-opus-5.5: ...` after substantive
 advances. Report local checkpoints separately from independently verified remote
 state. Never commit original executables/game data, analyzer databases,
 toolchains, generated decompiler output, credentials or private endpoints.
