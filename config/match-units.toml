@@ -6186,8 +6186,8 @@ relocations = [
 
 [units.anm-manager-create-empty-texture]
 source = "src/AnmManagerLoad.cpp"
-object = "build/matching/AnmManagerLoad.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::CreateEmptyTexture"]
 symbol = "?CreateEmptyTexture@AnmManager@@QAEHPAPAUIDirect3DTexture8@@HHH@Z"
 target_address = 0x0043BBA0
@@ -6200,8 +6200,8 @@ relocations = [
 
 [units.anm-manager-load-external-texture-data]
 source = "src/AnmManagerLoad.cpp"
-object = "build/matching/AnmManagerLoad.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::LoadExternalTextureData"]
 symbol = "?LoadExternalTextureData@AnmManager@@QAEHPAVAnmLoaded@@HPAH1PAUAnmRawEntry@@@Z"
 target_address = 0x0043BBE0
@@ -6219,8 +6219,8 @@ relocations = [
 
 [units.anm-manager-release-anm-entry]
 source = "src/AnmManagerLoad.cpp"
-object = "build/matching/AnmManagerLoad.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::ReleaseAnmEntry"]
 symbol = "?ReleaseAnmEntry@AnmManager@@QAEXPAUAnmEntry@@@Z"
 target_address = 0x0043BC80
@@ -6232,8 +6232,8 @@ relocations = [
 
 [units.anm-loaded-load-sprite]
 source = "src/AnmManagerLoad.cpp"
-object = "build/matching/AnmManagerLoad.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmLoaded::LoadSprite"]
 symbol = "?LoadSprite@AnmLoaded@@QAEXHPAVAnmLoadedSprite@@@Z"
 target_address = 0x0043BCB0
@@ -6243,8 +6243,8 @@ relocations = [
 
 [units.anm-get-format]
 source = "src/AnmManagerLoad.cpp"
-object = "build/matching/AnmManagerLoad.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmGetFormat"]
 symbol = "?AnmGetFormat@@YIHH@Z"
 target_address = 0x0043C430
@@ -6257,8 +6257,8 @@ relocations = [
 
 [units.anm-manager-create-texture-from-file]
 source = "src/AnmManagerLoad.cpp"
-object = "build/matching/AnmManagerLoad.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::CreateTextureFromFile"]
 symbol = "?CreateTextureFromFile@AnmManager@@QAEHPAUAnmEntry@@HH@Z"
 target_address = 0x0043C470
@@ -6272,8 +6272,8 @@ relocations = [
 
 [units.anm-manager-create-texture-from-anm]
 source = "src/AnmManagerLoad.cpp"
-object = "build/matching/AnmManagerLoad.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::CreateTextureFromAnm"]
 symbol = "?CreateTextureFromAnm@AnmManager@@QAEHPAPAUIDirect3DTexture8@@PAUAnmTextureHeader@@H@Z"
 target_address = 0x0043C4C0
@@ -6291,8 +6291,8 @@ relocations = [
 
 [units.anm-manager-preload-anm]
 source = "src/AnmManagerLoad.cpp"
-object = "build/matching/AnmManagerLoad.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::PreloadAnm"]
 symbol = "?PreloadAnm@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z"
 target_address = 0x0043C7A0
@@ -6306,8 +6306,8 @@ relocations = [
 
 [units.anm-manager-load-texture-data]
 source = "src/AnmManagerLoad.cpp"
-object = "build/matching/AnmManagerLoad.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::LoadTextureData"]
 symbol = "?LoadTextureData@AnmManager@@QAEHPAVAnmLoaded@@HHHPAUAnmRawEntry@@@Z"
 target_address = 0x0043C800
@@ -6333,8 +6333,8 @@ relocations = [
 
 [units.anm-manager-release-anm]
 source = "src/AnmManagerLoad.cpp"
-object = "build/matching/AnmManagerLoad.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::ReleaseAnm"]
 symbol = "?ReleaseAnm@AnmManager@@QAEXH@Z"
 target_address = 0x0043CA30
@@ -6353,8 +6353,8 @@ relocations = [
 
 [units.anm-manager-postload-anm-entry]
 source = "src/AnmManagerLoad.cpp"
-object = "build/matching/AnmManagerLoad.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::PostloadAnmEntry"]
 symbol = "?PostloadAnmEntry@AnmManager@@QAEPAVAnmLoaded@@PAV2@@Z"
 target_address = 0x0043CD40
@@ -6365,8 +6365,8 @@ relocations = [
 
 [units.anm-manager-service-preloaded-anims]
 source = "src/AnmManagerLoad.cpp"
-object = "build/matching/AnmManagerLoad.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::ServicePreloadedAnims"]
 symbol = "?ServicePreloadedAnims@AnmManager@@QAEHXZ"
 target_address = 0x0043CDD0
@@ -6378,8 +6378,8 @@ relocations = [
 
 [units.anm-manager-load-anm]
 source = "src/AnmManagerLoad.cpp"
-object = "build/matching/AnmManagerLoad.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::LoadAnm"]
 symbol = "?LoadAnm@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z"
 target_address = 0x0043CF90
@@ -7628,8 +7628,8 @@ relocations = [
 
 [units.player-check-state-4]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerCheckState4"]
 symbol = "?PlayerCheckState4@@YIHPAUPlayerLifecycleView@@@Z"
 target_address = 0x0041E720
@@ -7663,8 +7663,8 @@ relocations = [
 
 [units.player-update-stage-c]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerUpdateStageC"]
 symbol = "?PlayerUpdateStageC@@YIHPAUPlayerLifecycleView@@@Z"
 target_address = 0x0041E8B0
@@ -7759,8 +7759,8 @@ relocations = [
 
 [units.player-on-update]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerLifecycleView::OnUpdate"]
 symbol = "?OnUpdate@PlayerLifecycleView@@SIHPAU1@@Z"
 target_address = 0x0041E900
@@ -7827,8 +7827,8 @@ relocations = [
 
 [units.player-draw-high-prio]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerLifecycleView::OnDrawHighPrio"]
 symbol = "?OnDrawHighPrio@PlayerLifecycleView@@SIHPAU1@@Z"
 target_address = 0x0041EB10
@@ -7851,8 +7851,8 @@ relocations = [
 
 [units.player-draw-low-prio]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerLifecycleView::OnDrawLowPrio"]
 symbol = "?OnDrawLowPrio@PlayerLifecycleView@@SIHPAU1@@Z"
 target_address = 0x0041CDC0
@@ -7936,8 +7936,8 @@ relocations = [
 
 [units.player-draw-active-shots]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerLifecycleView::DrawActiveShots"]
 symbol = "?DrawActiveShots@PlayerLifecycleView@@QAEXXZ"
 target_address = 0x0041F680
@@ -7954,8 +7954,8 @@ relocations = [
 
 [units.player-draw-hit-shots]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerLifecycleView::DrawHitShots"]
 symbol = "?DrawHitShots@PlayerLifecycleView@@QAEXXZ"
 target_address = 0x0041F760
@@ -9895,8 +9895,8 @@ relocations = [
 # these units are target-bound to TH09 and use function-focused VC7.1 profiles.
 [units.card-attack-end-callbacks]
 source = "src/CardAttack.cpp"
-object = "build/matching/CardAttack.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/CardAttackCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["CardAttack::RunEndCallbacks"]
 symbol = "?RunEndCallbacks@@YIHPAUCardAttack@@@Z"
 target_address = 0x00403D60
@@ -9905,8 +9905,8 @@ relocations = []
 
 [units.card-attack-refresh-resource]
 source = "src/CardAttack.cpp"
-object = "build/matching/CardAttack.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/CardAttackCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["CardAttack::RefreshResource"]
 symbol = "?RefreshResource@CardAttack@@QAEXXZ"
 target_address = 0x00403D80
@@ -9917,8 +9917,8 @@ relocations = [
 
 [units.card-attack-added-callback]
 source = "src/CardAttack.cpp"
-object = "build/matching/CardAttack.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/CardAttackCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["CardAttack::AddedCallback"]
 symbol = "?AddedCallback@CardAttack@@SIHPAU1@@Z"
 target_address = 0x00404560
@@ -9929,8 +9929,8 @@ relocations = [
 
 [units.card-attack-destroy]
 source = "src/CardAttack.cpp"
-object = "build/matching/CardAttack.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/CardAttackCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["CardAttack::Destroy"]
 symbol = "?Destroy@CardAttack@@SIXPAU1@@Z"
 target_address = 0x00404570
@@ -9962,8 +9962,8 @@ relocations = [
 
 [units.card-attack-create]
 source = "src/CardAttack.cpp"
-object = "build/matching/CardAttack.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/CardAttackCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["CardAttack::Create"]
 symbol = "?Create@CardAttack@@SIPAU1@H@Z"
 target_address = 0x00404600
@@ -11330,8 +11330,8 @@ relocations = []
 
 [units.player-spawn-reward-tail-state]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerLifecycleView::SpawnRewardTailState"]
 symbol = "?SpawnRewardTailState@PlayerLifecycleView@@QAEXHPAUPlayerPositionView@@@Z"
 target_address = 0x0041DB90
@@ -11343,8 +11343,8 @@ relocations = [
 
 [units.player-draw-tail-states]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerLifecycleView::DrawTailStates"]
 symbol = "?DrawTailStates@PlayerLifecycleView@@QAEXXZ"
 target_address = 0x0041DF80
@@ -11374,8 +11374,8 @@ relocations = [
 
 [units.player-update-owner-state]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerUpdateOwnerState"]
 symbol = "?PlayerUpdateOwnerState@@YIXPAX@Z"
 target_address = 0x0041D760
@@ -11574,8 +11574,8 @@ relocations = [
 
 [units.anm-manager-load-surface]
 source = "src/AnmManagerLoad.cpp"
-object = "build/matching/AnmManagerLoad.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::LoadSurface"]
 symbol = "?LoadSurface@AnmManager@@QAEHHPBD@Z"
 target_address = 0x0043CAE0
@@ -11605,8 +11605,8 @@ relocations = [
 
 [units.anm-manager-preload-surface]
 source = "src/AnmManagerLoad.cpp"
-object = "build/matching/AnmManagerLoad.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::PreloadSurface"]
 symbol = "?PreloadSurface@AnmManager@@QAEHHPBD@Z"
 target_address = 0x0043CCD0
@@ -11651,8 +11651,8 @@ relocations = [
 
 [units.player-add-respawn-resource]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerLifecycleView::AddRespawnResource"]
 symbol = "?AddRespawnResource@PlayerLifecycleView@@QAEXM@Z"
 target_address = 0x0041BC90
@@ -11682,8 +11682,8 @@ relocations = [
 
 [units.player-update-before-state]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerLifecycleView::UpdateBeforeState"]
 symbol = "?UpdateBeforeState@PlayerLifecycleView@@QAEXXZ"
 target_address = 0x0041DC20
@@ -11819,8 +11819,8 @@ relocations = [
 
 [units.player-transition-special]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerTransitionSpecial"]
 symbol = "?PlayerTransitionSpecial@@YIXPAUPlayerLifecycleView@@@Z"
 target_address = 0x0041CB50
@@ -11844,8 +11844,8 @@ relocations = [
 
 [units.player-update-common]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerUpdateCommon"]
 symbol = "?PlayerUpdateCommon@@YIXPAUPlayerLifecycleView@@@Z"
 target_address = 0x0041CC80
@@ -11969,8 +11969,8 @@ relocations = [
 
 [units.player-update-stage-d]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerUpdateStageD"]
 symbol = "?PlayerUpdateStageD@@YIXPAUPlayerLifecycleView@@@Z"
 target_address = 0x0041BA80
@@ -18425,8 +18425,8 @@ relocations = [
 
 [units.player-load-sht-file]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntimeLoadSht.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["LoadPlayerShtFile"]
 symbol = "?LoadPlayerShtFile@@YIHPAPAUPlayerShtFileView@@PBD@Z"
 target_address = 0x0041BBE0
@@ -18501,8 +18501,8 @@ relocations = [
 
 [units.player-update-collision-regions]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntimeCollisionRegions.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["UpdatePlayerCollisionRegions"]
 symbol = "?UpdatePlayerCollisionRegions@@YIXPAUPlayerLifecycleView@@@Z"
 target_address = 0x0041C8E0
@@ -18514,8 +18514,8 @@ relocations = [
 
 [units.card-attack-on-draw]
 source = "src/CardAttack.cpp"
-object = "build/matching/CardAttackOnDraw.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/CardAttackCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["CardAttack::OnDraw"]
 symbol = "?OnDraw@CardAttack@@SIHPAU1@@Z"
 target_address = 0x00404410
@@ -18542,8 +18542,8 @@ relocations = [
 
 [units.card-attack-on-update]
 source = "src/CardAttack.cpp"
-object = "build/matching/CardAttackOnUpdate.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/CardAttackCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["CardAttack::OnUpdate"]
 symbol = "?OnUpdate@CardAttack@@SIHPAU1@@Z"
 target_address = 0x004041F0
@@ -18575,8 +18575,8 @@ relocations = [
 
 [units.player-update-bomb-state]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntimeBombState.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["UpdatePlayerBombState"]
 symbol = "?UpdatePlayerBombState@@YIXPAUPlayerLifecycleView@@@Z"
 target_address = 0x0041CA00
@@ -19301,8 +19301,8 @@ relocations = [
 
 [units.player-update-shots]
 source = "src/PlayerRuntime.cpp"
-object = "build/matching/PlayerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/PlayerRuntimeCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["PlayerLifecycleView::UpdateShots"]
 symbol = "?UpdateShots@PlayerLifecycleView@@QAEXXZ"
 target_address = 0x0041F580
@@ -19973,8 +19973,8 @@ relocations = [
 ]
 [units.anm-manager-read-anm-entries]
 source = "src/AnmManagerLoad.cpp"
-object = "build/matching/AnmManagerLoad.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+object = "build/matching/AnmManagerCtor.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::ReadAnmEntries"]
 symbol = "?ReadAnmEntries@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z"
 target_address = 0x0043C610

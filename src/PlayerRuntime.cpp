@@ -462,11 +462,6 @@ static void PlayerTransitionSpecial(PlayerLifecycleView *player)
 }
 
 
-static __inline Effect *&PlayerStateEffect(PlayerLifecycleView *player)
-{
-    return player->stateEffect303E0;
-}
-
 static void PlayerUpdateCommon(PlayerLifecycleView *player)
 {
     int &transitionCounter =
@@ -476,19 +471,19 @@ static void PlayerUpdateCommon(PlayerLifecycleView *player)
 
     if (player->GetUpdateState() == 3)
     {
-        if (PlayerStateEffect(player) != NULL)
+        if (player->stateEffect303E0 != NULL)
         {
-            PlayerStateEffect(player)->position =
+            player->stateEffect303E0->position =
                 *reinterpret_cast<EffectFloat3 *>(&player->position1B88);
         }
 
         player->timer303C8.operator--(0);
         if (static_cast<int>(player->timer303C8) <= 0)
         {
-            if (PlayerStateEffect(player) != NULL)
+            if (player->stateEffect303E0 != NULL)
             {
-                PlayerStateEffect(player)->active = 0;
-                PlayerStateEffect(player) = NULL;
+                player->stateEffect303E0->active = 0;
+                player->stateEffect303E0 = NULL;
             }
             player->SetUpdateState(0);
             player->timer303C8 = 0;

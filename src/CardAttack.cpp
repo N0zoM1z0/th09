@@ -31,18 +31,6 @@ void CardAttack::RefreshResource()
     this->presentationAnm14 = g_CardAttackResource->anm08;
 }
 
-static __forceinline void PrepareCardAttackPresentation(CardAttack *cardAttack)
-{
-    cardAttack->presentationAnm14->SetAndExecuteScriptIdx(
-        &cardAttack->mainVms0AC[0], cardAttack->sideIndex00 + 18);
-    g_CardAttackTextAnm->SetSprite(
-        &cardAttack->mainVms0AC[1], cardAttack->sideIndex00 + 4);
-    cardAttack->mainVms0AC[1].scale.x = 1.0f;
-    cardAttack->mainVms0AC[1].scale.y = 1.0f;
-    g_AnmManager->DrawTextCentered(
-        &cardAttack->mainVms0AC[1], 0x00FFFFFE, 0, cardAttack->text18);
-}
-
 int CardAttack::OnUpdate(CardAttack *cardAttack)
 {
     if (cardAttack->primaryPresentationCounterA4 >= 2)
@@ -50,7 +38,14 @@ int CardAttack::OnUpdate(CardAttack *cardAttack)
         if (cardAttack->secondaryUpdate1334 == NULL &&
             cardAttack->primaryUpdate1328 != NULL)
         {
-            PrepareCardAttackPresentation(cardAttack);
+            cardAttack->presentationAnm14->SetAndExecuteScriptIdx(
+                &cardAttack->mainVms0AC[0], cardAttack->sideIndex00 + 18);
+            g_CardAttackTextAnm->SetSprite(
+                &cardAttack->mainVms0AC[1], cardAttack->sideIndex00 + 4);
+            cardAttack->mainVms0AC[1].scale.x = 1.0f;
+            cardAttack->mainVms0AC[1].scale.y = 1.0f;
+            g_AnmManager->DrawTextCentered(
+                &cardAttack->mainVms0AC[1], 0x00FFFFFE, 0, cardAttack->text18);
         }
         cardAttack->primaryPresentationCounterA4 = 0;
     }
@@ -58,7 +53,16 @@ int CardAttack::OnUpdate(CardAttack *cardAttack)
     if (cardAttack->secondaryPresentationCounterA8 >= 2)
     {
         if (cardAttack->secondaryUpdate1334 != NULL)
-            PrepareCardAttackPresentation(cardAttack);
+        {
+            cardAttack->presentationAnm14->SetAndExecuteScriptIdx(
+                &cardAttack->mainVms0AC[0], cardAttack->sideIndex00 + 18);
+            g_CardAttackTextAnm->SetSprite(
+                &cardAttack->mainVms0AC[1], cardAttack->sideIndex00 + 4);
+            cardAttack->mainVms0AC[1].scale.x = 1.0f;
+            cardAttack->mainVms0AC[1].scale.y = 1.0f;
+            g_AnmManager->DrawTextCentered(
+                &cardAttack->mainVms0AC[1], 0x00FFFFFE, 0, cardAttack->text18);
+        }
         cardAttack->secondaryPresentationCounterA8 = 0;
     }
 
