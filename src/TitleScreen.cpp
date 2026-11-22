@@ -20,6 +20,7 @@ typedef char TitleResultNativeFieldLayout[
 
 #include "AsciiManager.hpp"
 #include "AnmManager.hpp"
+#include "Midi.hpp"
 #include "SoundPlayer.hpp"
 #include "Supervisor.hpp"
 #include "SupervisorThreadStartView.hpp"
@@ -189,9 +190,6 @@ struct TitleAsciiManagerView {
     void InitializeVms();
 };
 
-struct TitleMidiOutputView {
-    void PlayFile(i32 track);
-};
 
 #include "TitleScoreRecordView.hpp"
 
@@ -262,7 +260,7 @@ extern u32 g_TitleGameFlags;
 extern TitleSupervisorView g_TitleSupervisor;
 extern AsciiManager g_AsciiManager;
 extern Chain g_Chain;
-extern TitleMidiOutputView *g_TitleMidiOutput;
+extern MidiOutput *g_MidiOutput;
 extern u8 g_TitleLockedMenuItem;
 extern i32 g_TitleModeSelection;
 extern u8 g_TitleDifficulty;
@@ -3241,7 +3239,7 @@ int TitleScreenView::OnUpdateStartMenu()
                     stateTimer = 0;
                     g_AnmManager->SetInterruptArray(vms, vmCount, 1);
                     if (g_OptionC == 2)
-                        g_TitleMidiOutput->PlayFile(30);
+                        g_MidiOutput->PlayFile(30);
                     break;
                 }
             }

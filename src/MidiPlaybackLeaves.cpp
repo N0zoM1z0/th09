@@ -1,10 +1,5 @@
 #include "Midi.hpp"
 
-void __fastcall EmitMidiPlayFileByIndex(MidiOutput *midiOutput, int index)
-{
-    midiOutput->PlayFile(index);
-}
-
 struct MidiPlaybackPathView : MidiOutput
 {
     void PlayPath(const char *path);
