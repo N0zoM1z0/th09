@@ -216,7 +216,7 @@ def link(reverse: bool = False) -> None:
     aliases = alias_table(index)
     aliases.update(product.get('library_data', {}))
     data = ROOT / 'build/product' / ('ProductDataReversed.obj' if reverse else 'ProductData.obj')
-    extra = [str(data)] if data.is_file() else []
+    extra = [str(path) for path in (data, ROOT / 'build/product/ProductResources.res') if path.is_file()]
     extra = [winpath(env, Path(path))[0] for path in extra]
     (OUT / 'aliases.json').write_text(json.dumps(aliases, indent=1, sort_keys=True))
     print('address-bound aliases', len(aliases))

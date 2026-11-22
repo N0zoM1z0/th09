@@ -79,6 +79,37 @@ def library_data_addresses(compare, image) -> set[int]:
     return found
 
 
+def write_resources(image: bytes, sections, path: Path) -> int:
+    """Copy the original resource tree into a .res file for the linker."""
+    name, va, vsize, rsize, raw = next(s for s in sections if s[0] == '.rsrc')
+    entries = []
+
+    def walk(offset, trail):
+        named, ids = struct.unpack_from('<HH', image, raw + offset + 12)
+        for index in range(named + ids):
+            key, pointer = struct.unpack_from('<II', image, raw + offset + 16 + 8 * index)
+            if pointer & 0x80000000:
+                walk(pointer & 0x7FFFFFFF, trail + [key])
+            else:
+                rva, size, _, _ = struct.unpack_from('<IIII', image, raw + pointer)
+                entries.append((trail + [key], image[raw + rva - (va - 0x400000):][:size]))
+    walk(0, [])
+
+    def ident(key):
+        if key & 0x80000000:
+            raise SystemExit('named resources are not expected in TH09')
+        return struct.pack('<HH', 0xFFFF, key)
+
+    out = bytearray(struct.pack('<II', 0, 32) + ident(0) + ident(0) + struct.pack('<IHHII', 0, 0, 0, 0, 0))
+    for (kind, ident_key, language), data in entries:
+        flags = 0x1030 if kind == 14 else 0x1010
+        header = ident(kind) + ident(ident_key) + struct.pack('<IHHII', 0, flags, language, 0, 0)
+        out += struct.pack('<II', len(data), 8 + len(header)) + header + data
+        out += b'\0' * (-len(out) % 4)
+    path.write_bytes(bytes(out))
+    return len(entries)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--report', action='store_true', help='print unresolved pointer words')
@@ -295,6 +326,7 @@ def main() -> int:
     header = [f'EXTERN {name}:BYTE' for name in sorted(externs - publics)]
     lines = lines[:3] + header + [''] + lines[3:] + ['END', '']
     OUT.mkdir(parents=True, exist_ok=True)
+    print('resources', write_resources(image, sections, OUT / 'ProductResources.res'))
     stem = 'ProductDataReversed' if args.reverse else 'ProductData'
     (OUT / f'{stem}.asm').write_text('\r\n'.join(lines))
     import os, subprocess

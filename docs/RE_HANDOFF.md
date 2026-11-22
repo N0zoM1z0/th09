@@ -29,46 +29,56 @@ python3 -B scripts/ghidra-analysis.py --function ADDRESS
 
 ## Whole-image link and position independence
 
-The operator selected Windows i386 product closure, aiming at position
-independence (PI) as in TH08. PI here means code and data can move at link
-time while every reference still reaches its intended function, object and
-field. The TH08 checkout's `docs/POSITION_INDEPENDENCE.md` lists the
-acceptance checks.
-The first step is a link of every canonical exact carrier with the pinned
-VC7.1 linker and libraries. It lists the remaining closure work.
+The operator selected Windows i386 product closure aiming at position
+independence (PI): code and data move at link time while every reference
+still reaches its function, object and field. The TH08 checkout's
+`docs/POSITION_INDEPENDENCE.md` lists the acceptance checks.
+
+The trial link now produces a complete executable. It runs under Wine
+from the title through the attract-mode match at 60 fps, and so does a
+second layout with the game objects and data blocks in reverse order. In
+that pair, 5,122 of 5,197 common map symbols move; `g_Supervisor`, for
+example, moves from `0x004B3130` to `0x004D70C0`.
 
 ```bash
-python3 -B scripts/trial-link.py build    # about 9 minutes, serial, nice
-python3 -B scripts/trial-link.py link     # classify LNK2005/LNK2001/LNK2019
-python3 -B scripts/trial-link.py verify   # units vs trial carriers and profiles
+python3 -B scripts/trial-link.py build              # about 9 minutes, serial, nice
+python3 -B scripts/product-data.py                  # labelled data + resources
+python3 -B scripts/product-data.py --reverse
+python3 -B scripts/trial-link.py link               # build/link-probe/trial.exe
+python3 -B scripts/trial-link.py link --reverse     # trial-reversed.exe
 ```
 
-The trial carriers reproduce all 1,084 canonical units. After the
-checkpoints below, the link reports this work:
+The game data is `resources/th09.dat` (ignored, copied from the operator's
+install, SHA-256 `73a344a2...5ea0`). A run directory needs the exe,
+`th09.dat` and `th09.cfg`; use `xvfb-run` with a separate Wine prefix such
+as `.analysis/game-prefix`.
 
-| Work | Count | Next action |
-| --- | ---: | --- |
-| Duplicate definitions from nine sources compiled under two profiles | about 150 symbols | Recover the original translation units. Use address neighbourhoods; see below |
-| Data symbols with no definition | 379 | Define each global once, with its initializer for `.data` and `.rdata` |
-| Calls through view-type aliases of exact functions | 136 symbols, 81 functions | Use the real type. Identical bodies folded by the linker need their own definitions instead |
-| Functions without exact source | 10 | Movement owner, 5 unknown constructors, 4 compiler-generated helpers |
+What the product still borrows or approximates:
 
-Nine sources have no single profile that keeps all their units exact.
-Most minority units lie in another module's address range. Moving
-`TitleScoreRecordView::InsertIntoTable` into the ScoreData carrier it
-precedes resolved TitleScreen. `AnmManager::SpriteHasTexture` and
-`AsciiManager::SetScale` sit unaligned inside the `/O1` Title block. They
-are probably header inline bodies that only the `/O1` unit emitted, so
-check each caller's call or inline expansion before moving them. Constructors
-needing `/Ob0` inside an `/Ob1` range, such as AnmManager, CardAttack and
-Player, point to a callee that the original did not inline. `EclManager.cpp`
-spans `0x004010B0..0x0044C790` and combines many original units.
+- `scripts/product-data.py` emits the original globals that no source
+  defines yet as labelled MASM data, extracted from the attested original
+  at build time. Pointer words are symbolic. `config/product-link.toml`
+  binds DirectInput formats to the library and lists source-asserted
+  object sizes; reversing the blocks exposed every size entry there. Natural
+  C++ definitions for these tables remain open.
+- `product/` holds link glue: the global construction sequence for those
+  objects and the PbgArchive constructor, whose body folds with a D3DX8
+  routine at `0x00433040`.
+- 139 references resolve through `/ALTERNATENAME` to the definition
+  bound to the same original address. They are view types or bodies that
+  the original linker folded. Replacing the views with real types is open.
+- EclManager links its `/Ob1` carrier only. Its six `/Ob0` units take the
+  `/Ob1` bodies. Converting the ECL accessor helpers to macros makes 84
+  of 86 units exact under `/Ob0`; RunEcl's remaining tail-merge difference
+  is the blocker. `.analysis/closure/ecl-macro-ob0.patch` has the attempt.
+- The movement owner is linked from its near-exact source.
+- Not yet compared: a deterministic per-frame trace against the original.
+  The attract demo is not reproducible across original runs, and a
+  debugger stop per frame perturbs timing, so this needs a replay-driven
+  harness like TH08's.
 
-The D3DX8 library in TH09 likely predates the pinned SDK. The pinned
-`D3DXIMAGE_INFO` is 0x1C bytes, while TH09's surface table uses 0x14-byte
-records, the DirectX 8.0 layout. Library provenance for libcmt and d3dx8
-is still open. The trial link uses the VC7.1 copies. It drops `libci`,
-`libc` and `amdmath`, which d3dx8.lib requests.
+D3DX8 provenance is open. The pinned SDK's `D3DXIMAGE_INFO` is 0x1C bytes,
+while TH09 uses 0x14-byte records (DirectX 8.0 layout).
 
 ## Player movement handoff
 
