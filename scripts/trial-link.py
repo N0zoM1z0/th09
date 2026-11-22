@@ -104,12 +104,69 @@ def build() -> None:
     print('carriers', len(index))
 
 
+def coff_externals(path: Path) -> tuple[set[str], set[str]]:
+    """Return (defined, undefined) external symbol names of a COFF object."""
+    import struct
+    data = path.read_bytes()
+    _, sections, _, table, count, optional, _ = struct.unpack_from('<HHIIIHH', data, 0)
+    strings = table + 18 * count
+    defined, undefined = set(), set()
+    index = 0
+    while index < count:
+        offset = table + 18 * index
+        raw = data[offset:offset + 8]
+        if raw[:4] == b'\0\0\0\0':
+            start = strings + struct.unpack_from('<I', raw, 4)[0]
+            name = data[start:data.index(b'\0', start)].decode('latin1')
+        else:
+            name = raw.rstrip(b'\0').decode('latin1')
+        value, section, _, storage, aux = struct.unpack_from('<IhHBB', data, offset + 8)
+        if storage == 2:
+            (defined if section > 0 or value else undefined).add(name)
+        index += 1 + aux
+    return defined, undefined
+
+
+def alias_table(index) -> dict[str, str]:
+    """Map undefined symbols to a defined symbol bound to the same original address.
+
+    Every binding comes from the canonical manifest: a unit's own symbol at
+    its target address, or a relocation symbol with its recorded target. An
+    undefined name whose original destination is the address of exactly one
+    defined name resolves to that name at link time.
+    """
+    defined, undefined = set(), set()
+    for entry in index:
+        d, u = coff_externals(OUT / entry['object'])
+        defined |= d; undefined |= u
+    units = load_units()
+    by_address = collections.defaultdict(set)
+    for unit in units.values():
+        by_address[unit['target_address']].add(unit['symbol'])
+        for field in unit.get('relocations', []):
+            if 'target' in field:
+                by_address[field['target']].add(field['symbol'])
+    aliases = {}
+    for address, names in by_address.items():
+        real = sorted(n for n in names if n in defined)
+        if len(real) != 1:
+            continue
+        for name in names:
+            if name in undefined and name not in defined:
+                aliases[name] = real[0]
+    return aliases
+
+
 def link() -> None:
     env = wine_env()
     index = json.loads((OUT / 'index.json').read_text())
+    aliases = alias_table(index)
+    (OUT / 'aliases.json').write_text(json.dumps(aliases, indent=1, sort_keys=True))
+    print('address-bound aliases', len(aliases))
     lib, slib = winpath(env, VC / 'lib', VC / 'PlatformSDK/Lib')
     (OUT / 'trial.rsp').write_text('\r\n'.join(
         [*LINK_FLAGS, '/OUT:trial.exe', '/MAP:trial.map',
+         *[f'/ALTERNATENAME:{alias}={real}' for alias, real in sorted(aliases.items())],
          *[entry['object'].replace('/', '\\') for entry in index], *LIBS]) + '\r\n')
     result = subprocess.run(['nice', '-n', '10', 'wine', str(VC / 'bin/link.exe'), '@trial.rsp'],
                             cwd=OUT, env=dict(env, LIB=f'{lib};{slib}'),

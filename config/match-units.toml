@@ -18168,8 +18168,8 @@ relocations = [
 ]
 
 [units.input-is-pressed-scrolling]
-source = "src/InputPressedScrolling.cpp"
-object = "build/matching/InputPressedScrolling.obj"
+source = "src/TitleScreenOptions.cpp"
+object = "build/matching/TitleScreenOptions.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["InputView::IsPressedScrolling"]
 symbol = "?IsPressedScrolling@InputView@@QAEGH@Z"
