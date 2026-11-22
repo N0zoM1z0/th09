@@ -193,7 +193,7 @@ def alias_table(index) -> dict[str, str]:
     return aliases
 
 
-def link() -> None:
+def link(reverse: bool = False) -> None:
     env = wine_env()
     index = json.loads((OUT / 'index.json').read_text())
     # One carrier per source: a source compiled under several profiles keeps
@@ -215,20 +215,27 @@ def link() -> None:
     product = tomllib.loads((ROOT / 'config/product-link.toml').read_text())
     aliases = alias_table(index)
     aliases.update(product.get('library_data', {}))
-    extra = [str(ROOT / 'build/product/ProductData.obj')] if (ROOT / 'build/product/ProductData.obj').is_file() else []
+    data = ROOT / 'build/product' / ('ProductDataReversed.obj' if reverse else 'ProductData.obj')
+    extra = [str(data)] if data.is_file() else []
     extra = [winpath(env, Path(path))[0] for path in extra]
     (OUT / 'aliases.json').write_text(json.dumps(aliases, indent=1, sort_keys=True))
     print('address-bound aliases', len(aliases))
     lib, slib = winpath(env, VC / 'lib', VC / 'PlatformSDK/Lib')
-    (OUT / 'trial.rsp').write_text('\r\n'.join(
-        [*LINK_FLAGS, '/OUT:trial.exe', '/MAP:trial.map',
+    stem = 'trial-reversed' if reverse else 'trial'
+    objects = [entry['object'].replace('/', '\\') for entry in index] + extra
+    if reverse:
+        # A second layout for position-independence checks: the same
+        # objects and libraries with the game objects in reverse order.
+        objects.reverse()
+    (OUT / f'{stem}.rsp').write_text('\r\n'.join(
+        [*LINK_FLAGS, f'/OUT:{stem}.exe', f'/MAP:{stem}.map',
          *[f'/ALTERNATENAME:{alias}={real}' for alias, real in sorted(aliases.items())],
-         *[entry['object'].replace('/', '\\') for entry in index], *extra, *LIBS]) + '\r\n')
-    result = subprocess.run(['nice', '-n', '10', 'wine', str(VC / 'bin/link.exe'), '@trial.rsp'],
+         *objects, *LIBS]) + '\r\n')
+    result = subprocess.run(['nice', '-n', '10', 'wine', str(VC / 'bin/link.exe'), f'@{stem}.rsp'],
                             cwd=OUT, env=dict(env, LIB=f'{lib};{slib}'),
                             capture_output=True, text=True, errors='replace')
     log = result.stdout + result.stderr
-    (OUT / 'trial.log').write_text(log)
+    (OUT / f'{stem}.log').write_text(log)
     print('link rc', result.returncode, dict(collections.Counter(re.findall(r'\b(LNK\d{4})\b', log))))
     for line in re.findall(r'^.*\b(?:fatal error|warning) LNK\d+.*$', log, re.M)[:10]:
         print('   ', line)
@@ -325,10 +332,14 @@ def verify() -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('action', choices=('build', 'link', 'verify'))
+    parser.add_argument('--reverse', action='store_true', help='link the game objects in reverse order')
     args = parser.parse_args()
     subprocess.run([sys.executable, '-B', str(ROOT / 'scripts/verify-target.py')], check=True,
                    stdout=subprocess.DEVNULL)
-    {'build': build, 'link': link, 'verify': verify}[args.action]()
+    if args.action == 'link':
+        link(args.reverse)
+    else:
+        {'build': build, 'verify': verify}[args.action]()
     return 0
 
 

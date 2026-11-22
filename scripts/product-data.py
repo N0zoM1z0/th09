@@ -82,6 +82,8 @@ def library_data_addresses(compare, image) -> set[int]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--report', action='store_true', help='print unresolved pointer words')
+    parser.add_argument('--reverse', action='store_true',
+                        help='emit blocks in reverse order as ProductDataReversed for layout checks')
     args = parser.parse_args()
     compare = load_compare()
     image = compare.verified_target()
@@ -250,6 +252,8 @@ def main() -> int:
             continue
         kind = {'CONST': 'CONST', '_DATA': 'DATA', '_BSS': 'BSS'}[segment]
         lines.append(f"{segment} SEGMENT PARA PUBLIC USE32 '{kind}'")
+        if args.reverse:
+            emitted.reverse()
         for start, end, content in emitted:
             align = 16 if start % 16 == 0 else 8 if start % 8 == 0 else 4 if start % 4 == 0 else 2 if start % 2 == 0 else 1
             lines.append(f'ALIGN {align}')
@@ -291,15 +295,16 @@ def main() -> int:
     header = [f'EXTERN {name}:BYTE' for name in sorted(externs - publics)]
     lines = lines[:3] + header + [''] + lines[3:] + ['END', '']
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / 'ProductData.asm').write_text('\r\n'.join(lines))
+    stem = 'ProductDataReversed' if args.reverse else 'ProductData'
+    (OUT / f'{stem}.asm').write_text('\r\n'.join(lines))
     import os, subprocess
     env = dict(os.environ, DISPLAY='', WAYLAND_DISPLAY='', WINEDEBUG='-all')
     for key in ('WINEPREFIX', 'WINEARCH'):
         env.pop(key, None)
     env['PATH'] = str(ROOT / '.tools/factory-bin') + ':' + env['PATH']
-    (OUT / 'ProductData.obj').unlink(missing_ok=True)
+    (OUT / f'{stem}.obj').unlink(missing_ok=True)
     result = subprocess.run(['nice', '-n', '10', 'wine', str(ROOT / '.tools/msvc710/Vc7/bin/ml.exe'), '/nologo', '/c',
-                             '/coff', '/Cp', '/FoProductData.obj', 'ProductData.asm'],
+                             '/coff', '/Cp', f'/Fo{stem}.obj', f'{stem}.asm'],
                             cwd=OUT, env=env, capture_output=True, text=True, errors='replace')
     if result.returncode:
         print(result.stdout[-2000:])

@@ -15,3 +15,11 @@ schema_version = 1
 [object_size]
 "0x004CE458" = 0xE0AC  # AsciiManager, src/AsciiManager.hpp
 "0x004DC698" = 0x6224  # SoundPlayer, src/SoundPlayer.hpp
+"0x004A8380" = 0x44C0  # g_TitleScoreTable[16][5][5] of 0x2C-byte records
+"0x004A8168" = 0x18    # LastNameRecordView (name field at +0x0C)
+"0x004AC858" = 0x2C    # TitleScoreRecordView (date field at +0x21)
+"0x004B30B0" = 0x44    # GameWindow (power-state flags at +0x20..+0x28)
+"0x004B3100" = 0x7B0   # Supervisor
+"0x004ACFC8" = 0x40    # Chain
+"0x004AD018" = 0x4004  # ZunMemory
+"0x004A1238" = 0x180   # g_PlayerResourcePaths[16][6]; ECL paths are column 2
