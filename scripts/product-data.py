@@ -62,7 +62,9 @@ def library_data_addresses(compare, image) -> set[int]:
     found = set()
     for row in csv.DictReader(open(ROOT / 'config/functions.csv')):
         address = int(row['address'], 16)
-        if origins.get(address) not in ('library', 'compiler_generated', 'third_party'):
+        # Third-party and compiler-generated code address game objects,
+        # including their interiors; only archive code owns separate data.
+        if origins.get(address) != 'library':
             continue
         try:
             code = compare.pe_bytes_at(image, address, int(row['size']))
@@ -153,6 +155,11 @@ def main() -> int:
         for field in unit.get('relocations', []):
             if 'target' in field and field['target'] in missing:
                 span[field['target']] = max(span[field['target']], field.get('addend', 0) + 1)
+    for owner_text, size in product.get('object_size', {}).items():
+        owner = int(owner_text, 16)
+        if owner in missing:
+            span[owner] = max(span[owner], size)
+            extent[owner] = max(extent[owner], size)
     owners = {}
     for address in sorted(missing):
         for other in sorted(missing):

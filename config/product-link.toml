@@ -9,3 +9,9 @@ schema_version = 1
 "?g_ControllerDataFormat@@3U_DIDATAFORMAT@@B" = "_c_dfDIJoystick2"
 # DIDATAFORMAT {0x18, 0x10, 2, 0x100, 0x100, ...}: 256 keyboard objects.
 "?g_KeyboardDataFormat@@3U_DIDATAFORMAT@@B" = "_c_dfDIKeyboard"
+
+# Object sizes asserted by maintained source. A missing name inside one of
+# these extents is a field view and becomes a label in the owner's storage.
+[object_size]
+"0x004CE458" = 0xE0AC  # AsciiManager, src/AsciiManager.hpp
+"0x004DC698" = 0x6224  # SoundPlayer, src/SoundPlayer.hpp
