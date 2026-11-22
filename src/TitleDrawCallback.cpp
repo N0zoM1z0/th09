@@ -6,6 +6,8 @@
 
 #include <stddef.h>
 
+#include "AnmManagerSpriteHasTexture.inl"
+
 // The complete 0x1B388-byte TitleScreenView owns the VM prefix and all
 // four draw methods; no second owner allocation or local shadow class.
 typedef char TitleDrawFullOwnerCoordinates[

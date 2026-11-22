@@ -6052,7 +6052,7 @@ relocations = [
 [units.anm-vm-set-interrupt]
 source = "src/AnmManagerRuntime.cpp"
 object = "build/matching/AnmManagerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmVm::SetInterrupt"]
 symbol = "?SetInterrupt@AnmVm@@QAEXF@Z"
 target_address = 0x00406790
@@ -6060,9 +6060,9 @@ size = 0x12
 relocations = []
 
 [units.anm-manager-sprite-has-texture]
-source = "src/AnmManagerRuntime.cpp"
-object = "build/matching/AnmManagerRuntimeO1.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
+source = "src/TitleDrawCallback.cpp"
+object = "build/matching/TitleDrawCallback.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["AnmManager::SpriteHasTexture"]
 symbol = "?SpriteHasTexture@AnmManager@@QAEHPAUAnmVm@@@Z"
 target_address = 0x00423469
@@ -6072,7 +6072,7 @@ relocations = []
 [units.anm-manager-draw-player-bullet]
 source = "src/AnmManagerRuntime.cpp"
 object = "build/matching/AnmManagerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::DrawPlayerBullet"]
 symbol = "?DrawPlayerBullet@AnmManager@@QAEXPAUAnmVm@@@Z"
 target_address = 0x00436D70
@@ -6096,7 +6096,7 @@ relocations = [
 [units.anm-manager-set-interrupt-array]
 source = "src/AnmManagerRuntime.cpp"
 object = "build/matching/AnmManagerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::SetInterruptArray"]
 symbol = "?SetInterruptArray@AnmManager@@QAEXPAUAnmVm@@HF@Z"
 target_address = 0x00436DE0
@@ -6110,7 +6110,7 @@ relocations = [
 [units.anm-manager-execute-script-array]
 source = "src/AnmManagerRuntime.cpp"
 object = "build/matching/AnmManagerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmManager::ExecuteScriptArray"]
 symbol = "?ExecuteScriptArray@AnmManager@@QAEXPAUAnmVm@@H@Z"
 target_address = 0x00439560
@@ -6123,7 +6123,7 @@ relocations = [
 [units.anm-loaded-set-and-execute-script]
 source = "src/AnmManagerRuntime.cpp"
 object = "build/matching/AnmManagerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmLoaded::SetAndExecuteScript"]
 symbol = "?SetAndExecuteScript@AnmLoaded@@QAEXPAUAnmVm@@PAUAnmRawInstr@@@Z"
 target_address = 0x004395A0
@@ -6139,7 +6139,7 @@ relocations = [
 [units.anm-loaded-execute-anm-idx-array]
 source = "src/AnmManagerRuntime.cpp"
 object = "build/matching/AnmManagerRuntime.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["AnmLoaded::ExecuteAnmIdxArray"]
 symbol = "?ExecuteAnmIdxArray@AnmLoaded@@QAEXPAUAnmVm@@HH@Z"
 target_address = 0x00439630
@@ -11393,8 +11393,8 @@ relocations = [
 ]
 
 [units.ascii-manager-set-scale]
-source = "src/AsciiManagerDrawHelpers.cpp"
-object = "build/matching/AsciiManagerDrawHelpersSetScale.obj"
+source = "src/AsciiManagerSetScale.cpp"
+object = "build/matching/AsciiManagerSetScale.obj"
 profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O1", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["AsciiManager::SetScale"]
 symbol = "?SetScale@AsciiManager@@QAEXMM@Z"

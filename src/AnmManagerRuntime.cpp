@@ -54,23 +54,7 @@ void AnmVm::SetInterrupt(i16 interrupt)
     pendingInterrupt = interrupt;
 }
 
-int AnmManager::SpriteHasTexture(AnmVm *vm)
-{
-    if (vm->loadedSprite == NULL)
-    {
-        return 0;
-    }
-    if (vm->loadedSprite->anmIdx < 0)
-    {
-        return 0;
-    }
-    // This lexical one-entry view begins at the actual multi-slot ANM
-    // file region (+0x38). Form a native 0x120-byte Win32 slot address.
-    AnmManagerRuntimeView *manager = reinterpret_cast<AnmManagerRuntimeView *>(this);
-    return reinterpret_cast<AnmFileRuntimeSlot *>(
-        reinterpret_cast<unsigned int>(&manager->anmFiles[0]) +
-        static_cast<unsigned int>(vm->loadedSprite->anmIdx) * sizeof(manager->anmFiles[0]))->textures != NULL;
-}
+#include "AnmManagerSpriteHasTexture.inl"
 
 void AnmManager::DrawPlayerBullet(AnmVm *vm)
 {
