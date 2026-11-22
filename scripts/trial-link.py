@@ -33,7 +33,27 @@ VC = ROOT / '.tools/msvc710/Vc7'
 # Import libraries cover the target's nine import descriptors; d3dx8.lib is
 # static. d3dx8.lib requests libci, libc and amdmath, which /MT replaces.
 LIBS = ['libcmt.lib', 'kernel32.lib', 'user32.lib', 'gdi32.lib', 'advapi32.lib', 'ole32.lib',
-        'winmm.lib', 'd3d8.lib', 'd3dx8.lib', 'dinput8.lib', 'dsound.lib', 'dxguid.lib']
+        'winmm.lib', 'd3d8.lib', 'd3dx8.lib', 'dinput8.lib', 'dsound.lib', 'dxguid.lib', 'dxerr8.lib']
+
+
+def library_symbols() -> set[str]:
+    """Public names of the linked archives, from each first linker member."""
+    import struct
+    names = set()
+    folders = [VC / 'lib', VC / 'PlatformSDK/Lib']
+    for library in LIBS:
+        path = next((p for f in folders for p in f.iterdir() if p.name.lower() == library), None)
+        if path is None:
+            raise SystemExit('missing link library ' + library)
+        data = path.read_bytes()
+        if data[:8] != b'!<arch>\n':
+            continue
+        size = int(data[8 + 48:8 + 58].decode().strip())
+        member = data[8 + 60:8 + 60 + size]
+        count = struct.unpack_from('>I', member, 0)[0]
+        table = member[4 + 4 * count:]
+        names |= {n.decode('latin1') for n in table.split(b'\0')[:count]}
+    return names
 LINK_FLAGS = ['/NOLOGO', '/SUBSYSTEM:WINDOWS', '/MACHINE:X86', '/INCREMENTAL:NO',
               '/NODEFAULTLIB:libci.lib', '/NODEFAULTLIB:libc.lib', '/NODEFAULTLIB:amdmath.lib']
 COMMON_FLAGS = {'/MT', '/Gs', '/DNDEBUG', '/Zi', '/Gy', '/GF', '/Gr', '/Oy-', '/I', 'src'}
@@ -76,6 +96,18 @@ def build() -> None:
     for name, unit in load_units().items():
         groups[tuple(unit['profile'])][unit['source']].append(name)
     index = []
+    covered = {source for profile in groups.values() for source in profile}
+    dominant = max(groups, key=lambda p: len(groups[p]))
+    # Sources outside every canonical unit (constructor-only carriers and
+    # the near-exact movement owner) use the dominant profile without inline
+    # expansion; their constructor bodies match the original under /Ob0.
+    product_only = tuple('/Ob0' if flag == '/Ob1' else flag for flag in dominant)
+    # product/ holds link glue that is not reconstructed original source.
+    for path in sorted((ROOT / 'src').glob('*.cpp')) + sorted((ROOT / 'product').glob('*.cpp')):
+        name = path.relative_to(ROOT).as_posix()
+        if name not in covered and not path.name.startswith('.'):
+            groups[product_only][name] = []
+            print(f'product-only source {name}')
     for number, (profile, sources) in enumerate(sorted(groups.items())):
         directory = OUT / f'p{number:02d}'
         directory.mkdir(parents=True, exist_ok=True)
@@ -149,8 +181,12 @@ def alias_table(index) -> dict[str, str]:
     aliases = {}
     for address, names in by_address.items():
         real = sorted(n for n in names if n in defined)
-        if len(real) != 1:
+        if not real:
             continue
+        # Several defined names at one address are identical bodies the
+        # original linker folded; prefer the canonical unit symbol.
+        canonical = [u['symbol'] for u in units.values() if u['target_address'] == address and u['symbol'] in defined]
+        real = canonical or real
         for name in names:
             if name in undefined and name not in defined:
                 aliases[name] = real[0]
@@ -160,14 +196,34 @@ def alias_table(index) -> dict[str, str]:
 def link() -> None:
     env = wine_env()
     index = json.loads((OUT / 'index.json').read_text())
+    # One carrier per source: a source compiled under several profiles keeps
+    # the profile of most of its units in the product link.
+    by_source = collections.defaultdict(list)
+    for entry in index:
+        by_source[entry['source']].append(entry)
+    dropped = []
+    for source, entries in by_source.items():
+        if len(entries) > 1:
+            keep = max(entries, key=lambda e: len(e['units']))
+            for entry in entries:
+                if entry is not keep:
+                    dropped.append(entry)
+    index = [entry for entry in index if entry not in dropped]
+    for entry in dropped:
+        print(f"product deviation: {entry['source']} {short(entry['profile'])} carrier not linked; "
+              f"{len(entry['units'])} units take the majority-profile body")
+    product = tomllib.loads((ROOT / 'config/product-link.toml').read_text())
     aliases = alias_table(index)
+    aliases.update(product.get('library_data', {}))
+    extra = [str(ROOT / 'build/product/ProductData.obj')] if (ROOT / 'build/product/ProductData.obj').is_file() else []
+    extra = [winpath(env, Path(path))[0] for path in extra]
     (OUT / 'aliases.json').write_text(json.dumps(aliases, indent=1, sort_keys=True))
     print('address-bound aliases', len(aliases))
     lib, slib = winpath(env, VC / 'lib', VC / 'PlatformSDK/Lib')
     (OUT / 'trial.rsp').write_text('\r\n'.join(
         [*LINK_FLAGS, '/OUT:trial.exe', '/MAP:trial.map',
          *[f'/ALTERNATENAME:{alias}={real}' for alias, real in sorted(aliases.items())],
-         *[entry['object'].replace('/', '\\') for entry in index], *LIBS]) + '\r\n')
+         *[entry['object'].replace('/', '\\') for entry in index], *extra, *LIBS]) + '\r\n')
     result = subprocess.run(['nice', '-n', '10', 'wine', str(VC / 'bin/link.exe'), '@trial.rsp'],
                             cwd=OUT, env=dict(env, LIB=f'{lib};{slib}'),
                             capture_output=True, text=True, errors='replace')

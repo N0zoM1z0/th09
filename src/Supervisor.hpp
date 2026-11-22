@@ -17,7 +17,7 @@ struct StartupAnmVm;
 struct AnmVm;
 struct StartupAnmLoaded;
 struct MidiOutputStartup;
-struct DummyMidiTimerStartup;
+class DummyMidiTimer;
 
 struct SupervisorCtorArrayElement
 {
@@ -151,7 +151,7 @@ class Supervisor
     // loaders all refer to these 52 bytes of the same Supervisor allocation.
     unsigned char unknown348[0x350 - 0x348];
     D3DPRESENT_PARAMETERS presentParameters350;
-    DummyMidiTimerStartup *dummyMidiTimer384;
+    DummyMidiTimer *dummyMidiTimer384;
     GameConfiguration config388;
     // These slots are independently observed by the original 1,230-byte
     // GameManager callback and the 214-byte Supervisor loading-VM owner.

@@ -1,4 +1,5 @@
 #include "Supervisor.hpp"
+#include "Midi.hpp"
 #include "AnmVmLifecycle.hpp"
 #define TH09_GAME_MANAGER_TYPES_ONLY
 #include "GameManagerRuntimeView.hpp"
@@ -42,13 +43,6 @@ struct MidiOutputStartup
     void ReadFileData(int index, const char *filename);
 };
 
-struct DummyMidiTimerStartup
-{
-    unsigned char unknown000[0x14];
-
-    DummyMidiTimerStartup();
-    void StartTimer();
-};
 
 struct SoundPlayerStartup
 {
@@ -320,9 +314,9 @@ void Supervisor::StartupThread(Supervisor *unused)
 
     if ((g_Supervisor.flags & 0x40u) != 0)
     {
-        g_Supervisor.dummyMidiTimer384 = static_cast<DummyMidiTimerStartup *>(
-            g_ZunMemory.AddToRegistry(new DummyMidiTimerStartup,
-                                      sizeof(DummyMidiTimerStartup),
+        g_Supervisor.dummyMidiTimer384 = static_cast<DummyMidiTimer *>(
+            g_ZunMemory.AddToRegistry(new DummyMidiTimer,
+                                      sizeof(DummyMidiTimer),
                                       "DummyTimerSysInf"));
         if (g_Supervisor.dummyMidiTimer384 != NULL)
             g_Supervisor.dummyMidiTimer384->StartTimer();

@@ -18,6 +18,7 @@ struct PbgArchiveEntry
 class PbgArchive
 {
   public:
+    PbgArchive();
     ~PbgArchive();
     bool Load(const char *filename);
     void Release();

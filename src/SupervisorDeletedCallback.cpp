@@ -1,4 +1,5 @@
 #include "Supervisor.hpp"
+#include "Midi.hpp"
 // This TU preserves the original DeletedGameManagerLayout global symbol type.
 // Import only the native side layout, without redeclaring the other global.
 #define TH09_GAME_MANAGER_TYPES_ONLY
@@ -29,11 +30,6 @@ struct DeletedMidiOutputView
     void PlayFile(int index);
 };
 
-struct DeletedDummyMidiTimerView
-{
-    void StopTimer();
-    void DeleteObject(int deleting);
-};
 
 struct DeletedPbgArchiveView
 {
@@ -168,9 +164,8 @@ int SupervisorDeletedCallback(Supervisor *supervisor)
 
     if (globalSupervisor->dummyMidiTimer384 != NULL)
     {
-        reinterpret_cast<DeletedDummyMidiTimerView *>(globalSupervisor->dummyMidiTimer384)->StopTimer();
-        if (globalSupervisor->dummyMidiTimer384 != NULL)
-            reinterpret_cast<DeletedDummyMidiTimerView *>(globalSupervisor->dummyMidiTimer384)->DeleteObject(1);
+        globalSupervisor->dummyMidiTimer384->StopTimer();
+        delete globalSupervisor->dummyMidiTimer384;
         globalSupervisor->dummyMidiTimer384 = NULL;
     }
 

@@ -1,0 +1,11 @@
+# Reviewed whole-image link decisions for the Windows i386 product phase.
+# scripts/trial-link.py and scripts/product-data.py read this file.
+schema_version = 1
+
+# Original globals that are archive data rather than game storage. Each
+# reference resolves to the library definition instead of a game copy.
+[library_data]
+# DIDATAFORMAT {0x18, 0x10, 1, 0x110, 0xA4, ...}: DIJOYSTATE2 layout.
+"?g_ControllerDataFormat@@3U_DIDATAFORMAT@@B" = "_c_dfDIJoystick2"
+# DIDATAFORMAT {0x18, 0x10, 2, 0x100, 0x100, ...}: 256 keyboard objects.
+"?g_KeyboardDataFormat@@3U_DIDATAFORMAT@@B" = "_c_dfDIKeyboard"

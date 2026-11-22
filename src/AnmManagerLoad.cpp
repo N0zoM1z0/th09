@@ -681,6 +681,12 @@ AnmManager::AnmManager()
     cameraMode12888 = 0xFF;
 }
 
+// The empty destructor folds with the other empty bodies at 0x0043D2B0;
+// WinMain's scalar deleting destructor calls it before freeing the manager.
+AnmManager::~AnmManager()
+{
+}
+
 // TH09 strides this record by 0x14 bytes: the DirectX 8.0 layout without
 // the later ResourceType and ImageFileFormat members.
 struct D3DXIMAGE_INFO

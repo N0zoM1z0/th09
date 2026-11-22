@@ -32,7 +32,8 @@ python3 -B scripts/ghidra-analysis.py --function ADDRESS
 The operator selected Windows i386 product closure, aiming at position
 independence (PI) as in TH08. PI here means code and data can move at link
 time while every reference still reaches its intended function, object and
-field. [TH08 acceptance checks](../../../th08-reconstruction/th08/docs/POSITION_INDEPENDENCE.md)
+field. The TH08 checkout's `docs/POSITION_INDEPENDENCE.md` lists the
+acceptance checks.
 The first step is a link of every canonical exact carrier with the pinned
 VC7.1 linker and libraries. It lists the remaining closure work.
 

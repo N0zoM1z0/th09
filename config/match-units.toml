@@ -1654,12 +1654,12 @@ relocations = [
   { offset = 0x2DB, type = "REL32", symbol = "?InitializeScoreDataStartup@@YIHXZ", target = 0x00421EA0 },
   { offset = 0x2E1, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x2EB, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
-  { offset = 0x303, type = "REL32", symbol = "??0DummyMidiTimerStartup@@QAE@XZ", target = 0x0042F3B0 },
+  { offset = 0x303, type = "REL32", symbol = "??0DummyMidiTimer@@QAE@XZ", target = 0x0042F3B0 },
   { offset = 0x30C, type = "DIR32", symbol = "??_C@_0BB@NKPLIAAP@DummyTimerSysInf?$AA@", target = 0x00490B14 },
   { offset = 0x314, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
   { offset = 0x320, type = "REL32", symbol = "?AddToRegistry@ZunMemory@@QAEPAXPAXIPAD@Z", target = 0x00401380 },
   { offset = 0x327, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x330, type = "REL32", symbol = "?StartTimer@DummyMidiTimerStartup@@QAEXXZ", target = 0x0043DE20 },
+  { offset = 0x330, type = "REL32", symbol = "?StartTimer@MidiTimer@@QAEXXZ", target = 0x0043DE20 },
   { offset = 0x335, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x33A, type = "REL32", symbol = "?ThreadClose@SupervisorThreadCloseView@@QAEXXZ", target = 0x0041A997 },
   { offset = 0x33F, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
@@ -1793,7 +1793,7 @@ relocations = [
 [units.supervisor-deleted-callback]
 source = "src/SupervisorDeletedCallback.cpp"
 object = "build/matching/SupervisorDeletedCallback.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
 functions = ["SupervisorDeletedCallback"]
 symbol = "?SupervisorDeletedCallback@@YIHPAVSupervisor@@@Z"
 target_address = 0x00431B70
@@ -1836,9 +1836,9 @@ relocations = [
   { offset = 0x152, type = "DIR32", symbol = "?g_PbgArchive@@3UDeletedPbgArchiveView@?A0x4471bc32@@A", target = 0x004AD008 },
   { offset = 0x157, type = "REL32", symbol = "?Release@DeletedPbgArchiveView@?A0x4471bc32@@QAEXXZ", target = 0x004333B0 },
   { offset = 0x15D, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x166, type = "REL32", symbol = "?StopTimer@DeletedDummyMidiTimerView@?A0x4471bc32@@QAEXXZ", target = 0x0043D2A0 },
+  { offset = 0x166, type = "REL32", symbol = "?StopTimer@MidiTimer@@QAEXXZ", target = 0x0043D2A0 },
   { offset = 0x16C, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x177, type = "REL32", symbol = "?DeleteObject@DeletedDummyMidiTimerView@?A0x4471bc32@@QAEXH@Z", target = 0x00431680 },
+  { offset = 0x177, type = "REL32", symbol = "??_GDummyMidiTimer@@QAEPAXI@Z", target = 0x00431680 },
   { offset = 0x17D, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x182, type = "REL32", symbol = "?SaveTitleScoreData@@YIHXZ", target = 0x00421F10 },
   { offset = 0x187, type = "REL32", symbol = "?SupervisorDeletedReleaseSubsystemB@@YIXXZ", target = 0x00412600 },
