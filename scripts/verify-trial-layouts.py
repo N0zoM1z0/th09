@@ -163,7 +163,42 @@ def verify_data_owners(units, labels, object_sizes):
                         raise ValueError(f'{symbol} is outside its owning offset in {start:#010x}')
 
 
-def verify_layout(stem, data_name, units, objects):
+def verify_input_formats(target, image, units, resolve, library_data):
+    formats = {
+        symbol: {field['target'] for field in units['supervisor-setup-dinput']['relocations']
+                 if field['symbol'] == symbol}
+        for symbol in library_data
+    }
+    total = 0
+    for symbol, origins in formats.items():
+        if len(origins) != 1:
+            raise ValueError(f'{symbol} has ambiguous DirectInput format ownership')
+        address = resolve(symbol)
+        if address is None:
+            raise ValueError(f'{symbol} has no linked DirectInput format')
+        original = struct.unpack('<6I', coff.pe_bytes_at(target, origins.pop(), 24))
+        linked = struct.unpack('<6I', coff.pe_bytes_at(image, address, 24))
+        if original[:2] != (24, 16) or original[:5] != linked[:5]:
+            raise ValueError(f'{symbol} has a different DirectInput format header')
+        count = original[4]
+        original_rows = coff.pe_bytes_at(target, original[5], count * 16)
+        linked_rows = coff.pe_bytes_at(image, linked[5], count * 16)
+        if len(original_rows) != count * 16 or len(linked_rows) != count * 16:
+            raise ValueError(f'{symbol} has a truncated DirectInput object table')
+        guid_bindings = {}
+        for index, (first, second) in enumerate(zip(struct.iter_unpack('<4I', original_rows),
+                                                    struct.iter_unpack('<4I', linked_rows))):
+            first_guid, second_guid = first[0], second[0]
+            if (first[1:] != second[1:] or bool(first_guid) != bool(second_guid)
+                    or guid_bindings.setdefault(first_guid, second_guid) != second_guid
+                    or (first_guid and coff.pe_bytes_at(target, first_guid, 16)
+                        != coff.pe_bytes_at(image, second_guid, 16))):
+                raise ValueError(f'{symbol} differs at DirectInput object {index}')
+        total += count
+    return total
+
+
+def verify_layout(stem, data_name, target, units, objects):
     image = (trial.OUT / f'{stem}.exe').read_bytes()
     pe = parse_pe(image)
     if pe['machine_id'] != 0x14C or pe['linker_version'] != '7.10':
@@ -180,19 +215,21 @@ def verify_layout(stem, data_name, units, objects):
     labels, data_fields = verify_data_object(image, pe, data_path, addresses, resolve)
     product = tomllib.loads((trial.ROOT / 'config/product-link.toml').read_text())
     verify_data_owners(units, labels, product['object_size'])
+    input_objects = verify_input_formats(target, image, units, resolve, product['library_data'])
     code, code_fields, private_fields = verify_code(image, pe, units, objects, addresses, resolve)
     print(f'{stem}: {len(code)} code units, {code_fields} code relocations '
-          f'({private_fields} into private constants), {len(labels)} data labels, {data_fields} data relocations')
+          f'({private_fields} into private constants), {len(labels)} data labels, '
+          f'{data_fields} data relocations, {input_objects} DirectInput objects')
     return code, labels
 
 
 def main():
-    coff.verified_target()
+    target = coff.verified_target()
     index = json.loads((trial.OUT / 'index.json').read_text())
     objects = {entry['source']: trial.OUT / entry['object'] for entry in trial.selected_carriers(index)}
     units = trial.load_units()
-    normal = verify_layout('trial', 'ProductData.obj', units, objects)
-    reversed_layout = verify_layout('trial-reversed', 'ProductDataReversed.obj', units, objects)
+    normal = verify_layout('trial', 'ProductData.obj', target, units, objects)
+    reversed_layout = verify_layout('trial-reversed', 'ProductDataReversed.obj', target, units, objects)
     for role, first, second in zip(('code units', 'data labels'), normal, reversed_layout):
         if first.keys() != second.keys():
             raise ValueError(f'{role} differ between link layouts')

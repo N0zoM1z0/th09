@@ -3622,3 +3622,16 @@ The trial link now verifies the SDK archive digest and names the archive
 by explicit path. The data generator indexes the same pinned archive.
 Both commands reject the alternate SDK, and the two relinked PEs match
 their previous images byte for byte after normalizing the PE timestamp.
+
+## 2026-11-23 DirectInput data format ownership
+
+The original `SetupDirectInput` references the controller format at
+0x00491854 and the keyboard format at 0x00491A5C. The trial links resolve
+them to the Platform SDK `dinput8.lib` definitions in `dilib4.obj` and
+`dilib2.obj`, respectively. Both layouts match the original headers and
+all 164 controller and 256 keyboard object descriptors. The comparison
+follows the descriptor array and GUID pointers at each layout's addresses
+and checks object offsets, type and flags, GUID contents and GUID sharing.
+The layout verifier now checks those library-owned tables with the existing
+code relocations for `SetupDirectInput`. Mutations to the controller
+header, descriptor offset and GUID bytes each fail the check.
