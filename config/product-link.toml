@@ -33,6 +33,7 @@ schema_version = 1
 "0x004A0330" = 0x7C4   # 71 PlayerPatternConfig rows of 0x1C bytes; timing at +8
 "0x004A14C8" = 0x38    # 14 g_OpponentLists pointers
 "0x004A1500" = 0x384   # 45 opponent parameter rows of five DWORDs; transition views at +4 and +0x10
+"0x004A1E60" = 0x63    # Eight parameter rows and the three-byte marker; the scan reads across +0x60
 "0x004A21D0" = 0x130   # 19 SupervisorMusicTrackRecord entries
 # Targets of g_OpponentLists at 0x004A14C8 in slot order. Each 0x10-byte
 # OpponentSelectionEntry list includes its final negative-key record.

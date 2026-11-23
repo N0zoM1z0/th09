@@ -3893,3 +3893,25 @@ bytes. Each also differs in relocation count.
 | `effect-draw-type29` | 2220 | 2380 |
 | `effect-draw-type31` | 921 | 905 |
 | `player-position-callback-type11` | 732 | 709 |
+
+## 2026-11-23 file parameter table and marker adjacency
+
+`FileSystem::TryDecryptFromTable` scans eight 12-byte parameter rows at
+0x004A1E60. Its final iteration can read byte +0x60 before rejecting
+index eight. In retail that byte is the first byte of `g_CryptSignature`
+at 0x004A1EC0. The previous reordered link split the two symbols. The byte
+at table +0x60 was 0x8C and the retail byte was 0x85.
+
+The product data manifest now keeps the table and marker in one 0x63-byte
+range. The normal and reordered PEs preserve all 99 original bytes and
+the marker label at +0x60. The existing linked extent check rejects the
+previous reordered placement and a displaced marker in either new map.
+The selected VC7.1 object still matches the complete 220-byte caller and
+all 12 relocations.
+
+A read-only Wine startup probe checked the live range at the first eight
+calls in retail and both linked PEs. Seven input buffers matched in
+order, size, and digest of up to their first 4,096 bytes. The second read
+in each run matched the size and sample digest of its running PE.
+This probe covered ordinary startup reads. The terminal iteration was
+checked by the linked range comparison.
