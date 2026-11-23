@@ -150,6 +150,9 @@ tested trial images also reached the native title with the same provider
 binding. Windows startup exposed a path-buffer adjacency requirement
 that the trial data layout now preserves.
 [Native startup evidence](KNOWLEDGE_BASE.md#2026-11-23-native-directplay-startup-and-path-storage)
+Retail subsequently reached native Match Mode host wait with a local
+DirectPlay player ID. Native trial hosting and two-game synchronization
+remain open. [Retail host evidence](KNOWLEDGE_BASE.md#2026-11-23-native-retail-match-mode-host)
 
 The reordered link exposed a split in the opponent parameter table used by
 Story setup and the front transition callback. Both layouts now preserve

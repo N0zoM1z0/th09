@@ -4192,3 +4192,19 @@ The game window was visible with the short title, but the automated
 Windows launch did not acquire foreground focus. The native game
 session never reached Match Mode. The successful join above applies
 to the standalone provider test.
+
+## 2026-11-23 native retail Match Mode host
+
+The inactive test desktop did not reach the selectable title menu.
+A later native retail run used the existing Win32 keyboard option in
+a private configuration. The test driver attached only to the launched
+game's verified window thread and fed its keyboard-state table. It
+entered Match Mode through the title, selected the network option and
+reached host wait on port 34,872 with a nonzero local DirectPlay player
+ID. No remote player had joined when the game closed normally.
+
+Headless COFF comparison verified eight units in the selected carriers.
+They cover mode selection, Peer initialization, device and host
+addresses, Host, Connect, message handling and network service. All
+3,906 physical bytes and 255 relocations match their original extents.
+Native trial hosting and two-game synchronization remain open.
