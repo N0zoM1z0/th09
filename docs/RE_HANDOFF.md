@@ -43,9 +43,11 @@ The normal and reordered trials both run under Wine from the title into the
 attract-mode match. All tracked code units and all but one generated data
 label move between the two links. The linked comparison checks each unit
 against its selected COFF object and checks the generated data and its pointer
-fields. A single link precedence constraint keeps the reviewed
+fields. The generated pointers and link aliases also have a retail binding
+check. A single link precedence constraint keeps the reviewed
 `SpriteHasTexture` COMDAT provider active in both layouts.
 [Linked layout evidence](KNOWLEDGE_BASE.md#2026-11-23-position-independence-and-product-checks)
+· [Retail binding check](KNOWLEDGE_BASE.md#2026-11-23-retail-binding-for-generated-pointers-and-link-aliases)
 
 ```bash
 python3 -B scripts/trial-link.py build              # serial, lowered priority

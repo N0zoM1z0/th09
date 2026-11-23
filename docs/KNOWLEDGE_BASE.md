@@ -3956,3 +3956,21 @@ checked rows, and the indirect call reached the begin callback at retail
 identity 0x00441420. The callback received the same object as `StartAttack`
 in each run and had return address `StartAttack` +0x10B. The runtime probe
 covered the first dispatch.
+
+## 2026-11-23 retail binding for generated pointers and link aliases
+
+All 552 generated data relocations in each trial map back to the same
+pointer slots in the attested executable. The layout verifier takes the
+retail address of the preceding COFF label and adds the field's offset
+within that contribution. It checks the original pointer word against
+the target symbol and COFF addend before checking the linked value.
+There are 549 zero addends and three nonzero addends in each layout.
+Changing a `g_PlayerResourcePaths` destination or addend in a private
+COFF object and matching PE formerly passed the linked byte check. The
+retail comparison rejects both controls.
+
+The linker response files use 137 aliases with retail address bindings
+and two DirectInput library aliases. The verifier now checks the shared
+retail address for each of the 137 and the selected library symbol for
+both input formats. It rejects a missing linked provider, a provider at
+another original address, and a swapped library format provider.

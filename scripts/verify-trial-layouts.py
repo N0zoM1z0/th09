@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Compare the two trial PEs with their selected code and generated data objects."""
 
+from bisect import bisect_right
 from collections import defaultdict
 import importlib.util
 import json
@@ -40,8 +41,35 @@ def u32(data, offset):
     return struct.unpack_from('<I', data, offset)[0]
 
 
-def verify_data_object(image, pe, path, addresses, resolve):
+def original_symbol_addresses(units):
+    candidates = defaultdict(set)
+    for unit in units.values():
+        candidates[unit['symbol']].add(unit['target_address'])
+        for field in unit.get('relocations', []):
+            if 'target' in field:
+                candidates[field['symbol']].add(field['target'])
+    return {name: addresses.pop() for name, addresses in candidates.items() if len(addresses) == 1}
+
+
+def resolve_aliases(aliases, addresses, originals, library_data):
+    for alias, real in aliases.items():
+        if real not in addresses:
+            raise ValueError(f'{alias} has no linked alias provider {real}')
+        if alias in library_data:
+            if real != library_data[alias]:
+                raise ValueError(f'{alias} has the wrong library alias provider {real}')
+        elif alias not in originals or originals[alias] != originals.get(real):
+            raise ValueError(f'{alias} and alias provider {real} do not share a retail address')
+    return {alias: addresses[real] for alias, real in aliases.items()} | addresses
+
+
+def verify_data_object(target, image, pe, path, addresses, resolve, originals, object_sizes):
     data, sections, symbols = coff.read_coff_object(path)
+    originals = originals | {
+        name: int(name.rsplit('_', 1)[-1], 16)
+        for name in (symbol['name'] for symbol in symbols.values())
+        if name.startswith(('th09_data_', 'th09_rdata_'))
+    }
     definitions = defaultdict(dict)
     for symbol in symbols.values():
         if symbol['storage'] == 2 and symbol['section'] > 0:
@@ -70,13 +98,31 @@ def verify_data_object(image, pe, path, addresses, resolve):
             size = max(0, min(size, mapped['rva'] + mapped['raw_size'] - rva))
         expected = bytearray(data[start:start + size]) if start else bytearray(size)
         actual = coff.pe_bytes_at(image, base, size) if size else b''
+        anchors = {}
+        for label, offset in offsets.items():
+            if label not in originals:
+                raise ValueError(f'{path.name} label {label} has no unique retail address')
+            origin = originals[label]
+            if anchors.setdefault(offset, origin) != origin:
+                raise ValueError(f'{path.name} {name}+{offset:#x} has conflicting original labels')
+        anchor_offsets = sorted(anchors)
         for ordinal in range(section['reloc_count']):
             offset, index, kind = struct.unpack_from('<IIH', data, section['reloc_offset'] + 10 * ordinal)
             symbol = symbols[index]['name']
             dest = resolve(symbol)
             if kind != 6 or dest is None:
                 raise ValueError(f'{path.name} {name}+{offset:#x} has unbound relocation to {symbol}')
-            value = (dest + u32(expected, offset)) & 0xFFFFFFFF
+            anchor_index = bisect_right(anchor_offsets, offset) - 1
+            if anchor_index < 0 or offset + 4 > size:
+                raise ValueError(f'{path.name} {name}+{offset:#x} has no complete labelled pointer field')
+            # Blocks can move independently within a COFF section.
+            anchor = anchor_offsets[anchor_index]
+            original_slot = anchors[anchor] + offset - anchor
+            addend = u32(expected, offset)
+            original_dest = u32(coff.pe_bytes_at(target, original_slot, 4), 0)
+            if symbol not in originals or (originals[symbol] + addend) & 0xFFFFFFFF != original_dest:
+                raise ValueError(f'{path.name} {original_slot:#010x} does not match retail pointer to {symbol}')
+            value = (dest + addend) & 0xFFFFFFFF
             if value != u32(actual, offset):
                 raise ValueError(f'{path.name} {name}+{offset:#x} does not resolve to {symbol}')
             struct.pack_into('<I', expected, offset, value)
@@ -86,7 +132,8 @@ def verify_data_object(image, pe, path, addresses, resolve):
         labels.update({label: addresses[label] for label in offsets})
     if not labels or not field_count:
         raise ValueError(f'{path.name} is missing labelled storage or pointer fields')
-    return labels, field_count, allocations
+    verify_data_owners(originals, labels, object_sizes, allocations)
+    return labels, field_count
 
 
 def verify_code(image, pe, units, objects, addresses, destinations):
@@ -158,17 +205,10 @@ def verify_code(image, pe, units, objects, addresses, destinations):
     return code_addresses, field_count, private_fields, handlers
 
 
-def verify_data_owners(units, labels, object_sizes, allocations):
+def verify_data_owners(originals, labels, object_sizes, allocations):
     bindings = defaultdict(dict)
-    for unit in units.values():
-        for field in unit.get('relocations', []):
-            symbol = field['symbol']
-            if 'target' in field and symbol in labels:
-                bindings[field['target']][symbol] = labels[symbol]
     for symbol, address in labels.items():
-        if symbol.startswith(('th09_data_', 'th09_rdata_')):
-            origin = int(symbol.rsplit('_', 1)[-1], 16)
-            bindings[origin][symbol] = address
+        bindings[originals[symbol]][symbol] = address
     for owner, size in object_sizes.items():
         start = int(owner, 0)
         origins = set(bindings[start].values())
@@ -403,14 +443,14 @@ def verify_layout(stem, data_name, target, units, objects):
     aliases = dict(line.removeprefix('/ALTERNATENAME:').split('=', 1)
                    for line in (trial.OUT / f'{stem}.rsp').read_text().splitlines()
                    if line.startswith('/ALTERNATENAME:'))
-
-    destinations = {alias: addresses[real] for alias, real in aliases.items() if real in addresses} | addresses
+    product = tomllib.loads((trial.ROOT / 'config/product-link.toml').read_text())
+    originals = original_symbol_addresses(units)
+    destinations = resolve_aliases(aliases, addresses, originals, product['library_data'])
     resolve = destinations.get
 
     data_path = trial.ROOT / 'build/product' / data_name
-    labels, data_fields, allocations = verify_data_object(image, pe, data_path, addresses, resolve)
-    product = tomllib.loads((trial.ROOT / 'config/product-link.toml').read_text())
-    verify_data_owners(units, labels, product['object_size'], allocations)
+    labels, data_fields = verify_data_object(target, image, pe, data_path, addresses, resolve, originals,
+                                            product['object_size'])
     verify_opponent_lists(target, image, units, labels, product['object_size'])
     input_objects = verify_input_formats(target, image, units, resolve, product['library_data'])
     callback_slots = verify_callback_tables(target, image, units, resolve)
@@ -425,7 +465,7 @@ def verify_layout(stem, data_name, target, units, objects):
           f'{sum(row["states"] for row in handlers)} unwind states, '
           f'{sum(row["relocations"] for row in handlers)} unwind relocations')
     print(f'{stem}: {resources} PE resources, {imports} PE imports, {import_fields} checked import operands, '
-          f'{vtables} vtables, {virtual_slots} virtual slots')
+          f'{vtables} vtables, {virtual_slots} virtual slots, {len(aliases)} checked link aliases')
     return code, labels
 
 
