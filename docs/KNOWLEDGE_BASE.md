@@ -3978,3 +3978,22 @@ and two DirectInput library aliases. The verifier now checks the shared
 retail address for each of the 137 and the selected library symbol for
 both input formats. It rejects a missing linked provider, a provider at
 another original address, and a swapped library format provider.
+
+## 2026-11-23 live keyboard movement in local Match Mode
+
+Retail and both fixed trial layouts entered a local 1P versus CPU match
+on Normal through the title menus. The probe used private configuration
+copies with music disabled. Player zero had the human selector and
+player one had the CPU selector. Eight sampled Left updates selected
+direction 3 and moved the human player by -4.0 horizontally per update.
+Eight Shift+Right updates selected direction 4, set focus, populated
+both focus-effect slots and moved that player by +2.0 per update. The
+vertical displacement stayed zero. All recorded fields agreed across
+the three runs at the return from `UpdateMovementAndOptions`.
+
+The linked verifier now includes the source-present movement frontier.
+Both layouts preserve its 1,900-byte selected COFF extent and all 66
+relocation operands. The 64-byte focus ID table moves from 0x004A0478 to
+0x004A3CE0 and matches retail. Changing a table entry or displacing a
+movement operand was rejected in each layout. The pinned frontier build
+still has its recorded four byte differences with relocations masked.

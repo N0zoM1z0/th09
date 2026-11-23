@@ -105,7 +105,10 @@ What the product still borrows or approximates:
   ECL accessor helpers to macros makes 84
   of 86 units exact under `/Ob0`; RunEcl's remaining tail-merge difference
   is the blocker. `.analysis/closure/ecl-macro-ob0.patch` has the attempt.
-- The movement owner is linked from its near-exact source.
+- The movement owner is linked from its near-exact source. The linked verifier
+  checks its extent, relocations and focus ID table. A local 1P versus CPU run
+  matched retail for ordinary and focused movement in both layouts.
+  [Live input evidence](KNOWLEDGE_BASE.md#2026-11-23-live-keyboard-movement-in-local-match-mode)
 - External playback of the bundled `demorpy0.rpy` supplies a
   repeatable per-frame check. It exposed a split CPU difficulty table
   that changed the reordered build's decisions from frame 516. After

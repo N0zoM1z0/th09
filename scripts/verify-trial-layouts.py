@@ -153,6 +153,8 @@ def verify_code(image, pe, units, objects, addresses, destinations):
         path = objects[unit['source']]
         size = unit.get('compare_size', unit['size'])
         code, fields = coff.object_function(path, symbol, size, include_symbol_locations=True)
+        if len(code) != unit.get('candidate_size', len(code)):
+            raise ValueError(f'{name} has an unexpected linked carrier extent')
         linked = bytearray(read_linked(address, len(code)))
         expected_handlers = {field['symbol'] for field in unit.get('relocations', [])
                              if field['symbol'].startswith('__ehhandler$')}
@@ -314,6 +316,13 @@ def verify_ecl_tables(target, image, units, resolve):
                 raise ValueError(f'{name}[{index}] linked callback differs from {callback}')
         total += count
     return total
+
+
+def verify_focus_effect_ids(target, image, addresses):
+    symbol = '?g_PlayerFocusEffectIds@@3PAHA'
+    size = 16 * 4
+    if coff.pe_bytes_at(image, addresses[symbol], size) != coff.pe_bytes_at(target, 0x004A1A10, size):
+        raise ValueError('linked player focus effect IDs differ from the retail table')
 
 
 def verify_crt_initializers(image, addresses):
@@ -534,9 +543,12 @@ def verify_layout(stem, data_name, target, units, objects):
     input_objects = verify_input_formats(target, image, units, resolve, product['library_data'])
     callback_slots = verify_callback_tables(target, image, units, resolve)
     ecl_slots = verify_ecl_tables(target, image, units, resolve)
+    verify_focus_effect_ids(target, image, addresses)
     vtables, virtual_slots = verify_vtables(image, units, objects, addresses, resolve)
-    code, code_fields, private_fields, handlers = verify_code(image, pe, units, objects, addresses, destinations)
-    print(f'{stem}: {len(code)} code units, {code_fields} code relocations '
+    frontiers = tomllib.loads((trial.ROOT / 'config/frontiers.toml').read_text()).get('frontier', {})
+    code, code_fields, private_fields, handlers = verify_code(image, pe, units | frontiers, objects,
+                                                            addresses, destinations)
+    print(f'{stem}: {len(code)} code units ({len(frontiers)} from frontiers), {code_fields} code relocations '
           f'({private_fields} into private constants), {len(labels)} data labels, '
           f'{data_fields} data relocations, {input_objects} DirectInput objects, '
           f'{callback_slots} CardAttack/Effect/ExAttack callback slots, {ecl_slots} ECL callback slots')
