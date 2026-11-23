@@ -96,7 +96,11 @@ What the product still borrows or approximates:
   sizes. Natural C++ definitions for these tables remain open.
 - `product/` holds link glue: the global construction sequence for those
   objects and the PbgArchive constructor, whose body folds with a D3DX8
-  routine at `0x00433040`.
+  routine at `0x00433040`. The linked checks cover the trial startup and
+  exit callbacks. A title-menu exit reached the eight shared game
+  callbacks in retail and both tested trial layouts. The trials omit two
+  retail registrations.
+  [Startup and exit evidence](KNOWLEDGE_BASE.md#2026-11-23-linked-product-startup-and-exit-callbacks)
 - 139 references resolve through `/ALTERNATENAME` to the definition
   bound to the same original address. They are view types or bodies that
   the original linker folded. Replacing the views with real types is open.

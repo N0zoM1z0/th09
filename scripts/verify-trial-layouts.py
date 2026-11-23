@@ -199,7 +199,8 @@ def verify_code(image, pe, units, objects, addresses, destinations):
                 raise ValueError(f'{name}+{offset:#x} does not resolve to {dest_name}')
             if dest_name in expected_handlers:
                 handlers.append(exceptions.verify(
-                    coff.read_coff_object(path), field, dest, read_linked, destinations))
+                    coff.read_coff_object(path), field, dest, read_linked, destinations,
+                    unit.get('unwind_states', (1, 3))))
             linked[offset:offset + 4] = code[offset:offset + 4]
             field_count += 1
         if linked != code:
@@ -360,6 +361,36 @@ def verify_crt_initializers(image, addresses):
         start, end = addresses[f'___{section}_a'], addresses[f'___{section}_z']
         if end - start != len(expected) - 4 or coff.pe_bytes_at(image, start, len(expected)) != expected:
             raise ValueError(f'linked CRT {section} initializer table differs from the expected order')
+
+
+def verify_product_startup(image, pe, objects, addresses, destinations):
+    constructor = '??0ProductStaticInit@@QAE@XZ'
+    entry = addresses['_$E1']
+    thunk = coff.pe_bytes_at(image, entry, 10)
+    instance = u32(thunk, 1) - pe['image_base']
+    if (thunk[0] != 0xB9 or thunk[5] != 0xE9
+            or entry + 10 + struct.unpack_from('<i', thunk, 6)[0] != addresses[constructor]
+            or not any(s['name'] == '.data' and s['rva'] + s['raw_size'] <= instance
+                       < s['rva'] + s['virtual_size'] for s in pe['sections'])):
+        raise ValueError('linked CRT registration does not reach the product startup constructor')
+
+    functions = {}
+    for source in ('product/ProductStaticInit.cpp', 'product/PbgArchiveCtor.cpp'):
+        _, sections, symbols = coff.read_coff_object(objects[source])
+        for symbol in symbols.values():
+            number = symbol['section']
+            if number <= 0 or symbol['type'] != 0x20:
+                continue
+            section = sections[number - 1]
+            if section['name_raw'].rstrip(b'\0') != b'.text':
+                continue  # The registration and associative EH sections have separate checks.
+            name = symbol['name']
+            functions[name] = {'source': source, 'symbol': name, 'size': section['size']}
+    functions[constructor].update(unwind_states=(13,), relocations=[{'symbol': '__ehhandler$' + constructor}])
+    # VC7.1 uses FS:[0] for the x86 exception registration chain.
+    bindings = destinations | {'__except_list': 0}
+    code, fields, _, handlers = verify_code(image, pe, functions, objects, addresses, bindings)
+    return len(code), fields, handlers[0]
 
 
 def verify_resources(target, image):
@@ -601,6 +632,8 @@ def verify_layout(stem, data_name, target, units, objects):
     originals = original_symbol_addresses(units)
     destinations = resolve_aliases(aliases, addresses, originals, product['library_data'])
     resolve = destinations.get
+    startup_functions, startup_fields, startup_handler = verify_product_startup(
+        image, pe, objects, addresses, destinations)
 
     data_path = trial.ROOT / 'build/product' / data_name
     labels, data_fields = verify_data_object(target, image, pe, data_path, addresses, resolve, originals,
@@ -623,6 +656,8 @@ def verify_layout(stem, data_name, target, units, objects):
     print(f'{stem}: {len(handlers)} C++ exception handler references, '
           f'{sum(row["states"] for row in handlers)} unwind states, '
           f'{sum(row["relocations"] for row in handlers)} unwind relocations')
+    print(f'{stem}: {startup_functions} product startup/exit functions, {startup_fields} code relocations, '
+          f'{startup_handler["states"]} startup unwind states, {startup_handler["relocations"]} unwind relocations')
     print(f'{stem}: {resources} PE resources, {imports} PE imports, {import_fields} checked import operands, '
           f'{guids} GUIDs across {guid_fields} operands, {vtables} vtables, {virtual_slots} virtual slots, '
           f'{len(aliases)} checked link aliases, {d3dx_constants} D3DX8 constant bytes')

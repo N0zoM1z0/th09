@@ -4104,3 +4104,30 @@ trial recording in retail. The reordered trial received -1 when
 loading its own recording and produced zero playback frames. The
 retail probe for the reordered recording timed out before capturing
 the loader's return.
+
+## 2026-11-23 linked product startup and exit callbacks
+
+The linked verifier follows the trial CRT registration jump to
+`ProductStaticInit` and checks that its empty receiver lies in zero-fill
+storage. It compares 16 startup and exit functions from the two product
+objects, including the eight registered cleanup wrappers. Each PE agrees
+with its selected COFF contributions across 100 code relocations and
+the startup constructor's 13 unwind states and 42 unwind relocations.
+Both fixed layouts and the four base variants pass. Both fixed layouts
+reject a changed registration target, constructor receiver, cleanup
+registration, unwind cleanup receiver and unwind slot in private copies.
+
+Normal title-menu exit under Wine reached the CRT onexit dispatcher in
+retail, the normal trial and the reordered 0x00600000 trial. The eight
+shared game callbacks received the corresponding linked objects in the
+same order. From first to last they were the three AsciiManager chains
+in high-priority draw, low-priority draw and calculation order, the
+main PbgArchive, ZunMemory, Chain, and the GameManager draw and
+calculation chains. Each run returned from all dispatched callbacks.
+
+Retail dispatched two additional game entries. One immediately returns
+at 0x0048DA70. The other invokes `PbgArchive::~PbgArchive` for 16 entries
+at 0x004B42E0 with a 0x14-byte stride. All 320 bytes of that array were
+zero at dispatch during a second retail title-menu exit. The trials omit
+both registrations, so the observed shutdown agreement covers the eight
+shared objects and does not establish full startup or teardown closure.
