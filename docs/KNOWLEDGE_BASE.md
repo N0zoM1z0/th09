@@ -4208,3 +4208,19 @@ They cover mode selection, Peer initialization, device and host
 addresses, Host, Connect, message handling and network service. All
 3,906 physical bytes and 255 relocations match their original extents.
 Native trial hosting and two-game synchronization remain open.
+
+## 2026-11-23 PE entry and CRT scope bindings
+
+Both fixed trial layouts and all four base variants enter the pinned
+VC7.1 `wincrt0.obj` through their PE headers. The linked verifier checks
+the GUI subsystem, the full 469-byte entry in executable file-backed
+storage and each of its 37 COFF relocations. Startup calls the mapped
+`_WinMain@16`. The import operands select the same IAT identities as
+retail. Two more relocations in the private 12-byte SEH scope table
+bind the entry's filter and handler in each image.
+
+In-memory controls in the fixed normal and reordered 0x00600000 images
+were rejected for a redirected PE entry, a different subsystem, a
+non-executable entry section, a redirected WinMain call, a swapped
+scope reference, a live but different import slot and a changed
+instruction byte. All checks ran headlessly against the existing files.

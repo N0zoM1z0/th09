@@ -52,7 +52,7 @@ def parse_pe(image: bytes) -> dict[str, Any]:
     machine, section_count, timestamp = struct.unpack_from("<HHI", image, pe_offset + 4)
     optional_size, characteristics = struct.unpack_from("<HH", image, pe_offset + 20)
     optional = pe_offset + 24
-    if optional + optional_size > len(image):
+    if optional_size < 70 or optional + optional_size > len(image):
         raise ValueError("truncated PE optional header")
     if struct.unpack_from("<H", image, optional)[0] != 0x10B:
         raise ValueError("target is not PE32")
@@ -61,6 +61,7 @@ def parse_pe(image: bytes) -> dict[str, Any]:
     image_base = struct.unpack_from("<I", image, optional + 28)[0]
     size_of_image = struct.unpack_from("<I", image, optional + 56)[0]
     size_of_headers = struct.unpack_from("<I", image, optional + 60)[0]
+    subsystem_id = struct.unpack_from("<H", image, optional + 68)[0]
     section_table = optional + optional_size
     sections = []
     for index in range(section_count):
@@ -80,6 +81,7 @@ def parse_pe(image: bytes) -> dict[str, Any]:
                 "virtual_size": virtual_size,
                 "raw_offset": raw_offset,
                 "raw_size": raw_size,
+                "characteristics": struct.unpack_from("<I", image, offset + 36)[0],
             }
         )
     return {
@@ -93,6 +95,7 @@ def parse_pe(image: bytes) -> dict[str, Any]:
         "size_of_image": size_of_image,
         "headers_raw_size": size_of_headers,
         "relocations_stripped": bool(characteristics & 0x0001),
+        "subsystem_id": subsystem_id,
         "sections": sections,
     }
 

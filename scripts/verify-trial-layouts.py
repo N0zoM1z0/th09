@@ -4,14 +4,16 @@
 import argparse
 from bisect import bisect_right
 from collections import defaultdict
+from functools import cache
 import importlib.util
 import json
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import re
 import struct
 import sys
 import tomllib
 
+from coff_archive import archive_members
 from target_identity import numeric_resources, parse_pe
 
 
@@ -363,6 +365,75 @@ def verify_crt_initializers(image, addresses):
             raise ValueError(f'linked CRT {section} initializer table differs from the expected order')
 
 
+@cache
+def crt_entry_object():
+    archive = trial.pinned_libraries()['libcmt.lib']
+    member, = (data for name, data in archive_members(archive)
+               if PureWindowsPath(name).name.lower() == 'wincrt0.obj')
+    return member
+
+
+def verify_crt_entry(target, image, pe, addresses, retail_winmain):
+    symbol = '_WinMainCRTStartup'
+    entry = addresses[symbol]
+    if pe['subsystem_id'] != 2 or pe['entry_point'] != entry:  # IMAGE_SUBSYSTEM_WINDOWS_GUI
+        raise ValueError('PE entry or subsystem does not select the VC7.1 GUI startup')
+    member = crt_entry_object()
+    code, fields = coff.object_function(member, symbol, 469, include_symbol_locations=True)
+    if len(code) != 469 or not any(
+            s['characteristics'] & 0x20000000 and s['rva'] <= pe['entry_rva']
+            and pe['entry_rva'] + len(code) <= s['rva'] + min(s['virtual_size'], s['raw_size'])
+            for s in pe['sections']):
+        raise ValueError('CRT entry extent is outside executable file-backed storage')
+
+    retail_entry = parse_pe(target)['entry_point']
+    original = bytearray(coff.pe_bytes_at(target, retail_entry, len(code)))
+    linked = bytearray(coff.pe_bytes_at(image, entry, len(code)))
+    original_iat, linked_iat = coff.target_iat(target), coff.target_iat(image)
+    # The private SEH scope table has no public linker label.
+    scope, = (field for field in fields if field['symbol'] == '$T20649')
+    scope_code, scope_fields = exceptions.owned_section(
+        coff.read_coff_object(member), scope['symbol_section'], scope['owner_section'], '.rdata', 0x40)
+    if scope['type'] != 'DIR32' or scope['symbol_value'] or scope['addend'] or set(scope_fields) != {4, 8}:
+        raise ValueError('unexpected CRT scope table reference')
+    for binary, start, operand in ((target, retail_entry, original), (image, entry, linked)):
+        expected = scope_code.copy()
+        for offset, (label, kind) in scope_fields.items():
+            local = label['value'] - scope['owner_value']
+            if kind != 6 or label['section'] != scope['owner_section'] or not 0 <= local < len(code):
+                raise ValueError('CRT scope table refers outside the entry function')
+            exceptions.relocate_zero_field(expected, offset, start + local)
+        address = u32(operand, scope['offset'])
+        if coff.pe_bytes_at(binary, address, len(expected)) != expected:
+            raise ValueError('CRT scope table does not select the expected filter and handler')
+
+    for field in fields:
+        offset, name = field['offset'], field['symbol']
+        if field != scope:
+            addend = field['addend']
+            if field['type'] == 'REL32':
+                if name == '_WinMain@16':
+                    retail_target = (u32(original, offset) + retail_entry + offset + 4 - addend) & 0xFFFFFFFF
+                    if retail_target != retail_winmain:
+                        raise ValueError('retail CRT entry does not select canonical WinMain')
+                expected = addresses[name] + addend - (entry + offset + 4)
+            elif field['type'] == 'DIR32':
+                expected = addresses[name] + addend
+                if name.startswith('__imp__'):
+                    identity = original_iat.get(u32(original, offset) - addend)
+                    if identity is None or linked_iat.get(addresses[name]) != identity:
+                        raise ValueError(f'CRT entry import binding differs for {name}')
+            else:
+                raise ValueError(f'unsupported CRT entry relocation for {name}')
+            if u32(linked, offset) != expected & 0xFFFFFFFF:
+                raise ValueError(f'CRT entry+{offset:#x} does not resolve to {name}')
+        original[offset:offset + 4] = code[offset:offset + 4]
+        linked[offset:offset + 4] = code[offset:offset + 4]
+    if linked != code or original != code:
+        raise ValueError('CRT entry bytes differ from pinned wincrt0.obj outside relocations')
+    return len(code), len(fields) + len(scope_fields)
+
+
 def verify_product_startup(image, pe, objects, addresses, destinations):
     constructor = '??0ProductStaticInit@@QAE@XZ'
     entry = addresses['_$E1']
@@ -620,6 +691,7 @@ def verify_layout(stem, data_name, target, units, objects):
     if pe['machine_id'] != 0x14C or pe['linker_version'] != '7.10':
         raise ValueError(f'{stem} is not a VC7.1 i386 link')
     addresses = read_map(trial.OUT / f'{stem}.map')
+    entry_bytes, entry_fields = verify_crt_entry(target, image, pe, addresses, units['win-main']['target_address'])
     verify_crt_initializers(image, addresses)
     resources = verify_resources(target, image)
     d3dx_constants = verify_d3dx_constants(target, image, pe)
@@ -658,6 +730,7 @@ def verify_layout(stem, data_name, target, units, objects):
           f'{sum(row["relocations"] for row in handlers)} unwind relocations')
     print(f'{stem}: {startup_functions} product startup/exit functions, {startup_fields} code relocations, '
           f'{startup_handler["states"]} startup unwind states, {startup_handler["relocations"]} unwind relocations')
+    print(f'{stem}: {entry_bytes} CRT entry bytes, {entry_fields} entry and scope relocations')
     print(f'{stem}: {resources} PE resources, {imports} PE imports, {import_fields} checked import operands, '
           f'{guids} GUIDs across {guid_fields} operands, {vtables} vtables, {virtual_slots} virtual slots, '
           f'{len(aliases)} checked link aliases, {d3dx_constants} D3DX8 constant bytes')

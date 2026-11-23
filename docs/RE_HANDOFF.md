@@ -140,6 +140,8 @@ The trial pins VC7.1 `libcmt.lib` and explicitly orders its four
 `.CRT$XIC` inputs so SSE2 detection precedes multibyte initialization
 as in retail. The linked verifier checks the C and C++ startup tables.
 [CRT startup evidence](KNOWLEDGE_BASE.md#2026-11-23-crt-startup-provider-and-initializer-order)
+It also checks the PE GUI entry, `WinMainCRTStartup` and its SEH scope
+against the pinned startup object. [PE entry evidence](KNOWLEDGE_BASE.md#2026-11-23-pe-entry-and-crt-scope-bindings)
 
 The linked GUID checks cover DirectPlay and the other tracked COM identifiers.
 The selected Wine runtime returns `E_FAIL` from its DirectPlay `Host` stub.

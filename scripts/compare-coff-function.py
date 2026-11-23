@@ -49,8 +49,8 @@ def coff_name(raw: bytes, string_table: bytes) -> str:
     return read_c_string(raw)
 
 
-def read_coff_object(path: Path) -> tuple[bytes, list[dict], dict[int, dict]]:
-    data = path.read_bytes()
+def read_coff_object(path: Path | bytes) -> tuple[bytes, list[dict], dict[int, dict]]:
+    data = path if isinstance(path, bytes) else path.read_bytes()
     if len(data) < 20:
         raise ValueError("truncated COFF object")
     machine, section_count, _, symbol_offset, symbol_count, optional_size, _ = struct.unpack_from(
@@ -105,7 +105,7 @@ def read_coff_object(path: Path) -> tuple[bytes, list[dict], dict[int, dict]]:
 
 
 def object_function(
-    path: Path, wanted: str, expected_size: int | None = None,
+    path: Path | bytes, wanted: str, expected_size: int | None = None,
     *, include_symbol_locations: bool = False,
 ) -> tuple[bytearray, list[dict[str, object]]]:
     data, sections, symbols = read_coff_object(path)
