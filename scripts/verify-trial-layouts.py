@@ -290,6 +290,44 @@ def verify_imports(target, image, units, addresses):
     return len(linked_imports), fields
 
 
+def verify_vtables(image, units, objects, addresses, resolve):
+    owners = defaultdict(set)
+    for unit in units.values():
+        for field in unit.get('relocations', []):
+            if field['symbol'].startswith('??_7'):
+                owners[unit['source']].add(field['symbol'])
+
+    verified = set()
+    slots = 0
+    for source, tables in owners.items():
+        data, sections, symbols = coff.read_coff_object(objects[source])
+        for symbol in symbols.values():
+            name = symbol['name']
+            if name not in tables or symbol['section'] <= 0:
+                continue
+            table = sections[symbol['section'] - 1]
+            if (table['name_raw'].rstrip(b'\0') != b'.rdata' or symbol['value']
+                    or table['size'] != 4 * table['reloc_count'] or not table['reloc_count']):
+                raise ValueError(f'{name} has an unexpected VC7.1 vtable extent')
+            start = table['raw_offset']
+            expected = bytearray(data[start:start + table['size']])
+            relocations = table['reloc_offset']
+            for index in range(table['reloc_count']):
+                offset, target, kind = struct.unpack_from('<IIH', data, relocations + index * 10)
+                destination = resolve(symbols[target]['name'])
+                if offset != index * 4 or kind != 6 or destination is None:
+                    raise ValueError(f'{name} has an unbound vtable slot at +{offset:#x}')
+                struct.pack_into('<I', expected, offset, (destination + u32(expected, offset)) & 0xFFFFFFFF)
+            if coff.pe_bytes_at(image, addresses[name], len(expected)) != expected:
+                raise ValueError(f'{name} differs from its linked virtual functions')
+            if name not in verified:
+                slots += table['reloc_count']
+            verified.add(name)
+    if verified != set().union(*owners.values()):
+        raise ValueError('a tracked vtable has no selected COFF definition')
+    return len(verified), slots
+
+
 def verify_opponent_lists(target, image, units, labels, object_sizes):
     symbol = '?g_OpponentLists@@3PAPAUOpponentSelectionEntry@@A'
     fields = units['game-manager-select-opponent']['relocations']
@@ -331,6 +369,7 @@ def verify_layout(stem, data_name, target, units, objects):
     verify_opponent_lists(target, image, units, labels, product['object_size'])
     input_objects = verify_input_formats(target, image, units, resolve, product['library_data'])
     callback_slots = verify_callback_tables(target, image, units, resolve)
+    vtables, virtual_slots = verify_vtables(image, units, objects, addresses, resolve)
     code, code_fields, private_fields, handlers = verify_code(image, pe, units, objects, addresses, destinations)
     print(f'{stem}: {len(code)} code units, {code_fields} code relocations '
           f'({private_fields} into private constants), {len(labels)} data labels, '
@@ -339,7 +378,8 @@ def verify_layout(stem, data_name, target, units, objects):
     print(f'{stem}: {len(handlers)} C++ exception handler references, '
           f'{sum(row["states"] for row in handlers)} unwind states, '
           f'{sum(row["relocations"] for row in handlers)} unwind relocations')
-    print(f'{stem}: {imports} PE imports, {import_fields} checked import operands')
+    print(f'{stem}: {imports} PE imports, {import_fields} checked import operands, '
+          f'{vtables} vtables, {virtual_slots} virtual slots')
     return code, labels
 
 

@@ -3828,3 +3828,25 @@ return to title and checked the 11,200-byte popup range. The calculation
 counter stayed fixed during pause and advanced on resume in retail
 and both trial layouts. All three runs had 486 nonzero bytes before
 teardown, cleared the complete range on return and closed normally.
+
+## 2026-11-23 linked virtual tables and MIDI music room
+
+The linked verifier now checks the six C++ vtables named by tracked
+operands in the PBG file, sound manager and MIDI carriers. All six
+tables move and all 21 linked slots match their COFF function symbols.
+The attested retail slots select the same methods or generated
+destructors. Substituting a different valid virtual method in
+either the PBG file or MIDI output table fails the check.
+
+Retail and both trials ran with MIDI enabled in private copies of the
+configuration. All three parsed the opening `th09_00.mid` into slot 0
+and the second Music Room selection `th09_01.mid` into slot 31. Their
+in-memory track data matches the two archive members, including format
+0, one track and 480 ticks per quarter note. The live MIDI vtable
+points to each image's `MidiOutput::OnTimerElapsed`.
+
+In the Music Room, Q toggled the menu pause flag and the MIDI clock
+advanced during both states. All three returned to the title and
+closed normally. The Wine MIDI device handle remained null, so
+these observations cover parsing, timer dispatch and control state.
+The retail demo at frame 600 had no active parsed MIDI track.
