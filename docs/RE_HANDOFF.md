@@ -139,8 +139,10 @@ What the product still borrows or approximates:
 The trial pins the Platform SDK D3DX8 archive used for the reviewed
 game-facing entry points. The retail provider and both trial providers
 write 0x1C bytes into metadata slots spaced 0x14 bytes apart.
+The linked verifier checks the SIMD constants, six math dispatch thunks
+and all 112 initial function pointers in their shared table.
 [D3DX8 provider and runtime evidence](KNOWLEDGE_BASE.md#2026-11-23-d3dx8-provider-and-surface-output)
-· [SIMD constant section and runtime access](KNOWLEDGE_BASE.md#2026-11-23-d3dx8-simd-constant-section)
+· [SIMD constants and math dispatch table](KNOWLEDGE_BASE.md#2026-11-23-d3dx8-simd-constant-section)
 
 The trial pins VC7.1 `libcmt.lib` and explicitly orders its four
 `.CRT$XIC` inputs so SSE2 detection precedes multibyte initialization

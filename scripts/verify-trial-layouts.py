@@ -514,6 +514,67 @@ def verify_d3dx_constants(target, image, pe):
     return size
 
 
+@cache
+def d3dx_math_object():
+    archive = trial.pinned_libraries()['d3dx8.lib']
+    member, = (data for name, data in archive_members(archive)
+               if PureWindowsPath(name).name.lower() == 'd3dxmath.obj')
+    return member
+
+
+def verify_d3dx_fast_table(target, image, pe, addresses, originals):
+    member = d3dx_math_object()
+    data, sections, symbols = coff.read_coff_object(member)
+    name = '?g_D3DXFastTable@@3UD3DXFASTTABLE@@A'
+    table, = (symbol for symbol in symbols.values()
+              if symbol['name'] == name and symbol['section'] > 0)
+    section = sections[table['section'] - 1]
+    start, size = section['raw_offset'], section['size']
+    if table['value'] or section['name_raw'].rstrip(b'\0') != b'.data' or not start or size % 4:
+        raise ValueError('unexpected D3DX8 math dispatch table contribution')
+    linked_base = addresses[name]
+    data_allocation(pe, linked_base, size, section['flags'], name)
+
+    # The SDK's public math entries jump through distinct slots of this table.
+    entries = ('_D3DXVec3Normalize@8', '_D3DXVec3Project@24', '_D3DXMatrixMultiply@12',
+               '_D3DXMatrixRotationX@8', '_D3DXMatrixRotationY@8', '_D3DXMatrixRotationZ@8')
+    retail_base = 0x004A3630
+    entry_slots = set()
+    for entry in entries:
+        code, fields = coff.object_function(member, entry, 6)
+        field, = fields
+        addend = field['addend']
+        if (len(code) != 6 or code[:2] != b'\xff\x25'
+                or (field['offset'], field['type_id'], field['symbol']) != (2, 6, name)):
+            raise ValueError(f'{entry} is not a D3DX8 math dispatch thunk')
+        entry_slots.add(addend)
+        for binary, address, base in ((target, originals[entry], retail_base),
+                                      (image, addresses[entry], linked_base)):
+            struct.pack_into('<I', code, 2, base + addend)
+            if coff.pe_bytes_at(binary, address, len(code)) != code:
+                raise ValueError(f'{entry} does not select D3DX8 math dispatch slot +{addend:#x}')
+
+    expected = bytearray(data[start:start + size])
+    linked = coff.pe_bytes_at(image, linked_base, size)
+    slots = set()
+    for index in range(section['reloc_count']):
+        offset, symbol_index, kind = struct.unpack_from('<IIH', data, section['reloc_offset'] + 10 * index)
+        symbol = symbols[symbol_index]
+        if (kind != 6 or offset % 4 or offset + 4 > size or offset in slots
+                or symbol['section'] < 1 or symbol['type'] != 0x20):
+            raise ValueError(f'invalid D3DX8 math dispatch field at +{offset:#x}')
+        destination = addresses[symbol['name']] + u32(expected, offset)
+        flags = sections[symbol['section'] - 1]['flags']
+        data_allocation(pe, destination, 1, flags, symbol['name'])
+        if u32(linked, offset) != destination:
+            raise ValueError(f'D3DX8 math dispatch slot +{offset:#x} does not select {symbol["name"]}')
+        struct.pack_into('<I', expected, offset, destination)
+        slots.add(offset)
+    if linked != expected or len(entry_slots) != len(entries) or not entry_slots <= slots:
+        raise ValueError('D3DX8 math dispatch table does not preserve its COFF contents or entry slots')
+    return len(entries), len(slots)
+
+
 def import_thunk_identity(image, address, imports):
     thunk = coff.pe_bytes_at(image, address, 6)
     if thunk[:2] == b'\xff\x25':
@@ -731,6 +792,7 @@ def verify_layout(stem, data_name, target, units, objects):
                    if line.startswith('/ALTERNATENAME:'))
     product = tomllib.loads((trial.ROOT / 'config/product-link.toml').read_text())
     originals = original_symbol_addresses(units)
+    d3dx_entries, d3dx_slots = verify_d3dx_fast_table(target, image, pe, addresses, originals)
     destinations = resolve_aliases(aliases, addresses, originals, product['library_data'])
     resolve = destinations.get
     startup_functions, startup_fields, startup_handler = verify_product_startup(
@@ -761,6 +823,7 @@ def verify_layout(stem, data_name, target, units, objects):
     print(f'{stem}: {startup_functions} product startup/exit functions, {startup_fields} code relocations, '
           f'{startup_handler["states"]} startup unwind states, {startup_handler["relocations"]} unwind relocations')
     print(f'{stem}: {entry_bytes} CRT entry bytes, {entry_fields} entry and scope relocations')
+    print(f'{stem}: {d3dx_entries} D3DX8 math dispatch entries, {d3dx_slots} initial function pointers')
     print(f'{stem}: {resources} PE resources, {imports} PE imports, {import_fields} checked import operands, '
           f'{guids} GUIDs across {guid_fields} operands, {vtables} vtables, {virtual_slots} virtual slots, '
           f'{len(aliases)} checked link aliases, {d3dx_constants} D3DX8 constant bytes')

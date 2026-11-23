@@ -4074,6 +4074,18 @@ bits were 0x3FC90FDB. A breakpoint at the live operand showed the same
 16-byte constant at `.data1` +0x210 in both images. The complete 64-byte
 output matrices matched at the return to the caller.
 
+The linked verifier also checks the six game-facing math thunks that jump
+through `g_D3DXFastTable` in `d3dxmath.obj`. All six select their original
+slot offsets in the retail PE and in both fixed links and all four base
+variants. The complete 460-byte linked table is writable and contains the
+112 initial function pointers recorded by COFF and three zero slots. The
+table moves from 0x004A4B68 to 0x004A4BC8 in the reordered fixed link. Its
+function targets move by three different deltas relative to retail.
+
+Headless controls in the normal and high-base reordered layouts rejected
+a thunk using a neighboring slot, a slot pointing to the wrong live
+function, a modified zero slot and a read-only table.
+
 ## 2026-11-23 linked replay captions and short replay saves
 
 The existing VC7.1 comparison attests the source-defined replay caption
