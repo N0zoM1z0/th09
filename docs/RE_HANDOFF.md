@@ -81,10 +81,12 @@ What the product still borrows or approximates:
   of 86 units exact under `/Ob0`; RunEcl's remaining tail-merge difference
   is the blocker. `.analysis/closure/ecl-macro-ob0.patch` has the attempt.
 - The movement owner is linked from its near-exact source.
-- Not yet compared: a deterministic per-frame trace against the original.
-  The attract demo is not reproducible across original runs, and a
-  debugger stop per frame perturbs timing, so this needs a replay-driven
-  harness like TH08's.
+- External playback of the bundled `demorpy0.rpy` supplies a
+  repeatable per-frame check. It exposed a split CPU difficulty table
+  that changed the reordered build's decisions from frame 516. After
+  the fix, both layouts agree with retail until the periodic executable
+  version check shuts them down. The retail capture covers all 7,996
+  input records. [Replay evidence and command](KNOWLEDGE_BASE.md#2026-11-23-replay-layout-divergence-and-cpu-table)
 
 D3DX8 provenance is open. The pinned SDK's `D3DXIMAGE_INFO` is 0x1C bytes,
 while TH09 uses 0x14-byte records (DirectX 8.0 layout).

@@ -3539,5 +3539,58 @@ layout verifier rejects pairing a PE with the other layout's map and rejects
 a changed generated data pointer. The original and both trials reached the
 attract-mode match under Wine. All three also opened Options, returned to
 the title, and exited normally. The three Options captures were identical.
-Production data ownership, the EclManager profile differences, and
-deterministic replay comparison remain open.
+Production data ownership and the EclManager profile differences remain
+open. [External replay evidence](#2026-11-23-replay-layout-divergence-and-cpu-table)
+
+## 2026-11-23 replay layout divergence and CPU table
+
+TH09's bundled `demorpy0.rpy` is repeatable when extracted with the
+TH09 PBGZ key and selected in the Replay menu. Two independent retail
+captures and the normal trial agreed across the first 600 calculations
+of stage 9. Both runs of the reordered trial first differed at calculation
+516. The recorded input words were identical. The reordered trial's
+effective right input was 96 instead of 16, and its RNG generation count
+was one smaller. A write watchpoint showed the normal trial's extra draw
+in `PlayerUpdateSelectorState` after identical enemy reward draws.
+
+Reversing only the writable initialized data reproduced the divergence.
+Separate code, read-only data and BSS reversal checks agreed through
+calculation 520. The CPU difficulty table begins at 0x004A0330 and its
+71 rows of 0x1C bytes end at the ECL callback table at 0x004A0AF4.
+`PlayerUpdateSelectorState` indexes records at the base. Player update
+indexes the same stride from 0x004A0338, the third word in each record.
+The old generator placed that timing label in a separate block, breaking
+the base reader whenever those blocks moved apart. The declared extent now
+keeps the timing label at +8. Both linked tables match all 1,988 original
+bytes. The layout verifier rejects the old split and both repaired layouts
+agree with retail across the captured 600 calculations.
+
+The retail capture also reached all 7,996 input records. With the repaired
+table, the trial and reordered trial agreed on every row up to shutdown
+at replay frames 3,004 and 3,018, respectively. The reordered trial's
+`Supervisor::OnUpdate` called `CheckVersion` at global calculation 3,999
+and received -1. Both trials quit through the success exit from the same
+callback. The archive's `0150a` record binds 685,056 bytes and checksum
+2,884,521,103, which match the original PE. Both trial PEs are 700,416
+bytes. The complete product playback gate remains open at this check.
+
+Extract the fixture with the existing thtk `thdat` tool using version
+`-x 9` and the member name `demorpy0.rpy`. The probe uses the generic
+hardware-breakpoint driver from the read-only TH08 checkout. Run each
+case under a separate Xvfb display, serially, with the checkout's Wine
+prefix. The observer records input histories, RNG state, scores, and
+raw float position bits at the priority-27 replay callback.
+
+```bash
+th08=/home/pentester/coding/codex_ida/th08-reconstruction/th08
+fixture=.analysis/replay-fixture/demorpy0.rpy
+mkdir -p .analysis/replay-fixture
+thdat -x 9 -C "$PWD/.analysis/replay-fixture" "$PWD/resources/th09.dat" demorpy0.rpy
+for layout in retail trial trial-reversed; do
+    nice -n 10 xvfb-run -a -s '-screen 0 800x600x24' python3 -B scripts/probe-trial-replay.py \
+        "$layout" "$fixture" ".analysis/replay-$layout" \
+        --ptrace-runner "$th08/scripts/replay-ptrace.py"
+done
+cmp .analysis/replay-retail/trace.csv .analysis/replay-trial/trace.csv
+cmp .analysis/replay-retail/trace.csv .analysis/replay-trial-reversed/trace.csv
+```

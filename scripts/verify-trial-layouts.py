@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import struct
 import sys
+import tomllib
 
 from target_identity import parse_pe
 
@@ -140,6 +141,28 @@ def verify_code(image, pe, units, objects, addresses, resolve):
     return code_addresses, field_count, private_fields
 
 
+def verify_data_owners(units, labels, object_sizes):
+    bindings = defaultdict(dict)
+    for unit in units.values():
+        for field in unit.get('relocations', []):
+            symbol = field['symbol']
+            if 'target' in field and symbol in labels:
+                bindings[field['target']][symbol] = labels[symbol]
+    for owner, size in object_sizes.items():
+        start = int(owner, 0)
+        origins = set(bindings[start].values())
+        if not origins:
+            continue
+        if len(origins) != 1:
+            raise ValueError(f'generated object at {start:#010x} has separate base labels')
+        base = origins.pop()
+        for target, aliases in bindings.items():
+            if start < target < start + size:
+                for symbol, address in aliases.items():
+                    if address != base + target - start:
+                        raise ValueError(f'{symbol} is outside its owning offset in {start:#010x}')
+
+
 def verify_layout(stem, data_name, units, objects):
     image = (trial.OUT / f'{stem}.exe').read_bytes()
     pe = parse_pe(image)
@@ -155,6 +178,8 @@ def verify_layout(stem, data_name, units, objects):
 
     data_path = trial.ROOT / 'build/product' / data_name
     labels, data_fields = verify_data_object(image, pe, data_path, addresses, resolve)
+    product = tomllib.loads((trial.ROOT / 'config/product-link.toml').read_text())
+    verify_data_owners(units, labels, product['object_size'])
     code, code_fields, private_fields = verify_code(image, pe, units, objects, addresses, resolve)
     print(f'{stem}: {len(code)} code units, {code_fields} code relocations '
           f'({private_fields} into private constants), {len(labels)} data labels, {data_fields} data relocations')
