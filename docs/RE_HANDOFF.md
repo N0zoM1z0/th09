@@ -108,6 +108,11 @@ The trial pins VC7.1 `libcmt.lib` and explicitly orders its four
 as in retail. The linked verifier checks the C and C++ startup tables.
 [CRT startup evidence](KNOWLEDGE_BASE.md#2026-11-23-crt-startup-provider-and-initializer-order)
 
+The reordered link also exposed a split in the opponent parameter table
+used by Story setup and the front transition callback. Both layouts now
+preserve the two interior views.
+[Opponent table evidence](KNOWLEDGE_BASE.md#2026-11-23-opponent-and-transition-parameter-table-storage)
+
 ## Player movement handoff
 
 The single-function exact reconstruction is paused for handoff. The

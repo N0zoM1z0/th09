@@ -30,3 +30,4 @@ schema_version = 1
 "0x004AD018" = 0x4004  # ZunMemory
 "0x004A1238" = 0x180   # g_PlayerResourcePaths[16][6]; ECL paths are column 2
 "0x004A0330" = 0x7C4   # 71 PlayerPatternConfig rows of 0x1C bytes; timing at +8
+"0x004A1500" = 0x384   # 45 opponent parameter rows of five DWORDs; transition views at +4 and +0x10

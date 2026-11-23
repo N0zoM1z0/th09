@@ -3679,3 +3679,24 @@ Both relinks keep the original 156 named imports and both resource
 payloads. Their 600-calculation Wine traces agree with the original in
 all 13 recorded fields, including the earlier divergence at calculation
 516. The stock version preflight still rejects both relinked files.
+
+## 2026-11-23 opponent and transition parameter table storage
+
+The 45 five-DWORD opponent parameter rows span 0x004A1500 through
+0x004A1883. `SelectOpponentConfiguration` indexes five words per stage
+and nine stages per difficulty. `FrontCalcCallback` reads the same
+rows through the `g_TransitionResultTable` and
+`g_TransitionResultTableAlt` views at +4 and +0x10.
+
+The previous reversed link separated all three labels. It read the first
+row as `[5, 0, 4851936, 4852272, 4852656]`. The original row is
+`[5, 4, 3, 2, 1]`. The trial data generator now
+keeps the two views inside the declared 900-byte owner. Both relinks
+match all 45 rows byte for byte and preserve the two relative offsets.
+The layout verifier rejects the previous reversed link at this owner.
+
+A read-only Wine capture at the front calculation callback reproduced the
+effect in Story mode on Normal difficulty. The prior reversed build
+stored 13,107,207 at GameManager +0x64 for the first opponent. Retail
+and both repaired links stored 5 and exposed the same five words at row
+index 9.
