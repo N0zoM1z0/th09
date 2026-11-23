@@ -325,6 +325,32 @@ def verify_focus_effect_ids(target, image, addresses):
         raise ValueError('linked player focus effect IDs differ from the retail table')
 
 
+def verify_replay_captions(target, image, units, objects, addresses):
+    slots = 0
+    for name, title_menu in (('replay-save', False), ('title-screen-draw-replay-menu', True)):
+        unit = units[name]
+        path = objects[unit['source']]
+        _, fields = coff.object_function(path, unit['symbol'], unit['size'], include_symbol_locations=True)
+        proof = coff.verify_replay_name_tables(path, target, unit['relocations'], fields, title_menu=title_menu)
+        original = int(proof['target_address'], 16)
+        base = addresses[proof['symbols'][0]]
+        for field in unit['relocations']:
+            symbol = field['symbol']
+            if symbol in proof['symbols'] and addresses[symbol] != base + field['target'] - original:
+                raise ValueError(f'{name}: {symbol} moved outside its replay caption table offset')
+        linked = coff.pe_bytes_at(image, base, proof['size'])
+        for literal in proof['literal_definitions']:
+            pointer = addresses[literal['symbol']]
+            for offset in literal['references']:
+                if u32(linked, offset) != pointer:
+                    raise ValueError(f'{name}: replay caption at +{offset:#x} points to the wrong literal')
+            original_text = coff.pe_bytes_at(target, literal['target'], literal['size'])
+            if coff.pe_bytes_at(image, pointer, literal['size']) != original_text:
+                raise ValueError(f'{name}: linked replay caption bytes differ from retail')
+        slots += proof['relocations']
+    return slots
+
+
 def verify_crt_initializers(image, addresses):
     c_initializers = ('___onexitinit', '___initstdio', '___sse2_available_init', '___initmbctable',
                       '?__CxxSetUnhandledExceptionFilter@@YAHXZ')
@@ -584,6 +610,7 @@ def verify_layout(stem, data_name, target, units, objects):
     callback_slots = verify_callback_tables(target, image, units, resolve)
     ecl_slots = verify_ecl_tables(target, image, units, resolve)
     verify_focus_effect_ids(target, image, addresses)
+    replay_captions = verify_replay_captions(target, image, units, objects, addresses)
     vtables, virtual_slots = verify_vtables(image, units, objects, addresses, resolve)
     frontiers = tomllib.loads((trial.ROOT / 'config/frontiers.toml').read_text()).get('frontier', {})
     code, code_fields, private_fields, handlers = verify_code(image, pe, units | frontiers, objects,
@@ -591,7 +618,8 @@ def verify_layout(stem, data_name, target, units, objects):
     print(f'{stem}: {len(code)} code units ({len(frontiers)} from frontiers), {code_fields} code relocations '
           f'({private_fields} into private constants), {len(labels)} data labels, '
           f'{data_fields} data relocations, {input_objects} DirectInput objects, '
-          f'{callback_slots} CardAttack/Effect/ExAttack callback slots, {ecl_slots} ECL callback slots')
+          f'{callback_slots} CardAttack/Effect/ExAttack callback slots, {ecl_slots} ECL callback slots, '
+          f'{replay_captions} replay captions')
     print(f'{stem}: {len(handlers)} C++ exception handler references, '
           f'{sum(row["states"] for row in handlers)} unwind states, '
           f'{sum(row["relocations"] for row in handlers)} unwind relocations')

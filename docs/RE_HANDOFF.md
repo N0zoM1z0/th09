@@ -117,6 +117,11 @@ What the product still borrows or approximates:
   the fix, both layouts agree with retail until the periodic executable
   version check shuts them down. The retail capture covers all 7,996
   input records. [Replay evidence and command](KNOWLEDGE_BASE.md#2026-11-23-replay-layout-divergence-and-cpu-table)
+- Retail and both trials write short stage-9 replays through the results
+  menu. Both trials play the retail recording with matching traces through
+  480 frames. Trial recordings carry their writer's executable size and
+  checksum, which the stock version record rejects.
+  [Replay save and playback evidence](KNOWLEDGE_BASE.md#2026-11-23-linked-replay-captions-and-short-replay-saves)
 
 The trial pins the Platform SDK D3DX8 archive used for the reviewed
 game-facing entry points. The retail provider and both trial providers

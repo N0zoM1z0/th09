@@ -4067,3 +4067,40 @@ SIMD implementation for two `D3DXMatrixRotationY` calls. The input angle
 bits were 0x3FC90FDB. A breakpoint at the live operand showed the same
 16-byte constant at `.data1` +0x210 in both images. The complete 64-byte
 output matrices matched at the return to the caller.
+
+## 2026-11-23 linked replay captions and short replay saves
+
+The existing VC7.1 comparison attests the source-defined replay caption
+sections and their literal definitions. The linked verifier now uses
+that proof to follow every slot in the final PE. The writer has 27 slots
+in three tables. Its section moves from 0x004A0508 to 0x004A3C20. The
+replay menu has 28 slots in four tables and moves from 0x004A0408 to
+0x004A3D20. All referenced literals and table offsets agree with retail
+in both layouts and their four disjoint-base variants.
+
+Both layouts reject a caption pointer redirected to a different valid
+literal, changed literal bytes and a displaced table label. These controls
+cover the text written to replay metadata and shown in the replay menu.
+
+Retail and both trial layouts finished local 1P versus CPU matches on
+Lunatic and wrote `replay/th9_01.rpy` from the results menu. The probe set
+the human player's health setting to one, moved up through both rounds,
+and advanced the closing dialogue with Z. Each file passed the wire
+checksum and USER chunk extent check. The three stage-9 streams had
+1,936 records in the retail recording, 2,201 in the normal trial and
+1,523 in the reordered trial.
+
+Retail's saved replay played in retail and both trial layouts. The
+first 480 frames agreed in all 13 captured fields, including the three
+input histories, RNG state and draw count, scores and both positions.
+Decompressing the three recordings showed that the writer stores its
+own executable size and checksum with `0150a`. The retail recording
+stores `(685056, 2884521103)`. The normal and reordered trials store
+`(696320, 887951917)` and `(700416, 3067938002)` respectively. The
+stock version record accepts only the retail pair. Read-only hardware
+breakpoints at `CheckVersion` and its return to `LoadReplayData`
+showed 0 for the retail recording in retail and -1 for the normal
+trial recording in retail. The reordered trial received -1 when
+loading its own recording and produced zero playback frames. The
+retail probe for the reordered recording timed out before capturing
+the loader's return.
