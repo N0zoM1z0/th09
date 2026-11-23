@@ -776,8 +776,62 @@ def highlow_relocations(image, pe):
 
 
 def section_payloads(image, pe):
-    return {(s['name'], s['rva'], s['virtual_size']): image[s['raw_offset']:s['raw_offset'] + s['raw_size']]
+    return {(s['name'], s['rva'], s['virtual_size'], s['characteristics']):
+            image[s['raw_offset']:s['raw_offset'] + s['raw_size']]
             for s in pe['sections'] if s['name'] != '.reloc'}
+
+
+def decode_x86_chunks(decoder, payload, address):
+    cursor = 0
+    while cursor < len(payload):
+        limit = min(cursor + 16 * 1024, len(payload))
+        start = cursor
+        # An x86 instruction can extend up to 14 bytes past the boundary.
+        for instruction in decoder.disasm(payload[start:limit + 14], address + start):
+            offset = instruction.address - address
+            if offset >= limit:
+                break
+            yield instruction
+            cursor = offset + instruction.size
+        if cursor == start:
+            raise ValueError(f'x86 decoder stopped at {address + cursor:#010x}')
+
+
+def verify_absolute_memory_operands(image, pe, fields, former_range=None):
+    try:
+        import capstone
+        from capstone.x86 import X86_OP_MEM
+    except ImportError as exc:
+        raise ValueError('Capstone is required for the base-relocation operand check') from exc
+
+    decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
+    decoder.detail = True
+    decoder.skipdata = True
+    base = pe['image_base']
+    end = base + pe['size_of_image']
+    count = 0
+    for section in pe['sections']:
+        if not section['characteristics'] & 0x20000000:
+            continue
+        start = section['raw_offset']
+        size = min(section['raw_size'], section['virtual_size'])
+        payload = image[start:start + size]
+        for instruction in decode_x86_chunks(decoder, payload, base + section['rva']):
+            if not instruction.id or instruction.disp_size != 4:
+                continue
+            # An indexed absolute address may have an index register but no base register.
+            if not any(op.type == X86_OP_MEM and not op.mem.base and not op.mem.segment
+                       for op in instruction.operands):
+                continue
+            address = instruction.disp & 0xFFFFFFFF
+            if former_range and former_range[0] <= address < former_range[1]:
+                raise ValueError(f'absolute memory operand at {instruction.address:#010x} retains the old image base')
+            if base <= address < end:
+                site = instruction.address + instruction.disp_offset - base
+                if site not in fields:
+                    raise ValueError(f'absolute memory operand at {instruction.address:#010x} has no HIGHLOW field')
+                count += 1
+    return count
 
 
 def verify_base_pair(fixed, preferred, shifted):
@@ -799,10 +853,10 @@ def verify_base_pair(fixed, preferred, shifted):
     if original != section_payloads(fixed, fixed_pe):
         raise ValueError('preferred-base relocatable sections differ from the fixed link')
     if original.keys() != moved.keys():
-        raise ValueError('linked section identities differ between bases')
+        raise ValueError('linked section identities or attributes differ between bases')
     counts = {}
     for key, payload in original.items():
-        name, start, size = key
+        name, start, size, _ = key
         expected = bytearray(payload)
         count = 0
         for field in fields:
@@ -817,7 +871,10 @@ def verify_base_pair(fixed, preferred, shifted):
             counts[name] = count
     if sum(counts.values()) != len(fields):
         raise ValueError('HIGHLOW fields extend outside the file-backed image sections')
-    return counts
+    old_range = (low, low + preferred_pe['size_of_image'])
+    preferred_operands = verify_absolute_memory_operands(preferred, preferred_pe, fields)
+    shifted_operands = verify_absolute_memory_operands(shifted, shifted_pe, fields, old_range)
+    return counts, (preferred_operands, shifted_operands)
 
 
 def verify_layout(stem, data_name, target, units, objects):
@@ -902,8 +959,9 @@ def main():
             for variant in variants:
                 verify_layout(variant, data_name, target, units, objects)
             images = [(trial.OUT / f'{name}.exe').read_bytes() for name in (stem, *variants)]
-            counts = verify_base_pair(*images)
+            counts, operands = verify_base_pair(*images)
             print(f'{stem}: base delta verified {sum(counts.values())} HIGHLOW fields {counts}')
+            print(f'{stem}: checked {operands[0]} preferred-base and {operands[1]} shifted absolute memory operands')
 
 
 if __name__ == '__main__':

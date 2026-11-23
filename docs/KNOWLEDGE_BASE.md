@@ -3818,6 +3818,22 @@ shifted section payloads. Both layouts reject a missing or unsupported
 base relocation, a retained old-base operand, and a changed resource
 byte in private copies.
 
+The base comparison also checks section attributes and independently
+decodes absolute memory operands in executable sections. It uses small
+Capstone batches to keep memory bounded. In the current four relocatable
+PEs, all 6,616 decoded unsegmented absolute memory operands into each
+image have HIGHLOW entries. Neither shifted layout has such an operand
+into the preferred image range. This linear decode covers the linked
+libraries as well as game code. Immediate operands and pointer tables
+need their own evidence. The score-save allocation size `0x640000` and
+the D3DX8 PNG flag mask `0x602000` both fall inside the shifted image.
+
+Removing the same HIGHLOW entry in both relocatable files and retaining
+the preferred address in the shifted D3DX8 rotation initializer passed
+the previous section-byte check. The independent operand check rejects
+it in both layouts. The section attribute comparison also rejects a
+shifted image with executable `.data1` constants.
+
 ## 2026-11-23 replay pause and popup teardown
 
 The three bundled replay headers contain 7,996, 8,006 and 7,991

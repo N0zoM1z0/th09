@@ -59,7 +59,9 @@ python3 -B scripts/verify-trial-layouts.py
 ```
 
 The [disjoint image-base check](KNOWLEDGE_BASE.md#2026-11-23-disjoint-image-base-check)
-uses the same inputs and separate relocatable outputs.
+uses the same inputs and separate relocatable outputs. It checks section
+attributes and uses Capstone to check absolute memory operands independently
+of the HIGHLOW directory.
 
 ```bash
 (
