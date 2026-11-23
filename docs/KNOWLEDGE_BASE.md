@@ -4046,3 +4046,24 @@ slots became active at eight. The horizontal displacement changed from
 -5.0 to -3.0 per update. Releasing Z restored the original movement and
 cleared focus and both slots. Retail and both trial layouts agreed on
 all observed fields.
+
+## 2026-11-23 D3DX8 SIMD constant section
+
+Six nonempty `.data1` contributions in the pinned Platform SDK
+`d3dx8.lib` cover all 2,272 mapped bytes of the retail section. They
+come from `d3dxmathsse.obj`, `d3dxquatsse.obj`, `d3dxmathsse2.obj`,
+`d3dxquatsse2.obj`, `d3dxtrigsse.obj` and `d3dxtrigsse2.obj`, in that
+order. None of the six sections has COFF relocations. Their payloads
+match the retail bytes from section offset zero to +0x8DF.
+
+The linked verifier now checks the complete section extent and bytes in
+every trial PE. It rejects a changed constant or shortened extent. A
+linear decode of each of the four `/FIXED:NO` PEs found 50 code operands
+into `.data1`. Every operand has a HIGHLOW field. The section's live
+addresses in the low and high base links are 0x004E5000 and 0x006E5000.
+
+In Wine, the original and the reordered 0x00600000 link each entered the
+SIMD implementation for two `D3DXMatrixRotationY` calls. The input angle
+bits were 0x3FC90FDB. A breakpoint at the live operand showed the same
+16-byte constant at `.data1` +0x210 in both images. The complete 64-byte
+output matrices matched at the return to the caller.

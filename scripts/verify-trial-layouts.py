@@ -344,6 +344,19 @@ def verify_resources(target, image):
     return len(linked)
 
 
+def verify_d3dx_constants(target, image, pe):
+    retail = parse_pe(target)
+    original, = [section for section in retail['sections'] if section['name'] == '.data1']
+    linked = next((section for section in pe['sections'] if section['name'] == '.data1'), None)
+    size = original['virtual_size']
+    if linked is None or linked['virtual_size'] != size:
+        raise ValueError('linked D3DX8 constant section extent differs from retail')
+    original_data = coff.pe_bytes_at(target, retail['image_base'] + original['rva'], size)
+    if coff.pe_bytes_at(image, pe['image_base'] + linked['rva'], size) != original_data:
+        raise ValueError('linked D3DX8 constant section bytes differ from retail')
+    return size
+
+
 def import_thunk_identity(image, address, imports):
     thunk = coff.pe_bytes_at(image, address, 6)
     if thunk[:2] == b'\xff\x25':
@@ -552,6 +565,7 @@ def verify_layout(stem, data_name, target, units, objects):
     addresses = read_map(trial.OUT / f'{stem}.map')
     verify_crt_initializers(image, addresses)
     resources = verify_resources(target, image)
+    d3dx_constants = verify_d3dx_constants(target, image, pe)
     imports, import_fields = verify_imports(target, image, units, addresses)
     guids, guid_fields = verify_guids(target, image, units, addresses)
     aliases = dict(line.removeprefix('/ALTERNATENAME:').split('=', 1)
@@ -583,7 +597,7 @@ def verify_layout(stem, data_name, target, units, objects):
           f'{sum(row["relocations"] for row in handlers)} unwind relocations')
     print(f'{stem}: {resources} PE resources, {imports} PE imports, {import_fields} checked import operands, '
           f'{guids} GUIDs across {guid_fields} operands, {vtables} vtables, {virtual_slots} virtual slots, '
-          f'{len(aliases)} checked link aliases')
+          f'{len(aliases)} checked link aliases, {d3dx_constants} D3DX8 constant bytes')
     return code, labels
 
 
