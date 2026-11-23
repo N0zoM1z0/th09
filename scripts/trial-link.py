@@ -364,13 +364,15 @@ def classify(log: str) -> None:
         duplicates={symbol: sorted(objects) for symbol, objects in duplicates.items()}), indent=1))
 
 
-def verify() -> None:
+def verify() -> int:
     spec = importlib.util.spec_from_file_location('compare_coff', ROOT / 'scripts/compare-coff-function.py')
     compare = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(compare)
     units = load_units()
+    index = json.loads((OUT / 'index.json').read_text())
+    selected = {entry['source']: tuple(entry['profile']) for entry in selected_carriers(index)}
     by_source = collections.defaultdict(dict)
-    for entry in json.loads((OUT / 'index.json').read_text()):
+    for entry in index:
         by_source[entry['source']][tuple(entry['profile'])] = OUT / entry['object']
 
     def exact(name, path) -> bool:
@@ -383,25 +385,32 @@ def verify() -> None:
                 and report.get('matched_compared_bytes') == report.get('compared_size'))
 
     failures = []
+    selected_failures = []
     alternates = collections.defaultdict(lambda: collections.defaultdict(list))
     for name, unit in sorted(units.items()):
-        variants = by_source[unit['source']]
-        if not exact(name, variants[tuple(unit['profile'])]):
+        source = unit['source']
+        results = {profile: exact(name, path) for profile, path in by_source[source].items()}
+        if not results[tuple(unit['profile'])]:
             failures.append(name)
-        if len(variants) > 1:
-            for profile, path in variants.items():
-                alternates[unit['source']][profile]
-                if profile != tuple(unit['profile']) and not exact(name, path):
-                    alternates[unit['source']][profile].append(name)
+        if not results[selected[source]]:
+            selected_failures.append(name)
+        if len(results) > 1:
+            for profile, matches in results.items():
+                mismatches = alternates[source][profile]
+                if not matches:
+                    mismatches.append(name)
     print('units', len(units), 'failing in their own trial carrier', len(failures), failures[:10])
+    print('canonical units differing in the selected link carriers', len(selected_failures), selected_failures[:10])
     for source, profiles in sorted(alternates.items()):
         unifying = [short(profile) for profile, failed in profiles.items() if not failed]
         print(f'{source}: unifying {unifying or "none"};',
               {short(profile): len(failed) for profile, failed in profiles.items()})
     (OUT / 'verify.json').write_text(json.dumps(dict(
         own_failures=failures,
+        selected_failures=selected_failures,
         alternates={source: {short(p): f for p, f in profiles.items()} for source, profiles in alternates.items()}),
         indent=1))
+    return int(bool(failures))
 
 
 def main() -> int:
@@ -417,8 +426,10 @@ def main() -> int:
                    stdout=subprocess.DEVNULL)
     if args.action == 'link':
         link(args.reverse, args.base)
+    elif args.action == 'build':
+        build()
     else:
-        {'build': build, 'verify': verify}[args.action]()
+        return verify()
     return 0
 
 

@@ -4021,3 +4021,28 @@ The game entered its wait state and returned to the mode menu on X in
 all three runs. The reset cleared the device address, active flag and
 connection state. Successful hosting and peer synchronization require a
 DirectPlay implementation with a working `Host` call.
+
+## 2026-11-23 selected carrier comparisons and right-side focus mode
+
+All six EclManager units with canonical `/Ob0` profiles still match
+their complete retail extents and relocations in the retained `/Ob0`
+object. `player-type11-orientation-sign` also matches in the `/Ob1`
+object selected by the two trial links. The other five differ in code
+length and relocation count in `/Ob1`. `trial-link.py verify` now reports
+the selected-carrier failures alongside the canonical comparisons. A
+canonical-profile failure returns a nonzero exit status.
+
+The selected `/Ob0` movement carrier has the same 1,900-byte extent and
+66 relocation fields measured in the frontier. Its masked differences
+span +0x127 through +0x12A. Resolving all fields to retail destinations
+leaves eight differences across +0x127 through +0x12E.
+
+The Wine probe selected a CPU versus 1P match on Normal and enabled
+hold-to-focus in both private configuration slots. Match setup retained
+it for the human on the right and cleared it for the CPU on the left.
+Holding Z while moving left advanced the right input counter from one to
+eight and kept it at eight through update twelve. Focus and both effect
+slots became active at eight. The horizontal displacement changed from
+-5.0 to -3.0 per update. Releasing Z restored the original movement and
+cleared focus and both slots. Retail and both trial layouts agreed on
+all observed fields.

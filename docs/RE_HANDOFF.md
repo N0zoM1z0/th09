@@ -101,14 +101,16 @@ What the product still borrows or approximates:
   bound to the same original address. They are view types or bodies that
   the original linker folded. Replacing the views with real types is open.
 - EclManager links its `/Ob1` carrier only. Its six `/Ob0` units take the
-  `/Ob1` bodies, five of which differ from the original. Converting the
-  ECL accessor helpers to macros makes 84
-  of 86 units exact under `/Ob0`; RunEcl's remaining tail-merge difference
+  `/Ob1` bodies, five of which differ from the original. `trial-link.py verify`
+  reports these separately from failures in the units' canonical profiles.
+  Converting the ECL accessor helpers to macros makes 84 of 86 units
+  exact under `/Ob0`. RunEcl's remaining tail-merge difference
   is the blocker. `.analysis/closure/ecl-macro-ob0.patch` has the attempt.
 - The movement owner is linked from its near-exact source. The linked verifier
   checks its extent, relocations and focus ID table. A local 1P versus CPU run
   matched retail for ordinary and focused movement in both layouts.
   [Live input evidence](KNOWLEDGE_BASE.md#2026-11-23-live-keyboard-movement-in-local-match-mode)
+  · [Selected carriers and right-side focus](KNOWLEDGE_BASE.md#2026-11-23-selected-carrier-comparisons-and-right-side-focus-mode)
 - External playback of the bundled `demorpy0.rpy` supplies a
   repeatable per-frame check. It exposed a split CPU difficulty table
   that changed the reordered build's decisions from frame 516. After
