@@ -4218,6 +4218,29 @@ input frames. The fixed normal trial also matched the 600-frame
 smoke. The replay check and stock archive were used without
 modification.
 
+PE inspection found 4,096-byte file alignment in the earlier trial links.
+Retail uses 512 bytes on disk and 4,096 bytes in memory. Setting
+`/FILEALIGN:512` gives the six trial PEs the retail alignment values, and
+all six pass the linked layout checks. The fixed normal image shrinks
+from 696,320 to 685,568 bytes and the reversed image from 700,416 to
+686,592 bytes. Their remaining differences from the 685,056-byte retail
+file come from 512 fewer bytes of `.text` and additional `.rdata` and
+`.data` bytes. Both data sections add 512 bytes in the normal layout and
+1,024 bytes in the reversed layout. For each layout, two links from the
+same inputs differed only in the COFF timestamp. The checksum difference
+equaled the timestamp difference.
+
+Two console links using the selected game objects ran the actual
+`ComputeExecutableChecksum`, `SupervisorAddedLoadDat` and `CheckVersion`
+routines under Wine. The console directory supplied the attested
+`th09.dat`, and the private working directory supplied each tested PE
+as a read-only input to the checksum routine. Both consoles loaded the
+104-byte stock version file. Their file sizes and checksums matched the
+static preflight for retail, the two fixed trials and the reordered
+0x00600000 trial. Both returned 0 for retail and -1 for all three trials.
+The three routines and `FileSystem::OpenFile` match retail in the selected
+objects across 891 bytes and 58 relocations.
+
 ## 2026-11-23 native DirectPlay startup and path storage
 
 The host Windows installation reports its DirectPlay feature enabled.

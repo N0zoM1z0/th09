@@ -59,6 +59,7 @@ def parse_pe(image: bytes) -> dict[str, Any]:
     linker_major, linker_minor = struct.unpack_from("<BB", image, optional + 2)
     entry_rva = struct.unpack_from("<I", image, optional + 16)[0]
     image_base = struct.unpack_from("<I", image, optional + 28)[0]
+    section_alignment, file_alignment = struct.unpack_from("<II", image, optional + 32)
     size_of_image = struct.unpack_from("<I", image, optional + 56)[0]
     size_of_headers = struct.unpack_from("<I", image, optional + 60)[0]
     subsystem_id = struct.unpack_from("<H", image, optional + 68)[0]
@@ -92,6 +93,8 @@ def parse_pe(image: bytes) -> dict[str, Any]:
         "entry_rva": entry_rva,
         "entry_point": image_base + entry_rva,
         "image_base": image_base,
+        "section_alignment": section_alignment,
+        "file_alignment": file_alignment,
         "size_of_image": size_of_image,
         "headers_raw_size": size_of_headers,
         "relocations_stripped": bool(characteristics & 0x0001),

@@ -906,6 +906,10 @@ def verify_layout(stem, data_name, target, units, objects):
     pe = parse_pe(image)
     if pe['machine_id'] != 0x14C or pe['linker_version'] != '7.10':
         raise ValueError(f'{stem} is not a VC7.1 i386 link')
+    retail_pe = parse_pe(target)
+    for alignment in ('file_alignment', 'section_alignment'):
+        if pe[alignment] != retail_pe[alignment]:
+            raise ValueError(f'{stem} {alignment} differs from retail')
     addresses = read_map(trial.OUT / f'{stem}.map')
     entry_bytes, entry_fields = verify_crt_entry(target, image, pe, addresses, units['win-main']['target_address'])
     verify_crt_initializers(image, addresses)

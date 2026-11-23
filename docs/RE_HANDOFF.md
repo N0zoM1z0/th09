@@ -81,8 +81,10 @@ as `.analysis/game-prefix`.
 
 Check executable identity before a product-length replay. The command
 checks the archive digest, then reports each PE's size and the checksum
-used by the game. The current trial layouts fail the stock
-`th09_0150a.ver` record.
+used by the game. The trial links use the retail 512-byte file alignment.
+The fixed normal and reversed images still exceed the retail size by 512
+and 1,536 bytes, respectively. Their checksums also differ from the stock
+record. [File layout and console evidence](KNOWLEDGE_BASE.md#2026-11-23-live-replay-version-rejection)
 
 ```bash
 python3 -B scripts/build.py --runtime-version \

@@ -72,7 +72,7 @@ def library_symbols() -> set[str]:
         table = member[4 + 4 * count:]
         names |= {n.decode('latin1') for n in table.split(b'\0')[:count]}
     return names
-LINK_FLAGS = ['/NOLOGO', '/SUBSYSTEM:WINDOWS', '/MACHINE:X86', '/INCREMENTAL:NO',
+LINK_FLAGS = ['/NOLOGO', '/SUBSYSTEM:WINDOWS', '/MACHINE:X86', '/INCREMENTAL:NO', '/FILEALIGN:512',
               '/NODEFAULTLIB:libci.lib', '/NODEFAULTLIB:libc.lib', '/NODEFAULTLIB:amdmath.lib']
 COMMON_FLAGS = {'/MT', '/Gs', '/DNDEBUG', '/Zi', '/Gy', '/GF', '/Gr', '/Oy-', '/I', 'src'}
 # The linker concatenates .CRT$XIC contributions in input order. The retail
