@@ -147,9 +147,10 @@ def verify_target(path: Path) -> tuple[dict[str, Any], list[str]]:
                 "raw_offset": int(str(wanted["raw_offset"]), 0),
                 "raw_size": int(wanted["raw_size"]),
             }
-            if actual != normalized:
+            actual_extent = {field: actual[field] for field in normalized}
+            if actual_extent != normalized:
                 problems.append(
-                    f"PE section {actual.get('name', '?')}: {actual!r} "
+                    f"PE section {actual_extent['name']}: {actual_extent!r} "
                     f"(expected {normalized!r})"
                 )
     else:

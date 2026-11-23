@@ -5,7 +5,9 @@ import importlib.util
 from pathlib import Path
 import struct
 import sys
+import tempfile
 import unittest
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -49,6 +51,29 @@ def synthetic_pe(payload: bytes) -> bytes:
 
 
 class MatchingTests(unittest.TestCase):
+    def test_target_section_geometry_allows_additional_parsed_metadata(self) -> None:
+        import target_identity
+
+        image = synthetic_pe(b"\xc3")
+        section = dict(name=".text", rva="0x1000", virtual_size=1, raw_offset="0x200", raw_size=0x200)
+        pe = dict(machine_id=0x14C, section_count=1, timestamp_unix=0, entry_rva="0x0",
+                  entry_point="0x400000", image_base="0x400000", size_of_image=0,
+                  headers_raw_size=0, linker_version="0.0", relocations_stripped=False,
+                  sections=[section])
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "target.bin"
+            path.write_bytes(image)
+            manifest = dict(target=dict(size=len(image), **target_identity.file_hashes(path)), pe=pe)
+            with patch.object(target_identity, "load_manifest", return_value=manifest):
+                observed, problems = target_identity.verify_target(path)
+                self.assertEqual(problems, [])
+                self.assertEqual(observed["pe"]["sections"][0]["characteristics"], 0x60000020)
+
+                section["virtual_size"] = 2
+                _, problems = target_identity.verify_target(path)
+                self.assertEqual(len(problems), 1)
+                self.assertTrue(problems[0].startswith("PE section .text:"))
+
     def test_import_identity_uses_lookup_table_and_requires_complete_descriptors(self) -> None:
         identity_spec = importlib.util.spec_from_file_location(
             "th09_target_identity", ROOT / "scripts/target_identity.py")
