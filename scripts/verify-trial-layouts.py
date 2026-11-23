@@ -250,6 +250,46 @@ def verify_crt_initializers(image, addresses):
             raise ValueError(f'linked CRT {section} initializer table differs from the expected order')
 
 
+def import_thunk_identity(image, address, imports):
+    thunk = coff.pe_bytes_at(image, address, 6)
+    if thunk[:2] == b'\xff\x25':
+        return imports.get(u32(thunk, 2))
+    return None
+
+
+def verify_imports(target, image, units, addresses):
+    original_imports = coff.target_iat(target)
+    linked_imports = coff.target_iat(image)
+    if sorted(linked_imports.values()) != sorted(original_imports.values()):
+        raise ValueError('linked DLL and import identities differ from the original')
+
+    fields = 0
+    for name, unit in units.items():
+        for field in unit.get('relocations', []):
+            original = field.get('target')
+            if original is None:
+                continue
+            relative = field['type'] == 'REL32'
+            if relative:
+                expected = import_thunk_identity(target, original, original_imports)
+            else:
+                expected = original_imports.get(original)
+            if expected is None:
+                continue
+            offset = field['offset']
+            operand = addresses[unit['symbol']] + offset
+            value = u32(coff.pe_bytes_at(image, operand, 4), 0)
+            if relative:
+                entry = (operand + 4 + value) & 0xFFFFFFFF
+                actual = import_thunk_identity(image, entry, linked_imports)
+            else:
+                actual = linked_imports.get(value)
+            if actual != expected:
+                raise ValueError(f'{name}+{offset:#x} imports {actual}, expected {expected}')
+            fields += 1
+    return len(linked_imports), fields
+
+
 def verify_opponent_lists(target, image, units, labels, object_sizes):
     symbol = '?g_OpponentLists@@3PAPAUOpponentSelectionEntry@@A'
     fields = units['game-manager-select-opponent']['relocations']
@@ -276,6 +316,7 @@ def verify_layout(stem, data_name, target, units, objects):
         raise ValueError(f'{stem} is not a VC7.1 i386 link')
     addresses = read_map(trial.OUT / f'{stem}.map')
     verify_crt_initializers(image, addresses)
+    imports, import_fields = verify_imports(target, image, units, addresses)
     aliases = dict(line.removeprefix('/ALTERNATENAME:').split('=', 1)
                    for line in (trial.OUT / f'{stem}.rsp').read_text().splitlines()
                    if line.startswith('/ALTERNATENAME:'))
@@ -298,6 +339,7 @@ def verify_layout(stem, data_name, target, units, objects):
     print(f'{stem}: {len(handlers)} C++ exception handler references, '
           f'{sum(row["states"] for row in handlers)} unwind states, '
           f'{sum(row["relocations"] for row in handlers)} unwind relocations')
+    print(f'{stem}: {imports} PE imports, {import_fields} checked import operands')
     return code, labels
 
 

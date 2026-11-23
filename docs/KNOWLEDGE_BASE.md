@@ -3759,3 +3759,16 @@ The product startup constructor has its own unwind contribution. An
 independent COFF replay compared its 13 states, 271 code bytes, 132
 metadata bytes and all 42 relocations in each current PE. Its handler
 moves from 0x0048D265 to 0x0048D4C5.
+
+## 2026-11-23 linked PE import bindings
+
+Both trial PEs have the original 156 imports across nine DLLs, with
+identities compared by DLL and export name or ordinal. Between the two
+links, 90 IAT slots change address. The linked verifier reads 226 direct
+IAT operands and follows six calls through their import thunks. Each
+resolves to the original API independently of the map's import names.
+The thunk check covers DirectSoundCreate8's DSOUND ordinal 11.
+
+An in-memory DLL name change fails the import inventory check. Swapping
+two import lookup slots keeps the same inventory and fails the operand
+check, as does retargeting an import thunk to a different live IAT slot.
