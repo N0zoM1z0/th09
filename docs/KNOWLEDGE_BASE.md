@@ -3802,3 +3802,29 @@ same SDK and CRT library search paths. Compare section RVAs and base
 relocation directory entries, apply the base delta to HIGHLOW words
 and compare section payloads. Input order remains the variable in the
 internal layout check.
+
+## 2026-11-23 replay pause and popup teardown
+
+The three bundled replay headers contain 7,996, 8,006 and 7,991
+stage-9 input records per stream. These spans all exceed the 3,999
+global updates before the trial's first failing version check.
+
+The workspace configuration selects WAV music. In a private Wine run
+without the supplemental WAV archive, the original faults on pause in
+`SoundPlayer::ProcessQueues` at 0x0043F495. The pause command reads
++0x78 from a null active stream. The checked pause scenario uses a
+private configuration with music disabled and the stock game archive.
+
+`GameManagerSetupLayout::DeletedCallback` clears 0xAF0 DWORDs through
+`g_DeletedScratch`. The original and both linked paths bind that name
+to `AsciiManager` +0xB240, the start of both score-popup banks. The clear
+ends at +0xDE00 inside the 0xE0AC-byte owner. The linked ownership check
+rejects a displaced scratch label.
+
+The Wine probe opened `demorpy0.rpy` from the replay menu and paused
+after calculation 600. It sampled the replay counter across a 350 ms
+pause and resumed via the regular menu. It then paused again, confirmed
+return to title and checked the 11,200-byte popup range. The calculation
+counter stayed fixed during pause and advanced on resume in retail
+and both trial layouts. All three runs had 486 nonzero bytes before
+teardown, cleared the complete range on return and closed normally.
