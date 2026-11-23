@@ -45,6 +45,7 @@ static int PlayerType11OrientationSign(
     return 0;
 }
 
+#pragma inline_depth(0)
 int __fastcall PlayerPositionCallback30404Type11(
     PlayerPositionCallbackType11View *player,
     const Float3 *other)
@@ -81,3 +82,4 @@ int __fastcall PlayerPositionCallback30404Type11(
          PlayerType11OrientationSign(&delta, &points[0], &points[3]) >= 0 &&
          PlayerType11OrientationSign(&delta, &points[3], &points[6]) >= 0);
 }
+#pragma inline_depth()

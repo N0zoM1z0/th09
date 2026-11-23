@@ -109,14 +109,10 @@ What the product still borrows or approximates:
 - 139 references resolve through `/ALTERNATENAME` to the definition
   bound to the same original address. They are view types or bodies that
   the original linker folded. Replacing the views with real types is open.
-- EclManager links its `/Ob1` carrier only. Its six `/Ob0` units take the
-  `/Ob1` bodies, five of which differ from the original. `trial-link.py verify`
-  reports these separately from failures in the units' canonical profiles.
-  Converting the ECL accessor helpers to macros makes 84 of 86 units
-  exact under `/Ob0`. RunEcl's remaining tail-merge difference
-  is the blocker. `.analysis/closure/ecl-macro-ob0.patch` has the attempt.
-  A separate Type29 draw carrier needs to see `SetPolar2D`. Moving the
-  helper with that callback causes 24 other `/Ob1` units to differ.
+- EclManager uses one exact `/Ob1` carrier for comparison and trial linking.
+  Function-scoped inline depth preserves the five bodies that previously
+  differed in the product while keeping `SetPolar2D` visible to its callers.
+  RunEcl and the ECL callback tables pass in the linked layouts.
   [Carrier split evidence](KNOWLEDGE_BASE.md#2026-11-23-ecl-carrier-split-and-polar-call-context)
 - The movement owner is linked from its near-exact source. The linked verifier
   checks its extent, relocations and focus ID table. A local 1P versus CPU run
@@ -291,8 +287,6 @@ retained top-level allocator reports. The small compiler context comprises
 `PlayerCollisionHelpers.natural-preheader-842.cpp`, and
 `PlayerCollisionHelpers.nested-three-loop-849.cpp` controls under
 `.analysis/`. They retain allocator traces and CFG controls for unresolved
-work. `.analysis/closure/` keeps the ECL `/Ob0` macro attempt
-(`ecl-macro-ob0.patch`, regenerable with `macroize.py`). Rebuild selected
-objects when `build/` is absent; the game-run Wine prefix
+work. Rebuild selected objects when `build/` is absent. The game-run Wine prefix
 (`.analysis/game-prefix`) is recreated on first use. Keep cleanup scoped
 to identified disposable outputs. [Shared tools](SHARED_TOOLS.md)

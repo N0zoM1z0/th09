@@ -39,6 +39,7 @@ int __fastcall EffectInitializeCallbackRing(Effect *effect)
     return 0;
 }
 
+#pragma inline_depth(0)
 int __fastcall EffectDrawCallbackRing(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
@@ -148,3 +149,4 @@ int __fastcall EffectDrawCallbackRing(Effect *effect)
         static_cast<VertexTex1DiffuseXyzrhw *>(effect->vertices), 2 * (state->segments8C + 1));
     return 1;
 }
+#pragma inline_depth()

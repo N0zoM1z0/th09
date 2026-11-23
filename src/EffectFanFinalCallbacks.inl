@@ -1,6 +1,6 @@
 #include "RuntimePolarMath.hpp"
 // Original Effect rows17/29/31 updates and rows31/37 draws.
-// Lexical member of EclManager.cpp; Type31 draw uses the existing /Ob0 carrier.
+// Lexical member of EclManager.cpp. Type31 draw keeps its out-of-line calls.
 #include "RuntimeAngleMath.hpp"
 
 int __fastcall EffectUpdateCallbackType17(Effect *effect)
@@ -69,6 +69,7 @@ int __fastcall EffectUpdateCallbackType31(Effect *effect)
     return 1;
 }
 
+#pragma inline_depth(0)
 int __fastcall EffectDrawCallbackType31(Effect *effect)
 {
     EffectRingRuntimeView *state = reinterpret_cast<EffectRingRuntimeView *>(effect);
@@ -121,6 +122,7 @@ int __fastcall EffectDrawCallbackType31(Effect *effect)
         static_cast<VertexDiffuseXyzrhw *>(effect->vertices), 12);
     return 1;
 }
+#pragma inline_depth()
 
 int __fastcall EffectDrawCallbackType37(Effect *effect)
 {

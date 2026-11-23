@@ -246,6 +246,8 @@ static void BeginBoundaryAwareMove(
 namespace Th09EclRunLate
 {
 
+// Preserve the out-of-line calls while sharing this carrier with RunEcl.
+#pragma inline_depth(0)
 static void MoveRandomBiased(
     EnemyView *enemy,
     Th09EclRawInstructionHeaderView *instruction)
@@ -331,6 +333,7 @@ static void MoveRandomBiased(
             enemy, instruction, angle);
     }
 }
+#pragma inline_depth()
 
 
 } // namespace Th09EclRunLate

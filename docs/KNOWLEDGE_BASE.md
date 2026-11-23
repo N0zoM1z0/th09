@@ -3521,9 +3521,9 @@ body from TitleDrawCallback. The reversed link selected a 51-byte body from
 AnmManagerRuntime. Both layouts now put the reviewed provider before the
 competing carrier. The provider itself moves from 0x00401148 to 0x0044C550.
 
-The cold build produced 386 carrier objects. All 1,084 configured units
-passed comparison with the original in their own profiles. Five of the six
-units replaced in the product's EclManager carrier differ from the original:
+The earlier cold build produced 386 carrier objects. All 1,084 configured
+units passed comparison with the original in their own profiles. Five of
+the six units replaced in that trial's EclManager carrier differed from retail.
 `ecl-move-random-biased`, `effect-draw-callback-ring`,
 `effect-draw-type29`, `effect-draw-type31`, and
 `player-position-callback-type11`.
@@ -3545,8 +3545,8 @@ layout verifier rejects pairing a PE with the other layout's map and rejects
 a changed generated data pointer. The original and both trials reached the
 attract-mode match under Wine. All three also opened Options, returned to
 the title, and exited normally. The three Options captures were identical.
-Production data ownership and the EclManager profile differences remain
-open. [External replay evidence](#2026-11-23-replay-layout-divergence-and-cpu-table)
+Production data ownership remains open.
+[External replay evidence](#2026-11-23-replay-layout-divergence-and-cpu-table)
 
 ## 2026-11-23 replay layout divergence and CPU table
 
@@ -4030,11 +4030,11 @@ DirectPlay implementation with a working `Host` call.
 
 ## 2026-11-23 selected carrier comparisons and right-side focus mode
 
-All six EclManager units with canonical `/Ob0` profiles still match
-their complete retail extents and relocations in the retained `/Ob0`
-object. `player-type11-orientation-sign` also matches in the `/Ob1`
-object selected by the two trial links. The other five differ in code
-length and relocation count in `/Ob1`. `trial-link.py verify` now reports
+All six EclManager units with the earlier `/Ob0` profiles matched
+their complete retail extents and relocations in that object.
+`player-type11-orientation-sign` also matched in the `/Ob1` object
+selected by those trials. The other five differed in code length and
+relocation count. `trial-link.py verify` reports
 the selected-carrier failures alongside the canonical comparisons. A
 canonical-profile failure returns a nonzero exit status.
 
@@ -4268,7 +4268,19 @@ With `SetPolar2D` left as an external declaration in the `/Ob1` carrier,
 55 of its 80 units remained exact. The moved helper was absent as expected.
 Twenty-four other units changed code extents or relocation offsets,
 including ECL post-movement, effect drawing, ExAttack and player position
-callbacks. The experiment leaves the current trial carrier choice open.
+callbacks.
+
+VC7.1 reproduces the five previously differing bodies in a single `/Ob1`
+carrier when `#pragma inline_depth(0)` applies only to their definitions.
+Each scope restores the default before the next definition. This keeps
+the existing `SetPolar2D` definition visible and preserves the compiler's
+private calling conventions. A cold replay matches all 86 units, 49,353
+physical bytes and 2,084 relocations, including the full RunEcl body.
+The exact manifest and the trial link select the same compiler profile.
+Both fixed layouts and the four base variants pass the linked code and
+callback-table comparisons with that carrier. The links have no duplicate
+or unresolved symbols.
+The original translation-unit partition remains unknown.
 
 ## 2026-11-23 linked data permissions and bulk storage
 

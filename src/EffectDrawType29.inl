@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Adapted from Cirno-Labs/th09 d7653152, src/pl09.cpp; see THIRD_PARTY_NOTICES.md.
-// Complete original-bound /Ob0 extent:2220 bytes,129 fields; exact codegen.
+// Complete original-bound extent of 2,220 bytes and 129 relocation fields.
 // Original nominal vector types and translation-unit ownership remain unknown.
 #include "RuntimePolarMath.hpp"
 #include "EffectRingRuntimeView.hpp"
@@ -13,6 +13,7 @@ typedef char Effect29SdkNativeVectorAbi[
      offsetof(D3DXVECTOR3, x) == offsetof(Float3, x) &&
      offsetof(D3DXVECTOR3, y) == offsetof(Float3, y) &&
      offsetof(D3DXVECTOR3, z) == offsetof(Float3, z)) ? 1 : -1];
+#pragma inline_depth(0)
 int __fastcall EffectDrawCallbackType29(Effect *effect)
 {
 
@@ -244,3 +245,4 @@ int __fastcall EffectDrawCallbackType29(Effect *effect)
     }
     return 1;
 }
+#pragma inline_depth()

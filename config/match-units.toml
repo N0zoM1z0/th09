@@ -14024,8 +14024,8 @@ relocations = [
 
 [units.player-type11-orientation-sign]
 source = "src/EclManager.cpp"
-object = "build/matching/EclManager-Type11.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["PlayerType11OrientationSign"]
 symbol = "?PlayerType11OrientationSign@@YIHPBUFloat3@@00@Z"
 target_address = 0x00449B50
@@ -23829,8 +23829,8 @@ relocations = [
 
 [units.player-position-callback-type11]
 source = "src/EclManager.cpp"
-object = "build/matching/EclManager-Type11.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["PlayerPositionCallback30404Type11"]
 symbol = "?PlayerPositionCallback30404Type11@@YIHPAUPlayerPositionCallbackType11View@@PBUFloat3@@@Z"
 target_address = 0x00449D50
@@ -24216,8 +24216,8 @@ relocations = [
 
 [units.effect-draw-callback-ring]
 source = "src/EclManager.cpp"
-object = "build/matching/EclManager-Type11.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["EffectDrawCallbackRing"]
 symbol = "?EffectDrawCallbackRing@@YIHPAUEffect@@@Z"
 target_address = 0x0040DC70
@@ -24884,8 +24884,8 @@ relocations = [
 
 [units.effect-draw-type29]
 source = "src/EclManager.cpp"
-object = "build/matching/EclManager-Type11.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["EffectDrawCallbackType29"]
 symbol = "?EffectDrawCallbackType29@@YIHPAUEffect@@@Z"
 target_address = 0x00448750
@@ -25155,8 +25155,8 @@ relocations = [
 
 [units.effect-draw-type31]
 source = "src/EclManager.cpp"
-object = "build/matching/EclManager-Type11.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["EffectDrawCallbackType31"]
 symbol = "?EffectDrawCallbackType31@@YIHPAUEffect@@@Z"
 target_address = 0x0044A780
@@ -26673,8 +26673,8 @@ relocations = []
 
 [units.ecl-move-random-biased]
 source = "src/EclManager.cpp"
-object = "build/matching/EclManager-Type11.obj"
-profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob0", "/Oy-", "/I", "src"]
+object = "build/matching/EclManager.obj"
+profile = ["/MT", "/EHsc", "/Gs", "/DNDEBUG", "/Zi", "/Gy", "/GF", "/Oi", "/Gr", "/O2", "/Ob1", "/Oy-", "/I", "src"]
 functions = ["Th09EclRunLate::MoveRandomBiased"]
 symbol = "?MoveRandomBiased@Th09EclRunLate@@YIXPAUEnemyView@@PAUTh09EclRawInstructionHeaderView@@@Z"
 target_address = 0x00407E30
