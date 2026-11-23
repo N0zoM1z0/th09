@@ -3469,3 +3469,40 @@ complete occurrence. The pinned D3DX `sincosf` member has a distinct
 helper remains unresolved. The `etama-fsincos` match unit records its
 byte-exact code generation while the origin ledger retains its review
 status. Authored progress is unchanged.
+
+## 2026-11-23 review of unresolved function origins
+
+Direct Ghidra analysis of the attested Japanese 1.50a image confirmed
+the starts, inclusive ends, and byte counts for all 35 reviewed candidates.
+The only origin change is the five-byte `DummyMidiTimer::~DummyMidiTimer`
+at 0x0042F3F0. The original deleting destructor at 0x00431680 calls it
+before optionally calling scalar `operator delete` at 0x0047B249. The
+five-byte body tails to the base destructor at 0x0043D320. The pinned
+`/Ob0` SupervisorDeletedCallback object emits both complete bodies
+with those same relocation destinations. The user-declared destructor
+control emits an additional vtable store. The constructor at 0x0042F3B0
+also has a confirmed call and vtable identity, but a user-declared empty
+constructor can express the same operations.
+
+The 34 remaining origins have these evidence limits.
+
+- 29 constructors or destructors perform member or base operations only.
+  This includes the Player collision query array constructor at 0x0041CEB0
+  and the Player tail record constructor at 0x0041F060. Their call contracts
+  establish which storage is constructed. The machine code does not
+  distinguish a user-declared empty body from implicit generation. The
+  ExAttack constructor pair has both forms reproduced under VC7.1.
+- Three bodies have multiple observed interfaces. The pointer identity at
+  0x004343D0 is both a constructor callback and a pointer conversion. The
+  field-zero getter at 0x00435EC0 has multiple callers with different
+  receiver types. The one-byte return at 0x0043D2B0 has both call and vtable
+  references, including the maintained MidiTimer callback and AnmManager
+  destructor.
+- At 0x00405700 the SDK inline and the maintained wrapper reproduce the
+  same `atan2f` body. At 0x00412780 the laser-draw call establishes the
+  `fsincos` contract. The local SDK archive scan and adjacent-game
+  comparison leave the original provider open.
+
+The functions with ambiguous origins remain outside authored totals. A new
+source-level or provider-specific artifact would be needed to assign those
+origins. Repeating a byte match alone does not resolve the ambiguity.

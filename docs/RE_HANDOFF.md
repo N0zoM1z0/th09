@@ -27,6 +27,11 @@ python3 -B scripts/check-frontier.py NAME --show
 python3 -B scripts/ghidra-analysis.py --function ADDRESS
 ```
 
+The 2026-11-23 origin review confirmed all 35 candidate boundaries and
+classified the implicit DummyMidiTimer destructor. The remaining origins
+require source or provider evidence that distinguishes byte-identical
+producers. [Origin review](KNOWLEDGE_BASE.md#2026-11-23-review-of-unresolved-function-origins)
+
 ## Whole-image link and position independence
 
 The operator selected Windows i386 product closure aiming at position
