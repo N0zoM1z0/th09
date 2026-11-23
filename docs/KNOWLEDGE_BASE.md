@@ -3491,7 +3491,12 @@ The 34 remaining origins have these evidence limits.
   and the Player tail record constructor at 0x0041F060. Their call contracts
   establish which storage is constructed. The machine code does not
   distinguish a user-declared empty body from implicit generation. The
-  ExAttack constructor pair has both forms reproduced under VC7.1.
+  ExAttack constructor pair has both forms reproduced under VC7.1. The
+  15-byte replay payload constructor and 18-byte replay record constructor
+  also match with their original call relocations as explicit `/Ob1`
+  definitions and as implicit constructors emitted for array creation under
+  `/Ob0`. Under `/Ob1` the implicit record constructor inlines the payload
+  constructor and calls `GameConfiguration` directly.
 - Three bodies have multiple observed interfaces. The pointer identity at
   0x004343D0 is both a constructor callback and a pointer conversion. The
   field-zero getter at 0x00435EC0 has multiple callers with different
@@ -3503,9 +3508,10 @@ The 34 remaining origins have these evidence limits.
   `fsincos` contract. The local SDK archive scan and adjacent-game
   comparison leave the original provider open.
 
-The functions with ambiguous origins remain outside authored totals. A new
-source-level or provider-specific artifact would be needed to assign those
-origins. Repeating a byte match alone does not resolve the ambiguity.
+The replay control objects carry different COMDAT selections for explicit
+and implicit constructors. The retail PE has no COFF symbol table or PE
+debug directory to recover that distinction. The ambiguous origins remain
+outside authored totals pending source-level or provider-specific evidence.
 
 ## 2026-11-23 position independence and product checks
 
