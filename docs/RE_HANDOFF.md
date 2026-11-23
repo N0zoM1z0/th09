@@ -61,6 +61,16 @@ install, SHA-256 `73a344a2...5ea0`). A run directory needs the exe,
 `th09.dat` and `th09.cfg`; use `xvfb-run` with a separate Wine prefix such
 as `.analysis/game-prefix`.
 
+Check executable identity before a product-length replay. The command
+checks the archive digest, then reports each PE's size and the checksum
+used by the game. The current trial layouts fail the stock
+`th09_0150a.ver` record.
+
+```bash
+python3 -B scripts/build.py --runtime-version \
+    resources/th09.exe build/link-probe/trial.exe build/link-probe/trial-reversed.exe
+```
+
 What the product still borrows or approximates:
 
 - `scripts/product-data.py` emits the original globals that no source

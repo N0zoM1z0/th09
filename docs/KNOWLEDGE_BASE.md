@@ -3573,6 +3573,10 @@ and received -1. Both trials quit through the success exit from the same
 callback. The archive's `0150a` record binds 685,056 bytes and checksum
 2,884,521,103, which match the original PE. Both trial PEs are 700,416
 bytes. The complete product playback gate remains open at this check.
+The record was independently re-extracted from the SHA-256-attested game
+archive. `scripts/build.py --runtime-version EXE [EXE ...]` checks that
+archive digest and applies the game's DWORD sum to each named file before
+Wine is needed. The stock PE passes and both current trial PEs fail.
 
 Extract the fixture with the existing thtk `thdat` tool using version
 `-x 9` and the member name `demorpy0.rpy`. The probe uses the generic

@@ -8,6 +8,16 @@ sha256 = "10350095bcf95edb59e03bee9849a2dc8a7714b4927ad5909c569c550fce6822"
 sha1 = "89c8fdef84d25b2ee8bbd2026f8a343d7ef57c03"
 md5 = "cf634df46e05552e104fa97a971aaac0"
 
+[game_data]
+filename = "th09.dat"
+sha256 = "73a344a2cb7b1113831058010758f03d6d20e7710d889a95f249046fb8fa5ea0"
+
+[game_data.runtime_version]
+member = "th09_0150a.ver"
+identifier = "0150a"
+executable_size = 685056
+executable_checksum = 2884521103
+
 [provenance]
 classification = "original"
 version_database_url = "https://github.com/thpatch/thcrap-tsa/blob/f08b582ce57bce800955dd371fc9a68dbad5b324/base_tsa/versions.js"

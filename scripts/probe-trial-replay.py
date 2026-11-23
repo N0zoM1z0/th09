@@ -19,10 +19,11 @@ import sys
 import threading
 import time
 
+from target_identity import load_manifest
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEMO_SHA256 = '1d946b2d55776a5c910b6fd9cdb96a456c02d41c5d2cbcb4bf12aff50740c2ce'
-GAME_DATA_SHA256 = '73a344a2cb7b1113831058010758f03d6d20e7710d889a95f249046fb8fa5ea0'
 DEMO_INPUT_COUNT = 7996
 FIELDS = ('stage', 'frame', 'input_left', 'input_right', 'input_shared',
           'rng_seed', 'rng_draws', 'left_score', 'right_score',
@@ -150,9 +151,10 @@ def main():
     replay = args.replay.read_bytes()
     if hashlib.sha256(replay).hexdigest() != DEMO_SHA256:
         parser.error('replay fixture differs from the Japanese TH09 1.50a demorpy0.rpy')
-    archive = ROOT / 'resources/th09.dat'
+    game_data = load_manifest()['game_data']
+    archive = ROOT / 'resources' / game_data['filename']
     with archive.open('rb') as stream:
-        if hashlib.file_digest(stream, 'sha256').hexdigest() != GAME_DATA_SHA256:
+        if hashlib.file_digest(stream, 'sha256').hexdigest() != game_data['sha256']:
             parser.error('th09.dat differs from the fixture archive')
     driver = args.ptrace_runner.resolve(strict=True)
 
@@ -194,7 +196,7 @@ def main():
     config = runtime / 'th09.cfg'
     shutil.copyfile(ROOT / 'resources/th09.cfg', config)
     settings.update(executableSha256=hashlib.sha256(image).hexdigest(), replaySha256=DEMO_SHA256,
-                    gameDataSha256=GAME_DATA_SHA256,
+                    gameDataSha256=game_data['sha256'],
                     configSha256=hashlib.sha256(config.read_bytes()).hexdigest())
     (output / 'observer.json').write_text(json.dumps(settings, indent=2) + '\n')
     runner = output / 'replay-ptrace.py'
