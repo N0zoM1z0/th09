@@ -24,11 +24,13 @@ import hashlib
 import importlib.util
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import re
 import subprocess
 import sys
 import tomllib
+
+from coff_archive import archive_members
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'build/link-probe'
@@ -39,12 +41,13 @@ LIBS = ['libcmt.lib', 'kernel32.lib', 'user32.lib', 'gdi32.lib', 'advapi32.lib',
         'winmm.lib', 'd3d8.lib', 'd3dx8.lib', 'dinput8.lib', 'dsound.lib', 'dxguid.lib', 'dxerr8.lib']
 
 
-def pinned_d3dx8() -> Path:
-    path = VC / 'PlatformSDK/Lib/d3dx8.lib'
-    expected = tomllib.loads((ROOT / 'config/tools.lock.toml').read_text())['msvc71']['d3dx8_sha256']
-    if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != expected:
-        raise SystemExit('missing or mismatched pinned Platform SDK d3dx8.lib')
-    return path
+def pinned_libraries() -> dict[str, Path]:
+    paths = {'libcmt.lib': VC / 'lib/libcmt.lib', 'd3dx8.lib': VC / 'PlatformSDK/Lib/d3dx8.lib'}
+    pins = tomllib.loads((ROOT / 'config/tools.lock.toml').read_text())['msvc71']
+    for name, path in paths.items():
+        if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != pins[f'{path.stem}_sha256']:
+            raise SystemExit(f'missing or mismatched pinned {name}: {path.relative_to(VC)}')
+    return paths
 
 
 def library_symbols() -> set[str]:
@@ -52,10 +55,11 @@ def library_symbols() -> set[str]:
     import struct
     names = set()
     folders = [VC / 'lib', VC / 'PlatformSDK/Lib']
-    d3dx8 = pinned_d3dx8()
+    pinned = pinned_libraries()
     for library in LIBS:
-        path = d3dx8 if library == d3dx8.name else next(
-            (p for f in folders for p in f.iterdir() if p.name.lower() == library), None)
+        path = pinned.get(library)
+        if path is None:
+            path = next((p for folder in folders for p in folder.iterdir() if p.name.lower() == library), None)
         if path is None:
             raise SystemExit('missing link library ' + library)
         data = path.read_bytes()
@@ -70,6 +74,27 @@ def library_symbols() -> set[str]:
 LINK_FLAGS = ['/NOLOGO', '/SUBSYSTEM:WINDOWS', '/MACHINE:X86', '/INCREMENTAL:NO',
               '/NODEFAULTLIB:libci.lib', '/NODEFAULTLIB:libc.lib', '/NODEFAULTLIB:amdmath.lib']
 COMMON_FLAGS = {'/MT', '/Gs', '/DNDEBUG', '/Zi', '/Gy', '/GF', '/Gr', '/Oy-', '/I', 'src'}
+# The linker concatenates .CRT$XIC contributions in input order. The retail
+# image runs onexit, stdio, SSE2 detection, then multibyte initialization.
+CRT_INITIALIZERS = ('onexit.obj', '_file.obj', 'cpu_disp.obj', 'mbctype.obj')
+
+
+def ordered_crt_objects(archive: Path, output: Path) -> list[Path]:
+    members = {}
+    for name, data in archive_members(archive):
+        basename = PureWindowsPath(name).name.lower()
+        if basename in CRT_INITIALIZERS:
+            if basename in members:
+                raise ValueError(f'duplicate {basename} in {archive.name}')
+            members[basename] = data
+    missing = set(CRT_INITIALIZERS) - members.keys()
+    if missing:
+        raise ValueError(f'{archive.name} is missing startup members: {", ".join(sorted(missing))}')
+    output.mkdir(parents=True, exist_ok=True)
+    objects = [output / name for name in CRT_INITIALIZERS]
+    for path in objects:
+        path.write_bytes(members[path.name])
+    return objects
 
 
 def short(profile) -> str:
@@ -220,7 +245,7 @@ def selected_carriers(index) -> list[dict]:
 
 def link(reverse: bool = False) -> None:
     check_pins()
-    d3dx8 = pinned_d3dx8()
+    pinned = pinned_libraries()
     stem = 'trial-reversed' if reverse else 'trial'
     outputs = [OUT / f'{stem}.{suffix}' for suffix in ('exe', 'map')]
     data = ROOT / 'build/product' / ('ProductDataReversed.obj' if reverse else 'ProductData.obj')
@@ -239,11 +264,14 @@ def link(reverse: bool = False) -> None:
     product = tomllib.loads((ROOT / 'config/product-link.toml').read_text())
     aliases = alias_table(index)
     aliases.update(product.get('library_data', {}))
-    extra = winpath(env, data, resources)
+    crt = ordered_crt_objects(pinned['libcmt.lib'], OUT / f'{stem}-crt')
+    *crt_win, data_win, resource_win = winpath(env, *crt, data, resources)
+    extra = [data_win, resource_win]
     (OUT / 'aliases.json').write_text(json.dumps(aliases, indent=1, sort_keys=True))
     print('address-bound aliases', len(aliases))
-    lib, slib, d3dx8_win = winpath(env, VC / 'lib', VC / 'PlatformSDK/Lib', d3dx8)
-    libraries = [f'"{d3dx8_win}"' if name == d3dx8.name else name for name in LIBS]
+    lib, slib, *absolute = winpath(env, VC / 'lib', VC / 'PlatformSDK/Lib', *pinned.values())
+    explicit = dict(zip(pinned, absolute, strict=True))
+    libraries = [f'"{explicit[name]}"' if name in explicit else name for name in LIBS]
     object_by_source = {entry['source']: entry['object'].replace('/', '\\') for entry in index}
     sources = list(object_by_source)
     if reverse:
@@ -264,7 +292,7 @@ def link(reverse: bool = False) -> None:
     (OUT / f'{stem}.rsp').write_text('\r\n'.join(
         [*LINK_FLAGS, f'/OUT:{stem}.exe', f'/MAP:{stem}.map',
          *[f'/ALTERNATENAME:{alias}={real}' for alias, real in sorted(aliases.items())],
-         *objects, *libraries]) + '\r\n')
+         *[f'"{path}"' for path in crt_win], *objects, *libraries]) + '\r\n')
     for output in outputs:
         output.unlink(missing_ok=True)
     result = subprocess.run(['nice', '-n', '10', 'wine', str(VC / 'bin/link.exe'), f'@{stem}.rsp'],

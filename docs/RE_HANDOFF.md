@@ -103,6 +103,11 @@ game-facing entry points. The retail provider and both trial providers
 write 0x1C bytes into metadata slots spaced 0x14 bytes apart.
 [D3DX8 provider and runtime evidence](KNOWLEDGE_BASE.md#2026-11-23-d3dx8-provider-and-surface-output)
 
+The trial pins VC7.1 `libcmt.lib` and explicitly orders its four
+`.CRT$XIC` inputs so SSE2 detection precedes multibyte initialization
+as in retail. The linked verifier checks the C and C++ startup tables.
+[CRT startup evidence](KNOWLEDGE_BASE.md#2026-11-23-crt-startup-provider-and-initializer-order)
+
 ## Player movement handoff
 
 The single-function exact reconstruction is paused for handoff. The

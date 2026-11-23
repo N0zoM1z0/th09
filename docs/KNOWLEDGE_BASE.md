@@ -3654,3 +3654,28 @@ as does a changed numeric field.
 The replay probe now passes the attested original image to the linked
 layout verifier before starting either trial. A 60-calculation smoke on
 the original and both trials produced identical CSVs across all 13 fields.
+
+## 2026-11-23 CRT startup provider and initializer order
+
+The VC7.1 `libcmt.lib` entry point, `_cinit`, five C initializers
+and security-cookie initializer match the non-relocation bytes in the
+original and both trial PEs across eight bodies and 1,141 bytes. The
+linked checks resolved all public operands to their map symbols and
+matched the entry's full 12-byte SEH scope record and both handler
+addresses. The unhandled-exception filter saves its previous value in
+private BSS.
+
+Retail calls onexit setup, stdio setup, SSE2 detection and multibyte
+initialization in that order, then installs the C++ exception filter.
+Both previous trial links swapped the SSE2 and multibyte callbacks.
+The trial now pins the archive and passes the four `.CRT$XIC` members
+as objects in retail order. The layout verifier also checks the
+security-cookie initializer and the trial C++ registration entry.
+The latter moves from 0x0048D800 to 0x0048D840 and its compiled tail jump
+resolves to the respective linked `ProductStaticInit` constructor.
+The trial still uses this single wrapper for game globals.
+
+Both relinks keep the original 156 named imports and both resource
+payloads. Their 600-calculation Wine traces agree with the original in
+all 13 recorded fields, including the earlier divergence at calculation
+516. The stock version preflight still rejects both relinked files.

@@ -225,12 +225,24 @@ def verify_callback_tables(target, image, units, resolve):
     return total
 
 
+def verify_crt_initializers(image, addresses):
+    c_initializers = ('___onexitinit', '___initstdio', '___sse2_available_init', '___initmbctable',
+                      '?__CxxSetUnhandledExceptionFilter@@YAHXZ')
+    cxx_initializers = ('___security_init_cookie', '_$E1')
+    for section, names in (('xi', c_initializers), ('xc', cxx_initializers)):
+        expected = struct.pack(f'<{len(names) + 2}I', 0, *(addresses[name] for name in names), 0)
+        start, end = addresses[f'___{section}_a'], addresses[f'___{section}_z']
+        if end - start != len(expected) - 4 or coff.pe_bytes_at(image, start, len(expected)) != expected:
+            raise ValueError(f'linked CRT {section} initializer table differs from the expected order')
+
+
 def verify_layout(stem, data_name, target, units, objects):
     image = (trial.OUT / f'{stem}.exe').read_bytes()
     pe = parse_pe(image)
     if pe['machine_id'] != 0x14C or pe['linker_version'] != '7.10':
         raise ValueError(f'{stem} is not a VC7.1 i386 link')
     addresses = read_map(trial.OUT / f'{stem}.map')
+    verify_crt_initializers(image, addresses)
     aliases = dict(line.removeprefix('/ALTERNATENAME:').split('=', 1)
                    for line in (trial.OUT / f'{stem}.rsp').read_text().splitlines()
                    if line.startswith('/ALTERNATENAME:'))

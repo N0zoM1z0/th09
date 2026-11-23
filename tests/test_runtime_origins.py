@@ -9,6 +9,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
 SPEC = importlib.util.spec_from_file_location(
     "th09_runtime_origin_audit", ROOT / "scripts/audit-runtime-origins.py"
 )
