@@ -10,7 +10,7 @@ import struct
 import sys
 import tomllib
 
-from target_identity import parse_pe
+from target_identity import numeric_resources, parse_pe
 
 
 def load_script(name):
@@ -250,6 +250,14 @@ def verify_crt_initializers(image, addresses):
             raise ValueError(f'linked CRT {section} initializer table differs from the expected order')
 
 
+def verify_resources(target, image):
+    original = numeric_resources(target, lambda address, size: coff.pe_bytes_at(target, address, size))
+    linked = numeric_resources(image, lambda address, size: coff.pe_bytes_at(image, address, size))
+    if linked != original:
+        raise ValueError('linked PE resource identities or payloads differ from the original')
+    return len(linked)
+
+
 def import_thunk_identity(image, address, imports):
     thunk = coff.pe_bytes_at(image, address, 6)
     if thunk[:2] == b'\xff\x25':
@@ -354,6 +362,7 @@ def verify_layout(stem, data_name, target, units, objects):
         raise ValueError(f'{stem} is not a VC7.1 i386 link')
     addresses = read_map(trial.OUT / f'{stem}.map')
     verify_crt_initializers(image, addresses)
+    resources = verify_resources(target, image)
     imports, import_fields = verify_imports(target, image, units, addresses)
     aliases = dict(line.removeprefix('/ALTERNATENAME:').split('=', 1)
                    for line in (trial.OUT / f'{stem}.rsp').read_text().splitlines()
@@ -378,7 +387,7 @@ def verify_layout(stem, data_name, target, units, objects):
     print(f'{stem}: {len(handlers)} C++ exception handler references, '
           f'{sum(row["states"] for row in handlers)} unwind states, '
           f'{sum(row["relocations"] for row in handlers)} unwind relocations')
-    print(f'{stem}: {imports} PE imports, {import_fields} checked import operands, '
+    print(f'{stem}: {resources} PE resources, {imports} PE imports, {import_fields} checked import operands, '
           f'{vtables} vtables, {virtual_slots} virtual slots')
     return code, labels
 

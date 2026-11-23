@@ -3850,3 +3850,22 @@ advanced during both states. All three returned to the title and
 closed normally. The Wine MIDI device handle remained null, so
 these observations cover parsing, timer dispatch and control state.
 The retail demo at frame 600 had no active parsed MIDI track.
+
+## 2026-11-23 windowed D3D restart and PE resources
+
+In Wine, changing the color-depth option triggered a renderer restart
+in the original and both trial layouts. Each run stayed in windowed
+mode, destroyed its original window and returned to the title in a
+new X11 window with a new Win32 handle. The supervisor calculation
+counter advanced after the restart. Both visits used the same
+640-by-480 D3D8 presentation settings and format 22. All three processes
+closed normally and persisted the change from 0 to 1 at configuration
++0xAD as the sole file difference.
+
+The linked verifier now walks the numeric PE resource directory and
+compares resource type, ID, language, codepage and payload with retail.
+Both images preserve the icon and icon group, with Japanese language
+ID 1041 and payloads of 2,216 and 20 bytes. The resource generator
+uses the same bounded tree reader and reproduces its previous
+`ProductResources.res` byte for byte. Changed language, codepage,
+payload and out-of-directory references failed the linked check.

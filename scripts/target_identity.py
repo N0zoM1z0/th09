@@ -205,3 +205,47 @@ def import_iat(image: bytes, read: Callable[[int, int], bytes]) -> dict[int, str
             result[image_base + first_thunk + thunk_offset] = f"{dll}::{name}"
             thunk_offset += 4
     raise ValueError("unterminated PE import directory")
+
+
+def numeric_resources(image: bytes, read: Callable[[int, int], bytes]) -> dict[tuple[int, ...], tuple[int, bytes]]:
+    """Read the type, ID and language leaves of TH09's numeric resource tree."""
+    pe_offset = struct.unpack_from("<I", image, 0x3C)[0]
+    optional_size = struct.unpack_from("<H", image, pe_offset + 20)[0]
+    optional = pe_offset + 24
+    if optional_size < 120 or struct.unpack_from("<H", image, optional)[0] != 0x10B:
+        raise ValueError("expected a PE32 resource directory")
+    image_base = struct.unpack_from("<I", image, optional + 28)[0]
+    count = struct.unpack_from("<I", image, optional + 92)[0]
+    rva, size = struct.unpack_from("<II", image, optional + 112)
+    if count < 3 or not rva or not size:
+        return {}
+    directory = read(image_base + rva, size)
+    if len(directory) != size:
+        raise ValueError("truncated resource directory")
+
+    def extent(offset, length):
+        if not 0 <= offset <= len(directory) - length:
+            raise ValueError("resource data extends outside the directory")
+        return directory[offset:offset + length]
+
+    entries = {}
+
+    def walk(offset, trail):
+        named, ids = struct.unpack_from("<HH", extent(offset, 16), 12)
+        if named:
+            raise ValueError("named resources are not expected in TH09")
+        for key, pointer in struct.iter_unpack("<II", extent(offset + 16, 8 * ids)):
+            path = (*trail, key)
+            is_directory = bool(pointer & 0x80000000)
+            if key > 0xFFFF or is_directory != (len(path) < 3):
+                raise ValueError("unexpected TH09 resource tree entry")
+            if is_directory:
+                walk(pointer & 0x7FFFFFFF, path)
+            else:
+                payload, length, codepage, reserved = struct.unpack("<IIII", extent(pointer, 16))
+                if reserved or path in entries:
+                    raise ValueError("invalid or duplicate TH09 resource leaf")
+                entries[path] = (codepage, extent(payload - rva, length))
+
+    walk(0, ())
+    return entries
