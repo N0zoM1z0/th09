@@ -25,6 +25,9 @@ from target_identity import load_manifest
 ROOT = Path(__file__).resolve().parents[1]
 DEMO_SHA256 = '1d946b2d55776a5c910b6fd9cdb96a456c02d41c5d2cbcb4bf12aff50740c2ce'
 DEMO_INPUT_COUNT = 7996
+# The reviewed CheckVersion failure path sets EAX to -1 and returns.
+VERSION_REJECT_OFFSET = 0xB2
+VERSION_REJECT_CODE = bytes.fromhex('83c8ff5b8be55dc20c00')
 FIELDS = ('stage', 'frame', 'input_left', 'input_right', 'input_shared',
           'rng_seed', 'rng_draws', 'left_score', 'right_score',
           'left_x_bits', 'left_y_bits', 'right_x_bits', 'right_y_bits')
@@ -39,8 +42,6 @@ def load(name, path):
 
 def choose_replay(output):
     try:
-        # The splash can have the same title and 640x480 dimensions.
-        time.sleep(17)
         for _ in range(12):
             windows = subprocess.run(['xdotool', 'search', '--onlyvisible', '--name',
                                       'Phantasmagoria of Flower View'],
@@ -82,10 +83,10 @@ def observe():
             self.count = 0
             self.initial_draws = None
 
-        def finish(self, errors):
+        def finish(self, errors, **details):
             trace.close()
             (output / 'complete.json').write_text(json.dumps(
-                dict(rows=self.count, diagnosticComplete=not errors, errors=errors)) + '\n')
+                dict(rows=self.count, diagnosticComplete=not errors, errors=errors, **details)) + '\n')
             self.enabled = False
 
         def stop(self):
@@ -127,8 +128,35 @@ def observe():
                 self.finish([str(exc)])
             return False
 
+    class StartMenu(gdb.Breakpoint):
+        def stop(self):
+            title = int(gdb.parse_and_eval('$ecx'))
+            state, timer = struct.unpack('<II', read(title + 0x28, 8))
+            if state == 1 and timer >= 10:
+                self.enabled = False
+                threading.Thread(target=choose_replay, args=(output,), daemon=True).start()
+            return False
+
+    class VersionRejected(gdb.Breakpoint):
+        def stop(self):
+            frame = int(gdb.parse_and_eval('$ebp'))
+            caller, name, size, checksum = struct.unpack('<4I', read(frame + 4, 16))
+            if caller == settings['periodicReturn']:
+                calculation = word(read(settings['supervisor'] + 0x454, 4), 0)
+                identifier = bytes(read(name, 6)).rstrip(b'\0').decode('ascii')
+                capture.finish(['periodic executable version check rejected the running image'],
+                               runtimeVersion=dict(identifier=identifier, size=size, checksum=checksum,
+                                                   calculation=calculation, result=-1))
+            return False
+
     capture = Playback()
-    threading.Thread(target=choose_replay, args=(output,), daemon=True).start()
+    for name, breakpoint, expected in (
+            ('startMenu', StartMenu, bytes.fromhex(settings['startMenuBytes'])),
+            ('versionReject', VersionRejected, VERSION_REJECT_CODE)):
+        address = settings[name]
+        if read(address, len(expected)) != expected:
+            raise ValueError(f'{name} probe does not match live instructions')
+        breakpoint(f'*0x{address:08X}', gdb.BP_HARDWARE_BREAKPOINT)
     return capture
 
 
@@ -140,6 +168,8 @@ def main():
     parser.add_argument('--ptrace-runner', required=True, type=Path,
                         help="Factory TH08 scripts/replay-ptrace.py hardware-breakpoint driver")
     parser.add_argument('--frames', type=int, default=600)
+    parser.add_argument('--base', type=lambda value: int(value, 0), metavar='{0x400000,0x600000}',
+                        help='select a separate trial PE linked at this image base')
     args = parser.parse_args()
     output = args.output.resolve()
     if sys.platform != 'linux' or os.uname().machine != 'x86_64' or not os.environ.get('DISPLAY'):
@@ -160,29 +190,47 @@ def main():
 
     layout = load('trial_layout', ROOT / 'scripts/verify-trial-layouts.py')
     trial, coff = layout.trial, layout.coff
+    if args.base is not None and (args.layout == 'retail' or args.base not in trial.IMAGE_BASES):
+        parser.error('--base requires a trial layout and one of its two supported image bases')
     original = coff.verified_target()
     units = trial.load_units()
     boundary = units['replay-control-frame-advance']
+    start_menu = units['title-screen-start-menu']
+    version = units['supervisor-check-version']
+    update = units['supervisor-on-update']
+    periodic_call, = [field for field in update['relocations'] if field['symbol'] == version['symbol']]
     game_manager = '?g_GameManager@@3UAsciiGameManagerView@@A'
     inputs = '?g_ReplayInputStates@@3PAUReplayInputState@@A'
     rng = '?g_ReplayRng@@3URngRuntimeView@@A'
-    data_relocations = {field['symbol']: field['target'] for name in (
-        'replay-manager-playback-input', 'replay-manager-begin-playback-stage')
-        for field in units[name]['relocations'] if 'target' in field}
-    source = coff.TARGET
+    supervisor = '?g_Supervisor@@3VSupervisor@@A'
     image = original
-    addresses = {**data_relocations, boundary['symbol']: boundary['target_address']}
+    addresses = layout.original_symbol_addresses(units)
     if args.layout != 'retail':
+        reverse = args.layout == 'trial-reversed'
+        stem = trial.link_stem(reverse, args.base)
         index = json.loads((trial.OUT / 'index.json').read_text())
         objects = {entry['source']: trial.OUT / entry['object'] for entry in trial.selected_carriers(index)}
-        data_name = 'ProductDataReversed.obj' if args.layout == 'trial-reversed' else 'ProductData.obj'
-        layout.verify_layout(args.layout, data_name, original, units, objects)
-        source = trial.OUT / f'{args.layout}.exe'
+        data_name = 'ProductDataReversed.obj' if reverse else 'ProductData.obj'
+        layout.verify_layout(stem, data_name, original, units, objects)
+        source = trial.OUT / f'{stem}.exe'
         image = source.read_bytes()
         addresses = layout.read_map(source.with_suffix('.map'))
+        if args.base is not None:
+            pe = layout.parse_pe(image)
+            if pe['image_base'] != args.base or pe['relocations_stripped']:
+                raise ValueError(f'{stem} is not a relocatable PE at the requested base')
     address = addresses[boundary['symbol']]
+    menu_address = addresses[start_menu['symbol']]
+    version_reject = addresses[version['symbol']] + VERSION_REJECT_OFFSET
+    if coff.pe_bytes_at(image, version_reject, len(VERSION_REJECT_CODE)) != VERSION_REJECT_CODE:
+        raise ValueError('the linked CheckVersion reject path differs from the reviewed instructions')
     settings = dict(attestAddress=address,
                     attestBytes=coff.pe_bytes_at(image, address, boundary['size']).hex(),
+                    startMenu=menu_address,
+                    startMenuBytes=coff.pe_bytes_at(image, menu_address, start_menu['size']).hex(),
+                    versionReject=version_reject,
+                    periodicReturn=addresses[update['symbol']] + periodic_call['offset'] + 4,
+                    supervisor=addresses[supervisor],
                     gameManager=addresses[game_manager], inputs=addresses[inputs], rng=addresses[rng],
                     limit=args.frames)
 

@@ -121,6 +121,9 @@ What the product still borrows or approximates:
   the fix, both layouts agree with retail until the periodic executable
   version check shuts them down. The retail capture covers all 7,996
   input records. [Replay evidence and command](KNOWLEDGE_BASE.md#2026-11-23-replay-layout-divergence-and-cpu-table)
+  The replay probe can select a relocated trial PE and reports a live
+  version rejection as a failed capture with the observed version arguments.
+  [Version rejection evidence](KNOWLEDGE_BASE.md#2026-11-23-live-replay-version-rejection)
 - Retail and both trials write short stage-9 replays through the results
   menu. Both trials play the retail recording with matching traces through
   480 frames. Trial recordings carry their writer's executable size and

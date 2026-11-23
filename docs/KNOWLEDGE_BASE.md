@@ -4131,3 +4131,27 @@ at 0x004B42E0 with a 0x14-byte stride. All 320 bytes of that array were
 zero at dispatch during a second retail title-menu exit. The trials omit
 both registrations, so the observed shutdown agreement covers the eight
 shared objects and does not establish full startup or teardown closure.
+
+## 2026-11-23 live replay version rejection
+
+`probe-trial-replay.py` now sends its menu input when the live title
+menu reaches the selectable state. It verifies the mapped instructions
+at the menu, replay callback and `CheckVersion` rejection path. The
+failure observation is keyed to the call from `Supervisor::OnUpdate`
+and carries the live version identifier, size, checksum, calculation
+count and rejection result in `complete.json`. The probe exits nonzero
+on this path and retains the captured trace.
+
+Use `--base 0x600000` with `trial` or `trial-reversed` to exercise the
+corresponding relocatable PE and map. Before launch the probe checks the
+linked layout and the requested PE image base. The original runs with
+its fixed address and accepts no `--base` argument.
+
+The reordered 0x00600000 image recorded 3,566 frames before the
+periodic check at global calculation 3,999. The check received `0150a`,
+size 741,376 and checksum 269,289,566, the same identity as the static
+version preflight. It took the -1 return path. All 13 trace fields
+agreed with retail through frame 3,566. Retail recorded all 7,996
+input frames. The fixed normal trial also matched the 600-frame
+smoke. The replay check and stock archive were used without
+modification.
