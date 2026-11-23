@@ -3869,3 +3869,27 @@ ID 1041 and payloads of 2,216 and 20 bytes. The resource generator
 uses the same bounded tree reader and reproduces its previous
 `ProductResources.res` byte for byte. Changed language, codepage,
 payload and out-of-directory references failed the linked check.
+
+## 2026-11-23 linked ECL dispatch tables
+
+The EclHelpers interpolation table and the EnemyExAttackLeaves extra
+instruction table retain all 20 retail callback identities in the normal
+and reordered links. Their COFF contributions contain eight and twelve
+DIR32 fields with zero addends. The interpolation table moves from
+0x004A04B8 to 0x004A3CBC, and the extra instruction table moves from
+0x004A04D8 to 0x004A3C8C. `verify-trial-layouts.py` reads the original
+slots and checks the corresponding linked destinations. Pointing the
+Hermite slot at Linear or redirecting extra instruction slot 0 to the
+slot 1 callback is rejected in private copies of both layouts.
+
+The selected EclManager `/Ob1` carrier retains the exact `RunEcl` body.
+The five nonexact bodies have these retail and COFF physical extents in
+bytes. Each also differs in relocation count.
+
+| Unit | Retail | `/Ob1` COFF |
+| --- | ---: | ---: |
+| `ecl-move-random-biased` | 516 | 510 |
+| `effect-draw-callback-ring` | 1028 | 1024 |
+| `effect-draw-type29` | 2220 | 2380 |
+| `effect-draw-type31` | 921 | 905 |
+| `player-position-callback-type11` | 732 | 709 |

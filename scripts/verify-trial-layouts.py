@@ -239,6 +239,29 @@ def verify_callback_tables(target, image, units, resolve):
     return total
 
 
+def verify_ecl_tables(target, image, units, resolve):
+    code_symbols = {unit['target_address']: unit['symbol'] for unit in units.values()}
+    tables = (
+        ('ECL interpolation', coff.ECL_INTERPOLATION_TABLE, 0x004A0AF4, 8),
+        ('ECL extra instruction', '?g_EnemyEclExInstructions@@3PAP6IXPAUEnemyView@@PAUEnemyEclExInstructionView@@@ZA',
+         0x004A0B14, 12),
+    )
+    total = 0
+    for name, symbol, base, count in tables:
+        address = resolve(symbol)
+        if address is None:
+            raise ValueError(f'{name} has no linked callback table')
+        original = coff.pe_bytes_at(target, base, count * 4)
+        linked = coff.pe_bytes_at(image, address, count * 4)
+        for index in range(count):
+            callback = code_symbols[u32(original, index * 4)]
+            destination = resolve(callback)
+            if destination is None or u32(linked, index * 4) != destination:
+                raise ValueError(f'{name}[{index}] linked callback differs from {callback}')
+        total += count
+    return total
+
+
 def verify_crt_initializers(image, addresses):
     c_initializers = ('___onexitinit', '___initstdio', '___sse2_available_init', '___initmbctable',
                       '?__CxxSetUnhandledExceptionFilter@@YAHXZ')
@@ -378,12 +401,13 @@ def verify_layout(stem, data_name, target, units, objects):
     verify_opponent_lists(target, image, units, labels, product['object_size'])
     input_objects = verify_input_formats(target, image, units, resolve, product['library_data'])
     callback_slots = verify_callback_tables(target, image, units, resolve)
+    ecl_slots = verify_ecl_tables(target, image, units, resolve)
     vtables, virtual_slots = verify_vtables(image, units, objects, addresses, resolve)
     code, code_fields, private_fields, handlers = verify_code(image, pe, units, objects, addresses, destinations)
     print(f'{stem}: {len(code)} code units, {code_fields} code relocations '
           f'({private_fields} into private constants), {len(labels)} data labels, '
           f'{data_fields} data relocations, {input_objects} DirectInput objects, '
-          f'{callback_slots} Effect/ExAttack callback slots')
+          f'{callback_slots} Effect/ExAttack callback slots, {ecl_slots} ECL callback slots')
     print(f'{stem}: {len(handlers)} C++ exception handler references, '
           f'{sum(row["states"] for row in handlers)} unwind states, '
           f'{sum(row["relocations"] for row in handlers)} unwind relocations')
