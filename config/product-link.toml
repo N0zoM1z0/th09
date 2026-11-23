@@ -28,6 +28,7 @@ schema_version = 1
 "0x004AC858" = 0x2C    # TitleScoreRecordView (date field at +0x21)
 "0x004AC8D8" = 0x328   # Two 0x194-byte JOYCAPSA records
 "0x004ACC00" = 0x20C   # FileSystem resolved path and executable directory at +0x108
+"0x004B1020" = 0x2008  # GameErrorContext, src/GameErrorContext.hpp
 "0x004B3028" = 0x80    # Controller raw button bytes, shared by the clear and copy
 "0x004B30B0" = 0x44    # GameWindow (power-state flags at +0x20..+0x28)
 "0x004B3100" = 0x7B0   # Supervisor

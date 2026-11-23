@@ -11,9 +11,12 @@
 // PbgArchive type for the auxiliary array so the compiler owns its lifetime.
 // The ScreenEffect at 0x004AC888 and the three vertex arrays whose element
 // constructor only returns its object remain outside this glue.
+#include "GameErrorContext.hpp"
 #include "PbgArchive.hpp"
 #include <new>
 #include <stdlib.h>
+
+typedef char GameErrorContextSizeIs2008[(sizeof(GameErrorContext) == 0x2008) ? 1 : -1];
 
 struct AsciiGameManagerView;
 struct GameManagerResetView { void ResetForSupervisorAdded(); };
@@ -24,7 +27,6 @@ struct TitleScoreRecordView { unsigned char storage[0x2C]; };
 struct ScoreRecordCtorView { ScoreRecordCtorView(); };
 class ZunMemory { public: ZunMemory(); ~ZunMemory(); };
 struct ReplayInputState { ReplayInputState(); unsigned char storage[0x8E]; };
-class GameErrorContext { public: GameErrorContext(); };
 struct GameWindow { GameWindow(); };
 class Supervisor { public: Supervisor(); };
 struct AnmVm { AnmVm(); unsigned char storage[0x2A4]; };
@@ -56,6 +58,7 @@ static void __cdecl DestroyGameManagerDrawChain() { g_GameManagerDrawChain.~Chai
 static void __cdecl DestroyChain() { g_Chain.~Chain(); }
 static void __cdecl DestroyZunMemory() { g_ZunMemory.~ZunMemory(); }
 static void __cdecl DestroyPbgArchive() { g_PbgArchive.~PbgArchive(); }
+static void __cdecl DestroyGameErrorContext() { g_GameErrorContext.~GameErrorContext(); }
 static void __cdecl DestroyAsciiManagerCalcChain() { g_AsciiManagerCalcChain.~ChainElem(); }
 static void __cdecl DestroyAsciiManagerDrawChainLowPrio() { g_AsciiManagerDrawChainLowPrio.~ChainElem(); }
 static void __cdecl DestroyAsciiManagerDrawChainHighPrio() { g_AsciiManagerDrawChainHighPrio.~ChainElem(); }
@@ -82,6 +85,7 @@ static struct ProductStaticInit
         new (&g_PbgArchive) PbgArchive;
         atexit(DestroyPbgArchive);
         new (&g_GameErrorContext) GameErrorContext;
+        atexit(DestroyGameErrorContext);
         new (&g_GameWindow) GameWindow;
         new (&g_Supervisor) Supervisor;
         for (int i = 0; i < 3; ++i)

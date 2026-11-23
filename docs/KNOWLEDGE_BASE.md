@@ -4171,18 +4171,28 @@ elements of 0x10 bytes each. They use `[ebp+0x0C]` as the stride and
 between the loading VM and AsciiManager initializers. Its 36-byte
 initializer and 20-byte terminator match retail with all nine relocations
 replayed. The shared constructor also matches all 16 retail bytes.
-The GameErrorContext's empty exit callback remains absent from the trials.
 
-Both fixed links and all four base variants pass the updated startup
-checks. They cover the CRT initializer order, the array's complete
-zero-fill storage, and 21 startup and exit functions with 117 code
-relocations and 45 unwind relocations across 13 states. The array moves
+The trial now registers cleanup for the real `GameErrorContext` immediately
+after construction. VC7.1 emits the same one-byte body as the retail
+terminator for the call to its trivial destructor. The VC7.1 linker folds
+that body with the empty placement delete. The generated zero-fill object
+is explicitly bounded to its 0x2008-byte native extent, with identical
+generated assembly in both layouts before and after the extent declaration.
+The four GameErrorContext methods and its constructor still match all 415
+retail bytes and 17 relocation fields.
+
+Both fixed links and all four base variants pass the startup checks.
+They cover the CRT initializer and exit registration order, complete
+zero-fill storage, and 22 startup and exit functions with 119 code
+relocations and 45 unwind relocations across 13 states. The archive array moves
 from 0x004A8008 to 0x004E2998 between fixed links. The checker
 rejects a modified array count, shifted storage, a wrong destructor
-receiver and swapped CRT initializers. Console-only links with the same
-startup objects confirmed all 320 array bytes were zero at `main` and
-the auxiliary destructor was registered between the main PbgArchive and
-AsciiManager callbacks. Both console processes exited normally under Wine.
+receiver and swapped CRT initializers. The error-context controls also
+reject a missing or reordered registration, a replaced callback body
+and a one-byte-short storage allocation. Console links with the same
+startup objects confirmed the context's initialized buffer pointer and all
+ten game callbacks in the live CRT table in retail order. Both console
+processes exited normally under Wine.
 
 ## 2026-11-23 live replay version rejection
 

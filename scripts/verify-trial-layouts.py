@@ -474,6 +474,23 @@ def verify_crt_entry(target, image, pe, addresses, retail_winmain):
     return len(code), len(fields) + len(scope_fields)
 
 
+def verify_exit_registrations(path, constructor, size, cleanup_names):
+    code, relocations = coff.object_function(path, constructor, size)
+    fields = {field['offset']: field for field in relocations}
+    registered = []
+    for offset, field in sorted(fields.items()):
+        if field['symbol'] != '_atexit':
+            continue
+        argument = fields.get(offset - 5)
+        if (offset < 6 or code[offset - 6] != 0x68 or code[offset - 1] != 0xE8
+                or field['type'] != 'REL32' or field['addend'] or argument is None
+                or argument['type'] != 'DIR32' or argument['addend']):
+            raise ValueError(f'{constructor}+{offset:#x} has an unexpected _atexit call')
+        registered.append(argument['symbol'])
+    if registered != [f'?Destroy{name}@@YAXXZ' for name in cleanup_names]:
+        raise ValueError(f'{constructor} does not preserve its exit registration order')
+
+
 def verify_product_startup(target, image, pe, objects, addresses, destinations):
     startup = 'product/ProductStaticInit.cpp'
     archive_ctor = '??0PbgArchive@@QAE@XZ'
@@ -490,10 +507,16 @@ def verify_product_startup(target, image, pe, objects, addresses, destinations):
             if section['name_raw'].rstrip(b'\0') != b'.text' and name not in wrappers:
                 continue  # Associative EH sections have separate checks.
             functions[name] = {'source': source, 'symbol': name, 'size': section['size']}
-    for constructor, states in (('??0ProductStaticInit@@QAE@XZ', 11),
-                                ('??0ProductStaticInitAfterArchives@@QAE@XZ', 2)):
+    phases = (
+        ('??0ProductStaticInit@@QAE@XZ', 11,
+         ('GameManagerCalcChain', 'GameManagerDrawChain', 'Chain', 'ZunMemory', 'PbgArchive', 'GameErrorContext')),
+        ('??0ProductStaticInitAfterArchives@@QAE@XZ', 2,
+         ('AsciiManagerCalcChain', 'AsciiManagerDrawChainLowPrio', 'AsciiManagerDrawChainHighPrio')),
+    )
+    for constructor, states, cleanup_names in phases:
         functions[constructor].update(unwind_states=(states,),
                                       relocations=[{'symbol': '__ehhandler$' + constructor}])
+        verify_exit_registrations(objects[startup], constructor, functions[constructor]['size'], cleanup_names)
     _, sections, symbols = coff.read_coff_object(objects[startup])
     array_name = '_s_auxiliaryArchives'
     array, = (symbol for symbol in symbols.values() if symbol['name'] == array_name)
@@ -518,12 +541,13 @@ def verify_product_startup(target, image, pe, objects, addresses, destinations):
     bindings = destinations | storage | {'__except_list': 0}
     code, fields, _, handlers = verify_code(image, pe, functions, objects, addresses, bindings)
 
-    # Resolve the compiler's complete array wrappers against the retail CRT and objects.
+    # Resolve the compiler's complete wrappers against the retail CRT and objects.
     retail = {archive_ctor: 0x00433040, '??1PbgArchive@@QAE@XZ': 0x004335D0,
               '??_L@YGXPAXIHP6EX0@Z1@Z': 0x0047CEC9, '??_M@YGXPAXIHP6EX0@Z@Z': 0x0047CE69,
               '_atexit': 0x0047C323, '_$E4': 0x0048DA90, array_name: 0x004B42E0}
     for name, address, size in (('_$E3', 0x0048D920, 36), ('_$E4', retail['_$E4'], 20),
-                                (archive_ctor, retail[archive_ctor], 16)):
+                                (archive_ctor, retail[archive_ctor], 16),
+                                ('?DestroyGameErrorContext@@YAXXZ', 0x0048DA70, 1)):
         expected, relocations = coff.object_function(objects[functions[name]['source']], name, size)
         for field in relocations:
             offset = field['offset']
@@ -531,10 +555,10 @@ def verify_product_startup(target, image, pe, objects, addresses, destinations):
             if field['type'] == 'REL32':
                 destination -= address + offset + 4
             elif field['type'] != 'DIR32':
-                raise ValueError(f'unsupported auxiliary archive relocation in {name}')
+                raise ValueError(f'unsupported product startup relocation in {name}')
             struct.pack_into('<I', expected, offset, destination & 0xFFFFFFFF)
         if len(expected) != size or coff.pe_bytes_at(target, address, size) != expected:
-            raise ValueError(f'{name} differs from the retail auxiliary archive lifetime code')
+            raise ValueError(f'{name} differs from its retail startup or teardown body')
     return len(code), fields, handlers
 
 

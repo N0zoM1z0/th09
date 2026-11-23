@@ -102,11 +102,11 @@ What the product still borrows or approximates:
 - `product/` holds link glue: the global construction sequence for those
   objects and the PbgArchive constructor, whose body folds with a D3DX8
   routine at `0x00433040`. The typed auxiliary PbgArchive array now has
-  matching retail initializer and terminator wrappers. Its CRT registration
-  order and zero-fill storage pass checks in all six layouts and a console
-  smoke exercised activation and clean exit. The earlier title-menu exit
-  covered the eight shared game callbacks. The GameErrorContext's empty
-  retail callback remains omitted.
+  matching retail initializer and terminator wrappers. The GameErrorContext
+  cleanup completes the ten observed retail exit registrations. All six
+  layouts pass checks of the registration order and zero-fill storage.
+  Console links with the same startup objects confirmed the ten live CRT
+  registrations and exited normally.
   [Startup and exit evidence](KNOWLEDGE_BASE.md#2026-11-23-linked-product-startup-and-exit-callbacks)
 - 139 references resolve through `/ALTERNATENAME` to the definition
   bound to the same original address. They are view types or bodies that
