@@ -1768,9 +1768,9 @@ checked by a cold scoped replay of its carriers.
   match 0x0042F3B0, 0x0042F3F0 and 0x00431680 byte for byte. The deleting
   destructor appears only in a `/Ob0` caller. A user-declared destructor
   adds a vtable store, and the original has none.
-- D3DX8 linkage. Calls must bind to the SDK's C entry points
-  (`_D3DX...@N`). TH09 strides `D3DXIMAGE_INFO` by 0x14 bytes, the
-  DirectX 8.0 layout. The pinned SDK's 8.1 layout is 0x1C bytes.
+- D3DX8 linkage. The external entry points use the SDK's C linkage
+  (`_D3DX...@N`). TH09 strides metadata slots by 0x14 bytes and the
+  linked provider writes 0x1C bytes. [Provider evidence](#2026-11-23-d3dx8-provider-and-surface-output)
 - Data identity. Reversing the labelled data blocks found globals that
   were really fields of larger objects: the score table's name column,
   the score record's date, GameWindow's power flags and the character
@@ -3594,3 +3594,27 @@ done
 cmp .analysis/replay-retail/trace.csv .analysis/replay-trial/trace.csv
 cmp .analysis/replay-retail/trace.csv .analysis/replay-trial-reversed/trace.csv
 ```
+
+## 2026-11-23 D3DX8 provider and surface output
+
+The pinned VC7.1 Platform SDK archive matches all 12 D3DX entry points
+referenced by the game match units, plus `CD3DXImage::Load` at 0x00454F63.
+The 13 complete COFF bodies cover 1,753 bytes. All non-relocation bytes
+match the attested TH09 executable. In both trial PEs, all 33 COFF
+relocations resolve to their linked symbols with the recorded addends.
+The alternate SDK archive in the TH08 checkout disagrees at 11 of the
+12 game-facing entries.
+
+The retail wrapper at 0x004523F6 passes its ninth argument directly to
+`CD3DXImage::Load`. On success the helper stores the last two metadata
+words at output offsets +0x14 and +0x18. Read-only hardware breakpoint
+captures before and after those stores observed the same transition in
+the original and both Wine trials. Surface slot 8 began with seven zero
+DWORDs and received `[640, 480, 1, 1, 22, 3, 1]`. With the target's
+0x14-byte slot stride, those last two words occupy the first eight
+bytes of the next slot.
+
+The trial link now verifies the SDK archive digest and names the archive
+by explicit path. The data generator indexes the same pinned archive.
+Both commands reject the alternate SDK, and the two relinked PEs match
+their previous images byte for byte after normalizing the PE timestamp.

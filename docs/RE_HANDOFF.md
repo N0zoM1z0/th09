@@ -88,8 +88,10 @@ What the product still borrows or approximates:
   version check shuts them down. The retail capture covers all 7,996
   input records. [Replay evidence and command](KNOWLEDGE_BASE.md#2026-11-23-replay-layout-divergence-and-cpu-table)
 
-D3DX8 provenance is open. The pinned SDK's `D3DXIMAGE_INFO` is 0x1C bytes,
-while TH09 uses 0x14-byte records (DirectX 8.0 layout).
+The trial pins the Platform SDK D3DX8 archive used for the reviewed
+game-facing entry points. The retail provider and both trial providers
+write 0x1C bytes into metadata slots spaced 0x14 bytes apart.
+[D3DX8 provider and runtime evidence](KNOWLEDGE_BASE.md#2026-11-23-d3dx8-provider-and-surface-output)
 
 ## Player movement handoff
 

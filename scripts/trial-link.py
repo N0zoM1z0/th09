@@ -39,13 +39,23 @@ LIBS = ['libcmt.lib', 'kernel32.lib', 'user32.lib', 'gdi32.lib', 'advapi32.lib',
         'winmm.lib', 'd3d8.lib', 'd3dx8.lib', 'dinput8.lib', 'dsound.lib', 'dxguid.lib', 'dxerr8.lib']
 
 
+def pinned_d3dx8() -> Path:
+    path = VC / 'PlatformSDK/Lib/d3dx8.lib'
+    expected = tomllib.loads((ROOT / 'config/tools.lock.toml').read_text())['msvc71']['d3dx8_sha256']
+    if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+        raise SystemExit('missing or mismatched pinned Platform SDK d3dx8.lib')
+    return path
+
+
 def library_symbols() -> set[str]:
     """Public names of the linked archives, from each first linker member."""
     import struct
     names = set()
     folders = [VC / 'lib', VC / 'PlatformSDK/Lib']
+    d3dx8 = pinned_d3dx8()
     for library in LIBS:
-        path = next((p for f in folders for p in f.iterdir() if p.name.lower() == library), None)
+        path = d3dx8 if library == d3dx8.name else next(
+            (p for f in folders for p in f.iterdir() if p.name.lower() == library), None)
         if path is None:
             raise SystemExit('missing link library ' + library)
         data = path.read_bytes()
@@ -210,6 +220,7 @@ def selected_carriers(index) -> list[dict]:
 
 def link(reverse: bool = False) -> None:
     check_pins()
+    d3dx8 = pinned_d3dx8()
     stem = 'trial-reversed' if reverse else 'trial'
     outputs = [OUT / f'{stem}.{suffix}' for suffix in ('exe', 'map')]
     data = ROOT / 'build/product' / ('ProductDataReversed.obj' if reverse else 'ProductData.obj')
@@ -231,7 +242,8 @@ def link(reverse: bool = False) -> None:
     extra = winpath(env, data, resources)
     (OUT / 'aliases.json').write_text(json.dumps(aliases, indent=1, sort_keys=True))
     print('address-bound aliases', len(aliases))
-    lib, slib = winpath(env, VC / 'lib', VC / 'PlatformSDK/Lib')
+    lib, slib, d3dx8_win = winpath(env, VC / 'lib', VC / 'PlatformSDK/Lib', d3dx8)
+    libraries = [f'"{d3dx8_win}"' if name == d3dx8.name else name for name in LIBS]
     object_by_source = {entry['source']: entry['object'].replace('/', '\\') for entry in index}
     sources = list(object_by_source)
     if reverse:
@@ -252,7 +264,7 @@ def link(reverse: bool = False) -> None:
     (OUT / f'{stem}.rsp').write_text('\r\n'.join(
         [*LINK_FLAGS, f'/OUT:{stem}.exe', f'/MAP:{stem}.map',
          *[f'/ALTERNATENAME:{alias}={real}' for alias, real in sorted(aliases.items())],
-         *objects, *LIBS]) + '\r\n')
+         *objects, *libraries]) + '\r\n')
     for output in outputs:
         output.unlink(missing_ok=True)
     result = subprocess.run(['nice', '-n', '10', 'wine', str(VC / 'bin/link.exe'), f'@{stem}.rsp'],

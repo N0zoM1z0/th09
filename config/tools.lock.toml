@@ -8,6 +8,7 @@ cpp_frontend_sha256 = "353f3d5dcd050b876e1c044b99c4bf47958d255f395a4919f406a1992
 backend_sha256 = "bcd28f39b1798b07989c30a1df471cf87fc20e3802d130901a08f83800e6b81e"
 linker_version = "7.10.3077"
 linker_sha256 = "0d5f9712d0da843d787bf4ce4e678abc6b737940996706b2c86101eac9df3e3c"
+d3dx8_sha256 = "39a8e21889a7c1f0b966f04a9e7d392de14ddebb3e091dfa1e5ce3e19564fc28"
 
 [ida_analysis]
 application_version = "9.3"
