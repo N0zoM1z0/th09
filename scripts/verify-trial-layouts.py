@@ -29,6 +29,7 @@ coff = load_script('compare-coff-function')
 trial = load_script('trial-link')
 callbacks = load_script('report-callback-coverage')
 exceptions = load_script('coff_exception_handlers')
+frontier_check = load_script('check-frontier')
 MAP_SYMBOL = re.compile(r'^[ \t]+[0-9a-f]{4}:[0-9a-f]{8}[ \t]+(\S+)[ \t]+([0-9a-f]{8})[ \t]+',
                         re.MULTILINE | re.IGNORECASE)
 
@@ -355,6 +356,16 @@ def verify_focus_effect_ids(target, image, addresses):
     size = 16 * 4
     if coff.pe_bytes_at(image, addresses[symbol], size) != coff.pe_bytes_at(target, 0x004A1A10, size):
         raise ValueError('linked player focus effect IDs differ from the retail table')
+
+
+def verify_frontiers(target, frontiers, objects):
+    for name, entry in frontiers.items():
+        size, differing, _, _, _ = frontier_check.measure(coff, target, entry, objects[entry['source']])
+        new = differing - frontier_check.parse_offsets(entry['residual'])
+        if size != entry['candidate_size'] or new:
+            offsets = ', '.join(frontier_check.format_offsets(new)) or 'none'
+            raise ValueError(f'{name} linked candidate has size {size}, expected {entry["candidate_size"]}, '
+                             f'and new retail differences at {offsets}')
 
 
 def verify_replay_captions(target, image, units, objects, addresses):
@@ -843,7 +854,8 @@ def verify_layout(stem, data_name, target, units, objects):
     verify_focus_effect_ids(target, image, addresses)
     replay_captions = verify_replay_captions(target, image, units, objects, addresses)
     vtables, virtual_slots = verify_vtables(image, units, objects, addresses, resolve)
-    frontiers = tomllib.loads((trial.ROOT / 'config/frontiers.toml').read_text()).get('frontier', {})
+    frontiers = trial.load_frontiers()
+    verify_frontiers(target, frontiers, objects)
     code, code_fields, private_fields, handlers = verify_code(image, pe, units | frontiers, objects,
                                                             addresses, destinations)
     print(f'{stem}: {len(code)} code units ({len(frontiers)} from frontiers), {code_fields} code relocations '
@@ -897,5 +909,5 @@ def main():
 if __name__ == '__main__':
     try:
         main()
-    except (OSError, KeyError, ValueError, struct.error) as exc:
+    except (OSError, KeyError, RuntimeError, ValueError, struct.error) as exc:
         sys.exit(f'trial layout verification failed: {exc}')

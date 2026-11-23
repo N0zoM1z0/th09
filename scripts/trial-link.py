@@ -129,18 +129,31 @@ def load_units() -> dict:
     return tomllib.loads((ROOT / 'config/match-units.toml').read_text())['units']
 
 
+def load_frontiers() -> dict:
+    return tomllib.loads((ROOT / 'config/frontiers.toml').read_text()).get('frontier', {})
+
+
+def frontier_profiles() -> dict[str, tuple[str, ...]]:
+    profiles = {}
+    for frontier in load_frontiers().values():
+        source, profile = frontier['source'], tuple(frontier['profile'])
+        if profiles.setdefault(source, profile) != profile:
+            raise ValueError(f'{source}: frontiers require conflicting trial link profiles')
+    return profiles
+
+
 def build() -> None:
     check_pins()
     env = wine_env()
     groups = collections.defaultdict(lambda: collections.defaultdict(list))
     for name, unit in load_units().items():
         groups[tuple(unit['profile'])][unit['source']].append(name)
+    dominant = max(groups, key=lambda p: len(groups[p]))
+    for source, profile in frontier_profiles().items():
+        groups[profile].setdefault(source, [])
     index = []
     covered = {source for profile in groups.values() for source in profile}
-    dominant = max(groups, key=lambda p: len(groups[p]))
-    # Sources outside every canonical unit (constructor-only carriers and
-    # the near-exact movement owner) use the dominant profile without inline
-    # expansion; their constructor bodies match the original under /Ob0.
+    # Remaining constructor-only carriers use the dominant profile without inline expansion.
     product_only = tuple('/Ob0' if flag == '/Ob1' else flag for flag in dominant)
     # product/ holds link glue that is not reconstructed original source.
     for path in sorted((ROOT / 'src').glob('*.cpp')) + sorted((ROOT / 'product').glob('*.cpp')):
@@ -234,13 +247,17 @@ def alias_table(index) -> dict[str, str]:
 
 
 def selected_carriers(index) -> list[dict]:
-    # One carrier per source: a source compiled under several profiles keeps
-    # the profile of most of its units in the product link.
+    # Use each frontier's reviewed profile, then prefer the most exact units.
     by_source = collections.defaultdict(list)
     for entry in index:
         by_source[entry['source']].append(entry)
     selected = {source: max(entries, key=lambda entry: len(entry['units']))
                 for source, entries in by_source.items()}
+    for source, profile in frontier_profiles().items():
+        matches = [entry for entry in by_source[source] if tuple(entry['profile']) == profile]
+        if len(matches) != 1:
+            raise ValueError(f'{source}: expected one trial carrier in the frontier profile. Rebuild trial objects.')
+        selected[source] = matches[0]
     return [entry for entry in index if entry is selected[entry['source']]]
 
 
@@ -266,7 +283,7 @@ def link(reverse: bool = False, base: int | None = None) -> None:
     for entry in all_carriers:
         if entry not in index:
             print(f"product deviation: {entry['source']} {short(entry['profile'])} carrier not linked; "
-                  f"{len(entry['units'])} units take the majority-profile body")
+                  f"{len(entry['units'])} units take the selected profile body")
     product = tomllib.loads((ROOT / 'config/product-link.toml').read_text())
     aliases = alias_table(index)
     aliases.update(product.get('library_data', {}))
@@ -434,4 +451,7 @@ def main() -> int:
 
 
 if __name__ == '__main__':
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except ValueError as exc:
+        sys.exit(f'trial link failed: {exc}')

@@ -114,9 +114,10 @@ What the product still borrows or approximates:
   differed in the product while keeping `SetPolar2D` visible to its callers.
   RunEcl and the ECL callback tables pass in the linked layouts.
   [Carrier split evidence](KNOWLEDGE_BASE.md#2026-11-23-ecl-carrier-split-and-polar-call-context)
-- The movement owner is linked from its near-exact source. The linked verifier
-  checks its extent, relocations and focus ID table. A local 1P versus CPU run
-  matched retail for ordinary and focused movement in both layouts.
+- The movement owner is linked under its reviewed `/Ob1` frontier profile.
+  The linked verifier checks the recorded byte differences, complete extent,
+  relocations and focus ID table. An earlier local 1P versus CPU run matched
+  retail for ordinary and focused movement in both layouts.
   [Live input evidence](KNOWLEDGE_BASE.md#2026-11-23-live-keyboard-movement-in-local-match-mode)
   · [Selected carriers and right-side focus](KNOWLEDGE_BASE.md#2026-11-23-selected-carrier-comparisons-and-right-side-focus-mode)
 - External playback of the bundled `demorpy0.rpy` supplies a
@@ -214,10 +215,10 @@ python3 -B .analysis/movement-focus/trace-run.py cursor focus-current focus-orde
 python3 -B .analysis/movement-focus/trace-run.py flag-liveness focus-current focus-order-control
 ```
 
-The latest slot-access controls retained the known load-order problem or
-put the pointer in EAX. The combined ReplayInput build hit conflicting
-`g_Supervisor` declarations. The paired-copy and helper batch also failed
-to complete. [Interrupted build notes](KNOWLEDGE_BASE.md#configuration-slot-access-and-carrier-boundary)
+The completed paired-reference and array variants kept the load-order
+differences or also changed later x87 instructions. Making the ReplayInput
+definitions co-visible kept the eight-byte residual.
+[Slot and carrier controls](KNOWLEDGE_BASE.md#configuration-slot-access-and-carrier-boundary)
 
 ## Recent exact checkpoints
 

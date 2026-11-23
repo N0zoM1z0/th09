@@ -1669,7 +1669,7 @@ side-first residual under their tested contexts.
 
 ### Configuration slot access and carrier boundary
 
-The last completed slot batch used the native member address, pointers
+An earlier slot batch used the native member address, pointers
 to members, a typed byte offset and a DWORD address. Ordinary
 dereferences and typed pointer copies preserve the maintained load
 order. A four-byte `memcpy` snapshot of the slot gives the pointer
@@ -1677,12 +1677,17 @@ EAX and the shorter absolute load. The direction-join slot variants
 retain their lookup and the two later register residuals. Some also
 change the x87 position operand order.
 
-The paired-copy and accessor batch ended with compile errors in the
-named fresh-side helper variants and produced no completed comparison.
-The proposed combined `ReplayInput.cpp` carrier stopped on conflicting
-declarations of `g_Supervisor`. ReplayInput uses `SupervisorReplayView`
-and movement uses the native `Supervisor` type. This is an untested
-compiler context with a source-level declaration conflict.
+A configuration pointer reference paired with a side value, a mode array
+reference paired with a side value, and a two-reference aggregate all
+retain the same eight unmasked differences in the full owner. Pairing
+the array reference with a side reference adds ten later x87 differences.
+All four controls retain the 1,900-byte extent and 66 relocation fields.
+
+The combined `ReplayInput.cpp` control compiles with the native
+`g_Supervisor` declaration and a `SupervisorReplayView` cast at its replay
+uses. It leaves the same eight differences and all 66 field positions in
+movement. The compiler renumbers the two private switch-table labels.
+Both still resolve to the same offsets within the owner.
 
 ### 2026-11-21 allocator-entry IL and source-shape batch
 
@@ -4038,10 +4043,18 @@ relocation count. `trial-link.py verify` reports
 the selected-carrier failures alongside the canonical comparisons. A
 canonical-profile failure returns a nonzero exit status.
 
-The selected `/Ob0` movement carrier has the same 1,900-byte extent and
+The earlier `/Ob0` movement carrier had the same 1,900-byte extent and
 66 relocation fields measured in the frontier. Its masked differences
 span +0x127 through +0x12A. Resolving all fields to retail destinations
 leaves eight differences across +0x127 through +0x12E.
+
+The trial build now uses the recorded `/Ob1` frontier profile for movement.
+The cold `/Ob1` object matches the earlier `/Ob0` object across the complete
+1,900-byte extent and the offsets, types, symbols and addends of all 66
+relocations. Both fixed layouts and all four base variants pass. The linked
+verifier compares the selected object against the original frontier before
+checking all of its linked relocations. It rejects the old `/Ob0` index and
+an object with a new byte difference outside the recorded offsets.
 
 The Wine probe selected a CPU versus 1P match on Normal and enabled
 hold-to-focus in both private configuration slots. Match setup retained
