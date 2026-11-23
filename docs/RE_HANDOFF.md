@@ -40,8 +40,8 @@ still reaches its function, object and field. The TH08 checkout's
 `docs/POSITION_INDEPENDENCE.md` lists the acceptance checks.
 
 The normal and reordered trials both run under Wine from the title into the
-attract-mode match. All 1,084 tracked code units and 613 of 614 generated data
-labels move between the two links. The linked comparison checks each unit
+attract-mode match. All tracked code units and all but one generated data
+label move between the two links. The linked comparison checks each unit
 against its selected COFF object and checks the generated data and its pointer
 fields. A single link precedence constraint keeps the reviewed
 `SpriteHasTexture` COMDAT provider active in both layouts.
@@ -76,9 +76,8 @@ What the product still borrows or approximates:
 - `scripts/product-data.py` emits the original globals that no source
   defines yet as labelled MASM data, extracted from the attested original
   at build time. Pointer words are symbolic. `config/product-link.toml`
-  binds DirectInput formats to the library and lists source-asserted
-  object sizes; reversing the blocks exposed every size entry there. Natural
-  C++ definitions for these tables remain open.
+  binds DirectInput formats to the library and records reviewed object
+  sizes. Natural C++ definitions for these tables remain open.
 - `product/` holds link glue: the global construction sequence for those
   objects and the PbgArchive constructor, whose body folds with a D3DX8
   routine at `0x00433040`.
@@ -108,10 +107,12 @@ The trial pins VC7.1 `libcmt.lib` and explicitly orders its four
 as in retail. The linked verifier checks the C and C++ startup tables.
 [CRT startup evidence](KNOWLEDGE_BASE.md#2026-11-23-crt-startup-provider-and-initializer-order)
 
-The reordered link also exposed a split in the opponent parameter table
-used by Story setup and the front transition callback. Both layouts now
-preserve the two interior views.
-[Opponent table evidence](KNOWLEDGE_BASE.md#2026-11-23-opponent-and-transition-parameter-table-storage)
+The reordered link exposed a split in the opponent parameter table used by
+Story setup and the front transition callback. Both layouts now preserve
+the two interior views. The 14 opponent lists have separate link labels
+and move relative to the neighboring BGM table.
+[Opponent parameter table](KNOWLEDGE_BASE.md#2026-11-23-opponent-and-transition-parameter-table-storage)
+· [Opponent lists](KNOWLEDGE_BASE.md#2026-11-23-independently-linked-opponent-lists)
 
 ## Player movement handoff
 

@@ -3700,3 +3700,25 @@ effect in Story mode on Normal difficulty. The prior reversed build
 stored 13,107,207 at GameManager +0x64 for the first opponent. Retail
 and both repaired links stored 5 and exposed the same five words at row
 index 9.
+
+## 2026-11-23 independently linked opponent lists
+
+The 14 pointers at 0x004A14C8 select individual lists of 0x10-byte
+opponent entries. Each list has one negative-key record at its end.
+All 307 records occupy 0x004A2300 through 0x004A362F. The adjacent BGM
+table has 19 entries and ends at 0x004A2300. The data generator
+previously grouped the opponent lists with the BGM table because only
+the list pointers refer to the individual lists.
+
+The generator now gives each reviewed pointer-only extent a linker
+label. All 14 destinations move relative to BGM between the two
+layouts. Both links preserve every list pointer, all 307 records,
+and all 19 BGM records and path values. The linked check rejects a
+pointer to a different list, a changed row, or an extent that omits
+the negative-key record.
+
+At the first Story/Normal front calculation under Wine, retail and both
+trial builds selected one of the same two eligible entries from player
+slot 0. The records were read through the live pointer at GameManager
++0xF0. Each build's list had a different address and retained both
+candidate rows and the final negative-key record.

@@ -172,7 +172,17 @@ def main() -> int:
         for name in names:
             if name in missing_names:
                 missing[address].add(name)
-    known_starts = sorted({a for a in names_at if a >= data_lo} | {a for a in library_data if a >= data_lo})
+    object_sizes = {int(owner, 16): size for owner, size in product.get('object_size', {}).items()}
+    # Some reviewed objects have no direct code reference. Their pointers
+    # still need an independent link destination.
+    for address in object_sizes.keys() - names_at.keys():
+        section, va, vsize, rsize, _ = section_of(address)
+        if (section != '.data' or address in library_data
+                or not 0 < object_sizes[address] <= va + min(vsize, rsize) - address):
+            raise ValueError(f'pointer-only object at {address:#010x} has no game data extent')
+        missing[address].add(f'th09_data_{address:08X}')
+    known_starts = sorted({a for a in names_at if a >= data_lo}
+                          | {a for a in library_data if a >= data_lo} | missing.keys())
 
     # Group interior names: a missing address strictly inside a larger missing
     # owner's referenced extent becomes a label of that owner.
@@ -188,8 +198,7 @@ def main() -> int:
         for field in unit.get('relocations', []):
             if 'target' in field and field['target'] in missing:
                 span[field['target']] = max(span[field['target']], field.get('addend', 0) + 1)
-    for owner_text, size in product.get('object_size', {}).items():
-        owner = int(owner_text, 16)
+    for owner, size in object_sizes.items():
         if owner in missing:
             span[owner] = max(span[owner], size)
             extent[owner] = max(extent[owner], size)

@@ -236,6 +236,25 @@ def verify_crt_initializers(image, addresses):
             raise ValueError(f'linked CRT {section} initializer table differs from the expected order')
 
 
+def verify_opponent_lists(target, image, units, labels, object_sizes):
+    symbol = '?g_OpponentLists@@3PAPAUOpponentSelectionEntry@@A'
+    fields = units['game-manager-select-opponent']['relocations']
+    pointer_table, = {field['target'] for field in fields if field['symbol'] == symbol}
+    extent = object_sizes[f'0x{pointer_table:08X}']
+    original = coff.pe_bytes_at(target, pointer_table, extent)
+    linked = coff.pe_bytes_at(image, labels[symbol], extent)
+    for slot, ((source,), (destination,)) in enumerate(
+            zip(struct.iter_unpack('<I', original), struct.iter_unpack('<I', linked), strict=True)):
+        size = object_sizes[f'0x{source:08X}']
+        expected = coff.pe_bytes_at(target, source, size)
+        keys = [row[0] for row in struct.iter_unpack('<8h', expected)]
+        if len(expected) != size or not keys or keys[-1] >= 0 or any(key < 0 for key in keys[:-1]):
+            raise ValueError(f'opponent list {slot} has an invalid original extent')
+        if (destination != labels.get(f'th09_data_{source:08X}')
+                or coff.pe_bytes_at(image, destination, size) != expected):
+            raise ValueError(f'opponent list {slot} differs from the attested {source:#010x} extent')
+
+
 def verify_layout(stem, data_name, target, units, objects):
     image = (trial.OUT / f'{stem}.exe').read_bytes()
     pe = parse_pe(image)
@@ -254,6 +273,7 @@ def verify_layout(stem, data_name, target, units, objects):
     labels, data_fields = verify_data_object(image, pe, data_path, addresses, resolve)
     product = tomllib.loads((trial.ROOT / 'config/product-link.toml').read_text())
     verify_data_owners(units, labels, product['object_size'])
+    verify_opponent_lists(target, image, units, labels, product['object_size'])
     input_objects = verify_input_formats(target, image, units, resolve, product['library_data'])
     callback_slots = verify_callback_tables(target, image, units, resolve)
     code, code_fields, private_fields = verify_code(image, pe, units, objects, addresses, resolve)
