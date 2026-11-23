@@ -24,6 +24,7 @@ def load_script(name):
 coff = load_script('compare-coff-function')
 trial = load_script('trial-link')
 callbacks = load_script('report-callback-coverage')
+exceptions = load_script('coff_exception_handlers')
 MAP_SYMBOL = re.compile(r'^[ \t]+[0-9a-f]{4}:[0-9a-f]{8}[ \t]+(\S+)[ \t]+([0-9a-f]{8})[ \t]+',
                         re.MULTILINE | re.IGNORECASE)
 
@@ -86,18 +87,28 @@ def verify_data_object(image, pe, path, addresses, resolve):
     return labels, field_count
 
 
-def verify_code(image, pe, units, objects, addresses, resolve):
+def verify_code(image, pe, units, objects, addresses, destinations):
     code_addresses = {}
     private_sections = {}
+    handlers = []
     field_count = 0
     private_fields = 0
+
+    def read_linked(address, size):
+        return coff.pe_bytes_at(image, address, size)
+
     for name, unit in units.items():
         symbol = unit['symbol']
         address = addresses[symbol]
         path = objects[unit['source']]
         size = unit.get('compare_size', unit['size'])
         code, fields = coff.object_function(path, symbol, size, include_symbol_locations=True)
-        linked = bytearray(coff.pe_bytes_at(image, address, len(code)))
+        linked = bytearray(read_linked(address, len(code)))
+        expected_handlers = {field['symbol'] for field in unit.get('relocations', [])
+                             if field['symbol'].startswith('__ehhandler$')}
+        actual_handlers = {field['symbol'] for field in fields if field['symbol'].startswith('__ehhandler$')}
+        if actual_handlers != expected_handlers:
+            raise ValueError(f'{name} has different exception handler bindings')
         for field in fields:
             offset, dest_name, addend = field['offset'], field['symbol'], field['addend']
             section = field['symbol_section']
@@ -105,7 +116,7 @@ def verify_code(image, pe, units, objects, addresses, resolve):
             if section == field['owner_section']:
                 dest = address + value - field['owner_value']
             else:
-                dest = resolve(dest_name)
+                dest = destinations.get(dest_name)
             operand = u32(linked, offset)
             if dest is None and field['type'] == 'DIR32' and section > 0:
                 # Static read-only constants can be absent from the linker map.
@@ -134,12 +145,15 @@ def verify_code(image, pe, units, objects, addresses, resolve):
             relative_base = address + offset + 4 if field['type'] == 'REL32' else 0
             if (dest + addend - relative_base) & 0xFFFFFFFF != operand:
                 raise ValueError(f'{name}+{offset:#x} does not resolve to {dest_name}')
+            if dest_name in expected_handlers:
+                handlers.append(exceptions.verify(
+                    coff.read_coff_object(path), field, dest, read_linked, destinations))
             linked[offset:offset + 4] = code[offset:offset + 4]
             field_count += 1
         if linked != code:
             raise ValueError(f'{name} differs from {path.name} outside relocations')
         code_addresses[name] = address
-    return code_addresses, field_count, private_fields
+    return code_addresses, field_count, private_fields, handlers
 
 
 def verify_data_owners(units, labels, object_sizes):
@@ -266,8 +280,8 @@ def verify_layout(stem, data_name, target, units, objects):
                    for line in (trial.OUT / f'{stem}.rsp').read_text().splitlines()
                    if line.startswith('/ALTERNATENAME:'))
 
-    def resolve(symbol):
-        return addresses.get(symbol, addresses.get(aliases.get(symbol)))
+    destinations = {alias: addresses[real] for alias, real in aliases.items() if real in addresses} | addresses
+    resolve = destinations.get
 
     data_path = trial.ROOT / 'build/product' / data_name
     labels, data_fields = verify_data_object(image, pe, data_path, addresses, resolve)
@@ -276,11 +290,14 @@ def verify_layout(stem, data_name, target, units, objects):
     verify_opponent_lists(target, image, units, labels, product['object_size'])
     input_objects = verify_input_formats(target, image, units, resolve, product['library_data'])
     callback_slots = verify_callback_tables(target, image, units, resolve)
-    code, code_fields, private_fields = verify_code(image, pe, units, objects, addresses, resolve)
+    code, code_fields, private_fields, handlers = verify_code(image, pe, units, objects, addresses, destinations)
     print(f'{stem}: {len(code)} code units, {code_fields} code relocations '
           f'({private_fields} into private constants), {len(labels)} data labels, '
           f'{data_fields} data relocations, {input_objects} DirectInput objects, '
           f'{callback_slots} Effect/ExAttack callback slots')
+    print(f'{stem}: {len(handlers)} C++ exception handler references, '
+          f'{sum(row["states"] for row in handlers)} unwind states, '
+          f'{sum(row["relocations"] for row in handlers)} unwind relocations')
     return code, labels
 
 

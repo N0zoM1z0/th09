@@ -3744,3 +3744,18 @@ Every run also rewrote the same 204-byte configuration.
 In a separate Options run, the reordered build changed configuration
 byte +0xAC from 0 to 1. The original loaded 1 into Supervisor +0x434 and
 wrote the complete modified configuration back without a byte difference.
+
+## 2026-11-23 linked C++ unwind records
+
+Both trial links pass the existing VC7.1 COFF exception-graph comparison
+for the 22 handler references in the match units. Each handler reference
+changes address, and identical-code folding leaves 20 distinct handler
+addresses in each PE. Per layout the comparison covers 24 unwind states
+and 114 relocations, including the cleanup destinations and CRT frame
+handler. The linked verifier rejects swapped valid cleanup actions and
+a cleanup call retargeted to a different linked function.
+
+The product startup constructor has its own unwind contribution. An
+independent COFF replay compared its 13 states, 271 code bytes, 132
+metadata bytes and all 42 relocations in each current PE. Its handler
+moves from 0x0048D265 to 0x0048D4C5.
