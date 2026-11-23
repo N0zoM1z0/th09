@@ -23,6 +23,7 @@ def load_script(name):
 
 coff = load_script('compare-coff-function')
 trial = load_script('trial-link')
+callbacks = load_script('report-callback-coverage')
 MAP_SYMBOL = re.compile(r'^[ \t]+[0-9a-f]{4}:[0-9a-f]{8}[ \t]+(\S+)[ \t]+([0-9a-f]{8})[ \t]+',
                         re.MULTILINE | re.IGNORECASE)
 
@@ -198,6 +199,32 @@ def verify_input_formats(target, image, units, resolve, library_data):
     return total
 
 
+def verify_callback_tables(target, image, units, resolve):
+    code_symbols = {unit['target_address']: unit['symbol'] for unit in units.values()}
+    executable = callbacks.executable_intervals(target)
+    total = 0
+    for name, (base, count, stride, first, roles, digest, factory, _) in callbacks.TABLES.items():
+        owners = {field['symbol'] for field in units[factory]['relocations'] if field.get('target') == base}
+        if len(owners) != 1:
+            raise ValueError(f'{name} has ambiguous callback table ownership')
+        address = resolve(owners.pop())
+        if address is None:
+            raise ValueError(f'{name} has no linked callback table')
+        original = coff.pe_bytes_at(target, base, count * stride)
+        slots = callbacks.decode_prefix(original, base, count, stride, first,
+                                        roles, digest, executable)
+        expected = bytearray(original)
+        for slot in slots:
+            dest = resolve(code_symbols[slot['destination']])
+            if dest is None:
+                raise ValueError(f"{name}[{slot['row']}] has no linked {slot['role']} callback")
+            struct.pack_into('<I', expected, slot['pointer_address'] - base, dest)
+        if coff.pe_bytes_at(image, address, len(expected)) != expected:
+            raise ValueError(f'{name} linked callback table differs from the original rows')
+        total += len(slots)
+    return total
+
+
 def verify_layout(stem, data_name, target, units, objects):
     image = (trial.OUT / f'{stem}.exe').read_bytes()
     pe = parse_pe(image)
@@ -216,10 +243,12 @@ def verify_layout(stem, data_name, target, units, objects):
     product = tomllib.loads((trial.ROOT / 'config/product-link.toml').read_text())
     verify_data_owners(units, labels, product['object_size'])
     input_objects = verify_input_formats(target, image, units, resolve, product['library_data'])
+    callback_slots = verify_callback_tables(target, image, units, resolve)
     code, code_fields, private_fields = verify_code(image, pe, units, objects, addresses, resolve)
     print(f'{stem}: {len(code)} code units, {code_fields} code relocations '
           f'({private_fields} into private constants), {len(labels)} data labels, '
-          f'{data_fields} data relocations, {input_objects} DirectInput objects')
+          f'{data_fields} data relocations, {input_objects} DirectInput objects, '
+          f'{callback_slots} Effect/ExAttack callback slots')
     return code, labels
 
 

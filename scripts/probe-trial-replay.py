@@ -176,7 +176,7 @@ def main():
         index = json.loads((trial.OUT / 'index.json').read_text())
         objects = {entry['source']: trial.OUT / entry['object'] for entry in trial.selected_carriers(index)}
         data_name = 'ProductDataReversed.obj' if args.layout == 'trial-reversed' else 'ProductData.obj'
-        layout.verify_layout(args.layout, data_name, units, objects)
+        layout.verify_layout(args.layout, data_name, original, units, objects)
         source = trial.OUT / f'{args.layout}.exe'
         image = source.read_bytes()
         addresses = layout.read_map(source.with_suffix('.map'))

@@ -3635,3 +3635,22 @@ and checks object offsets, type and flags, GUID contents and GUID sharing.
 The layout verifier now checks those library-owned tables with the existing
 code relocations for `SetupDirectInput`. Mutations to the controller
 header, descriptor offset and GUID bytes each fail the check.
+
+## 2026-11-23 Effect and ExAttack linked callback tables
+
+The linked layout verifier compares the 38 reviewed Effect rows and 27
+reviewed ExAttack rows directly against the attested original. It uses
+the table references from the two factory units and the linked addresses
+of each original callback. The other fields and null slots retain their
+original bytes. The Effect range ends at the ending-file path table
+and the ExAttack range ends at the base-limit table.
+
+The Effect rows move from 0x004A0C38 to 0x004A2AC8 and the ExAttack rows
+from 0x004A1068 to 0x004A2878. All 79 Effect and 108 ExAttack callback
+slots resolve to their expected code in both layouts. An in-memory
+swap to a different linked Effect callback fails the new comparison,
+as does a changed numeric field.
+
+The replay probe now passes the attested original image to the linked
+layout verifier before starting either trial. A 60-calculation smoke on
+the original and both trials produced identical CSVs across all 13 fields.
