@@ -3722,3 +3722,25 @@ trial builds selected one of the same two eligible entries from player
 slot 0. The records were read through the live pointer at GameManager
 +0xF0. Each build's list had a different address and retained both
 candidate rows and the final negative-key record.
+
+## 2026-11-23 score and configuration round trip
+
+The 0x1FC-byte play-stats record at 0x004A8180 owns the BGM unlock view
+at +0x2C and the three character unlock views at +0x4C, +0x5C and +0x6C.
+Declaring the complete extent gives the linked verifier an ownership
+check for these labels. Both regenerated data sources are byte-identical
+to the inputs that produced the tested PEs. Moving just the BGM view by
+four bytes fails the ownership check.
+
+A retail Story/Normal match and graceful window close produced a score
+file with one nonzero character statistic. The original and both trial
+layouts loaded that same file and rewrote it on title exit. Retail then
+loaded each trial's output. A read-only snapshot after initialization
+matched all 400 score records, the last-name record and all play-stats
+bytes outside the eight clock counters across those five loads. The
+loaded header included a nonempty compressed payload in every case.
+Every run also rewrote the same 204-byte configuration.
+
+In a separate Options run, the reordered build changed configuration
+byte +0xAC from 0 to 1. The original loaded 1 into Supervisor +0x434 and
+wrote the complete modified configuration back without a byte difference.

@@ -114,6 +114,10 @@ and move relative to the neighboring BGM table.
 [Opponent parameter table](KNOWLEDGE_BASE.md#2026-11-23-opponent-and-transition-parameter-table-storage)
 · [Opponent lists](KNOWLEDGE_BASE.md#2026-11-23-independently-linked-opponent-lists)
 
+Retail and both trial layouts exchanged live score files, and retail
+reloaded an Options change from the reordered build.
+[Persistence evidence](KNOWLEDGE_BASE.md#2026-11-23-score-and-configuration-round-trip)
+
 ## Player movement handoff
 
 The single-function exact reconstruction is paused for handoff. The
