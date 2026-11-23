@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Compare the two trial PEs with their selected code and generated data objects."""
 
+import argparse
 from bisect import bisect_right
 from collections import defaultdict
 import importlib.util
@@ -431,6 +432,84 @@ def verify_opponent_lists(target, image, units, labels, object_sizes):
             raise ValueError(f'opponent list {slot} differs from the attested {source:#010x} extent')
 
 
+def highlow_relocations(image, pe):
+    header = u32(image, 0x3C)
+    optional = header + 24
+    optional_size, = struct.unpack_from('<H', image, header + 20)
+    directory = optional + 96 + 5 * 8  # IMAGE_DIRECTORY_ENTRY_BASERELOC
+    if (pe['relocations_stripped'] or directory + 8 > optional + optional_size
+            or u32(image, optional + 92) < 6):
+        raise ValueError('PE lacks a base relocation directory')
+    rva, size = struct.unpack_from('<II', image, directory)
+    if not rva or not size:
+        raise ValueError('PE has an empty base relocation directory')
+    data = coff.pe_bytes_at(image, pe['image_base'] + rva, size)
+    fields = set()
+    cursor = 0
+    while cursor < len(data):
+        page, block_size = struct.unpack_from('<II', data, cursor)
+        end = cursor + block_size
+        if page % 0x1000 or block_size < 8 or block_size % 4 or end > len(data):
+            raise ValueError(f'invalid base relocation block at directory offset {cursor:#x}')
+        for (entry,) in struct.iter_unpack('<H', data[cursor + 8:end]):
+            kind, offset = entry >> 12, entry & 0xFFF
+            if kind == 0:  # IMAGE_REL_BASED_ABSOLUTE padding
+                continue
+            field = page + offset
+            if kind != 3 or field in fields:  # IMAGE_REL_BASED_HIGHLOW
+                raise ValueError(f'unsupported or repeated base relocation at RVA {field:#x}')
+            fields.add(field)
+        cursor = end
+    if not fields:
+        raise ValueError('PE has no HIGHLOW relocations')
+    return fields
+
+
+def section_payloads(image, pe):
+    return {(s['name'], s['rva'], s['virtual_size']): image[s['raw_offset']:s['raw_offset'] + s['raw_size']]
+            for s in pe['sections'] if s['name'] != '.reloc'}
+
+
+def verify_base_pair(fixed, preferred, shifted):
+    fixed_pe, preferred_pe, shifted_pe = map(parse_pe, (fixed, preferred, shifted))
+    low, high = trial.IMAGE_BASES
+    if (fixed_pe['image_base'], preferred_pe['image_base'], shifted_pe['image_base']) != (low, low, high):
+        raise ValueError('unexpected PE image bases in the base comparison')
+    if not fixed_pe['relocations_stripped']:
+        raise ValueError('base comparison requires the fixed trial as its reference')
+    if low + preferred_pe['size_of_image'] > high:
+        raise ValueError('the trial image ranges overlap')
+    if len({pe['entry_rva'] for pe in (fixed_pe, preferred_pe, shifted_pe)}) != 1:
+        raise ValueError('PE entry RVA changed between bases')
+    fields = highlow_relocations(preferred, preferred_pe)
+    if fields != highlow_relocations(shifted, shifted_pe):
+        raise ValueError('HIGHLOW field RVAs differ between bases')
+    original = section_payloads(preferred, preferred_pe)
+    moved = section_payloads(shifted, shifted_pe)
+    if original != section_payloads(fixed, fixed_pe):
+        raise ValueError('preferred-base relocatable sections differ from the fixed link')
+    if original.keys() != moved.keys():
+        raise ValueError('linked section identities differ between bases')
+    counts = {}
+    for key, payload in original.items():
+        name, start, size = key
+        expected = bytearray(payload)
+        count = 0
+        for field in fields:
+            offset = field - start
+            if 0 <= offset and offset + 4 <= min(size, len(payload)):
+                value = (u32(payload, offset) + high - low) & 0xFFFFFFFF
+                struct.pack_into('<I', expected, offset, value)
+                count += 1
+        if expected != moved[key]:
+            raise ValueError(f'{name} bytes differ after applying the HIGHLOW base delta')
+        if count:
+            counts[name] = count
+    if sum(counts.values()) != len(fields):
+        raise ValueError('HIGHLOW fields extend outside the file-backed image sections')
+    return counts
+
+
 def verify_layout(stem, data_name, target, units, objects):
     image = (trial.OUT / f'{stem}.exe').read_bytes()
     pe = parse_pe(image)
@@ -470,6 +549,10 @@ def verify_layout(stem, data_name, target, units, objects):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--verify-bases', action='store_true',
+                        help='also verify both relocatable links at each of the two trial bases')
+    args = parser.parse_args()
     target = coff.verified_target()
     index = json.loads((trial.OUT / 'index.json').read_text())
     objects = {entry['source']: trial.OUT / entry['object'] for entry in trial.selected_carriers(index)}
@@ -483,6 +566,15 @@ def main():
         if not moved:
             raise ValueError(f'no {role} moved')
         print(f'{moved} of {len(first)} {role} moved')
+    if args.verify_bases:
+        for reverse, data_name in ((False, 'ProductData.obj'), (True, 'ProductDataReversed.obj')):
+            stem = trial.link_stem(reverse)
+            variants = [trial.link_stem(reverse, base) for base in trial.IMAGE_BASES]
+            for variant in variants:
+                verify_layout(variant, data_name, target, units, objects)
+            images = [(trial.OUT / f'{name}.exe').read_bytes() for name in (stem, *variants)]
+            counts = verify_base_pair(*images)
+            print(f'{stem}: base delta verified {sum(counts.values())} HIGHLOW fields {counts}')
 
 
 if __name__ == '__main__':

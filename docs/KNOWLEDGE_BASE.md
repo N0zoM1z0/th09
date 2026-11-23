@@ -3793,15 +3793,19 @@ retained old-base operand and a changed resource byte in private copies.
 
 The reordered 0x00600000 link ran under Wine with the stock archive.
 Its first 600 calculations of the bundled replay matched the retail
-trace byte for byte across all 13 observed fields.
+trace byte for byte across all 13 observed fields. The current linker
+command reproduced that result in the built-in attract demo. The observer
+attested the replay callback's live instruction bytes at the shifted map
+address before it collected the trace.
 
-To repeat the link, copy the retained response file for each layout,
-set separate `/OUT` and `/MAP` paths and append `/FIXED:NO` and one
-`/BASE` value. Run the pinned linker from `build/link-probe` with the
-same SDK and CRT library search paths. Compare section RVAs and base
-relocation directory entries, apply the base delta to HIGHLOW words
-and compare section payloads. Input order remains the variable in the
-internal layout check.
+The [handoff commands](RE_HANDOFF.md#whole-image-link-and-position-independence)
+now produce the four `/FIXED:NO` PEs with their own maps and response
+files. `verify-trial-layouts.py --verify-bases` runs the usual linked
+checks against each map, compares the preferred-base payloads with the
+fixed trial, then checks both HIGHLOW site sets and the entire
+shifted section payloads. Both layouts reject a missing or unsupported
+base relocation, a retained old-base operand, and a changed resource
+byte in private copies.
 
 ## 2026-11-23 replay pause and popup teardown
 

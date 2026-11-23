@@ -58,6 +58,20 @@ python3 -B scripts/trial-link.py link --reverse     # trial-reversed.exe
 python3 -B scripts/verify-trial-layouts.py
 ```
 
+The [disjoint image-base check](KNOWLEDGE_BASE.md#2026-11-23-disjoint-image-base-check)
+uses the same inputs and separate relocatable outputs.
+
+```bash
+(
+    set -e
+    for base in 0x400000 0x600000; do
+        python3 -B scripts/trial-link.py link --base "$base"
+        python3 -B scripts/trial-link.py link --reverse --base "$base"
+    done
+    python3 -B scripts/verify-trial-layouts.py --verify-bases
+)
+```
+
 The game data is `resources/th09.dat` (ignored, copied from the operator's
 install, SHA-256 `73a344a2...5ea0`). A run directory needs the exe,
 `th09.dat` and `th09.cfg`; use `xvfb-run` with a separate Wine prefix such

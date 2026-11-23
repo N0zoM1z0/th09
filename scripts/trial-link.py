@@ -35,6 +35,7 @@ from coff_archive import archive_members
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'build/link-probe'
 VC = ROOT / '.tools/msvc710/Vc7'
+IMAGE_BASES = (0x00400000, 0x00600000)
 # Import libraries cover the target's nine import descriptors; d3dx8.lib is
 # static. d3dx8.lib requests libci, libc and amdmath, which /MT replaces.
 LIBS = ['libcmt.lib', 'kernel32.lib', 'user32.lib', 'gdi32.lib', 'advapi32.lib', 'ole32.lib',
@@ -243,10 +244,15 @@ def selected_carriers(index) -> list[dict]:
     return [entry for entry in index if entry is selected[entry['source']]]
 
 
-def link(reverse: bool = False) -> None:
+def link_stem(reverse: bool, base: int | None = None) -> str:
+    stem = 'trial-reversed' if reverse else 'trial'
+    return stem if base is None else f'{stem}-{base:08x}'
+
+
+def link(reverse: bool = False, base: int | None = None) -> None:
     check_pins()
     pinned = pinned_libraries()
-    stem = 'trial-reversed' if reverse else 'trial'
+    stem = link_stem(reverse, base)
     outputs = [OUT / f'{stem}.{suffix}' for suffix in ('exe', 'map')]
     data = ROOT / 'build/product' / ('ProductDataReversed.obj' if reverse else 'ProductData.obj')
     resources = ROOT / 'build/product/ProductResources.res'
@@ -289,8 +295,9 @@ def link(reverse: bool = False) -> None:
         raise SystemExit('conflicting COMDAT precedence')
     objects = [object_by_source[source] for source in sources]
     objects = extra[::-1] + objects if reverse else objects + extra
+    base_flags = [] if base is None else ['/FIXED:NO', f'/BASE:{base:#x}']
     (OUT / f'{stem}.rsp').write_text('\r\n'.join(
-        [*LINK_FLAGS, f'/OUT:{stem}.exe', f'/MAP:{stem}.map',
+        [*LINK_FLAGS, *base_flags, f'/OUT:{stem}.exe', f'/MAP:{stem}.map',
          *[f'/ALTERNATENAME:{alias}={real}' for alias, real in sorted(aliases.items())],
          *[f'"{path}"' for path in crt_win], *objects, *libraries]) + '\r\n')
     for output in outputs:
@@ -401,11 +408,15 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('action', choices=('build', 'link', 'verify'))
     parser.add_argument('--reverse', action='store_true', help='link the game objects in reverse order')
+    parser.add_argument('--base', type=lambda value: int(value, 0), choices=IMAGE_BASES,
+                        metavar='{0x400000,0x600000}', help='link a separate PE with base relocations')
     args = parser.parse_args()
+    if args.base is not None and args.action != 'link':
+        parser.error('--base requires link')
     subprocess.run([sys.executable, '-B', str(ROOT / 'scripts/verify-target.py')], check=True,
                    stdout=subprocess.DEVNULL)
     if args.action == 'link':
-        link(args.reverse)
+        link(args.reverse, args.base)
     else:
         {'build': build, 'verify': verify}[args.action]()
     return 0
