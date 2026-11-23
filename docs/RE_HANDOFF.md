@@ -110,6 +110,9 @@ What the product still borrows or approximates:
   Converting the ECL accessor helpers to macros makes 84 of 86 units
   exact under `/Ob0`. RunEcl's remaining tail-merge difference
   is the blocker. `.analysis/closure/ecl-macro-ob0.patch` has the attempt.
+  A separate Type29 draw carrier needs to see `SetPolar2D`. Moving the
+  helper with that callback causes 24 other `/Ob1` units to differ.
+  [Carrier split evidence](KNOWLEDGE_BASE.md#2026-11-23-ecl-carrier-split-and-polar-call-context)
 - The movement owner is linked from its near-exact source. The linked verifier
   checks its extent, relocations and focus ID table. A local 1P versus CPU run
   matched retail for ordinary and focused movement in both layouts.

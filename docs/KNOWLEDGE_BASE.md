@@ -4224,3 +4224,25 @@ were rejected for a redirected PE entry, a different subsystem, a
 non-executable entry section, a redirected WinMain call, a swapped
 scope reference, a live but different import slot and a changed
 instruction byte. All checks ran headlessly against the existing files.
+
+## 2026-11-23 ECL carrier split and polar call context
+
+The four public EclManager callbacks with selected-carrier differences
+use no-duplicates COFF COMDATs in both profiles. `MoveRandomBiased`
+has internal linkage and is called by `RunEcl` inside the same carrier.
+The two complete objects therefore need a partition that accounts for
+both the public definitions and the private calls.
+
+Omitting the Type29 draw include from a private `/Ob1` carrier preserved
+all 80 units assigned to that profile. Compiling Type29 in its own `/Ob0`
+carrier with the existing vertex declaration produced 2,239 bytes.
+The first added instruction reloads ECX before the `Float3::operator+=`
+call after `SetPolar2D`. The set of call and literal symbols stayed the
+same. Making the existing `SetPolar2D` definition visible again restored
+all 2,220 original bytes and 129 relocation fields.
+
+With `SetPolar2D` left as an external declaration in the `/Ob1` carrier,
+55 of its 80 units remained exact. The moved helper was absent as expected.
+Twenty-four other units changed code extents or relocation offsets,
+including ECL post-movement, effect drawing, ExAttack and player position
+callbacks. The experiment leaves the current trial carrier choice open.
