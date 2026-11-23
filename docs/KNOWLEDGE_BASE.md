@@ -3997,3 +3997,27 @@ relocation operands. The 64-byte focus ID table moves from 0x004A0478 to
 0x004A3CE0 and matches retail. Changing a table entry or displacing a
 movement operand was rejected in each layout. The pinned frontier build
 still has its recorded four byte differences with relocations masked.
+
+## 2026-11-23 DirectPlay GUID bindings and host entry
+
+The layout verifier checks 13 original GUID values through all 36 linked
+operands. The scope includes the DirectPlay peer, address, TCP/IP provider
+and private session application GUID. Both layouts also preserve the
+DirectInput, DirectSound and Shell identifiers in this set. The target
+instruction supplies the field addend. For example, three `_GUID_NULL`
+operands in `SoundPlayer::LoadBgm` read DWORDs at +4, +8 and +0xC.
+
+Both layouts reject a substituted DirectPlay provider GUID, a changed
+session application GUID and a displaced `_GUID_NULL` operand in private PE
+copies. The four disjoint-base variants also pass the GUID checks.
+
+The runtime comparison selected the host option from Match Mode in a
+private network namespace with loopback and an isolated dummy adapter.
+Retail and both trial layouts created the DirectPlay peer and device
+address, loaded the same LAN settings and reached `HostSession`.
+The selected Wine `dpnet` implementation logged `Host` as a stub and
+returned `E_FAIL` (0x80004005) in every run. No player ID was assigned.
+The game entered its wait state and returned to the mode menu on X in
+all three runs. The reset cleared the device address, active flag and
+connection state. Successful hosting and peer synchronization require a
+DirectPlay implementation with a working `Host` call.

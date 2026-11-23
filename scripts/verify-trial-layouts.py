@@ -384,6 +384,31 @@ def verify_imports(target, image, units, addresses):
     return len(linked_imports), fields
 
 
+def verify_guids(target, image, units, addresses):
+    local = {'_g_Th09NetworkApplicationGuid', '?g_KeyboardDeviceGuid@@3U_GUID@@B'}
+    destinations = {}
+    fields = 0
+    for name, unit in units.items():
+        for field in unit.get('relocations', []):
+            symbol = field['symbol']
+            if symbol not in local and not symbol.startswith(('_CLSID_', '_IID_', '_GUID_')):
+                continue
+            offset = field['offset']
+            original = field['target']
+            original_operand = u32(coff.pe_bytes_at(target, unit['target_address'] + offset, 4), 0)
+            # The retail operand can name a DWORD inside the GUID.
+            addend = original_operand - original
+            if field['type'] != 'DIR32' or not 0 <= addend <= 12:
+                raise ValueError(f'{name}+{offset:#x} has an unexpected retail GUID operand')
+            operand = u32(coff.pe_bytes_at(image, addresses[unit['symbol']] + offset, 4), 0)
+            destination = operand - addend
+            if destinations.setdefault(symbol, destination) != destination or (
+                    coff.pe_bytes_at(image, destination, 16) != coff.pe_bytes_at(target, original, 16)):
+                raise ValueError(f'{name}+{offset:#x} differs from the retail GUID {symbol}')
+            fields += 1
+    return len(destinations), fields
+
+
 def verify_vtables(image, units, objects, addresses, resolve):
     owners = defaultdict(set)
     for unit in units.values():
@@ -528,6 +553,7 @@ def verify_layout(stem, data_name, target, units, objects):
     verify_crt_initializers(image, addresses)
     resources = verify_resources(target, image)
     imports, import_fields = verify_imports(target, image, units, addresses)
+    guids, guid_fields = verify_guids(target, image, units, addresses)
     aliases = dict(line.removeprefix('/ALTERNATENAME:').split('=', 1)
                    for line in (trial.OUT / f'{stem}.rsp').read_text().splitlines()
                    if line.startswith('/ALTERNATENAME:'))
@@ -556,7 +582,8 @@ def verify_layout(stem, data_name, target, units, objects):
           f'{sum(row["states"] for row in handlers)} unwind states, '
           f'{sum(row["relocations"] for row in handlers)} unwind relocations')
     print(f'{stem}: {resources} PE resources, {imports} PE imports, {import_fields} checked import operands, '
-          f'{vtables} vtables, {virtual_slots} virtual slots, {len(aliases)} checked link aliases')
+          f'{guids} GUIDs across {guid_fields} operands, {vtables} vtables, {virtual_slots} virtual slots, '
+          f'{len(aliases)} checked link aliases')
     return code, labels
 
 

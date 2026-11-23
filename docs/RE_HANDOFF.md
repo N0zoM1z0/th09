@@ -126,6 +126,11 @@ The trial pins VC7.1 `libcmt.lib` and explicitly orders its four
 as in retail. The linked verifier checks the C and C++ startup tables.
 [CRT startup evidence](KNOWLEDGE_BASE.md#2026-11-23-crt-startup-provider-and-initializer-order)
 
+The linked GUID checks cover DirectPlay and the other tracked COM identifiers.
+The selected Wine runtime returns `E_FAIL` from its DirectPlay `Host` stub.
+Retail and both trials follow the same wait and cancel path at that boundary.
+[DirectPlay evidence](KNOWLEDGE_BASE.md#2026-11-23-directplay-guid-bindings-and-host-entry)
+
 The reordered link exposed a split in the opponent parameter table used by
 Story setup and the front transition callback. Both layouts now preserve
 the two interior views. The 14 opponent lists have separate link labels
