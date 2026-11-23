@@ -3772,3 +3772,33 @@ The thunk check covers DirectSoundCreate8's DSOUND ordinal 11.
 An in-memory DLL name change fails the import inventory check. Swapping
 two import lookup slots keeps the same inventory and fails the operand
 check, as does retargeting an import thunk to a different live IAT slot.
+
+## 2026-11-23 disjoint image-base check
+
+For each trial layout, the pinned VC7.1 linker used the same response
+file inputs and produced isolated `/FIXED:NO` links at 0x00400000 and
+0x00600000. The loadable sections of each 0x00400000 link agree byte for
+byte with its fixed trial PE. The two bases have the same section
+layout, entry RVA and 14,261 HIGHLOW field RVAs. Applying the 0x200000
+delta to those fields reproduces every byte of the shifted sections,
+including library contributions. Each layout has 12,755 fields in
+`.text`, 533 in `.rdata` and 973 in `.data`.
+
+All four PEs pass the linked trial verifier using their own maps. A
+bounded linear x86 decode of each shifted `.text` section found no
+operand in the original image's address ranges. The aligned data scan's
+candidates were opponent-record halfwords, CRT character-type entries,
+and ASCII or import-name bytes. The section comparison rejected a
+retained old-base operand and a changed resource byte in private copies.
+
+The reordered 0x00600000 link ran under Wine with the stock archive.
+Its first 600 calculations of the bundled replay matched the retail
+trace byte for byte across all 13 observed fields.
+
+To repeat the link, copy the retained response file for each layout,
+set separate `/OUT` and `/MAP` paths and append `/FIXED:NO` and one
+`/BASE` value. Run the pinned linker from `build/link-probe` with the
+same SDK and CRT library search paths. Compare section RVAs and base
+relocation directory entries, apply the base delta to HIGHLOW words
+and compare section payloads. Input order remains the variable in the
+internal layout check.
