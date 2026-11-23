@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit two original callback-table prefixes against the live function catalog.
+"""Audit reviewed original callback-table ranges against the live function catalog.
 
 This is a coverage report. A missing entry needs boundary/origin/source review;
 table membership grants no authored-byte or exactness credit. Prefix extents
@@ -16,6 +16,10 @@ import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 TABLES = {
+    'cardattack': (0x004A00C0, 9, 16, 0,
+        ('begin', 'update', 'draw', 'end'),
+        'c6db9df20ab510a69fe7f3b2fe5a9e79aa96edb5eb361ed5d761a13d5cc816c5',
+        'card-attack-start', 0x00403E50),
     'effect': (0x004A0B48, 38, 24, 12,
         ('initialize', 'update', 'draw'),
         '318a2c5a7e469179735911b94d8837b8b96651b2c89153ea2a15023ec20942b8',

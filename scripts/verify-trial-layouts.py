@@ -420,7 +420,7 @@ def verify_layout(stem, data_name, target, units, objects):
     print(f'{stem}: {len(code)} code units, {code_fields} code relocations '
           f'({private_fields} into private constants), {len(labels)} data labels, '
           f'{data_fields} data relocations, {input_objects} DirectInput objects, '
-          f'{callback_slots} Effect/ExAttack callback slots, {ecl_slots} ECL callback slots')
+          f'{callback_slots} CardAttack/Effect/ExAttack callback slots, {ecl_slots} ECL callback slots')
     print(f'{stem}: {len(handlers)} C++ exception handler references, '
           f'{sum(row["states"] for row in handlers)} unwind states, '
           f'{sum(row["relocations"] for row in handlers)} unwind relocations')

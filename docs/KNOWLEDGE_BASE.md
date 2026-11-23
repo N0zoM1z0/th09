@@ -3935,3 +3935,24 @@ both trials. The two banks together held the six serialized bindings. The
 912 bytes after `GameManagerResetView::ResetForSupervisorAdded` also
 matched retail. The startup probe scopes those comparisons to the two
 return sites.
+
+## 2026-11-23 linked CardAttack callback rows
+
+The nine `CardAttackCallbackRow` records occupy 0x004A00C0 through
+0x004A014F immediately before `g_PlayerPatternGrid`. Their 36 slots reach
+11 distinct cataloged entries. The table moves from 0x004A0580 to
+0x004A3B90 in the two trial links. All begin, update, draw, and end
+slots resolve to their retail callback identities in each PE.
+
+The callback coverage report and linked layout verifier now include this
+range. Both linked checks rejected a private PE copy in which row zero's
+begin slot selected row one's valid begin callback. The selected VC7.1
+`CardAttack::StartAttack` body still matches all 923 bytes and 29
+relocations.
+
+In the built-in attract demo, retail and both trial layouts first selected
+row two with attack class two. The four live pointers agreed with the
+checked rows, and the indirect call reached the begin callback at retail
+identity 0x00441420. The callback received the same object as `StartAttack`
+in each run and had return address `StartAttack` +0x10B. The runtime probe
+covered the first dispatch.
