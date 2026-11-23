@@ -26,6 +26,7 @@ schema_version = 1
 "0x004A8168" = 0x18    # LastNameRecordView (name field at +0x0C)
 "0x004A8180" = 0x1FC   # PlayStatsRecordView (BGM and character unlock arrays)
 "0x004AC858" = 0x2C    # TitleScoreRecordView (date field at +0x21)
+"0x004ACC00" = 0x20C   # FileSystem resolved path and executable directory at +0x108
 "0x004B30B0" = 0x44    # GameWindow (power-state flags at +0x20..+0x28)
 "0x004B3100" = 0x7B0   # Supervisor
 "0x004ACE18" = 0x1AA   # Three ReplayInputState records of 0x8E bytes

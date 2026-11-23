@@ -4155,3 +4155,40 @@ agreed with retail through frame 3,566. Retail recorded all 7,996
 input frames. The fixed normal trial also matched the 600-frame
 smoke. The replay check and stock archive were used without
 modification.
+
+## 2026-11-23 native DirectPlay startup and path storage
+
+The host Windows installation reports its DirectPlay feature enabled.
+A standalone 32-bit Peer test used the system `dpnet.dll` to host and
+join a local session, producing four `CREATE_PLAYER` callbacks across
+two peers. The same provider test in the isolated Wine namespace
+returned `E_FAIL` from the built-in provider's `Host`. The Windows DLL
+loaded in a disposable Wine prefix but Peer activation returned
+`0x80070005` there. Loading the DLL alone does not supply working Wine
+hosting.
+
+Native Windows runs reached the title in retail, the fixed normal trial
+and the reordered 0x00600000 trial. All three instantiated a Peer whose
+`Host` slot resolves to RVA 0xABC0 of the installed 32-bit `dpnet.dll`.
+Before the layout change, the default startup title in the same UNC
+directory left a truncated executable-directory prefix in retail and
+the normal trial. They used port zero and joined that prefix to their
+score and configuration filenames. The reordered trial kept the full
+prefix and read the port from the same `IP.txt`.
+
+The startup file check uses the shared path buffer before game
+configuration is loaded. Retail keeps the executable directory at +0x108
+from the resolved-path buffer. The trial data declaration now keeps the
+two buffers and their aliases in a single 0x20C-byte range. The layout
+verifier rejects the previous split and passes both fixed links and the
+four base variants. The selected WinMain, ResolvePath and network config
+COFF bodies still match retail across 2,120 bytes and 178 relocations.
+
+After relinking, the default-title runs reproduced the same original
+prefix and port behavior in all three images. With a short explicit
+startup title, all three kept the full prefix and loaded port 34,872
+from the private fixture. All six native startup runs closed normally.
+The game window was visible with the short title, but the automated
+Windows launch did not acquire foreground focus. The native game
+session never reached Match Mode. The successful join above applies
+to the standalone provider test.

@@ -145,6 +145,11 @@ The linked GUID checks cover DirectPlay and the other tracked COM identifiers.
 The selected Wine runtime returns `E_FAIL` from its DirectPlay `Host` stub.
 Retail and both trials follow the same wait and cancel path at that boundary.
 [DirectPlay evidence](KNOWLEDGE_BASE.md#2026-11-23-directplay-guid-bindings-and-host-entry)
+The native Windows provider passed a standalone join. Retail and both
+tested trial images also reached the native title with the same provider
+binding. Windows startup exposed a path-buffer adjacency requirement
+that the trial data layout now preserves.
+[Native startup evidence](KNOWLEDGE_BASE.md#2026-11-23-native-directplay-startup-and-path-storage)
 
 The reordered link exposed a split in the opponent parameter table used by
 Story setup and the front transition callback. Both layouts now preserve
