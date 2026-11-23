@@ -3506,3 +3506,38 @@ The 34 remaining origins have these evidence limits.
 The functions with ambiguous origins remain outside authored totals. A new
 source-level or provider-specific artifact would be needed to assign those
 origins. Repeating a byte match alone does not resolve the ambiguity.
+
+## 2026-11-23 position independence and product checks
+
+The VC7.1 linker selected different `SpriteHasTexture` COMDATs when the full
+object list was reversed. The normal link selected the 47-byte target-exact
+body from TitleDrawCallback. The reversed link selected a 51-byte body from
+AnmManagerRuntime. Both layouts now put the reviewed provider before the
+competing carrier. The provider itself moves from 0x00401148 to 0x0044C550.
+
+The cold build produced 386 carrier objects. All 1,084 configured units
+passed comparison with the original in their own profiles. Five of the six
+units replaced in the product's EclManager carrier differ from the original:
+`ecl-move-random-biased`, `effect-draw-callback-ring`,
+`effect-draw-type29`, `effect-draw-type31`, and
+`player-position-callback-type11`.
+
+The linked verifier checks 14,668 code relocations per PE, including
+28 references to four private read-only input sections. For those fields it
+checks the full section contents and the shared base implied by every access.
+It also checks the generated data's 614 labels, storage extents, initialized
+bytes and 552 pointer fields in each layout. All 1,084 code units and 613
+generated data labels change address. A third check puts `ProductData.obj`
+before the game carriers in a copy of the normal linker response file
+with a separate output and map. It passed the same byte and relocation
+checks and moved the remaining label, `th09_rdata_0048F4E8`, from
+0x0048FDA8 to 0x0048EB68. The two regular trial PEs and the original have the
+same 156 imports across nine DLLs and identical payloads for both resources.
+
+The missing-resource and invalid-resource link checks return nonzero. The
+layout verifier rejects pairing a PE with the other layout's map and rejects
+a changed generated data pointer. The original and both trials reached the
+attract-mode match under Wine. All three also opened Options, returned to
+the title, and exited normally. The three Options captures were identical.
+Production data ownership, the EclManager profile differences, and
+deterministic replay comparison remain open.

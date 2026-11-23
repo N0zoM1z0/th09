@@ -11,6 +11,9 @@ symbols against the tracked target references.
   scripts/trial-link.py link      link and classify diagnostics
   scripts/trial-link.py verify    check each unit against its trial carrier and
                                   every other profile of the same source
+
+Use verify-trial-layouts.py after both links to check the linked bytes and
+relocations against the selected carriers.
 """
 from __future__ import annotations
 
@@ -80,9 +83,10 @@ def winpath(env, *paths) -> list[str]:
 def check_pins() -> None:
     keys = tomllib.loads((ROOT / 'config/tools.lock.toml').read_text())['msvc71']
     for name, key in (('cl.exe', 'compiler_sha256'), ('c1.dll', 'c_frontend_sha256'),
-                      ('c1xx.dll', 'cpp_frontend_sha256'), ('c2.dll', 'backend_sha256')):
+                      ('c1xx.dll', 'cpp_frontend_sha256'), ('c2.dll', 'backend_sha256'),
+                      ('link.exe', 'linker_sha256')):
         if hashlib.sha256((VC / 'bin' / name).read_bytes()).hexdigest() != keys[key]:
-            raise SystemExit('pinned compiler component mismatch: ' + name)
+            raise SystemExit('pinned VC7.1 component mismatch: ' + name)
 
 
 def load_units() -> dict:
@@ -121,7 +125,7 @@ def build() -> None:
         result = subprocess.run(
             ['nice', '-n', '10', 'wine', str(VC / 'bin/cl.exe'), '/nologo', '/c', *flags,
              '/Fo' + out + '\\', '/Fd' + out + '\\carrier.pdb', *sources_win],
-            cwd=ROOT, env=dict(env, INCLUDE=f'{inc};{sdk}', LIB=f'{lib};{slib}'),
+            cwd=directory, env=dict(env, INCLUDE=f'{inc};{sdk}', LIB=f'{lib};{slib}'),
             capture_output=True, text=True, errors='replace')
         errors = re.findall(r'^.*\berror [CD]\d+.*$', result.stdout + result.stderr, re.M)
         print(f'{directory.name}: {len(names)} sources, {short(profile)}, rc={result.returncode}', flush=True)
@@ -193,44 +197,64 @@ def alias_table(index) -> dict[str, str]:
     return aliases
 
 
-def link(reverse: bool = False) -> None:
-    env = wine_env()
-    index = json.loads((OUT / 'index.json').read_text())
+def selected_carriers(index) -> list[dict]:
     # One carrier per source: a source compiled under several profiles keeps
     # the profile of most of its units in the product link.
     by_source = collections.defaultdict(list)
     for entry in index:
         by_source[entry['source']].append(entry)
-    dropped = []
-    for source, entries in by_source.items():
-        if len(entries) > 1:
-            keep = max(entries, key=lambda e: len(e['units']))
-            for entry in entries:
-                if entry is not keep:
-                    dropped.append(entry)
-    index = [entry for entry in index if entry not in dropped]
-    for entry in dropped:
-        print(f"product deviation: {entry['source']} {short(entry['profile'])} carrier not linked; "
-              f"{len(entry['units'])} units take the majority-profile body")
+    selected = {source: max(entries, key=lambda entry: len(entry['units']))
+                for source, entries in by_source.items()}
+    return [entry for entry in index if entry is selected[entry['source']]]
+
+
+def link(reverse: bool = False) -> None:
+    check_pins()
+    stem = 'trial-reversed' if reverse else 'trial'
+    outputs = [OUT / f'{stem}.{suffix}' for suffix in ('exe', 'map')]
+    data = ROOT / 'build/product' / ('ProductDataReversed.obj' if reverse else 'ProductData.obj')
+    resources = ROOT / 'build/product/ProductResources.res'
+    for required in (data, resources):
+        if not required.is_file():
+            hint = 'product-data.py --reverse' if reverse else 'product-data.py'
+            raise SystemExit(f'missing link input {required.relative_to(ROOT)}. Run {hint} first.')
+    env = wine_env()
+    all_carriers = json.loads((OUT / 'index.json').read_text())
+    index = selected_carriers(all_carriers)
+    for entry in all_carriers:
+        if entry not in index:
+            print(f"product deviation: {entry['source']} {short(entry['profile'])} carrier not linked; "
+                  f"{len(entry['units'])} units take the majority-profile body")
     product = tomllib.loads((ROOT / 'config/product-link.toml').read_text())
     aliases = alias_table(index)
     aliases.update(product.get('library_data', {}))
-    data = ROOT / 'build/product' / ('ProductDataReversed.obj' if reverse else 'ProductData.obj')
-    extra = [str(path) for path in (data, ROOT / 'build/product/ProductResources.res') if path.is_file()]
-    extra = [winpath(env, Path(path))[0] for path in extra]
+    extra = winpath(env, data, resources)
     (OUT / 'aliases.json').write_text(json.dumps(aliases, indent=1, sort_keys=True))
     print('address-bound aliases', len(aliases))
     lib, slib = winpath(env, VC / 'lib', VC / 'PlatformSDK/Lib')
-    stem = 'trial-reversed' if reverse else 'trial'
-    objects = [entry['object'].replace('/', '\\') for entry in index] + extra
+    object_by_source = {entry['source']: entry['object'].replace('/', '\\') for entry in index}
+    sources = list(object_by_source)
     if reverse:
-        # A second layout for position-independence checks: the same
-        # objects and libraries with the game objects in reverse order.
-        objects.reverse()
+        sources.reverse()
+    # Move each competing carrier after its reviewed COMDAT provider.
+    # Preserve this selection when varying physical layout.
+    precedence = product.get('comdat_precedence', {})
+    for alternate, provider in precedence.items():
+        if alternate not in sources or provider not in sources or alternate == provider:
+            raise SystemExit(f'invalid COMDAT precedence: {provider} before {alternate}')
+        if sources.index(alternate) < sources.index(provider):
+            sources.remove(alternate)
+            sources.insert(sources.index(provider) + 1, alternate)
+    if any(sources.index(provider) > sources.index(alternate) for alternate, provider in precedence.items()):
+        raise SystemExit('conflicting COMDAT precedence')
+    objects = [object_by_source[source] for source in sources]
+    objects = extra[::-1] + objects if reverse else objects + extra
     (OUT / f'{stem}.rsp').write_text('\r\n'.join(
         [*LINK_FLAGS, f'/OUT:{stem}.exe', f'/MAP:{stem}.map',
          *[f'/ALTERNATENAME:{alias}={real}' for alias, real in sorted(aliases.items())],
          *objects, *LIBS]) + '\r\n')
+    for output in outputs:
+        output.unlink(missing_ok=True)
     result = subprocess.run(['nice', '-n', '10', 'wine', str(VC / 'bin/link.exe'), f'@{stem}.rsp'],
                             cwd=OUT, env=dict(env, LIB=f'{lib};{slib}'),
                             capture_output=True, text=True, errors='replace')
@@ -240,6 +264,10 @@ def link(reverse: bool = False) -> None:
     for line in re.findall(r'^.*\b(?:fatal error|warning) LNK\d+.*$', log, re.M)[:10]:
         print('   ', line)
     classify(log)
+    if result.returncode or any(not output.is_file() for output in outputs):
+        for output in outputs:
+            output.unlink(missing_ok=True)
+        raise SystemExit(result.returncode or 'link output missing')
 
 
 def classify(log: str) -> None:

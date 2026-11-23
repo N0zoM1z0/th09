@@ -1,4 +1,4 @@
-# TH09 reconstruction handoff (2026-11-21)
+# TH09 reconstruction handoff (2026-11-23)
 
 [Progress](PROGRESS.md)
 
@@ -39,18 +39,21 @@ independence (PI): code and data move at link time while every reference
 still reaches its function, object and field. The TH08 checkout's
 `docs/POSITION_INDEPENDENCE.md` lists the acceptance checks.
 
-The trial link now produces a complete executable. It runs under Wine
-from the title through the attract-mode match at 60 fps, and so does a
-second layout with the game objects and data blocks in reverse order. In
-that pair, 5,122 of 5,197 common map symbols move; `g_Supervisor`, for
-example, moves from `0x004B3130` to `0x004D70C0`.
+The normal and reordered trials both run under Wine from the title into the
+attract-mode match. All 1,084 tracked code units and 613 of 614 generated data
+labels move between the two links. The linked comparison checks each unit
+against its selected COFF object and checks the generated data and its pointer
+fields. A single link precedence constraint keeps the reviewed
+`SpriteHasTexture` COMDAT provider active in both layouts.
+[Linked layout evidence](KNOWLEDGE_BASE.md#2026-11-23-position-independence-and-product-checks)
 
 ```bash
-python3 -B scripts/trial-link.py build              # about 9 minutes, serial, nice
+python3 -B scripts/trial-link.py build              # serial, lowered priority
 python3 -B scripts/product-data.py                  # labelled data + resources
 python3 -B scripts/product-data.py --reverse
 python3 -B scripts/trial-link.py link               # build/link-probe/trial.exe
 python3 -B scripts/trial-link.py link --reverse     # trial-reversed.exe
+python3 -B scripts/verify-trial-layouts.py
 ```
 
 The game data is `resources/th09.dat` (ignored, copied from the operator's
@@ -73,7 +76,8 @@ What the product still borrows or approximates:
   bound to the same original address. They are view types or bodies that
   the original linker folded. Replacing the views with real types is open.
 - EclManager links its `/Ob1` carrier only. Its six `/Ob0` units take the
-  `/Ob1` bodies. Converting the ECL accessor helpers to macros makes 84
+  `/Ob1` bodies, five of which differ from the original. Converting the
+  ECL accessor helpers to macros makes 84
   of 86 units exact under `/Ob0`; RunEcl's remaining tail-merge difference
   is the blocker. `.analysis/closure/ecl-macro-ob0.patch` has the attempt.
 - The movement owner is linked from its near-exact source.

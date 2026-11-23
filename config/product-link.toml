@@ -2,6 +2,12 @@
 # scripts/trial-link.py and scripts/product-data.py read this file.
 schema_version = 1
 
+# VC7.1 picks the first select-any COMDAT. The TitleDrawCallback carrier's
+# 47-byte SpriteHasTexture matches the target. AnmManagerRuntime emits a
+# 51-byte copy of the same inline under its own profile.
+[comdat_precedence]
+"src/AnmManagerRuntime.cpp" = "src/TitleDrawCallback.cpp"
+
 # Original globals that are archive data rather than game storage. Each
 # reference resolves to the library definition instead of a game copy.
 [library_data]
