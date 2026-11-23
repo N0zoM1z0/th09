@@ -99,10 +99,12 @@ What the product still borrows or approximates:
   Natural C++ definitions for generated tables remain open.
 - `product/` holds link glue: the global construction sequence for those
   objects and the PbgArchive constructor, whose body folds with a D3DX8
-  routine at `0x00433040`. The linked checks cover the trial startup and
-  exit callbacks. A title-menu exit reached the eight shared game
-  callbacks in retail and both tested trial layouts. The trials omit two
-  retail registrations.
+  routine at `0x00433040`. The typed auxiliary PbgArchive array now has
+  matching retail initializer and terminator wrappers. Its CRT registration
+  order and zero-fill storage pass checks in all six layouts and a console
+  smoke exercised activation and clean exit. The earlier title-menu exit
+  covered the eight shared game callbacks. The GameErrorContext's empty
+  retail callback remains omitted.
   [Startup and exit evidence](KNOWLEDGE_BASE.md#2026-11-23-linked-product-startup-and-exit-callbacks)
 - 139 references resolve through `/ALTERNATENAME` to the definition
   bound to the same original address. They are view types or bodies that

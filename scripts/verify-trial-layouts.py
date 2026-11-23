@@ -386,7 +386,7 @@ def verify_replay_captions(target, image, units, objects, addresses):
 def verify_crt_initializers(image, addresses):
     c_initializers = ('___onexitinit', '___initstdio', '___sse2_available_init', '___initmbctable',
                       '?__CxxSetUnhandledExceptionFilter@@YAHXZ')
-    cxx_initializers = ('___security_init_cookie', '_$E1')
+    cxx_initializers = ('___security_init_cookie', '_$E1', '_$E3', '_$E6')
     for section, names in (('xi', c_initializers), ('xc', cxx_initializers)):
         expected = struct.pack(f'<{len(names) + 2}I', 0, *(addresses[name] for name in names), 0)
         start, end = addresses[f'___{section}_a'], addresses[f'___{section}_z']
@@ -463,34 +463,68 @@ def verify_crt_entry(target, image, pe, addresses, retail_winmain):
     return len(code), len(fields) + len(scope_fields)
 
 
-def verify_product_startup(image, pe, objects, addresses, destinations):
-    constructor = '??0ProductStaticInit@@QAE@XZ'
-    entry = addresses['_$E1']
-    thunk = coff.pe_bytes_at(image, entry, 10)
-    instance = u32(thunk, 1) - pe['image_base']
-    if (thunk[0] != 0xB9 or thunk[5] != 0xE9
-            or entry + 10 + struct.unpack_from('<i', thunk, 6)[0] != addresses[constructor]
-            or not any(s['name'] == '.data' and s['rva'] + s['raw_size'] <= instance
-                       < s['rva'] + s['virtual_size'] for s in pe['sections'])):
-        raise ValueError('linked CRT registration does not reach the product startup constructor')
-
+def verify_product_startup(target, image, pe, objects, addresses, destinations):
+    startup = 'product/ProductStaticInit.cpp'
+    archive_ctor = '??0PbgArchive@@QAE@XZ'
     functions = {}
-    for source in ('product/ProductStaticInit.cpp', 'product/PbgArchiveCtor.cpp'):
+    wrappers = {'_$E1', '_$E3', '_$E4', '_$E6'}
+    for source in (startup, 'product/PbgArchiveCtor.cpp'):
         _, sections, symbols = coff.read_coff_object(objects[source])
         for symbol in symbols.values():
             number = symbol['section']
             if number <= 0 or symbol['type'] != 0x20:
                 continue
             section = sections[number - 1]
-            if section['name_raw'].rstrip(b'\0') != b'.text':
-                continue  # The registration and associative EH sections have separate checks.
             name = symbol['name']
+            if section['name_raw'].rstrip(b'\0') != b'.text' and name not in wrappers:
+                continue  # Associative EH sections have separate checks.
             functions[name] = {'source': source, 'symbol': name, 'size': section['size']}
-    functions[constructor].update(unwind_states=(13,), relocations=[{'symbol': '__ehhandler$' + constructor}])
+    for constructor, states in (('??0ProductStaticInit@@QAE@XZ', 11),
+                                ('??0ProductStaticInitAfterArchives@@QAE@XZ', 2)):
+        functions[constructor].update(unwind_states=(states,),
+                                      relocations=[{'symbol': '__ehhandler$' + constructor}])
+    _, sections, symbols = coff.read_coff_object(objects[startup])
+    array_name = '_s_auxiliaryArchives'
+    array, = (symbol for symbol in symbols.values() if symbol['name'] == array_name)
+    bss = sections[array['section'] - 1]
+    # LINK omits local data labels from the map. Derive the contribution's
+    # base from the array initializer and check all other references against it.
+    _, fields = coff.object_function(objects[startup], '_$E3', 36)
+    reference, = (field for field in fields if field['type'] == 'DIR32' and field['symbol'] == array_name)
+    operand = coff.pe_bytes_at(image, addresses['_$E3'] + reference['offset'], 4)
+    base = u32(operand, 0) - reference['addend'] - array['value']
+    allocation = data_allocation(pe, base, bss['size'], bss['flags'], 'product startup storage')
+    receivers = ('_s_productStaticInit', '_s_productStaticInitAfterArchives')
+    storage = {symbol['name']: base + symbol['value'] for symbol in symbols.values()
+               if symbol['section'] == array['section'] and symbol['name'] in (array_name, *receivers)}
+    extent = 20 * 0x10
+    if (bss['name_raw'].rstrip(b'\0') != b'.bss' or bss['raw_offset']
+            or base < pe['image_base'] + allocation['rva'] + allocation['raw_size']
+            or storage[array_name] + extent != min(storage[name] for name in receivers)
+            or any(base <= address < base + bss['size'] for address in addresses.values())):
+        raise ValueError('auxiliary archive array does not own its complete zero-fill extent')
     # VC7.1 uses FS:[0] for the x86 exception registration chain.
-    bindings = destinations | {'__except_list': 0}
+    bindings = destinations | storage | {'__except_list': 0}
     code, fields, _, handlers = verify_code(image, pe, functions, objects, addresses, bindings)
-    return len(code), fields, handlers[0]
+
+    # Resolve the compiler's complete array wrappers against the retail CRT and objects.
+    retail = {archive_ctor: 0x00433040, '??1PbgArchive@@QAE@XZ': 0x004335D0,
+              '??_L@YGXPAXIHP6EX0@Z1@Z': 0x0047CEC9, '??_M@YGXPAXIHP6EX0@Z@Z': 0x0047CE69,
+              '_atexit': 0x0047C323, '_$E4': 0x0048DA90, array_name: 0x004B42E0}
+    for name, address, size in (('_$E3', 0x0048D920, 36), ('_$E4', retail['_$E4'], 20),
+                                (archive_ctor, retail[archive_ctor], 16)):
+        expected, relocations = coff.object_function(objects[functions[name]['source']], name, size)
+        for field in relocations:
+            offset = field['offset']
+            destination = retail[field['symbol']] + field['addend']
+            if field['type'] == 'REL32':
+                destination -= address + offset + 4
+            elif field['type'] != 'DIR32':
+                raise ValueError(f'unsupported auxiliary archive relocation in {name}')
+            struct.pack_into('<I', expected, offset, destination & 0xFFFFFFFF)
+        if len(expected) != size or coff.pe_bytes_at(target, address, size) != expected:
+            raise ValueError(f'{name} differs from the retail auxiliary archive lifetime code')
+    return len(code), fields, handlers
 
 
 def verify_resources(target, image):
@@ -795,8 +829,8 @@ def verify_layout(stem, data_name, target, units, objects):
     d3dx_entries, d3dx_slots = verify_d3dx_fast_table(target, image, pe, addresses, originals)
     destinations = resolve_aliases(aliases, addresses, originals, product['library_data'])
     resolve = destinations.get
-    startup_functions, startup_fields, startup_handler = verify_product_startup(
-        image, pe, objects, addresses, destinations)
+    startup_functions, startup_fields, startup_handlers = verify_product_startup(
+        target, image, pe, objects, addresses, destinations)
 
     data_path = trial.ROOT / 'build/product' / data_name
     labels, data_fields = verify_data_object(target, image, pe, data_path, addresses, resolve, originals,
@@ -821,7 +855,8 @@ def verify_layout(stem, data_name, target, units, objects):
           f'{sum(row["states"] for row in handlers)} unwind states, '
           f'{sum(row["relocations"] for row in handlers)} unwind relocations')
     print(f'{stem}: {startup_functions} product startup/exit functions, {startup_fields} code relocations, '
-          f'{startup_handler["states"]} startup unwind states, {startup_handler["relocations"]} unwind relocations')
+          f'{sum(row["states"] for row in startup_handlers)} startup unwind states, '
+          f'{sum(row["relocations"] for row in startup_handlers)} unwind relocations')
     print(f'{stem}: {entry_bytes} CRT entry bytes, {entry_fields} entry and scope relocations')
     print(f'{stem}: {d3dx_entries} D3DX8 math dispatch entries, {d3dx_slots} initial function pointers')
     print(f'{stem}: {resources} PE resources, {imports} PE imports, {import_fields} checked import operands, '

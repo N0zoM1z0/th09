@@ -4125,30 +4125,35 @@ the loader's return.
 
 ## 2026-11-23 linked product startup and exit callbacks
 
-The linked verifier follows the trial CRT registration jump to
-`ProductStaticInit` and checks that its empty receiver lies in zero-fill
-storage. It compares 16 startup and exit functions from the two product
-objects, including the eight registered cleanup wrappers. Each PE agrees
-with its selected COFF contributions across 100 code relocations and
-the startup constructor's 13 unwind states and 42 unwind relocations.
-Both fixed layouts and the four base variants pass. Both fixed layouts
-reject a changed registration target, constructor receiver, cleanup
-registration, unwind cleanup receiver and unwind slot in private copies.
-
 Normal title-menu exit under Wine reached the CRT onexit dispatcher in
-retail, the normal trial and the reordered 0x00600000 trial. The eight
-shared game callbacks received the corresponding linked objects in the
-same order. From first to last they were the three AsciiManager chains
+retail and in the earlier normal and reordered 0x00600000 trials. All
+eight game callbacks present in those trials took the same objects in
+the same order as retail. They covered the three AsciiManager chains
 in high-priority draw, low-priority draw and calculation order, the
 main PbgArchive, ZunMemory, Chain, and the GameManager draw and
-calculation chains. Each run returned from all dispatched callbacks.
+calculation chains. Retail also ran two callbacks omitted in that trial
+build. The callback at 0x0048DA70 returns immediately. The callback at
+0x0048DA90 destroyed the archives at 0x004B42E0. All 320 array bytes
+were zero when the callback ran in a second retail exit.
 
-Retail dispatched two additional game entries. One immediately returns
-at 0x0048DA70. The other invokes `PbgArchive::~PbgArchive` for 16 entries
-at 0x004B42E0 with a 0x14-byte stride. All 320 bytes of that array were
-zero at dispatch during a second retail title-menu exit. The trials omit
-both registrations, so the observed shutdown agreement covers the eight
-shared objects and does not establish full startup or teardown closure.
+The pinned VC7.1 vector iterators establish that the array has 20
+elements of 0x10 bytes each. They use `[ebp+0x0C]` as the stride and
+`[ebp+0x10]` as the count. The product glue now defines a typed array
+between the loading VM and AsciiManager initializers. Its 36-byte
+initializer and 20-byte terminator match retail with all nine relocations
+replayed. The shared constructor also matches all 16 retail bytes.
+The GameErrorContext's empty exit callback remains absent from the trials.
+
+Both fixed links and all four base variants pass the updated startup
+checks. They cover the CRT initializer order, the array's complete
+zero-fill storage, and 21 startup and exit functions with 117 code
+relocations and 45 unwind relocations across 13 states. The array moves
+from 0x004A8008 to 0x004E2998 between fixed links. The checker
+rejects a modified array count, shifted storage, a wrong destructor
+receiver and swapped CRT initializers. Console-only links with the same
+startup objects confirmed all 320 array bytes were zero at `main` and
+the auxiliary destructor was registered between the main PbgArchive and
+AsciiManager callbacks. Both console processes exited normally under Wine.
 
 ## 2026-11-23 live replay version rejection
 

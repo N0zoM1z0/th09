@@ -4,15 +4,14 @@
 // wrappers at 0x0048D7B0..0x0048DAD0, each emitted by the translation unit
 // that defines the object. Until those definitions return to their own
 // units, the objects' storage comes from the labelled data closure that
-// scripts/product-data.py generates. This unit runs the same constructor
-// calls in the original wrapper order and registers the same destructors.
+// scripts/product-data.py generates. This unit runs the reviewed constructor
+// calls in the original wrapper order and registers their cleanup.
 //
-// Only names, class keys and special-member signatures are declared here, so
-// each call binds to the existing exact or product-only definitions without
-// depending on any view layout beyond the three array element sizes. Not constructed: the ScreenEffect at
-// 0x004AC888 and the sixteen PbgArchive entries at 0x004B42E0, which no
-// reconstructed code references yet, and the three vertex arrays whose
-// element constructor (0x004343D0) only returns its object.
+// The view declarations bind to existing definitions. Use the complete
+// PbgArchive type for the auxiliary array so the compiler owns its lifetime.
+// The ScreenEffect at 0x004AC888 and the three vertex arrays whose element
+// constructor only returns its object remain outside this glue.
+#include "PbgArchive.hpp"
 #include <new>
 #include <stdlib.h>
 
@@ -25,7 +24,6 @@ struct TitleScoreRecordView { unsigned char storage[0x2C]; };
 struct ScoreRecordCtorView { ScoreRecordCtorView(); };
 class ZunMemory { public: ZunMemory(); ~ZunMemory(); };
 struct ReplayInputState { ReplayInputState(); unsigned char storage[0x8E]; };
-class PbgArchive { public: PbgArchive(); ~PbgArchive(); };
 class GameErrorContext { public: GameErrorContext(); };
 struct GameWindow { GameWindow(); };
 class Supervisor { public: Supervisor(); };
@@ -43,7 +41,6 @@ extern TitleScoreRecordView g_TitleScoreRecord;
 extern Chain g_Chain;
 extern ZunMemory g_ZunMemory;
 extern ReplayInputState g_ReplayInputStates[3];
-extern PbgArchive g_PbgArchive;
 extern GameErrorContext g_GameErrorContext;
 extern GameWindow g_GameWindow;
 extern Supervisor g_Supervisor;
@@ -89,6 +86,16 @@ static struct ProductStaticInit
         new (&g_Supervisor) Supervisor;
         for (int i = 0; i < 3; ++i)
             new (&g_SupervisorLoadingVms[i]) AnmVm;
+    }
+} s_productStaticInit;
+
+// Retail initializes these archives after the loading VMs and before AsciiManager.
+static PbgArchive s_auxiliaryArchives[20];
+
+static struct ProductStaticInitAfterArchives
+{
+    ProductStaticInitAfterArchives()
+    {
         new (&g_AsciiManager) NativeVmCompositeOwnerView;
         new (&g_AsciiManagerCalcChain) ChainElem;
         atexit(DestroyAsciiManagerCalcChain);
@@ -98,4 +105,4 @@ static struct ProductStaticInit
         atexit(DestroyAsciiManagerDrawChainHighPrio);
         new (&g_SoundPlayer) SoundPlayer;
     }
-} s_productStaticInit;
+} s_productStaticInitAfterArchives;
