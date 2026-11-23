@@ -3915,3 +3915,23 @@ order, size, and digest of up to their first 4,096 bytes. The second read
 in each run matched the size and sample digest of its running PE.
 This probe covered ordinary startup reads. The terminal iteration was
 checked by the linked range comparison.
+
+## 2026-11-23 GameManager and replay input storage at startup
+
+The linked data contracts now cover the 0x390-byte GameManager at
+0x004A7D90 and the three 0x8E-byte replay input records at 0x004ACE18.
+The first contains 69 generated labels and the second contains nine.
+The replay inputs include both banks of controller bindings. Declaring
+these ranges leaves the generated assembly byte for byte identical.
+
+The linked verifier checks that each reviewed generated range fits inside
+its COFF allocation and contains only labels originating within the retail
+range. This also checks reviewed objects reached only by table pointers.
+A shortened allocation and a foreign label were each rejected for the
+GameManager, replay inputs, and first opponent list in both layouts.
+
+In Wine, the 426 bytes after `Supervisor::LoadConfig` matched retail in
+both trials. The two banks together held the six serialized bindings. The
+912 bytes after `GameManagerResetView::ResetForSupervisorAdded` also
+matched retail. The startup probe scopes those comparisons to the two
+return sites.

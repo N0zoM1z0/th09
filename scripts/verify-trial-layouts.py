@@ -47,6 +47,7 @@ def verify_data_object(image, pe, path, addresses, resolve):
         if symbol['storage'] == 2 and symbol['section'] > 0:
             definitions[symbol['section']][symbol['name']] = symbol['value']
     labels = {}
+    allocations = []
     field_count = 0
     for number, offsets in sorted(definitions.items()):
         section = sections[number - 1]
@@ -61,6 +62,7 @@ def verify_data_object(image, pe, path, addresses, resolve):
                        if s['rva'] <= rva and rva + size <= s['rva'] + s['virtual_size']), None)
         if mapped is None:
             raise ValueError(f'{path.name} {name} extends outside the linked section')
+        allocations.append((base, base + size))
         start = section['raw_offset']
         if not start:
             if section['reloc_count']:
@@ -84,7 +86,7 @@ def verify_data_object(image, pe, path, addresses, resolve):
         labels.update({label: addresses[label] for label in offsets})
     if not labels or not field_count:
         raise ValueError(f'{path.name} is missing labelled storage or pointer fields')
-    return labels, field_count
+    return labels, field_count, allocations
 
 
 def verify_code(image, pe, units, objects, addresses, destinations):
@@ -156,13 +158,17 @@ def verify_code(image, pe, units, objects, addresses, destinations):
     return code_addresses, field_count, private_fields, handlers
 
 
-def verify_data_owners(units, labels, object_sizes):
+def verify_data_owners(units, labels, object_sizes, allocations):
     bindings = defaultdict(dict)
     for unit in units.values():
         for field in unit.get('relocations', []):
             symbol = field['symbol']
             if 'target' in field and symbol in labels:
                 bindings[field['target']][symbol] = labels[symbol]
+    for symbol, address in labels.items():
+        if symbol.startswith(('th09_data_', 'th09_rdata_')):
+            origin = int(symbol.rsplit('_', 1)[-1], 16)
+            bindings[origin][symbol] = address
     for owner, size in object_sizes.items():
         start = int(owner, 0)
         origins = set(bindings[start].values())
@@ -171,11 +177,18 @@ def verify_data_owners(units, labels, object_sizes):
         if len(origins) != 1:
             raise ValueError(f'generated object at {start:#010x} has separate base labels')
         base = origins.pop()
+        if not any(lo <= base and base + size <= hi for lo, hi in allocations):
+            raise ValueError(f'generated object at {start:#010x} extends outside its COFF allocation')
+        owned = set(bindings[start])
         for target, aliases in bindings.items():
             if start < target < start + size:
                 for symbol, address in aliases.items():
                     if address != base + target - start:
                         raise ValueError(f'{symbol} is outside its owning offset in {start:#010x}')
+                    owned.add(symbol)
+        for symbol, address in labels.items():
+            if base <= address < base + size and symbol not in owned:
+                raise ValueError(f'{symbol} overlaps generated object at {start:#010x}')
 
 
 def verify_input_formats(target, image, units, resolve, library_data):
@@ -395,9 +408,9 @@ def verify_layout(stem, data_name, target, units, objects):
     resolve = destinations.get
 
     data_path = trial.ROOT / 'build/product' / data_name
-    labels, data_fields = verify_data_object(image, pe, data_path, addresses, resolve)
+    labels, data_fields, allocations = verify_data_object(image, pe, data_path, addresses, resolve)
     product = tomllib.loads((trial.ROOT / 'config/product-link.toml').read_text())
-    verify_data_owners(units, labels, product['object_size'])
+    verify_data_owners(units, labels, product['object_size'], allocations)
     verify_opponent_lists(target, image, units, labels, product['object_size'])
     input_objects = verify_input_formats(target, image, units, resolve, product['library_data'])
     callback_slots = verify_callback_tables(target, image, units, resolve)
