@@ -93,7 +93,10 @@ What the product still borrows or approximates:
   defines yet as labelled MASM data, extracted from the attested original
   at build time. Pointer words are symbolic. `config/product-link.toml`
   binds DirectInput formats to the library and records reviewed object
-  sizes. Natural C++ definitions for these tables remain open.
+  sizes. The linked checks cover section access flags, controller and
+  loading buffers, and the source-defined enemy schedule.
+  [Storage evidence](KNOWLEDGE_BASE.md#2026-11-23-linked-data-permissions-and-bulk-storage)
+  Natural C++ definitions for generated tables remain open.
 - `product/` holds link glue: the global construction sequence for those
   objects and the PbgArchive constructor, whose body folds with a D3DX8
   routine at `0x00433040`. The linked checks cover the trial startup and

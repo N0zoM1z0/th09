@@ -66,6 +66,17 @@ def resolve_aliases(aliases, addresses, originals, library_data):
     return {alias: addresses[real] for alias, real in aliases.items()} | addresses
 
 
+def data_allocation(pe, address, size, flags, owner):
+    rva = address - pe['image_base']
+    section = next((s for s in pe['sections']
+                    if s['rva'] <= rva and rva + size <= s['rva'] + s['virtual_size']), None)
+    if section is None:
+        raise ValueError(f'{owner} extends outside the linked section')
+    if (section['characteristics'] ^ flags) & 0xE0000000:  # read, write and execute flags
+        raise ValueError(f'{owner} does not preserve its COFF section access flags')
+    return section
+
+
 def verify_data_object(target, image, pe, path, addresses, resolve, originals, object_sizes):
     data, sections, symbols = coff.read_coff_object(path)
     originals = originals | {
@@ -89,10 +100,7 @@ def verify_data_object(target, image, pe, path, addresses, resolve, originals, o
         base = bases.pop()
         size = section['size']
         rva = base - pe['image_base']
-        mapped = next((s for s in pe['sections']
-                       if s['rva'] <= rva and rva + size <= s['rva'] + s['virtual_size']), None)
-        if mapped is None:
-            raise ValueError(f'{path.name} {name} extends outside the linked section')
+        mapped = data_allocation(pe, base, size, section['flags'], f'{path.name} {name}')
         allocations.append((base, base + size))
         start = section['raw_offset']
         if not start:
@@ -235,6 +243,27 @@ def verify_data_owners(originals, labels, object_sizes, allocations):
         for symbol, address in labels.items():
             if base <= address < base + size and symbol not in owned:
                 raise ValueError(f'{symbol} overlaps generated object at {start:#010x}')
+
+
+def verify_enemy_schedule(target, image, pe, objects, addresses, originals):
+    name = '?g_EnemySubroutineSchedule@@3PAEA'
+    _, sections, symbols = coff.read_coff_object(objects['src/EclManager.cpp'])
+    symbol, = (row for row in symbols.values() if row['name'] == name and row['section'] > 0)
+    section = sections[symbol['section'] - 1]
+    size = 256
+    if (symbol['storage'] != 2 or symbol['value'] != 0 or section['name_raw'].rstrip(b'\0') != b'.bss'
+            or section['size'] != size or section['raw_offset'] or section['reloc_count']):
+        raise ValueError('enemy schedule does not occupy its complete zero-initialized COFF section')
+    address = addresses[name]
+    mapped = data_allocation(pe, address, size, section['flags'], 'enemy schedule')
+    if any(address <= other < address + size for label, other in addresses.items() if label != name):
+        raise ValueError('a linked symbol overlaps the enemy schedule')
+    rva = address - pe['image_base']
+    raw = min(size, mapped['rva'] + mapped['raw_size'] - rva)
+    if (any(coff.pe_bytes_at(target, originals[name], size))
+            or (raw > 0 and any(coff.pe_bytes_at(image, address, raw)))):
+        raise ValueError('enemy schedule is not zero-initialized')
+    return size
 
 
 def verify_input_formats(target, image, units, resolve, library_data):
@@ -710,6 +739,7 @@ def verify_layout(stem, data_name, target, units, objects):
     data_path = trial.ROOT / 'build/product' / data_name
     labels, data_fields = verify_data_object(target, image, pe, data_path, addresses, resolve, originals,
                                             product['object_size'])
+    schedule_bytes = verify_enemy_schedule(target, image, pe, objects, addresses, originals)
     verify_opponent_lists(target, image, units, labels, product['object_size'])
     input_objects = verify_input_formats(target, image, units, resolve, product['library_data'])
     callback_slots = verify_callback_tables(target, image, units, resolve)
@@ -724,7 +754,7 @@ def verify_layout(stem, data_name, target, units, objects):
           f'({private_fields} into private constants), {len(labels)} data labels, '
           f'{data_fields} data relocations, {input_objects} DirectInput objects, '
           f'{callback_slots} CardAttack/Effect/ExAttack callback slots, {ecl_slots} ECL callback slots, '
-          f'{replay_captions} replay captions')
+          f'{replay_captions} replay captions, {schedule_bytes} enemy schedule bytes')
     print(f'{stem}: {len(handlers)} C++ exception handler references, '
           f'{sum(row["states"] for row in handlers)} unwind states, '
           f'{sum(row["relocations"] for row in handlers)} unwind relocations')

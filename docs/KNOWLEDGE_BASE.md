@@ -4246,3 +4246,26 @@ With `SetPolar2D` left as an external declaration in the `/Ob1` carrier,
 Twenty-four other units changed code extents or relocation offsets,
 including ECL post-movement, effect drawing, ExAttack and player position
 callbacks. The experiment leaves the current trial carrier choice open.
+
+## 2026-11-23 linked data permissions and bulk storage
+
+The product data check now compares the linked PE section's read, write
+and execute flags with the corresponding COFF input section. It also
+checks declared extents for both 0x194-byte `JOYCAPSA` records, the
+0x80-byte button buffer shared by the input clear and copy, and all
+three 0x2A4-byte loading VMs. Regenerating both data objects left their
+assembly byte for byte identical. The 12 canonical consumers of these
+ranges and the enemy schedule still match through all 332 relocations
+in the selected carriers.
+
+The source-defined enemy schedule at retail 0x004A7C88 has 256 zero
+bytes. Its selected EclManager COFF symbol owns a complete 256-byte
+`.bss` section. The two fixed PEs place the schedule at 0x004A8010
+and 0x004E2898 in writable zero-fill storage. The check verifies its
+initial contents, full mapped extent and lack of overlapping symbols.
+
+Both fixed layouts and all four base variants pass. The normal and
+high-base reordered checks rejected cleared data write permission,
+an executable read-only contribution, a shortened schedule object,
+an overlapping schedule symbol and a one-byte short allocation for
+each of the three declared buffer extents. All checks ran headlessly.
