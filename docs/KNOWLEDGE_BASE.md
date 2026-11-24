@@ -4297,6 +4297,19 @@ matched the original through all 5,000 requested Easy Komachi frames
 using the same stock archive and configuration. This covers the point
 where the ordinary trial exited.
 
+[Extra Komachi 78164](https://www.silentselene.net/replays/th09/78164/download)
+has SHA-256 `7fc00509df98c7d7c4333e2b1fb4093bf644b221ed4719dc4c61cf8e656af272`.
+Retail and the playable build both reached the title registration after
+all nine stages and 33,661 input frames. Their 13-field traces are
+byte-identical, including both scores at each stage boundary. Use
+`--until-end --frames 35000` for this recording and require `ended` in
+both reports before comparing the traces.
+
+The playable build also matched the original trace through 1,500 frames
+for 83649, 82579, 82831, 83683 and 88377. This brings the playable
+comparison to 46,161 paired frames across seven public recordings. The
+playable links used the working-tree zero-fill placement update.
+
 ## 2026-11-23 native DirectPlay startup and path storage
 
 The host Windows installation reports its DirectPlay feature enabled.
