@@ -4276,8 +4276,19 @@ replay frames. The periodic version check at global calculation 3,999
 returned -1 for `0150a`, size 685,056 and checksum 309,162,082. The
 stock archive expects the same file size and checksum 2,884,521,103.
 Retail completed the requested 5,000 frames. All 13 fields agree through
-frame 3,534. The stock version check still blocks full-length playback
-with the trial.
+frame 3,534. The stock version check stops the trial at that point.
+Replay acceptance uses gameplay trace agreement and PI acceptance uses
+linked reference and runtime evidence. A rebuild with its own executable
+size and checksum can pass both.
+
+The TH08 native Windows `bugfix` build accepts a version name present
+in the archive table without requiring the executable identity recorded
+there. TH08 keeps the original size-and-checksum logic in its exact
+build and validates long replays by trace and stage-end score agreement.
+See `docs/WINDOWS_I386_RUNTIME.md` and `docs/POSITION_INDEPENDENCE.md` in
+the read-only TH08 checkout. A TH09 playable build needs its own version
+compatibility policy. Its replay payload checksum and exact comparison
+of `SupervisorVersionView::CheckVersion` still apply.
 
 ## 2026-11-23 native DirectPlay startup and path storage
 

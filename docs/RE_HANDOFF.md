@@ -79,11 +79,17 @@ install, SHA-256 `73a344a2...5ea0`). A run directory needs the exe,
 `th09.dat` and `th09.cfg`; use `xvfb-run` with a separate Wine prefix such
 as `.analysis/game-prefix`.
 
-Check executable identity before a product-length replay. The command
-checks the archive digest, then reports each PE's size and the checksum
-used by the game. The trial links use the retail 512-byte file alignment.
-The fixed normal and reversed images still fail the stock checksum check.
-[File layout and console evidence](KNOWLEDGE_BASE.md#2026-11-23-live-replay-version-rejection)
+Replay acceptance compares gameplay traces through the end of representative
+recordings. PI acceptance checks linked references and behavior after layout
+changes. Both accept a different executable size and checksum. The current
+trials use the retail version whitelist and exit when it
+rejects their own image. A playable TH09 build needs an explicit version
+compatibility policy. TH08's native `bugfix` build accepts a version found in
+the archive's table by name and keeps its exact comparison build separate.
+[Replay and compatibility evidence](KNOWLEDGE_BASE.md#2026-11-24-silent-selene-replay-prefixes)
+
+Use the following diagnostic to predict the retail whitelist result. It
+checks the archive digest and reports the size and checksum used by the game.
 
 ```bash
 python3 -B scripts/build.py --runtime-version \
