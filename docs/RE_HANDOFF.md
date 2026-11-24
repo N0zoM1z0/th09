@@ -81,11 +81,12 @@ as `.analysis/game-prefix`.
 
 Replay acceptance compares gameplay traces through the end of representative
 recordings. PI acceptance checks linked references and behavior after layout
-changes. Both accept a different executable size and checksum. The current
-trials use the retail version whitelist and exit when it
-rejects their own image. A playable TH09 build needs an explicit version
-compatibility policy. TH08's native `bugfix` build accepts a version found in
-the archive's table by name and keeps its exact comparison build separate.
+changes. Both accept a different executable size and checksum. Use
+`python3 -B scripts/trial-link.py link --playable` to link
+`build/link-probe/trial-playable.exe`. It accepts version identifiers
+listed in the archive, following the TH08 native `bugfix` policy.
+The ordinary trial retains the original executable identity check.
+Pass `--playable` to the replay probe to select and verify the playable link.
 [Replay and compatibility evidence](KNOWLEDGE_BASE.md#2026-11-24-silent-selene-replay-prefixes)
 
 Use the following diagnostic to predict the retail whitelist result. It

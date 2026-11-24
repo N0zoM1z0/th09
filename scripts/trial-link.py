@@ -36,6 +36,8 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'build/link-probe'
 VC = ROOT / '.tools/msvc710/Vc7'
 IMAGE_BASES = (0x00400000, 0x00600000)
+VERSION_SOURCE = 'src/SupervisorVersion.cpp'
+PLAYABLE_VERSION_OBJECT = 'playable/SupervisorVersion.obj'
 # Import libraries cover the target's nine import descriptors; d3dx8.lib is
 # static. d3dx8.lib requests libci, libc and amdmath, which /MT replaces.
 LIBS = ['libcmt.lib', 'kernel32.lib', 'user32.lib', 'gdi32.lib', 'advapi32.lib', 'ole32.lib',
@@ -261,15 +263,31 @@ def selected_carriers(index) -> list[dict]:
     return [entry for entry in index if entry is selected[entry['source']]]
 
 
-def link_stem(reverse: bool, base: int | None = None) -> str:
+def link_stem(reverse: bool, base: int | None = None, *, playable: bool = False) -> str:
     stem = 'trial-reversed' if reverse else 'trial'
+    if playable:
+        stem += '-playable'
     return stem if base is None else f'{stem}-{base:08x}'
 
 
-def link(reverse: bool = False, base: int | None = None) -> None:
+def build_playable_version(entry: dict, env: dict[str, str]) -> dict:
+    obj = OUT / PLAYABLE_VERSION_OBJECT
+    obj.parent.mkdir(parents=True, exist_ok=True)
+    inc, sdk, src, source, output, pdb = winpath(
+        env, VC / 'include', VC / 'PlatformSDK/Include', ROOT / 'src',
+        ROOT / VERSION_SOURCE, obj, obj.with_suffix('.pdb'))
+    flags = [src if flag == 'src' else flag for flag in entry['profile']]
+    subprocess.run(
+        ['nice', '-n', '10', 'wine', str(VC / 'bin/cl.exe'), '/nologo', '/c', *flags,
+         '/DTH09_PLAYABLE', '/Fo' + output, '/Fd' + pdb, source],
+        cwd=obj.parent, env=dict(env, INCLUDE=f'{inc};{sdk}'), check=True)
+    return dict(entry, object=PLAYABLE_VERSION_OBJECT)
+
+
+def link(reverse: bool = False, base: int | None = None, *, playable: bool = False) -> None:
     check_pins()
     pinned = pinned_libraries()
-    stem = link_stem(reverse, base)
+    stem = link_stem(reverse, base, playable=playable)
     outputs = [OUT / f'{stem}.{suffix}' for suffix in ('exe', 'map')]
     data = ROOT / 'build/product' / ('ProductDataReversed.obj' if reverse else 'ProductData.obj')
     resources = ROOT / 'build/product/ProductResources.res'
@@ -284,6 +302,9 @@ def link(reverse: bool = False, base: int | None = None) -> None:
         if entry not in index:
             print(f"product deviation: {entry['source']} {short(entry['profile'])} carrier not linked; "
                   f"{len(entry['units'])} units take the selected profile body")
+    if playable:
+        index = [build_playable_version(entry, env) if entry['source'] == VERSION_SOURCE else entry
+                 for entry in index]
     product = tomllib.loads((ROOT / 'config/product-link.toml').read_text())
     aliases = alias_table(index)
     aliases.update(product.get('library_data', {}))
@@ -436,13 +457,15 @@ def main() -> int:
     parser.add_argument('--reverse', action='store_true', help='link the game objects in reverse order')
     parser.add_argument('--base', type=lambda value: int(value, 0), choices=IMAGE_BASES,
                         metavar='{0x400000,0x600000}', help='link a separate PE with base relocations')
+    parser.add_argument('--playable', action='store_true',
+                        help='link a separate PE that accepts version identifiers from the archive')
     args = parser.parse_args()
-    if args.base is not None and args.action != 'link':
-        parser.error('--base requires link')
+    if (args.base is not None or args.playable) and args.action != 'link':
+        parser.error('--base and --playable require link')
     subprocess.run([sys.executable, '-B', str(ROOT / 'scripts/verify-target.py')], check=True,
                    stdout=subprocess.DEVNULL)
     if args.action == 'link':
-        link(args.reverse, args.base)
+        link(args.reverse, args.base, playable=args.playable)
     elif args.action == 'build':
         build()
     else:

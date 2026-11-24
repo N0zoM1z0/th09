@@ -27,8 +27,7 @@ DEMO_SHA256 = '1d946b2d55776a5c910b6fd9cdb96a456c02d41c5d2cbcb4bf12aff50740c2ce'
 DEMO_INPUT_COUNT = 7996
 REPLAY_HEADER_SIZE = 0xC0
 MAX_REPLAY_SIZE = 2 * 1024 * 1024
-# The reviewed CheckVersion failure path sets EAX to -1 and returns.
-VERSION_REJECT_OFFSET = 0xB2
+# Both version policies return -1 through this VC7.1 epilogue.
 VERSION_REJECT_CODE = bytes.fromhex('83c8ff5b8be55dc20c00')
 FIELDS = ('stage', 'frame', 'input_left', 'input_right', 'input_shared',
           'rng_seed', 'rng_draws', 'left_score', 'right_score',
@@ -145,7 +144,8 @@ def observe():
                 self.previous = (stage, frame)
                 self.count += 1
                 if self.count == settings['limit']:
-                    self.finish([])
+                    errors = ['frame limit reached before return to title'] if settings['untilEnd'] else []
+                    self.finish(errors)
             except (OSError, ValueError, struct.error) as exc:
                 self.finish([str(exc)])
             return False
@@ -163,7 +163,7 @@ def observe():
         def stop(self):
             frame = int(gdb.parse_and_eval('$ebp'))
             caller, name, size, checksum = struct.unpack('<4I', read(frame + 4, 16))
-            if caller == settings['periodicReturn']:
+            if caller == settings['periodicReturn'] and capture.enabled:
                 calculation = word(read(settings['supervisor'] + 0x454, 4), 0)
                 identifier = bytes(read(name, 6)).rstrip(b'\0').decode('ascii')
                 capture.finish(['periodic executable version check rejected the running image'],
@@ -171,11 +171,19 @@ def observe():
                                                    calculation=calculation, result=-1))
             return False
 
+    class ReturnToTitle(gdb.Breakpoint):
+        def stop(self):
+            if capture.enabled and capture.count:
+                capture.finish([], ended=True)
+            return False
+
     capture = Playback()
-    for name, breakpoint, expected in (
-            ('startMenu', StartMenu, bytes.fromhex(settings['startMenuBytes'])),
-            ('versionReject', VersionRejected, VERSION_REJECT_CODE)):
+    boundaries = [('startMenu', StartMenu), ('versionReject', VersionRejected)]
+    if settings['untilEnd']:
+        boundaries.append(('registerTitle', ReturnToTitle))
+    for name, breakpoint in boundaries:
         address = settings[name]
+        expected = bytes.fromhex(settings[name + 'Bytes'])
         if read(address, len(expected)) != expected:
             raise ValueError(f'{name} probe does not match live instructions')
         breakpoint(f'*0x{address:08X}', gdb.BP_HARDWARE_BREAKPOINT)
@@ -191,6 +199,9 @@ def main():
                         help="Factory TH08 scripts/replay-ptrace.py hardware-breakpoint driver")
     parser.add_argument('--frames', type=int, default=600)
     parser.add_argument('--replay-sha256', help='expected SHA-256 of an external replay')
+    parser.add_argument('--playable', action='store_true', help='select a trial linked with --playable')
+    parser.add_argument('--until-end', action='store_true',
+                        help='capture until the replay returns to title, bounded by --frames')
     parser.add_argument('--base', type=lambda value: int(value, 0), metavar='{0x400000,0x600000}',
                         help='select a separate trial PE linked at this image base')
     args = parser.parse_args()
@@ -199,8 +210,10 @@ def main():
         parser.error('use Linux x86-64 with an isolated X display such as xvfb-run')
     if not output.is_relative_to(ROOT / '.analysis') or output == ROOT / '.analysis':
         parser.error('output must be a new directory below .analysis')
-    if not 1 <= args.frames <= DEMO_INPUT_COUNT:
-        parser.error(f'frames must be in 1..{DEMO_INPUT_COUNT}')
+    if args.frames < 1:
+        parser.error('frames must be positive')
+    if args.playable and args.layout == 'retail':
+        parser.error('--playable requires a trial layout')
     with args.replay.open('rb') as stream:
         replay = stream.read(MAX_REPLAY_SIZE + 1)
     if len(replay) > MAX_REPLAY_SIZE:
@@ -211,6 +224,8 @@ def main():
         parser.error('replay fixture differs from the pinned SHA-256')
     if not demo:
         check_external_replay(replay)
+    elif args.frames > DEMO_INPUT_COUNT or args.until_end:
+        parser.error(f'the bundled demo requires a bounded capture of up to {DEMO_INPUT_COUNT} frames')
     game_data = load_manifest()['game_data']
     archive = ROOT / 'resources' / game_data['filename']
     with archive.open('rb') as stream:
@@ -226,6 +241,7 @@ def main():
     units = trial.load_units()
     boundary = units['replay-control-frame-advance']
     start_menu = units['title-screen-start-menu']
+    register_title = units['title-screen-register']
     version = units['supervisor-check-version']
     update = units['supervisor-on-update']
     periodic_call, = [field for field in update['relocations'] if field['symbol'] == version['symbol']]
@@ -234,12 +250,18 @@ def main():
     rng = '?g_ReplayRng@@3URngRuntimeView@@A'
     supervisor = '?g_Supervisor@@3VSupervisor@@A'
     image = original
+    version_size = version['size']
     addresses = layout.original_symbol_addresses(units)
     if args.layout != 'retail':
         reverse = args.layout == 'trial-reversed'
-        stem = trial.link_stem(reverse, args.base)
+        stem = trial.link_stem(reverse, args.base, playable=args.playable)
         index = json.loads((trial.OUT / 'index.json').read_text())
         objects = {entry['source']: trial.OUT / entry['object'] for entry in trial.selected_carriers(index)}
+        if args.playable:
+            version_object = trial.OUT / trial.PLAYABLE_VERSION_OBJECT
+            objects[trial.VERSION_SOURCE] = version_object
+            version_code, _ = coff.object_function(version_object, version['symbol'], version_size)
+            version_size = len(version_code)
         data_name = 'ProductDataReversed.obj' if reverse else 'ProductData.obj'
         layout.verify_layout(stem, data_name, original, units, objects)
         source = trial.OUT / f'{stem}.exe'
@@ -251,18 +273,25 @@ def main():
                 raise ValueError(f'{stem} is not a relocatable PE at the requested base')
     address = addresses[boundary['symbol']]
     menu_address = addresses[start_menu['symbol']]
-    version_reject = addresses[version['symbol']] + VERSION_REJECT_OFFSET
-    if coff.pe_bytes_at(image, version_reject, len(VERSION_REJECT_CODE)) != VERSION_REJECT_CODE:
-        raise ValueError('the linked CheckVersion reject path differs from the reviewed instructions')
+    title_register_address = addresses[register_title['symbol']]
+    periodic_return = addresses[update['symbol']] + periodic_call['offset'] + 4
+    version_address = addresses[version['symbol']]
+    version_body = coff.pe_bytes_at(image, version_address, version_size)
+    if version_body.count(VERSION_REJECT_CODE) != 1:
+        raise ValueError('cannot identify the linked CheckVersion reject path')
+    version_reject = version_address + version_body.index(VERSION_REJECT_CODE)
     settings = dict(attestAddress=address,
                     attestBytes=coff.pe_bytes_at(image, address, boundary['size']).hex(),
                     startMenu=menu_address,
                     startMenuBytes=coff.pe_bytes_at(image, menu_address, start_menu['size']).hex(),
+                    periodicReturn=periodic_return,
                     versionReject=version_reject,
-                    periodicReturn=addresses[update['symbol']] + periodic_call['offset'] + 4,
+                    versionRejectBytes=VERSION_REJECT_CODE.hex(),
+                    registerTitle=title_register_address,
+                    registerTitleBytes=coff.pe_bytes_at(image, title_register_address, register_title['size']).hex(),
                     supervisor=addresses[supervisor],
                     gameManager=addresses[game_manager], inputs=addresses[inputs], rng=addresses[rng],
-                    demo=demo, limit=args.frames)
+                    demo=demo, limit=args.frames, untilEnd=args.until_end)
 
     output.mkdir(parents=True)
     runtime = output / 'runtime'

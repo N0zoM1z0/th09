@@ -4286,9 +4286,16 @@ in the archive table without requiring the executable identity recorded
 there. TH08 keeps the original size-and-checksum logic in its exact
 build and validates long replays by trace and stage-end score agreement.
 See `docs/WINDOWS_I386_RUNTIME.md` and `docs/POSITION_INDEPENDENCE.md` in
-the read-only TH08 checkout. A TH09 playable build needs its own version
-compatibility policy. Its replay payload checksum and exact comparison
-of `SupervisorVersionView::CheckVersion` still apply.
+the read-only TH08 checkout.
+
+`trial-link.py link --playable` applies that policy to TH09 by compiling
+only `SupervisorVersion.cpp` with `TH09_PLAYABLE` and linking a separate
+PE with the same VC7.1 carriers and data. The replay loader still checks
+the payload checksum. The ordinary version owner preserves its full
+retail comparison (344 bytes and 22 relocations). The playable build
+matched the original through all 5,000 requested Easy Komachi frames
+using the same stock archive and configuration. This covers the point
+where the ordinary trial exited.
 
 ## 2026-11-23 native DirectPlay startup and path storage
 

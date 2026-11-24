@@ -50,8 +50,10 @@ int SupervisorVersionView::CheckVersion(const char *version, i32 exeSize, i32 ex
 {
     const char *versionData;
     u32 versionDataSize;
+#ifndef TH09_PLAYABLE
     i32 versionDataExeSize;
     i32 versionDataExeChecksum;
+#endif
 
     if (this->versionData7AC == NULL)
         return 0;
@@ -72,11 +74,16 @@ int SupervisorVersionView::CheckVersion(const char *version, i32 exeSize, i32 ex
     {
         if (strncmp(version, versionData, 5) == 0)
         {
+#ifdef TH09_PLAYABLE
+            // The reconstructed executable has its own file identity.
+            return 0;
+#else
             versionData = reinterpret_cast<const char *>(
                 reinterpret_cast<u32>(versionData) + 6u);
             sscanf(versionData, "%d %d", &versionDataExeSize, &versionDataExeChecksum);
             if (versionDataExeSize == exeSize && versionDataExeChecksum == exeChecksum)
                 return 0;
+#endif
         }
 
         const char *oldPos = versionData;
