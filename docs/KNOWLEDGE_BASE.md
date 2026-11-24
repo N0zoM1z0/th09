@@ -4241,6 +4241,44 @@ static preflight for retail, the two fixed trials and the reordered
 The three routines and `FileSystem::OpenFile` match retail in the selected
 objects across 891 bytes and 58 relocations.
 
+## 2026-11-24 Silent Selene replay prefixes
+
+The replay probe accepts public format-2 TH09 recordings with
+`--replay-sha256 SHA256`. It checks the bounded wire lengths and replay
+checksum before launch. The native loader still does the version check.
+Frame numbering follows the live stage and restarts at 1 on stage changes.
+The bundled demo still uses its pinned SHA-256 and stage 9.
+
+| Silent Selene download | Difficulty and player character | SHA-256 |
+| --- | --- | --- |
+| [78651](https://www.silentselene.net/replays/th09/78651/download) | Easy Komachi | `cd9983c74f573ab9d0111acfc81b47a924a3f3fd69cd98988fb18df2ece96a65` |
+| [83649](https://www.silentselene.net/replays/th09/83649/download) | Normal Reisen | `935416c6c40cdedc05c30b948f09ca5a905d2b90c2e504c3622bb0314e1dd64b` |
+| [82579](https://www.silentselene.net/replays/th09/82579/download) | Hard Reisen | `4ea304a4ff72a86917a180e50812469a6d77cedecbf52f4fd9412e46ba4b523a` |
+| [82831](https://www.silentselene.net/replays/th09/82831/download) | Lunatic Marisa | `04a625accc63108536a546a5d16b75f634705e6e545038bdf2965d3ec0d5972a` |
+| [83683](https://www.silentselene.net/replays/th09/83683/download) | Lunatic Reisen | `94c950f07e1a550ea6930e937753420610f9e4733b65df588c9fd2ea12e8d816` |
+| [88377](https://www.silentselene.net/replays/th09/88377/download) | Extra Reisen | `75b6c0b56e363d1936fd6d16c9dd731adbc91053ced9b18f858f25533adbe6bc` |
+
+Use the [same observer invocation as the bundled demo](#2026-11-23-replay-layout-divergence-and-cpu-table)
+with a downloaded fixture and its hash. Require `diagnosticComplete` and
+the requested row count for both images before comparing `trace.csv`.
+
+The Japanese 1.50a retail PE and the fixed normal trial each completed
+1,500 frames in all six recordings. All 13 fields agree across the 9,000
+paired frames in stage index 0. The fields cover the stage and frame,
+three input histories, the RNG seed and draw count, both scores and
+both raw position vectors. The trial was built with the working-tree
+zero-fill placement update. Both images used the attested stock archive
+and identical copies of `th09.cfg`. The reordered 0x00600000 trial also
+matched retail for the first 1,500 frames of Lunatic Marisa (82831).
+
+The longer Easy capture stopped in the fixed normal trial after 3,534
+replay frames. The periodic version check at global calculation 3,999
+returned -1 for `0150a`, size 685,056 and checksum 309,162,082. The
+stock archive expects the same file size and checksum 2,884,521,103.
+Retail completed the requested 5,000 frames. All 13 fields agree through
+frame 3,534. The stock version check still blocks full-length playback
+with the trial.
+
 ## 2026-11-23 native DirectPlay startup and path storage
 
 The host Windows installation reports its DirectPlay feature enabled.

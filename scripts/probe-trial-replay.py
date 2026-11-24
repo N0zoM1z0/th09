@@ -25,12 +25,29 @@ from target_identity import load_manifest
 ROOT = Path(__file__).resolve().parents[1]
 DEMO_SHA256 = '1d946b2d55776a5c910b6fd9cdb96a456c02d41c5d2cbcb4bf12aff50740c2ce'
 DEMO_INPUT_COUNT = 7996
+REPLAY_HEADER_SIZE = 0xC0
+MAX_REPLAY_SIZE = 2 * 1024 * 1024
 # The reviewed CheckVersion failure path sets EAX to -1 and returns.
 VERSION_REJECT_OFFSET = 0xB2
 VERSION_REJECT_CODE = bytes.fromhex('83c8ff5b8be55dc20c00')
 FIELDS = ('stage', 'frame', 'input_left', 'input_right', 'input_shared',
           'rng_seed', 'rng_draws', 'left_score', 'right_score',
           'left_x_bits', 'left_y_bits', 'right_x_bits', 'right_y_bits')
+
+
+def check_external_replay(replay):
+    if not REPLAY_HEADER_SIZE <= len(replay) <= MAX_REPLAY_SIZE or replay[:7] != b'T9RP\x02\0\0':
+        raise ValueError('expected a TH09 format-2 replay')
+    end, checksum = struct.unpack_from('<II', replay, 0xC)
+    if not REPLAY_HEADER_SIZE < end <= len(replay):
+        raise ValueError('invalid TH09 replay payload extent')
+    key = replay[0x15]
+    body = bytes((value - key - 7 * i) & 0xFF for i, value in enumerate(replay[0x18:end]))
+    compressed, decoded = struct.unpack_from('<II', body)
+    if compressed != end - REPLAY_HEADER_SIZE or not 0x12C <= decoded <= 8 * 1024 * 1024:
+        raise ValueError('invalid TH09 replay compression lengths')
+    if 0x3F000318 + sum(replay[0x15:0x18]) + sum(body) != checksum:
+        raise ValueError('TH09 replay checksum differs')
 
 
 def load(name, path):
@@ -82,6 +99,7 @@ def observe():
             super().__init__(f"*0x{settings['attestAddress']:08X}", gdb.BP_HARDWARE_BREAKPOINT)
             self.count = 0
             self.initial_draws = None
+            self.previous = None
 
         def finish(self, errors, **details):
             trace.close()
@@ -101,11 +119,14 @@ def observe():
                     path = b'./replay/th9_01.rpy\x00'
                     if read(word(replay, 0x118), len(path)).lower() != path:
                         raise ValueError('unexpected replay path for playback')
-                if frame == self.count:
-                    return False
                 stage = word(game, 0xFC)
-                if (stage, frame) != (9, self.count + 1):
-                    raise ValueError(f'expected stage 9 frame {self.count + 1}, got {stage}:{frame}')
+                if (stage, frame) == self.previous:
+                    return False
+                if settings['demo'] and stage != 9:
+                    raise ValueError(f'expected demo stage 9, got {stage}')
+                expected = self.previous[1] + 1 if self.previous and stage == self.previous[0] else 1
+                if stage >= 10 or frame != expected:
+                    raise ValueError(f'expected frame {expected}, got {stage}:{frame} after {self.previous}')
 
                 inputs = read(settings['inputs'], 3 * 0x8E)
                 histories = [struct.unpack_from('<H', inputs, side * 0x8E + 0x2C)[0]
@@ -121,6 +142,7 @@ def observe():
                     coordinates.extend(struct.unpack('<II', read(player + 0x1B88, 8)))
                 writer.writerow((stage, frame, *histories, seed,
                                  (draws - self.initial_draws) & 0xFFFFFFFF, *scores, *coordinates))
+                self.previous = (stage, frame)
                 self.count += 1
                 if self.count == settings['limit']:
                     self.finish([])
@@ -163,11 +185,12 @@ def observe():
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('layout', choices=('retail', 'trial', 'trial-reversed'))
-    parser.add_argument('replay', type=Path, help='demorpy0.rpy extracted from the TH09 archive')
+    parser.add_argument('replay', type=Path, help='the bundled TH09 demo or a pinned external replay')
     parser.add_argument('output', type=Path, help='new private run directory below .analysis')
     parser.add_argument('--ptrace-runner', required=True, type=Path,
                         help="Factory TH08 scripts/replay-ptrace.py hardware-breakpoint driver")
     parser.add_argument('--frames', type=int, default=600)
+    parser.add_argument('--replay-sha256', help='expected SHA-256 of an external replay')
     parser.add_argument('--base', type=lambda value: int(value, 0), metavar='{0x400000,0x600000}',
                         help='select a separate trial PE linked at this image base')
     args = parser.parse_args()
@@ -178,9 +201,16 @@ def main():
         parser.error('output must be a new directory below .analysis')
     if not 1 <= args.frames <= DEMO_INPUT_COUNT:
         parser.error(f'frames must be in 1..{DEMO_INPUT_COUNT}')
-    replay = args.replay.read_bytes()
-    if hashlib.sha256(replay).hexdigest() != DEMO_SHA256:
-        parser.error('replay fixture differs from the Japanese TH09 1.50a demorpy0.rpy')
+    with args.replay.open('rb') as stream:
+        replay = stream.read(MAX_REPLAY_SIZE + 1)
+    if len(replay) > MAX_REPLAY_SIZE:
+        parser.error('replay fixture exceeds the probe size limit')
+    replay_sha = hashlib.sha256(replay).hexdigest()
+    demo = replay_sha == DEMO_SHA256
+    if replay_sha != (args.replay_sha256 or DEMO_SHA256):
+        parser.error('replay fixture differs from the pinned SHA-256')
+    if not demo:
+        check_external_replay(replay)
     game_data = load_manifest()['game_data']
     archive = ROOT / 'resources' / game_data['filename']
     with archive.open('rb') as stream:
@@ -232,7 +262,7 @@ def main():
                     periodicReturn=addresses[update['symbol']] + periodic_call['offset'] + 4,
                     supervisor=addresses[supervisor],
                     gameManager=addresses[game_manager], inputs=addresses[inputs], rng=addresses[rng],
-                    limit=args.frames)
+                    demo=demo, limit=args.frames)
 
     output.mkdir(parents=True)
     runtime = output / 'runtime'
@@ -243,7 +273,7 @@ def main():
     (runtime / 'th09.dat').symlink_to(archive)
     config = runtime / 'th09.cfg'
     shutil.copyfile(ROOT / 'resources/th09.cfg', config)
-    settings.update(executableSha256=hashlib.sha256(image).hexdigest(), replaySha256=DEMO_SHA256,
+    settings.update(executableSha256=hashlib.sha256(image).hexdigest(), replaySha256=replay_sha,
                     gameDataSha256=game_data['sha256'],
                     configSha256=hashlib.sha256(config.read_bytes()).hexdigest())
     (output / 'observer.json').write_text(json.dumps(settings, indent=2) + '\n')

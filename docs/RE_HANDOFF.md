@@ -82,9 +82,8 @@ as `.analysis/game-prefix`.
 Check executable identity before a product-length replay. The command
 checks the archive digest, then reports each PE's size and the checksum
 used by the game. The trial links use the retail 512-byte file alignment.
-The fixed normal and reversed images still exceed the retail size by 512
-and 1,536 bytes, respectively. Their checksums also differ from the stock
-record. [File layout and console evidence](KNOWLEDGE_BASE.md#2026-11-23-live-replay-version-rejection)
+The fixed normal and reversed images still fail the stock checksum check.
+[File layout and console evidence](KNOWLEDGE_BASE.md#2026-11-23-live-replay-version-rejection)
 
 ```bash
 python3 -B scripts/build.py --runtime-version \
@@ -133,6 +132,8 @@ What the product still borrows or approximates:
   The replay probe can select a relocated trial PE and reports a live
   version rejection as a failed capture with the observed version arguments.
   [Version rejection evidence](KNOWLEDGE_BASE.md#2026-11-23-live-replay-version-rejection)
+  Pass `--replay-sha256` to run a pinned public TH09 replay through the same probe.
+  [Silent Selene fixtures](KNOWLEDGE_BASE.md#2026-11-24-silent-selene-replay-prefixes)
 - Retail and both trials write short stage-9 replays through the results
   menu. Both trials play the retail recording with matching traces through
   480 frames. Trial recordings carry their writer's executable size and
