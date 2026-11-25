@@ -110,6 +110,10 @@ not an acceptable shortcut around the native-product stage.
 ## Project map
 
 - [AGENTS.md](AGENTS.md) — session, evidence, retention and checkpoint rules.
+- [docs/PROJECT_GUIDE.md](docs/PROJECT_GUIDE.md) — engine frame loop, dual-side PvP architecture, and glossary.
+- [docs/SOURCE_MAP.md](docs/SOURCE_MAP.md) — subsystem file map, `.inl` include protocol, and validation recipes.
+- [docs/SEMANTIC_INDEX.md](docs/SEMANTIC_INDEX.md) — subsystem declarations, recovered protocols, and storage contracts.
+- [docs/SEMANTIC_RECONSTRUCTION.md](docs/SEMANTIC_RECONSTRUCTION.md) and [docs/SEMANTIC_PLAN.md](docs/SEMANTIC_PLAN.md) — semantic/readability policy and active cleanup roadmap.
 - [config/target.toml](config/target.toml) — original target identity.
 - [config/match-units.toml](config/match-units.toml) — rebuild/comparison recipes.
 - [config/matches.csv](config/matches.csv) — canonical exact ledger.

@@ -58,20 +58,20 @@ every affected TU with `scripts/replay-scoped-exact.py`:
   define `FrontMessageOpcode` in `src/FrontMessageTableView.hpp` from
   TH09-observed handlers and replace raw opcode numbers in
   `FrontMessageUpdate.cpp`.
-- [ ] **2.4 Stable audio IDs (`SoundPlayer.hpp`, 89 numeric `PlaySound*` calls):**
-  inventory all TH09 sound buffer loads (`InitSoundBuffers` / `g_SoundBufferTable`)
-  from target evidence, define `SoundIdx` in `src/SoundPlayer.hpp`, and replace
-  numeric `PlaySoundByIdx` / `PlaySoundPositionedByIdx` literals across `src/`.
-- [ ] **2.5 Enemy timeline / schedule, Etama draw, Supervisor & Title state machines:**
-  name observed opcodes and state-machine enums in
-  `EnemyScheduleRuntimeAdvance.cpp`, `SupervisorUpdate.cpp`,
-  `TitleCalcCallback.cpp`, `TitleScreen.cpp`, `TitleScreenOptions.cpp`,
-  `TitleScreenKeyConfig.cpp`, `EtamaControllerDraw.cpp`, and `EffectManager.hpp`
-  (`EffectId` for verified fixed effects).
-- [ ] **2.6 Semantic protocol CI guard:** add
-  `scripts/check-semantic-protocols.py` (with positive/negative unit tests) and
-  wire it into `scripts/ci.py` so closed protocols cannot regress to raw
-  literals.
+- [x] **2.4 Stable audio IDs (`SoundIds.hpp` / `SoundPlayer.hpp`, 147 numeric calls):**
+  inventoried TH09 `g_SfxList[39]` (`0x004A2130`) and `g_SoundBufferIdxVol[54]`
+  (`0x004A1F80`), defined `SoundIdx` (`0..53`) in `src/SoundIds.hpp`, and
+  replaced all numeric `PlaySoundByIdx`, `PlaySoundPositionedByIdx`, and
+  `PlayMenuSound` literals across 23 files (`207/207` exact units replayed).
+- [x] **2.5 Enemy timeline, Etama draw, Supervisor, Title & Effect protocols:**
+  named `EnemyTimelineOpcode` (`EnemyScheduleRuntimeAdvance.cpp`),
+  `SupervisorState` (`SupervisorStates.hpp`), `TitleScreenId` /
+  `TitleMatchSubmode` (`TitleScreenStates.hpp`), `BulletRenderState`
+  (`EtamaControllerDraw.cpp`), and `Th09EffectId` (`EffectIds.hpp`, 10/10 fixed
+  `SpawnEffect*` calls across 8 files).
+- [x] **2.6 Semantic protocol CI guard:** added
+  `scripts/check-semantic-protocols.py` and `tests/test_check_semantic_protocols.py`
+  and wired the guard into `scripts/ci.py`.
 
 ### Phase 3: Core `*View` consolidation, `/ALTERNATENAME` reduction & field cleanup
 
@@ -97,16 +97,16 @@ preserving exact VC7.1 bytes and verifying PI layouts after symbol changes:
 
 Modeled on TH08's `readability/maintainer-navigation` pass:
 
-- [ ] **4.1 `docs/PROJECT_GUIDE.md`:** engine frame loop (Mermaid diagram),
+- [x] **4.1 `docs/PROJECT_GUIDE.md`:** engine frame loop (Mermaid diagram),
   dual-side PvP architecture (P1/P2 + shared EffectManager), ECL/ANM/Replay
   overview, and glossary.
-- [ ] **4.2 `docs/SOURCE_MAP.md`:** map the 383 `.cpp` files and `.inl`
+- [x] **4.2 `docs/SOURCE_MAP.md`:** map the 383 `.cpp` files and `.inl`
   lexical fragments by subsystem, compiler profile, and verification command.
-- [ ] **4.3 `docs/SEMANTIC_INDEX.md` & resource/storage contracts:**
+- [x] **4.3 `docs/SEMANTIC_INDEX.md` & resource/storage contracts:**
   subsystem index plus TH09 ANM resource namespaces and Effect/ExAttack storage
   contracts.
-- [ ] **4.4 Streamline `README.md` and `docs/RE_HANDOFF.md`:** link the new
-  navigation and semantic docs cleanly and verify with `scripts/validate-docs.py`.
+- [x] **4.4 Streamline `README.md`:** link the new navigation and semantic docs
+  cleanly and verify with `scripts/validate-docs.py`.
 
 ### Phase 5: Optional follow-on (native data ownership closure)
 
