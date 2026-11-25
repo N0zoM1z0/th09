@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "GameManagerRuntimeView.hpp"
 
 struct PlayerPreloadSideTailView
 {
@@ -12,7 +13,6 @@ struct PlayerPreloadSideTailView
 typedef char PlayerPreloadSideTailSizeIs38[
     (sizeof(PlayerPreloadSideTailView) == 0x38) ? 1 : -1];
 
-extern PlayerPreloadSideTailView g_PlayerPreloadSides[2];
 const char *g_PlayerResourcePaths[16][6] = {
     { "pl00.sht", "pl00.anm", "pl00.ecl", "pl00.msg", "pl00_match.msg", "pl00b.anm" },
     { "pl01.sht", "pl01.anm", "pl01.ecl", "pl01.msg", "pl01_match.msg", "pl01b.anm" },
@@ -38,7 +38,7 @@ int PreloadPlayerAnmResources()
     PlayerAnmManagerRawView *rawView =
         reinterpret_cast<PlayerAnmManagerRawView *>(anmManager);
     int slot = 5;
-    PlayerPreloadSideTailView *side = g_PlayerPreloadSides;
+    PlayerPreloadSideTailView *side = reinterpret_cast<PlayerPreloadSideTailView *>(&g_GameManager.sides[0].character20);
 
     // Two genuine 0x38-byte GameManager side records drive resource slots
     // five and six. Retail advances the live side pointer by its native

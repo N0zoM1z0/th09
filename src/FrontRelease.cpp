@@ -6,9 +6,9 @@
 #include <stddef.h>
 #include <new>
 #include <stdlib.h>
+#include "GameManagerRuntimeView.hpp"
 
 extern Chain g_Chain;
-extern int g_GameSide1Value20;
 
 int ShouldReleaseStageResources()
 {
@@ -25,7 +25,7 @@ typedef char NativeFrontReleaseChainAndMessageOffsets[
 int FrontFactoryConstructView::ReleaseCore()
 {
     if (ShouldReleaseStageResources())
-        messageRuntimeE944.ReleaseForSideCount(10 * g_GameSide1Value20);
+        messageRuntimeE944.ReleaseForSideCount(10 * g_GameManager.sides[1].value20);
 
     return 0;
 }

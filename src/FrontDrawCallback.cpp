@@ -18,8 +18,6 @@ int __fastcall FrontDrawLineStrip(
     FrontPanelVertexView *vertices, int primitiveCount);
 
 extern AsciiManager g_AsciiManager;
-extern int g_GameTimeFrames;
-extern int g_GameStageValue;
 
 int __fastcall FrontDrawCallback(void *frontArg)
 {
@@ -160,7 +158,7 @@ int __fastcall FrontDrawCallback(void *frontArg)
             scorePosition.y += 16.0f;
             scorePosition.x -= 9.0f;
 
-            if (g_GameStageValue == 8)
+            if (g_GameManager.field0FC == 8)
             {
                 g_AsciiManager.AddFormatText(
                     position, "%8d", front->resultValues11E88[5]);
@@ -180,8 +178,8 @@ int __fastcall FrontDrawCallback(void *frontArg)
         g_AsciiManager.AddFormatText(
             &position,
             "%.2d:%.2d",
-            g_GameTimeFrames / 3600,
-            (g_GameTimeFrames / 60) % 60);
+            g_GameManager.valueD0 / 3600,
+            (g_GameManager.valueD0 / 60) % 60);
     }
     else
     {
@@ -189,9 +187,9 @@ int __fastcall FrontDrawCallback(void *frontArg)
         g_AsciiManager.AddFormatText(
             &position,
             "STAGE %d %.2d:%.2d",
-            static_cast<int>(static_cast<unsigned int>(g_GameStageValue) + 1u),
-            g_GameTimeFrames / 3600,
-            (g_GameTimeFrames / 60) % 60);
+            static_cast<int>(static_cast<unsigned int>(g_GameManager.field0FC) + 1u),
+            g_GameManager.valueD0 / 3600,
+            (g_GameManager.valueD0 / 60) % 60);
     }
 
     g_AnmManager->DrawNoRotation(&front->vm106B4);

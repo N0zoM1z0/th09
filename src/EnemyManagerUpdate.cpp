@@ -9,8 +9,6 @@
 // Target-facing death/reward dispatcher called by EnemyManager::OnUpdate.
 
 extern RngRuntimeView g_ReplayRng;
-extern EffectManager *g_SharedEffectManager;
-extern float g_GameplayRegionWidth;
 
 void EnemyView::HandleDeathRewards(int hitKind)
 {
@@ -188,11 +186,11 @@ void EnemyView::HandleDeathRewards(int hitKind)
 
     EnemyFloat3 velocity;
     velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
-        g_GameplayRegionWidth * 0.5f - 8.0f);
+        g_GameManager.coordinate358 * 0.5f - 8.0f);
     velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
     velocity.z = 0.0f;
 
-    Effect *effect = g_SharedEffectManager->SpawnEffectWithVelocity(
+    Effect *effect = g_GameManager.sharedEffectManager7C->SpawnEffectWithVelocity(
         static_cast<int>(static_cast<unsigned int>(
             this->manager00->sideIndex31C) + 3u),
         reinterpret_cast<EffectFloat3 *>(&effectPosition),

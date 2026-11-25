@@ -20,7 +20,6 @@ typedef char FrontResultRealNativePlayerScores[
      offsetof(AsciiGameManagerSideView, state) == 0x1C &&
      offsetof(AsciiGameSideRuntimeView, phase10) == 0x10) ? 1 : -1];
 
-extern GameConfiguration *g_GameConfiguration;
 
 // The result transition uses genuine 0x38-byte GameManager side slots.
 // Preserve independent live reads and modulo-32 native index addresses.
@@ -111,7 +110,7 @@ void FrontFactoryConstructView::InitializeResultBonus()
             g_GameManager.sides[0].state->phase10 = 9999;
         }
 
-        if (g_GameConfiguration->valueAC > 0 &&
+        if (g_GameManager.configurationE8->valueAC > 0 &&
             g_GameManager.IsGameMode0())
         {
             this->frontAnm08->ExecuteAnmIdx(&this->resultVms10968[5], 65);

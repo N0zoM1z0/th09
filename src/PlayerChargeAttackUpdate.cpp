@@ -12,10 +12,9 @@
 #include "GameConfiguration.hpp"
 #include "GameManagerRuntimeView.hpp"
 #include "GameplaySetupNativeSides.hpp"
-// The original g_GameConfiguration pointer has its own canonical symbol at
+// The original g_GameManager.configurationE8 pointer has its own canonical symbol at
 // 0x004A7E78, the same address as the GameManager's +0xE8 pointer field.
 // Its independent FrontResultBonus caller binds this actual global directly.
-extern GameConfiguration *g_GameConfiguration;
 #include "Supervisor.hpp"
 
 #include <stddef.h>
@@ -115,9 +114,9 @@ int PlayerLifecycleView::UpdateChargeAttack()
     // Both focus-mode tests and the post-charge test reread the real
     // two-byte configuration row, without caching the mode across calls.
     if ((g_ReplayInputStates[side].WasPressed(PLAYER_CHARGE_BUTTON_SHOOT) &&
-         !(ReadFocusMode(side, g_GameConfiguration) == PLAYER_CHARGE_FROM_FOCUS_INPUT &&
+         !(ReadFocusMode(side, g_GameManager.configurationE8) == PLAYER_CHARGE_FROM_FOCUS_INPUT &&
            g_ReplayInputStates[side].IsHeld(PLAYER_CHARGE_BUTTON_FOCUS))) ||
-        ((modeSnapshot = ReadFocusMode(side, g_GameConfiguration),
+        ((modeSnapshot = ReadFocusMode(side, g_GameManager.configurationE8),
           sideMode = modeSnapshot, modeSnapshot == PLAYER_CHARGE_FROM_FOCUS_INPUT) &&
          g_ReplayInputStates[side].IsHeld(PLAYER_CHARGE_BUTTON_SHOOT) &&
          !g_ReplayInputStates[side].IsHeld(PLAYER_CHARGE_BUTTON_FOCUS)))
@@ -143,7 +142,7 @@ int PlayerLifecycleView::UpdateChargeAttack()
         {
             timer303B0--;
         }
-        if (g_GameConfiguration->sideFocusMode[sideIndex] != PLAYER_CHARGE_FROM_FOCUS_INPUT)
+        if (g_GameManager.configurationE8->sideFocusMode[sideIndex] != PLAYER_CHARGE_FROM_FOCUS_INPUT)
         {
             goto afterCharge;
         }

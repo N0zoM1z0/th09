@@ -13,7 +13,6 @@
 #include "ExAttackType19ExtraView.hpp"
 
 extern RngRuntimeView g_ReplayRng;
-extern float g_ExAttackPlayfieldWidth;
 
 int __fastcall ExAttackInitializeCallbackType19(ExAttackRecord *base)
 {
@@ -48,7 +47,7 @@ int __fastcall ExAttackInitializeCallbackType19(ExAttackRecord *base)
 
     extra->spawn40.x =
         g_ReplayRng.GetRandomF32SignedInRange(
-            g_ExAttackPlayfieldWidth * 0.5f - 24.0f);
+            g_GameManager.coordinate358 * 0.5f - 24.0f);
     extra->spawn40.y =
         448.0f - g_ReplayRng.GetRandomF32InRange(256.0f);
     extra->spawn40.z = 0.0f;

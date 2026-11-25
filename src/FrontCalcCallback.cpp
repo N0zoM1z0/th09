@@ -15,14 +15,7 @@
 
 extern AsciiGameManagerView g_GameManager;
 extern int g_SoundPlayerBgmValue;
-extern unsigned char g_FrontMode0Done;
-extern unsigned char g_FrontOtherModeDone;
-extern int g_FrontRuntimeValues90[4];
-extern int g_GameStageValue;
-extern int g_TitleNameTableIndex;
-extern int g_SelectedOpponentParameter;
 extern int g_OpponentParameterTable[];
-extern void *g_NeutralMessageSource;
 
 // Two consecutive 16-bit script selections in the real file-backed
 // neutral-message record. Their byte offsets are observed at the call sites.
@@ -118,7 +111,7 @@ int __fastcall FrontCalcCallback(void *frontArg)
             {
                 if (front->transitionSide10964 == 0)
                 {
-                    if (g_GameStageValue >= 8)
+                    if (g_GameManager.field0FC >= 8)
                     {
                         g_Supervisor.curState590 =
                             g_GameManager.IsReplayNeutral() ? 1 : 9;
@@ -130,14 +123,14 @@ int __fastcall FrontCalcCallback(void *frontArg)
                 }
                 else
                 {
-                    g_FrontMode0Done = 1;
+                    g_GameManager.menuBlock13D = 1;
                 }
             }
             else if (g_GameManager.IsGameMode1())
             {
                 if (front->transitionSide10964 == 0)
                 {
-                    if (g_GameStageValue >= 8)
+                    if (g_GameManager.field0FC >= 8)
                     {
                         g_Supervisor.curState590 =
                             g_GameManager.IsReplayNeutral() ? 1 : 9;
@@ -149,12 +142,12 @@ int __fastcall FrontCalcCallback(void *frontArg)
                 }
                 else
                 {
-                    g_FrontMode0Done = 1;
+                    g_GameManager.menuBlock13D = 1;
                 }
             }
             else
             {
-                g_FrontOtherModeDone = 1;
+                g_GameManager.menuBlock13E = 1;
             }
         }
 
@@ -225,20 +218,20 @@ int __fastcall FrontCalcCallback(void *frontArg)
                     // of the file-backed neutral-message record.
                     front->messageRuntimeE944.Setup(
                         reinterpret_cast<const FrontNeutralMessageVariantView *>(
-                            g_NeutralMessageSource)->selection08,
+                            g_GameManager.neutralMessageSourceF0)->selection08,
                         0);
                 }
                 else
                 {
                     front->messageRuntimeE944.Setup(
                         reinterpret_cast<const FrontNeutralMessageVariantView *>(
-                            g_NeutralMessageSource)->selection0A,
+                            g_GameManager.neutralMessageSourceF0)->selection0A,
                         0);
                 }
             }
             else if (
-                g_FrontRuntimeValues90[2] >= g_FrontRuntimeValues90[1] ||
-                g_FrontRuntimeValues90[3] >= g_FrontRuntimeValues90[1])
+                g_GameManager.runtimeValues100[2] >= g_GameManager.runtimeValues100[1] ||
+                g_GameManager.runtimeValues100[3] >= g_GameManager.runtimeValues100[1])
             {
                 front->messageRuntimeE944.SetupRandomForSide(
                         front->transitionSide10964);
@@ -262,19 +255,19 @@ int __fastcall FrontCalcCallback(void *frontArg)
             if (g_GameManager.IsGameMode0() ||
                 g_GameManager.IsGameMode1())
             {
-                int modeValue = g_FrontRuntimeValues90[0];
+                int modeValue = g_GameManager.runtimeValues100[0];
                 if (modeValue >= 4 &&
                     (g_GameManager.flags & 0x4000u) != 0)
                 {
-                    g_SelectedOpponentParameter =
-                        g_OpponentParameterTable[static_cast<int>(45u * static_cast<unsigned int>(g_TitleNameTableIndex) +
-                                             5u * static_cast<unsigned int>(g_GameStageValue)) + 4];
+                    g_GameManager.sides[1].selectedParameter2C =
+                        g_OpponentParameterTable[static_cast<int>(45u * static_cast<unsigned int>(g_GameManager.difficulty) +
+                                             5u * static_cast<unsigned int>(g_GameManager.field0FC)) + 4];
                 }
                 else
                 {
-                    g_SelectedOpponentParameter =
-                        g_OpponentParameterTable[static_cast<int>(45u * static_cast<unsigned int>(g_TitleNameTableIndex) +
-                                             5u * static_cast<unsigned int>(g_GameStageValue) +
+                    g_GameManager.sides[1].selectedParameter2C =
+                        g_OpponentParameterTable[static_cast<int>(45u * static_cast<unsigned int>(g_GameManager.difficulty) +
+                                             5u * static_cast<unsigned int>(g_GameManager.field0FC) +
                                              static_cast<unsigned int>(modeValue)) + 1];
                 }
             }

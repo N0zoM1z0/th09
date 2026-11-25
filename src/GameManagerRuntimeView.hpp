@@ -17,6 +17,11 @@ struct ReplayManagerView;
 struct GameConfiguration;
 struct OpponentSelectionEntry;
 struct FrontFactoryConstructView;
+struct CardAttackResourceView;
+struct ExAttackController;
+struct FrontMessageInitSourceView;
+struct FrontMessageSourceView;
+struct FrontMessageNeutralSourceView;
 
 struct AsciiPlayerPopupPositionView
 {
@@ -64,15 +69,21 @@ typedef char AsciiGameSideNativeScoreSizeIsA0[
 struct AsciiGameManagerView
 {
     AsciiGameManagerSideView sides[2];
-    unsigned char unknown070[0x38];
+    unsigned char unknown070[0x0C];
+    EffectManager *sharedEffectManager7C;
+    unsigned char unknown080[0x28];
     // Original +0xA8 pointer is the same 0x1293C-byte Front allocation
     // constructed by CreateGameSubsystem and used by gameplay cleanup.
-    union { void *gameSubsystemA8; FrontFactoryConstructView *frontFactoryA8; };
-    unsigned char unknown0AC[0x04];
+    union {
+        void *gameSubsystemA8;
+        FrontFactoryConstructView *frontFactoryA8;
+        CardAttackResourceView *cardAttackResourceA8;
+    };
+    ExAttackController *exAttackControllerAC;
     unsigned int valueB0;
     union { int valueB4; int limitB4; };
     int valueB8;
-    unsigned char unknownBC[4];
+    int valueBC;
     unsigned int valueC0;
     unsigned int valueC4;
     int valueC8;
@@ -80,16 +91,33 @@ struct AsciiGameManagerView
     int valueD0;
     union { void *stageObjectD4; ReplayManagerView *replayManagerD4; };
     union { unsigned char clearD8[0x10]; unsigned char usedCharactersD8[16]; };
-    union { ReplayInputGateView *replayInputGateE8; GameConfiguration *configurationE8; void *heapE8; };
+    union {
+        ReplayInputGateView *replayInputGateE8;
+        GameConfiguration *configurationE8;
+        unsigned char *menuConfigE8;
+        void *heapE8;
+    };
     float speedEC;
-    union { unsigned char unknown0F0[4]; OpponentSelectionEntry *selectedEntryF0; };
+    union {
+        unsigned char unknown0F0[4];
+        OpponentSelectionEntry *selectedEntryF0;
+        FrontMessageInitSourceView *frontMessageInitSourceF0;
+        FrontMessageSourceView *frontMessageSourceF0;
+        FrontMessageNeutralSourceView *frontMessageNeutralSourceF0;
+        void *neutralMessageSourceF0;
+    };
     union { int valueF4; int selectedValueF4; };
     int valueF8;
     union { int field0FC; int counterFC; };
-    int value100;
-    int value104;
-    int field108;
-    int field10C;
+    union {
+        struct {
+            int value100;
+            int value104;
+            int field108;
+            int field10C;
+        };
+        int runtimeValues100[4];
+    };
     unsigned char unknown110[4];
     int replayMode114;
     int gameMode;
@@ -117,10 +145,18 @@ struct AsciiGameManagerView
     union { unsigned char menuStateA7A8Active; unsigned char menuBlock13E; };
     union { unsigned char unknown13F; unsigned char resetFlag13F; };
     int demoFrameCount140;
-    unsigned char unknown144;
-    unsigned char modeByte145;
-    unsigned short seed146;
-    unsigned char unknown148[0x346 - 0x148];
+    union {
+        struct {
+            unsigned char unknown144;
+            unsigned char modeByte145;
+            unsigned short seed146;
+            unsigned char unknown148[0x346 - 0x148];
+        };
+        struct {
+            unsigned char unknown144_path;
+            char selectedReplayPath145[260];
+        };
+    };
     unsigned short seedCopy346;
     // Original TH09 ScreenEffect::CalcShakeEnvelope reads this i32 counter.
     int value348;
@@ -135,9 +171,15 @@ struct AsciiGameManagerView
     float coordinate364;
     float coordinate368;
     float coordinate36C;
-    unsigned char unknown370[0x378 - 0x370];
-    int value378;
-    int value37C;
+    unsigned char unknown370[4];
+    int lastSpawnLane374;
+    union {
+        struct {
+            int value378;
+            int value37C;
+        };
+        int sideSettings378[2];
+    };
     // Original RunEcl opcode 148 adds 1800 here; the GameManager reset
     // clears exactly the same physical four-byte word at +0x380.
     int value380;

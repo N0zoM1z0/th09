@@ -182,6 +182,7 @@ struct TitleAsciiManagerView {
 
 
 #include "TitleScoreRecordView.hpp"
+#include "GameManagerRuntimeView.hpp"
 
 
 
@@ -237,33 +238,13 @@ typedef char TitleScreenSizeIs1B388[(sizeof(TitleScreenView) == 0x1B388) ? 1 : -
 // Read-width view at replay side0 +6, overlapping its known +6/+8 words.
 // This is not an independent data-owner or original-layout claim.
 
-extern ReplayManagerView *g_ReplayManager;
 extern char *g_TitleAlphabet;
-extern i32 g_TitleNameTableIndex;
-extern i32 g_GameMode;
-extern u32 g_TitleGameFlags;
 extern TitleSupervisorView g_TitleSupervisor;
 extern AsciiManager g_AsciiManager;
 extern Chain g_Chain;
-extern i32 g_TitleModeSelection;
 extern const char *g_DemoReplayPaths[3];
-extern u8 g_DemoReplayIndex;
-extern char g_SelectedReplayPath[];
-extern i32 g_GameCurrentStage;
-extern i32 g_GameConfigSelector;
-extern i32 g_GameValueDB8;
-extern i32 g_GameValueDF0;
 extern i32 g_TitleLaunchState;
-extern i32 g_TitleTransitionCounter0;
-extern i32 g_TitleTransitionCounter1;
 extern const char *g_TitleHelpText[8];
-extern i32 g_GameSide0Value20;
-extern i32 g_GameSide1Value20;
-extern i32 g_GameSide0Value30;
-extern i32 g_GameSide1Value30;
-extern i32 g_GameSide0CharacterSetting;
-extern i32 g_GameSide1CharacterSetting;
-extern i32 g_TitleCharacterReturnSelection;
 extern char g_TitleCharacterOrder[16];
 extern char g_TitleCharacterOrder14[16];
 // The result browser has its own order table, separate from character selection.
@@ -279,7 +260,6 @@ typedef char TitleResultNativeFullCharacterCapacity[
 extern char g_TitleCharacterOrderMode123[16];
 extern char g_TitleScreen16Order[16];
 extern char g_TitleScreen16Entries[16];
-extern i32 g_TitleScreen16SelectionResult;
 // The character order, unlock and screen-16 selectors now index native
 // C++ arrays. The name-entry alphabet is still a resource-backed char
 // pointer; there are no new selector guards or shadow lookup tables.
@@ -366,7 +346,7 @@ void __cdecl TitleScreenView::TitleSetupThread(void *unused)
         }
     }
 
-    if ((g_TitleGameFlags & 2) == 0)
+    if ((g_GameManager.flags & 2) == 0)
     {
         if (g_TitleSupervisor.value594 != 5)
             g_TitleSupervisor.LoadMusic(0);
@@ -395,34 +375,34 @@ int TitleScreenView::ActualAddedCallback()
     reinterpret_cast<TitleAsciiManagerView *>(&g_AsciiManager)->InitializeVms();
     g_TitleSupervisor.framerateMultiplier5B8 = 1.0f;
 
-    if (g_TitleGameFlags & 8)
+    if (g_GameManager.flags & 8)
     {
-        g_GameSide0Value20 = 0;
-        g_GameSide1Value20 = 1;
+        g_GameManager.sides[0].value20 = 0;
+        g_GameManager.sides[1].value20 = 1;
     }
-    if (g_TitleGameFlags & 2)
-        g_TitleGameFlags &= ~8u;
+    if (g_GameManager.flags & 2)
+        g_GameManager.flags &= ~8u;
 
     ChangeCurrentScreen(1);
     g_TitleSupervisor.ClearRecordingFpsWarningState();
 
-    if (g_SupervisorNetworkState->active != 0 && g_GameMode != 2)
+    if (g_SupervisorNetworkState->active != 0 && g_GameManager.gameMode != 2)
     {
         resumeState = 2;
-        g_TitleModeSelection = 0;
+        g_GameManager.replayMode114 = 0;
         g_Supervisor.config388.difficulty = 1;
     }
 
     switch (registrationContext)
     {
     case TITLE_ENTRY_NORMAL:
-        if ((g_TitleGameFlags & 0xA) == 0)
+        if ((g_GameManager.flags & 0xA) == 0)
         {
-            if (g_GameMode == 0)
+            if (g_GameManager.gameMode == 0)
                 keyboardSelection = 0;
-            else if (g_GameMode == 1)
+            else if (g_GameManager.gameMode == 1)
                 keyboardSelection = 1;
-            else if (g_GameMode == 2)
+            else if (g_GameManager.gameMode == 2)
                 resumeState = 1;
         }
         break;
@@ -435,7 +415,7 @@ int TitleScreenView::ActualAddedCallback()
     }
 
     practiceState = 0;
-    g_TitleGameFlags &= ~1u;
+    g_GameManager.flags &= ~1u;
 
     TitleFloat3View loadingPosition(500.0f, 440.0f, 0.0f);
     if (g_TitleSupervisor.value594 == 2)
@@ -448,7 +428,7 @@ int TitleScreenView::ActualAddedCallback()
         g_TitleSupervisor.SetupLoadingVms(reinterpret_cast<Float3 *>(&loadingPosition));
     }
 
-    g_TitleGameFlags &= ~2u;
+    g_GameManager.flags &= ~2u;
     chainState = 1;
     g_TitleSupervisor.ThreadStart(
         reinterpret_cast<LPTHREAD_START_ROUTINE>(TitleScreenView::TitleSetupThread), 0);
@@ -1173,7 +1153,7 @@ int TitleScreenView::OnUpdateCharacterSelect()
             vms[190].flags &= ~2u;
 
             side0CharacterCursor = 0;
-            while ((g_TitleCharacterOrder14[side0CharacterCursor]) != g_GameSide0Value20)
+            while ((g_TitleCharacterOrder14[side0CharacterCursor]) != g_GameManager.sides[0].value20)
                 side0CharacterCursor++;
 
             if (g_Supervisor.config388.difficulty == 4)
@@ -1292,75 +1272,75 @@ int TitleScreenView::OnUpdateCharacterSelect()
             vms[value * 2 + 60].color1Bytes[2] = 0x80;
             vms[value * 2 + 60].color1Bytes[1] = 0x80;
             vms[value * 2 + 60].color1Bytes[0] = 0x80;
-            g_GameSide0Value30 = (g_TitleInput.currentInput >> 2) & 1;
+            g_GameManager.sides[0].auxPathIndex30 = (g_TitleInput.currentInput >> 2) & 1;
         }
 
         if (side0CharacterConfirmed && side1CharacterConfirmed)
         {
             g_TitleSupervisor.StopAudio();
-            g_GameSide0Value20 = characters[0];
-            g_GameSide1Value20 = 0;
-            g_GameSide1Value30 = (g_TitleInput.currentInput >> 14) & 1;
-            g_GameCurrentStage = 0;
+            g_GameManager.sides[0].value20 = characters[0];
+            g_GameManager.sides[1].value20 = 0;
+            g_GameManager.sides[1].auxPathIndex30 = (g_TitleInput.currentInput >> 14) & 1;
+            g_GameManager.field0FC = 0;
 
             if (currentScreen == 3)
             {
-                g_GameValueDB8 = 0;
-                g_GameMode = 0;
-                g_GameValueDF0 = 1;
+                g_GameManager.sides[0].selector = 0;
+                g_GameManager.gameMode = 0;
+                g_GameManager.sides[1].selector = 1;
                 g_Supervisor.curState590 = 2;
             }
             else if (currentScreen == 5)
             {
-                g_GameValueDB8 = 0;
-                g_GameMode = 1;
-                g_GameValueDF0 = 1;
+                g_GameManager.sides[0].selector = 0;
+                g_GameManager.gameMode = 1;
+                g_GameManager.sides[1].selector = 1;
                 g_Supervisor.curState590 = 2;
             }
             else
             {
-                if (g_TitleModeSelection == 0)
+                if (g_GameManager.replayMode114 == 0)
                 {
-                    g_GameValueDB8 = 0;
-                    g_GameValueDF0 = 0;
-                    g_GameMode = 2;
+                    g_GameManager.sides[0].selector = 0;
+                    g_GameManager.sides[1].selector = 0;
+                    g_GameManager.gameMode = 2;
                     g_Supervisor.curState590 = 2;
                 }
-                else if (g_TitleModeSelection == 1)
+                else if (g_GameManager.replayMode114 == 1)
                 {
-                    g_GameValueDB8 = 0;
-                    g_GameMode = 2;
-                    g_GameValueDF0 = 1;
+                    g_GameManager.sides[0].selector = 0;
+                    g_GameManager.gameMode = 2;
+                    g_GameManager.sides[1].selector = 1;
                     g_Supervisor.curState590 = 2;
                 }
-                else if (g_TitleModeSelection == 2)
+                else if (g_GameManager.replayMode114 == 2)
                 {
-                    g_GameValueDB8 = 1;
-                    g_GameValueDF0 = 0;
-                    g_GameMode = 2;
+                    g_GameManager.sides[0].selector = 1;
+                    g_GameManager.sides[1].selector = 0;
+                    g_GameManager.gameMode = 2;
                     g_Supervisor.curState590 = 2;
                 }
-                else if (g_TitleModeSelection == 3)
+                else if (g_GameManager.replayMode114 == 3)
                 {
-                    g_GameValueDB8 = 1;
-                    g_GameMode = 2;
-                    g_GameValueDF0 = 1;
+                    g_GameManager.sides[0].selector = 1;
+                    g_GameManager.gameMode = 2;
+                    g_GameManager.sides[1].selector = 1;
                     g_Supervisor.curState590 = 2;
                 }
             }
 
-            g_TitleCharacterReturnSelection = g_Supervisor.config388.difficulty;
-            g_GameSide0CharacterSetting = side0CharacterSetting;
-            g_GameSide1CharacterSetting = side1CharacterSetting;
+            g_GameManager.difficulty = g_Supervisor.config388.difficulty;
+            g_GameManager.value378 = side0CharacterSetting;
+            g_GameManager.value37C = side1CharacterSetting;
             return 0;
         }
 
         if ((static_cast<u8>(g_ReplayInputStates[2].flags06) & 0xA) && side0CharacterConfirmed == 0)
         {
-            g_TitleCharacterReturnSelection = keyboardSelection;
+            g_GameManager.difficulty = keyboardSelection;
             PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
-            g_GameSide0Value20 = characters[0];
+            g_GameManager.sides[0].value20 = characters[0];
             if (currentScreen == 3)
             {
                 ChangeCurrentScreen(2);
@@ -1424,10 +1404,10 @@ int TitleScreenView::UpdateScreen8Mode0()
             vms[190].flags |= 2;
 
             side0CharacterCursor = 0;
-            while ((g_TitleCharacterOrder[side0CharacterCursor]) != g_GameSide0Value20)
+            while ((g_TitleCharacterOrder[side0CharacterCursor]) != g_GameManager.sides[0].value20)
                 side0CharacterCursor++;
             side1CharacterCursor = 0;
-            while ((g_TitleCharacterOrder[side1CharacterCursor]) != g_GameSide1Value20)
+            while ((g_TitleCharacterOrder[side1CharacterCursor]) != g_GameManager.sides[1].value20)
                 side1CharacterCursor++;
 
             MoveCharacterCursor(0, 1, g_TitleCharacterOrder, 16);
@@ -1446,8 +1426,8 @@ int TitleScreenView::UpdateScreen8Mode0()
             currentScreenState = 0;
             stateTimer = 0;
             uiAux = 0;
-            side0CharacterSetting = g_GameSide0CharacterSetting;
-            side1CharacterSetting = g_GameSide1CharacterSetting;
+            side0CharacterSetting = g_GameManager.value378;
+            side1CharacterSetting = g_GameManager.value37C;
             UpdateCharacterSettings(side0CharacterSetting, side1CharacterSetting);
             UpdateCharacterSelectionVisuals(0, value, characters[1], g_TitleCharacterOrder);
             UpdateCharacterSelectionVisuals(1, characters[1], value, g_TitleCharacterOrder);
@@ -1462,7 +1442,7 @@ int TitleScreenView::UpdateScreen8Mode0()
     {
         i32 value;
 
-        if (g_TitleModeSelection == 4 && g_SupervisorNetworkState->active == 0)
+        if (g_GameManager.replayMode114 == 4 && g_SupervisorNetworkState->active == 0)
         {
             PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
@@ -1601,9 +1581,9 @@ int TitleScreenView::UpdateScreen8Mode0()
             vms[static_cast<u32>(value * 2 + 60)].color1Bytes[2] = 0x80;
             vms[static_cast<u32>(value * 2 + 60)].color1Bytes[1] = 0x80;
             vms[static_cast<u32>(value * 2 + 60)].color1Bytes[0] = 0x80;
-            g_GameSide0Value30 = (g_ReplayInputStates[0].currentInput >> 2) & 1;
+            g_GameManager.sides[0].auxPathIndex30 = (g_ReplayInputStates[0].currentInput >> 2) & 1;
             if (side1CharacterConfirmed && characters[0] == characters[1])
-                g_GameSide0Value30 = 1 - g_GameSide1Value30;
+                g_GameManager.sides[0].auxPathIndex30 = 1 - g_GameManager.sides[1].auxPathIndex30;
         }
 
         if ((g_ReplayInputStates[1].word06 & 0x1001) && side1CharacterConfirmed == 0)
@@ -1617,17 +1597,17 @@ int TitleScreenView::UpdateScreen8Mode0()
             vms[static_cast<u32>(value * 2 + 61)].color1Bytes[2] = 0x80;
             vms[static_cast<u32>(value * 2 + 61)].color1Bytes[1] = 0x80;
             vms[static_cast<u32>(value * 2 + 61)].color1Bytes[0] = 0x80;
-            g_GameSide1Value30 = (g_ReplayInputStates[1].currentInput >> 2) & 1;
+            g_GameManager.sides[1].auxPathIndex30 = (g_ReplayInputStates[1].currentInput >> 2) & 1;
             if (side0CharacterConfirmed && characters[0] == characters[1])
-                g_GameSide1Value30 = 1 - g_GameSide0Value30;
+                g_GameManager.sides[1].auxPathIndex30 = 1 - g_GameManager.sides[0].auxPathIndex30;
         }
 
         if (side0CharacterConfirmed && side1CharacterConfirmed)
         {
-            g_GameSide0Value20 = characters[0];
-            g_GameSide1Value20 = characters[1];
-            g_GameSide0CharacterSetting = side0CharacterSetting;
-            g_GameSide1CharacterSetting = side1CharacterSetting;
+            g_GameManager.sides[0].value20 = characters[0];
+            g_GameManager.sides[1].value20 = characters[1];
+            g_GameManager.value378 = side0CharacterSetting;
+            g_GameManager.value37C = side1CharacterSetting;
             PlayMenuSound(SOUND_SELECT, 0);
             ChangeCurrentScreen(16);
             UpdateScreen16();
@@ -1637,11 +1617,11 @@ int TitleScreenView::UpdateScreen8Mode0()
         if (((g_ReplayInputStates[0].word06 & 0xA) && side0CharacterConfirmed == 0) ||
             ((g_ReplayInputStates[1].word06 & 0xA) && side1CharacterConfirmed == 0))
         {
-            g_TitleCharacterReturnSelection = keyboardSelection;
+            g_GameManager.difficulty = keyboardSelection;
             PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
-            g_GameSide0Value20 = characters[0];
-            g_GameSide1Value20 = characters[1];
+            g_GameManager.sides[0].value20 = characters[0];
+            g_GameManager.sides[1].value20 = characters[1];
             if (currentScreen == 3)
             {
                 ChangeCurrentScreen(2);
@@ -1722,10 +1702,10 @@ int TitleScreenView::UpdateScreen8Mode123()
             vms[190].flags &= ~2u;
 
             side0CharacterCursor = 0;
-            while ((g_TitleCharacterOrderMode123[side0CharacterCursor]) != g_GameSide0Value20)
+            while ((g_TitleCharacterOrderMode123[side0CharacterCursor]) != g_GameManager.sides[0].value20)
                 side0CharacterCursor++;
             side1CharacterCursor = 0;
-            while ((g_TitleCharacterOrderMode123[side1CharacterCursor]) != g_GameSide1Value20)
+            while ((g_TitleCharacterOrderMode123[side1CharacterCursor]) != g_GameManager.sides[1].value20)
                 side1CharacterCursor++;
 
             MoveCharacterCursor(0, 1, g_TitleCharacterOrderMode123, 16);
@@ -1758,8 +1738,8 @@ int TitleScreenView::UpdateScreen8Mode123()
             currentScreenState = 0;
             stateTimer = 0;
             uiAux = 0;
-            side0CharacterSetting = g_GameSide0CharacterSetting;
-            side1CharacterSetting = g_GameSide1CharacterSetting;
+            side0CharacterSetting = g_GameManager.value378;
+            side1CharacterSetting = g_GameManager.value37C;
             UpdateCharacterSettings(side0CharacterSetting, side1CharacterSetting);
             UpdateCharacterSelectionVisuals(
                 0, characters[0], characters[0], g_TitleCharacterOrderMode123);
@@ -1866,9 +1846,9 @@ int TitleScreenView::UpdateScreen8Mode123()
             vms[60 + characters[0] * 2].color1Bytes[2] = 0x80;
             vms[60 + characters[0] * 2].color1Bytes[1] = 0x80;
             vms[60 + characters[0] * 2].color1Bytes[0] = 0x80;
-            g_GameSide0Value30 = (g_TitleInput.currentInput >> 2) & 1;
+            g_GameManager.sides[0].auxPathIndex30 = (g_TitleInput.currentInput >> 2) & 1;
             if (side1CharacterConfirmed && characters[0] == characters[1])
-                g_GameSide0Value30 = 1 - g_GameSide1Value30;
+                g_GameManager.sides[0].auxPathIndex30 = 1 - g_GameManager.sides[1].auxPathIndex30;
             vms[190].flags |= 2;
             UpdateCharacterSelectionVisuals(
                 1, characters[1], characters[0], g_TitleCharacterOrderMode123);
@@ -1885,17 +1865,17 @@ int TitleScreenView::UpdateScreen8Mode123()
             vms[61 + characters[1] * 2].color1Bytes[2] = 0x80;
             vms[61 + characters[1] * 2].color1Bytes[1] = 0x80;
             vms[61 + characters[1] * 2].color1Bytes[0] = 0x80;
-            g_GameSide1Value30 = (g_TitleInput.currentInput >> 2) & 1;
+            g_GameManager.sides[1].auxPathIndex30 = (g_TitleInput.currentInput >> 2) & 1;
             if (side0CharacterConfirmed && characters[0] == characters[1])
-                g_GameSide1Value30 = 1 - g_GameSide0Value30;
+                g_GameManager.sides[1].auxPathIndex30 = 1 - g_GameManager.sides[0].auxPathIndex30;
         }
 
         if (side0CharacterConfirmed && side1CharacterConfirmed)
         {
-            g_GameSide0Value20 = characters[0];
-            g_GameSide1Value20 = characters[1];
-            g_GameSide0CharacterSetting = side0CharacterSetting;
-            g_GameSide1CharacterSetting = side1CharacterSetting;
+            g_GameManager.sides[0].value20 = characters[0];
+            g_GameManager.sides[1].value20 = characters[1];
+            g_GameManager.value378 = side0CharacterSetting;
+            g_GameManager.value37C = side1CharacterSetting;
             PlayMenuSound(SOUND_SELECT, 0);
             ChangeCurrentScreen(16);
             UpdateScreen16();
@@ -1905,11 +1885,11 @@ int TitleScreenView::UpdateScreen8Mode123()
         u32 cancelInput = g_ReplayInputStates[2].flags06 & 0xA;
         if (cancelInput && side0CharacterConfirmed == 0)
         {
-            g_TitleCharacterReturnSelection = keyboardSelection;
+            g_GameManager.difficulty = keyboardSelection;
             PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
-            g_GameSide0Value20 = characters[0];
-            g_GameSide1Value20 = characters[1];
+            g_GameManager.sides[0].value20 = characters[0];
+            g_GameManager.sides[1].value20 = characters[1];
             if (currentScreen == 3)
             {
                 ChangeCurrentScreen(2);
@@ -2037,65 +2017,65 @@ int TitleScreenView::UpdateScreen16()
         {
             PlayMenuSound(SOUND_SELECT, 0);
             g_TitleSupervisor.StopAudio();
-            g_GameCurrentStage = 0;
+            g_GameManager.field0FC = 0;
 
             if (currentScreen == 3)
             {
-                g_GameValueDF0 = 1;
+                g_GameManager.sides[1].selector = 1;
                 g_Supervisor.curState590 = 2;
-                g_GameMode = 0;
-                g_GameValueDB8 = 0;
+                g_GameManager.gameMode = 0;
+                g_GameManager.sides[0].selector = 0;
             }
             else if (currentScreen == 5)
             {
-                g_GameValueDF0 = 1;
+                g_GameManager.sides[1].selector = 1;
                 g_Supervisor.curState590 = 2;
-                g_GameMode = 1;
-                g_GameValueDB8 = 0;
+                g_GameManager.gameMode = 1;
+                g_GameManager.sides[0].selector = 0;
             }
             else
             {
-                if (g_TitleModeSelection == 0 || g_TitleModeSelection == 4)
+                if (g_GameManager.replayMode114 == 0 || g_GameManager.replayMode114 == 4)
                 {
-                    g_GameValueDF0 = 0;
-                    g_GameValueDB8 = 0;
+                    g_GameManager.sides[1].selector = 0;
+                    g_GameManager.sides[0].selector = 0;
                     g_Supervisor.curState590 = 2;
-                    g_GameMode = 2;
+                    g_GameManager.gameMode = 2;
                 }
-                else if (g_TitleModeSelection == 1)
+                else if (g_GameManager.replayMode114 == 1)
                 {
-                    g_GameValueDF0 = 1;
-                    g_GameValueDB8 = 0;
+                    g_GameManager.sides[1].selector = 1;
+                    g_GameManager.sides[0].selector = 0;
                     g_Supervisor.curState590 = 2;
-                    g_GameMode = 2;
+                    g_GameManager.gameMode = 2;
                 }
-                else if (g_TitleModeSelection == 2)
+                else if (g_GameManager.replayMode114 == 2)
                 {
-                    g_GameValueDF0 = 0;
-                    g_GameValueDB8 = 1;
+                    g_GameManager.sides[1].selector = 0;
+                    g_GameManager.sides[0].selector = 1;
                     g_Supervisor.curState590 = 2;
-                    g_GameMode = 2;
+                    g_GameManager.gameMode = 2;
                 }
-                else if (g_TitleModeSelection == 3)
+                else if (g_GameManager.replayMode114 == 3)
                 {
-                    g_GameValueDF0 = 1;
-                    g_GameValueDB8 = 1;
+                    g_GameManager.sides[1].selector = 1;
+                    g_GameManager.sides[0].selector = 1;
                     g_Supervisor.curState590 = 2;
-                    g_GameMode = 2;
+                    g_GameManager.gameMode = 2;
                 }
             }
 
-            g_TitleCharacterReturnSelection = g_Supervisor.config388.difficulty;
-            g_GameSide0CharacterSetting = side0CharacterSetting;
-            g_GameSide1CharacterSetting = side1CharacterSetting;
+            g_GameManager.difficulty = g_Supervisor.config388.difficulty;
+            g_GameManager.value378 = side0CharacterSetting;
+            g_GameManager.value37C = side1CharacterSetting;
 
-            g_TitleScreen16SelectionResult = (g_TitleScreen16Entries[keyboardSelection]);
-            if (g_TitleScreen16SelectionResult == 14)
-                g_TitleScreen16SelectionResult = -1;
-            else if (g_TitleScreen16SelectionResult == 15)
-                g_TitleScreen16SelectionResult = -2;
+            g_GameManager.selector138 = (g_TitleScreen16Entries[keyboardSelection]);
+            if (g_GameManager.selector138 == 14)
+                g_GameManager.selector138 = -1;
+            else if (g_GameManager.selector138 == 15)
+                g_GameManager.selector138 = -2;
             else
-                g_TitleScreen16SelectionResult = (g_TitleScreen16Entries[keyboardSelection]);
+                g_GameManager.selector138 = (g_TitleScreen16Entries[keyboardSelection]);
             return 0;
         }
 
@@ -2104,7 +2084,7 @@ int TitleScreenView::UpdateScreen16()
             PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
             ChangeCurrentScreen(8);
-            switch (g_TitleModeSelection)
+            switch (g_GameManager.replayMode114)
             {
             case TITLE_MATCH_MODE_STORY_VS_CPU:
                 UpdateScreen8Mode0();
@@ -2161,14 +2141,14 @@ int TitleScreenView::OnUpdateResultNameEntry()
             g_AnmManager->SetInterruptArray(vms, vmCount, 16);
             g_AnmManager->ExecuteScriptArray(vms, vmCount);
 
-            if (g_GameMode == 2)
+            if (g_GameManager.gameMode == 2)
             {
                 stateTimer = 0;
                 ChangeCurrentScreen(15);
                 return 1;
             }
 
-            nameBankIndex = g_GameSide0Value20;
+            nameBankIndex = g_GameManager.sides[0].value20;
             replayNameCursor = 0;
             SetCharacterCursorInactive(nameBankIndex, 60, 16, 2);
             keyboardSelection = TitleNativeNameKeyboard::ConfirmKey;
@@ -2183,7 +2163,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
             else
             {
                 strcpy(
-                    g_TitleScoreTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name,
+                    g_TitleScoreTable[nameBankIndex][g_GameManager.difficulty][nameSlotIndex].name,
                     g_LastNameRecord.name);
             }
         }
@@ -2258,7 +2238,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
                 {
                     strcpy(
                         g_LastNameRecord.name,
-                        g_TitleScoreTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name);
+                        g_TitleScoreTable[nameBankIndex][g_GameManager.difficulty][nameSlotIndex].name);
                 }
                 return 1;
             }
@@ -2268,7 +2248,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
                 value = ' ';
             else
                 value = (g_TitleAlphabet[keyboardSelection]);
-            (g_TitleScoreTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[replayNameCursor]) = value;
+            (g_TitleScoreTable[nameBankIndex][g_GameManager.difficulty][nameSlotIndex].name[replayNameCursor]) = value;
             PlayMenuSound(SOUND_SELECT, 0);
             if (replayNameCursor < 7)
                 TH09_TITLE_NATIVE_INCREMENT(replayNameCursor);
@@ -2281,14 +2261,14 @@ int TitleScreenView::OnUpdateResultNameEntry()
         {
             PlayMenuSound(SOUND_BACK, 0);
             if (replayNameCursor == 7 &&
-                g_TitleScoreTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[7] != ' ')
+                g_TitleScoreTable[nameBankIndex][g_GameManager.difficulty][nameSlotIndex].name[7] != ' ')
             {
-                g_TitleScoreTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[7] = ' ';
+                g_TitleScoreTable[nameBankIndex][g_GameManager.difficulty][nameSlotIndex].name[7] = ' ';
             }
             else if (replayNameCursor > 0)
             {
                 --*reinterpret_cast<u32 *>(&replayNameCursor);
-                (g_TitleScoreTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[replayNameCursor]) = ' ';
+                (g_TitleScoreTable[nameBankIndex][g_GameManager.difficulty][nameSlotIndex].name[replayNameCursor]) = ' ';
             }
             stateTimer = 0;
         }
@@ -2460,7 +2440,7 @@ int TitleScreenView::OnUpdateReplayMenu()
     case TITLE_REPLAY_MENU_INIT:
         if (phaseTimer == 0)
         {
-            g_TitleGameFlags &= ~8u;
+            g_GameManager.flags &= ~8u;
             if (previousScreen != 11 && g_AnmManager->LoadSurface(0, "title/replay00.png"))
                 return 0;
 
@@ -2620,63 +2600,63 @@ int TitleScreenView::OnUpdateReplayMenu()
 
         if (static_cast<u16>(g_ReplayInputStates[2].flags06) & 0x1001)
         {
-            g_GameSide0Value20 = side0CharacterCursor;
-            g_GameSide1Value20 = 0;
-            g_GameCurrentStage = keyboardSelection;
-            g_TitleNameTableIndex = replays[static_cast<unsigned int>(selectedReplay)].value0D7;
-            strcpy(g_SelectedReplayPath, replayPaths[static_cast<unsigned int>(selectedReplay)]);
-            g_TitleGameFlags |= 8u;
+            g_GameManager.sides[0].value20 = side0CharacterCursor;
+            g_GameManager.sides[1].value20 = 0;
+            g_GameManager.field0FC = keyboardSelection;
+            g_GameManager.difficulty = replays[static_cast<unsigned int>(selectedReplay)].value0D7;
+            strcpy(g_GameManager.selectedReplayPath145, replayPaths[static_cast<unsigned int>(selectedReplay)]);
+            g_GameManager.flags |= 8u;
 
             if (replays[static_cast<unsigned int>(selectedReplay)].value1E4 == 0)
             {
-                g_GameValueDF0 = 1;
+                g_GameManager.sides[1].selector = 1;
                 g_Supervisor.curState590 = 2;
-                g_GameMode = 0;
-                g_GameValueDB8 = 0;
+                g_GameManager.gameMode = 0;
+                g_GameManager.sides[0].selector = 0;
             }
             else if (replays[static_cast<unsigned int>(selectedReplay)].value1E4 == 1)
             {
-                g_GameValueDF0 = 1;
+                g_GameManager.sides[1].selector = 1;
                 g_Supervisor.curState590 = 2;
-                g_GameMode = 1;
-                g_GameValueDB8 = 0;
+                g_GameManager.gameMode = 1;
+                g_GameManager.sides[0].selector = 0;
             }
             else
             {
                 if (replays[static_cast<unsigned int>(selectedReplay)].value1E5 == 0)
                 {
-                    g_GameValueDF0 = 0;
-                    g_GameValueDB8 = 0;
+                    g_GameManager.sides[1].selector = 0;
+                    g_GameManager.sides[0].selector = 0;
                     g_Supervisor.curState590 = 2;
-                    g_GameMode = 2;
+                    g_GameManager.gameMode = 2;
                 }
                 else if (replays[static_cast<unsigned int>(selectedReplay)].value1E5 == 1)
                 {
-                    g_GameValueDF0 = 1;
-                    g_GameValueDB8 = 0;
+                    g_GameManager.sides[1].selector = 1;
+                    g_GameManager.sides[0].selector = 0;
                     g_Supervisor.curState590 = 2;
-                    g_GameMode = 2;
+                    g_GameManager.gameMode = 2;
                 }
                 else if (replays[static_cast<unsigned int>(selectedReplay)].value1E5 == 2)
                 {
-                    g_GameValueDF0 = 0;
-                    g_GameValueDB8 = 1;
+                    g_GameManager.sides[1].selector = 0;
+                    g_GameManager.sides[0].selector = 1;
                     g_Supervisor.curState590 = 2;
-                    g_GameMode = 2;
+                    g_GameManager.gameMode = 2;
                 }
                 else if (replays[static_cast<unsigned int>(selectedReplay)].value1E5 == 3)
                 {
-                    g_GameValueDF0 = 1;
-                    g_GameValueDB8 = 1;
+                    g_GameManager.sides[1].selector = 1;
+                    g_GameManager.sides[0].selector = 1;
                     g_Supervisor.curState590 = 2;
-                    g_GameMode = 2;
+                    g_GameManager.gameMode = 2;
                 }
                 else if (replays[static_cast<unsigned int>(selectedReplay)].value1E5 == 4)
                 {
-                    g_GameValueDF0 = 0;
-                    g_GameValueDB8 = 0;
+                    g_GameManager.sides[1].selector = 0;
+                    g_GameManager.sides[0].selector = 0;
                     g_Supervisor.curState590 = 2;
-                    g_GameMode = 2;
+                    g_GameManager.gameMode = 2;
                 }
             }
 
@@ -2686,7 +2666,7 @@ int TitleScreenView::OnUpdateReplayMenu()
                     free(replayAllocations[static_cast<unsigned int>(replayIndex)]);
                 replayAllocations[static_cast<unsigned int>(replayIndex)] = 0;
             }
-            g_TitleNameTableIndex = g_Supervisor.config388.difficulty;
+            g_GameManager.difficulty = g_Supervisor.config388.difficulty;
             return 0;
         }
         break;
@@ -2716,7 +2696,7 @@ int TitleScreenView::UpdateReplaySave()
     case TITLE_REPLAY_SAVE_INIT:
         if (phaseTimer == 0)
         {
-            if (g_TitleGameFlags & 0x2000)
+            if (g_GameManager.flags & 0x2000)
             {
                 stateTimer = 0;
                 ChangeCurrentScreen(1);
@@ -2737,7 +2717,7 @@ int TitleScreenView::UpdateReplaySave()
                     replayIndex = 999;
 
                 sprintf(path, "./replay/th9_udn%.3d.rpy", replayIndex + 1);
-                ReplayManagerView::SaveReplay(g_ReplayManager, path, g_LastNameRecord.name);
+                ReplayManagerView::SaveReplay(g_GameManager.replayManagerD4, path, g_LastNameRecord.name);
                 stateTimer = 0;
                 ChangeCurrentScreen(1);
                 keyboardSelection = 0;
@@ -2756,7 +2736,7 @@ int TitleScreenView::UpdateReplaySave()
             stateTimer = 0;
             uiAux = 0;
 
-            if (g_GameMode == 2)
+            if (g_GameManager.gameMode == 2)
                 goto load_replays;
 
             transitionId = 125;
@@ -2790,7 +2770,7 @@ int TitleScreenView::UpdateReplaySave()
             keyboardSelection = 0;
             strcpy(
                 g_LastNameRecord.name,
-                g_TitleScoreTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name);
+                g_TitleScoreTable[nameBankIndex][g_GameManager.difficulty][nameSlotIndex].name);
             return 1;
         }
 
@@ -2965,7 +2945,7 @@ int TitleScreenView::UpdateReplaySave()
             {
                 PlayMenuSound(SOUND_SELECT, 0);
                 sprintf(path, "replay/th9_%.2d.rpy", selectedReplay + 1);
-                ReplayManagerView::SaveReplay(g_ReplayManager, path, replayName);
+                ReplayManagerView::SaveReplay(g_GameManager.replayManagerD4, path, replayName);
                 stateTimer = 0;
                 ChangeCurrentScreen(1);
                 keyboardSelection = 0;
@@ -3040,8 +3020,8 @@ int TitleScreenView::OnUpdateStartMenu()
                     return 0;
             }
 
-            g_ReplayManager->Release();
-            g_ReplayManager = 0;
+            g_GameManager.replayManagerD4->Release();
+            g_GameManager.replayManagerD4 = 0;
 
             if (vmCount == 0)
             {
@@ -3057,8 +3037,8 @@ int TitleScreenView::OnUpdateStartMenu()
 
             if (resumeState != 0)
             {
-                g_TitleGameFlags &= ~8u;
-                keyboardSelection = g_TitleModeSelection;
+                g_GameManager.flags &= ~8u;
+                keyboardSelection = g_GameManager.replayMode114;
                 ChangeCurrentScreen(6);
                 g_AnmManager->SetInterruptArray(vms, vmCount, 5);
                 return 1;
@@ -3067,13 +3047,13 @@ int TitleScreenView::OnUpdateStartMenu()
             menuVmStart = 1;
             menuItemCount = 8;
             UpdateMenuSelection();
-            if (g_TitleGameFlags & 8)
+            if (g_GameManager.flags & 8)
             {
                 ChangeCurrentScreen(11);
                 g_AnmManager->SetInterruptArray(vms, vmCount, 5);
                 return 1;
             }
-            g_TitleGameFlags &= ~2u;
+            g_GameManager.flags &= ~2u;
         }
 
         if ((u32)stateTimer2 < 8)
@@ -3119,17 +3099,17 @@ int TitleScreenView::OnUpdateStartMenu()
             TH09_TITLE_NATIVE_INCREMENT(idleFrames);
             if (idleFrames > 1500)
             {
-                g_TitleGameFlags |= 2u;
-                strcpy(g_SelectedReplayPath, (g_DemoReplayPaths[g_DemoReplayIndex]));
-                g_DemoReplayIndex++;
-                g_DemoReplayIndex %= 3;
-                g_TitleGameFlags |= 8u;
-                g_GameCurrentStage = 9;
-                g_GameConfigSelector = 3;
-                g_GameValueDB8 = 0;
-                g_GameValueDF0 = 1;
+                g_GameManager.flags |= 2u;
+                strcpy(g_GameManager.selectedReplayPath145, (g_DemoReplayPaths[g_GameManager.resetFlag13F]));
+                g_GameManager.resetFlag13F++;
+                g_GameManager.resetFlag13F %= 3;
+                g_GameManager.flags |= 8u;
+                g_GameManager.field0FC = 9;
+                g_GameManager.difficulty = 3;
+                g_GameManager.sides[0].selector = 0;
+                g_GameManager.sides[1].selector = 1;
                 g_Supervisor.curState590 = 2;
-                g_GameMode = 2;
+                g_GameManager.gameMode = 2;
                 return 0;
             }
 
@@ -3138,38 +3118,38 @@ int TitleScreenView::OnUpdateStartMenu()
                 switch (keyboardSelection)
                 {
                 case TITLE_START_MENU_STORY:
-                    g_TitleGameFlags &= ~8u;
+                    g_GameManager.flags &= ~8u;
                     PlayMenuSound(SOUND_SELECT, 0);
                     if (keyboardSelection >= 4)
                         keyboardSelection = 2;
                     ChangeCurrentScreen(2);
                     g_AnmManager->SetInterruptArray(vms, vmCount, 5);
-                    g_TitleTransitionCounter0 = 10;
-                    g_TitleTransitionCounter1 = 10;
+                    g_GameManager.value378 = 10;
+                    g_GameManager.value37C = 10;
                     return 1;
                 case TITLE_START_MENU_EXTRA:
                     if (g_PlayStatsRecord.characterUnlocked[2][12])
                     {
-                        g_TitleGameFlags &= ~8u;
+                        g_GameManager.flags &= ~8u;
                         PlayMenuSound(SOUND_SELECT, 0);
                         if (keyboardSelection >= 4)
                             keyboardSelection = 2;
                         ChangeCurrentScreen(4);
                         g_AnmManager->SetInterruptArray(vms, vmCount, 5);
-                        g_TitleTransitionCounter0 = 10;
-                        g_TitleTransitionCounter1 = 10;
+                        g_GameManager.value378 = 10;
+                        g_GameManager.value37C = 10;
                         return 1;
                     }
                     PlayMenuSound(SOUND_INVALID_ACTION, 0);
                     return 1;
                 case TITLE_START_MENU_MATCH:
-                    g_TitleGameFlags &= ~8u;
+                    g_GameManager.flags &= ~8u;
                     PlayMenuSound(SOUND_SELECT, 0);
-                    keyboardSelection = g_TitleModeSelection;
+                    keyboardSelection = g_GameManager.replayMode114;
                     ChangeCurrentScreen(6);
                     g_AnmManager->SetInterruptArray(vms, vmCount, 5);
-                    g_TitleTransitionCounter0 = 10;
-                    g_TitleTransitionCounter1 = 10;
+                    g_GameManager.value378 = 10;
+                    g_GameManager.value37C = 10;
                     return 1;
                 case TITLE_START_MENU_REPLAY:
                     PlayMenuSound(SOUND_SELECT, 0);
@@ -3284,11 +3264,11 @@ int TitleScreenView::OnUpdateDifficultySelect()
 
             if (currentScreen == 7)
             {
-                vms[131 + g_TitleModeSelection].pendingInterrupt = 9;
+                vms[131 + g_GameManager.replayMode114].pendingInterrupt = 9;
                 if (resumeState == 1)
                 {
                     ChangeCurrentScreen(8);
-                    switch (g_TitleModeSelection)
+                    switch (g_GameManager.replayMode114)
                     {
                     case TITLE_MATCH_MODE_STORY_VS_CPU:
                         UpdateScreen8Mode0();
@@ -3356,7 +3336,7 @@ int TitleScreenView::OnUpdateDifficultySelect()
             if (currentScreen == 7)
             {
                 ChangeCurrentScreen(8);
-                switch (g_TitleModeSelection)
+                switch (g_GameManager.replayMode114)
                 {
                 case TITLE_MATCH_MODE_STORY_VS_CPU:
                     UpdateScreen8Mode0();
@@ -3387,7 +3367,7 @@ int TitleScreenView::OnUpdateDifficultySelect()
             return 1;
         }
 
-        if (g_TitleModeSelection == 4 && g_SupervisorNetworkState->active == 0)
+        if (g_GameManager.replayMode114 == 4 && g_SupervisorNetworkState->active == 0)
         {
             PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
@@ -3450,11 +3430,11 @@ int TitleScreenView::OnUpdateModeSelect()
             {
                 ChangeCurrentScreen(7);
                 OnUpdateDifficultySelect();
-                vms[131 + g_TitleModeSelection].pendingInterrupt = 9;
+                vms[131 + g_GameManager.replayMode114].pendingInterrupt = 9;
                 return 1;
             }
 
-            keyboardSelection = g_TitleModeSelection;
+            keyboardSelection = g_GameManager.replayMode114;
             menuVmStart = 131;
             menuItemCount = 5;
             UpdateMenuSelection();
@@ -3476,26 +3456,26 @@ int TitleScreenView::OnUpdateModeSelect()
             u32 inputFlags = g_ReplayInputStates[2].flags06;
             if (inputFlags & 0x1001)
             {
-                g_TitleModeSelection = keyboardSelection;
-                if (g_TitleModeSelection == 4)
+                g_GameManager.replayMode114 = keyboardSelection;
+                if (g_GameManager.replayMode114 == 4)
                 {
                     PrepareTitleMode4Network(g_SupervisorNetworkState);
                     ResetTitleMode4Supervisor(&g_TitleSupervisor);
                     g_Supervisor.config388.difficulty = 1;
-                    g_GameSide0Value20 = 0;
-                    g_GameSide1Value20 = 1;
+                    g_GameManager.sides[0].value20 = 0;
+                    g_GameManager.sides[1].value20 = 1;
                 }
 
                 PlayMenuSound(SOUND_SELECT, 0);
                 ChangeCurrentScreen(7);
                 OnUpdateDifficultySelect();
-                vms[131 + g_TitleModeSelection].pendingInterrupt = 9;
+                vms[131 + g_GameManager.replayMode114].pendingInterrupt = 9;
                 return 1;
             }
 
             if (inputFlags & 0xA)
             {
-                g_TitleModeSelection = keyboardSelection;
+                g_GameManager.replayMode114 = keyboardSelection;
                 PlayMenuSound(SOUND_BACK, 0);
                 currentScreenState = 3;
                 stateTimer = 0;

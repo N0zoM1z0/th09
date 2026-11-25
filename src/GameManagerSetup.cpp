@@ -102,9 +102,7 @@ extern RngRuntimeView g_ReplayRng;
 extern AsciiManager g_AsciiManager;
 extern AnmVm g_SupervisorLoadingVms[3];
 
-extern int g_GameManagerChainState;
 
-extern int g_LastSpawnLane;
 extern void __fastcall ReleaseGameSubsystem(void *object);
 extern void __fastcall ReleaseSubsystem0(void *object);
 extern void __fastcall ReleaseSubsystem4(void *object);
@@ -278,7 +276,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
             unsigned short laneSample =
                 g_ReplayRng.NextU16() % 4;
             int lane = laneSample;
-            if (lane == g_LastSpawnLane)
+            if (lane == g_GameManager.lastSpawnLane374)
             {
                 lane++;
                 if (lane >= 4)
@@ -291,7 +289,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
             CardAttackSpawnPosition position;
             position.x = 0.0f;
             position.z = 0.0f;
-            g_LastSpawnLane = lane;
+            g_GameManager.lastSpawnLane374 = lane;
             position.y = -32.0f;
 
             EnemyView *object =
@@ -567,7 +565,7 @@ int GameManagerSetupLayout::DeletedCallback(GameManagerSetupLayout *gameManager)
     {
     }
 
-    g_GameManagerChainState = 0;
+    g_GameManager.value348 = 0;
     return 0;
 }
 

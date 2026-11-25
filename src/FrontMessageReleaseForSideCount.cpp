@@ -7,7 +7,6 @@
 
 extern FrontMessageTableView *g_FrontMessagePrimaryCache;
 extern FrontMessageTableView *g_FrontMessageSecondaryCache;
-extern FrontMessageSourceView *g_FrontMessageSource;
 
 // The file-backed table contains count00 native 0x08-byte entries, although
 // its C++ wire projection declares only the first entry.
@@ -76,7 +75,7 @@ void FrontMessageRuntimeView::ReleaseForSideCount(int startIndex)
     }
     else
     {
-        g_Supervisor.ReleaseMusic(g_FrontMessageSource->musicId0C);
+        g_Supervisor.ReleaseMusic(g_GameManager.frontMessageSourceF0->musicId0C);
     }
 
     if (secondary0C != 0)

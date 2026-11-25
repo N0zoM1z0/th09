@@ -49,7 +49,6 @@ typedef char DeletedGameManagerNativeSideAllocationOffsets[
      sizeof(AsciiGameManagerSideView) == 0x38) ? 1 : -1];
 }
 
-extern ReplayManagerView *g_DeletedReplayState;
 
 extern int SaveTitleScoreData();
 extern void ReleaseEtamaAnm();
@@ -92,8 +91,8 @@ int SupervisorDeletedCallback(Supervisor *supervisor)
     if (globalSupervisor->config388.musicMode == 2 && globalSupervisor->midiOutput5BC != NULL)
         reinterpret_cast<DeletedMidiOutputView *>(globalSupervisor->midiOutput5BC)->PlayFile(30);
 
-    g_DeletedReplayState->Release();
-    g_DeletedReplayState = NULL;
+    g_GameManager.replayManagerD4->Release();
+    g_GameManager.replayManagerD4 = NULL;
     TextHelper::ReleaseTextBuffer();
 
     if (callbackSupervisor->keyboard10 != NULL)

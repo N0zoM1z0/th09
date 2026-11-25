@@ -2,18 +2,18 @@
 #include "EnemyManager.hpp"
 #include "ExAttackController.hpp"
 #include <stddef.h>
+#include "GameManagerRuntimeView.hpp"
 
 typedef char EnemyExAttackNativePositionAt2D74[
     (offsetof(EnemyView, position2D74) == 0x2D74 &&
      offsetof(EnemyView, manager00) == 0x00 &&
      sizeof(((EnemyView *)0)->position2D74) == sizeof(Float3)) ? 1 : -1];
 
-extern ExAttackController *g_ExAttackController;
 
 #define DEFINE_EXATTACK_WRAPPER(name, typeValue) \
 void __fastcall name(EnemyView *enemy, EnemyEclExInstructionView *) \
 { \
-    g_ExAttackController->Spawn( \
+    g_GameManager.exAttackControllerAC->Spawn( \
         typeValue, reinterpret_cast<const Float3 *>(&enemy->position2D74), \
         1 - enemy->manager00->sideIndex31C, 0); \
 }

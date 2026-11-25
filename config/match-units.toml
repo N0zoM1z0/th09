@@ -1508,7 +1508,7 @@ relocations = [
   { offset = 0x187, type = "REL32", symbol = "??3@YAXPAX@Z", target = 0x0047B249 },
   { offset = 0x18F, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
   { offset = 0x194, type = "REL32", symbol = "?ProcessQueues@SoundPlayer@@QAEHXZ", target = 0x0043F1F0 },
-  { offset = 0x19E, type = "DIR32", symbol = "?g_GameManagerChainState@@3HA", target = 0x004A80D8 },
+  { offset = 0x19E, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 [units.game-manager-register-chain]
@@ -1829,9 +1829,9 @@ relocations = [
   { offset = 0xBC, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0xC5, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0xD0, type = "REL32", symbol = "?PlayFile@DeletedMidiOutputView@?A0x4471bc32@@QAEXH@Z", target = 0x00423361 },
-  { offset = 0xD6, type = "DIR32", symbol = "?g_DeletedReplayState@@3PAUReplayManagerView@@A", target = 0x004A7E64 },
+  { offset = 0xD6, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xDB, type = "REL32", symbol = "?Release@ReplayManagerView@@QAEXXZ", target = 0x00420AD0 },
-  { offset = 0xE1, type = "DIR32", symbol = "?g_DeletedReplayState@@3PAUReplayManagerView@@A", target = 0x004A7E64 },
+  { offset = 0xE1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xE6, type = "REL32", symbol = "?ReleaseTextBuffer@TextHelper@@SIXXZ", target = 0x004362E0 },
   { offset = 0x152, type = "DIR32", symbol = "?g_PbgArchive@@3VPbgArchive@@A", target = 0x004AD008 },
   { offset = 0x157, type = "REL32", symbol = "?Release@PbgArchive@@QAEXXZ", target = 0x004333B0 },
@@ -2551,8 +2551,8 @@ target = 0x004ACE18
 [[units.title-screen-mode-select.relocations]]
 offset = 93
 type = "DIR32"
-symbol = "?g_TitleModeSelection@@3HA"
-target = 0x004A7EA4
+symbol = "?g_GameManager@@3UAsciiGameManagerView@@A"
+target = 0x004A7D90
 
 [[units.title-screen-mode-select.relocations]]
 offset = 101
@@ -2587,14 +2587,14 @@ target = 0x004B3100
 [[units.title-screen-mode-select.relocations]]
 offset = 129
 type = "DIR32"
-symbol = "?g_GameSide0Value20@@3HA"
-target = 0x004A7DB0
+symbol = "?g_GameManager@@3UAsciiGameManagerView@@A"
+target = 0x004A7D90
 
 [[units.title-screen-mode-select.relocations]]
 offset = 135
 type = "DIR32"
-symbol = "?g_GameSide1Value20@@3HA"
-target = 0x004A7DE8
+symbol = "?g_GameManager@@3UAsciiGameManagerView@@A"
+target = 0x004A7D90
 
 [[units.title-screen-mode-select.relocations]]
 offset = 149
@@ -2617,14 +2617,14 @@ target = 0x0042A45B
 [[units.title-screen-mode-select.relocations]]
 offset = 170
 type = "DIR32"
-symbol = "?g_TitleModeSelection@@3HA"
-target = 0x004A7EA4
+symbol = "?g_GameManager@@3UAsciiGameManagerView@@A"
+target = 0x004A7D90
 
 [[units.title-screen-mode-select.relocations]]
 offset = 217
 type = "DIR32"
-symbol = "?g_TitleModeSelection@@3HA"
-target = 0x004A7EA4
+symbol = "?g_GameManager@@3UAsciiGameManagerView@@A"
+target = 0x004A7D90
 
 [[units.title-screen-mode-select.relocations]]
 offset = 222
@@ -2701,14 +2701,14 @@ target = 0x0042A45B
 [[units.title-screen-mode-select.relocations]]
 offset = 386
 type = "DIR32"
-symbol = "?g_TitleModeSelection@@3HA"
-target = 0x004A7EA4
+symbol = "?g_GameManager@@3UAsciiGameManagerView@@A"
+target = 0x004A7D90
 
 [[units.title-screen-mode-select.relocations]]
 offset = 415
 type = "DIR32"
-symbol = "?g_TitleModeSelection@@3HA"
-target = 0x004A7EA4
+symbol = "?g_GameManager@@3UAsciiGameManagerView@@A"
+target = 0x004A7D90
 
 [[units.title-screen-mode-select.relocations]]
 offset = 442
@@ -2789,19 +2789,19 @@ relocations = [
   { offset = 0x141, type = "REL32", symbol = "?SaveTitleScoreData@@YIHXZ", target = 0x00421F10 },
   { offset = 0x14B, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x157, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
-  { offset = 0x16B, type = "DIR32", symbol = "?g_TitleNameTableIndex@@3HA", target = 0x004A7EAC },
+  { offset = 0x16B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x17E, type = "DIR32", symbol = "?g_TitleScoreTable@@3PAY144UTitleScoreRecordView@@A", target = 0x004A8380 },
   { offset = 0x184, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
   { offset = 0x189, type = "REL32", symbol = "_strcpy", target = 0x0047C4E0 },
   { offset = 0x19F, type = "DIR32", symbol = "?g_TitleAlphabet@@3PADA", target = 0x004A1CF4 },
-  { offset = 0x1AA, type = "DIR32", symbol = "?g_TitleNameTableIndex@@3HA", target = 0x004A7EAC },
+  { offset = 0x1AA, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x1C3, type = "DIR32", symbol = "?g_TitleScoreTable@@3PAY144UTitleScoreRecordView@@A", target = 0x004A8380 },
   { offset = 0x1CC, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x1E5, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
   { offset = 0x1F6, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
-  { offset = 0x206, type = "DIR32", symbol = "?g_TitleNameTableIndex@@3HA", target = 0x004A7EAC },
+  { offset = 0x206, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x21A, type = "DIR32", symbol = "?g_TitleScoreTable@@3PAY144UTitleScoreRecordView@@A", target = 0x004A8380 },
-  { offset = 0x236, type = "DIR32", symbol = "?g_TitleNameTableIndex@@3HA", target = 0x004A7EAC },
+  { offset = 0x236, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x24B, type = "DIR32", symbol = "?g_TitleScoreTable@@3PAY144UTitleScoreRecordView@@A", target = 0x004A8380 },
   { offset = 0x265, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100 },
   { offset = 0x26A, type = "REL32", symbol = "?StopAudio@Supervisor@@QAEHXZ", target = 0x0042FD30 },
@@ -2816,13 +2816,13 @@ relocations = [
   { offset = 0x2FE, type = "REL32", symbol = "?SetInterruptArray@AnmManager@@QAEXPAUAnmVm@@HF@Z", target = 0x00436DE0 },
   { offset = 0x30A, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x311, type = "REL32", symbol = "?ExecuteScriptArray@AnmManager@@QAEXPAUAnmVm@@H@Z", target = 0x00439560 },
-  { offset = 0x317, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
+  { offset = 0x317, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x326, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
-  { offset = 0x330, type = "DIR32", symbol = "?g_GameSide0Value20@@3HA", target = 0x004A7DB0 },
+  { offset = 0x330, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x342, type = "REL32", symbol = "?SetCharacterCursorInactive@TitleScreenView@@QAEXHHHH@Z", target = 0x0042505F },
   { offset = 0x34A, type = "DIR32", symbol = "?g_TitleScoreRecord@@3UTitleScoreRecordView@@A", target = 0x004AC858 },
   { offset = 0x35D, type = "REL32", symbol = "?InsertIntoTable@TitleScoreRecordView@@QAEHXZ", target = 0x00421800 },
-  { offset = 0x372, type = "DIR32", symbol = "?g_TitleNameTableIndex@@3HA", target = 0x004A7EAC },
+  { offset = 0x372, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x384, type = "DIR32", symbol = "?g_TitleScoreTable@@3PAY144UTitleScoreRecordView@@A", target = 0x004A8380 },
   { offset = 0x389, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
   { offset = 0x38F, type = "REL32", symbol = "_strcpy", target = 0x0047C4E0 },
@@ -7643,14 +7643,14 @@ relocations = [
   { offset = 0x058, type = "REL32", symbol = "??KFloat3@@QBE?AU0@M@Z", target = 0x0040F5A0 },
   { offset = 0x060, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
   { offset = 0x067, type = "REL32", symbol = "??BFloat3@@QAEPAMXZ", target = 0x004343D0 },
-  { offset = 0x072, type = "DIR32", symbol = "?g_PlayerState4MinX@@3MA", target = 0x004A80F0 },
-  { offset = 0x07F, type = "DIR32", symbol = "?g_PlayerState4MinX@@3MA", target = 0x004A80F0 },
-  { offset = 0x089, type = "DIR32", symbol = "?g_PlayerState4Width@@3MA", target = 0x004A80F8 },
-  { offset = 0x08F, type = "DIR32", symbol = "?g_PlayerState4MinX@@3MA", target = 0x004A80F0 },
-  { offset = 0x0A7, type = "DIR32", symbol = "?g_PlayerState4MinY@@3MA", target = 0x004A80F4 },
-  { offset = 0x0B3, type = "DIR32", symbol = "?g_PlayerState4MinY@@3MA", target = 0x004A80F4 },
-  { offset = 0x0BE, type = "DIR32", symbol = "?g_PlayerState4Height@@3MA", target = 0x004A80FC },
-  { offset = 0x0C4, type = "DIR32", symbol = "?g_PlayerState4MinY@@3MA", target = 0x004A80F4 },
+  { offset = 0x072, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x07F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x089, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x08F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x0A7, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x0B3, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x0BE, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x0C4, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x0DC, type = "REL32", symbol = "??BZunTimer@@QAEHXZ", target = 0x00435F00 },
   { offset = 0x12B, type = "DIR32", symbol = "__real@41200000", target = 0x0048E32C },
   { offset = 0x131, type = "DIR32", symbol = "__real@43020000", target = 0x0048EFA0 },
@@ -7687,9 +7687,9 @@ size = 1210
 relocations = [
   { offset = 0x16, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18, addend = 0x0 },
   { offset = 0x1F, type = "REL32", symbol = "?WasPressed@ReplayInputState@@QAEGG@Z", target = 0x00415CD0, addend = 0x0 },
-  { offset = 0x2A, type = "DIR32", symbol = "?g_GameConfiguration@@3PAUGameConfiguration@@A", target = 0x004A7E78, addend = 0x0 },
+  { offset = 0x2A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0xE8 },
   { offset = 0x3D, type = "REL32", symbol = "?IsHeld@ReplayInputState@@QAEGG@Z", target = 0x00415CB0, addend = 0x0 },
-  { offset = 0x48, type = "DIR32", symbol = "?g_GameConfiguration@@3PAUGameConfiguration@@A", target = 0x004A7E78, addend = 0x0 },
+  { offset = 0x48, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0xE8 },
   { offset = 0x63, type = "REL32", symbol = "?IsHeld@ReplayInputState@@QAEGG@Z", target = 0x00415CB0, addend = 0x0 },
   { offset = 0x75, type = "REL32", symbol = "?IsHeld@ReplayInputState@@QAEGG@Z", target = 0x00415CB0, addend = 0x0 },
   { offset = 0x8D, type = "REL32", symbol = "??8ZunTimer@@QAEHH@Z", target = 0x00404950, addend = 0x0 },
@@ -7702,7 +7702,7 @@ relocations = [
   { offset = 0xEA, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500, addend = 0x0 },
   { offset = 0xF3, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0, addend = 0x0 },
   { offset = 0x100, type = "REL32", symbol = "??FZunTimer@@QAEXH@Z", target = 0x00406670, addend = 0x0 },
-  { offset = 0x109, type = "DIR32", symbol = "?g_GameConfiguration@@3PAUGameConfiguration@@A", target = 0x004A7E78, addend = 0x0 },
+  { offset = 0x109, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0xE8 },
   { offset = 0x123, type = "DIR32", symbol = "__real@42c80000", target = 0x0048E3C8, addend = 0x0 },
   { offset = 0x14A, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500, addend = 0x0 },
   { offset = 0x159, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500, addend = 0x0 },
@@ -7766,7 +7766,7 @@ symbol = "?OnUpdate@PlayerLifecycleView@@SIHPAU1@@Z"
 target_address = 0x0041E900
 size = 0x20A
 relocations = [
-  { offset = 0x1, type = "DIR32", symbol = "?g_PlayerUpdateGateFlags@@3IA", target = 0x004A7EC4 },
+  { offset = 0x1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x2D, type = "REL32", symbol = "?UpdateBeforeState@PlayerLifecycleView@@QAEXXZ", target = 0x0041DC20 },
   { offset = 0x34, type = "REL32", symbol = "?GetUpdateState@PlayerLifecycleView@@QAEHXZ", target = 0x00435EC0 },
   { offset = 0x46, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
@@ -8950,7 +8950,7 @@ relocations = [
   { offset = 0x179, type = "DIR32", symbol = "??_C@_0BD@JGJJAHCD@title?1result00?4png?$AA@", target = 0x0048F640 },
   { offset = 0x17F, type = "REL32", symbol = "?PreloadSurface@AnmManager@@QAEHHPBD@Z", target = 0x0043CCD0 },
   { offset = 0x188, type = "DIR32", symbol = "?g_TitleScreen@@3PAUTitleScreenView@@A", target = 0x004AC8C0 },
-  { offset = 0x19A, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
+  { offset = 0x19A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x1A0, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100 },
   { offset = 0x1A8, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100, addend = 0x00000594 },
   { offset = 0x1B3, type = "REL32", symbol = "?LoadMusic@Supervisor@@QAEHH@Z", target = 0x0042FC20 },
@@ -8978,27 +8978,27 @@ relocations = [
   { offset = 0x16, type = "DIR32", symbol = "?g_ScreenEffectCounter@@3HA", target = 0x004AC884 },
   { offset = 0x1B, type = "REL32", symbol = "?Reset@AsciiManager@@QAEXXZ", target = 0x004343E0 },
   { offset = 0x22, type = "REL32", symbol = "?InitializeVms@TitleAsciiManagerView@@QAEXXZ", target = 0x0043D2B0 },
-  { offset = 0x2A, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
+  { offset = 0x2A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x31, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100, addend = 0x000005B8 },
-  { offset = 0x39, type = "DIR32", symbol = "?g_GameSide0Value20@@3HA", target = 0x004A7DB0 },
-  { offset = 0x3F, type = "DIR32", symbol = "?g_GameSide1Value20@@3HA", target = 0x004A7DE8 },
-  { offset = 0x49, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
-  { offset = 0x52, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
+  { offset = 0x39, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x3F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x49, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x52, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x5C, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
   { offset = 0x61, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100 },
   { offset = 0x68, type = "REL32", symbol = "?ClearRecordingFpsWarningState@TitleSupervisorView@@QAEHXZ", target = 0x00423382 },
   { offset = 0x6D, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
-  { offset = 0x7E, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
-  { offset = 0x8C, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
+  { offset = 0x7E, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x8C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x92, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0xB6, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
-  { offset = 0xBE, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
+  { offset = 0xB6, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0xBE, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xE5, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100, addend = 0x00000594 },
-  { offset = 0xEE, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
+  { offset = 0xEE, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x10D, type = "REL32", symbol = "?SetupLoadingVmsAndInitCapture@SupervisorSetupLayout@@QAEXPAUSetupLoadingPosition@@@Z", target = 0x004303C0 },
   { offset = 0x115, type = "REL32", symbol = "?StartEffect@SupervisorStartEffectView@@QAEXH@Z", target = 0x00430500 },
   { offset = 0x126, type = "REL32", symbol = "?SetupLoadingVms@SupervisorLoadingSetupView@@QAEXPAUFloat3@@@Z", target = 0x004302B0 },
-  { offset = 0x12C, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
+  { offset = 0x12C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x133, type = "DIR32", symbol = "?TitleSetupThread@TitleScreenView@@SAXPAX@Z", target = 0x004249E1 },
   { offset = 0x144, type = "REL32", symbol = "?ThreadStart@SupervisorThreadStartView@@QAEHP6GKPAX@Z0@Z", target = 0x00431AE0 },
 ]
@@ -9912,7 +9912,7 @@ symbol = "?RefreshResource@CardAttack@@QAEXXZ"
 target_address = 0x00403D80
 size = 0x0C
 relocations = [
-  { offset = 0x1, type = "DIR32", symbol = "?g_CardAttackResource@@3PAUCardAttackResourceView@@A", target = 0x004A7E38 },
+  { offset = 0x1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 [units.card-attack-added-callback]
@@ -11269,7 +11269,7 @@ target_address = 0x00418270
 size = 0x22
 relocations = [
   { offset = 0x01, type = "REL32", symbol = "?ShouldReleaseStageResources@@YIHXZ", target = 0x00415CF0 },
-  { offset = 0x0A, type = "DIR32", symbol = "?g_GameSide1Value20@@3HA", target = 0x004A7DE8 },
+  { offset = 0x0A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x1B, type = "REL32", symbol = "?ReleaseForSideCount@FrontMessageRuntimeView@@QAEXH@Z", target = 0x00417520 },
 ]
 
@@ -11698,8 +11698,8 @@ relocations = [
   { offset = 0xA2, type = "REL32", symbol = "?CalcItemCollectionCollision@PlayerLifecycleView@@QAEHPAUPlayerPositionView@@0@Z", target = 0x0041BEE0 },
   { offset = 0xC0, type = "DIR32", symbol = "$L66118", target = 0x0041DF50 },
   { offset = 0xCC, type = "REL32", symbol = "?AddRespawnResource@PlayerLifecycleView@@QAEXM@Z", target = 0x0041BC90 },
-  { offset = 0xD7, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0xDC, type = "DIR32", symbol = "?g_PlayerRewardModeValue@@3HA", target = 0x004A7EAC },
+  { offset = 0xD7, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0xDC, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xF8, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0xFD, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
   { offset = 0x109, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
@@ -11712,34 +11712,34 @@ relocations = [
   { offset = 0x149, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
   { offset = 0x15F, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x16B, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
-  { offset = 0x171, type = "DIR32", symbol = "?g_PlayerRewardVelocitySpan@@3MA", target = 0x004A80E8 },
+  { offset = 0x171, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x177, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0x17D, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x183, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
   { offset = 0x18B, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
   { offset = 0x198, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x19D, type = "REL32", symbol = "?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z", target = 0x00404910 },
-  { offset = 0x1B5, type = "DIR32", symbol = "?g_PlayerRewardEffectManager@@3PAUEffectManager@@A", target = 0x004A7E0C },
+  { offset = 0x1B5, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x1C3, type = "REL32", symbol = "?SpawnEffectWithVelocity@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@0HI@Z", target = 0x0040CCC0 },
-  { offset = 0x1D9, type = "DIR32", symbol = "?g_PlayerRewardModeValue@@3HA", target = 0x004A7EAC },
+  { offset = 0x1D9, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x1E5, type = "DIR32", symbol = "$L66119", target = 0x0041DF60 },
-  { offset = 0x1EB, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x1EB, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x1F1, type = "DIR32", symbol = "__real@3d23d70a", target = 0x0048EF8C },
   { offset = 0x1F7, type = "DIR32", symbol = "__real@3f666666", target = 0x0048EF88 },
-  { offset = 0x1FF, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x1FF, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x205, type = "DIR32", symbol = "__real@3d4ccccd", target = 0x0048EF84 },
   { offset = 0x20B, type = "DIR32", symbol = "__real@3f8ccccd", target = 0x0048EF80 },
-  { offset = 0x213, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x213, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x219, type = "DIR32", symbol = "__real@3da3d70a", target = 0x0048EF7C },
   { offset = 0x21F, type = "DIR32", symbol = "__real@3fa66666", target = 0x0048EF78 },
-  { offset = 0x227, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x227, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x22D, type = "DIR32", symbol = "__real@3dcccccd", target = 0x0048E4B0 },
   { offset = 0x233, type = "DIR32", symbol = "__real@3fd9999a", target = 0x0048EF94 },
-  { offset = 0x23B, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x23B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x241, type = "DIR32", symbol = "__real@3da3d70a", target = 0x0048EF7C },
   { offset = 0x247, type = "DIR32", symbol = "__real@3fc00000", target = 0x0048EE84 },
-  { offset = 0x26C, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x272, type = "DIR32", symbol = "?g_PlayerRewardModeValue@@3HA", target = 0x004A7EAC },
+  { offset = 0x26C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x272, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x28B, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x290, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
   { offset = 0x2C3, type = "REL32", symbol = "?ApplyReward@PlayerOwnerStateView@@QAEXPAUPlayerPositionView@@HHHH@Z", target = 0x0041D150 },
@@ -11810,7 +11810,7 @@ target_address = 0x0041CDE0
 size = 0x72
 relocations = [
   { offset = 0x03, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
-  { offset = 0x0F, type = "DIR32", symbol = "?g_PlayerPreloadSides@@3PAUPlayerPreloadSideTailView@@A", target = 0x004A7DB0 },
+  { offset = 0x0F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x17, type = "REL32", symbol = "?GetAnmRawData@PlayerAnmManagerRawView@@QAEPAXH@Z", target = 0x0041BD70 },
   { offset = 0x42, type = "DIR32", symbol = "?g_PlayerResourcePaths@@3PAY05PBDA", target = 0x004A1238 },
   { offset = 0x4B, type = "REL32", symbol = "?PreloadAnm@AnmManager@@QAEPAVAnmLoaded@@HPBD@Z", target = 0x0043C7A0 },
@@ -12163,7 +12163,7 @@ compare_size = 0x604
 relocations = [
   { offset = 0xC, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0xA8 },
   { offset = 0x14, type = "REL32", symbol = "?GetTransitionBlockFlag@FrontFactoryConstructView@@QAEHXZ", target = 0x0040D4F0 },
-  { offset = 0x38, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x38, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x8D, type = "REL32", symbol = "?AddScore@AsciiGameManagerSideView@@QAEXH@Z", target = 0x0040F860 },
   { offset = 0xBC, type = "REL32", symbol = "?StartAttack@CardAttack@@QAEXHHHPBD@Z", target = 0x00403E50 },
   { offset = 0xCB, type = "REL32", symbol = "?FindActiveEnemyBySideCategory@EnemyManagerView@@QAEPAUEnemyView@@H@Z", target = 0x0040F7D0 },
@@ -12171,8 +12171,8 @@ relocations = [
   { offset = 0x139, type = "REL32", symbol = "?StartAttack@CardAttack@@QAEXHHHPBD@Z", target = 0x00403E50 },
   { offset = 0x1D0, type = "DIR32", symbol = "?g_AsciiManager@@3VAsciiManager@@A", target = 0x004CE458 },
   { offset = 0x1D5, type = "REL32", symbol = "?CreateScorePopup@AsciiManager@@QAEXHPAUFloat3@@HK@Z", target = 0x004346A0 },
-  { offset = 0x1E6, type = "DIR32", symbol = "?g_PlayerRewardModeValue@@3HA", target = 0x004A7EAC },
-  { offset = 0x23E, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x1E6, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x23E, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x279, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x27E, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
   { offset = 0x28B, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
@@ -12183,24 +12183,24 @@ relocations = [
   { offset = 0x2B6, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
   { offset = 0x2D5, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x2DA, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
-  { offset = 0x2E0, type = "DIR32", symbol = "?g_PlayerRewardVelocitySpan@@3MA", target = 0x004A80E8 },
+  { offset = 0x2E0, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x2E6, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0x2EC, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x2F2, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
   { offset = 0x2FA, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
   { offset = 0x307, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x30C, type = "REL32", symbol = "?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z", target = 0x00404910 },
-  { offset = 0x329, type = "DIR32", symbol = "?g_PlayerRewardEffectManager@@3PAUEffectManager@@A", target = 0x004A7E0C },
+  { offset = 0x329, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x336, type = "REL32", symbol = "?SpawnEffectWithVelocity@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@0HI@Z", target = 0x0040CCC0 },
   { offset = 0x343, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x348, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
   { offset = 0x352, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x369, type = "REL32", symbol = "?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z", target = 0x00404910 },
   { offset = 0x36F, type = "DIR32", symbol = "__real@3c888889", target = 0x0048E5D4 },
-  { offset = 0x375, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x375, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x37B, type = "DIR32", symbol = "__real@3ada740e", target = 0x0048EF90 },
-  { offset = 0x396, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x3BA, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x396, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x3BA, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x3F4, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x3F9, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
   { offset = 0x406, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
@@ -12211,36 +12211,36 @@ relocations = [
   { offset = 0x431, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
   { offset = 0x450, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x455, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
-  { offset = 0x45B, type = "DIR32", symbol = "?g_PlayerRewardVelocitySpan@@3MA", target = 0x004A80E8 },
+  { offset = 0x45B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x461, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0x467, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x46D, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
   { offset = 0x475, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
   { offset = 0x482, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x487, type = "REL32", symbol = "?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z", target = 0x00404910 },
-  { offset = 0x4A4, type = "DIR32", symbol = "?g_PlayerRewardEffectManager@@3PAUEffectManager@@A", target = 0x004A7E0C },
+  { offset = 0x4A4, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x4AF, type = "REL32", symbol = "?SpawnEffectWithVelocity@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@0HI@Z", target = 0x0040CCC0 },
   { offset = 0x4BC, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x4C1, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
-  { offset = 0x4D8, type = "DIR32", symbol = "?g_PlayerRewardModeValue@@3HA", target = 0x004A7EAC },
+  { offset = 0x4D8, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x4E4, type = "DIR32", symbol = "$L63089", target = 0x0041D740 },
-  { offset = 0x4EA, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x4EA, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x4F0, type = "DIR32", symbol = "__real@3d23d70a", target = 0x0048EF8C },
   { offset = 0x4F6, type = "DIR32", symbol = "__real@3f666666", target = 0x0048EF88 },
-  { offset = 0x4FE, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x4FE, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x504, type = "DIR32", symbol = "__real@3d4ccccd", target = 0x0048EF84 },
   { offset = 0x50A, type = "DIR32", symbol = "__real@3f8ccccd", target = 0x0048EF80 },
-  { offset = 0x512, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x512, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x518, type = "DIR32", symbol = "__real@3da3d70a", target = 0x0048EF7C },
   { offset = 0x51E, type = "DIR32", symbol = "__real@3fa66666", target = 0x0048EF78 },
-  { offset = 0x526, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x526, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x52C, type = "DIR32", symbol = "__real@3de147ae", target = 0x0048EF74 },
   { offset = 0x532, type = "DIR32", symbol = "__real@3fa66666", target = 0x0048EF78 },
-  { offset = 0x53A, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x53A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x540, type = "DIR32", symbol = "__real@3d23d70a", target = 0x0048EF8C },
   { offset = 0x546, type = "DIR32", symbol = "__real@3fcccccd", target = 0x0048EF70 },
-  { offset = 0x55F, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x574, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x55F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x574, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x595, type = "REL32", symbol = "??MZunTimer@@QAEIH@Z", target = 0x00401540 },
   { offset = 0x5A6, type = "REL32", symbol = "??MZunTimer@@QAEIH@Z", target = 0x00401540 },
   { offset = 0x5B7, type = "REL32", symbol = "??MZunTimer@@QAEIH@Z", target = 0x00401540 },
@@ -12476,7 +12476,7 @@ symbol = "?EnemyEclExInstruction0@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView
 target_address = 0x0040C3C0
 size = 0x29
 relocations = [
-  { offset = 0x1C, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x1C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x23, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
 ]
 
@@ -12489,7 +12489,7 @@ symbol = "?EnemyEclExInstruction3@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView
 target_address = 0x0040C440
 size = 0x29
 relocations = [
-  { offset = 0x1C, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x1C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x23, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
 ]
 
@@ -12502,7 +12502,7 @@ symbol = "?EnemyEclExInstruction5@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView
 target_address = 0x0040C470
 size = 0x29
 relocations = [
-  { offset = 0x1C, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x1C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x23, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
 ]
 
@@ -12515,7 +12515,7 @@ symbol = "?EnemyEclExInstruction4@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView
 target_address = 0x0040C4A0
 size = 0x29
 relocations = [
-  { offset = 0x1C, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x1C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x23, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
 ]
 
@@ -12528,7 +12528,7 @@ symbol = "?EnemyEclExInstruction10@@YIXPAUEnemyView@@PAUEnemyEclExInstructionVie
 target_address = 0x0040C4D0
 size = 0x29
 relocations = [
-  { offset = 0x1C, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x1C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x23, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
 ]
 
@@ -12541,7 +12541,7 @@ symbol = "?EnemyEclExInstruction11@@YIXPAUEnemyView@@PAUEnemyEclExInstructionVie
 target_address = 0x0040C500
 size = 0x29
 relocations = [
-  { offset = 0x1C, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x1C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x23, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
 ]
 
@@ -12577,7 +12577,7 @@ symbol = "?EnemyEclExInstruction6@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView
 target_address = 0x0040C770
 size = 0x46
 relocations = [
-  { offset = 0x29, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x29, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x3E, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
 ]
 
@@ -12590,7 +12590,7 @@ symbol = "?EnemyEclExInstruction7@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView
 target_address = 0x0040C7C0
 size = 0x45
 relocations = [
-  { offset = 0x28, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x28, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x3D, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
 ]
 
@@ -12603,7 +12603,7 @@ symbol = "?EnemyEclExInstruction8@@YIXPAUEnemyView@@PAUEnemyEclExInstructionView
 target_address = 0x0040C810
 size = 0x45
 relocations = [
-  { offset = 0x28, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x28, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x3D, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
 ]
 
@@ -12618,15 +12618,15 @@ size = 0xE2
 relocations = [
   { offset = 0x18, type = "REL32", symbol = "?SetPolar2D@@YIXPAUFloat2@@MM@Z", target = 0x00441890 },
   { offset = 0x27, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
-  { offset = 0x40, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x40, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x50, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
   { offset = 0x62, type = "REL32", symbol = "?SetPolar2D@@YIXPAUFloat2@@MM@Z", target = 0x00441890 },
   { offset = 0x6B, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
-  { offset = 0x84, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x84, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x94, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
   { offset = 0xA6, type = "REL32", symbol = "?SetPolar2D@@YIXPAUFloat2@@MM@Z", target = 0x00441890 },
   { offset = 0xAF, type = "REL32", symbol = "??YFloat3@@QAEAAU0@ABU0@@Z", target = 0x00405730 },
-  { offset = 0xC8, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0xC8, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xD8, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
 ]
 
@@ -13762,11 +13762,11 @@ symbol = "?PlayerOwnerRewardCallbackType0@@YIHPAUPlayerOwnerStateView@@PAUPlayer
 target_address = 0x004412E0
 size = 0x65
 relocations = [
-  { offset = 0x06, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x06, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
-  { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x4C, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x4C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 [units.player-owner-reward-callback-type1]
@@ -13778,11 +13778,11 @@ symbol = "?PlayerOwnerRewardCallbackType1@@YIHPAUPlayerOwnerStateView@@PAUPlayer
 target_address = 0x00441B00
 size = 0x64
 relocations = [
-  { offset = 0x06, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x06, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
-  { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x4C, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x4C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 
@@ -13795,11 +13795,11 @@ symbol = "?PlayerOwnerRewardCallbackType2@@YIHPAUPlayerOwnerStateView@@PAUPlayer
 target_address = 0x00442EE0
 size = 0x61
 relocations = [
-  { offset = 0x05, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x05, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
-  { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x48, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x48, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 
@@ -13812,10 +13812,10 @@ symbol = "?PlayerOwnerRewardCallbackType3@@YIHPAUPlayerOwnerStateView@@PAUPlayer
 target_address = 0x00443790
 size = 0x55
 relocations = [
-  { offset = 0x01, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x01, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
-  { offset = 0x3B, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x3B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 
@@ -13828,11 +13828,11 @@ symbol = "?PlayerOwnerRewardCallbackType4@@YIHPAUPlayerOwnerStateView@@PAUPlayer
 target_address = 0x004444F0
 size = 0x65
 relocations = [
-  { offset = 0x06, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x06, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
-  { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x4C, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x4C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 
@@ -13845,11 +13845,11 @@ symbol = "?PlayerOwnerRewardCallbackType5@@YIHPAUPlayerOwnerStateView@@PAUPlayer
 target_address = 0x00445330
 size = 0x66
 relocations = [
-  { offset = 0x01, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x01, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
-  { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x4C, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x4C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 
@@ -13862,11 +13862,11 @@ symbol = "?PlayerOwnerRewardCallbackType6@@YIHPAUPlayerOwnerStateView@@PAUPlayer
 target_address = 0x00445930
 size = 0x65
 relocations = [
-  { offset = 0x01, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x01, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
-  { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x4B, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x4B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 
@@ -13879,11 +13879,11 @@ symbol = "?PlayerOwnerRewardCallbackType7@@YIHPAUPlayerOwnerStateView@@PAUPlayer
 target_address = 0x00445D80
 size = 0x77
 relocations = [
-  { offset = 0x01, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x01, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
-  { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x5D, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x5D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 
@@ -13896,11 +13896,11 @@ symbol = "?PlayerOwnerRewardCallbackType8@@YIHPAUPlayerOwnerStateView@@PAUPlayer
 target_address = 0x00447A80
 size = 0x62
 relocations = [
-  { offset = 0x01, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x01, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
-  { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x48, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x48, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 
@@ -13913,11 +13913,11 @@ symbol = "?PlayerOwnerRewardCallbackType9@@YIHPAUPlayerOwnerStateView@@PAUPlayer
 target_address = 0x00448640
 size = 0x61
 relocations = [
-  { offset = 0x05, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x05, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
-  { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x48, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x48, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 
@@ -13930,11 +13930,11 @@ symbol = "?PlayerOwnerRewardCallbackType10@@YIHPAUPlayerOwnerStateView@@PAUPlaye
 target_address = 0x00449780
 size = 0x65
 relocations = [
-  { offset = 0x05, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x05, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
-  { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x4B, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x4B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 
@@ -13947,11 +13947,11 @@ symbol = "?PlayerOwnerRewardCallbackType11@@YIHPAUPlayerOwnerStateView@@PAUPlaye
 target_address = 0x0044A670
 size = 0x65
 relocations = [
-  { offset = 0x06, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x06, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
-  { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x4C, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x4C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 
@@ -13964,11 +13964,11 @@ symbol = "?PlayerOwnerRewardCallbackType12@@YIHPAUPlayerOwnerStateView@@PAUPlaye
 target_address = 0x0044AF80
 size = 0x65
 relocations = [
-  { offset = 0x05, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x05, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
-  { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x4B, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x4B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 
@@ -13981,11 +13981,11 @@ symbol = "?PlayerOwnerRewardCallbackType13@@YIHPAUPlayerOwnerStateView@@PAUPlaye
 target_address = 0x0044BA80
 size = 0x65
 relocations = [
-  { offset = 0x06, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x06, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
-  { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x4C, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x4C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 
@@ -13998,11 +13998,11 @@ symbol = "?PlayerOwnerRewardCallbackType14@@YIHPAUPlayerOwnerStateView@@PAUPlaye
 target_address = 0x0044C020
 size = 0x65
 relocations = [
-  { offset = 0x01, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x01, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
-  { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x4B, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x4B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 
@@ -14015,11 +14015,11 @@ symbol = "?PlayerOwnerRewardCallbackType15@@YIHPAUPlayerOwnerStateView@@PAUPlaye
 target_address = 0x0044C680
 size = 0x62
 relocations = [
-  { offset = 0x01, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x27, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x01, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x32, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
-  { offset = 0x37, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
-  { offset = 0x48, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x37, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x48, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 [units.player-type11-orientation-sign]
@@ -14522,7 +14522,7 @@ relocations = [
   { offset = 0x3B, type = "DIR32", symbol = "?g_TitleScreen@@3PAUTitleScreenView@@A", target = 0x004AC8C0 },
   { offset = 0x40, type = "REL32", symbol = "_memset", target = 0x0047C390 },
   { offset = 0x48, type = "DIR32", symbol = "?g_Chain@@3VChain@@A", target = 0x004ACFC8 },
-  { offset = 0x4E, type = "DIR32", symbol = "?g_TitleRegistrationByte@@3EA", target = 0x004A7ECC },
+  { offset = 0x4E, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x54, type = "DIR32", symbol = "?TitleCalcCallback@@YIHPAX@Z", target = 0x0042A9CB },
   { offset = 0x61, type = "REL32", symbol = "?CreateElem@Chain@@QAEPAVChainElem@@P6IHPAX@Z@Z", target = 0x0042B300 },
   { offset = 0x75, type = "DIR32", symbol = "?AddedCallback@TitleScreenView@@SIHPAU1@@Z", target = 0x00424D46 },
@@ -14617,7 +14617,7 @@ relocations = [
   { offset = 0xC2, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0xC7, type = "REL32", symbol = "?TakeSnapshot@Supervisor@@QAEHPBD@Z", target = 0x0042F540 },
   { offset = 0xCD, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x5A4 },
-  { offset = 0xD6, type = "DIR32", symbol = "?g_TitleRegistrationByte@@3EA", target = 0x004A7ECC },
+  { offset = 0xD6, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xE0, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100, addend = 0x5A4 },
 ]
 
@@ -14806,10 +14806,10 @@ symbol = "?SelectOpponentSide@FrontFactoryConstructView@@QAEXH@Z"
 target_address = 0x00415D70
 size = 0xDE
 relocations = [
-  { offset = 0x13, type = "DIR32", symbol = "?g_FrontRuntimeValues90@@3PAHA", target = 0x004A7E90 },
-  { offset = 0x1D, type = "DIR32", symbol = "?g_FrontRuntimeValues90@@3PAHA", target = 0x004A7E90, addend = 0x8 },
-  { offset = 0x25, type = "DIR32", symbol = "?g_FrontRuntimeValues90@@3PAHA", target = 0x004A7E90, addend = 0x8 },
-  { offset = 0x2B, type = "DIR32", symbol = "?g_FrontRuntimeValues90@@3PAHA", target = 0x004A7E90, addend = 0x4 },
+  { offset = 0x13, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x1D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x108 },
+  { offset = 0x25, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x108 },
+  { offset = 0x2B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x104 },
   { offset = 0x47, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
   { offset = 0x58, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
   { offset = 0x69, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
@@ -14846,7 +14846,7 @@ relocations = [
   { offset = 0xC6, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
   { offset = 0xD2, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xD7, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
-  { offset = 0xE3, type = "DIR32", symbol = "?g_ExAttackPlayfieldWidth@@3MA", target = 0x004A80E8 },
+  { offset = 0xE3, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xE9, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0xEF, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0xF5, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
@@ -14890,7 +14890,7 @@ relocations = [
   { offset = 0xC6, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
   { offset = 0xD2, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xD7, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
-  { offset = 0xE3, type = "DIR32", symbol = "?g_ExAttackPlayfieldWidth@@3MA", target = 0x004A80E8 },
+  { offset = 0xE3, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xE9, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0xEF, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0xF5, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
@@ -15305,7 +15305,7 @@ relocations = [
   { offset = 0xC6, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
   { offset = 0xD2, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xD7, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
-  { offset = 0xE3, type = "DIR32", symbol = "?g_ExAttackPlayfieldWidth@@3MA", target = 0x004A80E8 },
+  { offset = 0xE3, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xE9, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0xEF, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0xF5, type = "DIR32", symbol = "__real@42800000", target = 0x0048E4A8 },
@@ -15432,7 +15432,7 @@ relocations = [
   { offset = 0xAD, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
   { offset = 0xB9, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xBE, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
-  { offset = 0xCA, type = "DIR32", symbol = "?g_ExAttackPlayfieldWidth@@3MA", target = 0x004A80E8 },
+  { offset = 0xCA, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xD0, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0xD6, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0xDC, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
@@ -15481,7 +15481,7 @@ relocations = [
   { offset = 0xC9, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
   { offset = 0xD5, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xDA, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
-  { offset = 0xE6, type = "DIR32", symbol = "?g_ExAttackPlayfieldWidth@@3MA", target = 0x004A80E8 },
+  { offset = 0xE6, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xEC, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0xF2, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0xF8, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
@@ -15567,7 +15567,7 @@ relocations = [
   { offset = 0xC6, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
   { offset = 0xD2, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xD7, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
-  { offset = 0xE3, type = "DIR32", symbol = "?g_ExAttackPlayfieldWidth@@3MA", target = 0x004A80E8 },
+  { offset = 0xE3, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xE9, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0xEF, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0xF5, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
@@ -15614,7 +15614,7 @@ relocations = [
   { offset = 0xC6, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
   { offset = 0xD2, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xD7, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
-  { offset = 0xE3, type = "DIR32", symbol = "?g_ExAttackPlayfieldWidth@@3MA", target = 0x004A80E8 },
+  { offset = 0xE3, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xE9, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0xEF, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0xF5, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
@@ -15661,7 +15661,7 @@ relocations = [
   { offset = 0xC6, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
   { offset = 0xD2, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xD7, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
-  { offset = 0xE3, type = "DIR32", symbol = "?g_ExAttackPlayfieldWidth@@3MA", target = 0x004A80E8 },
+  { offset = 0xE3, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xE9, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0xEF, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0xF5, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
@@ -15709,7 +15709,7 @@ relocations = [
   { offset = 0xCF, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
   { offset = 0xDB, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xE0, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
-  { offset = 0xEC, type = "DIR32", symbol = "?g_ExAttackPlayfieldWidth@@3MA", target = 0x004A80E8 },
+  { offset = 0xEC, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xF2, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0xF8, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0xFE, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
@@ -16119,7 +16119,7 @@ relocations = [
   { offset = 0xC6, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
   { offset = 0xD2, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xD7, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
-  { offset = 0xE3, type = "DIR32", symbol = "?g_ExAttackPlayfieldWidth@@3MA", target = 0x004A80E8 },
+  { offset = 0xE3, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xE9, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0xEF, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0xF5, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
@@ -16536,7 +16536,7 @@ relocations = [
   { offset = 0x437, type = "DIR32", symbol = "?g_AsciiManager@@3VAsciiManager@@A", target = 0x004CE458 },
   { offset = 0x43C, type = "REL32", symbol = "?AddFormatText@AsciiManager@@QAAXPAUFloat3@@PBDZZ", target = 0x00434330 },
   { offset = 0x445, type = "DIR32", symbol = "__real@41800000", target = 0x0048E470 },
-  { offset = 0x44A, type = "DIR32", symbol = "?g_GameStageValue@@3HA", target = 0x004A7E8C },
+  { offset = 0x44A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x45C, type = "DIR32", symbol = "__real@41100000", target = 0x0048EEAC },
   { offset = 0x46D, type = "DIR32", symbol = "??_C@_03GCLOGFGE@?$CF8d?$AA@", target = 0x0048EEA8 },
   { offset = 0x476, type = "DIR32", symbol = "?g_AsciiManager@@3VAsciiManager@@A", target = 0x004CE458 },
@@ -16550,13 +16550,13 @@ relocations = [
   { offset = 0x4B7, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x4BC, type = "REL32", symbol = "?IsGameMode2@AsciiGameManagerView@@QAEHXZ", target = 0x00415D30 },
   { offset = 0x4D1, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
-  { offset = 0x4D7, type = "DIR32", symbol = "?g_GameTimeFrames@@3HA", target = 0x004A7E60 },
+  { offset = 0x4D7, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x50C, type = "DIR32", symbol = "??_C@_09INHAPJDF@?$CF?42d?3?$CF?42d?$AA@", target = 0x0048EE9C },
   { offset = 0x515, type = "DIR32", symbol = "?g_AsciiManager@@3VAsciiManager@@A", target = 0x004CE458 },
   { offset = 0x51A, type = "REL32", symbol = "?AddFormatText@AsciiManager@@QAAXPAUFloat3@@PBDZZ", target = 0x00434330 },
   { offset = 0x529, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0 },
-  { offset = 0x52F, type = "DIR32", symbol = "?g_GameTimeFrames@@3HA", target = 0x004A7E60 },
-  { offset = 0x55A, type = "DIR32", symbol = "?g_GameStageValue@@3HA", target = 0x004A7E8C },
+  { offset = 0x52F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x55A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x56C, type = "DIR32", symbol = "??_C@_0BD@OIIOMPIJ@STAGE?5?$CFd?5?$CF?42d?3?$CF?42d?$AA@", target = 0x0048EE88 },
   { offset = 0x575, type = "DIR32", symbol = "?g_AsciiManager@@3VAsciiManager@@A", target = 0x004CE458 },
   { offset = 0x57A, type = "REL32", symbol = "?AddFormatText@AsciiManager@@QAAXPAUFloat3@@PBDZZ", target = 0x00434330 },
@@ -18495,7 +18495,7 @@ relocations = [
   { offset = 0x126, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
   { offset = 0x164, type = "REL32", symbol = "?VectorAngle@Th09EclRunControl@@YGMMM@Z", target = 0x00405700 },
   { offset = 0x17B, type = "REL32", symbol = "?SetPolar2D@@YIXPAUFloat2@@MM@Z", target = 0x00441890 },
-  { offset = 0x18A, type = "DIR32", symbol = "?g_ExAttackController@@3PAUExAttackController@@A", target = 0x004A7E3C },
+  { offset = 0x18A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x197, type = "REL32", symbol = "?Spawn@ExAttackController@@QAEPAUExAttackRecord@@HPBUFloat3@@HH@Z", target = 0x004151F0 },
 ]
 
@@ -18624,8 +18624,8 @@ relocations = [
   { offset = 0xE, type = "REL32", symbol = "?GetTransitionBlockFlag@FrontFactoryConstructView@@QAEHXZ", target = 0x0040D4F0 },
   { offset = 0x2C, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
   { offset = 0x31, type = "REL32", symbol = "?PlaySoundPositionedByIdx@SoundPlayer@@QAEXHM@Z", target = 0x0043E380 },
-  { offset = 0x3A, type = "DIR32", symbol = "?g_PlayerDeathCounter@@3HA", target = 0x004A7E48 },
-  { offset = 0x46, type = "DIR32", symbol = "?g_PlayerDeathCounterBonus@@3HA", target = 0x004A7E4C },
+  { offset = 0x3A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x46, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x6E, type = "DIR32", symbol = "__real@43480000", target = 0x0048EEFC },
   { offset = 0x85, type = "DIR32", symbol = "__real@43c80000", target = 0x0048E3C4 },
   { offset = 0x9D, type = "REL32", symbol = "?FindActiveEnemyBySideCategory@EnemyManagerView@@QAEPAUEnemyView@@H@Z", target = 0x0040F7D0 },
@@ -18654,8 +18654,8 @@ relocations = [
   { offset = 0x292, type = "REL32", symbol = "?SetInterrupt@AnmVm@@QAEXF@Z", target = 0x00406790 },
   { offset = 0x2B4, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0xB0 },
   { offset = 0x2B9, type = "REL32", symbol = "?SubtractSaturating@GameManagerValueCCView@@QAEXH@Z", target = 0x00403E30 },
-  { offset = 0x2BE, type = "DIR32", symbol = "?g_PlayerDeathCounter@@3HA", target = 0x004A7E48 },
-  { offset = 0x2D3, type = "DIR32", symbol = "?g_PlayerDeathCounter@@3HA", target = 0x004A7E48 },
+  { offset = 0x2BE, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x2D3, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x2DE, type = "REL32", symbol = "?Reset@PlayerOwnerStateView@@QAEXXZ", target = 0x0041D7E0 },
   { offset = 0x2E6, type = "REL32", symbol = "?Reset@PlayerHeaderStateView@@QAEXXZ", target = 0x0041BDC0 },
 ]
@@ -18801,7 +18801,7 @@ relocations = [
   { offset = 0x824, type = "REL32", symbol = "?IsGameMode2@AsciiGameManagerView@@QAEHXZ", target = 0x00415D30 },
   { offset = 0x830, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x835, type = "REL32", symbol = "?PlayMusic@Supervisor@@QAEHHH@Z", target = 0x00431930 },
-  { offset = 0x840, type = "DIR32", symbol = "?g_FrontMessageSource@@3PAUFrontMessageNeutralSourceView@@A", target = 0x004A7E80 },
+  { offset = 0x840, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x84A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x84F, type = "REL32", symbol = "?PlayMusic@Supervisor@@QAEHHH@Z", target = 0x00431930 },
   { offset = 0x859, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x0000003C },
@@ -18858,11 +18858,11 @@ relocations = [
   { offset = 0xACC, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xAD1, type = "REL32", symbol = "?IsGameMode0@AsciiGameManagerView@@QAEHXZ", target = 0x0040E470 },
   { offset = 0xAE2, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0xAF1, type = "DIR32", symbol = "?g_FrontMode0Done@@3EA", target = 0x004A7ECD },
+  { offset = 0xAF1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xAFC, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xB01, type = "REL32", symbol = "?IsGameMode1@AsciiGameManagerView@@QAEHXZ", target = 0x00404970 },
   { offset = 0xB0B, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0xB1A, type = "DIR32", symbol = "?g_FrontOtherModeDone@@3EA", target = 0x004A7ECE },
+  { offset = 0xB1A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xB24, type = "DIR32", symbol = "$L61990", target = 0x00417043 },
   { offset = 0xB28, type = "DIR32", symbol = "$L62086", target = 0x0041693C },
   { offset = 0xB2C, type = "DIR32", symbol = "$L62111", target = 0x00416A08 },
@@ -19128,10 +19128,10 @@ relocations = [
   { offset = 0x9, type = "REL32", symbol = "?IsGameMode0@AsciiGameManagerView@@QAEHXZ", target = 0x0040E470 },
   { offset = 0x12, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x17, type = "REL32", symbol = "?IsGameMode1@AsciiGameManagerView@@QAEHXZ", target = 0x00404970 },
-  { offset = 0x20, type = "DIR32", symbol = "?g_FrontMessageOverride@@3HA", target = 0x004A7E90 },
-  { offset = 0x29, type = "DIR32", symbol = "?g_FrontMessageSource@@3PAUFrontMessageInitSourceView@@A", target = 0x004A7E80 },
-  { offset = 0x34, type = "DIR32", symbol = "?g_FrontMessageOverride@@3HA", target = 0x004A7E90 },
-  { offset = 0x3E, type = "DIR32", symbol = "?g_FrontMessageSource@@3PAUFrontMessageInitSourceView@@A", target = 0x004A7E80 },
+  { offset = 0x20, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x29, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x34, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x3E, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x57, type = "REL32", symbol = "?Setup@FrontMessageRuntimeView@@QAEXHH@Z", target = 0x00416160 },
 ]
 
@@ -19794,7 +19794,7 @@ relocations = [
   { offset = 0x1AE, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x1C2, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
   { offset = 0x1C8, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
-  { offset = 0x1D4, type = "DIR32", symbol = "?g_GameConfiguration@@3PAUGameConfiguration@@A", target = 0x004A7E78 },
+  { offset = 0x1D4, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x1E3, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x1E8, type = "REL32", symbol = "?IsGameMode0@AsciiGameManagerView@@QAEHXZ", target = 0x0040E470 },
   { offset = 0x1FD, type = "REL32", symbol = "?ExecuteAnmIdx@AnmLoaded@@QAEXPAUAnmVm@@H@Z", target = 0x00401560 },
@@ -19874,9 +19874,9 @@ relocations = [
   { offset = 0xF0, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0xF5, type = "DIR32", symbol = "??_C@_0BC@NIJCKPMF@title?1title00?4png?$AA@", target = 0x0048F654 },
   { offset = 0xFB, type = "REL32", symbol = "?LoadSurface@AnmManager@@QAEHHPBD@Z", target = 0x0043CAE0 },
-  { offset = 0x109, type = "DIR32", symbol = "?g_ReplayManager@@3PAUReplayManagerView@@A", target = 0x004A7E64 },
+  { offset = 0x109, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x10E, type = "REL32", symbol = "?Release@ReplayManagerView@@QAEXXZ", target = 0x00420AD0 },
-  { offset = 0x114, type = "DIR32", symbol = "?g_ReplayManager@@3PAUReplayManagerView@@A", target = 0x004A7E64 },
+  { offset = 0x114, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x131, type = "REL32", symbol = "??2@YAPAXI@Z", target = 0x0047B24E },
   { offset = 0x141, type = "DIR32", symbol = "??0AnmVmView@@QAE@XZ", target = 0x00403A10 },
   { offset = 0x14D, type = "REL32", symbol = "??_H@YGXPAXIHP6EPAX0@Z@Z", target = 0x00401470 },
@@ -19886,15 +19886,15 @@ relocations = [
   { offset = 0x196, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x1A1, type = "REL32", symbol = "?ExecuteScriptArray@AnmManager@@QAEXPAUAnmVm@@H@Z", target = 0x00439560 },
   { offset = 0x1A7, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
-  { offset = 0x1C9, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
-  { offset = 0x1CF, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
+  { offset = 0x1C9, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x1CF, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x1D9, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
   { offset = 0x204, type = "REL32", symbol = "?UpdateMenuSelection@TitleScreenView@@QAEXXZ", target = 0x004276D7 },
-  { offset = 0x20A, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
+  { offset = 0x20A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x216, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
   { offset = 0x21C, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x22F, type = "REL32", symbol = "?SetInterruptArray@AnmManager@@QAEXPAUAnmVm@@HF@Z", target = 0x00436DE0 },
-  { offset = 0x237, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
+  { offset = 0x237, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x24F, type = "DIR32", symbol = "?g_TitleHelpText@@3PAPBDA", target = 0x004A1E3C },
   { offset = 0x26D, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x272, type = "REL32", symbol = "?DrawTitleHelpText@@YAXPAUTitleAnmManagerView@@PAUAnmVmView@@IHPBD@Z", target = 0x0043BE50 },
@@ -19903,36 +19903,36 @@ relocations = [
   { offset = 0x2C1, type = "REL32", symbol = "?UpdateMenuSelection@TitleScreenView@@QAEXXZ", target = 0x004276D7 },
   { offset = 0x2ED, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
   { offset = 0x316, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
-  { offset = 0x335, type = "DIR32", symbol = "?g_DemoReplayIndex@@3EA", target = 0x004A7ECF },
+  { offset = 0x335, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x33F, type = "DIR32", symbol = "?g_DemoReplayPaths@@3PAPBDA", target = 0x004A1CE8 },
-  { offset = 0x345, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
-  { offset = 0x34A, type = "DIR32", symbol = "?g_SelectedReplayPath@@3PADA", target = 0x004A7ED5 },
+  { offset = 0x345, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x34A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x34F, type = "REL32", symbol = "_strcpy", target = 0x0047C4E0 },
-  { offset = 0x354, type = "DIR32", symbol = "?g_DemoReplayIndex@@3EA", target = 0x004A7ECF },
-  { offset = 0x369, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
-  { offset = 0x370, type = "DIR32", symbol = "?g_GameCurrentStage@@3HA", target = 0x004A7E8C },
-  { offset = 0x37A, type = "DIR32", symbol = "?g_GameConfigSelector@@3HA", target = 0x004A7EAC },
-  { offset = 0x380, type = "DIR32", symbol = "?g_GameValueDB8@@3HA", target = 0x004A7DB8 },
-  { offset = 0x386, type = "DIR32", symbol = "?g_GameValueDF0@@3HA", target = 0x004A7DF0 },
+  { offset = 0x354, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x369, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x370, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x37A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x380, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x386, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x390, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x396, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
-  { offset = 0x39C, type = "DIR32", symbol = "?g_DemoReplayIndex@@3EA", target = 0x004A7ECF },
+  { offset = 0x396, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x39C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x3A8, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
   { offset = 0x3C2, type = "DIR32", symbol = "$L64321", target = 0x0042A43B },
-  { offset = 0x3C8, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
+  { offset = 0x3C8, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x3D2, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x3E7, type = "DIR32", symbol = "?g_PlayStatsRecord@@3UPlayStatsRecordView@@A", target = 0x004A8180 },
-  { offset = 0x3F3, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
+  { offset = 0x3F3, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x3FA, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x410, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
-  { offset = 0x41B, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
+  { offset = 0x41B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x425, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
-  { offset = 0x42A, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
+  { offset = 0x42A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x435, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
   { offset = 0x43B, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x44E, type = "REL32", symbol = "?SetInterruptArray@AnmManager@@QAEXPAUAnmVm@@HF@Z", target = 0x00436DE0 },
-  { offset = 0x454, type = "DIR32", symbol = "?g_TitleTransitionCounter0@@3HA", target = 0x004A8108 },
-  { offset = 0x45A, type = "DIR32", symbol = "?g_TitleTransitionCounter1@@3HA", target = 0x004A810C },
+  { offset = 0x454, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x45A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x468, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x475, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x47E, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
@@ -20219,14 +20219,14 @@ relocations = [
   { offset = 0x8D, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x92, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0xA6, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
-  { offset = 0xAB, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
+  { offset = 0xAB, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xC2, type = "REL32", symbol = "?UpdateScreen8Mode0@TitleScreenView@@QAEHXZ", target = 0x004289DB },
   { offset = 0xC9, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0xEB, type = "REL32", symbol = "?UpdateScreen8Mode123@TitleScreenView@@QAEHXZ", target = 0x00425ACB },
   { offset = 0xFD, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
   { offset = 0x104, type = "REL32", symbol = "?OnUpdateCharacterSelect@TitleScreenView@@QAEHXZ", target = 0x004254A7 },
   { offset = 0x10B, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x12C, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
+  { offset = 0x12C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x133, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
   { offset = 0x145, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x163, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
@@ -20244,9 +20244,9 @@ relocations = [
   { offset = 0x229, type = "REL32", symbol = "?SetInterruptArray@AnmManager@@QAEXPAUAnmVm@@HF@Z", target = 0x00436DE0 },
   { offset = 0x235, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x240, type = "REL32", symbol = "?ExecuteScriptArray@AnmManager@@QAEXPAUAnmVm@@H@Z", target = 0x00439560 },
-  { offset = 0x252, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
+  { offset = 0x252, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x27C, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
-  { offset = 0x281, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
+  { offset = 0x281, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x295, type = "REL32", symbol = "?UpdateScreen8Mode123@TitleScreenView@@QAEHXZ", target = 0x00425ACB },
   { offset = 0x29E, type = "REL32", symbol = "?UpdateScreen8Mode0@TitleScreenView@@QAEHXZ", target = 0x004289DB },
   { offset = 0x2A5, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
@@ -20579,41 +20579,41 @@ relocations = [
   { offset = 0x106, type = "DIR32", symbol = "?g_TitleCharacterOrder14@@3PADA", target = 0x004A1D7C },
   { offset = 0x120, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x186, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
-  { offset = 0x190, type = "DIR32", symbol = "?g_GameSide0Value30@@3HA", target = 0x004A7DC0 },
+  { offset = 0x190, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x1AA, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100 },
   { offset = 0x1AF, type = "REL32", symbol = "?StopAudio@Supervisor@@QAEHXZ", target = 0x0042FD30 },
-  { offset = 0x1B8, type = "DIR32", symbol = "?g_GameSide0Value20@@3HA", target = 0x004A7DB0 },
+  { offset = 0x1B8, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x1BD, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
-  { offset = 0x1CA, type = "DIR32", symbol = "?g_GameSide1Value20@@3HA", target = 0x004A7DE8 },
-  { offset = 0x1CF, type = "DIR32", symbol = "?g_GameSide1Value30@@3HA", target = 0x004A7DF8 },
-  { offset = 0x1D5, type = "DIR32", symbol = "?g_GameCurrentStage@@3HA", target = 0x004A7E8C },
-  { offset = 0x1EA, type = "DIR32", symbol = "?g_GameValueDB8@@3HA", target = 0x004A7DB8 },
-  { offset = 0x1F0, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
+  { offset = 0x1CA, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x1CF, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x1D5, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x1EA, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x1F0, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x206, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
   { offset = 0x20F, type = "REL32", symbol = "?IsPressedScrolling@InputView@@QAEGH@Z", target = 0x00423158 },
   { offset = 0x235, type = "REL32", symbol = "?UpdateCharacterSettings@TitleScreenView@@QAEHHH@Z", target = 0x00425163 },
   { offset = 0x241, type = "REL32", symbol = "?IsPressedScrolling@InputView@@QAEGH@Z", target = 0x00423158 },
   { offset = 0x265, type = "REL32", symbol = "?UpdateCharacterSettings@TitleScreenView@@QAEHHH@Z", target = 0x00425163 },
-  { offset = 0x278, type = "DIR32", symbol = "?g_GameValueDB8@@3HA", target = 0x004A7DB8 },
-  { offset = 0x27E, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
-  { offset = 0x285, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
-  { offset = 0x28F, type = "DIR32", symbol = "?g_GameValueDB8@@3HA", target = 0x004A7DB8 },
-  { offset = 0x29B, type = "DIR32", symbol = "?g_GameValueDB8@@3HA", target = 0x004A7DB8 },
-  { offset = 0x2A7, type = "DIR32", symbol = "?g_GameValueDB8@@3HA", target = 0x004A7DB8 },
-  { offset = 0x2AD, type = "DIR32", symbol = "?g_GameValueDF0@@3HA", target = 0x004A7DF0 },
-  { offset = 0x2B3, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
-  { offset = 0x2C0, type = "DIR32", symbol = "?g_GameValueDB8@@3HA", target = 0x004A7DB8 },
-  { offset = 0x2C6, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
-  { offset = 0x2CC, type = "DIR32", symbol = "?g_GameValueDF0@@3HA", target = 0x004A7DF0 },
+  { offset = 0x278, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x27E, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x285, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x28F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x29B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x2A7, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x2AD, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x2B3, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x2C0, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x2C6, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x2CC, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x2D2, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x2D9, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x2DE, type = "DIR32", symbol = "?g_TitleCharacterReturnSelection@@3HA", target = 0x004A7EAC },
-  { offset = 0x2E9, type = "DIR32", symbol = "?g_GameSide0CharacterSetting@@3HA", target = 0x004A8108 },
-  { offset = 0x2F4, type = "DIR32", symbol = "?g_GameSide1CharacterSetting@@3HA", target = 0x004A810C },
+  { offset = 0x2DE, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x2E9, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x2F4, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x301, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
-  { offset = 0x31D, type = "DIR32", symbol = "?g_TitleCharacterReturnSelection@@3HA", target = 0x004A7EAC },
+  { offset = 0x31D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x322, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
-  { offset = 0x32F, type = "DIR32", symbol = "?g_GameSide0Value20@@3HA", target = 0x004A7DB0 },
+  { offset = 0x32F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x34F, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
   { offset = 0x366, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x37B, type = "REL32", symbol = "?SetInterruptArray@AnmManager@@QAEXPAUAnmVm@@HF@Z", target = 0x00436DE0 },
@@ -20626,7 +20626,7 @@ relocations = [
   { offset = 0x3E3, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x00436AC0 },
   { offset = 0x44F, type = "DIR32", symbol = "?g_TitleCharacterOrder14@@3PADA", target = 0x004A1D7C },
   { offset = 0x45E, type = "DIR32", symbol = "?g_TitleCharacterOrder14@@3PADA", target = 0x004A1D7C },
-  { offset = 0x464, type = "DIR32", symbol = "?g_GameSide0Value20@@3HA", target = 0x004A7DB0 },
+  { offset = 0x464, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x46C, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x474, type = "DIR32", symbol = "?g_TitleCharacterOrder14@@3PADA", target = 0x004A1D7C },
   { offset = 0x481, type = "REL32", symbol = "?MoveCharacterCursorMode4@TitleScreenView@@QAEPAXHHPADH@Z", target = 0x004230FF },
@@ -20692,27 +20692,27 @@ relocations = [
   { offset = 0x253, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
   { offset = 0x271, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x2DD, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
-  { offset = 0x2E8, type = "DIR32", symbol = "?g_GameSide0Value30@@3HA", target = 0x004A7DC0 },
-  { offset = 0x2FE, type = "DIR32", symbol = "?g_GameSide1Value30@@3HA", target = 0x004A7DF8 },
-  { offset = 0x303, type = "DIR32", symbol = "?g_GameSide0Value30@@3HA", target = 0x004A7DC0 },
+  { offset = 0x2E8, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x2FE, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x303, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x320, type = "REL32", symbol = "?UpdateCharacterSelectionVisuals@TitleScreenView@@QAEXHHHPAD@Z", target = 0x00425233 },
   { offset = 0x34A, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x3B6, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
-  { offset = 0x3C1, type = "DIR32", symbol = "?g_GameSide1Value30@@3HA", target = 0x004A7DF8 },
-  { offset = 0x3D4, type = "DIR32", symbol = "?g_GameSide0Value30@@3HA", target = 0x004A7DC0 },
-  { offset = 0x3D9, type = "DIR32", symbol = "?g_GameSide1Value30@@3HA", target = 0x004A7DF8 },
-  { offset = 0x3EE, type = "DIR32", symbol = "?g_GameSide0Value20@@3HA", target = 0x004A7DB0 },
-  { offset = 0x3F7, type = "DIR32", symbol = "?g_GameSide1Value20@@3HA", target = 0x004A7DE8 },
-  { offset = 0x402, type = "DIR32", symbol = "?g_GameSide0CharacterSetting@@3HA", target = 0x004A8108 },
-  { offset = 0x412, type = "DIR32", symbol = "?g_GameSide1CharacterSetting@@3HA", target = 0x004A810C },
+  { offset = 0x3C1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x3D4, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x3D9, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x3EE, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x3F7, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x402, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x412, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x417, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x420, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
   { offset = 0x427, type = "REL32", symbol = "?UpdateScreen16@TitleScreenView@@QAEHXZ", target = 0x00426334 },
   { offset = 0x432, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
-  { offset = 0x447, type = "DIR32", symbol = "?g_TitleCharacterReturnSelection@@3HA", target = 0x004A7EAC },
+  { offset = 0x447, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x44C, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
-  { offset = 0x458, type = "DIR32", symbol = "?g_GameSide0Value20@@3HA", target = 0x004A7DB0 },
-  { offset = 0x461, type = "DIR32", symbol = "?g_GameSide1Value20@@3HA", target = 0x004A7DE8 },
+  { offset = 0x458, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x461, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x482, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
   { offset = 0x4A6, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x524, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
@@ -20726,10 +20726,10 @@ relocations = [
   { offset = 0x617, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x00436AC0 },
   { offset = 0x689, type = "DIR32", symbol = "?g_TitleCharacterOrderMode123@@3PADA", target = 0x004A1D8C },
   { offset = 0x698, type = "DIR32", symbol = "?g_TitleCharacterOrderMode123@@3PADA", target = 0x004A1D8C },
-  { offset = 0x69E, type = "DIR32", symbol = "?g_GameSide0Value20@@3HA", target = 0x004A7DB0 },
+  { offset = 0x69E, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x6AA, type = "DIR32", symbol = "?g_TitleCharacterOrderMode123@@3PADA", target = 0x004A1D8C },
   { offset = 0x6B9, type = "DIR32", symbol = "?g_TitleCharacterOrderMode123@@3PADA", target = 0x004A1D8C },
-  { offset = 0x6BF, type = "DIR32", symbol = "?g_GameSide1Value20@@3HA", target = 0x004A7DE8 },
+  { offset = 0x6BF, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x6C8, type = "DIR32", symbol = "?g_TitleCharacterOrderMode123@@3PADA", target = 0x004A1D8C },
   { offset = 0x6D3, type = "REL32", symbol = "?MoveCharacterCursor@TitleScreenView@@QAEPAXHHPADH@Z", target = 0x0042304D },
   { offset = 0x6E1, type = "REL32", symbol = "?MoveCharacterCursor@TitleScreenView@@QAEPAXHHPADH@Z", target = 0x0042304D },
@@ -20739,8 +20739,8 @@ relocations = [
   { offset = 0x7CD, type = "REL32", symbol = "?SetCharacterCursorActive@TitleScreenView@@QAEXHHHH@Z", target = 0x00424EDD },
   { offset = 0x7DD, type = "REL32", symbol = "?SetCharacterCursorActive@TitleScreenView@@QAEXHHHH@Z", target = 0x00424EDD },
   { offset = 0x7ED, type = "REL32", symbol = "?SetCharacterCursorActive@TitleScreenView@@QAEXHHHH@Z", target = 0x00424EDD },
-  { offset = 0x80F, type = "DIR32", symbol = "?g_GameSide0CharacterSetting@@3HA", target = 0x004A8108 },
-  { offset = 0x81D, type = "DIR32", symbol = "?g_GameSide1CharacterSetting@@3HA", target = 0x004A810C },
+  { offset = 0x80F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x81D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x82F, type = "REL32", symbol = "?UpdateCharacterSettings@TitleScreenView@@QAEHHH@Z", target = 0x00425163 },
   { offset = 0x83E, type = "REL32", symbol = "?UpdateCharacterSelectionVisuals@TitleScreenView@@QAEXHHHPAD@Z", target = 0x00425233 },
 ]
@@ -20754,7 +20754,7 @@ symbol = "?UpdateScreen8Mode0@TitleScreenView@@QAEHXZ"
 target_address = 0x004289DB
 size = 2241
 relocations = [
-  { offset = 0x020, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
+  { offset = 0x020, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x028, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
   { offset = 0x038, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x06B, type = "DIR32", symbol = "?g_TitleCharacterOrder@@3PADA", target = 0x004A1E2C },
@@ -20813,28 +20813,28 @@ relocations = [
   { offset = 0x37F, type = "DIR32", symbol = "?g_TitleCharacterOrder@@3PADA", target = 0x004A1E2C },
   { offset = 0x39D, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x406, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
-  { offset = 0x410, type = "DIR32", symbol = "?g_GameSide0Value30@@3HA", target = 0x004A7DC0 },
-  { offset = 0x424, type = "DIR32", symbol = "?g_GameSide1Value30@@3HA", target = 0x004A7DF8 },
-  { offset = 0x42A, type = "DIR32", symbol = "?g_GameSide0Value30@@3HA", target = 0x004A7DC0 },
+  { offset = 0x410, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x424, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x42A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x433, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
   { offset = 0x44E, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x4B7, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
-  { offset = 0x4C1, type = "DIR32", symbol = "?g_GameSide1Value30@@3HA", target = 0x004A7DF8 },
-  { offset = 0x4D7, type = "DIR32", symbol = "?g_GameSide0Value30@@3HA", target = 0x004A7DC0 },
-  { offset = 0x4DC, type = "DIR32", symbol = "?g_GameSide1Value30@@3HA", target = 0x004A7DF8 },
-  { offset = 0x4F1, type = "DIR32", symbol = "?g_GameSide0Value20@@3HA", target = 0x004A7DB0 },
-  { offset = 0x4FA, type = "DIR32", symbol = "?g_GameSide1Value20@@3HA", target = 0x004A7DE8 },
-  { offset = 0x505, type = "DIR32", symbol = "?g_GameSide0CharacterSetting@@3HA", target = 0x004A8108 },
-  { offset = 0x515, type = "DIR32", symbol = "?g_GameSide1CharacterSetting@@3HA", target = 0x004A810C },
+  { offset = 0x4C1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x4D7, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x4DC, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x4F1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x4FA, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x505, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x515, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x51A, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x522, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
   { offset = 0x529, type = "REL32", symbol = "?UpdateScreen16@TitleScreenView@@QAEHXZ", target = 0x00426334 },
   { offset = 0x533, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
   { offset = 0x542, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
-  { offset = 0x556, type = "DIR32", symbol = "?g_TitleCharacterReturnSelection@@3HA", target = 0x004A7EAC },
+  { offset = 0x556, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x55B, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
-  { offset = 0x567, type = "DIR32", symbol = "?g_GameSide0Value20@@3HA", target = 0x004A7DB0 },
-  { offset = 0x570, type = "DIR32", symbol = "?g_GameSide1Value20@@3HA", target = 0x004A7DE8 },
+  { offset = 0x567, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x570, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x57C, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
   { offset = 0x59A, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x5F8, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
@@ -20849,10 +20849,10 @@ relocations = [
   { offset = 0x6FB, type = "REL32", symbol = "?SetSprite@AnmLoaded@@QAEHPAUAnmVm@@H@Z", target = 0x00436AC0 },
   { offset = 0x76C, type = "DIR32", symbol = "?g_TitleCharacterOrder@@3PADA", target = 0x004A1E2C },
   { offset = 0x77B, type = "DIR32", symbol = "?g_TitleCharacterOrder@@3PADA", target = 0x004A1E2C },
-  { offset = 0x781, type = "DIR32", symbol = "?g_GameSide0Value20@@3HA", target = 0x004A7DB0 },
+  { offset = 0x781, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x78E, type = "DIR32", symbol = "?g_TitleCharacterOrder@@3PADA", target = 0x004A1E2C },
   { offset = 0x79D, type = "DIR32", symbol = "?g_TitleCharacterOrder@@3PADA", target = 0x004A1E2C },
-  { offset = 0x7A3, type = "DIR32", symbol = "?g_GameSide1Value20@@3HA", target = 0x004A7DE8 },
+  { offset = 0x7A3, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x7AB, type = "DIR32", symbol = "?g_TitleCharacterOrder@@3PADA", target = 0x004A1E2C },
   { offset = 0x7B7, type = "REL32", symbol = "?MoveCharacterCursor@TitleScreenView@@QAEPAXHHPADH@Z", target = 0x0042304D },
   { offset = 0x7C4, type = "REL32", symbol = "?MoveCharacterCursor@TitleScreenView@@QAEPAXHHPADH@Z", target = 0x0042304D },
@@ -20865,8 +20865,8 @@ relocations = [
   { offset = 0x818, type = "REL32", symbol = "?SetCharacterCursorActive@TitleScreenView@@QAEXHHHH@Z", target = 0x00424EDD },
   { offset = 0x822, type = "DIR32", symbol = "?g_TitleCharacterOrder@@3PADA", target = 0x004A1E2C },
   { offset = 0x82F, type = "REL32", symbol = "?SetCharacterCursorActive@TitleScreenView@@QAEXHHHH@Z", target = 0x00424EDD },
-  { offset = 0x853, type = "DIR32", symbol = "?g_GameSide0CharacterSetting@@3HA", target = 0x004A8108 },
-  { offset = 0x861, type = "DIR32", symbol = "?g_GameSide1CharacterSetting@@3HA", target = 0x004A810C },
+  { offset = 0x853, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x861, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x873, type = "REL32", symbol = "?UpdateCharacterSettings@TitleScreenView@@QAEHHH@Z", target = 0x00425163 },
   { offset = 0x884, type = "REL32", symbol = "?UpdateCharacterSelectionVisuals@TitleScreenView@@QAEXHHHPAD@Z", target = 0x00425233 },
   { offset = 0x896, type = "REL32", symbol = "?UpdateCharacterSelectionVisuals@TitleScreenView@@QAEXHHHPAD@Z", target = 0x00425233 },
@@ -20896,37 +20896,37 @@ relocations = [
   { offset = 0x0A7, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x0AC, type = "DIR32", symbol = "?g_TitleSupervisor@@3UTitleSupervisorView@@A", target = 0x004B3100 },
   { offset = 0x0B1, type = "REL32", symbol = "?StopAudio@Supervisor@@QAEHXZ", target = 0x0042FD30 },
-  { offset = 0x0B7, type = "DIR32", symbol = "?g_GameCurrentStage@@3HA", target = 0x004A7E8C },
-  { offset = 0x0C8, type = "DIR32", symbol = "?g_GameValueDF0@@3HA", target = 0x004A7DF0 },
+  { offset = 0x0B7, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x0C8, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x0D2, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x0DC, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
-  { offset = 0x0EB, type = "DIR32", symbol = "?g_GameValueDF0@@3HA", target = 0x004A7DF0 },
+  { offset = 0x0DC, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x0EB, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x0F1, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x0FA, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
-  { offset = 0x101, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
-  { offset = 0x11A, type = "DIR32", symbol = "?g_GameValueDF0@@3HA", target = 0x004A7DF0 },
-  { offset = 0x126, type = "DIR32", symbol = "?g_GameValueDF0@@3HA", target = 0x004A7DF0 },
-  { offset = 0x134, type = "DIR32", symbol = "?g_GameValueDF0@@3HA", target = 0x004A7DF0 },
-  { offset = 0x13A, type = "DIR32", symbol = "?g_GameValueDB8@@3HA", target = 0x004A7DB8 },
+  { offset = 0x0FA, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x101, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x11A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x126, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x134, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x13A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x140, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x146, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
-  { offset = 0x150, type = "DIR32", symbol = "?g_GameValueDF0@@3HA", target = 0x004A7DF0 },
+  { offset = 0x146, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x150, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x157, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x15D, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
-  { offset = 0x163, type = "DIR32", symbol = "?g_GameValueDB8@@3HA", target = 0x004A7DB8 },
+  { offset = 0x15D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x163, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x16A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x16F, type = "DIR32", symbol = "?g_TitleCharacterReturnSelection@@3HA", target = 0x004A7EAC },
-  { offset = 0x17A, type = "DIR32", symbol = "?g_GameSide0CharacterSetting@@3HA", target = 0x004A8108 },
-  { offset = 0x185, type = "DIR32", symbol = "?g_GameSide1CharacterSetting@@3HA", target = 0x004A810C },
+  { offset = 0x16F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x17A, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x185, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x18E, type = "DIR32", symbol = "?g_TitleScreen16Entries@@3PADA", target = 0x004AC8C4 },
-  { offset = 0x196, type = "DIR32", symbol = "?g_TitleScreen16SelectionResult@@3HA", target = 0x004A7EC8 },
-  { offset = 0x19E, type = "DIR32", symbol = "?g_TitleScreen16SelectionResult@@3HA", target = 0x004A7EC8 },
-  { offset = 0x1AC, type = "DIR32", symbol = "?g_TitleScreen16SelectionResult@@3HA", target = 0x004A7EC8 },
+  { offset = 0x196, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x19E, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x1AC, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x1BB, type = "DIR32", symbol = "?g_TitleScreen16Entries@@3PADA", target = 0x004AC8C4 },
-  { offset = 0x1C0, type = "DIR32", symbol = "?g_TitleScreen16SelectionResult@@3HA", target = 0x004A7EC8 },
+  { offset = 0x1C0, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x1D9, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x1E5, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
-  { offset = 0x1EA, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
+  { offset = 0x1EA, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x202, type = "REL32", symbol = "?UpdateScreen8Mode123@TitleScreenView@@QAEHXZ", target = 0x00425ACB },
   { offset = 0x20E, type = "REL32", symbol = "?UpdateScreen8Mode0@TitleScreenView@@QAEHXZ", target = 0x004289DB },
   { offset = 0x225, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
@@ -20957,32 +20957,32 @@ relocations = [
   { offset = 0x02C, type = "REL32", symbol = "?MoveCursorVertical@TitleScreenView@@QAEHH@Z", target = 0x0042457A },
   { offset = 0x068, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
   { offset = 0x080, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
-  { offset = 0x090, type = "DIR32", symbol = "?g_GameSide0Value20@@3HA", target = 0x004A7DB0 },
-  { offset = 0x096, type = "DIR32", symbol = "?g_GameSide1Value20@@3HA", target = 0x004A7DE8 },
-  { offset = 0x09D, type = "DIR32", symbol = "?g_GameCurrentStage@@3HA", target = 0x004A7E8C },
-  { offset = 0x0B6, type = "DIR32", symbol = "?g_TitleNameTableIndex@@3HA", target = 0x004A7EAC },
-  { offset = 0x0CC, type = "DIR32", symbol = "?g_SelectedReplayPath@@3PADA", target = 0x004A7ED5 },
+  { offset = 0x090, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x096, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x09D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x0B6, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x0CC, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x0D1, type = "REL32", symbol = "_strcpy", target = 0x0047C4E0 },
-  { offset = 0x0D7, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
-  { offset = 0x0F8, type = "DIR32", symbol = "?g_GameValueDF0@@3HA", target = 0x004A7DF0 },
+  { offset = 0x0D7, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x0F8, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x0FE, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x108, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
-  { offset = 0x115, type = "DIR32", symbol = "?g_GameValueDF0@@3HA", target = 0x004A7DF0 },
+  { offset = 0x108, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x115, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x11B, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x125, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
-  { offset = 0x13F, type = "DIR32", symbol = "?g_GameValueDF0@@3HA", target = 0x004A7DF0 },
-  { offset = 0x14B, type = "DIR32", symbol = "?g_GameValueDF0@@3HA", target = 0x004A7DF0 },
-  { offset = 0x151, type = "DIR32", symbol = "?g_GameValueDB8@@3HA", target = 0x004A7DB8 },
+  { offset = 0x125, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x13F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x14B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x151, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x156, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x15B, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
-  { offset = 0x168, type = "DIR32", symbol = "?g_GameValueDF0@@3HA", target = 0x004A7DF0 },
-  { offset = 0x175, type = "DIR32", symbol = "?g_GameValueDF0@@3HA", target = 0x004A7DF0 },
+  { offset = 0x15B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x168, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x175, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x17A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x17F, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
-  { offset = 0x185, type = "DIR32", symbol = "?g_GameValueDB8@@3HA", target = 0x004A7DB8 },
+  { offset = 0x17F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x185, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x19A, type = "REL32", symbol = "_free", target = 0x0047B163 },
   { offset = 0x1AA, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
-  { offset = 0x1AF, type = "DIR32", symbol = "?g_TitleNameTableIndex@@3HA", target = 0x004A7EAC },
+  { offset = 0x1AF, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x1BD, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
   { offset = 0x1C2, type = "REL32", symbol = "?IsPressedScrolling@InputView@@QAEGH@Z", target = 0x00423158 },
   { offset = 0x1CA, type = "DIR32", symbol = "?g_SoundPlayer@@3VSoundPlayer@@A", target = 0x004DC698 },
@@ -21002,7 +21002,7 @@ relocations = [
   { offset = 0x2A4, type = "REL32", symbol = "_free", target = 0x0047B163 },
   { offset = 0x2DA, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x329, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
-  { offset = 0x340, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
+  { offset = 0x340, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x350, type = "DIR32", symbol = "?g_AnmManager@@3PAVAnmManager@@A", target = 0x004DC550 },
   { offset = 0x355, type = "DIR32", symbol = "??_C@_0BD@LOIKDJIG@title?1replay00?4png?$AA@", target = 0x0048F6D4 },
   { offset = 0x35B, type = "REL32", symbol = "?LoadSurface@AnmManager@@QAEHHPBD@Z", target = 0x0043CAE0 },
@@ -21058,7 +21058,7 @@ relocations = [
   { offset = 0x15C, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x16F, type = "DIR32", symbol = "??_C@_0BE@CBKBFBDG@replay?1th9_?$CF?42d?4rpy?$AA@", target = 0x0048FA84 },
   { offset = 0x175, type = "REL32", symbol = "_sprintf", target = 0x0047C47B },
-  { offset = 0x17B, type = "DIR32", symbol = "?g_ReplayManager@@3PAUReplayManagerView@@A", target = 0x004A7E64 },
+  { offset = 0x17B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x190, type = "REL32", symbol = "?SaveReplay@ReplayManagerView@@SIHPAU1@PBD1@Z", target = 0x00420C60 },
   { offset = 0x19C, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
   { offset = 0x1B3, type = "DIR32", symbol = "?g_TitleAlphabet@@3PADA", target = 0x004A1CF4 },
@@ -21105,11 +21105,11 @@ relocations = [
   { offset = 0x489, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x4B1, type = "REL32", symbol = "?PlayMenuSound@TitleScreenView@@QAEHHH@Z", target = 0x00422F17 },
   { offset = 0x4BD, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
-  { offset = 0x4C7, type = "DIR32", symbol = "?g_TitleNameTableIndex@@3HA", target = 0x004A7EAC },
+  { offset = 0x4C7, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x4DA, type = "DIR32", symbol = "?g_TitleScoreTable@@3PAY144UTitleScoreRecordView@@A", target = 0x004A8380 },
   { offset = 0x4E0, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
   { offset = 0x4E5, type = "REL32", symbol = "_strcpy", target = 0x0047C4E0 },
-  { offset = 0x4FE, type = "DIR32", symbol = "?g_TitleGameFlags@@3IA", target = 0x004A7EC4 },
+  { offset = 0x4FE, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x50D, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
   { offset = 0x519, type = "DIR32", symbol = "?g_SupervisorNetworkState@@3PAUSupervisorNetworkState@@A", target = 0x004B42D0 },
   { offset = 0x539, type = "DIR32", symbol = "??_C@_0BJ@KKKKINFL@?4?1replay?1th9_udn?$CF?43d?4rpy?$AA@", target = 0x0048FA68 },
@@ -21117,7 +21117,7 @@ relocations = [
   { offset = 0x54D, type = "REL32", symbol = "?CheckIfFileAlreadyExists@FileSystem@@YIHPBD@Z", target = 0x0042C480 },
   { offset = 0x576, type = "DIR32", symbol = "??_C@_0BJ@KKKKINFL@?4?1replay?1th9_udn?$CF?43d?4rpy?$AA@", target = 0x0048FA68 },
   { offset = 0x57C, type = "REL32", symbol = "_sprintf", target = 0x0047C47B },
-  { offset = 0x582, type = "DIR32", symbol = "?g_ReplayManager@@3PAUReplayManagerView@@A", target = 0x004A7E64 },
+  { offset = 0x582, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x58A, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
   { offset = 0x595, type = "REL32", symbol = "?SaveReplay@ReplayManagerView@@SIHPAU1@PBD1@Z", target = 0x00420C60 },
   { offset = 0x5A1, type = "REL32", symbol = "?ChangeCurrentScreen@TitleScreenView@@QAEHH@Z", target = 0x00422F39 },
@@ -21130,7 +21130,7 @@ relocations = [
   { offset = 0x5FC, type = "REL32", symbol = "?ExecuteScriptArray@AnmManager@@QAEXPAUAnmVm@@H@Z", target = 0x00439560 },
   { offset = 0x607, type = "DIR32", symbol = "?g_LastNameRecord@@3ULastNameRecordView@@A", target = 0x004A8168 },
   { offset = 0x60F, type = "REL32", symbol = "_strcpy", target = 0x0047C4E0 },
-  { offset = 0x622, type = "DIR32", symbol = "?g_GameMode@@3HA", target = 0x004A7EA8 },
+  { offset = 0x622, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x63C, type = "REL32", symbol = "_memset", target = 0x0047C390 },
   { offset = 0x65A, type = "DIR32", symbol = "??_C@_0BG@BOKNDPOO@?4?1replay?1th9_?$CF?42d?4rpy?$AA@", target = 0x0048F6BC },
   { offset = 0x660, type = "REL32", symbol = "_sprintf", target = 0x0047C47B },
@@ -21275,7 +21275,7 @@ relocations = [
   { offset = 0x196, type = "REL32", symbol = "?SetTimingDigits@FrontSide@@QAEHH@Z", target = 0x00418950 },
   { offset = 0x1A6, type = "REL32", symbol = "??EZunTimer@@QAEXH@Z", target = 0x00401510 },
   { offset = 0x1CE, type = "REL32", symbol = "??BZunTimer@@QAEHXZ", target = 0x00435F00 },
-  { offset = 0x1F4, type = "DIR32", symbol = "?g_PlayerDeathCounterBonus@@3HA", target = 0x004A7E4C },
+  { offset = 0x1F4, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x226, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
   { offset = 0x22D, type = "DIR32", symbol = "?g_ReplayInputStates@@3PAUReplayInputState@@A", target = 0x004ACE18 },
   { offset = 0x243, type = "DIR32", symbol = "__real@c2c00000", target = 0x0048E3D8 },
@@ -21424,14 +21424,14 @@ relocations = [
   { offset = 0x36D, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
   { offset = 0x38A, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x38F, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
-  { offset = 0x395, type = "DIR32", symbol = "?g_GameplayRegionWidth@@3MA", target = 0x004A80E8 },
+  { offset = 0x395, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x39B, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0x3A1, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x3A7, type = "DIR32", symbol = "__real@41000000", target = 0x0048E5D8 },
   { offset = 0x3AF, type = "REL32", symbol = "?GetRandomF32SignedInRange@RngRuntimeView@@QAEMM@Z", target = 0x00406200 },
   { offset = 0x3BC, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x3C1, type = "REL32", symbol = "?GetRandomF32InRange@RngRuntimeView@@QAEMM@Z", target = 0x00404910 },
-  { offset = 0x3E1, type = "DIR32", symbol = "?g_SharedEffectManager@@3PAUEffectManager@@A", target = 0x004A7E0C },
+  { offset = 0x3E1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x3EE, type = "REL32", symbol = "?SpawnEffectWithVelocity@EffectManager@@QAEPAUEffect@@HPBUEffectFloat3@@0HI@Z", target = 0x0040CCC0 },
   { offset = 0x3FE, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x403, type = "REL32", symbol = "?SelectSide@Supervisor@@QAEXH@Z", target = 0x00401440 },
@@ -21589,7 +21589,7 @@ relocations = [
   { offset = 0x436, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x43B, type = "REL32", symbol = "?StartLoadedMusic@Supervisor@@QAEHXZ", target = 0x0042FCF0 },
   { offset = 0x440, type = "REL32", symbol = "?CleanupGameplayState@GameManagerSetupLayout@@SIXXZ", target = 0x0041B5C6 },
-  { offset = 0x446, type = "DIR32", symbol = "?g_AsciiMenuConfig@@3PAEA", target = 0x004A7E78 },
+  { offset = 0x446, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x44B, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x451, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x457, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
@@ -21659,7 +21659,7 @@ relocations = [
   { offset = 0x5E, type = "REL32", symbol = "??8ZunTimer@@QAEHH@Z", target = 0x00404950 },
   { offset = 0x6C, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x120 },
   { offset = 0x89, type = "DIR32", symbol = "$L4424", target = 0x00410090 },
-  { offset = 0x8F, type = "DIR32", symbol = "?g_FrontMode0Done@@3EA", target = 0x004A7ECD },
+  { offset = 0x8F, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xCA, type = "REL32", symbol = "?SpawnEnemyRecord@EnemyTimelineSpawnManagerView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHHH@Z", target = 0x0040F1D0 },
   { offset = 0x104, type = "REL32", symbol = "?SpawnEnemyRecord@EnemyTimelineSpawnManagerView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHHH@Z", target = 0x0040F1D0 },
   { offset = 0x148, type = "REL32", symbol = "?SpawnEnemyRecord@EnemyTimelineSpawnManagerView@@QAEPAXHPAUCardAttackSpawnPosition@@HHHHH@Z", target = 0x0040F1D0 },
@@ -21673,7 +21673,7 @@ relocations = [
   { offset = 0x288, type = "REL32", symbol = "??FZunTimer@@QAEXH@Z", target = 0x00406670 },
   { offset = 0x2A5, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x00401500 },
   { offset = 0x392, type = "REL32", symbol = "??MZunTimer@@QAEIH@Z", target = 0x00401540 },
-  { offset = 0x3BC, type = "DIR32", symbol = "?g_EnemyTimelineStep@@3MA", target = 0x004A7E7C },
+  { offset = 0x3BC, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x3C2, type = "REL32", symbol = "??YZunTimer@@QAEXM@Z", target = 0x00406650 },
   { offset = 0x3D0, type = "DIR32", symbol = "$L4268", target = 0x0040FD59 },
   { offset = 0x3D4, type = "DIR32", symbol = "$L4268", target = 0x0040FD59 },
@@ -21734,7 +21734,7 @@ relocations = [
   { offset = 0x295, type = "REL32", symbol = "?IncrementCharacterStat5@PlayStatsRecordView@@QAEXD@Z", target = 0x004158E0 },
   { offset = 0x2B8, type = "DIR32", symbol = "__real@00000000", target = 0x0048E314 },
   { offset = 0x2DA, type = "DIR32", symbol = "?g_OpponentParameterTable@@3PAHA", target = 0x004A1500 },
-  { offset = 0x2EA, type = "DIR32", symbol = "?g_FrontRuntimeValues90@@3PAHA", target = 0x004A7E90 },
+  { offset = 0x2EA, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x311, type = "DIR32", symbol = "?g_OpponentParameterTable@@3PAHA", target = 0x004A1500 },
 ]
 
@@ -22489,11 +22489,11 @@ relocations = [
   { offset = 0x21, type = "REL32", symbol = "??0Float3@@QAE@MMM@Z", target = 0x004010B0, addend = 0x00000000 },
   { offset = 0x40, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0, addend = 0x00000000 },
   { offset = 0x60, type = "REL32", symbol = "??OZunTimer@@QAEIH@Z", target = 0x00403DE0, addend = 0x00000000 },
-  { offset = 0x6D, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44, addend = 0x00000000 },
+  { offset = 0x6D, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0xB4 },
   { offset = 0x85, type = "REL32", symbol = "?HasTickedEvery@ZunTimer@@QAEHH@Z", target = 0x00404920, addend = 0x00000000 },
   { offset = 0x98, type = "REL32", symbol = "??0BulletSpawnDescriptorCtorView@@QAE@XZ", target = 0x0040D500, addend = 0x00000000 },
   { offset = 0xFE, type = "REL32", symbol = "?InstallWaitTransform@BulletSpawnDescriptor@@QAEXHHH@Z", target = 0x00412760, addend = 0x00000000 },
-  { offset = 0x104, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44, addend = 0x00000000 },
+  { offset = 0x104, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0xB4 },
   { offset = 0x110, type = "DIR32", symbol = "__real@39c6980c", target = 0x00491628, addend = 0x00000000 },
   { offset = 0x11C, type = "DIR32", symbol = "__real@3c81b4e8", target = 0x00491624, addend = 0x00000000 },
   { offset = 0x12A, type = "REL32", symbol = "?InstallVectorAccelerationTransform@BulletSpawnDescriptor@@QAEXHHHMM@Z", target = 0x00412730, addend = 0x00000000 },
@@ -23050,15 +23050,15 @@ relocations = [
   { offset = 0x220, type = "REL32", symbol = "?ExecuteScript@AnmManager@@QAEHPAUAnmVm@@@Z", target = 0x436f30 },
   { offset = 0x233, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },
   { offset = 0x238, type = "REL32", symbol = "?IsGameMode0@AsciiGameManagerView@@QAEHXZ", target = 0x40e470 },
-  { offset = 0x24c, type = "DIR32", symbol = "?g_GameStageValue@@3HA", target = 0x4a7e8c },
+  { offset = 0x24c, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x254, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },
   { offset = 0x259, type = "REL32", symbol = "?IsReplayNeutral@AsciiGameManagerView@@QAEHXZ", target = 0x415d20 },
   { offset = 0x268, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x273, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x281, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },
   { offset = 0x286, type = "REL32", symbol = "?IsGameMode1@AsciiGameManagerView@@QAEHXZ", target = 0x404970 },
-  { offset = 0x290, type = "DIR32", symbol = "?g_FrontOtherModeDone@@3EA", target = 0x4a7ece },
-  { offset = 0x29c, type = "DIR32", symbol = "?g_FrontMode0Done@@3EA", target = 0x4a7ecd },
+  { offset = 0x290, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x29c, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x2bb, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },
   { offset = 0x2ce, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },
   { offset = 0x2e2, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },
@@ -23088,13 +23088,13 @@ relocations = [
   { offset = 0x483, type = "DIR32", symbol = "__real@3f800000", target = 0x48e2a4 },
   { offset = 0x48a, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },
   { offset = 0x493, type = "DIR32", symbol = "__real@3f800000", target = 0x48e2a4 },
-  { offset = 0x4af, type = "DIR32", symbol = "?g_NeutralMessageSource@@3PAXA", target = 0x4a7e80 },
+  { offset = 0x4af, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x4bd, type = "REL32", symbol = "?Setup@FrontMessageRuntimeView@@QAEXHH@Z", target = 0x416160 },
-  { offset = 0x4c8, type = "DIR32", symbol = "?g_NeutralMessageSource@@3PAXA", target = 0x4a7e80 },
+  { offset = 0x4c8, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x4d6, type = "REL32", symbol = "?Setup@FrontMessageRuntimeView@@QAEXHH@Z", target = 0x416160 },
-  { offset = 0x4e0, type = "DIR32", symbol = "?g_FrontRuntimeValues90@@3PAHA", target = 0x4a7e90 },
-  { offset = 0x4e6, type = "DIR32", symbol = "?g_FrontRuntimeValues90@@3PAHA", target = 0x4a7e90 },
-  { offset = 0x4ee, type = "DIR32", symbol = "?g_FrontRuntimeValues90@@3PAHA", target = 0x4a7e90 },
+  { offset = 0x4e0, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x4e6, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x4ee, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x4fe, type = "REL32", symbol = "?SetupRandomForSide@FrontMessageRuntimeView@@QAEXH@Z", target = 0x4162d0 },
   { offset = 0x51e, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },
   { offset = 0x523, type = "REL32", symbol = "?BeginAuxTransition@FrontSide@@QAEXXZ", target = 0x415d50 },
@@ -23105,16 +23105,16 @@ relocations = [
   { offset = 0x551, type = "REL32", symbol = "?IsGameMode0@AsciiGameManagerView@@QAEHXZ", target = 0x40e470 },
   { offset = 0x55a, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },
   { offset = 0x55f, type = "REL32", symbol = "?IsGameMode1@AsciiGameManagerView@@QAEHXZ", target = 0x404970 },
-  { offset = 0x569, type = "DIR32", symbol = "?g_FrontRuntimeValues90@@3PAHA", target = 0x4a7e90 },
+  { offset = 0x569, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x573, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x4a7d90 },
-  { offset = 0x57e, type = "DIR32", symbol = "?g_TitleNameTableIndex@@3HA", target = 0x4a7eac },
-  { offset = 0x584, type = "DIR32", symbol = "?g_GameStageValue@@3HA", target = 0x4a7e8c },
+  { offset = 0x57e, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x584, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x593, type = "DIR32", symbol = "?g_OpponentParameterTable@@3PAHA", target = 0x004A1500 },
-  { offset = 0x599, type = "DIR32", symbol = "?g_SelectedOpponentParameter@@3HA", target = 0x4a7df4 },
-  { offset = 0x5a1, type = "DIR32", symbol = "?g_TitleNameTableIndex@@3HA", target = 0x4a7eac },
-  { offset = 0x5a6, type = "DIR32", symbol = "?g_GameStageValue@@3HA", target = 0x4a7e8c },
+  { offset = 0x599, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x5a1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x5a6, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x5b7, type = "DIR32", symbol = "?g_OpponentParameterTable@@3PAHA", target = 0x004A1500 },
-  { offset = 0x5bd, type = "DIR32", symbol = "?g_SelectedOpponentParameter@@3HA", target = 0x4a7df4 },
+  { offset = 0x5bd, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
 ]
 
 
@@ -23322,7 +23322,7 @@ relocations = [
   { offset = 0x2C, type = "REL32", symbol = "?IsGameMode2@AsciiGameManagerView@@QAEHXZ", target = 0x00415D30 },
   { offset = 0x89, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x8E, type = "REL32", symbol = "?ReleaseMusic@Supervisor@@QAEHH@Z", target = 0x0042FD90 },
-  { offset = 0xBF, type = "DIR32", symbol = "?g_FrontMessageSource@@3PAUFrontMessageSourceView@@A", target = 0x004A7E80 },
+  { offset = 0xBF, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xC9, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0xCE, type = "REL32", symbol = "?ReleaseMusic@Supervisor@@QAEHH@Z", target = 0x0042FD90 },
   { offset = 0xDD, type = "DIR32", symbol = "?g_ZunMemory@@3VZunMemory@@A", target = 0x004AD018 },
@@ -23358,7 +23358,7 @@ relocations = [
   { offset = 0x13B, type = "DIR32", symbol = "?g_FrontMessageLoadError@@3QBDB", target = 0x0048EEB4 },
   { offset = 0x140, type = "DIR32", symbol = "?g_GameErrorContext@@3VGameErrorContext@@A", target = 0x004B1020 },
   { offset = 0x145, type = "REL32", symbol = "?Log@GameErrorContext@@QAAPBDPBDZZ", target = 0x0042C5C0 },
-  { offset = 0x177, type = "DIR32", symbol = "?g_FrontMessageSource@@3PAUFrontMessageSourceView@@A", target = 0x004A7E80 },
+  { offset = 0x177, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x181, type = "DIR32", symbol = "?g_Supervisor@@3VSupervisor@@A", target = 0x004B3100 },
   { offset = 0x186, type = "REL32", symbol = "?LoadMusic@Supervisor@@QAEHH@Z", target = 0x0042FC20 },
 ]
@@ -23651,10 +23651,10 @@ relocations = [
   { offset = 0x303, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0xcc },
   { offset = 0x30e, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0x313, type = "REL32", symbol = "?NextU16@RngRuntimeView@@QAEGXZ", target = 0x0042AE20 },
-  { offset = 0x325, type = "DIR32", symbol = "?g_LastSpawnLane@@3HA", target = 0x004A8104 },
+  { offset = 0x325, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x334, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x10 },
   { offset = 0x33c, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0xcc },
-  { offset = 0x35c, type = "DIR32", symbol = "?g_LastSpawnLane@@3HA", target = 0x004A8104 },
+  { offset = 0x35c, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x368, type = "REL32", symbol = "?SpawnEnemyRecord@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HDHHH@Z", target = 0x0040F1D0 },
   { offset = 0x386, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x48 },
   { offset = 0x396, type = "REL32", symbol = "?SpawnEnemyRecord@EnemyManagerCardAttackSpawnView@@QAEPAXHPAUCardAttackSpawnPosition@@HDHHH@Z", target = 0x0040F1D0 },
@@ -23724,7 +23724,7 @@ relocations = [
   { offset = 0xCB, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
   { offset = 0xD7, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xDC, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
-  { offset = 0xE8, type = "DIR32", symbol = "?g_ExAttackPlayfieldWidth@@3MA", target = 0x004A80E8 },
+  { offset = 0xE8, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xEE, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0xF4, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0xFD, type = "DIR32", symbol = "__real@41c00000", target = 0x0048EF10 },
@@ -23792,7 +23792,7 @@ relocations = [
   { offset = 0xCB, type = "REL32", symbol = "?TransformPopupX@AsciiGameManagerView@@QAEMM@Z", target = 0x00401680 },
   { offset = 0xD7, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xDC, type = "REL32", symbol = "?TransformPopupY@AsciiGameManagerView@@QAEMM@Z", target = 0x004016B0 },
-  { offset = 0xE8, type = "DIR32", symbol = "?g_ExAttackPlayfieldWidth@@3MA", target = 0x004A80E8 },
+  { offset = 0xE8, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0xEE, type = "DIR32", symbol = "__real@3f000000", target = 0x00490F54 },
   { offset = 0xF7, type = "DIR32", symbol = "?g_ReplayRng@@3URngRuntimeView@@A", target = 0x004ACE0C },
   { offset = 0xFD, type = "DIR32", symbol = "__real@41c00000", target = 0x0048EF10 },
@@ -24029,7 +24029,7 @@ relocations = [
   { offset = 0x23E, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90, addend = 0x58 },
   { offset = 0x251, type = "DIR32", symbol = "__real@3f6e147b", target = 0x0048E4B8 },
   { offset = 0x26C, type = "DIR32", symbol = "__real@3e99999a", target = 0x0048E4B4 },
-  { offset = 0x278, type = "DIR32", symbol = "?g_PlayerRewardBaseValue@@3HA", target = 0x004A7E44 },
+  { offset = 0x278, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x27E, type = "DIR32", symbol = "__real@3dcccccd", target = 0x0048E4B0 },
   { offset = 0x284, type = "DIR32", symbol = "__real@40400000", target = 0x0048E2A0 },
   { offset = 0x2A9, type = "DIR32", symbol = "__real@3f4ccccd", target = 0x0048E4AC },
@@ -25284,7 +25284,7 @@ relocations = [
   { offset = 0x4B, type = "REL32", symbol = "?OnUpdateModeSelect@TitleScreenView@@QAEHXZ", target = 0x0042A7D1 },
   { offset = 0x57, type = "REL32", symbol = "?OnUpdateDifficultySelect@TitleScreenView@@QAEHXZ", target = 0x0042A45B },
   { offset = 0x60, type = "REL32", symbol = "?OnUpdateCharacterSelect@TitleScreenView@@QAEHXZ", target = 0x004254A7 },
-  { offset = 0x67, type = "DIR32", symbol = "?g_TitleModeSelection@@3HA", target = 0x004A7EA4 },
+  { offset = 0x67, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x7F, type = "REL32", symbol = "?UpdateScreen8Mode0@TitleScreenView@@QAEHXZ", target = 0x004289DB },
   { offset = 0x88, type = "REL32", symbol = "?UpdateScreen8Mode123@TitleScreenView@@QAEHXZ", target = 0x00425ACB },
   { offset = 0x91, type = "REL32", symbol = "?UpdateScreen16@TitleScreenView@@QAEHXZ", target = 0x00426334 },
@@ -25355,9 +25355,9 @@ relocations = [
   { offset = 0x155, type = "DIR32", symbol = "__real@43c80000", target = 0x48e3c4 },
   { offset = 0x16a, type = "REL32", symbol = "?Reset@PlayerOwnerStateView@@QAEXXZ", target = 0x41d7e0 },
   { offset = 0x176, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x401500 },
-  { offset = 0x186, type = "DIR32", symbol = "?g_PlayerAddedSideTable@@3PAHA", target = 0x4a8108 },
-  { offset = 0x191, type = "DIR32", symbol = "?g_PlayerAddedClampValue@@3HA", target = 0x4a7e90 },
-  { offset = 0x1a1, type = "DIR32", symbol = "?g_PlayerAddedModeSelector@@3HA", target = 0x4a7eac },
+  { offset = 0x186, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x191, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
+  { offset = 0x1a1, type = "DIR32", symbol = "?g_GameManager@@3UAsciiGameManagerView@@A", target = 0x004A7D90 },
   { offset = 0x1ad, type = "DIR32", symbol = "$L3007", target = 0x41ede8 },
   { offset = 0x1f6, type = "REL32", symbol = "??4ZunTimer@@QAEXH@Z", target = 0x401500 },
   { offset = 0x20e, type = "REL32", symbol = "?Reset@PlayerHeaderStateView@@QAEXXZ", target = 0x41bdc0 },

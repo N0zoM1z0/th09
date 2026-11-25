@@ -48,7 +48,6 @@ typedef char ExAttackType6NativePlayerAnmAtBC[
     (offsetof(PlayerLifecycleView, header24) +
      offsetof(PlayerHeaderStateView, anmFile98) == 0xBC) ? 1 : -1];
 
-extern int g_PlayerRewardBaseValue;
 
 
 int __fastcall ExAttackUpdateCallbackType6(ExAttackRecord *base)
@@ -69,7 +68,7 @@ int __fastcall ExAttackUpdateCallbackType6(ExAttackRecord *base)
         if (record->timer10 > 20)
         {
             if (record->timer10.HasTickedEvery(
-                    20 - g_PlayerRewardBaseValue / 8))
+                    20 - g_GameManager.valueB4 / 8))
             {
                 BulletSpawnDescriptorCtorView storage;
                 BulletSpawnDescriptor *descriptor = &storage.descriptor;
@@ -86,7 +85,7 @@ int __fastcall ExAttackUpdateCallbackType6(ExAttackRecord *base)
                 descriptor->InstallWaitTransform(0, 0, 80);
                 descriptor->InstallVectorAccelerationTransform(
                     1, 0, 120,
-                    g_PlayerRewardBaseValue * 0.00037878787f +
+                    g_GameManager.valueB4 * 0.00037878787f +
                         0.015833333f,
                     -999.0f);
 

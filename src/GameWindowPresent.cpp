@@ -9,8 +9,8 @@
 #include <stdio.h>
 
 #include <stddef.h>
+#include "GameManagerRuntimeView.hpp"
 
-extern unsigned char g_TitleRegistrationByte;
 
 void ResetRenderState();
 
@@ -48,7 +48,7 @@ void GameWindow::Present()
     }
 
     if (supervisor->screenTransitionCountdown != 0 &&
-        g_TitleRegistrationByte == 0)
+        g_GameManager.inGameMenu == 0)
     {
         // The original D3D reset/transition countdown is a native
         // i386 DWORD. Keep its wrap without a C++ signed-overflow rule.

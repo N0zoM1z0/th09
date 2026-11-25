@@ -16,8 +16,6 @@
 
 // The original side allocation at +0x0C/+0x10/+0x14/+0x18 is the
 // constructed 0x38-byte AsciiGameManagerSideView, not a second side.
-extern int g_PlayerDeathCounter;
-extern int g_PlayerDeathCounterBonus;
 extern RngRuntimeView g_ReplayRng;
 
 void PlayerLifecycleView::EnterDeathState()
@@ -27,9 +25,9 @@ void PlayerLifecycleView::EnterDeathState()
 
     g_SoundPlayer.PlaySoundPositionedByIdx(SOUND_PICHUN, position1B88.x);
 
-    int counterStep = g_PlayerDeathCounter;
+    int counterStep = g_GameManager.valueB8;
     if (selector != 0)
-        counterStep += g_PlayerDeathCounterBonus;
+        counterStep += g_GameManager.valueBC;
 
     if (header24.state84 <= 1)
     {
@@ -116,10 +114,10 @@ void PlayerLifecycleView::EnterDeathState()
 
     reinterpret_cast<GameManagerValueCCView *>(&g_GameManager.valueB0)->
         SubtractSaturating(1500);
-    if (g_PlayerDeathCounter > 4)
-        g_PlayerDeathCounter -= 2;
-    else if (g_PlayerDeathCounter > 2)
-        --g_PlayerDeathCounter;
+    if (g_GameManager.valueB8 > 4)
+        g_GameManager.valueB8 -= 2;
+    else if (g_GameManager.valueB8 > 2)
+        --g_GameManager.valueB8;
 
     ownerState30410.Reset();
     header24.Reset();

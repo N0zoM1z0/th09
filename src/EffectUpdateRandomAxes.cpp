@@ -9,7 +9,6 @@
 
 struct PlayerSharedRuntimeView;
 extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
-extern int g_PlayerRewardBaseValue;
 extern RngRuntimeView g_ReplayRng;
 
 int __fastcall EffectUpdateCallbackType1Type2(Effect *effect)
@@ -80,7 +79,7 @@ int __fastcall EffectUpdateCallbackType1Type2(Effect *effect)
                 descriptor.speed1 *= 0.93f;
             if (descriptor.bulletType == 3)
                 descriptor.speed1 += 0.3f;
-            float maximumSpeed = static_cast<float>(g_PlayerRewardBaseValue) * 0.1f + 3.0f;
+            float maximumSpeed = static_cast<float>(g_GameManager.valueB4) * 0.1f + 3.0f;
             if (descriptor.speed1 >= maximumSpeed)
                 descriptor.speed1 = maximumSpeed;
             else if (descriptor.speed1 < 0.8f)

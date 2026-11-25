@@ -7,7 +7,6 @@
 #include "PlayerLifecycleView.hpp"
 #include "Supervisor.hpp"
 
-extern ExAttackController *g_ExAttackController;
 
 namespace Th09EclRunControl {
 float __stdcall VectorAngle(float y, float x);
@@ -66,7 +65,7 @@ int __fastcall ExAttackInitializeCallbackType3(ExAttackRecord *base)
     SetPolar2D(reinterpret_cast<Float2 *>(&(extra->motion04)), angle, 3.5f);
     extra->state00 = 0;
 
-    g_ExAttackController->Spawn(
+    g_GameManager.exAttackControllerAC->Spawn(
         4,
         reinterpret_cast<const Float3 *>(&spawnPosition),
         record->side08,

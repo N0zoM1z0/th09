@@ -518,19 +518,10 @@ typedef char PlayerRuntimeNativeBulletSpriteDimensions[
      offsetof(AnmLoadedSprite, widthPx) == 0x34 &&
      offsetof(PlayerAnmVmView, loadedSprite) == 0x224) ? 1 : -1];
 
-extern unsigned int g_PlayerUpdateGateFlags;
 extern PlayerPatternConfig g_PlayerPatternConfigs[];
 
 extern RngRuntimeView g_ReplayRng;
-extern EffectManager *g_PlayerRewardEffectManager;
-extern int g_PlayerRewardBaseValue;
-extern int g_PlayerRewardModeValue;
-extern float g_PlayerRewardVelocitySpan;
 
-extern float g_PlayerState4MinX;
-extern float g_PlayerState4MinY;
-extern float g_PlayerState4Width;
-extern float g_PlayerState4Height;
 
 void PlayerLifecycleView::AddRespawnResource(float value)
 {
@@ -720,15 +711,15 @@ static int PlayerCheckState4(PlayerLifecycleView *player)
         // members of the actual Player XYZ rather than indexing a float x.
         Float3 *position = reinterpret_cast<Float3 *>(
             reinterpret_cast<Float3 *>(&player->position1B88)->operator float *());
-        if (position->x < g_PlayerState4MinX)
-            position->x = g_PlayerState4MinX;
-        else if (position->x > g_PlayerState4MinX + g_PlayerState4Width)
-            position->x = g_PlayerState4MinX + g_PlayerState4Width;
+        if (position->x < g_GameManager.coordinate360)
+            position->x = g_GameManager.coordinate360;
+        else if (position->x > g_GameManager.coordinate360 + g_GameManager.coordinate368)
+            position->x = g_GameManager.coordinate360 + g_GameManager.coordinate368;
 
-        if (position->y < g_PlayerState4MinY)
-            position->y = g_PlayerState4MinY;
-        else if (position->y > g_PlayerState4MinY + g_PlayerState4Height)
-            position->y = g_PlayerState4MinY + g_PlayerState4Height;
+        if (position->y < g_GameManager.coordinate364)
+            position->y = g_GameManager.coordinate364;
+        else if (position->y > g_GameManager.coordinate364 + g_GameManager.coordinate36C)
+            position->y = g_GameManager.coordinate364 + g_GameManager.coordinate36C;
 
         int timerCurrent =
             static_cast<int>(*timer);
@@ -792,7 +783,7 @@ static int PlayerUpdateStageC(PlayerLifecycleView *player)
 
 int __fastcall PlayerLifecycleView::OnUpdate(PlayerLifecycleView *player)
 {
-    if ((g_PlayerUpdateGateFlags & 0x1800) != 0)
+    if ((g_GameManager.flags & 0x1800) != 0)
         return 1;
 
     PlayerSideStateView *sideState = player->sideState;
@@ -932,8 +923,8 @@ void PlayerLifecycleView::UpdateBeforeState()
                 break;
             case PLAYER_REWARD_TAIL_OPPONENT_BURST:
                 for (i = 0;
-                     i < g_PlayerRewardBaseValue +
-                             2 * g_PlayerRewardModeValue + 10;
+                     i < g_GameManager.valueB4 +
+                             2 * g_GameManager.difficulty + 10;
                      ++i)
                 {
                     g_Supervisor.SelectSide(sideIndex);
@@ -951,38 +942,38 @@ void PlayerLifecycleView::UpdateBeforeState()
 
                     EffectFloat3 velocity;
                     velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
-                        g_PlayerRewardVelocitySpan * 0.5f - 8.0f);
+                        g_GameManager.coordinate358 * 0.5f - 8.0f);
                     velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
                     velocity.z = 0.0f;
 
                     Effect *effect =
-                        g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
+                        g_GameManager.sharedEffectManager7C->SpawnEffectWithVelocity(
                             sideIndex + 1, &position, &velocity, 1,
                             static_cast<unsigned int>(-1));
                     effect->playerReward.valueA4 = 3;
                     effect->playerReward.valueA6 = 4;
 
-                    switch (g_PlayerRewardModeValue)
+                    switch (g_GameManager.difficulty)
                     {
                     case DIFFICULTY_EASY:
                         effect->playerReward.scale =
-                            g_PlayerRewardBaseValue * 0.04f + 0.9f;
+                            g_GameManager.valueB4 * 0.04f + 0.9f;
                         break;
                     case DIFFICULTY_NORMAL:
                         effect->playerReward.scale =
-                            g_PlayerRewardBaseValue * 0.05f + 1.1f;
+                            g_GameManager.valueB4 * 0.05f + 1.1f;
                         break;
                     case DIFFICULTY_HARD:
                         effect->playerReward.scale =
-                            g_PlayerRewardBaseValue * 0.08f + 1.3f;
+                            g_GameManager.valueB4 * 0.08f + 1.3f;
                         break;
                     case DIFFICULTY_LUNATIC:
                         effect->playerReward.scale =
-                            g_PlayerRewardBaseValue * 0.1f + 1.7f;
+                            g_GameManager.valueB4 * 0.1f + 1.7f;
                         break;
                     case DIFFICULTY_EXTRA:
                         effect->playerReward.scale =
-                            g_PlayerRewardBaseValue * 0.08f + 1.5f;
+                            g_GameManager.valueB4 * 0.08f + 1.5f;
                         break;
                     default:
                         break;

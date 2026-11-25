@@ -109,9 +109,6 @@ typedef char PlayerAddedTailAt30454[
     (offsetof(PlayerAddedStateLayout, tailStates30454) == 0x30454) ? 1 : -1];
 
 typedef char PlayerAddedStartYAt35C[(offsetof(AsciiGameManagerView, coordinate35C)==0x35C)?1:-1];
-extern int g_PlayerAddedSideTable[];
-extern int g_PlayerAddedClampValue;
-extern int g_PlayerAddedModeSelector;
 extern RngRuntimeView g_ReplayRng;
 
 int PlayerCollisionRegionCreateRegionView::Reset()
@@ -194,11 +191,11 @@ void PlayerLifecycleView::InitializeAddedState()
     player->timer1B74 = 0;
     this->scalar30384 = 0.0f;
 
-    this->header24.state84 = g_PlayerAddedSideTable[this->sideIndex];
-    int value = g_PlayerAddedClampValue;
+    this->header24.state84 = g_GameManager.sideSettings378[this->sideIndex];
+    int value = g_GameManager.value100;
     if (value > 2)
         value = 2;
-    switch (g_PlayerAddedModeSelector)
+    switch (g_GameManager.difficulty)
     {
     case DIFFICULTY_EASY:
     case DIFFICULTY_NORMAL:

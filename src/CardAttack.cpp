@@ -18,7 +18,6 @@ struct CardAttackResourceView
 };
 
 extern Chain g_Chain;
-extern CardAttackResourceView *g_CardAttackResource;
 extern unsigned int g_CardAttackInputFlags;
 
 CardAttack::CardAttack()
@@ -27,7 +26,7 @@ CardAttack::CardAttack()
 
 void CardAttack::RefreshResource()
 {
-    this->presentationAnm14 = g_CardAttackResource->anm08;
+    this->presentationAnm14 = g_GameManager.cardAttackResourceA8->anm08;
 }
 
 int CardAttack::OnUpdate(CardAttack *cardAttack)

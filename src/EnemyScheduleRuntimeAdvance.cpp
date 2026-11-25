@@ -82,8 +82,6 @@ typedef char EnemyScheduleAdvanceManagerAt1C[
 typedef char EnemyScheduleAdvanceInstructionAt20[
     (offsetof(EnemyScheduleRuntimeAdvanceOverlay, instruction20) == 0x20) ? 1 : -1];
 
-extern float g_EnemyTimelineStep;
-extern unsigned char g_FrontMode0Done;
 extern RngRuntimeView g_ReplayRng;
 
 // Timeline opcodes 8/10 select the real remote Enemy slots; opcodes
@@ -119,7 +117,7 @@ int EnemyScheduleRuntimeView::Run()
                 switch (instruction->opcode04)
                 {
                 case ENEMY_TIMELINE_OPCODE_MARK_MODE0_DONE:
-                    g_FrontMode0Done = 1;
+                    g_GameManager.menuBlock13D = 1;
                     break;
 
                 case ENEMY_TIMELINE_OPCODE_SPAWN_0:
@@ -335,6 +333,6 @@ finish:
         return 1;
     }
 
-    runtime->timer00 += g_EnemyTimelineStep;
+    runtime->timer00 += g_GameManager.speedEC;
     return 0;
 }

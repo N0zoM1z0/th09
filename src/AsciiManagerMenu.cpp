@@ -16,7 +16,6 @@ typedef char AsciiMenuNativeSupervisorOffsets[
      offsetof(Supervisor, systemTime) == 0x79C) ? 1 : -1];
 
 extern AsciiManager g_AsciiManager;
-extern unsigned char *g_AsciiMenuConfig;
 extern Chain g_Chain;
 extern ChainElem g_AsciiManagerCalcChain;
 extern ChainElem g_AsciiManagerDrawChainLowPrio;

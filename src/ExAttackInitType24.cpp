@@ -37,7 +37,6 @@ struct ExAttackType2InitRecord
 };
 
 extern RngRuntimeView g_ReplayRng;
-extern float g_ExAttackPlayfieldWidth;
 
 int __fastcall ExAttackInitializeCallbackType24(ExAttackRecord *base)
 {

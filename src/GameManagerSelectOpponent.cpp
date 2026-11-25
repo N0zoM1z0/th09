@@ -6,7 +6,6 @@
 #include "GameManagerOpponentSelectionView.hpp"
 
 extern RngRuntimeView g_ReplayRng;
-extern int g_FrontRuntimeValues90[4];
 OpponentSelectionEntry g_OpponentEntries[17] = {
     {   9,   0,   0, 200,   0,   0,   2,  86 },
     {   9,   0,   1, 200,   0,   0,   3,  86 },
@@ -554,7 +553,7 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
         // The target also takes this arm for an unordered float comparison.
         if (state->value14 != 0 || !(state->value00 > 0.0f))
         {
-            int variant = g_FrontRuntimeValues90[0];
+            int variant = g_GameManager.runtimeValues100[0];
             if (variant > 3)
                 variant = 3;
             int index = counterFC + 9 * setupMode11C;

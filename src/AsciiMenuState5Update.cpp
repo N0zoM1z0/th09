@@ -21,7 +21,6 @@ typedef char AsciiState5NativeSupervisorFields[
      offsetof(Supervisor, systemTime) == 0x79C) ? 1 : -1];
 
 extern AsciiManager g_AsciiManager;
-extern unsigned char *g_AsciiMenuConfig;
 
 
 
@@ -166,7 +165,7 @@ int AsciiMenuState5::OnUpdate()
                 g_GameManager.field108 = 0;
                 g_GameManager.field10C = 0;
                 g_GameManager.sides[0].runtime->value00 =
-                    (float)g_AsciiMenuConfig[0xAC] + 2.0f;
+                    (float)g_GameManager.menuConfigE8[0xAC] + 2.0f;
                 g_GameManager.flags |= 0x4000u;
                 return 1;
             } else {

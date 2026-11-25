@@ -92,12 +92,9 @@ struct FrontMessageNeutralSourceView
 
 
 extern AsciiGameManagerView g_GameManager;
-extern FrontMessageNeutralSourceView *g_FrontMessageSource;
 extern Supervisor g_Supervisor;
 extern AnmManager *g_AnmManager;
 extern ScreenEffect *g_TitleFadeReleaseEffect;
-extern unsigned char g_FrontMode0Done;
-extern unsigned char g_FrontOtherModeDone;
 
 static void DecodeFrontMessageString(
     char (&destination)[64],
@@ -517,7 +514,7 @@ int FrontMessageRuntimeView::Update()
                     g_Supervisor.PlayMusic(music, 0);
                 else
                     g_Supervisor.PlayMusic(
-                        g_FrontMessageSource->musicId0C, 0);
+                        g_GameManager.frontMessageNeutralSourceF0->musicId0C, 0);
             }
             break;
         }
@@ -589,7 +586,7 @@ int FrontMessageRuntimeView::Update()
                 if (!mode10)
                     g_Supervisor.curState590 = 3;
                 else
-                    g_FrontMode0Done = 1;
+                    g_GameManager.menuBlock13D = 1;
             }
             else if (g_GameManager.IsGameMode1())
             {
@@ -597,7 +594,7 @@ int FrontMessageRuntimeView::Update()
             }
             else
             {
-                g_FrontOtherModeDone = 1;
+                g_GameManager.menuBlock13E = 1;
             }
             goto run_scripts;
 

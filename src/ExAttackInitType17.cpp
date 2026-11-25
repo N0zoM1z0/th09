@@ -37,7 +37,6 @@ struct ExAttackType17RecordView
 };
 
 extern RngRuntimeView g_ReplayRng;
-extern float g_ExAttackPlayfieldWidth;
 
 int __fastcall ExAttackInitializeCallbackType17(ExAttackRecord *base)
 {
@@ -70,7 +69,7 @@ int __fastcall ExAttackInitializeCallbackType17(ExAttackRecord *base)
 
     extra->spawn40.x =
         g_ReplayRng.GetRandomF32SignedInRange(
-            g_ExAttackPlayfieldWidth * 0.5f - 8.0f);
+            g_GameManager.coordinate358 * 0.5f - 8.0f);
     extra->spawn40.y = g_ReplayRng.GetRandomF32InRange(128.0f);
     extra->spawn40.z = 0.0f;
 

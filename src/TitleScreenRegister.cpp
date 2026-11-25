@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <string.h>
+#include "GameManagerRuntimeView.hpp"
 
 struct TitleFactoryView
 {
@@ -23,7 +24,6 @@ struct TitleScreenView
 };
 
 TitleScreenView *g_TitleScreen;
-extern unsigned char g_TitleRegistrationByte;
 extern Chain g_Chain;
 
 char *g_TitleAlphabet =
@@ -76,7 +76,7 @@ int __fastcall RegisterTitleScreen(int registrationContext)
 
     g_TitleScreen = reinterpret_cast<TitleScreenView *>(title);
     memset(title, 0, sizeof(TitleFactoryView));
-    g_TitleRegistrationByte = 0;
+    g_GameManager.inGameMenu = 0;
     title->registrationContext1B22C = registrationContext;
 
     title->calcChain1B248 =

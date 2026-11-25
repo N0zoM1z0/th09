@@ -3,16 +3,16 @@
 #include "FrontFactoryConstructView.hpp"
 
 #include <stddef.h>
+#include "GameManagerRuntimeView.hpp"
 
-extern int g_FrontRuntimeValues90[4];
 
 void FrontFactoryConstructView::SelectOpponentSide(int sideIndex)
 {
     transitionState11EA8 = 1;
-    ++g_FrontRuntimeValues90[0];
+    ++g_GameManager.runtimeValues100[0];
 
-    int sideCount = ++g_FrontRuntimeValues90[2 + sideIndex];
-    if (sideCount >= g_FrontRuntimeValues90[1])
+    int sideCount = ++g_GameManager.runtimeValues100[2 + sideIndex];
+    if (sideCount >= g_GameManager.runtimeValues100[1])
     {
         frontAnm08->ExecuteAnmIdx(&resultVms10968[0], 60);
         frontAnm08->ExecuteAnmIdx(&resultVms10968[1], 61);

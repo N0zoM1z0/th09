@@ -8,7 +8,6 @@
 
 FrontMessageTableView *g_FrontMessagePrimaryCache = NULL;
 FrontMessageTableView *g_FrontMessageSecondaryCache = NULL;
-extern FrontMessageSourceView *g_FrontMessageSource;
 extern GameErrorContext g_GameErrorContext;
 extern const char g_FrontMessageLoadError[] = "error : \x83\x81\x83\x62\x83\x5A\x81\x5B\x83\x57\x83\x74\x83\x40\x83\x43\x83\x8B %s \x82\xAA\x93\xC7\x82\xDD\x8D\x9E\x82\xDF\x82\xDC\x82\xB9\x82\xF1\x82\xC5\x82\xB5\x82\xBD\r\n"; // error : メッセージファイル %s が読み込めませんでした\r\n
 
@@ -149,7 +148,7 @@ int FrontMessageRuntimeView::LoadForSideCount(
         secondary0C = g_FrontMessageSecondaryCache;
     }
 
-    g_Supervisor.LoadMusic(g_FrontMessageSource->musicId0C);
+    g_Supervisor.LoadMusic(g_GameManager.frontMessageSourceF0->musicId0C);
     return 0;
 
 load_error:

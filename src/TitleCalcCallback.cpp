@@ -5,6 +5,7 @@
 #include "TitleScreenReplayView.hpp"
 #include "TitleScreenStates.hpp"
 #include <stddef.h>
+#include "GameManagerRuntimeView.hpp"
 
 // The original 0x1B388-byte Title owner is now shared by its calc/draw
 // callbacks and all TitleScreen state-machine methods.
@@ -16,7 +17,6 @@ typedef char TitleCalcFullOwnerFields[
      offsetof(TitleScreenView, currentScreen) == 0x1B228 &&
      offsetof(TitleScreenView, chainState) == 0x1B238) ? 1 : -1];
 
-extern int g_TitleModeSelection;
 
 int __fastcall TitleCalcCallback(void *object)
 {
@@ -43,7 +43,7 @@ int __fastcall TitleCalcCallback(void *object)
         result = title->OnUpdateCharacterSelect();
         break;
     case TITLE_SCREEN_MATCH_CHARACTER_SELECT:
-        switch (g_TitleModeSelection)
+        switch (g_GameManager.replayMode114)
         {
         case TITLE_MATCH_MODE_STORY_VS_CPU:
             result = title->UpdateScreen8Mode0();

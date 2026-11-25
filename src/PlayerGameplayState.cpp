@@ -15,7 +15,6 @@
 // other Player and replay owners, not a private game-pattern RNG record.
 extern RngRuntimeView g_ReplayRng;
 // This 0x4A7E4C word is published here and consumed by Player::EnterDeathState.
-extern int g_PlayerDeathCounterBonus;
 
 // Maintained natural reconstruction of the Player gameplay-pattern owner at
 // 0x004049A0.  Exact identifier spelling remains unknown; the exact OnUpdate
@@ -413,7 +412,7 @@ void __fastcall PlayerUpdateSelectorState(void *state)
             header->flags74 |= 2U;
     }
 
-    g_PlayerDeathCounterBonus = config->protocolValue18;
+    g_GameManager.valueBC = config->protocolValue18;
 
     if (static_cast<PlayerLifecycleView *>(header->selfLink78)->scalar30388 >= patternState.distanceThreshold58)
     {

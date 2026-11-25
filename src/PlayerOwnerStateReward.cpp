@@ -17,10 +17,6 @@
 
 
 extern RngRuntimeView g_ReplayRng;
-extern EffectManager *g_PlayerRewardEffectManager;
-extern int g_PlayerRewardBaseValue;
-extern int g_PlayerRewardModeValue;
-extern float g_PlayerRewardVelocitySpan;
 extern AsciiManager g_AsciiManager;
 
 void PlayerOwnerStateView::ApplyReward(
@@ -46,7 +42,7 @@ void PlayerOwnerStateView::ApplyReward(
         static_cast<unsigned int>(value3) +
         static_cast<unsigned int>(static_cast<int>(
             static_cast<unsigned int>(value3) *
-            static_cast<unsigned int>(g_PlayerRewardBaseValue)) / 10));
+            static_cast<unsigned int>(g_GameManager.valueB4)) / 10));
     if (state->value0C % 10 != 0)
         state->value0C = static_cast<int>(
             static_cast<unsigned int>(state->value0C) -
@@ -120,10 +116,10 @@ void PlayerOwnerStateView::ApplyReward(
     EffectFloat3 velocity;
     if (value0 != 0)
     {
-        if (g_PlayerRewardModeValue == 2)
+        if (g_GameManager.difficulty == 2)
             value0 = static_cast<int>(
                 static_cast<unsigned int>(value0) * 5u) / 4;
-        else if (g_PlayerRewardModeValue == 3)
+        else if (g_GameManager.difficulty == 3)
             value0 = static_cast<int>(
                 static_cast<unsigned int>(value0) * 4u) / 3;
 
@@ -140,7 +136,7 @@ void PlayerOwnerStateView::ApplyReward(
 
         while (state->spawnCounter30 >=
                static_cast<int>(60u - static_cast<unsigned int>(
-                   static_cast<int>(3u * static_cast<unsigned int>(g_PlayerRewardBaseValue)) / 2)))
+                   static_cast<int>(3u * static_cast<unsigned int>(g_GameManager.valueB4)) / 2)))
         {
             if (state->playerOwner00->opponentState->enemyManager10->rewardEnemyCount2AC3B8 < 25)
             {
@@ -156,12 +152,12 @@ void PlayerOwnerStateView::ApplyReward(
                     1u - static_cast<unsigned int>(state->playerOwner00->sideIndex)));
 
                 velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
-                    g_PlayerRewardVelocitySpan * 0.5f - 8.0f);
+                    g_GameManager.coordinate358 * 0.5f - 8.0f);
                 velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
                 velocity.z = 0.0f;
 
                 Effect *effect =
-                    g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
+                    g_GameManager.sharedEffectManager7C->SpawnEffectWithVelocity(
                         static_cast<int>(static_cast<unsigned int>(
                             state->playerOwner00->sideIndex) + 3u), &effectPosition, &velocity,
                         1, static_cast<unsigned int>(-1));
@@ -172,13 +168,13 @@ void PlayerOwnerStateView::ApplyReward(
                 effect->playerReward.scale =
                     g_ReplayRng.GetRandomF32InRange(0.5f) *
                         0.016666668f +
-                    g_PlayerRewardBaseValue * 0.0016666667f;
+                    g_GameManager.valueB4 * 0.0016666667f;
                 effect->playerReward.side = static_cast<short>(state->playerOwner00->sideIndex);
             }
 
             state->spawnCounter30 = static_cast<int>(
                 static_cast<unsigned int>(state->spawnCounter30) +
-                2u * static_cast<unsigned int>(g_PlayerRewardBaseValue) - 60u);
+                2u * static_cast<unsigned int>(g_GameManager.valueB4) - 60u);
             state->rewardMeter2C = static_cast<int>(
                 static_cast<unsigned int>(state->rewardMeter2C) - 10u);
             if (state->rewardMeter2C < 0)
@@ -186,7 +182,7 @@ void PlayerOwnerStateView::ApplyReward(
         }
 
         while (state->rewardMeter2C >= static_cast<int>(
-            4u * (30u - static_cast<unsigned int>(g_PlayerRewardBaseValue))))
+            4u * (30u - static_cast<unsigned int>(g_GameManager.valueB4))))
         {
             effectPosition.x =
                 g_GameManager.TransformPopupX(position->x) +
@@ -200,12 +196,12 @@ void PlayerOwnerStateView::ApplyReward(
                 1u - static_cast<unsigned int>(state->playerOwner00->sideIndex)));
 
             velocity.x = g_ReplayRng.GetRandomF32SignedInRange(
-                g_PlayerRewardVelocitySpan * 0.5f - 8.0f);
+                g_GameManager.coordinate358 * 0.5f - 8.0f);
             velocity.y = g_ReplayRng.GetRandomF32InRange(128.0f);
             velocity.z = 0.0f;
 
             Effect *effect =
-                g_PlayerRewardEffectManager->SpawnEffectWithVelocity(
+                g_GameManager.sharedEffectManager7C->SpawnEffectWithVelocity(
                     static_cast<int>(static_cast<unsigned int>(
                         state->playerOwner00->sideIndex) + 1u), &effectPosition, &velocity,
                     1, static_cast<unsigned int>(-1));
@@ -214,27 +210,27 @@ void PlayerOwnerStateView::ApplyReward(
             effect->playerReward.valueA4 = 0;
             effect->playerReward.valueA6 = 4;
 
-            switch (g_PlayerRewardModeValue)
+            switch (g_GameManager.difficulty)
             {
             case DIFFICULTY_EASY:
                 effect->playerReward.scale =
-                    g_PlayerRewardBaseValue * 0.04f + 0.9f;
+                    g_GameManager.valueB4 * 0.04f + 0.9f;
                 break;
             case DIFFICULTY_NORMAL:
                 effect->playerReward.scale =
-                    g_PlayerRewardBaseValue * 0.05f + 1.1f;
+                    g_GameManager.valueB4 * 0.05f + 1.1f;
                 break;
             case DIFFICULTY_HARD:
                 effect->playerReward.scale =
-                    g_PlayerRewardBaseValue * 0.08f + 1.3f;
+                    g_GameManager.valueB4 * 0.08f + 1.3f;
                 break;
             case DIFFICULTY_LUNATIC:
                 effect->playerReward.scale =
-                    g_PlayerRewardBaseValue * 0.11f + 1.3f;
+                    g_GameManager.valueB4 * 0.11f + 1.3f;
                 break;
             case DIFFICULTY_EXTRA:
                 effect->playerReward.scale =
-                    g_PlayerRewardBaseValue * 0.04f + 1.6f;
+                    g_GameManager.valueB4 * 0.04f + 1.6f;
                 break;
             default:
                 break;
@@ -243,7 +239,7 @@ void PlayerOwnerStateView::ApplyReward(
 
             state->rewardMeter2C = static_cast<int>(
                 static_cast<unsigned int>(state->rewardMeter2C) +
-                4u * static_cast<unsigned int>(g_PlayerRewardBaseValue) - 120u);
+                4u * static_cast<unsigned int>(g_GameManager.valueB4) - 120u);
         }
     }
 
