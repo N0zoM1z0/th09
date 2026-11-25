@@ -2,14 +2,19 @@
 #include <stddef.h>
 #include "EffectManager.hpp"
 
-// Reviewed TH09 0x38-byte side with the real EffectManager at +0x0C.
+struct PlayerLifecycleView;
+
+// Reviewed TH09 0x38-byte side with the real Player (+0x04) and EffectManager (+0x0C).
 struct ExAttackGameManagerSideView
 {
-    unsigned char unknown00[0x0C];
+    unsigned char unknown00[0x04];
+    PlayerLifecycleView *player04;
+    unsigned char unknown08[0x04];
     EffectManager *effectManager0C;
     unsigned char unknown10[0x28];
 };
 typedef char ExAttackGameSideSize38[(sizeof(ExAttackGameManagerSideView)==0x38)?1:-1];
+typedef char ExAttackGameSidePlayerAt04[(offsetof(ExAttackGameManagerSideView,player04)==0x04)?1:-1];
 typedef char ExAttackGameSideEffectAt0C[(offsetof(ExAttackGameManagerSideView,effectManager0C)==0x0C)?1:-1];
 typedef char ExAttackEffectManagerAnmAt2D4[(offsetof(EffectManager,effectAnm)==0x2D4)?1:-1];
 

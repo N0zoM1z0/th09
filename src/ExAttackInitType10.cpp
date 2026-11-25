@@ -1,6 +1,8 @@
 #include "RuntimePolarMath.hpp"
 #include "AnmManager.hpp"
+#include "AsciiGameManagerView.hpp"
 #include "ExAttackController.hpp"
+#include "ExAttackRecordRuntimeView.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "Supervisor.hpp"
 
@@ -32,50 +34,6 @@ struct ExAttackType10RecordView
     ExAttackType10Extra *extra34;
 };
 
-struct ExAttackType10AnmOwner
-{
-    unsigned char unknown000[0x2D4];
-    AnmLoaded *anm2D4;
-};
-
-struct ExAttackType10PlayerView
-{
-    unsigned char unknown000[0x1B88];
-    Float3 position1B88;
-};
-
-struct ExAttackType10SideView
-{
-    unsigned char unknown00[0x04];
-    ExAttackType10PlayerView *player04;
-    unsigned char unknown08[0x04];
-    ExAttackType10AnmOwner *anmOwner0C;
-    unsigned char unknown10[0x28];
-};
-
-struct ExAttackType10GameManagerView
-{
-    ExAttackType10SideView sides[2];
-
-    float TransformPopupX(float value);
-    float TransformPopupY(float value);
-};
-
-struct ExAttackType10SideLookupView
-{
-    int unknown00;
-    int opponentSide04;
-    int side08;
-    ExAttackType10SideView *GetSideState();
-};
-
-struct ExAttackType10AllocateView
-{
-    unsigned char bytes[0x38];
-    void AllocateDynamicData(int vmCount, int extraBytes);
-};
-
-extern ExAttackType10GameManagerView g_GameManager;
 extern RngRuntimeView g_ReplayRng;
 
 int __fastcall ExAttackInitializeCallbackType10(ExAttackRecord *base)
@@ -83,11 +41,11 @@ int __fastcall ExAttackInitializeCallbackType10(ExAttackRecord *base)
     ExAttackType10RecordView *record =
         reinterpret_cast<ExAttackType10RecordView *>(base);
 
-    reinterpret_cast<ExAttackType10AllocateView *>(record)
+    reinterpret_cast<ExAttackAllocateRecordView *>(record)
         ->AllocateDynamicData(1, sizeof(ExAttackType10Extra));
 
-    reinterpret_cast<ExAttackType10SideLookupView *>(record)
-        ->GetSideState()->anmOwner0C->anm2D4->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackRecordSideView *>(record)
+        ->GetSideState()->effectManager0C->effectAnm->ExecuteAnmIdx(
             reinterpret_cast<AnmVm *>(record->dynamicData1C), 37);
 
     ExAttackType10Extra *extra = record->extra34;

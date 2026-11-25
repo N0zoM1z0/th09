@@ -2,6 +2,7 @@
 #include "AnmManager.hpp"
 #include "RuntimeAngleMath.hpp"
 #include "BulletManager.hpp"
+#include "BulletSpawnDescriptorCtorView.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackInterpolation.hpp"
 #include "ExAttackType8GameManagerView.hpp"
@@ -41,28 +42,6 @@ struct ExAttackType7UpdateRecord
     float rotation3C;
 };
 
-struct ExAttackType7InterruptView
-{
-    void SetInterrupt(short interrupt);
-};
-
-struct ExAttackType7PlayerAnmView
-{
-    unsigned char unknown000[0xBC];
-    AnmLoaded *anmFileBC;
-};
-
-struct ExAttackType7BulletDescriptorStorage
-{
-    unsigned char storage[0x214];
-    ExAttackType7BulletDescriptorStorage();
-};
-
-typedef char ExAttackType7BulletDescriptorStorageSizeIs214[
-    (sizeof(ExAttackType7BulletDescriptorStorage) == 0x214) ? 1 : -1];
-
-
-
 int __fastcall ExAttackUpdateCallbackType7(ExAttackRecord *base)
 {
     ExAttackType7UpdateRecord *record =
@@ -87,9 +66,8 @@ int __fastcall ExAttackUpdateCallbackType7(ExAttackRecord *base)
                     extra->angle0C, 0.10471976f);
                 extra->angle0C = bulletAngle;
 
-                ExAttackType7BulletDescriptorStorage storage;
-                BulletSpawnDescriptor *descriptor =
-                    reinterpret_cast<BulletSpawnDescriptor *>(&storage);
+                BulletSpawnDescriptorCtorView storage;
+                BulletSpawnDescriptor *descriptor = &storage.descriptor;
 
                 descriptor->position = record->position20;
                 descriptor->bulletType = 6;
@@ -143,7 +121,7 @@ int __fastcall ExAttackUpdateCallbackType7(ExAttackRecord *base)
             {
                 extra->state00 = 2;
                 record->timer10 = 0;
-                reinterpret_cast<ExAttackType7InterruptView *>(
+                reinterpret_cast<AnmVm *>(
                     record->dynamicData1C)->SetInterrupt(1);
             }
             else
@@ -177,9 +155,8 @@ int __fastcall ExAttackUpdateCallbackType7(ExAttackRecord *base)
 
         if (record->timer10 > 90)
         {
-            reinterpret_cast<ExAttackType7PlayerAnmView *>(
-                g_GameManager.sides[record->side08].player04)
-                ->anmFileBC->ExecuteAnmIdx(
+            g_GameManager.sides[record->side08].player04
+                ->header24.anmFile98->ExecuteAnmIdx(
                     reinterpret_cast<AnmVm *>(record->dynamicData1C),
                     9);
             ++extra->state00;

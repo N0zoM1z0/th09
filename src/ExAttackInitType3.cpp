@@ -1,48 +1,12 @@
 #include "RuntimePolarMath.hpp"
 #include "AnmManager.hpp"
+#include "AsciiGameManagerView.hpp"
 #include "ExAttackController.hpp"
+#include "ExAttackRecordRuntimeView.hpp"
 #include "ExAttackType3DataView.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "Supervisor.hpp"
 
-struct ExAttackType3PlayerView
-{
-    unsigned char unknown000[0xBC];
-    AnmLoaded *anmFileBC;
-    unsigned char unknown0C0[0x1B88 - 0x0C0];
-    Float3 position1B88;
-};
-
-struct ExAttackType3SideView
-{
-    unsigned char unknown00[0x04];
-    ExAttackType3PlayerView *player04;
-    unsigned char unknown08[0x30];
-};
-
-struct ExAttackType3GameManagerView
-{
-    ExAttackType3SideView sides[2];
-
-    float TransformPopupX(float value);
-    float TransformPopupY(float value);
-};
-
-struct ExAttackType3SideLookupView
-{
-    int unknown00;
-    int opponentSide04;
-    int side08;
-    ExAttackType3SideView *GetSideState();
-};
-
-struct ExAttackType3AllocateView
-{
-    unsigned char bytes[0x38];
-    void AllocateDynamicData(int vmCount, int extraBytes);
-};
-
-extern ExAttackType3GameManagerView g_GameManager;
 extern ExAttackController *g_ExAttackController;
 
 namespace Th09EclRunControl {
@@ -54,29 +18,29 @@ int __fastcall ExAttackInitializeCallbackType3(ExAttackRecord *base)
     ExAttackType3RecordView *record =
         reinterpret_cast<ExAttackType3RecordView *>(base);
 
-    reinterpret_cast<ExAttackType3AllocateView *>(record)
+    reinterpret_cast<ExAttackAllocateRecordView *>(record)
         ->AllocateDynamicData(5, sizeof(ExAttackType3Extra));
 
     ExAttackType3Extra *extra = record->extra34;
 
-    reinterpret_cast<ExAttackType3SideLookupView *>(record)
-        ->GetSideState()->player04->anmFileBC->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackRecordSideView *>(record)
+        ->GetSideState()->player04->header24.anmFile98->ExecuteAnmIdx(
             record->vms1C + 0, 9);
-    reinterpret_cast<ExAttackType3SideLookupView *>(record)
-        ->GetSideState()->player04->anmFileBC->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackRecordSideView *>(record)
+        ->GetSideState()->player04->header24.anmFile98->ExecuteAnmIdx(
             record->vms1C + 1, 10);
-    reinterpret_cast<ExAttackType3SideLookupView *>(record)
-        ->GetSideState()->player04->anmFileBC->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackRecordSideView *>(record)
+        ->GetSideState()->player04->header24.anmFile98->ExecuteAnmIdx(
             record->vms1C + 2, 11);
-    reinterpret_cast<ExAttackType3SideLookupView *>(record)
-        ->GetSideState()->player04->anmFileBC->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackRecordSideView *>(record)
+        ->GetSideState()->player04->header24.anmFile98->ExecuteAnmIdx(
             record->vms1C + 3, 12);
-    reinterpret_cast<ExAttackType3SideLookupView *>(record)
-        ->GetSideState()->player04->anmFileBC->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackRecordSideView *>(record)
+        ->GetSideState()->player04->header24.anmFile98->ExecuteAnmIdx(
             record->vms1C + 4, 13);
 
     g_Supervisor.SelectSide(record->opponentSide04);
-    ExAttackType3PlayerView *opponent =
+    PlayerLifecycleView *opponent =
         g_GameManager.sides[record->opponentSide04].player04;
     ExAttackVec3 opponentPosition;
     opponentPosition.x =

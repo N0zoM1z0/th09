@@ -2,6 +2,7 @@
 #include "AnmManager.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "ExAttackController.hpp"
+#include "ExAttackRecordRuntimeView.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "Supervisor.hpp"
 
@@ -33,33 +34,6 @@ struct ExAttackType16RecordView
     ExAttackType16Extra *extra34;
 };
 
-struct ExAttackType16AnmOwner
-{
-    unsigned char unknown000[0x2D4];
-    AnmLoaded *anm2D4;
-};
-
-struct ExAttackType16SideView
-{
-    unsigned char unknown00[0x0C];
-    ExAttackType16AnmOwner *anmOwner0C;
-    unsigned char unknown10[0x28];
-};
-
-struct ExAttackType16SideLookupView
-{
-    int unknown00;
-    int opponentSide04;
-    int side08;
-    ExAttackType16SideView *GetSideState();
-};
-
-struct ExAttackType16AllocateView
-{
-    unsigned char bytes[0x38];
-    void AllocateDynamicData(int vmCount, int extraBytes);
-};
-
 extern RngRuntimeView g_ReplayRng;
 extern float g_ExAttackPlayfieldWidth;
 
@@ -68,11 +42,11 @@ int __fastcall ExAttackInitializeCallbackType16(ExAttackRecord *base)
     ExAttackType16RecordView *record =
         reinterpret_cast<ExAttackType16RecordView *>(base);
 
-    reinterpret_cast<ExAttackType16AllocateView *>(record)
+    reinterpret_cast<ExAttackAllocateRecordView *>(record)
         ->AllocateDynamicData(1, sizeof(ExAttackType16Extra));
 
-    reinterpret_cast<ExAttackType16SideLookupView *>(record)
-        ->GetSideState()->anmOwner0C->anm2D4->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackRecordSideView *>(record)
+        ->GetSideState()->effectManager0C->effectAnm->ExecuteAnmIdx(
             reinterpret_cast<AnmVm *>(record->dynamicData1C), 37);
 
     ExAttackType16Extra *extra = record->extra34;
@@ -112,11 +86,11 @@ int __fastcall ExAttackInitializeCallbackType23(ExAttackRecord *base)
     ExAttackType16RecordView *record =
         reinterpret_cast<ExAttackType16RecordView *>(base);
 
-    reinterpret_cast<ExAttackType16AllocateView *>(record)
+    reinterpret_cast<ExAttackAllocateRecordView *>(record)
         ->AllocateDynamicData(1, sizeof(ExAttackType16Extra));
 
-    reinterpret_cast<ExAttackType16SideLookupView *>(record)
-        ->GetSideState()->anmOwner0C->anm2D4->ExecuteAnmIdx(
+    reinterpret_cast<ExAttackRecordSideView *>(record)
+        ->GetSideState()->effectManager0C->effectAnm->ExecuteAnmIdx(
             reinterpret_cast<AnmVm *>(record->dynamicData1C), 37);
 
     ExAttackType16Extra *extra = record->extra34;

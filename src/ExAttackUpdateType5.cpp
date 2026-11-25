@@ -3,6 +3,7 @@
 #include "ExAttackController.hpp"
 #include "ExAttackInterpolation.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "GameManagerRuntimeView.hpp"
 
 struct ExAttackType5UpdateExtra
 {
@@ -30,37 +31,7 @@ struct ExAttackType5UpdateRecord
     ExAttackType5UpdateExtra *extra34;
 };
 
-struct ExAttackType5InterruptView
-{
-    void SetInterrupt(short interrupt);
-};
-
-struct ExAttackType5PlayerView
-{
-    unsigned char unknown000[0xBC];
-    AnmLoaded *anmFileBC;
-    unsigned char unknown0C0[0x36C - 0xC0];
-    PlayerCollisionQueryStateView collisionQuery36C;
-
-    int CheckBulletCollision(
-        PlayerPositionView *position,
-        PlayerPositionView *collisionSize,
-        Bullet *bullet);
-};
-
-struct ExAttackType5SideView
-{
-    unsigned char unknown00[0x04];
-    ExAttackType5PlayerView *player04;
-    unsigned char unknown08[0x30];
-};
-
-struct ExAttackType5GameManagerView
-{
-    ExAttackType5SideView sides[2];
-};
-
-extern ExAttackType5GameManagerView g_GameManager;
+extern AsciiGameManagerView g_GameManager;
 
 int __fastcall ExAttackUpdateCallbackType5(ExAttackRecord *base)
 {
@@ -87,7 +58,7 @@ int __fastcall ExAttackUpdateCallbackType5(ExAttackRecord *base)
             {
                 extra->state00 = 2;
                 record->timer10 = 0;
-                reinterpret_cast<ExAttackType5InterruptView *>(
+                reinterpret_cast<AnmVm *>(
                     record->dynamicData1C)->SetInterrupt(1);
                 return 0;
             }
@@ -122,7 +93,7 @@ int __fastcall ExAttackUpdateCallbackType5(ExAttackRecord *base)
         if (record->timer10 > 40)
         {
             g_GameManager.sides[record->side08]
-                .player04->anmFileBC->ExecuteAnmIdx(
+                .player04->header24.anmFile98->ExecuteAnmIdx(
                     reinterpret_cast<AnmVm *>(record->dynamicData1C), 9);
             ++extra->state00;
             record->position20 = extra->spawn4C;

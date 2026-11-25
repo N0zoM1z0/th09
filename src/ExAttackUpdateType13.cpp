@@ -34,13 +34,6 @@ struct ExAttackType13UpdateRecord
     ExAttackType13UpdateExtra *extra34;
 };
 
-struct ExAttackType13InterruptView
-{
-    void SetInterrupt(short interrupt);
-};
-
-
-
 extern AsciiGameManagerView g_GameManager;
 
 int __fastcall ExAttackUpdateCallbackType13(ExAttackRecord *base)
@@ -78,7 +71,7 @@ int __fastcall ExAttackUpdateCallbackType13(ExAttackRecord *base)
             {
                 extra->state00 = 2;
                 record->timer10 = 0;
-                reinterpret_cast<ExAttackType13InterruptView *>(
+                reinterpret_cast<AnmVm *>(
                     record->dynamicData1C)->SetInterrupt(1);
             }
             else
@@ -94,7 +87,7 @@ int __fastcall ExAttackUpdateCallbackType13(ExAttackRecord *base)
             {
                 extra->state00 = 2;
                 record->timer10 = 0;
-                reinterpret_cast<ExAttackType13InterruptView *>(
+                reinterpret_cast<AnmVm *>(
                     record->dynamicData1C)->SetInterrupt(1);
                 return 0;
             }

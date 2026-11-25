@@ -12,19 +12,17 @@ playthrough.
 Measured before Batch 1 via `scripts/report-semantic-debt.py` and workspace
 inspection:
 
-| Metric | Baseline | Notes |
-| --- | ---: | --- |
-| Source files in `src/` | 550 | 383 `.cpp`, 128 `.hpp`, 38 `.inl`, 1 `.md` |
-| Numeric `switch` cases | 717 | Across 53 files (`EclOperands.cpp` 269, `TitleScreen.cpp` 54, `BackgroundStageScript.cpp` 51, ...) |
-| Numeric `PlaySound*` literals | 89 | `SoundPlayer.hpp` has no `SoundIdx` enum yet |
-| Numeric `SpawnEffect*` literals | 10 | `EffectManager.hpp` has no `EffectId` enum yet |
-| `*View` struct/class definitions | 362 | 56 `*View.hpp` files (`ExAttack*` alone has 108) |
-| Link `/ALTERNATENAME` aliases | 139 | Recorded in `build/link-probe/aliases.json` |
-| `reinterpret_cast` sites | 1,930 | Across 234 files (many view-to-view casts) |
-| Offset-suffixed identifiers | ~26,785 | E.g. `config388`, `position1B88`, `activeContext2CE0` |
-| Anonymous `unknown`/`pad`/`raw` hex names | 913 | 289 unique names across `src/` |
-| Hardcoded `0x004xxxxx` literals | 77 | Across 34 files |
-| `ProductData.asm` generated globals | 628 | `PUBLIC` symbols extracted from `th09.exe` |
+| Metric | Baseline | After Phase 1/2/3.1/4 | Notes |
+| --- | ---: | ---: | --- |
+| Source files in `src/` | 550 | 554 | Added `EclOperandIds.hpp`, `SoundIds.hpp`, `EffectIds.hpp`, `SupervisorStates.hpp`, `TitleScreenStates.hpp` |
+| Numeric `switch` cases | 717 | 297 | `-420` (`EclOperands`, `BackgroundStageScript`, `FrontMessageUpdate`, `EnemySchedule`, `SupervisorUpdate`, `TitleCalc/Draw` closed & guarded) |
+| Numeric `PlaySound*` / `PlayMenuSound` literals | 147 (89 + 58) | 0 | Closed & CI-guarded (`SoundIdx` 0..53) |
+| Numeric `SpawnEffect*` literals | 10 | 0 | Closed & CI-guarded (`Th09EffectId`) |
+| `*View` struct/class definitions | 362 | 316 | `-46` duplicate ExAttack view structs removed in Batch 3.1 |
+| Link `/ALTERNATENAME` aliases | 139 | 107 | `-32` aliases retired in Batch 3.1 (verified by `verify-trial-layouts.py`) |
+| `reinterpret_cast` sites | 1,930 | 1,928 | Next wave targets remaining `ExAttack` / `Player` / `GameManager` views |
+| Anonymous `unknown`/`pad`/`raw` hex names | 913 | 860 | `-53` removed alongside duplicate view structs |
+| `ProductData.asm` generated labels | 628 | 624 | `-4` duplicate view-typed `g_GameManager` data labels |
 
 ## Phased execution plan
 
@@ -78,9 +76,20 @@ every affected TU with `scripts/replay-scoped-exact.py`:
 Consolidate redundant layout views onto canonical owners in bounded batches,
 preserving exact VC7.1 bytes and verifying PI layouts after symbol changes:
 
-- [ ] **3.1 Shared vector / primitive / timer / ANM VM views:**
-  eliminate duplicate `AnmVm*View` / `Float3` / `BulletSpawnDescriptor*Storage`
-  overlays and retire their `/ALTERNATENAME` aliases where exactness allows.
+- [x] **3.1 ExAttack duplicate view & alias reduction (first wave):**
+  replaced `ExAttack*InterruptView`, `ExAttackType*AllocateView`,
+  `ExAttackType*SideLookupView`, `ExAttackType*SideView`,
+  `ExAttackType*AnmOwner`, `ExAttackType*GameManagerView`,
+  `ExAttackType*PlayerView`, and `ExAttackType7BulletDescriptorStorage` across
+  15 files with canonical `AnmVm`, `ExAttackRecordRuntimeView`,
+  `AsciiGameManagerView`, `PlayerLifecycleView`, and
+  `BulletSpawnDescriptorCtorView`; retired **46 `*View` structs** and
+  **32 `/ALTERNATENAME` aliases** (`139 -> 107`), verified with scoped exact
+  replay + full normal/reversed/playable PI links (`verify-trial-layouts.py`).
+- [ ] **3.1b Remaining shared vector / descriptor / ANM VM views:**
+  consolidate remaining 7 `ExAttackType*BulletDescriptorStorage` duplicates,
+  `AnmVmView`/`PlayerAnmVmView`/`StartupAnmVm`/`TitleAnmVmConstructView`, and
+  redundant `Float3` vertex views.
 - [ ] **3.2 `GameManager` and `Supervisor` canonical layouts:**
   unify `AsciiGameManagerView` / `GameManagerSetupView` /
   `GameManagerRuntimeView` / `GameManagerResetView` and `Supervisor*View`
