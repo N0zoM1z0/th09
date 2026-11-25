@@ -18,7 +18,7 @@ protocols and declarations, see [SEMANTIC_INDEX.md](SEMANTIC_INDEX.md).
 | Which functions are accepted as byte-exact? | [config/matches.csv](../config/matches.csv) |
 | Which source-present functions remain non-exact? | [config/frontiers.toml](../config/frontiers.toml) (`scripts/check-frontier.py`) |
 | How are carriers selected and linked for PI / playable builds? | [scripts/trial-link.py](../scripts/trial-link.py) and [config/product-link.toml](../config/product-link.toml) |
-| Where do unmigrated retail globals and static constructors come from? | [scripts/product-data.py](../scripts/product-data.py) and [product/ProductStaticInit.cpp](../product/ProductStaticInit.cpp) |
+| Where are statically constructed C++ global singletons and PE resources built? | [product/ProductStaticInit.cpp](../product/ProductStaticInit.cpp) and [scripts/product-data.py](../scripts/product-data.py) (`0` generated data blocks; emits `ProductResources.res`) |
 
 ## Subsystem file families
 

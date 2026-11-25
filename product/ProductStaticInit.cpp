@@ -1,112 +1,90 @@
-// Product-closure glue for the trial whole-image link (not original source).
+// Native C++ global object definitions and static-initialization ordering for
+// the Windows i386 product build.
 //
 // The original image constructs its global objects through 25 compiler
-// wrappers at 0x0048D7B0..0x0048DAD0, each emitted by the translation unit
-// that defines the object. Until those definitions return to their own
-// units, the objects' storage comes from the labelled data closure that
-// scripts/product-data.py generates. This unit runs the reviewed constructor
-// calls in the original wrapper order and registers their cleanup.
-//
-// The view declarations bind to existing definitions. Use the complete
-// PbgArchive type for the auxiliary array so the compiler owns its lifetime.
-// The ScreenEffect at 0x004AC888 and the three vertex arrays whose element
-// constructor only returns its object remain outside this glue.
+// wrappers at 0x0048D7B0..0x0048DAD0 in strict link-input order. Keeping
+// every statically constructed global object in this single translation unit
+// guarantees identical construction and atexit() teardown order across both
+// normal and reversed link layouts while owning all global storage in C++.
+#include "AnmVmLifecycle.hpp"
+#include "Chain.hpp"
 #include "GameErrorContext.hpp"
+#include "GameWindow.hpp"
 #include "PbgArchive.hpp"
+#include "ReplayInputState.hpp"
+#include "ScoreFileView.hpp"
+#include "SoundPlayer.hpp"
+#include "Supervisor.hpp"
+#include "ZunMemory.hpp"
 #include <new>
-#include <stdlib.h>
 
 typedef char GameErrorContextSizeIs2008[(sizeof(GameErrorContext) == 0x2008) ? 1 : -1];
+typedef char ReplayInputStateSizeIs8ECheck[(sizeof(ReplayInputState) == 0x8E) ? 1 : -1];
+typedef char SupervisorSizeIs7B0Check[(sizeof(Supervisor) == 0x7B0) ? 1 : -1];
+typedef char AnmVmSizeIs2A4Check[(sizeof(AnmVm) == 0x2A4) ? 1 : -1];
+typedef char SoundPlayerSizeIs6224Check[(sizeof(SoundPlayer) == 0x6224) ? 1 : -1];
 
 struct AsciiGameManagerView;
 struct GameManagerResetView { void ResetForSupervisorAdded(); };
-class ChainElem { public: ChainElem() throw(); ~ChainElem(); };
-class Chain { public: Chain(); ~Chain(); };
-struct ScoreFileView { ScoreFileView(); };
 struct TitleScoreRecordView { unsigned char storage[0x2C]; };
 struct ScoreRecordCtorView { ScoreRecordCtorView(); };
-class ZunMemory { public: ZunMemory(); ~ZunMemory(); };
-struct ReplayInputState { ReplayInputState(); unsigned char storage[0x8E]; };
-struct GameWindow { GameWindow(); };
-class Supervisor { public: Supervisor(); };
-struct AnmVm { AnmVm(); unsigned char storage[0x2A4]; };
-class AsciiManager;
 struct NativeVmCompositeOwnerView { NativeVmCompositeOwnerView(); };
-class SoundPlayer { public: SoundPlayer(); };
+class AsciiManager { public: unsigned char storage[0xE0AC]; };
 
 extern AsciiGameManagerView g_GameManager;
-extern ChainElem g_GameManagerCalcChain;
-extern ChainElem g_GameManagerDrawChain;
-extern ScoreFileView g_ScoreFileHeader;
 extern TitleScoreRecordView g_TitleScoreTable[16][5][5];
 extern TitleScoreRecordView g_TitleScoreRecord;
-extern Chain g_Chain;
-extern ZunMemory g_ZunMemory;
-extern ReplayInputState g_ReplayInputStates[3];
-extern GameErrorContext g_GameErrorContext;
-extern GameWindow g_GameWindow;
-extern Supervisor g_Supervisor;
-extern AnmVm g_SupervisorLoadingVms[3];
-extern AsciiManager g_AsciiManager;
-extern ChainElem g_AsciiManagerCalcChain;
-extern ChainElem g_AsciiManagerDrawChainLowPrio;
-extern ChainElem g_AsciiManagerDrawChainHighPrio;
-extern SoundPlayer g_SoundPlayer;
 
-static void __cdecl DestroyGameManagerCalcChain() { g_GameManagerCalcChain.~ChainElem(); }
-static void __cdecl DestroyGameManagerDrawChain() { g_GameManagerDrawChain.~ChainElem(); }
-static void __cdecl DestroyChain() { g_Chain.~Chain(); }
-static void __cdecl DestroyZunMemory() { g_ZunMemory.~ZunMemory(); }
-static void __cdecl DestroyPbgArchive() { g_PbgArchive.~PbgArchive(); }
-static void __cdecl DestroyGameErrorContext() { g_GameErrorContext.~GameErrorContext(); }
-static void __cdecl DestroyAsciiManagerCalcChain() { g_AsciiManagerCalcChain.~ChainElem(); }
-static void __cdecl DestroyAsciiManagerDrawChainLowPrio() { g_AsciiManagerDrawChainLowPrio.~ChainElem(); }
-static void __cdecl DestroyAsciiManagerDrawChainHighPrio() { g_AsciiManagerDrawChainHighPrio.~ChainElem(); }
-
-static struct ProductStaticInit
+// 1. GameManager static reset (retail 0x0048D7B0).
+static struct GameManagerStaticInit
 {
-    ProductStaticInit()
+    GameManagerStaticInit()
     {
         reinterpret_cast<GameManagerResetView *>(&g_GameManager)->ResetForSupervisorAdded();
-        new (&g_GameManagerCalcChain) ChainElem;
-        atexit(DestroyGameManagerCalcChain);
-        new (&g_GameManagerDrawChain) ChainElem;
-        atexit(DestroyGameManagerDrawChain);
-        new (&g_ScoreFileHeader) ScoreFileView;
+    }
+} s_gameManagerStaticInit;
+
+// 2-4. GameManager chains and ScoreFile header.
+ChainElem g_GameManagerCalcChain;
+ChainElem g_GameManagerDrawChain;
+ScoreFileView g_ScoreFileHeader;
+
+// 5-6. Score table and score record (storage owned by src/ScoreData.cpp).
+static struct ScoreRecordsStaticInit
+{
+    ScoreRecordsStaticInit()
+    {
         for (int i = 0; i < 16 * 5 * 5; ++i)
             new (&g_TitleScoreTable[0][0][0] + i) ScoreRecordCtorView;
         new (&g_TitleScoreRecord) ScoreRecordCtorView;
-        new (&g_Chain) Chain;
-        atexit(DestroyChain);
-        new (&g_ZunMemory) ZunMemory;
-        atexit(DestroyZunMemory);
-        for (int i = 0; i < 3; ++i)
-            new (&g_ReplayInputStates[i]) ReplayInputState;
-        new (&g_PbgArchive) PbgArchive;
-        atexit(DestroyPbgArchive);
-        new (&g_GameErrorContext) GameErrorContext;
-        atexit(DestroyGameErrorContext);
-        new (&g_GameWindow) GameWindow;
-        new (&g_Supervisor) Supervisor;
-        for (int i = 0; i < 3; ++i)
-            new (&g_SupervisorLoadingVms[i]) AnmVm;
     }
-} s_productStaticInit;
+} s_scoreRecordsStaticInit;
 
-// Retail initializes these archives after the loading VMs and before AsciiManager.
+// 7-15. Core runtime singletons and arrays in exact retail order.
+Chain g_Chain;
+ZunMemory g_ZunMemory;
+ReplayInputState g_ReplayInputStates[3];
+PbgArchive g_PbgArchive;
+GameErrorContext g_GameErrorContext;
+GameWindow g_GameWindow;
+Supervisor g_Supervisor;
+AnmVm g_SupervisorLoadingVms[3];
+
+// 16. Auxiliary archives (retail 0x0048D920 / 0x0048DA90).
 static PbgArchive s_auxiliaryArchives[20];
 
-static struct ProductStaticInitAfterArchives
+// 17. AsciiManager (constructed through the exact composite constructor at 0x00435DC0).
+AsciiManager g_AsciiManager;
+static struct AsciiManagerStaticInit
 {
-    ProductStaticInitAfterArchives()
+    AsciiManagerStaticInit()
     {
         new (&g_AsciiManager) NativeVmCompositeOwnerView;
-        new (&g_AsciiManagerCalcChain) ChainElem;
-        atexit(DestroyAsciiManagerCalcChain);
-        new (&g_AsciiManagerDrawChainLowPrio) ChainElem;
-        atexit(DestroyAsciiManagerDrawChainLowPrio);
-        new (&g_AsciiManagerDrawChainHighPrio) ChainElem;
-        atexit(DestroyAsciiManagerDrawChainHighPrio);
-        new (&g_SoundPlayer) SoundPlayer;
     }
-} s_productStaticInitAfterArchives;
+} s_asciiManagerStaticInit;
+
+// 18-21. AsciiManager chains and SoundPlayer.
+ChainElem g_AsciiManagerCalcChain;
+ChainElem g_AsciiManagerDrawChainLowPrio;
+ChainElem g_AsciiManagerDrawChainHighPrio;
+SoundPlayer g_SoundPlayer;

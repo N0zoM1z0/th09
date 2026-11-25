@@ -93,6 +93,8 @@ typedef char SetupGameManagerNativeReplayOffsets[
      offsetof(SetupSideState, selector) ==
          offsetof(AsciiGameManagerSideView, replaySelector28)) ? 1 : -1];
 
+AsciiGameManagerView g_GameManager;
+
 extern Chain g_Chain;
 extern ChainElem g_GameManagerCalcChain;
 extern ChainElem g_GameManagerDrawChain;

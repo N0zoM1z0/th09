@@ -392,10 +392,33 @@ def verify_replay_captions(target, image, units, objects, addresses):
     return slots
 
 
-def verify_crt_initializers(image, addresses):
+def crt_xcu_wrappers(objects):
+    startup = 'product/ProductStaticInit.cpp'
+    wrappers = []
+    for source, path in sorted(objects.items()):
+        data, sections, symbols = coff.read_coff_object(path)
+        for section in sections:
+            if section['name_raw'].rstrip(b'\0') != b'.CRT$XCU':
+                continue
+            if source != startup:
+                raise ValueError(f'{source} contributes unexpected .CRT$XCU static initializers')
+            entries = []
+            for index in range(section['reloc_count']):
+                offset, symbol_index, kind = struct.unpack_from(
+                    '<IIH', data, section['reloc_offset'] + 10 * index)
+                if kind != 6 or offset % 4:
+                    raise ValueError(f'{startup} .CRT$XCU has an invalid relocation at +{offset:#x}')
+                entries.append((offset, symbols[symbol_index]['name']))
+            wrappers.extend(name for _, name in sorted(entries))
+    if not wrappers:
+        raise ValueError(f'{startup} has no .CRT$XCU static initializers')
+    return wrappers
+
+
+def verify_crt_initializers(image, objects, addresses):
     c_initializers = ('___onexitinit', '___initstdio', '___sse2_available_init', '___initmbctable',
                       '?__CxxSetUnhandledExceptionFilter@@YAHXZ')
-    cxx_initializers = ('___security_init_cookie', '_$E1', '_$E3', '_$E6')
+    cxx_initializers = ('___security_init_cookie', *crt_xcu_wrappers(objects))
     for section, names in (('xi', c_initializers), ('xc', cxx_initializers)):
         expected = struct.pack(f'<{len(names) + 2}I', 0, *(addresses[name] for name in names), 0)
         start, end = addresses[f'___{section}_a'], addresses[f'___{section}_z']
@@ -492,8 +515,8 @@ def verify_exit_registrations(path, constructor, size, cleanup_names):
 def verify_product_startup(target, image, pe, objects, addresses, destinations):
     startup = 'product/ProductStaticInit.cpp'
     archive_ctor = '??0PbgArchive@@QAE@XZ'
+    xcu_wrappers = crt_xcu_wrappers(objects)
     functions = {}
-    wrappers = {'_$E1', '_$E3', '_$E4', '_$E6'}
     for source in (startup, 'product/PbgArchiveCtor.cpp'):
         _, sections, symbols = coff.read_coff_object(objects[source])
         for symbol in symbols.values():
@@ -502,40 +525,102 @@ def verify_product_startup(target, image, pe, objects, addresses, destinations):
                 continue
             section = sections[number - 1]
             name = symbol['name']
-            if section['name_raw'].rstrip(b'\0') != b'.text' and name not in wrappers:
+            sec_name = section['name_raw'].rstrip(b'\0')
+            if sec_name not in (b'.text', b'.text$yc', b'.text$yd'):
                 continue  # Associative EH sections have separate checks.
+            if name not in addresses or name == '??_H@YGXPAXIHP6EPAX0@Z@Z':
+                continue  # Unreferenced COMDAT or separately verified canonical helper.
             functions[name] = {'source': source, 'symbol': name, 'size': section['size']}
-    phases = (
-        ('??0ProductStaticInit@@QAE@XZ', 11,
-         ('GameManagerCalcChain', 'GameManagerDrawChain', 'Chain', 'ZunMemory', 'PbgArchive', 'GameErrorContext')),
-        ('??0ProductStaticInitAfterArchives@@QAE@XZ', 2,
-         ('AsciiManagerCalcChain', 'AsciiManagerDrawChainLowPrio', 'AsciiManagerDrawChainHighPrio')),
+    eh_ctors = (
+        ('??0ScoreRecordsStaticInit@@QAE@XZ', 2),
+        ('??0AsciiManagerStaticInit@@QAE@XZ', 1),
     )
-    for constructor, states, cleanup_names in phases:
+    for constructor, states in eh_ctors:
         functions[constructor].update(unwind_states=(states,),
                                       relocations=[{'symbol': '__ehhandler$' + constructor}])
-        verify_exit_registrations(objects[startup], constructor, functions[constructor]['size'], cleanup_names)
+
+    # Verify the 19 .CRT$XCU wrappers construct and register teardown in exact retail order.
+    expected_init_order = [
+        '_s_gameManagerStaticInit',
+        '?g_GameManagerCalcChain@@3VChainElem@@A',
+        '?g_GameManagerDrawChain@@3VChainElem@@A',
+        '?g_ScoreFileHeader@@3UScoreFileView@@A',
+        '_s_scoreRecordsStaticInit',
+        '?g_Chain@@3VChain@@A',
+        '?g_ZunMemory@@3VZunMemory@@A',
+        '?g_ReplayInputStates@@3PAUReplayInputState@@A',
+        '?g_PbgArchive@@3VPbgArchive@@A',
+        '?g_GameErrorContext@@3VGameErrorContext@@A',
+        '?g_GameWindow@@3UGameWindow@@A',
+        '?g_Supervisor@@3VSupervisor@@A',
+        '?g_SupervisorLoadingVms@@3PAUAnmVm@@A',
+        '_s_auxiliaryArchives',
+        '_s_asciiManagerStaticInit',
+        '?g_AsciiManagerCalcChain@@3VChainElem@@A',
+        '?g_AsciiManagerDrawChainLowPrio@@3VChainElem@@A',
+        '?g_AsciiManagerDrawChainHighPrio@@3VChainElem@@A',
+        '?g_SoundPlayer@@3VSoundPlayer@@A',
+    ]
+    expected_dtor_order = [
+        '?g_GameManagerCalcChain@@3VChainElem@@A',
+        '?g_GameManagerDrawChain@@3VChainElem@@A',
+        '?g_Chain@@3VChain@@A',
+        '?g_ZunMemory@@3VZunMemory@@A',
+        '?g_PbgArchive@@3VPbgArchive@@A',
+        '_s_auxiliaryArchives',
+        '?g_AsciiManagerCalcChain@@3VChainElem@@A',
+        '?g_AsciiManagerDrawChainLowPrio@@3VChainElem@@A',
+        '?g_AsciiManagerDrawChainHighPrio@@3VChainElem@@A',
+    ]
+    actual_init_order = []
+    actual_dtor_order = []
+    aux_ctor_wrapper = None
+    aux_dtor_wrapper = None
+    for wrapper in xcu_wrappers:
+        _, rels = coff.object_function(objects[startup], wrapper, functions[wrapper]['size'])
+        dir_syms = [r['symbol'] for r in rels if r['type'] == 'DIR32']
+        rel_syms = [r['symbol'] for r in rels if r['type'] == 'REL32']
+        target_obj = next((s for s in dir_syms if s in expected_init_order), None)
+        if target_obj is None:
+            raise ValueError(f'{wrapper} does not target an expected static global')
+        actual_init_order.append(target_obj)
+        if '_atexit' in rel_syms:
+            by_off = {r['offset']: r for r in rels}
+            atexit_off = next(r['offset'] for r in rels if r['symbol'] == '_atexit')
+            dtor_field = by_off.get(atexit_off - 5)
+            dtor_fn = dtor_field['symbol'] if dtor_field and dtor_field['type'] == 'DIR32' else None
+            if dtor_fn is None or dtor_fn not in functions:
+                raise ValueError(f'{wrapper} calls _atexit without a local teardown wrapper')
+            _, dtor_rels = coff.object_function(objects[startup], dtor_fn, functions[dtor_fn]['size'])
+            dtor_obj = next((r['symbol'] for r in dtor_rels if r['type'] == 'DIR32' and r['symbol'] in expected_init_order), None)
+            if dtor_obj != target_obj:
+                raise ValueError(f'{dtor_fn} tears down {dtor_obj}, expected {target_obj}')
+            actual_dtor_order.append(dtor_obj)
+            if target_obj == '_s_auxiliaryArchives':
+                aux_ctor_wrapper, aux_dtor_wrapper = wrapper, dtor_fn
+    if actual_init_order != expected_init_order:
+        raise ValueError(f'static constructor order differs from retail: {actual_init_order}')
+    if actual_dtor_order != expected_dtor_order:
+        raise ValueError(f'static atexit teardown order differs from retail: {actual_dtor_order}')
+
     _, sections, symbols = coff.read_coff_object(objects[startup])
     array_name = '_s_auxiliaryArchives'
     array, = (symbol for symbol in symbols.values() if symbol['name'] == array_name)
     bss = sections[array['section'] - 1]
-    # LINK omits local data labels from the map. Derive the contribution's
-    # base from the array initializer and check all other references against it.
-    _, fields = coff.object_function(objects[startup], '_$E3', 36)
-    reference, = (field for field in fields if field['type'] == 'DIR32' and field['symbol'] == array_name)
-    operand = coff.pe_bytes_at(image, addresses['_$E3'] + reference['offset'], 4)
-    base = u32(operand, 0) - reference['addend'] - array['value']
+    # Anchor the .bss contribution from its public base symbol and bind private locals.
+    anchors = {addresses[s['name']] - s['value'] for s in symbols.values()
+               if s['section'] == array['section'] and s['storage'] == 2 and s['name'] in addresses}
+    if len(anchors) != 1:
+        raise ValueError('ProductStaticInit.obj .bss symbols do not share one section base')
+    base = anchors.pop()
     allocation = data_allocation(pe, base, bss['size'], bss['flags'], 'product startup storage')
-    receivers = ('_s_productStaticInit', '_s_productStaticInitAfterArchives')
+    receivers = ('_s_gameManagerStaticInit', '_s_scoreRecordsStaticInit', '_s_asciiManagerStaticInit')
     storage = {symbol['name']: base + symbol['value'] for symbol in symbols.values()
                if symbol['section'] == array['section'] and symbol['name'] in (array_name, *receivers)}
-    extent = 20 * 0x10
     raw = min(bss['size'], pe['image_base'] + allocation['rva'] + allocation['raw_size'] - base)
     if (bss['name_raw'].rstrip(b'\0') != b'.bss' or bss['raw_offset'] or bss['reloc_count']
-            or (raw > 0 and any(coff.pe_bytes_at(image, base, raw)))
-            or storage[array_name] + extent != min(storage[name] for name in receivers)
-            or any(base <= address < base + bss['size'] for address in addresses.values())):
-        raise ValueError('auxiliary archive array does not own its complete zero-fill extent')
+            or (raw > 0 and any(coff.pe_bytes_at(image, base, raw)))):
+        raise ValueError('ProductStaticInit.obj .bss storage is not cleanly zero-initialized')
     # VC7.1 uses FS:[0] for the x86 exception registration chain.
     bindings = destinations | storage | {'__except_list': 0}
     code, fields, _, handlers = verify_code(image, pe, functions, objects, addresses, bindings)
@@ -543,10 +628,9 @@ def verify_product_startup(target, image, pe, objects, addresses, destinations):
     # Resolve the compiler's complete wrappers against the retail CRT and objects.
     retail = {archive_ctor: 0x00433040, '??1PbgArchive@@QAE@XZ': 0x004335D0,
               '??_L@YGXPAXIHP6EX0@Z1@Z': 0x0047CEC9, '??_M@YGXPAXIHP6EX0@Z@Z': 0x0047CE69,
-              '_atexit': 0x0047C323, '_$E4': 0x0048DA90, array_name: 0x004B42E0}
-    for name, address, size in (('_$E3', 0x0048D920, 36), ('_$E4', retail['_$E4'], 20),
-                                (archive_ctor, retail[archive_ctor], 16),
-                                ('?DestroyGameErrorContext@@YAXXZ', 0x0048DA70, 1)):
+              '_atexit': 0x0047C323, aux_dtor_wrapper: 0x0048DA90, array_name: 0x004B42E0}
+    for name, address, size in ((aux_ctor_wrapper, 0x0048D920, 36), (aux_dtor_wrapper, 0x0048DA90, 20),
+                                (archive_ctor, retail[archive_ctor], 16)):
         expected, relocations = coff.object_function(objects[functions[name]['source']], name, size)
         for field in relocations:
             offset = field['offset']
@@ -911,7 +995,7 @@ def verify_layout(stem, data_name, target, units, objects):
             raise ValueError(f'{stem} {alignment} differs from retail')
     addresses = read_map(trial.OUT / f'{stem}.map')
     entry_bytes, entry_fields = verify_crt_entry(target, image, pe, addresses, units['win-main']['target_address'])
-    verify_crt_initializers(image, addresses)
+    verify_crt_initializers(image, objects, addresses)
     resources = verify_resources(target, image)
     d3dx_constants = verify_d3dx_constants(target, image, pe)
     imports, import_fields = verify_imports(target, image, units, addresses)
@@ -942,8 +1026,19 @@ def verify_layout(stem, data_name, target, units, objects):
     verify_frontiers(target, frontiers, objects)
     code, code_fields, private_fields, handlers = verify_code(image, pe, units | frontiers, objects,
                                                             addresses, destinations)
+    cpp_data = {}
+    for path in objects.values():
+        _, sections, symbols = coff.read_coff_object(path)
+        for symbol in symbols.values():
+            if symbol['storage'] != 2 or symbol['section'] <= 0 or symbol['type'] == 0x20:
+                continue
+            sec_name = sections[symbol['section'] - 1]['name_raw'].rstrip(b'\0')
+            name = symbol['name']
+            if sec_name in (b'.data', b'.rdata', b'.bss') and name in originals and name in addresses and name not in labels:
+                cpp_data[name] = addresses[name]
     print(f'{stem}: {len(code)} code units ({len(frontiers)} from frontiers), {code_fields} code relocations '
-          f'({private_fields} into private constants), {len(labels)} data labels, '
+          f'({private_fields} into private constants), {len(cpp_data)} C++ data globals, '
+          f'{len(labels)} generated data labels, '
           f'{data_fields} data relocations, {input_objects} DirectInput objects, '
           f'{callback_slots} CardAttack/Effect/ExAttack callback slots, {ecl_slots} ECL callback slots, '
           f'{replay_captions} replay captions, {schedule_bytes} enemy schedule bytes')
@@ -958,7 +1053,7 @@ def verify_layout(stem, data_name, target, units, objects):
     print(f'{stem}: {resources} PE resources, {imports} PE imports, {import_fields} checked import operands, '
           f'{guids} GUIDs across {guid_fields} operands, {vtables} vtables, {virtual_slots} virtual slots, '
           f'{len(aliases)} checked link aliases, {d3dx_constants} D3DX8 constant bytes')
-    return code, labels
+    return code, cpp_data, labels
 
 
 def main():
@@ -972,9 +1067,12 @@ def main():
     units = trial.load_units()
     normal = verify_layout('trial', 'ProductData.obj', target, units, objects)
     reversed_layout = verify_layout('trial-reversed', 'ProductDataReversed.obj', target, units, objects)
-    for role, first, second in zip(('code units', 'data labels'), normal, reversed_layout):
+    for role, first, second in zip(('code units', 'C++ data globals', 'generated data labels'), normal, reversed_layout):
         if first.keys() != second.keys():
             raise ValueError(f'{role} differ between link layouts')
+        if not first and role == 'generated data labels':
+            print('0 generated data labels (100% native C++ data ownership)')
+            continue
         moved = sum(address != second[name] for name, address in first.items())
         if not moved:
             raise ValueError(f'no {role} moved')

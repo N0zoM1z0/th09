@@ -12,17 +12,16 @@ playthrough.
 Measured before Batch 1 via `scripts/report-semantic-debt.py` and workspace
 inspection:
 
-| Metric | Baseline | Current (`3.4b`) | Notes |
+| Metric | Baseline | Final (Phases 1–5) | Notes |
 | --- | ---: | ---: | --- |
-| Source files in `src/` | 550 | 558 | Added 7 protocol headers + 3 shared view headers (`AsciiInputView`, `SupervisorDrawMainViews`, `PlayerPositionCallbackView`), retired `PlayerState4OpsView.hpp` |
+| Source files in `src/` | 550 | 559 | Added 7 protocol headers + 4 shared headers (`AsciiInputView`, `SupervisorDrawMainViews`, `PlayerPositionCallbackView`, `PlayerPatternConfig`), retired `PlayerState4OpsView.hpp` |
 | Numeric `switch` cases | 717 | 110 | `-607` (`-84.7%`); 20 core protocol & state-machine files closed & CI-guarded |
 | Numeric `PlaySound*` / `PlayMenuSound` literals | 147 (89 + 58) | 0 | Closed & CI-guarded (`SoundIdx` 0..53) |
 | Numeric `SpawnEffect*` literals | 10 | 0 | Closed & CI-guarded (`Th09EffectId`) |
-| `*View` struct/class definitions | 362 | 256 | `-106` (`-29.3%`) duplicate view definitions eliminated across Batches 3.1–3.4b |
-| Link `/ALTERNATENAME` aliases | 139 | 37 | `-102` (`-73.4%`) aliases retired across Batches 3.1–3.2 (`verify-trial-layouts.py` green) |
-| `reinterpret_cast` sites | 1,930 | 1,929 | Preserved exact VC7.1 bytes across all 1,036 exact functions |
-| Anonymous `unknown`/`pad`/`raw` hex names | 913 | 807 | `-106` removed alongside duplicate view structs |
-| `ProductData.asm` generated labels | 628 | 612 | `-16` duplicate view-typed global data labels retired |
+| `*View` struct/class definitions | 362 | 253 | `-109` (`-30.1%`) duplicate view definitions eliminated across Phases 3–5 |
+| Link `/ALTERNATENAME` aliases | 139 | 45 | `-94` (`-67.6%`) aliases retired (8 remaining are same-address `+0x000` C++ global views resolved natively to C++ storage) |
+| `ProductData.asm` generated blocks | 479 | **0** | **`-479` (`-100%`)** — all retail `.rdata`/`.data`/`.bss` migrated to natural C++ definitions |
+| `ProductData.asm` generated labels | 628 | **0** | **`-628` (`-100%`)** — `585/585` C++ data globals independently verified & moved in reversed layout |
 
 ## Phased execution plan
 
@@ -175,10 +174,34 @@ verification green.
   to **18 blocks / 132 labels** (`-96.2%` of original blocks); verified `339/339`
   exact units (`141,918` bytes, `7,158` relocations), `verify-trial-layouts.py`,
   and `ci.py`.
-- [ ] **5.5 Multi-label `_BSS` owner objects (`g_GameWindow`, `g_PlayStatsRecord`, `g_ReplayInputStates`, `g_Supervisor`, `g_GameManager`):**
-  retire all interior-offset global aliases in `src/`, define all `5` canonical
-  global objects in natural C++, and bring `ProductData.asm` to `0` blocks / `0` labels.
-- [ ] **5.6 Final closure & Wine end-to-end replay verification:**
-  clean up remaining product link glue (`ProductStaticInit.cpp` / `config/build.toml` /
-  docs), verify full normal/reversed/playable/base-relocatable PI links, Wine
-  replay parity, and `scripts/ci.py --full`.
+- [x] **5.5 Multi-label `_BSS` owner objects (`g_AsciiManager`, `g_GameWindow`, `g_PlayStatsRecord`, `g_ReplayInputStates`, `g_Supervisor`, `g_GameManager`):**
+  retired **100% of interior-offset global aliases** across `src/` in three verified
+  batches:
+  - **5.5a (`b86807fc`):** defined `PlayStatsRecordView g_PlayStatsRecord` in
+    `src/ScoreData.cpp` and retired all interior aliases of `g_AsciiManager`
+    (`g_DeletedScratch`), `g_GameWindow` (5), `g_PlayStatsRecord` (7), and
+    `g_ReplayInputStates` (8) (`141/141` exact units replayed, `18 -> 17` blocks,
+    `132 -> 110` labels).
+  - **5.5b1 (`5c3048e3`):** retired all `26` interior aliases of `g_Supervisor`
+    across 23 files (`200/200` exact units, `100,747` bytes).
+  - **5.5b2 (`527105af`):** retired all `59` interior aliases of `g_GameManager`
+    across 50 files (`251/251` exact units, `113,828` bytes), dropping
+    `ProductData.asm` to **17 base-only blocks / 25 labels** with **zero**
+    interior-offset aliases anywhere in `src/`.
+- [x] **5.6 Final native C++ global ownership closure & Wine replay parity:**
+  defined `AsciiGameManagerView g_GameManager` in `src/GameManagerSetup.cpp`
+  (`11/11` exact units) and replaced the placement-`new` / manual `Destroy*` glue
+  in `product/ProductStaticInit.cpp` with all `16` remaining statically
+  constructed C++ global object definitions in exact retail `.CRT$XCU`
+  construction and `atexit()` teardown order; **`ProductData.asm` reached `0`
+  blocks / `0` labels / `0` bytes (`100%` native C++ code and data ownership)**.
+  Updated `scripts/verify-trial-layouts.py` to enforce the exact `19`-entry
+  `.CRT$XCU` order, `9`-entry `atexit()` teardown order, and full C++ global
+  relocation checks (`585/585` C++ data globals moved, `1,085/1,085` code units
+  moved, `14,274` `HIGHLOW` relocations verified across `0x00400000` and
+  `0x00600000` bases for both `trial.exe` and `trial-reversed.exe`). Verified
+  300-frame Wine replay (`demorpy0.rpy`) bit-for-bit identical across `retail`,
+  `trial-playable.exe`, and `trial-reversed-playable.exe` (SHA-256
+  `034da159b7bc1001124e50124f2c869b8131854e49282ae294544c03bcb38ac8`,
+  `diagnosticComplete: true`, `errors: []`), `player-movement` frontier unchanged
+  (`4` recorded bytes), and `scripts/ci.py --full` (`101/101` unit tests OK).
