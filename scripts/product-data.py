@@ -268,7 +268,12 @@ def main() -> int:
         for start, end in blocks.items():
             section, va, vsize, rsize, raw = section_of(start)
             content, filed = initial(start, end - start)
-            is_bss = filed == 0
+            # PE file alignment can cover the start of a zero-fill object.
+            crosses_raw_end = 0 < filed < len(content)
+            known_extent = object_sizes.get(start) == len(content)
+            is_bss = filed == 0 or (
+                section == '.data' and crosses_raw_end and known_extent and not any(content)
+            )
             if wanted == '.rdata' and section != '.rdata':
                 continue
             if wanted == '.data' and (section == '.rdata' or is_bss):

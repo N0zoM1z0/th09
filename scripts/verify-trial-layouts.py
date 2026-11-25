@@ -532,8 +532,9 @@ def verify_product_startup(target, image, pe, objects, addresses, destinations):
     storage = {symbol['name']: base + symbol['value'] for symbol in symbols.values()
                if symbol['section'] == array['section'] and symbol['name'] in (array_name, *receivers)}
     extent = 20 * 0x10
-    if (bss['name_raw'].rstrip(b'\0') != b'.bss' or bss['raw_offset']
-            or base < pe['image_base'] + allocation['rva'] + allocation['raw_size']
+    raw = min(bss['size'], pe['image_base'] + allocation['rva'] + allocation['raw_size'] - base)
+    if (bss['name_raw'].rstrip(b'\0') != b'.bss' or bss['raw_offset'] or bss['reloc_count']
+            or (raw > 0 and any(coff.pe_bytes_at(image, base, raw)))
             or storage[array_name] + extent != min(storage[name] for name in receivers)
             or any(base <= address < base + bss['size'] for address in addresses.values())):
         raise ValueError('auxiliary archive array does not own its complete zero-fill extent')
