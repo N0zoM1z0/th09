@@ -1,13 +1,13 @@
 #include "Supervisor.hpp"
+#include "SupervisorThreadStartView.hpp"
 #include "Midi.hpp"
-// This TU preserves the original DeletedGameManagerLayout global symbol type.
-// Import only the native side layout, without redeclaring the other global.
-#define TH09_GAME_MANAGER_TYPES_ONLY
 #include "GameManagerRuntimeView.hpp"
-#undef TH09_GAME_MANAGER_TYPES_ONLY
+#include "PbgArchive.hpp"
+#include "ReplayManagerRuntimeView.hpp"
 #include "SoundPlayer.hpp"
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
+#include "TextHelper.hpp"
 #include "ZunMemory.hpp"
 
 #include <stddef.h>
@@ -18,39 +18,14 @@
 
 namespace
 {
-struct DeletedAnmManagerView
-{
-    void ReleaseVertexBuffer();
-    void ReleaseAnm(int slot);
-    void ReleaseSurface(int slot);
-};
-
 struct DeletedMidiOutputView
 {
     void PlayFile(int index);
 };
 
-
-struct DeletedPbgArchiveView
-{
-    void Release();
-};
-
-struct DeletedReplayStateView
-{
-    void Release();
-};
-
-// The deleted callback's distinct ThreadClose symbol also receives the
-// same original Supervisor object; no separate receiver layout exists.
-struct DeletedSupervisorThreadView : Supervisor
-{
-    void ThreadClose();
-};
-
 // Both the exact startup caller and this full 405-byte delete callback
 // own the same original Supervisor device, MIDI, startup VM and version
-// fields. Keep the separate MIDI/ThreadClose method identities below.
+// fields. Keep the separate non-inline MIDI PlayFile declaration above.
 typedef char DeletedDummyTimerAt384[
     (offsetof(Supervisor, dummyMidiTimer384) == 0x384) ? 1 : -1];
 typedef char DeletedMusicModeAt436[
@@ -68,34 +43,23 @@ typedef char DeletedDevicesAt0C[
      offsetof(Supervisor, controller014) == 0x14 &&
      offsetof(Supervisor, controller118) == 0x18) ? 1 : -1];
 
-// The deleted callback releases the +0x1C score/phase allocations from
-// each original 0x38 GameManager side, as used by the exact replay owners.
-// Retain the original DeletedGameManagerLayout C++ global symbol identity.
-struct DeletedGameManagerLayout : AsciiGameManagerView
-{
-};
 typedef char DeletedGameManagerNativeSideAllocationOffsets[
     (offsetof(AsciiGameManagerSideView, runtime) == 0x1C &&
      offsetof(AsciiGameManagerView, sides) == 0 &&
      sizeof(AsciiGameManagerSideView) == 0x38) ? 1 : -1];
-
-
 }
 
-extern DeletedGameManagerLayout g_GameManager;
-extern DeletedPbgArchiveView g_PbgArchive;
-extern DeletedReplayStateView *g_DeletedReplayState;
+extern ReplayManagerView *g_DeletedReplayState;
 
-extern void SupervisorDeletedReleaseTextBuffer();
 extern int SaveTitleScoreData();
-extern void SupervisorDeletedReleaseSubsystemB();
+extern void ReleaseEtamaAnm();
 extern void SupervisorDeletedReleaseSubsystemC();
 
 int SupervisorDeletedCallback(Supervisor *supervisor)
 {
     Supervisor *globalSupervisor = &g_Supervisor;
     Supervisor *callbackSupervisor = supervisor;
-    reinterpret_cast<DeletedSupervisorThreadView *>(&g_Supervisor)->ThreadClose();
+    reinterpret_cast<SupervisorThreadStartView *>(&g_Supervisor)->ThreadClose();
 
     if (globalSupervisor->versionData7AC != NULL)
     {
@@ -117,10 +81,10 @@ int SupervisorDeletedCallback(Supervisor *supervisor)
         globalSupervisor->startupVm584 = NULL;
     }
 
-    reinterpret_cast<DeletedAnmManagerView *>(g_AnmManager)->ReleaseVertexBuffer();
-    reinterpret_cast<DeletedAnmManagerView *>(g_AnmManager)->ReleaseAnm(0);
-    reinterpret_cast<DeletedAnmManagerView *>(g_AnmManager)->ReleaseAnm(2);
-    reinterpret_cast<DeletedAnmManagerView *>(g_AnmManager)->ReleaseSurface(8);
+    g_AnmManager->ReleaseVertexBuffer();
+    g_AnmManager->ReleaseAnm(0);
+    g_AnmManager->ReleaseAnm(2);
+    g_AnmManager->ReleaseSurface(8);
 
     AsciiManager::CutChain();
     g_SoundPlayer.QueueCommand(4, 0, "dummy");
@@ -130,7 +94,7 @@ int SupervisorDeletedCallback(Supervisor *supervisor)
 
     g_DeletedReplayState->Release();
     g_DeletedReplayState = NULL;
-    SupervisorDeletedReleaseTextBuffer();
+    TextHelper::ReleaseTextBuffer();
 
     if (callbackSupervisor->keyboard10 != NULL)
         callbackSupervisor->keyboard10->Unacquire();
@@ -170,7 +134,7 @@ int SupervisorDeletedCallback(Supervisor *supervisor)
     }
 
     SaveTitleScoreData();
-    SupervisorDeletedReleaseSubsystemB();
+    ReleaseEtamaAnm();
     SupervisorDeletedReleaseSubsystemC();
     return 0;
 }

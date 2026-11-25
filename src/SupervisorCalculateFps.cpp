@@ -1,5 +1,6 @@
 #include "Supervisor.hpp"
 #include "AsciiManager.hpp"
+#include "GameManagerRuntimeView.hpp"
 
 #include <windows.h>
 #include <mmsystem.h>
@@ -33,15 +34,6 @@ typedef char SupervisorCalculateRecordedFpsAt5C8[
 typedef char SupervisorCalculateFrequencyAt744[
     (offsetof(SupervisorCalculateFpsLayout, fpsPerformanceFrequency) == 0x744) ? 1 : -1];
 
-struct SupervisorCalculateGameManagerView
-{
-    unsigned char unknown000[0x134];
-    unsigned int flags;
-
-    int IsReplayNeutral();
-};
-
-extern SupervisorCalculateGameManagerView g_GameManager;
 extern unsigned int g_FpsQpcSampleCount;
 extern LARGE_INTEGER g_FpsLastQpc;
 extern unsigned int g_FpsLastTime;

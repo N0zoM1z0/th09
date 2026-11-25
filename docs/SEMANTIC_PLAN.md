@@ -12,17 +12,17 @@ playthrough.
 Measured before Batch 1 via `scripts/report-semantic-debt.py` and workspace
 inspection:
 
-| Metric | Baseline | After Phase 1/2/3.1/4 | Notes |
+| Metric | Baseline | Current (`3.1b`) | Notes |
 | --- | ---: | ---: | --- |
 | Source files in `src/` | 550 | 554 | Added `EclOperandIds.hpp`, `SoundIds.hpp`, `EffectIds.hpp`, `SupervisorStates.hpp`, `TitleScreenStates.hpp` |
 | Numeric `switch` cases | 717 | 297 | `-420` (`EclOperands`, `BackgroundStageScript`, `FrontMessageUpdate`, `EnemySchedule`, `SupervisorUpdate`, `TitleCalc/Draw` closed & guarded) |
 | Numeric `PlaySound*` / `PlayMenuSound` literals | 147 (89 + 58) | 0 | Closed & CI-guarded (`SoundIdx` 0..53) |
 | Numeric `SpawnEffect*` literals | 10 | 0 | Closed & CI-guarded (`Th09EffectId`) |
-| `*View` struct/class definitions | 362 | 316 | `-46` duplicate ExAttack view structs removed in Batch 3.1 |
-| Link `/ALTERNATENAME` aliases | 139 | 107 | `-32` aliases retired in Batch 3.1 (verified by `verify-trial-layouts.py`) |
-| `reinterpret_cast` sites | 1,930 | 1,928 | Next wave targets remaining `ExAttack` / `Player` / `GameManager` views |
-| Anonymous `unknown`/`pad`/`raw` hex names | 913 | 860 | `-53` removed alongside duplicate view structs |
-| `ProductData.asm` generated labels | 628 | 624 | `-4` duplicate view-typed `g_GameManager` data labels |
+| `*View` struct/class definitions | 362 | 296 | `-66` duplicate views removed across Batches 3.1 & 3.1b |
+| Link `/ALTERNATENAME` aliases | 139 | 66 | `-73` (`-52.5%`) aliases retired across Batches 3.1 & 3.1b (`verify-trial-layouts.py` green) |
+| `reinterpret_cast` sites | 1,930 | 1,911 | `-19` redundant view casts retired |
+| Anonymous `unknown`/`pad`/`raw` hex names | 913 | 849 | `-64` removed alongside duplicate view structs |
+| `ProductData.asm` generated labels | 628 | 614 | `-14` duplicate view-typed global data labels retired |
 
 ## Phased execution plan
 
@@ -86,10 +86,8 @@ preserving exact VC7.1 bytes and verifying PI layouts after symbol changes:
   `BulletSpawnDescriptorCtorView`; retired **46 `*View` structs** and
   **32 `/ALTERNATENAME` aliases** (`139 -> 107`), verified with scoped exact
   replay + full normal/reversed/playable PI links (`verify-trial-layouts.py`).
-- [ ] **3.1b Remaining shared vector / descriptor / ANM VM views:**
-  consolidate remaining 7 `ExAttackType*BulletDescriptorStorage` duplicates,
-  `AnmVmView`/`PlayerAnmVmView`/`StartupAnmVm`/`TitleAnmVmConstructView`, and
-  redundant `Float3` vertex views.
+- [x] **3.1b Shared descriptor, Supervisor, Replay, Title & Player view consolidation:**
+  consolidated all remaining 8 `BulletSpawnDescriptor` views (`ExAttackUpdateType{8Type9,11Type12,15,20,21,25,26}`, `BulletAdvanceTransformProgram`), `SupervisorStartup`/`SupervisorDeletedCallback`/`SupervisorDrawLoading`/`SupervisorCalculateFps`/`SupervisorDrawMain`/`SupervisorVersion`, `GameWindowRender`, `TitleScreenFactoryView` (`AnmVm` + `ReplayDataView`), `ReplayStageDispatch`, `EnemyManagerRelease`, `PlayerLifecycle`, and `PlayerAddedState` onto canonical `AnmManager`, `AnmLoaded`, `AnmVm`, `AsciiManager`, `AsciiGameManagerView`, `PbgArchive`, `MidiOutput`, `SoundPlayer`, `ReplayManagerView`, `RngRuntimeView`, `TextHelper`, and `SupervisorThreadStartView`; retired **20 more `*View` definitions**, **41 `/ALTERNATENAME` aliases** (`107 -> 66`), and **10 duplicate `ProductData.asm` labels** (`624 -> 614`), verified with scoped exact replay (`128/128` exact units) + full normal/reversed/playable PI links (`verify-trial-layouts.py`).
 - [ ] **3.2 `GameManager` and `Supervisor` canonical layouts:**
   unify `AsciiGameManagerView` / `GameManagerSetupView` /
   `GameManagerRuntimeView` / `GameManagerResetView` and `Supervisor*View`

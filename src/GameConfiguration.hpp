@@ -32,7 +32,7 @@ struct GameConfiguration
     unsigned char valueAC;
     unsigned char valueAD;
     unsigned char musicMode;
-    unsigned char valueAF;
+    union { unsigned char valueAF; unsigned char playSounds; };
     unsigned char difficulty;
     unsigned char windowed;
     unsigned char valueB2;

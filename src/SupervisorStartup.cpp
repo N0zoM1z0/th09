@@ -1,9 +1,10 @@
 #include "Supervisor.hpp"
 #include "Midi.hpp"
+#include "AnmManager.hpp"
+#include "AnmLoaded.hpp"
 #include "AnmVmLifecycle.hpp"
-#define TH09_GAME_MANAGER_TYPES_ONLY
+#include "SoundPlayer.hpp"
 #include "GameManagerRuntimeView.hpp"
-#undef TH09_GAME_MANAGER_TYPES_ONLY
 #include "GameErrorContext.hpp"
 #include "ZunMemory.hpp"
 
@@ -13,53 +14,23 @@
 #include <dinput.h>
 #include <string.h>
 
-// Preserve the original StartupAnmVm constructor C++ symbol while using
-// the same 0x2A4-byte native ANM VM as the full ExecuteScript interpreter.
-// Its +0x208 XYZ words are already the target-observed AnmVmBase::pos.
-struct StartupAnmVm : AnmVm
-{
-    StartupAnmVm();
-};
-
 typedef char StartupAnmVmSizeCheck[
-    (sizeof(StartupAnmVm) == 0x2A4 &&
+    (sizeof(AnmVm) == 0x2A4 &&
      offsetof(AnmVmBase, pos) == 0x208) ? 1 : -1];
 
-struct StartupAnmLoaded
+struct SoundPlayerLoadFmtView
 {
-    void InitializeAndSetSprite(StartupAnmVm *vm, int spriteIndex);
-};
-
-struct StartupAnmManager
-{
-    StartupAnmLoaded *PreloadAnm(int slot, const char *filename);
-};
-
-struct MidiOutputStartup
-{
-    unsigned char unknown000[0x300];
-
-    MidiOutputStartup();
-    void ReadFileData(int index, const char *filename);
-};
-
-
-struct SoundPlayerStartup
-{
-    unsigned char unknown000[0x6108];
-    char currentBgmFileName[0x10C];
-    int bgmFileBaseOffset;
-    int bgmVolume;
-    int sfxVolume;
-    int unconsumedBgmAttenuation;
-
-    void InitSoundBuffers();
     int LoadFmt(const char *filename);
-    void StartBGM(const char *filename);
+};
+
+// Preserve the distinct original startup-thread close helper at 0x0041A997
+// (separate from SupervisorThreadStartView::ThreadClose at 0x00430230).
+struct SupervisorThreadCloseView : Supervisor
+{
+    void ThreadClose();
 };
 
 // Startup and OnUpdate share the authentic 0x7B0-byte Supervisor.
-// Keep distinct unresolved StartupAnmVm/StartupAnmLoaded method ABIs.
 typedef Supervisor SupervisorStartupLayout;
 
 typedef char SupervisorStartupFlagsAt5D4[
@@ -78,13 +49,6 @@ typedef char SupervisorDirectInputNativeCapsArray[
     (sizeof(((Supervisor *)0)->controllerCaps1C) ==
      2 * sizeof(DIDEVCAPS)) ? 1 : -1];
 
-// Preserve the original helper's decorated method name while making its
-// receiver a zero-offset view of the real Supervisor object.
-struct SupervisorThreadCloseView : Supervisor
-{
-    void ThreadClose();
-};
-
 // The startup owner uses the actual two 0x38-byte GameManager sides.
 // Its source-facing manager type is the shared native AsciiGameManagerView.
 
@@ -93,9 +57,6 @@ typedef char StartupNativeGameSideAt20[
      offsetof(AsciiGameManagerSideView, value20) == 0x20 &&
      offsetof(AsciiGameManagerView, sides) == 0) ? 1 : -1];
 
-extern StartupAnmManager *g_AnmManager;
-extern SoundPlayerStartup g_SoundPlayer;
-extern AsciiGameManagerView g_GameManager;
 extern GameErrorContext g_GameErrorContext;
 
 extern int RegisterAsciiManagerStartup();
@@ -226,8 +187,8 @@ void Supervisor::StartupThread(Supervisor *unused)
 
     if (g_Supervisor.midiOutput5BC == NULL)
     {
-        g_Supervisor.midiOutput5BC = static_cast<MidiOutputStartup *>(
-            g_ZunMemory.AddToRegistry(new MidiOutputStartup, sizeof(MidiOutputStartup),
+        g_Supervisor.midiOutput5BC = static_cast<MidiOutput *>(
+            g_ZunMemory.AddToRegistry(new MidiOutput, sizeof(MidiOutput),
                                       "MidiSysInf"));
     }
     if (g_Supervisor.midiOutput5BC != NULL)
@@ -238,8 +199,8 @@ void Supervisor::StartupThread(Supervisor *unused)
     if (g_Supervisor.textAnm5CC == NULL)
         goto error;
 
-    g_Supervisor.startupVm584 = static_cast<StartupAnmVm *>(
-        g_ZunMemory.AddToRegistry(new StartupAnmVm, sizeof(StartupAnmVm), "SprtInf"));
+    g_Supervisor.startupVm584 = static_cast<AnmVm *>(
+        g_ZunMemory.AddToRegistry(new AnmVm, sizeof(AnmVm), "SprtInf"));
     g_Supervisor.textAnm5CC->InitializeAndSetSprite(g_Supervisor.startupVm584, 31);
     g_Supervisor.startupVm584->pos.x = 320.0f;
     g_Supervisor.startupVm584->pos.y = 240.0f;
@@ -269,7 +230,7 @@ void Supervisor::StartupThread(Supervisor *unused)
         goto error;
     }
 
-    if (g_SoundPlayer.LoadFmt("bgm/thbgm.fmt") != 0)
+    if (reinterpret_cast<SoundPlayerLoadFmtView *>(&g_SoundPlayer)->LoadFmt("bgm/thbgm.fmt") != 0)
     {
         if (g_Supervisor.subthreadCloseRequestActive)
             return;
@@ -298,14 +259,14 @@ void Supervisor::StartupThread(Supervisor *unused)
     if (g_SoundPlayer.bgmFileBaseOffset == 0)
     {
         if (!g_Supervisor.IsMusicPreloaded())
-            g_SoundPlayer.StartBGM("thbgm.dat");
+            g_SoundPlayer.StartBGM(const_cast<char *>("thbgm.dat"));
         else
             strcpy(g_SoundPlayer.currentBgmFileName, "thbgm.dat");
     }
     else
     {
         if (!g_Supervisor.IsMusicPreloaded())
-            g_SoundPlayer.StartBGM("th09.dat");
+            g_SoundPlayer.StartBGM(const_cast<char *>("th09.dat"));
         else
             strcpy(g_SoundPlayer.currentBgmFileName, "th09.dat");
     }

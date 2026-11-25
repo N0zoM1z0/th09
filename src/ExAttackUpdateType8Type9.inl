@@ -7,6 +7,7 @@
 #include "RuntimeAngleMath.hpp"
 #include "AsciiManager.hpp"
 #include "BulletManager.hpp"
+#include "BulletSpawnDescriptorCtorView.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackInterpolation.hpp"
 #include "ExAttackType8GameManagerView.hpp"
@@ -45,22 +46,6 @@ struct ExAttackType89UpdateRecord
     float rotation3C;
 };
 
-struct ExAttackType89PlayerAnmView
-{
-    unsigned char unknown000[0xBC];
-    AnmLoaded *anmFileBC;
-};
-
-struct ExAttackType89BulletDescriptorStorage
-{
-    unsigned char storage[0x214];
-    ExAttackType89BulletDescriptorStorage();
-};
-typedef char ExAttackType89BulletDescriptorStorageSizeIs214[
-    (sizeof(ExAttackType89BulletDescriptorStorage) == 0x214) ? 1 : -1];
-
-
-
 int __fastcall ExAttackUpdateCallbackType8_9(ExAttackRecord *base)
 {
     ExAttackType89UpdateRecord *record =
@@ -85,9 +70,8 @@ int __fastcall ExAttackUpdateCallbackType8_9(ExAttackRecord *base)
                     extra->angle0C, 0.10471976f);
                 extra->angle0C = bulletAngle;
 
-                ExAttackType89BulletDescriptorStorage storage;
-                BulletSpawnDescriptor *descriptor =
-                    reinterpret_cast<BulletSpawnDescriptor *>(&storage);
+                BulletSpawnDescriptorCtorView storage;
+                BulletSpawnDescriptor *descriptor = &storage.descriptor;
                 descriptor->position = record->position20;
                 descriptor->bulletType = 6;
                 descriptor->aimMode = 5;
@@ -162,9 +146,8 @@ int __fastcall ExAttackUpdateCallbackType8_9(ExAttackRecord *base)
 
         if (record->timer10 > 90)
         {
-            reinterpret_cast<ExAttackType89PlayerAnmView *>(
-                g_GameManager.sides[record->side08].player04)
-                ->anmFileBC->ExecuteAnmIdx(
+            g_GameManager.sides[record->side08].player04
+                ->header24.anmFile98->ExecuteAnmIdx(
                     reinterpret_cast<AnmVm *>(record->dynamicData1C), 9);
             ++extra->state00;
             record->position20 = extra->spawn50;

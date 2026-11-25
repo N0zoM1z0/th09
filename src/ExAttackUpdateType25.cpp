@@ -1,6 +1,7 @@
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "BulletManager.hpp"
+#include "BulletSpawnDescriptorCtorView.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackInterpolation.hpp"
 #include "PlayerLifecycleView.hpp"
@@ -33,15 +34,6 @@ struct ExAttackType25Record
     ExAttackType25Extra *extra34;
 };
 
-struct ExAttackType25BulletDescriptorStorage
-{
-    unsigned char storage[0x214];
-    ExAttackType25BulletDescriptorStorage();
-};
-
-typedef char ExAttackType25BulletDescriptorStorageSizeIs214[
-    (sizeof(ExAttackType25BulletDescriptorStorage) == 0x214) ? 1 : -1];
-
 extern AsciiGameManagerView g_GameManager;
 extern RngRuntimeView g_ReplayRng;
 
@@ -63,9 +55,8 @@ int __fastcall ExAttackUpdateCallbackType25(ExAttackRecord *base)
         {
             if (record->timer10.HasTickedEvery(3))
             {
-                ExAttackType25BulletDescriptorStorage storage;
-                BulletSpawnDescriptor *descriptor =
-                    reinterpret_cast<BulletSpawnDescriptor *>(&storage);
+                BulletSpawnDescriptorCtorView storage;
+                BulletSpawnDescriptor *descriptor = &storage.descriptor;
 
                 descriptor->position = record->position20;
                 descriptor->position.y += 24.0f;

@@ -3,6 +3,7 @@
 #include "Chain.hpp"
 #include "GameWindow.hpp"
 #include "Supervisor.hpp"
+#include "SupervisorThreadStartView.hpp"
 
 #include <d3d8.h>
 #include <windows.h>
@@ -26,12 +27,7 @@ typedef char GameWindowRenderFogStateAt794[
 
 extern Chain g_Chain;
 
-struct GameWindowSupervisorThreadView
-{
-    void ThreadClose();
-};
-
-struct GameWindowAnmDrawView
+struct SupervisorDrawMainAnmManagerView
 {
     void ResetDrawState();
 };
@@ -59,13 +55,13 @@ int GameWindow::Render()
 
         if (calcResult == 0)
         {
-            reinterpret_cast<GameWindowSupervisorThreadView *>(
+            reinterpret_cast<SupervisorThreadStartView *>(
                 &g_Supervisor)->ThreadClose();
             return 1;
         }
         if (calcResult == -1)
         {
-            reinterpret_cast<GameWindowSupervisorThreadView *>(
+            reinterpret_cast<SupervisorThreadStartView *>(
                 &g_Supervisor)->ThreadClose();
             return 2;
         }
@@ -76,7 +72,7 @@ int GameWindow::Render()
         if (supervisor->frameskipConfig43A < this->framesSinceRedraw10)
         {
             supervisor->d3dDevice08->BeginScene();
-            reinterpret_cast<GameWindowAnmDrawView *>(
+            reinterpret_cast<SupervisorDrawMainAnmManagerView *>(
                 g_AnmManager)->ResetDrawState();
             supervisor->fogState794 = 255;
             g_Supervisor.DisableFog();

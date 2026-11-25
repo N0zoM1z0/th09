@@ -8,7 +8,6 @@
 // controllers only for records 0/1. Record 2 carries the shared EffectManager.
 // The unused third-record members have no asserted gameplay role.
 struct ReplayManagerView;
-struct ReplayStageDispatchView;
 struct PlayerSharedRuntimeView;
 struct FrontFactoryConstructView;
 typedef AsciiGameManagerSideView SetupSideState;
@@ -38,7 +37,7 @@ struct GameManagerSetupLayout
     int valueC8;
     int valueCC;
     int valueD0;
-    union { void *stageObject; ReplayManagerView *replayManagerD4; ReplayStageDispatchView *replayDispatchD4; };
+    union { void *stageObject; ReplayManagerView *replayManagerD4; };
     unsigned char clearD8[0x10];
     GameConfiguration *configurationE8;
     float speedEC;

@@ -23,9 +23,7 @@ struct SupervisorDrawMainAnmManagerView
 
 struct SupervisorDrawMainAsciiManagerView
 {
-    void SetScale(float scaleX, float scaleY);
     void SetAlpha(int alpha);
-    void ResetStrings();
 };
 
 extern AsciiManager g_AsciiManager;
@@ -47,7 +45,7 @@ int __fastcall SupervisorDrawMain(Supervisor *supervisor)
         if (layout->loadingState >= 5)
         {
             Float3 position(288.0f, 454.0f, 0.0f);
-            ascii->SetScale(0.5f, 0.5f);
+            g_AsciiManager.SetScale(0.5f, 0.5f);
 
             if (layout->loadingState < 35)
             {
@@ -61,7 +59,7 @@ int __fastcall SupervisorDrawMain(Supervisor *supervisor)
             }
 
             g_AsciiManager.AddFormatText(&position, "Press Shot Button");
-            ascii->SetScale(1.0f, 1.0f);
+            g_AsciiManager.SetScale(1.0f, 1.0f);
             g_AsciiManager.DrawStrings();
             g_AsciiManager.ResetStrings();
 

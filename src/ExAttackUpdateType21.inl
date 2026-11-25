@@ -3,10 +3,12 @@
 #include "AnmManager.hpp"
 #include "RuntimeAngleMath.hpp"
 #include "BulletManager.hpp"
+#include "BulletSpawnDescriptorCtorView.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackInterpolation.hpp"
 #include "ExAttackType8GameManagerView.hpp"
 #include "ExAttackType21ExtraView.hpp"
+#include "PlayerLifecycleView.hpp"
 
 #include <stddef.h>
 
@@ -20,27 +22,6 @@ struct ExAttackType21UpdateVmView
     unsigned char unknown000[0x1F8];
     unsigned int flags1F8;
 };
-
-struct ExAttackType21UpdatePlayerView
-{
-    unsigned char unknown000[0xBC];
-    AnmLoaded *anmFileBC;
-};
-
-struct ExAttackType21BulletDescriptorStorage
-{
-    // Declaration-only constructor view; original class/definition unknown.
-    // Both emission paths access the initialized bytes as this real member.
-    BulletSpawnDescriptor descriptor;
-    ExAttackType21BulletDescriptorStorage();
-};
-
-typedef char ExAttackType21BulletDescriptorStorageSizeIs214[
-    (sizeof(ExAttackType21BulletDescriptorStorage) == 0x214) ? 1 : -1];
-typedef char ExAttackType21BulletDescriptorAtZero[
-    (offsetof(ExAttackType21BulletDescriptorStorage, descriptor) == 0) ? 1 : -1];
-
-
 
 int __fastcall ExAttackUpdateCallbackType21(ExAttackRecord *base)
 {
@@ -70,9 +51,8 @@ int __fastcall ExAttackUpdateCallbackType21(ExAttackRecord *base)
             record->unknown00 = record->opponentSide04;
             record->timer10 = 0;
 
-            reinterpret_cast<ExAttackType21UpdatePlayerView *>(
-                g_GameManager.sides[record->side08].player04)
-                ->anmFileBC->ExecuteAnmIdx(
+            g_GameManager.sides[record->side08].player04
+                ->header24.anmFile98->ExecuteAnmIdx(
                     reinterpret_cast<AnmVm *>(record->dynamicData1C),
                     11);
 
@@ -135,7 +115,7 @@ int __fastcall ExAttackUpdateCallbackType21(ExAttackRecord *base)
                 {
                     bullet->unknown10BE = 1;
 
-                    ExAttackType21BulletDescriptorStorage storage;
+                    BulletSpawnDescriptorCtorView storage;
                     BulletSpawnDescriptor *descriptor =
                         &storage.descriptor;
                     descriptor->position = bullet->position;
@@ -174,7 +154,7 @@ int __fastcall ExAttackUpdateCallbackType21(ExAttackRecord *base)
                 {
                     bullet->unknown10BE = 1;
 
-                    ExAttackType21BulletDescriptorStorage storage;
+                    BulletSpawnDescriptorCtorView storage;
                     BulletSpawnDescriptor *descriptor =
                         &storage.descriptor;
                     descriptor->position = bullet->position;

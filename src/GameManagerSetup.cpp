@@ -113,8 +113,7 @@ extern void __fastcall ReleaseSubsystem4(void *object);
 extern void __fastcall ResetGameManager(GameManagerSetupLayout *manager);
 extern void __fastcall FormatCurrentDateString(char *buffer);
 extern void __fastcall ReleaseStageObject(void *object);
-struct ReplayStageDispatchView;
-extern void __fastcall DispatchReplayStage(ReplayStageDispatchView *manager, int replayMode);
+extern void __fastcall DispatchReplayStage(ReplayManagerView *manager, int replayMode);
 extern void __fastcall FinishLoading(Supervisor *supervisor);
 extern void *__fastcall CreateGameSubsystem();
 extern int __fastcall PreloadPlayerAnmResources();
@@ -831,12 +830,12 @@ mode_ready:
             g_GameManager.seedCopy346 = g_Rng.seed;
             g_GameManager.SelectOpponentConfiguration();
             DispatchReplayStage(
-                g_GameManager.replayDispatchD4, 0);
+                g_GameManager.replayManagerD4, 0);
         }
         else
         {
             DispatchReplayStage(
-                g_GameManager.replayDispatchD4, 1);
+                g_GameManager.replayManagerD4, 1);
             g_GameManager.SelectOpponentConfiguration();
         }
 

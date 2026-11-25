@@ -1,5 +1,6 @@
 #include "PlayerLifecycleView.hpp"
 #include "GameManagerRuntimeView.hpp"
+#include "RngRuntimeLeaves.hpp"
 #include "ZunTimer.hpp"
 
 #include <stddef.h>
@@ -8,16 +9,6 @@
 struct PlayerAddedAnmLoadedView
 {
     void SetAndExecuteScriptIdx(PlayerAnmVmView *vm, int scriptIndex);
-};
-
-struct PlayerAddedStateSetterView
-{
-    int SetState(int state);
-};
-
-struct PlayerAddedRngView
-{
-    float SampleRange(float max);
 };
 
 // The independently exact Player registration and this update share the
@@ -120,7 +111,7 @@ typedef char PlayerAddedStartYAt35C[(offsetof(AsciiGameManagerView, coordinate35
 extern int g_PlayerAddedSideTable[];
 extern int g_PlayerAddedClampValue;
 extern int g_PlayerAddedModeSelector;
-extern PlayerAddedRngView g_PlayerAddedRng;
+extern RngRuntimeView g_Rng;
 
 int PlayerCollisionRegionCreateRegionView::Reset()
 {
@@ -172,7 +163,7 @@ void PlayerLifecycleView::InitializeAddedState()
     player->field30358 = 0;
     player->ownerState30410.activeFrameCounter3C = 0;
 
-    reinterpret_cast<PlayerAddedStateSetterView *>(this)->SetState(5);
+    this->SetUpdateState(5);
     player->timer303C8 = 120;
     player->addedMarker1B84 = 1;
 
@@ -193,7 +184,7 @@ void PlayerLifecycleView::InitializeAddedState()
     this->flagBits1B80 = addedFlags;
     player->timer303B0 = 6;
 
-    float randomValue = g_PlayerAddedRng.SampleRange(400.0f) + 100.0f;
+    float randomValue = g_Rng.GetRandomF32InRange(400.0f) + 100.0f;
     player->randomRange7C = randomValue;
     if (randomValue >= 400.0f)
         player->randomRange7C = 400.0f;

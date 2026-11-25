@@ -1,5 +1,7 @@
 #include "PlayerLifecycleView.hpp"
 #include "PlayerRegisterChain.hpp"
+#include "AnmManager.hpp"
+#include "StageResourcePolicy.hpp"
 #include "ZunMemory.hpp"
 #include "ZunTimer.hpp"
 #include "GameManagerRuntimeView.hpp"
@@ -49,20 +51,13 @@ PlayerLifecycleView *__fastcall PlayerRegisterChain(int playerType, int sideInde
 }
 
 
-struct PlayerLifecycleAnmManagerView
-{
-    void ReleaseAnm(int anmIdx);
-};
-
-extern PlayerLifecycleAnmManagerView *g_PlayerLifecycleAnmManager;
 extern PlayerShtFileView *g_PlayerShtFilesBySide[2];
-extern int IsPlayerResourceReleaseRequired();
 
 static int ReleasePlayerOwnedResources(PlayerLifecycleView *player)
 {
-    if (IsPlayerResourceReleaseRequired())
+    if (ShouldReleaseStageResources())
     {
-        g_PlayerLifecycleAnmManager->ReleaseAnm(player->sideIndex + 5);
+        g_AnmManager->ReleaseAnm(player->sideIndex + 5);
         if (player->primaryShtFile != NULL)
         {
             g_ZunMemory.Free(player->primaryShtFile);

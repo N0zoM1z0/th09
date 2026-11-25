@@ -4,6 +4,7 @@
 
 #include "AnmManager.hpp"
 #include "Chain.hpp"
+#include "RngRuntimeLeaves.hpp"
 
 #include <new>
 #include <stdlib.h>
@@ -40,12 +41,7 @@ void __fastcall ReleaseSubsystem4(void *object)
     }
 }
 
-struct EnemyLifecycleRngView
-{
-    unsigned int GetRandomU32InRange(unsigned int maximum);
-};
-
-extern EnemyLifecycleRngView g_Rng;
+extern RngRuntimeView g_Rng;
 extern unsigned char g_EnemySubroutineSchedule[256];
 
 void EnemyManagerView::ResetForGameplayCleanup()

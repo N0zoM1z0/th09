@@ -12,11 +12,9 @@ struct IDirect3DDevice8;
 struct IDirectInput8A;
 struct IDirectInputDevice8A;
 struct HWND__;
-struct AnmLoaded;
-struct StartupAnmVm;
+class AnmLoaded;
 struct AnmVm;
-struct StartupAnmLoaded;
-struct MidiOutputStartup;
+class MidiOutput;
 class DummyMidiTimer;
 
 struct SupervisorCtorArrayElement
@@ -166,7 +164,7 @@ class Supervisor
     union { int field478; int networkBusy478; };
     SupervisorFrameEntryStorageView entries47C[20];
     SupervisorFrameEntryStorageView lastReceived56C[2];
-    union { StartupAnmVm *startupVm584; AnmVm *networkMessageVm584; };
+    union { AnmVm *startupVm584; AnmVm *networkMessageVm584; };
     union { unsigned char unknown588[0x58C - 0x588]; unsigned int networkConnectStartTime588; };
     int wantedState58C;
     union { int state590; int curState590; };
@@ -182,9 +180,9 @@ class Supervisor
     int couldSetRefreshRate5B0;
     int lastFrameTime5B4;
     union { float framerateMultiplier5B8; float gameSpeed; };
-    MidiOutputStartup *midiOutput5BC;
+    MidiOutput *midiOutput5BC;
     unsigned char unknown5C0[0x5CC - 0x5C0];
-    StartupAnmLoaded *textAnm5CC;
+    AnmLoaded *textAnm5CC;
     union { AnmLoaded *loadingAnm5D0; void *loadingAnm; };
     union { volatile unsigned int flags5D4; unsigned int flags; signed char flagsLow5D4; };
     // The retail renderer writes the complete D3D8 caps record here.

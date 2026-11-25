@@ -1,5 +1,6 @@
 #include "FileSystem.hpp"
 #include "GameErrorContext.hpp"
+#include "PbgArchive.hpp"
 #include "Supervisor.hpp"
 #include "SupervisorVersionView.hpp"
 
@@ -11,11 +12,6 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef int i32;
 
-struct SupervisorVersionPbgArchiveView {
-    bool Load(const char *path);
-};
-
-extern SupervisorVersionPbgArchiveView g_PbgArchive;
 extern GameErrorContext g_GameErrorContext;
 extern const char g_DatNotFoundError[];
 extern const char g_DatVersionError[];

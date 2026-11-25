@@ -1,5 +1,6 @@
 #include "RuntimePolarMath.hpp"
 #include "BulletManager.hpp"
+#include "BulletSpawnDescriptorCtorView.hpp"
 #include "AnmManager.hpp"
 #include "SoundPlayer.hpp"
 #include "Supervisor.hpp"
@@ -33,42 +34,6 @@ enum BulletAdvanceState
 };
 
 // The global Supervisor owns the +0x5B8 frame multiplier.
-
-struct BulletSpawnDescriptorAdvanceView
-{
-    short bulletType;
-    short color;
-    Float3 position;
-    float angle;
-    float angleStep;
-    float speed1;
-    float speed2;
-    BulletTransformRecord transforms[18];
-    float laserStartOffset;
-    float laserEndOffset;
-    float laserStartLength;
-    float laserWidth;
-    int laserStartTime;
-    int laserDuration;
-    int laserDespawnDuration;
-    int laserHitboxStartTime;
-    int laserHitboxEndDelay;
-    short count1;
-    short count2;
-    unsigned short aimMode;
-    unsigned short unknown1FA;
-    unsigned int transformFlags;
-    int spawnSound;
-    int transformSound;
-    int transformStartIndex;
-    unsigned char extraAttribute20C;
-    unsigned char unknown20D[3];
-    BulletTypeSprites *templateSprites;
-
-    BulletSpawnDescriptorAdvanceView();
-};
-typedef char BulletAdvanceDescriptorViewSizeIs214[
-    (sizeof(BulletSpawnDescriptorAdvanceView) == 0x214) ? 1 : -1];
 
 // Child-spawn opcode 0x01000000 packs type/color bytes inside one real
 // 32-bit transform payload word. Read those exact original Win32 byte
@@ -230,7 +195,8 @@ nextRecord:
 
     case ADVANCE_TRANSFORM_SPAWN_CHILD_PATTERN:
         {
-            BulletSpawnDescriptorAdvanceView pattern;
+            BulletSpawnDescriptorCtorView storage;
+            BulletSpawnDescriptor &pattern = storage.descriptor;
             pattern.position = this->position;
             unsigned int fadeParent =
                 static_cast<unsigned int>(record->payload.raw.int0) &
@@ -264,8 +230,7 @@ nextRecord:
                 this->transforms,
                 sizeof(pattern.transforms));
 
-            this->controller->SpawnBulletPatternPrimary(
-                reinterpret_cast<BulletSpawnDescriptor *>(&pattern));
+            this->controller->SpawnBulletPatternPrimary(&pattern);
             ++this->transformIndex;
 
             if (fadeParent != 0)
