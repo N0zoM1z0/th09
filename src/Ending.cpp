@@ -1,6 +1,7 @@
 #include "Ending.hpp"
 
 #include "AnmManager.hpp"
+#include "AsciiInputView.hpp"
 #include "FileSystem.hpp"
 #include "GameErrorContext.hpp"
 #include "ScreenEffect.hpp"
@@ -14,13 +15,6 @@
 extern Chain g_Chain;
 extern ZunMemory g_ZunMemory;
 extern GameErrorContext g_GameErrorContext;
-
-struct AsciiInputView
-{
-    unsigned short IsHeld(unsigned short buttons);
-    unsigned short WasPressed(unsigned short buttons);
-};
-extern AsciiInputView g_AsciiInput;
 
 typedef char EndingNativeAnmScriptIndex[
     (offsetof(AnmVm, scriptIndex) == 0x21A) ? 1 : -1];

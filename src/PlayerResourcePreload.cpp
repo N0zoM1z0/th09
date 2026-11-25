@@ -1,10 +1,5 @@
 #include "AnmManager.hpp"
 
-struct PlayerAnmManagerRawView
-{
-    void *GetAnmRawData(int anmIdx);
-};
-
 struct PlayerPreloadSideTailView
 {
     int shotType20;

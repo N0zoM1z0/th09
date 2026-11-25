@@ -26,3 +26,10 @@ typedef char EnemyEclRawFileSubroutineCountAt06[
 typedef char EnemyEclRawFileSubroutineTableAt08[
     (offsetof(EnemyEclRawFileView, subroutineOffsets) == 0x08 &&
      offsetof(EnemyEclRawFileView, resolvedSubroutines) == 0x08) ? 1 : -1];
+
+struct EnemyEclManagerReleaseView
+{
+    void *rawFile00;
+
+    void ReleaseRawFile();
+};

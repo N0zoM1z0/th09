@@ -9,12 +9,6 @@
 #include <new>
 #include <stdlib.h>
 
-struct EnemyEclManagerReleaseView
-{
-    void *rawFile00;
-    void ReleaseRawFile();
-};
-
 extern Chain g_Chain;
 
 static int EnemyManagerReleaseCore(EnemyManagerView *manager)

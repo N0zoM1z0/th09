@@ -4,15 +4,6 @@ struct PlayerShotSpawnPlayerView;
 struct PlayerShotSpawnShotView;
 struct PlayerShotSpawnDescriptorView;
 
-struct EffectFixedSlotRecordView;
-struct EffectFixedSlotManagerView
-{
-    unsigned char unknown00[0x30];
-    Effect *effects30;
-
-    EffectFixedSlotRecordView *GetFixedSlotEffect(int slot);
-};
-
 int __fastcall PlayerShotSpawnCallbackType2(
     PlayerShotSpawnPlayerView *player,
     PlayerShotSpawnShotView *shot,

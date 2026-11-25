@@ -3,6 +3,7 @@
 #include "Chain.hpp"
 #include "GameWindow.hpp"
 #include "Supervisor.hpp"
+#include "SupervisorDrawMainViews.hpp"
 #include "SupervisorThreadStartView.hpp"
 
 #include <d3d8.h>
@@ -26,11 +27,6 @@ typedef char GameWindowRenderFogStateAt794[
     (offsetof(GameWindowRenderSupervisorView, fogState794) == 0x794) ? 1 : -1];
 
 extern Chain g_Chain;
-
-struct SupervisorDrawMainAnmManagerView
-{
-    void ResetDrawState();
-};
 
 int GameWindow::Render()
 {

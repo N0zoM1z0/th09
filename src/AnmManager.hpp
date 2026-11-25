@@ -222,3 +222,9 @@ inline AnmLoaded *AnmManager::GetAnm(int anmIdx)
         reinterpret_cast<unsigned int>(&manager->slots[0]) +
         static_cast<unsigned int>(anmIdx) * sizeof(manager->slots[0]))->loaded;
 }
+
+struct PlayerAnmManagerRawView
+{
+    AnmLoaded *GetAnm(int anmIdx);
+    void *GetAnmRawData(int anmIdx);
+};

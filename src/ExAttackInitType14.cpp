@@ -2,39 +2,13 @@
 #include "AnmManager.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "ExAttackController.hpp"
+#include "ExAttackRecordRuntimeView.hpp"
 #include "ExAttackType1422ExtraView.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "Supervisor.hpp"
 
 #include <stddef.h>
 
-
-struct ExAttackAllocateRecordView
-{
-    unsigned char bytes[0x38];
-    void AllocateDynamicData(int vmCount, int extraBytes);
-};
-
-struct ExAttackInitAnmOwner
-{
-    unsigned char unknown000[0x2D4];
-    AnmLoaded *anm2D4;
-};
-
-struct ExAttackGameManagerSideView
-{
-    unsigned char unknown00[0x0C];
-    ExAttackInitAnmOwner *anmOwner0C;
-    unsigned char unknown10[0x28];
-};
-
-struct ExAttackRecordSideView
-{
-    int unknown00;
-    int opponentSide04;
-    int side08;
-    ExAttackGameManagerSideView *GetSideState();
-};
 
 extern RngRuntimeView g_ReplayRng;
 extern float g_ExAttackPlayfieldWidth;
@@ -49,8 +23,8 @@ int __fastcall ExAttackInitializeCallbackType14(ExAttackRecord *base)
 
     reinterpret_cast<ExAttackRecordSideView *>(record)
         ->GetSideState()
-        ->anmOwner0C
-        ->anm2D4
+        ->effectManager0C
+        ->effectAnm
         ->ExecuteAnmIdx(
             reinterpret_cast<AnmVm *>(record->dynamicData1C), 37);
 

@@ -1,4 +1,5 @@
 #include "AnmManager.hpp"
+#include "AsciiInputView.hpp"
 #include "GameWindow.hpp"
 #include "FileSystem.hpp"
 #include "Supervisor.hpp"
@@ -9,11 +10,6 @@
 
 #include <stddef.h>
 
-struct AsciiInputView
-{
-    unsigned short WasPressed(unsigned short buttons);
-};
-extern AsciiInputView g_AsciiInput;
 extern unsigned char g_TitleRegistrationByte;
 
 void ResetRenderState();

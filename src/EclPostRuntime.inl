@@ -24,11 +24,7 @@ typedef void (__fastcall *EnemySpecialInteractionCallback)(
     EnemyEclPlayerView *player,
     EnemyView *enemy);
 
-struct PlayerPositionView;
-struct PlayerPositionCallbackView
-{
-    int InvokePositionCallback(PlayerPositionView *position);
-};
+#include "PlayerPositionCallbackView.hpp"
 
 struct EnemyEclPlayerView
 {

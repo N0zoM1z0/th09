@@ -1,15 +1,5 @@
+#include "SupervisorDrawMainViews.hpp"
 #include <stddef.h>
-
-struct SupervisorDrawMainAnmManagerView
-{
-    void ResetDrawState();
-    void *GetSurface(int surfaceIndex);
-};
-
-struct SupervisorDrawMainAsciiManagerView
-{
-    void SetAlpha(int alpha);
-};
 
 namespace
 {

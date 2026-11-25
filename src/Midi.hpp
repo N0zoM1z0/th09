@@ -210,6 +210,11 @@ class MidiOutput : MidiTimer
 };
 C_ASSERT(sizeof(MidiOutput) == 0x300);
 
+struct MidiPlaybackPathView : MidiOutput
+{
+    void PlayPath(const char *path);
+};
+
 class DummyMidiTimer : public MidiTimer
 {
   public:

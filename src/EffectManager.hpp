@@ -191,3 +191,12 @@ typedef char EffectManagerSentinel0At3C[(offsetof(EffectManager, drawSentinel0) 
 typedef char EffectManagerSentinel1At114[(offsetof(EffectManager, drawSentinel1) == 0x114) ? 1 : -1];
 typedef char EffectManagerSentinel2At1EC[(offsetof(EffectManager, drawSentinel2) == 0x1EC) ? 1 : -1];
 typedef char EffectManagerAnmAt2D4[(offsetof(EffectManager, effectAnm) == 0x2D4) ? 1 : -1];
+
+struct EffectFixedSlotRecordView;
+struct EffectFixedSlotManagerView
+{
+    unsigned char unknown00[0x30];
+    Effect *effects30;
+
+    EffectFixedSlotRecordView *GetFixedSlotEffect(int slot);
+};

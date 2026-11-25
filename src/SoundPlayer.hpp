@@ -75,3 +75,11 @@ typedef char SoundPlayerMetadataAt408[
     (offsetof(SoundPlayer, unconsumedMetadataBySound) == 0x408) ? 1 : -1];
 
 extern SoundPlayer g_SoundPlayer;
+
+struct SoundPlayerLoadFmtView
+{
+    unsigned char unknown000[0x1F84];
+    unsigned char *bgmFmtData;
+
+    int LoadFmt(const char *path);
+};

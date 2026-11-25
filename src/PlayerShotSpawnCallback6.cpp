@@ -1,14 +1,6 @@
 #include "PlayerShotInitializeView.hpp"
 #include "EffectManager.hpp"
 
-struct EffectFixedSlotRecordView;
-struct EffectFixedSlotManagerView
-{
-    unsigned char unknown00[0x30];
-    Effect *effects30;
-    EffectFixedSlotRecordView *GetFixedSlotEffect(int slot);
-};
-
 struct PlayerShotSpawn6DescriptorView;
 struct PlayerShotSpawn6ShotView;
 struct PlayerShotSpawn6PlayerView;

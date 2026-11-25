@@ -18,12 +18,6 @@ void PlayerAnmVmView::SetBlendModeNormal()
 typedef char PlayerAnmRawDataAt04[
     (offsetof(AnmLoaded, rawData04) == 0x04) ? 1 : -1];
 
-struct PlayerAnmManagerRawView
-{
-    AnmLoaded *GetAnm(int anmIdx);
-    void *GetAnmRawData(int anmIdx);
-};
-
 void *PlayerAnmManagerRawView::GetAnmRawData(int anmIdx)
 {
     return GetAnm(anmIdx)->rawData04;

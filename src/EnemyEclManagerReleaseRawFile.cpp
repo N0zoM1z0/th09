@@ -1,11 +1,5 @@
+#include "EnemyEclRawFileView.hpp"
 #include "ZunMemory.hpp"
-
-struct EnemyEclManagerReleaseView
-{
-    void *rawFile00;
-
-    void ReleaseRawFile();
-};
 
 extern ZunMemory g_ZunMemory;
 

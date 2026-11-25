@@ -18,18 +18,6 @@ typedef char StartupAnmVmSizeCheck[
     (sizeof(AnmVm) == 0x2A4 &&
      offsetof(AnmVmBase, pos) == 0x208) ? 1 : -1];
 
-struct SoundPlayerLoadFmtView
-{
-    int LoadFmt(const char *filename);
-};
-
-// Preserve the distinct original startup-thread close helper at 0x0041A997
-// (separate from SupervisorThreadStartView::ThreadClose at 0x00430230).
-struct SupervisorThreadCloseView : Supervisor
-{
-    void ThreadClose();
-};
-
 // Startup and OnUpdate share the authentic 0x7B0-byte Supervisor.
 typedef Supervisor SupervisorStartupLayout;
 

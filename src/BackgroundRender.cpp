@@ -1,5 +1,6 @@
 #include "Background.hpp"
 #include "AnmManager.hpp"
+#include "AnmCameraProjectionViews.hpp"
 #include "AnmMatrixRuntime.hpp"
 #include "Supervisor.hpp"
 #include "Float3.hpp"
@@ -19,28 +20,12 @@ typedef char BackgroundRenderFloat2SizeIs08[
 typedef char BackgroundRenderFloat3SizeIs0C[
     (sizeof(Float3) == 0x0C) ? 1 : -1];
 
-
-struct AnmProjectionContextView
-{
-    Float3 cameraPosition00;
-    Float3 cameraLookAt0C;
-    Float3 cameraUp18;
-    Float3 cameraForward24;
-    Float3 cameraRight30;
-    Float3 cameraPositionOffset3C;
-    float fieldOfView48;
-    D3DXMATRIX viewMatrix4C;
-    D3DXMATRIX projectionMatrix8C;
-    D3DVIEWPORT8 viewportCC;
-};
 typedef char BackgroundRenderContextViewAt4C[
-    (offsetof(AnmProjectionContextView, viewMatrix4C) == 0x4C) ? 1 : -1];
+    (offsetof(AnmProjectionContextView, viewMatrix) == 0x4C) ? 1 : -1];
 typedef char BackgroundRenderContextProjectionAt8C[
-    (offsetof(AnmProjectionContextView, projectionMatrix8C) == 0x8C) ? 1 : -1];
+    (offsetof(AnmProjectionContextView, projectionMatrix) == 0x8C) ? 1 : -1];
 typedef char BackgroundRenderContextViewportAtCC[
-    (offsetof(AnmProjectionContextView, viewportCC) == 0xCC) ? 1 : -1];
-
-extern AnmProjectionContextView *g_AnmProjectionContext;
+    (offsetof(AnmProjectionContextView, viewport) == 0xCC) ? 1 : -1];
 
 // Use the constructed Supervisor's real 0xF0-byte viewport array.
 typedef char BackgroundRenderNativeSupervisorCameraAt78[
@@ -148,9 +133,9 @@ int Background::RenderObjects(int mode)
     g_AnmManager->SetCameraMode(1);
     worldMatrix.SetIdentity();
 
-    cameraVector.x = g_AnmProjectionContext->viewMatrix4C._11;
-    cameraVector.y = g_AnmProjectionContext->viewMatrix4C._12;
-    cameraVector.z = g_AnmProjectionContext->viewMatrix4C._13;
+    cameraVector.x = g_AnmProjectionContext->viewMatrix._11;
+    cameraVector.y = g_AnmProjectionContext->viewMatrix._12;
+    cameraVector.z = g_AnmProjectionContext->viewMatrix._13;
     D3DXVec3Normalize(
         reinterpret_cast<D3DXVECTOR3 *>(&cameraVector),
         reinterpret_cast<D3DXVECTOR3 *>(&cameraVector));
@@ -245,9 +230,9 @@ int Background::RenderObjects(int mode)
                         D3DXVec3Project(
                             reinterpret_cast<D3DXVECTOR3 *>(&quadPosition),
                             reinterpret_cast<D3DXVECTOR3 *>(&projectSource),
-                            &g_AnmProjectionContext->viewportCC,
-                            &g_AnmProjectionContext->projectionMatrix8C,
-                            &g_AnmProjectionContext->viewMatrix4C,
+                            &g_AnmProjectionContext->viewport,
+                            &g_AnmProjectionContext->projectionMatrix,
+                            &g_AnmProjectionContext->viewMatrix,
                             reinterpret_cast<D3DXMATRIX *>(&worldMatrix));
 
                         if (quad->width != 0.0f)
@@ -268,9 +253,9 @@ int Background::RenderObjects(int mode)
                         D3DXVec3Project(
                             reinterpret_cast<D3DXVECTOR3 *>(&projectedSecond),
                             reinterpret_cast<D3DXVECTOR3 *>(&projectSource),
-                            &g_AnmProjectionContext->viewportCC,
-                            &g_AnmProjectionContext->projectionMatrix8C,
-                            &g_AnmProjectionContext->viewMatrix4C,
+                            &g_AnmProjectionContext->viewport,
+                            &g_AnmProjectionContext->projectionMatrix,
+                            &g_AnmProjectionContext->viewMatrix,
                             reinterpret_cast<D3DXMATRIX *>(&worldMatrix));
 
                         projectedSecond = projectedSecond - quadPosition;
@@ -388,9 +373,9 @@ int Background::RenderObjects(int mode)
                     D3DXVec3Project(
                         reinterpret_cast<D3DXVECTOR3 *>(&quadPosition),
                         reinterpret_cast<D3DXVECTOR3 *>(&projectSource),
-                        &g_AnmProjectionContext->viewportCC,
-                        &g_AnmProjectionContext->projectionMatrix8C,
-                        &g_AnmProjectionContext->viewMatrix4C,
+                        &g_AnmProjectionContext->viewport,
+                        &g_AnmProjectionContext->projectionMatrix,
+                        &g_AnmProjectionContext->viewMatrix,
                         reinterpret_cast<D3DXMATRIX *>(&worldMatrix));
 
                     if (quadType1->width != 0.0f)
@@ -412,9 +397,9 @@ int Background::RenderObjects(int mode)
                     D3DXVec3Project(
                         reinterpret_cast<D3DXVECTOR3 *>(&projectedSecond),
                         reinterpret_cast<D3DXVECTOR3 *>(&projectSource),
-                        &g_AnmProjectionContext->viewportCC,
-                        &g_AnmProjectionContext->projectionMatrix8C,
-                        &g_AnmProjectionContext->viewMatrix4C,
+                        &g_AnmProjectionContext->viewport,
+                        &g_AnmProjectionContext->projectionMatrix,
+                        &g_AnmProjectionContext->viewMatrix,
                         reinterpret_cast<D3DXMATRIX *>(&worldMatrix));
 
                     projectedSecond = projectedSecond - quadPosition;
@@ -487,9 +472,9 @@ int Background::RenderObjects(int mode)
                     D3DXVec3Project(
                         reinterpret_cast<D3DXVECTOR3 *>(&type1ProjectedSecond),
                         reinterpret_cast<D3DXVECTOR3 *>(&projectSource),
-                        &g_AnmProjectionContext->viewportCC,
-                        &g_AnmProjectionContext->projectionMatrix8C,
-                        &g_AnmProjectionContext->viewMatrix4C,
+                        &g_AnmProjectionContext->viewport,
+                        &g_AnmProjectionContext->projectionMatrix,
+                        &g_AnmProjectionContext->viewMatrix,
                         reinterpret_cast<D3DXMATRIX *>(&worldMatrix));
 
                     if (quadType1->width != 0.0f)
@@ -511,9 +496,9 @@ int Background::RenderObjects(int mode)
                     D3DXVec3Project(
                         reinterpret_cast<D3DXVECTOR3 *>(&projectedSecond),
                         reinterpret_cast<D3DXVECTOR3 *>(&projectSource),
-                        &g_AnmProjectionContext->viewportCC,
-                        &g_AnmProjectionContext->projectionMatrix8C,
-                        &g_AnmProjectionContext->viewMatrix4C,
+                        &g_AnmProjectionContext->viewport,
+                        &g_AnmProjectionContext->projectionMatrix,
+                        &g_AnmProjectionContext->viewMatrix,
                         reinterpret_cast<D3DXMATRIX *>(&worldMatrix));
 
                     projectedSecond =

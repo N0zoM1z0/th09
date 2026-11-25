@@ -6,11 +6,6 @@
 #include <stddef.h>
 #include <string.h>
 
-struct MidiPlaybackPathView : MidiOutput
-{
-    void PlayPath(const char *path);
-};
-
 namespace
 {
 // Keep a non-inline facade for PlayFile (MidiOutput::PlayFile is inline in Midi.hpp).

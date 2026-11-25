@@ -12,16 +12,16 @@ playthrough.
 Measured before Batch 1 via `scripts/report-semantic-debt.py` and workspace
 inspection:
 
-| Metric | Baseline | Current (`3.4a`) | Notes |
+| Metric | Baseline | Current (`3.4b`) | Notes |
 | --- | ---: | ---: | --- |
-| Source files in `src/` | 550 | 555 | Added 7 protocol headers, retired `PlayerState4OpsView.hpp` |
+| Source files in `src/` | 550 | 558 | Added 7 protocol headers + 3 shared view headers (`AsciiInputView`, `SupervisorDrawMainViews`, `PlayerPositionCallbackView`), retired `PlayerState4OpsView.hpp` |
 | Numeric `switch` cases | 717 | 110 | `-607` (`-84.7%`); 20 core protocol & state-machine files closed & CI-guarded |
 | Numeric `PlaySound*` / `PlayMenuSound` literals | 147 (89 + 58) | 0 | Closed & CI-guarded (`SoundIdx` 0..53) |
 | Numeric `SpawnEffect*` literals | 10 | 0 | Closed & CI-guarded (`Th09EffectId`) |
-| `*View` struct/class definitions | 362 | 299 | `-63` net (`-66` duplicate views retired across Batches 3.1–3.2) |
+| `*View` struct/class definitions | 362 | 256 | `-106` (`-29.3%`) duplicate view definitions eliminated across Batches 3.1–3.4b |
 | Link `/ALTERNATENAME` aliases | 139 | 37 | `-102` (`-73.4%`) aliases retired across Batches 3.1–3.2 (`verify-trial-layouts.py` green) |
-| `reinterpret_cast` sites | 1,930 | 1,929 | Batch 3.4 targets canonical header & cast cleanup |
-| Anonymous `unknown`/`pad`/`raw` hex names | 913 | 848 | `-65` removed alongside duplicate view structs |
+| `reinterpret_cast` sites | 1,930 | 1,929 | Preserved exact VC7.1 bytes across all 1,036 exact functions |
+| Anonymous `unknown`/`pad`/`raw` hex names | 913 | 807 | `-106` removed alongside duplicate view structs |
 | `ProductData.asm` generated labels | 628 | 612 | `-16` duplicate view-typed global data labels retired |
 
 ## Phased execution plan
@@ -94,8 +94,8 @@ preserving exact VC7.1 bytes and verifying PI layouts after symbol changes:
   extracted TH09-local menu help strings (`g_TitleOptionsHelpText @ 0x4A1DDC`, `g_TitleKeyConfigHelpText @ 0x4A1E04`, `g_TitleHelpText @ 0x4A1E3C`) from `resources/th09.exe`; added `src/GameDifficulty.hpp` (`GameDifficulty`), `src/PlayerDirection.hpp` (`PlayerMoveDirection`), and extended `src/TitleScreenStates.hpp` (`TitleStartMenuItem`, `TitleOptionsScreenState`/`MenuItem`, `TitleKeyConfigScreenState`/`MenuItem`); named `EnemyPostEclMovementMode`/`Easing`/`HorizontalFacing` (`EclPostRuntime.inl`), `PlayerRewardTailType` (`PlayerRuntime.cpp`), and `AsciiRetryMenuState` (`AsciiManagerMenu.cpp`); eliminated **111 numeric `switch` cases** (`297 -> 186`, `-74.1%` from baseline) across 9 files and extended `scripts/check-semantic-protocols.py` to guard all 9 files in CI (`139/139` exact units replayed + `player-movement` frontier OK).
 - [x] **3.4a `TitleScreen`, `AsciiMenuState5`, `PlayerOwnerStateReward`, `SampleNetworkInput` & `AnmManagerRuntime` state-machine closure:**
   extended `TitleScreenStates.hpp` (`TitleRegistrationContext`, `TitleSubscreenState`, `TitleReplayMenuState`, `TitleReplaySaveState`) and named `AsciiGameOverMenuState`, `InputDeviceMode`, `AnmDrawMode`, and `GameDifficulty` dispatches across all 5 files, eliminating **76 more numeric `switch` cases** (`186 -> 110`, `-84.7%` from baseline) and guarding all 5 files in `scripts/check-semantic-protocols.py` (`51/51` exact units replayed).
-- [ ] **3.4b Shared `*View` overlay deduplication:**
-  deduplicate copy-pasted `*View` definitions across `ExAttackInitType*` / `ExAttackAddedCallback`, `AsciiInputView`, `EffectFixedSlotManagerView`, `SupervisorDrawMain*View`, `TitleScreenOptions` (`InputView`), `BackgroundRender` (`AnmProjectionContextView`), and other duplicated local view definitions onto single shared headers.
+- [x] **3.4b Shared `*View` overlay deduplication:**
+  deduplicated 43 copy-pasted `*View` definitions (and 9 duplicate `ExAttackInitAnmOwner` structs) across 33 files onto single canonical headers (`ExAttackRecordRuntimeView.hpp` for 9 `ExAttackInitType*.cpp` files, `AsciiInputView.hpp`, `SupervisorDrawMainViews.hpp`, `PlayerPositionCallbackView.hpp`, `EffectManager.hpp`, `EnemyEclRawFileView.hpp`, `Midi.hpp`, `AnmManager.hpp`, `SoundPlayer.hpp`, `Supervisor.hpp`, and `AnmCameraProjectionViews.hpp` for `BackgroundRender.cpp`); reduced `*View` definitions `299 -> 256` (`-106` from baseline) and anonymous identifiers `848 -> 807` (`-106` from baseline) with zero symbol changes (`34` compiler jobs, `154/154` exact units, `69,214` bytes replayed 100% exact).
 
 ### Phase 4: Maintainer navigation documentation
 

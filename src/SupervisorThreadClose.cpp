@@ -2,13 +2,6 @@
 #include <windows.h>
 #include "Supervisor.hpp"
 
-// Keep the original SupervisorThreadCloseView::ThreadClose method symbol
-// while giving its fields the same genuine zero-offset Supervisor owner.
-struct SupervisorThreadCloseView : Supervisor
-{
-    void ThreadClose();
-};
-
 typedef char SupervisorThreadHandleAt6AC[
     (offsetof(SupervisorThreadCloseView, runningSubthreadHandle) == 0x6AC) ? 1 : -1];
 typedef char SupervisorThreadCloseAt6B4[

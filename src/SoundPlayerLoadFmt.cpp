@@ -1,14 +1,7 @@
 #include "FileSystem.hpp"
+#include "SoundPlayer.hpp"
 
 #include <stddef.h>
-
-struct SoundPlayerLoadFmtView
-{
-    unsigned char unknown000[0x1F84];
-    unsigned char *bgmFmtData;
-
-    int LoadFmt(const char *path);
-};
 
 typedef char SoundPlayerLoadFmtAt1F84[
     (offsetof(SoundPlayerLoadFmtView, bgmFmtData) == 0x1F84) ? 1 : -1];

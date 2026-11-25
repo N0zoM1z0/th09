@@ -6,15 +6,11 @@
 #include "SoundPlayer.hpp"
 #include "AsciiGameManagerView.hpp"
 #include "Supervisor.hpp"
+#include "AsciiInputView.hpp"
 #include "GameManagerSetupView.hpp"
 
 #include <windows.h>
 #include <mmsystem.h>
-
-struct AsciiInputView
-{
-    unsigned short WasPressed(unsigned short buttons);
-};
 
 // The menu updates live state in the shared native Supervisor allocation.
 typedef char AsciiState5NativeSupervisorFields[
@@ -24,7 +20,6 @@ typedef char AsciiState5NativeSupervisorFields[
      offsetof(Supervisor, flags) == 0x5D4 &&
      offsetof(Supervisor, systemTime) == 0x79C) ? 1 : -1];
 
-extern AsciiInputView g_AsciiInput;
 extern AsciiManager g_AsciiManager;
 extern unsigned char *g_AsciiMenuConfig;
 

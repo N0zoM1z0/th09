@@ -3,15 +3,11 @@
 #include "AsciiManager.hpp"
 #include "SoundPlayer.hpp"
 #include "AsciiGameManagerView.hpp"
+#include "AsciiInputView.hpp"
 #include "Supervisor.hpp"
 
 #include <windows.h>
 #include <mmsystem.h>
-
-struct AsciiInputView
-{
-    unsigned short WasPressed(unsigned short buttons);
-};
 
 // Native Supervisor owns +0x590 state and the +0x79C Win32 frame timer.
 typedef char AsciiMenuNativeSupervisorOffsets[
@@ -19,7 +15,6 @@ typedef char AsciiMenuNativeSupervisorOffsets[
      offsetof(Supervisor, screenTransitionCountdown) == 0x5A4 &&
      offsetof(Supervisor, systemTime) == 0x79C) ? 1 : -1];
 
-extern AsciiInputView g_AsciiInput;
 extern AsciiManager g_AsciiManager;
 extern unsigned char *g_AsciiMenuConfig;
 extern Chain g_Chain;

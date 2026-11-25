@@ -1,4 +1,5 @@
 #include "Supervisor.hpp"
+#include "SupervisorDrawMainViews.hpp"
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 
@@ -12,19 +13,6 @@ struct SupervisorDrawMainLayout
 
 typedef char SupervisorDrawMainStateAt740[
     (offsetof(SupervisorDrawMainLayout, loadingState) == 0x740) ? 1 : -1];
-
-struct SupervisorDrawMainAnmManagerView
-{
-    void ResetDrawState();
-    void *GetSurface(int surfaceIndex);
-    int CopySurfaceToBackbuffer(int surfaceIndex, int left, int top, int right, int bottom);
-    void ReleaseSurface(int surfaceIndex);
-};
-
-struct SupervisorDrawMainAsciiManagerView
-{
-    void SetAlpha(int alpha);
-};
 
 extern AsciiManager g_AsciiManager;
 

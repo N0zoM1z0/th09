@@ -15,8 +15,16 @@ typedef char AnmSdkMatrixSizeIs40[(sizeof(D3DXMATRIX)==0x40)?1:-1];
 long double __stdcall AnmProjectionAbs(float value);
 D3DXVECTOR3 *WINAPI D3DXVec3Project(D3DXVECTOR3 *out, const D3DXVECTOR3 *vector, const D3DVIEWPORT8 *viewport, const D3DXMATRIX *projection, const D3DXMATRIX *view, const D3DXMATRIX *world);
 struct AnmProjectionContextView {
-    unsigned char unknown000[0x30]; Float3 cameraRight; unsigned char unknown03C[0x10];
-    D3DXMATRIX viewMatrix; D3DXMATRIX projectionMatrix; D3DVIEWPORT8 viewport;
+    Float3 cameraPosition00;
+    Float3 cameraLookAt0C;
+    Float3 cameraUp18;
+    Float3 cameraForward24;
+    Float3 cameraRight;
+    Float3 cameraPositionOffset3C;
+    float fieldOfView48;
+    D3DXMATRIX viewMatrix;
+    D3DXMATRIX projectionMatrix;
+    D3DVIEWPORT8 viewport;
 };
 extern AnmProjectionContextView *g_AnmProjectionContext;
 struct AnmVmProjectionView {
