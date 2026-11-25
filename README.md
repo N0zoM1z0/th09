@@ -67,14 +67,16 @@ python3 -B scripts/report-reconstruction-status.py
 [docs/RE_HANDOFF.md](docs/RE_HANDOFF.md) is the single restart guide: current
 source work, all nonexact owners and focused comparison commands.
 [docs/KNOWLEDGE_BASE.md](docs/KNOWLEDGE_BASE.md) keeps verified findings,
-current blockers and useful failed approaches. The candidate inventory is not
-proven complete. A trial whole-image link runs under Wine, but it still borrows
-generated data and view aliases; the faithful Windows product is open.
+current blockers and useful failed approaches. The candidate inventory is open.
+The playable i386 trial has completed public replay comparisons under Wine.
+It uses generated data and view aliases. The faithful Windows product remains
+open. See [Windows playtesting](docs/RE_HANDOFF.md#windows-playtesting) for the
+windowed configuration and the local practice launcher.
 
 Only rebuild and compare affected complete owners and their dependencies.
-Use `claude-opus-5.5: <English summary>` for coherent local checkpoints and preserve
-dirty/untracked operator work. `config/build.toml` records open whole-product
-questions; exact functions do not establish that graph.
+Make coherent local checkpoints with the operator's requested commit prefix.
+Preserve dirty and untracked operator work. `config/build.toml` records the
+remaining whole-product work.
 
 Retain the original executable, toolchain/game-specific Wine runtime, saved
 Ghidra projects, maintained source/ledgers/replay scripts and concise knowledge.

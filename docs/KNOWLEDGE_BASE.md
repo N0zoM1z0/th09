@@ -4320,6 +4320,21 @@ Their 13-field traces are byte-identical. The fifth stage alone
 contains 17,967 frames. Both used the stock archive and the same
 configuration. The probe uses `--until-end --frames 46000` for this case.
 
+## 2026-11-25 Windows practice launcher
+
+The fixed-base playable image binds the local P1 collision dispatch to
+`PlayerUpdateStageC` at `0x00419256`. Practice mode follows the no-hit
+path at `0x00419277` after the collision query. The P2, replay, attract
+and network cases continue through the original decision. The launcher
+installs and reads back the patch while its own child is suspended.
+
+Native Windows preflight verified the deployed PE and rejected an altered
+copy. The ordinary and practice launches reached a 640 by 480 window with
+DirectSound and an active WAV stream from `thbgm.dat` under isolated Wine.
+With a controlled P1 collision result, the ordinary game changed health
+and update state from `(10, 0)` to `(8, 4)`. The practice game kept
+`(10, 0)` and reached the no-hit path.
+
 ## 2026-11-23 native DirectPlay startup and path storage
 
 The host Windows installation reports its DirectPlay feature enabled.

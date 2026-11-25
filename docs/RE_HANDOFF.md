@@ -1,4 +1,4 @@
-# TH09 reconstruction handoff (2026-11-23)
+# TH09 reconstruction handoff
 
 [Progress](PROGRESS.md)
 
@@ -130,22 +130,19 @@ What the product still borrows or approximates:
   retail for ordinary and focused movement in both layouts.
   [Live input evidence](KNOWLEDGE_BASE.md#2026-11-23-live-keyboard-movement-in-local-match-mode)
   · [Selected carriers and right-side focus](KNOWLEDGE_BASE.md#2026-11-23-selected-carrier-comparisons-and-right-side-focus-mode)
-- External playback of the bundled `demorpy0.rpy` supplies a
-  repeatable per-frame check. It exposed a split CPU difficulty table
-  that changed the reordered build's decisions from frame 516. After
-  the fix, both layouts agree with retail until the periodic executable
-  version check shuts them down. The retail capture covers all 7,996
-  input records. [Replay evidence and command](KNOWLEDGE_BASE.md#2026-11-23-replay-layout-divergence-and-cpu-table)
-  The replay probe can select a relocated trial PE and reports a live
-  version rejection as a failed capture with the observed version arguments.
-  [Version rejection evidence](KNOWLEDGE_BASE.md#2026-11-23-live-replay-version-rejection)
-  Pass `--replay-sha256` to run a pinned public TH09 replay through the same probe.
+- The bundled demo exposed a split CPU difficulty table in the reordered
+  trial. Its trace matched retail after the table fix. The ordinary trial
+  still reports any retail version rejection with the observed identity.
+  [Demo and version evidence](KNOWLEDGE_BASE.md#2026-11-23-replay-layout-divergence-and-cpu-table)
+- The playable link completed full Extra and Lunatic recordings with the
+  same 13-field traces as retail. Run public fixtures with `--replay-sha256`
+  and add `--until-end` with a frame budget for a full trace.
   [Silent Selene fixtures](KNOWLEDGE_BASE.md#2026-11-24-silent-selene-replay-prefixes)
-- Retail and both trials write short stage-9 replays through the results
-  menu. Both trials play the retail recording with matching traces through
-  480 frames. Trial recordings carry their writer's executable size and
-  checksum, which the stock version record rejects.
-  [Replay save and playback evidence](KNOWLEDGE_BASE.md#2026-11-23-linked-replay-captions-and-short-replay-saves)
+  · [Lunatic handoff check](KNOWLEDGE_BASE.md#2026-11-25-lunatic-replay-handoff-check)
+- Retail and the ordinary trials save short stage-9 replays. Replay
+  headers identify the writing executable. To play a reconstructed
+  recording, use the version-compatible playable link.
+  [Early save and playback evidence](KNOWLEDGE_BASE.md#2026-11-23-linked-replay-captions-and-short-replay-saves)
 
 The trial pins the Platform SDK D3DX8 archive used for the reviewed
 game-facing entry points. The retail provider and both trial providers
@@ -185,6 +182,34 @@ and move relative to the neighboring BGM table.
 Retail and both trial layouts exchanged live score files, and retail
 reloaded an Options change from the reordered build.
 [Persistence evidence](KNOWLEDGE_BASE.md#2026-11-23-score-and-configuration-round-trip)
+
+## Windows playtesting
+
+Place the verified playable PE beside the stock `th09.dat` and `thbgm.dat`
+under the name `th09-reconstructed.exe`. On the same NTFS volume the two
+archives can be hard-linked from the installed game. Keep `th09.cfg` local
+to the playtest directory. Its 204-byte configuration uses windowed mode
+at `+0xB1`, WAV music at `+0xAE`, and separate music and sound volumes at
+`+0xBA` and `+0xBB`. Use default color depth for the 640 by 480 window.
+
+Copy the two Windows command files to the playtest directory.
+`Play TH09.cmd` runs the ordinary playable image. `Practice TH09.cmd`
+starts `th09-practice.exe`, which skips the local P1 hit dispatch before
+it changes the collision owner or starts the damage and recovery logic.
+Both command files set the window compatibility option for their child.
+The practice launcher checks the adjacent PE's SHA-256 and the live
+dispatch bytes before resuming its own child. P2, replay, attract and
+network modes retain their hit logic. Use the ordinary launcher when
+recording replays for comparison.
+
+Build the practice launcher from the i386 VC7.1 environment with
+`cl /nologo /MT /O1 practice-launcher.cpp advapi32.lib /link /SUBSYSTEM:CONSOLE /OUT:th09-practice.exe`.
+The source pins the reviewed playable image. A new link requires a fresh
+map review of the collision dispatch, both destinations and game state
+operands before updating the pin. `th09-practice.exe --check` verifies
+the adjacent image without starting the game.
+[Launcher source](../scripts/windows/practice-launcher.cpp)
+· [Window, audio and hit checks](KNOWLEDGE_BASE.md#2026-11-25-windows-practice-launcher)
 
 ## Player movement handoff
 
@@ -300,6 +325,6 @@ retained top-level allocator reports. The small compiler context comprises
 `PlayerCollisionHelpers.natural-preheader-842.cpp`, and
 `PlayerCollisionHelpers.nested-three-loop-849.cpp` controls under
 `.analysis/`. They retain allocator traces and CFG controls for unresolved
-work. Rebuild selected objects when `build/` is absent. The game-run Wine prefix
-(`.analysis/game-prefix`) is recreated on first use. Keep cleanup scoped
+work. Rebuild selected objects when `build/` is absent. Preserve
+`.analysis/game-prefix` for the game-run Wine state. Keep cleanup scoped
 to identified disposable outputs. [Shared tools](SHARED_TOOLS.md)
