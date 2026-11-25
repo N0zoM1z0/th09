@@ -1,4 +1,5 @@
 #include "PlayerLifecycleView.hpp"
+#include "PlayerDirection.hpp"
 #include "Float3.hpp"
 #include "EffectManager.hpp"
 #include "EffectIds.hpp"
@@ -152,35 +153,35 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
 
         switch (player->movementDirection30358)
         {
-        case 4:
+        case PLAYER_DIR_RIGHT:
         {
             PlayerShtFileView *sht = player->primaryShtFile;
             player->movementFields1CCC.movementAngle1CD8 = 0.0f;
             horizontalSpeed = sht->focusedAxisSpeed18;
             break;
         }
-        case 3:
+        case PLAYER_DIR_LEFT:
         {
             PlayerShtFileView *sht = player->primaryShtFile;
             player->movementFields1CCC.movementAngle1CD8 = 3.1415927f;
             horizontalSpeed = -sht->focusedAxisSpeed18;
             break;
         }
-        case 1:
+        case PLAYER_DIR_UP:
         {
             PlayerShtFileView *sht = player->primaryShtFile;
             player->movementFields1CCC.movementAngle1CD8 = -1.5707964f;
             verticalSpeed = -sht->focusedAxisSpeed18;
             break;
         }
-        case 2:
+        case PLAYER_DIR_DOWN:
         {
             PlayerShtFileView *sht = player->primaryShtFile;
             player->movementFields1CCC.movementAngle1CD8 = 1.5707964f;
             verticalSpeed = sht->focusedAxisSpeed18;
             break;
         }
-        case 5:
+        case PLAYER_DIR_UP_LEFT:
         {
             PlayerShtFileView *sht = player->primaryShtFile;
             player->movementFields1CCC.movementAngle1CD8 = -2.3561945f;
@@ -188,7 +189,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
             verticalSpeed = horizontalSpeed;
             break;
         }
-        case 7:
+        case PLAYER_DIR_DOWN_LEFT:
         {
             PlayerShtFileView *sht = player->primaryShtFile;
             player->movementFields1CCC.movementAngle1CD8 = 2.3561945f;
@@ -196,7 +197,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
             horizontalSpeed = -verticalSpeed;
             break;
         }
-        case 6:
+        case PLAYER_DIR_UP_RIGHT:
         {
             PlayerShtFileView *sht = player->primaryShtFile;
             player->movementFields1CCC.movementAngle1CD8 = -0.7853982f;
@@ -204,7 +205,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
             verticalSpeed = -horizontalSpeed;
             break;
         }
-        case 8:
+        case PLAYER_DIR_DOWN_RIGHT:
         {
             PlayerShtFileView *sht = player->primaryShtFile;
             player->movementFields1CCC.movementAngle1CD8 = 0.7853982f;
@@ -228,35 +229,35 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
 
         switch (player->movementDirection30358)
         {
-        case 4:
+        case PLAYER_DIR_RIGHT:
         {
             PlayerShtFileView *sht = player->primaryShtFile;
             player->movementFields1CCC.movementAngle1CD8 = 0.0f;
             horizontalSpeed = sht->normalAxisSpeed14;
             break;
         }
-        case 3:
+        case PLAYER_DIR_LEFT:
         {
             PlayerShtFileView *sht = player->primaryShtFile;
             player->movementFields1CCC.movementAngle1CD8 = 3.1415927f;
             horizontalSpeed = -sht->normalAxisSpeed14;
             break;
         }
-        case 1:
+        case PLAYER_DIR_UP:
         {
             PlayerShtFileView *sht = player->primaryShtFile;
             player->movementFields1CCC.movementAngle1CD8 = -1.5707964f;
             verticalSpeed = -sht->normalAxisSpeed14;
             break;
         }
-        case 2:
+        case PLAYER_DIR_DOWN:
         {
             PlayerShtFileView *sht = player->primaryShtFile;
             player->movementFields1CCC.movementAngle1CD8 = 1.5707964f;
             verticalSpeed = sht->normalAxisSpeed14;
             break;
         }
-        case 5:
+        case PLAYER_DIR_UP_LEFT:
         {
             PlayerShtFileView *sht = player->primaryShtFile;
             player->movementFields1CCC.movementAngle1CD8 = -2.3561945f;
@@ -264,7 +265,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
             verticalSpeed = horizontalSpeed;
             break;
         }
-        case 7:
+        case PLAYER_DIR_DOWN_LEFT:
         {
             PlayerShtFileView *sht = player->primaryShtFile;
             player->movementFields1CCC.movementAngle1CD8 = 2.3561945f;
@@ -272,7 +273,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
             horizontalSpeed = -verticalSpeed;
             break;
         }
-        case 6:
+        case PLAYER_DIR_UP_RIGHT:
         {
             PlayerShtFileView *sht = player->primaryShtFile;
             player->movementFields1CCC.movementAngle1CD8 = -0.7853982f;
@@ -280,7 +281,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
             verticalSpeed = -horizontalSpeed;
             break;
         }
-        case 8:
+        case PLAYER_DIR_DOWN_RIGHT:
         {
             PlayerShtFileView *sht = player->primaryShtFile;
             player->movementFields1CCC.movementAngle1CD8 = 0.7853982f;

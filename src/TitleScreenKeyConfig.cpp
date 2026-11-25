@@ -8,6 +8,7 @@
 #include "Supervisor.hpp"
 #include "SoundPlayer.hpp"
 #include "TitleInputView.hpp"
+#include "TitleScreenStates.hpp"
 
 #include <stddef.h>
 #include <string.h>
@@ -169,7 +170,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
 
     switch (currentScreenState)
     {
-    case 0:
+    case TITLE_KEYCONFIG_STATE_INIT:
         if (stateTimer2 == 0)
         {
             g_AnmManager->SetInterruptArray(vms, vmCount, 4);
@@ -177,7 +178,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
             menuVmStart = 37;
             menuItemCount = 10;
             UpdateMenuSelection();
-            currentScreenState = 0;
+            currentScreenState = TITLE_KEYCONFIG_STATE_INIT;
             stateTimer = 0;
             keyConfigUiReady = 1;
             memcpy(
@@ -204,7 +205,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
             previousCursor = -1;
         }
 
-        currentScreenState = 1;
+        currentScreenState = TITLE_KEYCONFIG_STATE_ACTIVE;
         for (helpIndex = 0; helpIndex < 10; ++helpIndex)
         {
             DrawTitleHelpText(
@@ -214,7 +215,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
                 0x300000,
                 g_TitleKeyConfigHelpText[helpIndex]);
         }
-    case 1:
+    case TITLE_KEYCONFIG_STATE_ACTIVE:
         i = MoveCursorVertical(10);
     if (i != 0)
     {
@@ -259,7 +260,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
         {
             switch (keyboardSelection)
             {
-            case 3:
+            case TITLE_KEYCONFIG_ITEM_SHOT:
                 SwapDuplicateCharacterIndex(
                     keyMapping.sides[keyConfigSide].keys,
                     keyToChange,
@@ -267,7 +268,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
                     1);
                 keyMapping.sides[keyConfigSide].keys[0] = keyToChange;
                 break;
-            case 4:
+            case TITLE_KEYCONFIG_ITEM_BOMB:
                 SwapDuplicateCharacterIndex(
                     keyMapping.sides[keyConfigSide].keys,
                     keyToChange,
@@ -275,7 +276,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
                     0);
                 keyMapping.sides[keyConfigSide].keys[1] = keyToChange;
                 break;
-            case 5:
+            case TITLE_KEYCONFIG_ITEM_SLOW_OR_CHARGE:
                 SwapDuplicateCharacterIndex(
                     keyMapping.sides[keyConfigSide].keys,
                     keyToChange,
@@ -283,7 +284,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
                     1);
                 keyMapping.sides[keyConfigSide].keys[2] = keyToChange;
                 break;
-            case 6:
+            case TITLE_KEYCONFIG_ITEM_MESSAGE_SKIP:
                 SwapDuplicateCharacterIndex(
                     keyMapping.sides[keyConfigSide].keys,
                     keyToChange,
@@ -291,7 +292,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
                     0);
                 keyMapping.sides[keyConfigSide].keys[8] = keyToChange;
                 break;
-            case 7:
+            case TITLE_KEYCONFIG_ITEM_PAUSE:
                 SwapDuplicateCharacterIndex(
                     keyMapping.sides[keyConfigSide].keys,
                     keyToChange,
@@ -315,7 +316,7 @@ afterControllerBinding:
     {
         switch (keyboardSelection)
         {
-        case 0:
+        case TITLE_KEYCONFIG_ITEM_PLAYER_SIDE:
             keyConfigSide = static_cast<int>(1u - static_cast<u32>(keyConfigSide));
             SetIndexedSpriteChoice(keyConfigSide, 47);
             SetIndexedSpriteChoice(
@@ -340,7 +341,7 @@ afterControllerBinding:
             }
             g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             break;
-        case 1:
+        case TITLE_KEYCONFIG_ITEM_INPUT_DEVICE:
             do
             {
                 if (TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide) <= 0)
@@ -381,7 +382,7 @@ afterControllerBinding:
             }
             g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             break;
-        case 2:
+        case TITLE_KEYCONFIG_ITEM_CHARGE_MODE:
             if (g_Supervisor.config388.sideFocusMode[keyConfigSide] <= 0)
                 g_Supervisor.config388.sideFocusMode[keyConfigSide] += 2;
             --g_Supervisor.config388.sideFocusMode[keyConfigSide];
@@ -400,7 +401,7 @@ afterControllerBinding:
     {
         switch (keyboardSelection)
         {
-        case 0:
+        case TITLE_KEYCONFIG_ITEM_PLAYER_SIDE:
             keyConfigSide = static_cast<int>(1u - static_cast<u32>(keyConfigSide));
             SetIndexedSpriteChoice(keyConfigSide, 47);
             SetIndexedSpriteChoice(
@@ -425,7 +426,7 @@ afterControllerBinding:
             }
             g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             break;
-        case 1:
+        case TITLE_KEYCONFIG_ITEM_INPUT_DEVICE:
             do
             {
                 ++TH09_KEY_NATIVE_BYTE(&g_Supervisor.config388.valueB7, keyConfigSide);
@@ -466,7 +467,7 @@ afterControllerBinding:
             }
             g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             break;
-        case 2:
+        case TITLE_KEYCONFIG_ITEM_CHARGE_MODE:
             ++g_Supervisor.config388.sideFocusMode[keyConfigSide];
             if (g_Supervisor.config388.sideFocusMode[keyConfigSide] >= 2)
                 g_Supervisor.config388.sideFocusMode[keyConfigSide] -= 2;
@@ -485,10 +486,10 @@ afterControllerBinding:
     {
         switch (keyboardSelection)
         {
-        case 9:
+        case TITLE_KEYCONFIG_ITEM_QUIT:
         {
             PlayMenuSound(SOUND_BACK, 0);
-            ChangeCurrentScreen(9);
+            ChangeCurrentScreen(TITLE_SCREEN_OPTIONS);
             memcpy(
                 &g_Supervisor.config388.controllerMapping,
                 &keyMapping.serialized,
@@ -497,10 +498,10 @@ afterControllerBinding:
                 g_Supervisor.config388.controllerMapping.bindings[0];
             g_ControllerMapping.secondaryBindings[0] =
                 g_Supervisor.config388.controllerMapping.bindings[3];
-            keyboardSelection = 7;
+            keyboardSelection = TITLE_OPTIONS_ITEM_KEY_CONFIG;
             return 1;
         }
-        case 8:
+        case TITLE_KEYCONFIG_ITEM_RESET_DEFAULTS:
         {
             PlayMenuSound(SOUND_SELECT, 0);
             memcpy(

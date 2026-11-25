@@ -1,5 +1,6 @@
 #include "GameManagerRuntimeView.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "PlayerDirection.hpp"
 #include "FrontSide.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "ReplayInputState.hpp"
@@ -114,31 +115,31 @@ float *PlayerLifecycleView::ResolvePatternOffset(
     {
         switch (pattern)
         {
-        case 4:
+        case PLAYER_DIR_RIGHT:
             *offsetX = player->primaryShtFile->focusedAxisSpeed18;
             break;
-        case 3:
+        case PLAYER_DIR_LEFT:
             *offsetX = -player->primaryShtFile->focusedAxisSpeed18;
             break;
-        case 1:
+        case PLAYER_DIR_UP:
             *offsetY = -player->primaryShtFile->focusedAxisSpeed18;
             break;
-        case 2:
+        case PLAYER_DIR_DOWN:
             *offsetY = player->primaryShtFile->focusedAxisSpeed18;
             break;
-        case 5:
+        case PLAYER_DIR_UP_LEFT:
             *offsetX = -player->primaryShtFile->focusedDiagonalSpeed20;
             *offsetY = *offsetX;
             break;
-        case 7:
+        case PLAYER_DIR_DOWN_LEFT:
             *offsetY = player->primaryShtFile->focusedDiagonalSpeed20;
             *offsetX = -*offsetY;
             break;
-        case 6:
+        case PLAYER_DIR_UP_RIGHT:
             *offsetX = player->primaryShtFile->focusedDiagonalSpeed20;
             *offsetY = -*offsetX;
             break;
-        case 8:
+        case PLAYER_DIR_DOWN_RIGHT:
             *offsetX = player->primaryShtFile->focusedDiagonalSpeed20;
             *offsetY = *offsetX;
             break;
@@ -150,31 +151,31 @@ float *PlayerLifecycleView::ResolvePatternOffset(
     {
         switch (pattern)
         {
-        case 4:
+        case PLAYER_DIR_RIGHT:
             *offsetX = player->primaryShtFile->normalAxisSpeed14;
             break;
-        case 3:
+        case PLAYER_DIR_LEFT:
             *offsetX = -player->primaryShtFile->normalAxisSpeed14;
             break;
-        case 1:
+        case PLAYER_DIR_UP:
             *offsetY = -player->primaryShtFile->normalAxisSpeed14;
             break;
-        case 2:
+        case PLAYER_DIR_DOWN:
             *offsetY = player->primaryShtFile->normalAxisSpeed14;
             break;
-        case 5:
+        case PLAYER_DIR_UP_LEFT:
             *offsetX = -player->primaryShtFile->normalDiagonalSpeed1C;
             *offsetY = *offsetX;
             break;
-        case 7:
+        case PLAYER_DIR_DOWN_LEFT:
             *offsetY = player->primaryShtFile->normalDiagonalSpeed1C;
             *offsetX = -*offsetY;
             break;
-        case 6:
+        case PLAYER_DIR_UP_RIGHT:
             *offsetX = player->primaryShtFile->normalDiagonalSpeed1C;
             *offsetY = -*offsetX;
             break;
-        case 8:
+        case PLAYER_DIR_DOWN_RIGHT:
             *offsetX = player->primaryShtFile->normalDiagonalSpeed1C;
             *offsetY = *offsetX;
             break;

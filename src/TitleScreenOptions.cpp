@@ -12,6 +12,7 @@
 #include "SoundPlayer.hpp"
 #include "ReplayInputState.hpp"
 #include "TitleScreenReplayView.hpp"
+#include "TitleScreenStates.hpp"
 
 #include <stddef.h>
 
@@ -105,24 +106,24 @@ int TitleScreenView::OnUpdateOptions()
 
     switch (this->currentScreenState)
     {
-    case 0:
+    case TITLE_OPTIONS_STATE_INIT:
         if (this->stateTimer2 == 0)
         {
             g_AnmManager->SetInterruptArray(this->vms, this->vmCount, 3);
             g_AnmManager->ExecuteScriptArray(this->vms, this->vmCount);
-            this->currentScreenState = 0;
+            this->currentScreenState = TITLE_OPTIONS_STATE_INIT;
             this->stateTimer = 0;
             this->previousCursor = -1;
             this->menuItemCount = this->menuVmStart = 9;
             this->UpdateMenuSelection();
             this->optionsUiReady = 1;
         }
-        this->currentScreenState = 1;
+        this->currentScreenState = TITLE_OPTIONS_STATE_ACTIVE;
         for (i = 0; i < sizeof(g_TitleOptionsHelpText) / sizeof(g_TitleOptionsHelpText[0]); i++)
         {
             DrawTitleHelpText(reinterpret_cast<TitleAnmManagerView *>(g_AnmManager), &this->embeddedVms[i], 0xfff0e0, 0x300000, g_TitleOptionsHelpText[i]);
         }
-    case 1:
+    case TITLE_OPTIONS_STATE_ACTIVE:
         if (static_cast<i8>(g_Supervisor.config388.musicVolume) >= 100)
         {
             this->titleAnm->SetSprite(&this->vms[26], this->vms[26].baseSpriteIndex);
@@ -189,7 +190,7 @@ int TitleScreenView::OnUpdateOptions()
         {
             switch (this->keyboardSelection)
             {
-            case 0:
+            case TITLE_OPTIONS_ITEM_STARTING_LIVES:
                 g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 if (g_Supervisor.config388.valueAC == 0)
                 {
@@ -201,7 +202,7 @@ int TitleScreenView::OnUpdateOptions()
                 }
                 this->SetMenuSelectionSprites(g_Supervisor.config388.valueAC, 0x12, 3);
                 break;
-            case 1:
+            case TITLE_OPTIONS_ITEM_COLOR_DEPTH:
                 g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 if (g_Supervisor.config388.valueAD == 0)
                 {
@@ -213,7 +214,7 @@ int TitleScreenView::OnUpdateOptions()
                 }
                 this->SetMenuSelectionSprites(g_Supervisor.config388.valueAD, 0x15, 2);
                 break;
-            case 2:
+            case TITLE_OPTIONS_ITEM_BGM_MODE:
                 g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 g_Supervisor.StopAudio();
                 if (g_Supervisor.config388.musicMode == 0)
@@ -228,7 +229,7 @@ int TitleScreenView::OnUpdateOptions()
                 g_Supervisor.PlayMusic(0, 0);
                 this->SetMenuSelectionSprites(g_Supervisor.config388.musicMode, 0x17, 3);
                 break;
-            case 5:
+            case TITLE_OPTIONS_ITEM_WINDOW_MODE:
                 g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 if (g_Supervisor.config388.windowed == 0)
                 {
@@ -250,7 +251,7 @@ int TitleScreenView::OnUpdateOptions()
         {
             switch (this->keyboardSelection)
             {
-            case 3:
+            case TITLE_OPTIONS_ITEM_BGM_VOLUME:
                 g_Supervisor.config388.musicVolume -= 4u;
                 if (static_cast<i8>(g_Supervisor.config388.musicVolume) < 0)
                 {
@@ -258,7 +259,7 @@ int TitleScreenView::OnUpdateOptions()
                 }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
-            case 4:
+            case TITLE_OPTIONS_ITEM_SFX_VOLUME:
                 g_Supervisor.config388.sfxVolume -= 4u;
                 if (static_cast<i8>(g_Supervisor.config388.sfxVolume) < 0)
                 {
@@ -272,7 +273,7 @@ int TitleScreenView::OnUpdateOptions()
         {
             switch (this->keyboardSelection)
             {
-            case 3:
+            case TITLE_OPTIONS_ITEM_BGM_VOLUME:
                 g_Supervisor.config388.musicVolume += 4u;
                 if (static_cast<i8>(g_Supervisor.config388.musicVolume) > 100)
                 {
@@ -280,7 +281,7 @@ int TitleScreenView::OnUpdateOptions()
                 }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
-            case 4:
+            case TITLE_OPTIONS_ITEM_SFX_VOLUME:
                 g_Supervisor.config388.sfxVolume += 4u;
                 if (static_cast<i8>(g_Supervisor.config388.sfxVolume) > 100)
                 {
@@ -294,14 +295,14 @@ int TitleScreenView::OnUpdateOptions()
         {
             switch (this->keyboardSelection)
             {
-            case 3:
+            case TITLE_OPTIONS_ITEM_BGM_VOLUME:
                 if (static_cast<i8>(g_Supervisor.config388.musicVolume) > 0)
                 {
                     g_Supervisor.config388.musicVolume--;
                 }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
-            case 4:
+            case TITLE_OPTIONS_ITEM_SFX_VOLUME:
                 if (static_cast<i8>(g_Supervisor.config388.sfxVolume) > 0)
                 {
                     g_Supervisor.config388.sfxVolume--;
@@ -314,14 +315,14 @@ int TitleScreenView::OnUpdateOptions()
         {
             switch (this->keyboardSelection)
             {
-            case 3:
+            case TITLE_OPTIONS_ITEM_BGM_VOLUME:
                 if (static_cast<i8>(g_Supervisor.config388.musicVolume) < 100)
                 {
                     g_Supervisor.config388.musicVolume++;
                 }
                 g_SoundPlayer.QueueCommand(8, 0, "SetVol");
                 break;
-            case 4:
+            case TITLE_OPTIONS_ITEM_SFX_VOLUME:
                 if (static_cast<i8>(g_Supervisor.config388.sfxVolume) < 100)
                 {
                     g_Supervisor.config388.sfxVolume++;
@@ -336,7 +337,7 @@ int TitleScreenView::OnUpdateOptions()
         {
             switch (this->keyboardSelection)
             {
-            case 0:
+            case TITLE_OPTIONS_ITEM_STARTING_LIVES:
                 g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 if (g_Supervisor.config388.valueAC >= 2)
                 {
@@ -348,7 +349,7 @@ int TitleScreenView::OnUpdateOptions()
                 }
                 this->SetMenuSelectionSprites(g_Supervisor.config388.valueAC, 0x12, 3);
                 break;
-            case 1:
+            case TITLE_OPTIONS_ITEM_COLOR_DEPTH:
                 g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 if (g_Supervisor.config388.valueAD >= 1)
                 {
@@ -360,7 +361,7 @@ int TitleScreenView::OnUpdateOptions()
                 }
                 this->SetMenuSelectionSprites(g_Supervisor.config388.valueAD, 0x15, 2);
                 break;
-            case 2:
+            case TITLE_OPTIONS_ITEM_BGM_MODE:
                 g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 g_Supervisor.StopAudio();
                 if (g_Supervisor.config388.musicMode >= 1)
@@ -375,7 +376,7 @@ int TitleScreenView::OnUpdateOptions()
                 g_Supervisor.PlayMusic(0, 0);
                 this->SetMenuSelectionSprites(g_Supervisor.config388.musicMode, 0x17, 3);
                 break;
-            case 5:
+            case TITLE_OPTIONS_ITEM_WINDOW_MODE:
                 g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 if (g_Supervisor.config388.windowed >= 1)
                 {
@@ -393,7 +394,9 @@ int TitleScreenView::OnUpdateOptions()
             this->PlayMenuSound(SOUND_MOVE_MENU, 0);
         }
     idle:
-        if (this->keyboardSelection >= 3 && this->keyboardSelection <= 4 && this->stateTimer2 % 50 == 0)
+        if (this->keyboardSelection >= TITLE_OPTIONS_ITEM_BGM_VOLUME &&
+            this->keyboardSelection <= TITLE_OPTIONS_ITEM_SFX_VOLUME &&
+            this->stateTimer2 % 50 == 0)
         {
             g_SoundPlayer.PlaySoundByIdx(SOUND_SFX_TEST, 0);
         }
@@ -402,7 +405,7 @@ int TitleScreenView::OnUpdateOptions()
         {
             switch (this->keyboardSelection)
             {
-            case 6:
+            case TITLE_OPTIONS_ITEM_RESET_DEFAULTS:
                 g_Supervisor.config388.valueAC = 0;
                 g_Supervisor.config388.musicMode = 1;
                 g_Supervisor.config388.valueAF = 1;
@@ -412,22 +415,22 @@ int TitleScreenView::OnUpdateOptions()
                 this->SetMenuSelectionSprites(g_Supervisor.config388.musicMode, 0x17, 3);
                 this->SetMenuSelectionSprites(g_Supervisor.config388.windowed, 0x22, 2);
                 break;
-            case 7:
+            case TITLE_OPTIONS_ITEM_KEY_CONFIG:
                 this->keyboardSelection = 0;
-                this->ChangeCurrentScreen(10);
+                this->ChangeCurrentScreen(TITLE_SCREEN_KEY_CONFIG);
                 this->PlayMenuSound(SOUND_SELECT, 0);
                 return 1;
-            case 8:
+            case TITLE_OPTIONS_ITEM_QUIT:
                 goto leave;
             }
         }
         if (g_ReplayInputStates[2].word06 & 0xa)
         {
-            if (this->keyboardSelection == 8)
+            if (this->keyboardSelection == TITLE_OPTIONS_ITEM_QUIT)
             {
             leave:
-                this->keyboardSelection = 6;
-                this->ChangeCurrentScreen(1);
+                this->keyboardSelection = TITLE_START_MENU_OPTIONS;
+                this->ChangeCurrentScreen(TITLE_SCREEN_START_MENU);
                 this->OnUpdateStartMenu();
                 this->PlayMenuSound(SOUND_BACK, 0);
                 if (this->configSnapshot.valueAD != g_Supervisor.config388.valueAD ||

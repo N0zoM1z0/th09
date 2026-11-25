@@ -194,9 +194,72 @@ def check_supervisor_and_title_protocols() -> None:
         "TITLE_MATCH_MODE_",
         list(range(5)),
     )
+    explicit_enum(
+        SRC / "TitleScreenStates.hpp",
+        "TitleStartMenuItem",
+        "TITLE_START_MENU_",
+        list(range(8)),
+    )
+    explicit_enum(
+        SRC / "TitleScreenStates.hpp",
+        "TitleOptionsScreenState",
+        "TITLE_OPTIONS_STATE_",
+        [0, 1],
+    )
+    explicit_enum(
+        SRC / "TitleScreenStates.hpp",
+        "TitleOptionsMenuItem",
+        "TITLE_OPTIONS_ITEM_",
+        list(range(9)),
+    )
+    explicit_enum(
+        SRC / "TitleScreenStates.hpp",
+        "TitleKeyConfigScreenState",
+        "TITLE_KEYCONFIG_STATE_",
+        [0, 1],
+    )
+    explicit_enum(
+        SRC / "TitleScreenStates.hpp",
+        "TitleKeyConfigMenuItem",
+        "TITLE_KEYCONFIG_ITEM_",
+        list(range(10)),
+    )
     reject_pattern(
-        [SRC / "TitleCalcCallback.cpp", SRC / "TitleDrawCallback.cpp"],
-        "numeric Title callback dispatch label",
+        [
+            SRC / "TitleCalcCallback.cpp",
+            SRC / "TitleDrawCallback.cpp",
+            SRC / "TitleScreenOptions.cpp",
+            SRC / "TitleScreenKeyConfig.cpp",
+        ],
+        "numeric Title callback/menu dispatch label",
+        r"\bcase\s+[+-]?(?:0[xX][0-9A-Fa-f]+|\d+)\s*:",
+    )
+
+
+def check_gameplay_state_protocols() -> None:
+    explicit_enum(
+        SRC / "GameDifficulty.hpp",
+        "GameDifficulty",
+        "DIFFICULTY_",
+        list(range(5)),
+    )
+    explicit_enum(
+        SRC / "PlayerDirection.hpp",
+        "PlayerMoveDirection",
+        "PLAYER_DIR_",
+        list(range(9)),
+    )
+    reject_pattern(
+        [
+            SRC / "GameManagerSetup.cpp",
+            SRC / "PlayerGameplayState.cpp",
+            SRC / "PlayerMovement.cpp",
+            SRC / "PlayerRuntime.cpp",
+            SRC / "PlayerAddedState.cpp",
+            SRC / "EclPostRuntime.inl",
+            SRC / "AsciiManagerMenu.cpp",
+        ],
+        "numeric gameplay/menu state-machine dispatch label",
         r"\bcase\s+[+-]?(?:0[xX][0-9A-Fa-f]+|\d+)\s*:",
     )
 
@@ -241,6 +304,7 @@ def main() -> int:
     check_front_message_protocol()
     check_enemy_timeline_protocol()
     check_supervisor_and_title_protocols()
+    check_gameplay_state_protocols()
     check_sound_protocol(paths)
     check_effect_protocol(paths)
 
@@ -250,7 +314,7 @@ def main() -> int:
     print("  Background opcodes/interpolation/camera modes: 35/8/5 named")
     print("  FrontMessage opcodes: 24/24 named")
     print("  Enemy timeline opcodes: 15/15 named")
-    print("  Supervisor & Title callback dispatches: named")
+    print("  Supervisor, Title & gameplay state-machine dispatches: named (0 numeric cases)")
     print("  SoundIdx (0..53) & fixed PlaySound*/PlayMenuSound calls: 0 numeric literals")
     print("  Th09EffectId & fixed SpawnEffect* calls: 0 numeric literals")
     return 0

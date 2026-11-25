@@ -1,5 +1,14 @@
 #include "SoundPlayer.hpp"
+#include "GameDifficulty.hpp"
 #include "PlayerLifecycleView.hpp"
+
+enum PlayerRewardTailType
+{
+    PLAYER_REWARD_TAIL_RESPAWN_RESOURCE = 0,
+    PLAYER_REWARD_TAIL_OPPONENT_BURST = 1,
+    PLAYER_REWARD_TAIL_COMBO_400 = 2,
+    PLAYER_REWARD_TAIL_BONUS_70000 = 3,
+};
 #include "AnmManager.hpp"
 #include "FileSystem.hpp"
 #include "ZunMemory.hpp"
@@ -746,10 +755,10 @@ void PlayerLifecycleView::UpdateBeforeState()
         {
             switch (state->type00)
             {
-            case 0:
+            case PLAYER_REWARD_TAIL_RESPAWN_RESOURCE:
                 AddRespawnResource(400.0f);
                 break;
-            case 1:
+            case PLAYER_REWARD_TAIL_OPPONENT_BURST:
                 for (i = 0;
                      i < g_PlayerRewardBaseValue +
                              2 * g_PlayerRewardModeValue + 10;
@@ -783,23 +792,23 @@ void PlayerLifecycleView::UpdateBeforeState()
 
                     switch (g_PlayerRewardModeValue)
                     {
-                    case 0:
+                    case DIFFICULTY_EASY:
                         effect->playerReward.scale =
                             g_PlayerRewardBaseValue * 0.04f + 0.9f;
                         break;
-                    case 1:
+                    case DIFFICULTY_NORMAL:
                         effect->playerReward.scale =
                             g_PlayerRewardBaseValue * 0.05f + 1.1f;
                         break;
-                    case 2:
+                    case DIFFICULTY_HARD:
                         effect->playerReward.scale =
                             g_PlayerRewardBaseValue * 0.08f + 1.3f;
                         break;
-                    case 3:
+                    case DIFFICULTY_LUNATIC:
                         effect->playerReward.scale =
                             g_PlayerRewardBaseValue * 0.1f + 1.7f;
                         break;
-                    case 4:
+                    case DIFFICULTY_EXTRA:
                         effect->playerReward.scale =
                             g_PlayerRewardBaseValue * 0.08f + 1.5f;
                         break;
@@ -812,11 +821,11 @@ void PlayerLifecycleView::UpdateBeforeState()
                 }
                 g_Supervisor.SelectSide(sideIndex);
                 break;
-            case 2:
+            case PLAYER_REWARD_TAIL_COMBO_400:
                 ownerState30410.ApplyReward(
                     &position1B88, 1, 0, 400, 0);
                 break;
-            case 3:
+            case PLAYER_REWARD_TAIL_BONUS_70000:
                 ownerState30410.ApplyReward(
                     &position1B88, 0, 0, 0, 70000);
                 break;

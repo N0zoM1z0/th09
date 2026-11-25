@@ -106,13 +106,39 @@ static __forceinline EnemyEclPlayerView *PostEclPlayer(
         enemy->manager00->sideState320->playerLifecycle04);
 }
 
+enum EnemyPostEclMovementMode
+{
+    ENEMY_MOVEMENT_MODE_NONE = 0,
+    ENEMY_MOVEMENT_MODE_POLAR_VELOCITY = 1,
+    ENEMY_MOVEMENT_MODE_INTERPOLATED = 2,
+    ENEMY_MOVEMENT_MODE_ORBIT = 3,
+};
+
+enum EnemyPostEclMovementEasing
+{
+    ENEMY_EASING_LINEAR = 0,
+    ENEMY_EASING_IN_QUAD = 1,
+    ENEMY_EASING_IN_CUBIC = 2,
+    ENEMY_EASING_IN_QUART = 3,
+    ENEMY_EASING_OUT_QUAD = 4,
+    ENEMY_EASING_OUT_CUBIC = 5,
+    ENEMY_EASING_OUT_QUART = 6,
+};
+
+enum EnemyHorizontalFacing
+{
+    ENEMY_FACING_IDLE = 0,
+    ENEMY_FACING_LEFT = 1,
+    ENEMY_FACING_RIGHT = 2,
+};
+
 static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
 {
     EnemyPostEclRuntimeView *enemy = PostEclView(thisEnemy);
 
     switch (enemy->primaryFlagBits337C.movementMode09_10)
     {
-    case 3:
+    case ENEMY_MOVEMENT_MODE_ORBIT:
     {
         float polarVelocity[3];
 
@@ -138,12 +164,12 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
         {
             enemy->movementTimer2E28 -= g_GameManager.speedEC;
             if (enemy->movementTimer2E28 <= 0)
-                enemy->primaryFlagBits337C.movementMode09_10 = 0;
+                enemy->primaryFlagBits337C.movementMode09_10 = ENEMY_MOVEMENT_MODE_NONE;
         }
         break;
     }
 
-    case 1:
+    case ENEMY_MOVEMENT_MODE_POLAR_VELOCITY:
         enemy->movementAngle2DE0 = Th09EclRunControl::AddNormalizeAngle(
             enemy->movementAngle2DE0,
             g_Supervisor.framerateMultiplier5B8 * enemy->angularVelocity2DE4);
@@ -161,11 +187,11 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
         {
             enemy->movementTimer2E28--;
             if (enemy->movementTimer2E28 <= 0)
-                enemy->primaryFlagBits337C.movementMode09_10 = 0;
+                enemy->primaryFlagBits337C.movementMode09_10 = ENEMY_MOVEMENT_MODE_NONE;
         }
         break;
 
-    case 2:
+    case ENEMY_MOVEMENT_MODE_INTERPOLATED:
     {
         float progress;
 
@@ -179,26 +205,26 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
         unsigned int movementFlags = enemy->primaryFlags337C;
         switch (enemy->primaryFlagBits337C.movementEasing11_13)
         {
-        case 1:
+        case ENEMY_EASING_IN_QUAD:
             progress *= progress;
             break;
-        case 2:
+        case ENEMY_EASING_IN_CUBIC:
             progress = progress * progress * progress;
             break;
-        case 3:
+        case ENEMY_EASING_IN_QUART:
             progress = progress * progress * progress * progress;
             break;
-        case 4:
+        case ENEMY_EASING_OUT_QUAD:
             progress = 1.0f - progress;
             progress *= progress;
             progress = 1.0f - progress;
             break;
-        case 5:
+        case ENEMY_EASING_OUT_CUBIC:
             progress = 1.0f - progress;
             progress = progress * progress * progress;
             progress = 1.0f - progress;
             break;
-        case 6:
+        case ENEMY_EASING_OUT_QUART:
             progress = 1.0f - progress;
             progress = progress * progress * progress * progress;
             progress = 1.0f - progress;
@@ -305,13 +331,13 @@ static void EnemyPostEclUpdateShotAndAnm(EnemyView *thisEnemy)
 
     switch (direction)
     {
-    case 0:
+    case ENEMY_FACING_IDLE:
         if (static_cast<unsigned char>(enemy->anmDirection3386) == 0xFF)
         {
             anm->SetAndExecuteScriptIdx(
                 &thisEnemy->primaryAnmVm0008, thisEnemy->idleInitialAnm338A);
         }
-        else if (enemy->anmDirection3386 == 1)
+        else if (enemy->anmDirection3386 == ENEMY_FACING_LEFT)
         {
             anm->SetAndExecuteScriptIdx(
                 &thisEnemy->primaryAnmVm0008, thisEnemy->idleFromLeftAnm338C);
@@ -323,12 +349,12 @@ static void EnemyPostEclUpdateShotAndAnm(EnemyView *thisEnemy)
         }
         break;
 
-    case 1:
+    case ENEMY_FACING_LEFT:
         anm->SetAndExecuteScriptIdx(
             &thisEnemy->primaryAnmVm0008, thisEnemy->moveLeftAnm3390);
         break;
 
-    case 2:
+    case ENEMY_FACING_RIGHT:
         anm->SetAndExecuteScriptIdx(
             &thisEnemy->primaryAnmVm0008, thisEnemy->moveRightAnm3392);
         break;

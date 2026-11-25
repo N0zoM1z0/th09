@@ -12,15 +12,15 @@ playthrough.
 Measured before Batch 1 via `scripts/report-semantic-debt.py` and workspace
 inspection:
 
-| Metric | Baseline | Current (`3.2`) | Notes |
+| Metric | Baseline | Current (`3.3`) | Notes |
 | --- | ---: | ---: | --- |
-| Source files in `src/` | 550 | 553 | Added 5 protocol headers, retired `PlayerState4OpsView.hpp` |
-| Numeric `switch` cases | 717 | 297 | `-420` (`EclOperands`, `BackgroundStageScript`, `FrontMessageUpdate`, `EnemySchedule`, `SupervisorUpdate`, `TitleCalc/Draw` closed & guarded) |
+| Source files in `src/` | 550 | 555 | Added 7 protocol headers (`GameDifficulty.hpp`, `PlayerDirection.hpp`), retired `PlayerState4OpsView.hpp` |
+| Numeric `switch` cases | 717 | 186 | `-531` (`-74.1%`); 15 core protocol & state-machine files closed & CI-guarded |
 | Numeric `PlaySound*` / `PlayMenuSound` literals | 147 (89 + 58) | 0 | Closed & CI-guarded (`SoundIdx` 0..53) |
 | Numeric `SpawnEffect*` literals | 10 | 0 | Closed & CI-guarded (`Th09EffectId`) |
-| `*View` struct/class definitions | 362 | 299 | `-63` net (`-66` duplicate views retired; Batch 3.3 consolidates shared header declarations) |
+| `*View` struct/class definitions | 362 | 299 | `-63` net (`-66` duplicate views retired across Batches 3.1–3.2) |
 | Link `/ALTERNATENAME` aliases | 139 | 37 | `-102` (`-73.4%`) aliases retired across Batches 3.1–3.2 (`verify-trial-layouts.py` green) |
-| `reinterpret_cast` sites | 1,930 | 1,929 | Batch 3.3/3.4 targets canonical header & cast cleanup |
+| `reinterpret_cast` sites | 1,930 | 1,929 | Batch 3.4 targets canonical header & cast cleanup |
 | Anonymous `unknown`/`pad`/`raw` hex names | 913 | 848 | `-65` removed alongside duplicate view structs |
 | `ProductData.asm` generated labels | 628 | 612 | `-16` duplicate view-typed global data labels retired |
 
@@ -90,12 +90,10 @@ preserving exact VC7.1 bytes and verifying PI layouts after symbol changes:
   consolidated all remaining 8 `BulletSpawnDescriptor` views (`ExAttackUpdateType{8Type9,11Type12,15,20,21,25,26}`, `BulletAdvanceTransformProgram`), `SupervisorStartup`/`SupervisorDeletedCallback`/`SupervisorDrawLoading`/`SupervisorCalculateFps`/`SupervisorDrawMain`/`SupervisorVersion`, `GameWindowRender`, `TitleScreenFactoryView` (`AnmVm` + `ReplayDataView`), `ReplayStageDispatch`, `EnemyManagerRelease`, `PlayerLifecycle`, and `PlayerAddedState` onto canonical `AnmManager`, `AnmLoaded`, `AnmVm`, `AsciiManager`, `AsciiGameManagerView`, `PbgArchive`, `MidiOutput`, `SoundPlayer`, `ReplayManagerView`, `RngRuntimeView`, `TextHelper`, and `SupervisorThreadStartView`; retired **20 more `*View` definitions**, **41 `/ALTERNATENAME` aliases** (`107 -> 66`), and **10 duplicate `ProductData.asm` labels** (`624 -> 614`), verified with scoped exact replay (`128/128` exact units) + full normal/reversed/playable PI links (`verify-trial-layouts.py`).
 - [x] **3.2 `SupervisorAudio`, `Player`/`Enemy` reward, `Effect` fixed-slot, `Title`, `Replay` & math helper alias closure:**
   canonicalized `SupervisorAudio` (`MidiOutput`, `MidiPlaybackPathView`, `AsciiGameManagerView`, `Supervisor`), `PlayerDeath`/`PlayerRuntime` (`ConfigureState3Effect13/14/15`, `CreateCircleType1/4`; retired `PlayerState4OpsView.hpp`), `PlayerShotSpawnCallbacks`/`6` (`EffectManager::SpawnEffectInFixedSlot`, `EffectFixedSlotManagerView::GetFixedSlotEffect`), `EnemyManagerUpdate`/`EnemyManagerRelease`/`EclPostRuntime` (`PlayerOwnerStateView`, `PlayerLifecycleView`, `PlayerPositionCallbackView`, `EnemyEclManagerReleaseView`), `TitleScreenRegister`/`TitleScreen` (`TitleScreenView::AddedCallback`/`DeletedCallback`, `RngRuntimeView::GetRandomU32`, `InputView::IsPressedScrolling`), `ReplayInput` (`SupervisorVersionView::CheckVersion`), `AnmManagerDraw3D`/`EnemyManagerDraw` (`AnmProjectionAbs`), and `PlayerDamage` (`RotatePlayerCollisionVector`); retired **29 more `/ALTERNATENAME` aliases** (`66 -> 37`, `-73.4%` from baseline) and **2 more `ProductData.asm` labels** (`614 -> 612`), verified with scoped exact replay + `check-frontier.py player-movement` + full normal/reversed/playable PI links (`verify-trial-layouts.py`).
-- [ ] **3.3 `AnmManager` and `FrontSide` / `FrontMessage` views:**
-  consolidate the 12 `AnmManager*View` overlays and `Front*View` types.
-- [ ] **3.4 `EnemyManager` / `Player` / `ExAttack` view reduction:**
-  consolidate repeated `EnemyEcl*View`, `Player*View`, and high-duplication
-  `ExAttack*View` headers where types are structurally identical overlays of
-  the same runtime object; retire unnecessary `reinterpret_cast` chains.
+- [x] **3.3 Secondary menu, difficulty, direction & movement state-machine closure:**
+  extracted TH09-local menu help strings (`g_TitleOptionsHelpText @ 0x4A1DDC`, `g_TitleKeyConfigHelpText @ 0x4A1E04`, `g_TitleHelpText @ 0x4A1E3C`) from `resources/th09.exe`; added `src/GameDifficulty.hpp` (`GameDifficulty`), `src/PlayerDirection.hpp` (`PlayerMoveDirection`), and extended `src/TitleScreenStates.hpp` (`TitleStartMenuItem`, `TitleOptionsScreenState`/`MenuItem`, `TitleKeyConfigScreenState`/`MenuItem`); named `EnemyPostEclMovementMode`/`Easing`/`HorizontalFacing` (`EclPostRuntime.inl`), `PlayerRewardTailType` (`PlayerRuntime.cpp`), and `AsciiRetryMenuState` (`AsciiManagerMenu.cpp`); eliminated **111 numeric `switch` cases** (`297 -> 186`, `-74.1%` from baseline) across 9 files and extended `scripts/check-semantic-protocols.py` to guard all 9 files in CI (`139/139` exact units replayed + `player-movement` frontier OK).
+- [ ] **3.4 Remaining `*View` overlay consolidation & `TitleScreen` / `Etama` cleanup:**
+  consolidate remaining shared `*View` declarations (`EffectFixedSlotManagerView`, `AnmManager*View`, `Front*View`, `EnemyManager`/`Player` views) and optionally name remaining `TitleScreen.cpp` sub-menu switches.
 
 ### Phase 4: Maintainer navigation documentation
 

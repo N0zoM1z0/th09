@@ -294,6 +294,17 @@ int PauseMenu::OnUpdate()
     return 0;
 }
 
+enum AsciiRetryMenuState
+{
+    ASCII_RETRY_MENU_INIT = 0,
+    ASCII_RETRY_MENU_SELECT_RETRY = 1,
+    ASCII_RETRY_MENU_SELECT_TITLE = 2,
+    ASCII_RETRY_MENU_SELECT_SAVE_REPLAY = 3,
+    ASCII_RETRY_MENU_CONFIRM_RETRY = 4,
+    ASCII_RETRY_MENU_CONFIRM_TITLE = 5,
+    ASCII_RETRY_MENU_CONFIRM_SAVE_REPLAY = 6,
+};
+
 int AsciiMenuState4::OnUpdate()
 {
     unsigned int i;
@@ -305,7 +316,7 @@ int AsciiMenuState4::OnUpdate()
     }
 
     switch (this->state) {
-    case 0:
+    case ASCII_RETRY_MENU_INIT:
         for (i = 0; i < 3; i++) {
             g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&(this->menuSprites[i]), i + 13);
             (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_SHOW;
@@ -314,7 +325,7 @@ int AsciiMenuState4::OnUpdate()
         this->frames = 0;
         // fallthrough
 
-    case 1:
+    case ASCII_RETRY_MENU_SELECT_RETRY:
         (this->menuSprites[0]).color1 = COLOR_WHITE;
         (this->menuSprites[2]).color1 = COLOR_MENU_ITEM_NORMAL;
         (this->menuSprites[1]).color1 = COLOR_MENU_ITEM_NORMAL;
@@ -324,11 +335,11 @@ int AsciiMenuState4::OnUpdate()
 
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10)) {
-                this->state = 3;
+                this->state = ASCII_RETRY_MENU_SELECT_SAVE_REPLAY;
                 g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
             if (g_AsciiInput.WasPressed(0x20)) {
-                this->state = 2;
+                this->state = ASCII_RETRY_MENU_SELECT_TITLE;
                 g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
             if (g_AsciiInput.WasPressed(0x1001)) {
@@ -336,13 +347,13 @@ int AsciiMenuState4::OnUpdate()
                 for (i = 0; i < 3; i++) {
                     (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
-                this->state = 4;
+                this->state = ASCII_RETRY_MENU_CONFIRM_RETRY;
                 this->frames = 0;
             }
         }
         break;
 
-    case 2:
+    case ASCII_RETRY_MENU_SELECT_TITLE:
         (this->menuSprites[2]).color1 = COLOR_MENU_ITEM_NORMAL;
         (this->menuSprites[0]).color1 = COLOR_MENU_ITEM_NORMAL;
         (this->menuSprites[1]).color1 = COLOR_WHITE;
@@ -352,11 +363,11 @@ int AsciiMenuState4::OnUpdate()
 
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10)) {
-                this->state = 1;
+                this->state = ASCII_RETRY_MENU_SELECT_RETRY;
                 g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
             if (g_AsciiInput.WasPressed(0x20)) {
-                this->state = 3;
+                this->state = ASCII_RETRY_MENU_SELECT_SAVE_REPLAY;
                 g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
             if (g_AsciiInput.WasPressed(0x1001)) {
@@ -364,13 +375,13 @@ int AsciiMenuState4::OnUpdate()
                 for (i = 0; i < 3; i++) {
                     (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
-                this->state = 5;
+                this->state = ASCII_RETRY_MENU_CONFIRM_TITLE;
                 this->frames = 0;
             }
         }
         break;
 
-    case 3:
+    case ASCII_RETRY_MENU_SELECT_SAVE_REPLAY:
         (this->menuSprites[1]).color1 = COLOR_MENU_ITEM_NORMAL;
         (this->menuSprites[0]).color1 = COLOR_MENU_ITEM_NORMAL;
         (this->menuSprites[2]).color1 = COLOR_WHITE;
@@ -380,11 +391,11 @@ int AsciiMenuState4::OnUpdate()
 
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10)) {
-                this->state = 2;
+                this->state = ASCII_RETRY_MENU_SELECT_TITLE;
                 g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
             if (g_AsciiInput.WasPressed(0x20)) {
-                this->state = 1;
+                this->state = ASCII_RETRY_MENU_SELECT_RETRY;
                 g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
             if (g_AsciiInput.WasPressed(0x1001)) {
@@ -392,15 +403,15 @@ int AsciiMenuState4::OnUpdate()
                 for (i = 0; i < 3; i++) {
                     (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
-                this->state = 6;
+                this->state = ASCII_RETRY_MENU_CONFIRM_SAVE_REPLAY;
                 this->frames = 0;
             }
         }
         break;
 
-    case 5:
+    case ASCII_RETRY_MENU_CONFIRM_TITLE:
         if (this->frames >= 20) {
-            this->state = 0;
+            this->state = ASCII_RETRY_MENU_INIT;
             g_Supervisor.state590 = 1;
             g_GameManager.menuStateA7A8Active = 0;
             g_Supervisor.systemTime = timeGetTime();
@@ -408,9 +419,9 @@ int AsciiMenuState4::OnUpdate()
         }
         break;
 
-    case 4:
+    case ASCII_RETRY_MENU_CONFIRM_RETRY:
         if (this->frames >= 20) {
-            this->state = 0;
+            this->state = ASCII_RETRY_MENU_INIT;
             g_Supervisor.state590 = 10;
             g_GameManager.menuStateA7A8Active = 0;
             g_Supervisor.systemTime = timeGetTime();
@@ -418,9 +429,9 @@ int AsciiMenuState4::OnUpdate()
         }
         break;
 
-    case 6:
+    case ASCII_RETRY_MENU_CONFIRM_SAVE_REPLAY:
         if (this->frames >= 20) {
-            this->state = 0;
+            this->state = ASCII_RETRY_MENU_INIT;
             g_Supervisor.state590 = 6;
             g_GameManager.menuStateA7A8Active = 0;
             g_Supervisor.systemTime = timeGetTime();

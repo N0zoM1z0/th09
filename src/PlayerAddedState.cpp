@@ -1,4 +1,5 @@
 #include "PlayerLifecycleView.hpp"
+#include "GameDifficulty.hpp"
 #include "GameManagerRuntimeView.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "ZunTimer.hpp"
@@ -199,29 +200,29 @@ void PlayerLifecycleView::InitializeAddedState()
         value = 2;
     switch (g_PlayerAddedModeSelector)
     {
-    case 0:
-    case 1:
+    case DIFFICULTY_EASY:
+    case DIFFICULTY_NORMAL:
         {
             const int initialState = value + 1;
             this->header24.state7C = initialState;
             this->header24.state80 = initialState;
         }
         break;
-    case 2:
+    case DIFFICULTY_HARD:
         {
             const int initialState = value + 4;
             this->header24.state7C = initialState;
             this->header24.state80 = initialState;
         }
         break;
-    case 3:
+    case DIFFICULTY_LUNATIC:
         {
             const int initialState = value + 8;
             this->header24.state7C = initialState;
             this->header24.state80 = initialState;
         }
         break;
-    case 4:
+    case DIFFICULTY_EXTRA:
         {
             const int initialState = value + 12;
             this->header24.state84 = 1;

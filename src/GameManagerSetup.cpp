@@ -70,6 +70,7 @@ typedef char SetupScoreRecordViewSizeCheck[
     (sizeof(TitleScoreRecordView) == 0x2C) ? 1 : -1];
 
 #include "GameManagerSetupView.hpp"
+#include "GameDifficulty.hpp"
 #include "GameplaySetupNativeSides.hpp"
 
 // The same original-bound SupervisorSetupLayout is declared in
@@ -642,13 +643,13 @@ void GameManagerSetupLayout::CleanupGameplayState()
 
         switch (globalManager.setupMode)
         {
-        case 0:
+        case DIFFICULTY_EASY:
             globalManager.limitB4 = globalManager.counterFC / 3 + 1;
             globalManager.valueC8 = globalManager.counterFC / 2 + 6;
             globalManager.valueC4 = static_cast<int>(
                 600u * (static_cast<unsigned int>(stageValue) + 3u));
             break;
-        case 1:
+        case DIFFICULTY_NORMAL:
             globalManager.limitB4 = static_cast<int>(
                 static_cast<unsigned int>(globalManager.counterFC) + 1u);
             globalManager.valueC8 = static_cast<int>(
@@ -656,21 +657,21 @@ void GameManagerSetupLayout::CleanupGameplayState()
             globalManager.valueC4 = static_cast<int>(
                 600u * (static_cast<unsigned int>(stageValue) + 2u));
             break;
-        case 2:
+        case DIFFICULTY_HARD:
             globalManager.limitB4 = static_cast<int>(
                 static_cast<unsigned int>(globalManager.counterFC) + 3u);
             globalManager.valueC8 = globalManager.counterFC / 2 + 15;
             globalManager.valueC4 = static_cast<int>(
                 600u * static_cast<unsigned int>(stageValue) + 900u);
             break;
-        case 3:
+        case DIFFICULTY_LUNATIC:
             globalManager.limitB4 = static_cast<int>(
                 static_cast<unsigned int>(globalManager.counterFC) + 6u);
             globalManager.valueC8 = globalManager.counterFC / 2 + 17;
             globalManager.valueC4 = static_cast<int>(
                 600u * static_cast<unsigned int>(stageValue) + 900u);
             break;
-        case 4:
+        case DIFFICULTY_EXTRA:
             globalManager.limitB4 = 18;
             globalManager.valueC8 = 22;
             globalManager.valueC4 = static_cast<int>(
@@ -891,7 +892,7 @@ mode_ready:
 
     switch (g_GameManager.setupMode11C)
     {
-    case 4:
+    case DIFFICULTY_EXTRA:
         g_GameManager.limitB4 = 18;
         g_GameManager.sides[0].player04->header24.state7C = 10;
         g_GameManager.sides[0].player04->header24.state80 = 10;
@@ -901,7 +902,7 @@ mode_ready:
         g_GameManager.valueC8 = 22;
         break;
 
-    case 1:
+    case DIFFICULTY_NORMAL:
         g_GameManager.limitB4 = 1;
         g_GameManager.sides[0].player04->header24.state7C = 1;
         g_GameManager.sides[0].player04->header24.state80 = 1;
@@ -923,7 +924,7 @@ mode_ready:
     // The mode-1 fixed-rate arm is kept before the mode-3/2 cases in the
     // source switch. VC7.1 then schedules its shared publishing blocks as
     // in the original binary, including the mode-0 short back-jump.
-    case 3:
+    case DIFFICULTY_LUNATIC:
         g_GameManager.limitB4 = 8;
         g_GameManager.sides[0].player04->header24.state7C = 8;
         g_GameManager.sides[0].player04->header24.state80 = 8;
@@ -940,7 +941,7 @@ mode_ready:
         g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 17;
         break;
 
-    case 2:
+    case DIFFICULTY_HARD:
         g_GameManager.limitB4 = 6;
         g_GameManager.sides[0].player04->header24.state7C = 4;
         g_GameManager.sides[0].player04->header24.state80 = 4;
@@ -957,7 +958,7 @@ mode_ready:
         g_GameManager.valueC8 = g_GameManager.counterFC / 2 + 15;
         break;
 
-    case 0:
+    case DIFFICULTY_EASY:
         g_GameManager.limitB4 = 1;
         g_GameManager.sides[0].player04->header24.state7C = 1;
         g_GameManager.sides[0].player04->header24.state80 = 1;
