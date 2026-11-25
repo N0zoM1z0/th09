@@ -16,7 +16,7 @@ typedef char EndingSupervisorNativeTextOwner[
 
 extern unsigned int g_EndingLifecycleFlags;
 extern int g_EndingActive;
-extern ScreenEffect *g_TitleFadeReleaseEffect;
+ScreenEffect *g_TitleFadeReleaseEffect = NULL;
 const char *g_EndingFilePaths[16] = {
     "end00.end",
     "end01.end",

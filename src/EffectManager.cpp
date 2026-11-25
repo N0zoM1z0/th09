@@ -27,7 +27,102 @@ struct EffectTemplate
 };
 typedef char EffectTemplateSizeIs18[(sizeof(EffectTemplate) == 0x18) ? 1 : -1];
 
-extern EffectTemplate g_EffectTemplates[];
+extern int __fastcall EffectInitializeCallbackType1Type2(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType1Type2(Effect *effect);
+extern int __fastcall EffectInitializeCallbackType3Type4(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType3Type4(Effect *effect);
+extern int __fastcall EffectInitializeCallbackRing(Effect *effect);
+extern int __fastcall EffectUpdateFromVm(Effect *effect);
+extern int __fastcall EffectDrawCallbackRing(Effect *effect);
+extern int __fastcall EffectFollowPlayerUpdate(Effect *effect);
+extern int __fastcall EffectInitializeCallbackRadialFan(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType10(Effect *effect);
+extern int __fastcall EffectDrawCallbackType10(Effect *effect);
+extern int __fastcall EffectInitializeCallbackOrientedOffset(Effect *effect);
+extern int __fastcall EffectInitializeCallbackType16(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType16(Effect *effect);
+extern int __fastcall EffectDrawCallbackType16(Effect *effect);
+extern int __fastcall EffectInitializeCallbackType17(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType17(Effect *effect);
+extern int __fastcall EffectDrawCallbackType17(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType18(Effect *effect);
+extern int __fastcall EffectDrawCallbackType18(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType24(Effect *effect);
+extern int __fastcall EffectDrawCallbackType24(Effect *effect);
+extern int __fastcall EffectUpdateCallbackPlayerOffsetFan(Effect *effect);
+extern int __fastcall EffectDrawCallbackPlayerOffsetFan(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType26(Effect *effect);
+extern int __fastcall EffectDrawCallbackType26(Effect *effect);
+extern int __fastcall EffectInitializeCallbackStripType27Type36(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType27(Effect *effect);
+extern int __fastcall EffectDrawCallbackType27(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType28(Effect *effect);
+extern int __fastcall EffectDrawCallbackType28(Effect *effect);
+extern int __fastcall EffectInitializeCallbackType29(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType29(Effect *effect);
+extern int __fastcall EffectDrawCallbackType29(Effect *effect);
+extern int __fastcall EffectInitializeCallbackType30(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType30(Effect *effect);
+extern int __fastcall EffectDrawCallbackType30(Effect *effect);
+extern int __fastcall EffectInitializeCallbackType31(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType31(Effect *effect);
+extern int __fastcall EffectDrawCallbackType31(Effect *effect);
+extern int __fastcall EffectInitializeCallbackType32(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType32(Effect *effect);
+extern int __fastcall EffectDrawCallbackType32(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType33(Effect *effect);
+extern int __fastcall EffectDrawCallbackType33(Effect *effect);
+extern int __fastcall EffectInitializeCallbackType34(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType34(Effect *effect);
+extern int __fastcall EffectDrawCallbackType34(Effect *effect);
+extern int __fastcall EffectInitializeCallbackType35(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType35(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType36(Effect *effect);
+extern int __fastcall EffectDrawCallbackType36(Effect *effect);
+extern int __fastcall EffectInitializeCallbackType37(Effect *effect);
+extern int __fastcall EffectUpdateCallbackType37(Effect *effect);
+extern int __fastcall EffectDrawCallbackType37(Effect *effect);
+
+EffectTemplate g_EffectTemplates[38] = {
+    { 28, 0, 1, NULL, NULL, NULL },
+    { 33, 0, 1, EffectInitializeCallbackType1Type2, EffectUpdateCallbackType1Type2, NULL },
+    { 34, 0, 1, EffectInitializeCallbackType1Type2, EffectUpdateCallbackType1Type2, NULL },
+    { 35, 0, 1, EffectInitializeCallbackType3Type4, EffectUpdateCallbackType3Type4, NULL },
+    { 36, 0, 1, EffectInitializeCallbackType3Type4, EffectUpdateCallbackType3Type4, NULL },
+    { 32, 0, 1, NULL, NULL, NULL },
+    { 86, 0, 1, EffectInitializeCallbackRing, EffectUpdateFromVm, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackRing) },
+    { 63, 0, 1, NULL, EffectFollowPlayerUpdate, NULL },
+    { 87, 0, 1, EffectInitializeCallbackRing, EffectUpdateFromVm, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackRing) },
+    { 85, 0, 1, NULL, NULL, NULL },
+    { 88, 0, 1, EffectInitializeCallbackRadialFan, EffectUpdateCallbackType10, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackType10) },
+    { 89, 0, 1, EffectInitializeCallbackOrientedOffset, NULL, NULL },
+    { 90, 0, 1, EffectInitializeCallbackOrientedOffset, NULL, NULL },
+    { 91, 0, 1, EffectInitializeCallbackRing, EffectUpdateFromVm, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackRing) },
+    { 92, 0, 1, EffectInitializeCallbackRing, EffectUpdateFromVm, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackRing) },
+    { 93, 0, 1, EffectInitializeCallbackRing, EffectUpdateFromVm, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackRing) },
+    { 88, 0, 1, EffectInitializeCallbackType16, EffectUpdateCallbackType16, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackType16) },
+    { 88, 0, 1, EffectInitializeCallbackType17, EffectUpdateCallbackType17, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackType17) },
+    { 88, 0, 1, EffectInitializeCallbackRadialFan, EffectUpdateCallbackType18, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackType18) },
+    { 53, 0, 1, NULL, NULL, NULL },
+    { 28, 0, 1, NULL, NULL, NULL },
+    { 29, 0, 1, NULL, NULL, NULL },
+    { 30, 0, 1, NULL, NULL, NULL },
+    { 31, 0, 1, NULL, NULL, NULL },
+    { 88, 0, 1, EffectInitializeCallbackRadialFan, EffectUpdateCallbackType24, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackType24) },
+    { 88, 0, 1, EffectInitializeCallbackRadialFan, EffectUpdateCallbackPlayerOffsetFan, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackPlayerOffsetFan) },
+    { 88, 0, 1, EffectInitializeCallbackRadialFan, EffectUpdateCallbackType26, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackType26) },
+    { 88, 0, 1, EffectInitializeCallbackStripType27Type36, EffectUpdateCallbackType27, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackType27) },
+    { 88, 0, 1, EffectInitializeCallbackRadialFan, EffectUpdateCallbackType28, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackType28) },
+    { 88, 0, 1, EffectInitializeCallbackType29, EffectUpdateCallbackType29, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackType29) },
+    { 88, 0, 1, EffectInitializeCallbackType30, EffectUpdateCallbackType30, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackType30) },
+    { 88, 0, 1, EffectInitializeCallbackType31, EffectUpdateCallbackType31, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackType31) },
+    { 88, 0, 1, EffectInitializeCallbackType32, EffectUpdateCallbackType32, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackType32) },
+    { 88, 0, 1, EffectInitializeCallbackRadialFan, EffectUpdateCallbackType33, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackType33) },
+    { 88, 0, 1, EffectInitializeCallbackType34, EffectUpdateCallbackType34, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackType34) },
+    { 88, 0, 1, EffectInitializeCallbackType35, EffectUpdateCallbackType35, NULL },
+    { 88, 0, 1, EffectInitializeCallbackStripType27Type36, EffectUpdateCallbackType36, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackType36) },
+    { 88, 0, 1, EffectInitializeCallbackType37, EffectUpdateCallbackType37, reinterpret_cast<EffectDrawCallback>(EffectDrawCallbackType37) },
+};
 extern Chain g_Chain;
 extern ZunMemory g_ZunMemory;
 

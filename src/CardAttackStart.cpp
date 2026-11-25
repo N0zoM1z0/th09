@@ -63,7 +63,47 @@ struct CardAttackCallbackRow
     CardAttackEndCallback end;
 };
 
-extern CardAttackCallbackRow g_CardAttackCallbackRows[];
+extern int __fastcall CardAttackBeginPl00Type0(CardAttack *cardAttack);
+extern int __fastcall CardAttackBeginPl00Type1(CardAttack *cardAttack);
+extern int __fastcall CardAttackBeginPl00Type2(CardAttack *cardAttack);
+extern int __fastcall CardAttackBeginPl01Type0(CardAttack *cardAttack);
+extern int __fastcall CardAttackBeginPl01Type1(CardAttack *cardAttack);
+extern int __fastcall CardAttackBeginPl01Type2(CardAttack *cardAttack);
+extern int __fastcall CardAttackUpdateAfter192(CardAttack *cardAttack);
+extern int __fastcall CardAttackUpdateNoCategory3(CardAttack *cardAttack);
+extern int __fastcall CardAttackEndFree1360(CardAttack *cardAttack);
+extern int __fastcall CardAttackEndFree1364(CardAttack *cardAttack);
+extern int __fastcall PlayerCheckState2();
+
+CardAttackCallbackRow g_CardAttackCallbackRows[9] = {
+    { CardAttackBeginPl00Type0, CardAttackUpdateAfter192,
+      reinterpret_cast<CardAttackDrawCallback>(PlayerCheckState2),
+      reinterpret_cast<CardAttackEndCallback>(CardAttackEndFree1360) },
+    { CardAttackBeginPl00Type1, CardAttackUpdateAfter192,
+      reinterpret_cast<CardAttackDrawCallback>(PlayerCheckState2),
+      reinterpret_cast<CardAttackEndCallback>(CardAttackEndFree1360) },
+    { CardAttackBeginPl00Type2, CardAttackUpdateNoCategory3,
+      reinterpret_cast<CardAttackDrawCallback>(PlayerCheckState2),
+      reinterpret_cast<CardAttackEndCallback>(CardAttackEndFree1364) },
+    { CardAttackBeginPl01Type0, CardAttackUpdateAfter192,
+      reinterpret_cast<CardAttackDrawCallback>(PlayerCheckState2),
+      reinterpret_cast<CardAttackEndCallback>(CardAttackEndFree1360) },
+    { CardAttackBeginPl01Type1, CardAttackUpdateAfter192,
+      reinterpret_cast<CardAttackDrawCallback>(PlayerCheckState2),
+      reinterpret_cast<CardAttackEndCallback>(CardAttackEndFree1360) },
+    { CardAttackBeginPl01Type2, CardAttackUpdateNoCategory3,
+      reinterpret_cast<CardAttackDrawCallback>(PlayerCheckState2),
+      reinterpret_cast<CardAttackEndCallback>(CardAttackEndFree1364) },
+    { CardAttackBeginPl01Type0, CardAttackUpdateAfter192,
+      reinterpret_cast<CardAttackDrawCallback>(PlayerCheckState2),
+      reinterpret_cast<CardAttackEndCallback>(CardAttackEndFree1360) },
+    { CardAttackBeginPl01Type1, CardAttackUpdateAfter192,
+      reinterpret_cast<CardAttackDrawCallback>(PlayerCheckState2),
+      reinterpret_cast<CardAttackEndCallback>(CardAttackEndFree1360) },
+    { CardAttackBeginPl01Type2, CardAttackUpdateNoCategory3,
+      reinterpret_cast<CardAttackDrawCallback>(PlayerCheckState2),
+      reinterpret_cast<CardAttackEndCallback>(CardAttackEndFree1364) },
+};
 // Attack dispatch reads the real 0x10-byte callback row directly from
 // the original global begin/update/draw/end callback table.
 

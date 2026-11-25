@@ -142,16 +142,18 @@ verification green.
   `612 -> 440` labels, `552 -> 399` data relocations); verified `176/176` exact
   units, bit-for-bit retail parity on all 32 tables + 153 strings across both
   `trial.exe` and `trial-reversed.exe`, `verify-trial-layouts.py`, and `ci.py`.
-- [ ] **5.2 Callback/template `_DATA` tables, multi-label `_DATA` tables & `g_OpponentLists`:**
-  migrate `g_CardAttackCallbackRows`, `g_EffectTemplates`, `g_ExAttackTemplates`,
-  player shot/callback tables, `g_OpponentEntries` + `g_OpponentLists[14]`
-  (retiring all 14 `th09_data_004A2300..004A34E0` blocks), and the 6 multi-label
-  `_DATA` blocks (`g_PlayerPatternConfigs`/`g_PlayerTimingTable`,
-  `g_PlayerResourcePaths`/`g_EnemyCharacterResources`,
-  `g_OpponentParameterTable`/`g_TransitionResultTable*`,
-  `g_BulletSpriteOffsetSmall`/`g_LaserColorSpriteOffsets`,
-  `FileSystem::g_DecryptParams`/`g_CryptSignature`,
-  `g_FrontMessageScreenEffect`/`g_TitleFadeReleaseEffect`). Target: `_DATA = 0` blocks.
+- [x] **5.2 Callback/template `_DATA` tables, multi-label `_DATA` tables & `g_OpponentLists`:**
+  migrated all remaining 32 `_DATA` tables (`g_CardAttackCallbackRows`, `g_EffectTemplates`,
+  `g_ExAttackTemplates`, all 7 `g_PlayerCallback*` / `g_PlayerShot*Callbacks` tables,
+  `g_PlayerPatternConfigs` + `PlayerPatternConfig.hpp`, `g_PlayerResourcePaths[16][6]`,
+  `g_OpponentEntries[17]`, `g_OpponentLists[14]` + all 14 static opponent arrays,
+  `g_OpponentParameterTable[225]`, `g_BulletSpriteOffsetSmall[16]`,
+  `FileSystem::g_DecryptParams` + `g_CryptSignature`, and `g_TitleFadeReleaseEffect`),
+  retiring all 6 multi-label `_DATA` aliases and all 14 `th09_data_*` / 96 `th09_rdata_*`
+  blocks; **`_DATA` in `ProductData.asm` is now `0` blocks (`0` data relocations)**
+  (`307 -> 179` blocks, `440 -> 304` labels); verified `73/73` exact units,
+  bit-for-bit retail parity across `trial.exe` and `trial-reversed.exe`,
+  `verify-trial-layouts.py`, and `ci.py`.
 - [ ] **5.3 Named `CONST` (`.rdata`) strings & lookup tables:**
   migrate all remaining `128` named `CONST` blocks (error/log/format/DirectInput/DirectPlay
   strings and `const` arrays) to natural C++ `const` definitions. Target: `CONST = 0` blocks.

@@ -161,16 +161,16 @@ def main() -> int:
             if name in missing_names:
                 missing[address].add(name)
     object_sizes = {int(owner, 16): size for owner, size in product.get('object_size', {}).items()}
-    # Some reviewed objects have no direct code reference. Their pointers
-    # still need an independent link destination.
+    pointer_only = {}
     for address in object_sizes.keys() - names_at.keys():
         section, va, vsize, rsize, _ = section_of(address)
         if (section != '.data' or address in library_data
                 or not 0 < object_sizes[address] <= va + min(vsize, rsize) - address):
             raise ValueError(f'pointer-only object at {address:#010x} has no game data extent')
-        missing[address].add(f'th09_data_{address:08X}')
+        pointer_only[address] = object_sizes[address]
     known_starts = sorted({a for a in names_at if a >= data_lo}
-                          | {a for a in library_data if a >= data_lo} | missing.keys())
+                          | {a for a in library_data if a >= data_lo}
+                          | missing.keys() | pointer_only.keys())
 
     # Group interior names: a missing address strictly inside a larger missing
     # owner's referenced extent becomes a label of that owner.
@@ -234,6 +234,13 @@ def main() -> int:
                 continue
             word = struct.unpack_from('<I', content, offset)[0]
             if word > TEXT_HI and looks_like_pointer(word) and not covered(word) and word not in anonymous:
+                if word in pointer_only:
+                    length = pointer_only[word]
+                    anonymous[word] = word + length
+                    blocks[word] = word + length
+                    missing[word] = {f'th09_data_{word:08X}'}
+                    pending.append((word, word + length))
+                    continue
                 section = section_of(word)[0]
                 if section != '.rdata':
                     continue

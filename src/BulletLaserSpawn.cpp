@@ -2,13 +2,13 @@
 #include "BulletManager.hpp"
 #include "PlayerAngleView.hpp"
 
-extern int g_LaserColorSpriteOffsets[];
+extern int g_BulletSpriteOffsetSmall[];
 
 // The original sprite offset table contains 32-bit native words selected
 // by the descriptor color. Retail has no C++ array-bounds condition.
 static __forceinline int NativeLaserColorOffset(int color)
 {
-    return g_LaserColorSpriteOffsets[color];
+    return g_BulletSpriteOffsetSmall[color];
 }
 
 Laser *EtamaController::SpawnLaserPattern(BulletSpawnDescriptor *descriptor)

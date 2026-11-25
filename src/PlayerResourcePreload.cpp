@@ -13,7 +13,24 @@ typedef char PlayerPreloadSideTailSizeIs38[
     (sizeof(PlayerPreloadSideTailView) == 0x38) ? 1 : -1];
 
 extern PlayerPreloadSideTailView g_PlayerPreloadSides[2];
-extern const char *g_PlayerResourcePaths[][6];
+const char *g_PlayerResourcePaths[16][6] = {
+    { "pl00.sht", "pl00.anm", "pl00.ecl", "pl00.msg", "pl00_match.msg", "pl00b.anm" },
+    { "pl01.sht", "pl01.anm", "pl01.ecl", "pl01.msg", "pl01_match.msg", "pl01b.anm" },
+    { "pl02.sht", "pl02.anm", "pl02.ecl", "pl02.msg", "pl02_match.msg", "pl02b.anm" },
+    { "pl03.sht", "pl03.anm", "pl03.ecl", "pl03.msg", "pl03_match.msg", "pl03b.anm" },
+    { "pl04.sht", "pl04.anm", "pl04.ecl", "pl04.msg", "pl04_match.msg", "pl04b.anm" },
+    { "pl05.sht", "pl05.anm", "pl05.ecl", "pl05.msg", "pl05_match.msg", "pl05b.anm" },
+    { "pl06.sht", "pl06.anm", "pl06.ecl", "pl06.msg", "pl06_match.msg", "pl06b.anm" },
+    { "pl07.sht", "pl07.anm", "pl07.ecl", "pl07.msg", "pl07_match.msg", "pl07b.anm" },
+    { "pl08.sht", "pl08.anm", "pl08.ecl", "pl08.msg", "pl08_match.msg", "pl08b.anm" },
+    { "pl09.sht", "pl09.anm", "pl09.ecl", "pl09.msg", "pl09_match.msg", "pl09b.anm" },
+    { "pl10.sht", "pl10.anm", "pl10.ecl", "pl10.msg", "pl10_match.msg", "pl10b.anm" },
+    { "pl11.sht", "pl11.anm", "pl11.ecl", "pl11.msg", "pl11_match.msg", "pl11b.anm" },
+    { "pl12.sht", "pl12.anm", "pl12.ecl", "pl12.msg", "pl12_match.msg", "pl12b.anm" },
+    { "pl13.sht", "pl13.anm", "pl13.ecl", "pl13.msg", "pl13_match.msg", "pl13b.anm" },
+    { "pl14.sht", "pl14.anm", "pl14.ecl", "pl14.msg", "pl14_match.msg", "pl14b.anm" },
+    { "pl15.sht", "pl15.anm", "pl15.ecl", "pl15.msg", "pl15_match.msg", "pl15b.anm" },
+};
 
 int PreloadPlayerAnmResources()
 {

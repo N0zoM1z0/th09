@@ -58,7 +58,9 @@ typedef char BulletNativeGameManagerOwner[
      offsetof(BulletSideStateView, player) == 0x04 &&
      offsetof(BulletSideStateView, effectManager0C) == 0x0C) ? 1 : -1];
 
-extern int g_BulletSpriteOffsetSmall[];
+int g_BulletSpriteOffsetSmall[16] = {
+    0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 0,
+};
 int g_BulletSpriteOffsetMedium[8] = { 0, 1, 1, 2, 2, 3, 4, 0 };
 
 

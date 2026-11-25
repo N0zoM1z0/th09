@@ -1,6 +1,7 @@
 #include "SoundPlayer.hpp"
 #include "GameDifficulty.hpp"
 #include "PlayerLifecycleView.hpp"
+#include "PlayerPatternConfig.hpp"
 
 enum PlayerRewardTailType
 {
@@ -25,14 +26,6 @@ enum PlayerRewardTailType
 #include "CardAttack.hpp"
 
 #include <stddef.h>
-
-struct PlayerResourcePathView
-{
-    const char *shtPath;
-    unsigned char unknown04[0x14];
-};
-
-typedef char PlayerResourcePathSizeIs18[(sizeof(PlayerResourcePathView) == 0x18) ? 1 : -1];
 
 struct PlayerRewardAnmView
 {
@@ -101,7 +94,7 @@ typedef char PlayerRuntimeNativeTrackingResetAt30364[
 // The ANM singleton uses the same native interface as the loader.
 extern AnmManager *g_AnmManager;
 extern PlayerShtFileView *g_PlayerShtFilesBySide[2];
-extern PlayerResourcePathView g_PlayerResourcePaths[];
+extern const char *g_PlayerResourcePaths[][6];
 int g_PlayerTable303F0[16] = {
     10, 10, 19, 10, 10, 10, 9, 12, 15, 15, 13, 12, 12, 14, 9, 9,
 };
@@ -117,13 +110,182 @@ int g_PlayerTable303FC[16] = {
 int g_PlayerTable30400[16] = {
     23, 23, 32, 23, 23, 23, 22, 25, 28, 28, 26, 25, 25, 27, 22, 22,
 };
-extern void *g_PlayerCallback30404[];
-extern void *g_PlayerCallback30408[];
-extern void *g_PlayerCallback30450[];
-extern void *g_PlayerShotSpawnCallbacks[];
-extern void *g_PlayerShotUpdateCallbacks[];
-extern void *g_PlayerShotDrawCallbacks[];
-extern void *g_PlayerShotCollisionCallbacks[];
+
+struct PlayerPositionRangeCallbackView;
+struct PlayerPositionCallbackType1View;
+struct PlayerPositionCallbackType2View;
+struct PlayerPositionCallbackType4View;
+struct PlayerPositionCallbackType9View;
+struct PlayerPositionCallbackType11View;
+struct PlayerPositionPredicateView;
+struct PlayerEnemyCallback30408EnemyView;
+struct PlayerShotSpawnPlayerView;
+struct PlayerShotSpawnShotView;
+struct PlayerShotSpawnDescriptorView;
+struct PlayerShotSpawn3PlayerView;
+struct PlayerShotSpawn3ShotView;
+struct PlayerShotSpawn3DescriptorView;
+struct PlayerShotSpawn6PlayerView;
+struct PlayerShotSpawn6ShotView;
+struct PlayerShotSpawn6DescriptorView;
+struct PlayerShotUpdate2PlayerView;
+struct PlayerShotUpdate2ShotView;
+struct PlayerShotUpdate4PlayerView;
+struct PlayerShotUpdate4ShotView;
+struct PlayerShotUpdate5PlayerView;
+struct PlayerShotUpdate5ShotView;
+struct PlayerShotUpdate67PlayerView;
+struct PlayerShotUpdate67ShotView;
+struct PlayerShotDraw1PlayerView;
+struct PlayerShotDraw1ShotView;
+struct PlayerShotDraw2PlayerView;
+struct PlayerShotDraw2ShotView;
+struct PlayerShotCallbackPlayerView;
+struct PlayerShotCallbackPositionView;
+
+extern int __fastcall PlayerOwnerRewardCallbackType0(PlayerOwnerStateView *base, PlayerPositionView *position);
+extern int __fastcall PlayerOwnerRewardCallbackType1(PlayerOwnerStateView *base, PlayerPositionView *position);
+extern int __fastcall PlayerOwnerRewardCallbackType2(PlayerOwnerStateView *base, PlayerPositionView *position);
+extern int __fastcall PlayerOwnerRewardCallbackType3(PlayerOwnerStateView *base, PlayerPositionView *position);
+extern int __fastcall PlayerOwnerRewardCallbackType4(PlayerOwnerStateView *base, PlayerPositionView *position);
+extern int __fastcall PlayerOwnerRewardCallbackType5(PlayerOwnerStateView *base, PlayerPositionView *position);
+extern int __fastcall PlayerOwnerRewardCallbackType6(PlayerOwnerStateView *base, PlayerPositionView *position);
+extern int __fastcall PlayerOwnerRewardCallbackType7(PlayerOwnerStateView *base, PlayerPositionView *position);
+extern int __fastcall PlayerOwnerRewardCallbackType8(PlayerOwnerStateView *base, PlayerPositionView *position);
+extern int __fastcall PlayerOwnerRewardCallbackType9(PlayerOwnerStateView *base, PlayerPositionView *position);
+extern int __fastcall PlayerOwnerRewardCallbackType10(PlayerOwnerStateView *base, PlayerPositionView *position);
+extern int __fastcall PlayerOwnerRewardCallbackType11(PlayerOwnerStateView *base, PlayerPositionView *position);
+extern int __fastcall PlayerOwnerRewardCallbackType12(PlayerOwnerStateView *base, PlayerPositionView *position);
+extern int __fastcall PlayerOwnerRewardCallbackType13(PlayerOwnerStateView *base, PlayerPositionView *position);
+extern int __fastcall PlayerOwnerRewardCallbackType14(PlayerOwnerStateView *base, PlayerPositionView *position);
+extern int __fastcall PlayerOwnerRewardCallbackType15(PlayerOwnerStateView *base, PlayerPositionView *position);
+
+extern int __fastcall PlayerPositionCallbackWithinRange(PlayerPositionRangeCallbackView *player, const PlayerPositionView *other);
+extern int __fastcall PlayerPositionCallback30404Type1(PlayerPositionCallbackType1View *player, const PlayerPositionView *other);
+extern int __fastcall PlayerPositionCallback30404Type2(PlayerPositionCallbackType2View *player, const PlayerPositionView *other);
+extern int __fastcall PlayerPositionCallback30404Type4(PlayerPositionCallbackType4View *player, const Float3 *other);
+extern int __fastcall PlayerPositionCallback30404Type6(PlayerPositionPredicateView *player, const PlayerPositionView *other);
+extern int __fastcall PlayerPositionCallback30404Type7(PlayerPositionPredicateView *player, const PlayerPositionView *other);
+extern int __fastcall PlayerPositionCallback30404Type8(PlayerPositionCallbackType4View *player, const Float3 *other);
+extern int __fastcall PlayerPositionCallback30404Type9(PlayerPositionCallbackType9View *player, const PlayerPositionView *other);
+extern int __fastcall PlayerPositionCallback30404Type11(PlayerPositionCallbackType11View *player, const Float3 *other);
+extern int __fastcall PlayerPositionCallback30404Type14(PlayerPositionPredicateView *player, const PlayerPositionView *other);
+extern int __fastcall PlayerPositionCallback30404Type15(PlayerPositionPredicateView *player, const PlayerPositionView *other);
+
+extern int __fastcall PlayerEnemyCallback30408Default(PlayerLifecycleView *player, PlayerEnemyCallback30408EnemyView *enemy);
+extern int __fastcall PlayerEnemyCallback30408Type2(PlayerLifecycleView *player, PlayerEnemyCallback30408EnemyView *enemy);
+extern int __fastcall PlayerEnemyCallback30408Type4(PlayerLifecycleView *player, PlayerEnemyCallback30408EnemyView *enemy);
+
+extern int __fastcall PlayerShotSpawnCallbackType1(PlayerLifecycleView *player, PlayerShotCtorView *shot, int value, PlayerShtDescriptorView *entry);
+extern int __fastcall PlayerShotSpawnCallbackType2(PlayerShotSpawnPlayerView *player, PlayerShotSpawnShotView *shot, int value, PlayerShotSpawnDescriptorView *entry);
+extern int __fastcall PlayerShotSpawnCallbackType3(PlayerShotSpawn3PlayerView *player, PlayerShotSpawn3ShotView *shot, int value, PlayerShotSpawn3DescriptorView *entry);
+extern int __fastcall PlayerShotSpawnCallbackType4(PlayerShotSpawnPlayerView *player, PlayerShotSpawnShotView *shot, int value, PlayerShotSpawnDescriptorView *entry);
+extern int __fastcall PlayerShotSpawnCallbackType5(PlayerShotSpawnPlayerView *player, PlayerShotSpawnShotView *shot, int value, PlayerShotSpawnDescriptorView *entry);
+extern int __fastcall PlayerShotSpawnCallbackType6(PlayerShotSpawn6PlayerView *player, PlayerShotSpawn6ShotView *shot, int value, PlayerShotSpawn6DescriptorView *entry);
+extern int __fastcall PlayerShotSpawnCallbackType7(PlayerLifecycleView *player, PlayerShotCtorView *shot, int value, PlayerShtDescriptorView *entry);
+
+extern int __fastcall PlayerShotUpdateCallbackType1(PlayerLifecycleView *player, PlayerShotCtorView *shot);
+extern int __fastcall PlayerShotUpdateCallbackType2(PlayerShotUpdate2PlayerView *player, PlayerShotUpdate2ShotView *shot);
+extern int __fastcall PlayerShotUpdateCallbackType3(PlayerLifecycleView *player, PlayerShotCtorView *shot);
+extern int __fastcall PlayerShotUpdateCallbackType4(PlayerShotUpdate4PlayerView *player, PlayerShotUpdate4ShotView *shot);
+extern int __fastcall PlayerShotUpdateCallbackType5(PlayerShotUpdate5PlayerView *player, PlayerShotUpdate5ShotView *shot);
+extern int __fastcall PlayerShotUpdateCallbackType6(PlayerShotUpdate67PlayerView *player, PlayerShotUpdate67ShotView *shot);
+extern int __fastcall PlayerShotUpdateCallbackType7(PlayerShotUpdate67PlayerView *player, PlayerShotUpdate67ShotView *shot);
+
+extern int __fastcall PlayerShotDrawCallbackType1(PlayerShotDraw1PlayerView *player, PlayerShotDraw1ShotView *shot);
+extern int __fastcall PlayerShotDrawCallbackType2(PlayerShotDraw2PlayerView *player, PlayerShotDraw2ShotView *shot);
+
+extern int __fastcall PlayerShotCollisionCallbackType1(PlayerShotCallbackPlayerView *player, void *unused, PlayerShotCallbackPositionView *position);
+extern int __fastcall PlayerShotCollisionCallbackType2(PlayerShotCallbackPlayerView *player, void *unused, PlayerShotCallbackPositionView *position);
+
+void *g_PlayerCallback30404[16] = {
+    reinterpret_cast<void *>(&PlayerPositionCallbackWithinRange),
+    reinterpret_cast<void *>(&PlayerPositionCallback30404Type1),
+    reinterpret_cast<void *>(&PlayerPositionCallback30404Type2),
+    reinterpret_cast<void *>(&PlayerPositionCallbackWithinRange),
+    reinterpret_cast<void *>(&PlayerPositionCallback30404Type4),
+    reinterpret_cast<void *>(&PlayerPositionCallbackWithinRange),
+    reinterpret_cast<void *>(&PlayerPositionCallback30404Type6),
+    reinterpret_cast<void *>(&PlayerPositionCallback30404Type7),
+    reinterpret_cast<void *>(&PlayerPositionCallback30404Type8),
+    reinterpret_cast<void *>(&PlayerPositionCallback30404Type9),
+    reinterpret_cast<void *>(&PlayerPositionCallback30404Type2),
+    reinterpret_cast<void *>(&PlayerPositionCallback30404Type11),
+    reinterpret_cast<void *>(&PlayerPositionCallbackWithinRange),
+    reinterpret_cast<void *>(&PlayerPositionCallbackWithinRange),
+    reinterpret_cast<void *>(&PlayerPositionCallback30404Type14),
+    reinterpret_cast<void *>(&PlayerPositionCallback30404Type15),
+};
+void *g_PlayerCallback30408[16] = {
+    reinterpret_cast<void *>(&PlayerEnemyCallback30408Default),
+    reinterpret_cast<void *>(&PlayerEnemyCallback30408Default),
+    reinterpret_cast<void *>(&PlayerEnemyCallback30408Type2),
+    reinterpret_cast<void *>(&PlayerEnemyCallback30408Default),
+    reinterpret_cast<void *>(&PlayerEnemyCallback30408Type4),
+    reinterpret_cast<void *>(&PlayerEnemyCallback30408Default),
+    reinterpret_cast<void *>(&PlayerEnemyCallback30408Default),
+    reinterpret_cast<void *>(&PlayerEnemyCallback30408Default),
+    reinterpret_cast<void *>(&PlayerEnemyCallback30408Default),
+    reinterpret_cast<void *>(&PlayerEnemyCallback30408Default),
+    reinterpret_cast<void *>(&PlayerEnemyCallback30408Default),
+    reinterpret_cast<void *>(&PlayerEnemyCallback30408Default),
+    reinterpret_cast<void *>(&PlayerEnemyCallback30408Default),
+    reinterpret_cast<void *>(&PlayerEnemyCallback30408Default),
+    reinterpret_cast<void *>(&PlayerEnemyCallback30408Default),
+    reinterpret_cast<void *>(&PlayerEnemyCallback30408Default),
+};
+void *g_PlayerCallback30450[16] = {
+    reinterpret_cast<void *>(&PlayerOwnerRewardCallbackType0),
+    reinterpret_cast<void *>(&PlayerOwnerRewardCallbackType1),
+    reinterpret_cast<void *>(&PlayerOwnerRewardCallbackType2),
+    reinterpret_cast<void *>(&PlayerOwnerRewardCallbackType3),
+    reinterpret_cast<void *>(&PlayerOwnerRewardCallbackType4),
+    reinterpret_cast<void *>(&PlayerOwnerRewardCallbackType5),
+    reinterpret_cast<void *>(&PlayerOwnerRewardCallbackType6),
+    reinterpret_cast<void *>(&PlayerOwnerRewardCallbackType7),
+    reinterpret_cast<void *>(&PlayerOwnerRewardCallbackType8),
+    reinterpret_cast<void *>(&PlayerOwnerRewardCallbackType9),
+    reinterpret_cast<void *>(&PlayerOwnerRewardCallbackType10),
+    reinterpret_cast<void *>(&PlayerOwnerRewardCallbackType11),
+    reinterpret_cast<void *>(&PlayerOwnerRewardCallbackType12),
+    reinterpret_cast<void *>(&PlayerOwnerRewardCallbackType13),
+    reinterpret_cast<void *>(&PlayerOwnerRewardCallbackType14),
+    reinterpret_cast<void *>(&PlayerOwnerRewardCallbackType15),
+};
+void *g_PlayerShotSpawnCallbacks[9] = {
+    NULL,
+    reinterpret_cast<void *>(&PlayerShotSpawnCallbackType1),
+    reinterpret_cast<void *>(&PlayerShotSpawnCallbackType2),
+    reinterpret_cast<void *>(&PlayerShotSpawnCallbackType3),
+    reinterpret_cast<void *>(&PlayerShotSpawnCallbackType4),
+    reinterpret_cast<void *>(&PlayerShotSpawnCallbackType5),
+    reinterpret_cast<void *>(&PlayerShotSpawnCallbackType6),
+    reinterpret_cast<void *>(&PlayerShotSpawnCallbackType7),
+    NULL,
+};
+void *g_PlayerShotUpdateCallbacks[8] = {
+    NULL,
+    reinterpret_cast<void *>(&PlayerShotUpdateCallbackType1),
+    reinterpret_cast<void *>(&PlayerShotUpdateCallbackType2),
+    reinterpret_cast<void *>(&PlayerShotUpdateCallbackType3),
+    reinterpret_cast<void *>(&PlayerShotUpdateCallbackType4),
+    reinterpret_cast<void *>(&PlayerShotUpdateCallbackType5),
+    reinterpret_cast<void *>(&PlayerShotUpdateCallbackType6),
+    reinterpret_cast<void *>(&PlayerShotUpdateCallbackType7),
+};
+void *g_PlayerShotDrawCallbacks[4] = {
+    NULL,
+    reinterpret_cast<void *>(&PlayerShotDrawCallbackType1),
+    reinterpret_cast<void *>(&PlayerShotDrawCallbackType2),
+    NULL,
+};
+void *g_PlayerShotCollisionCallbacks[5] = {
+    NULL,
+    reinterpret_cast<void *>(&PlayerShotCollisionCallbackType1),
+    reinterpret_cast<void *>(&PlayerShotCollisionCallbackType2),
+    NULL,
+    NULL,
+};
 extern ZunMemory g_ZunMemory;
 
 extern float __fastcall PlayerSin(float value);
@@ -187,7 +349,7 @@ int __fastcall PlayerLifecycleView::AddedCallback(PlayerLifecycleView *player)
         g_ZunMemory.Free(g_PlayerShtFilesBySide[player->sideIndex]);
 
     if (LoadPlayerShtFile(&player->primaryShtFile,
-                          g_PlayerResourcePaths[player->sideState->shotType20].shtPath) != 0)
+                          g_PlayerResourcePaths[player->sideState->shotType20][0]) != 0)
         return -1;
     g_PlayerShtFilesBySide[player->sideIndex] = player->primaryShtFile;
 
@@ -357,7 +519,7 @@ typedef char PlayerRuntimeNativeBulletSpriteDimensions[
      offsetof(PlayerAnmVmView, loadedSprite) == 0x224) ? 1 : -1];
 
 extern unsigned int g_PlayerUpdateGateFlags;
-extern int g_PlayerTimingTable[][7];
+extern PlayerPatternConfig g_PlayerPatternConfigs[];
 
 extern RngRuntimeView g_ReplayRng;
 extern EffectManager *g_PlayerRewardEffectManager;
@@ -693,7 +855,7 @@ afterTransition:
                 PlayerLifecycleView *opponent = opponentState->player04;
                 ZunTimer *metric = &opponent->header24.timer5C;
                 int metricValue = static_cast<int>(*metric);
-                int timingValue = g_PlayerTimingTable[opponentState->characterIndex2C][0];
+                int timingValue = g_PlayerPatternConfigs[opponentState->characterIndex2C].openingShort08;
                 timingValue *= 60;
                 timingValue -= metricValue;
                 PlayerSideStateView *currentSideState = player->sideState;

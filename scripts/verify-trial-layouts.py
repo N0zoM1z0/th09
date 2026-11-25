@@ -142,8 +142,6 @@ def verify_data_object(target, image, pe, path, addresses, resolve, originals, o
         if actual != expected:
             raise ValueError(f'{path.name} {name} differs from its linked bytes')
         labels.update({label: addresses[label] for label in offsets})
-    if not labels or not field_count:
-        raise ValueError(f'{path.name} is missing labelled storage or pointer fields')
     verify_data_owners(originals, labels, object_sizes, allocations)
     return labels, field_count
 
@@ -748,13 +746,13 @@ def verify_vtables(image, units, objects, addresses, resolve):
     return len(verified), slots
 
 
-def verify_opponent_lists(target, image, units, labels, object_sizes):
+def verify_opponent_lists(target, image, units, addresses, labels, object_sizes):
     symbol = '?g_OpponentLists@@3PAPAUOpponentSelectionEntry@@A'
     fields = units['game-manager-select-opponent']['relocations']
     pointer_table, = {field['target'] for field in fields if field['symbol'] == symbol}
     extent = object_sizes[f'0x{pointer_table:08X}']
     original = coff.pe_bytes_at(target, pointer_table, extent)
-    linked = coff.pe_bytes_at(image, labels[symbol], extent)
+    linked = coff.pe_bytes_at(image, addresses[symbol], extent)
     for slot, ((source,), (destination,)) in enumerate(
             zip(struct.iter_unpack('<I', original), struct.iter_unpack('<I', linked), strict=True)):
         size = object_sizes[f'0x{source:08X}']
@@ -762,8 +760,8 @@ def verify_opponent_lists(target, image, units, labels, object_sizes):
         keys = [row[0] for row in struct.iter_unpack('<8h', expected)]
         if len(expected) != size or not keys or keys[-1] >= 0 or any(key < 0 for key in keys[:-1]):
             raise ValueError(f'opponent list {slot} has an invalid original extent')
-        if (destination != labels.get(f'th09_data_{source:08X}')
-                or coff.pe_bytes_at(image, destination, size) != expected):
+        generated = labels.get(f'th09_data_{source:08X}')
+        if (generated is not None and destination != generated) or coff.pe_bytes_at(image, destination, size) != expected:
             raise ValueError(f'opponent list {slot} differs from the attested {source:#010x} extent')
 
 
@@ -933,7 +931,7 @@ def verify_layout(stem, data_name, target, units, objects):
     labels, data_fields = verify_data_object(target, image, pe, data_path, addresses, resolve, originals,
                                             product['object_size'])
     schedule_bytes = verify_enemy_schedule(target, image, pe, objects, addresses, originals)
-    verify_opponent_lists(target, image, units, labels, product['object_size'])
+    verify_opponent_lists(target, image, units, addresses, labels, product['object_size'])
     input_objects = verify_input_formats(target, image, units, resolve, product['library_data'])
     callback_slots = verify_callback_tables(target, image, units, resolve)
     ecl_slots = verify_ecl_tables(target, image, units, resolve)

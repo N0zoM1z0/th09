@@ -96,7 +96,7 @@ extern FrontMessageNeutralSourceView *g_FrontMessageSource;
 extern Supervisor g_Supervisor;
 extern AnmLoaded *g_FrontMessageAnm;
 extern AnmManager *g_AnmManager;
-extern ScreenEffect *g_FrontMessageScreenEffect;
+extern ScreenEffect *g_TitleFadeReleaseEffect;
 extern int g_ScreenTransitionCountdown;
 extern int g_StageTransitionState;
 extern unsigned char g_FrontMode0Done;
@@ -549,7 +549,7 @@ int FrontMessageRuntimeView::Update()
         }
 
         case FRONT_MESSAGE_OPCODE_START_SCREEN_FADE:
-            g_FrontMessageScreenEffect = ScreenEffect::RegisterChain(
+            g_TitleFadeReleaseEffect = ScreenEffect::RegisterChain(
                 SCREEN_EFFECT_FULL_FADE_HOLD,
                 300, 0xFFFFFF, 0, 0, 35, 2);
             g_ScreenTransitionCountdown = 302;

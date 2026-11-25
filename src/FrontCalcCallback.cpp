@@ -21,8 +21,7 @@ extern int g_FrontRuntimeValues90[4];
 extern int g_GameStageValue;
 extern int g_TitleNameTableIndex;
 extern int g_SelectedOpponentParameter;
-extern int g_TransitionResultTable[];
-extern int g_TransitionResultTableAlt[];
+extern int g_OpponentParameterTable[];
 extern void *g_NeutralMessageSource;
 
 // Two consecutive 16-bit script selections in the real file-backed
@@ -268,15 +267,15 @@ int __fastcall FrontCalcCallback(void *frontArg)
                     (g_GameManager.flags & 0x4000u) != 0)
                 {
                     g_SelectedOpponentParameter =
-                        g_TransitionResultTableAlt[static_cast<int>(45u * static_cast<unsigned int>(g_TitleNameTableIndex) +
-                                             5u * static_cast<unsigned int>(g_GameStageValue))];
+                        g_OpponentParameterTable[static_cast<int>(45u * static_cast<unsigned int>(g_TitleNameTableIndex) +
+                                             5u * static_cast<unsigned int>(g_GameStageValue)) + 4];
                 }
                 else
                 {
                     g_SelectedOpponentParameter =
-                        g_TransitionResultTable[static_cast<int>(45u * static_cast<unsigned int>(g_TitleNameTableIndex) +
+                        g_OpponentParameterTable[static_cast<int>(45u * static_cast<unsigned int>(g_TitleNameTableIndex) +
                                              5u * static_cast<unsigned int>(g_GameStageValue) +
-                                             static_cast<unsigned int>(modeValue))];
+                                             static_cast<unsigned int>(modeValue)) + 1];
                 }
             }
         }

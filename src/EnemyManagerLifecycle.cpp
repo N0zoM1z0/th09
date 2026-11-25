@@ -48,20 +48,7 @@ EnemyManagerView *__fastcall EnemyManagerView::Create(int sideIndex)
 
 #include <string.h>
 
-// Loaded slot reads reuse the real AnmLoaded resource view.
-struct EnemyLifecycleCharacterResources
-{
-    char *eclPath;
-    void *unknown04;
-    void *unknown08;
-    void *unknown0C;
-    void *unknown10;
-    void *unknown14;
-};
-typedef char EnemyLifecycleCharacterResourcesSizeIs18[
-    (sizeof(EnemyLifecycleCharacterResources) == 0x18) ? 1 : -1];
-
-extern EnemyLifecycleCharacterResources g_EnemyCharacterResources[];
+extern const char *g_PlayerResourcePaths[][6];
 extern RngRuntimeView g_Rng;
 extern unsigned char g_EnemySubroutineSchedule[256];
 
@@ -211,8 +198,8 @@ int __fastcall EnemyManagerView::AddedCallback(EnemyManagerView *enemyManager)
         return -1;
 
     if (enemyManager->opposingEclManager188.Load(
-            g_EnemyCharacterResources[
-                enemyManager->opposingSideState324->characterIndex20].eclPath) != 0)
+            const_cast<char *>(g_PlayerResourcePaths[
+                enemyManager->opposingSideState324->characterIndex20][2])) != 0)
         return -1;
 
     if (enemyManager->sideIndex31C == 0)
