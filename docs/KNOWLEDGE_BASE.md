@@ -4310,6 +4310,16 @@ for 83649, 82579, 82831, 83683 and 88377. This brings the playable
 comparison to 46,161 paired frames across seven public recordings. The
 playable links used the working-tree zero-fill placement update.
 
+## 2026-11-25 Lunatic replay handoff check
+
+[Lunatic Youmu 82996](https://www.silentselene.net/replays/th09/82996/download)
+has SHA-256 `845cf93e93608faa95f5248cc036fa6d0f7f7b178fb9ef67967dcbcf7d5d3a82`.
+Retail and the same playable image used for the Extra check consumed all
+43,972 input frames over six stages and reached title registration.
+Their 13-field traces are byte-identical. The fifth stage alone
+contains 17,967 frames. Both used the stock archive and the same
+configuration. The probe uses `--until-end --frames 46000` for this case.
+
 ## 2026-11-23 native DirectPlay startup and path storage
 
 The host Windows installation reports its DirectPlay feature enabled.
