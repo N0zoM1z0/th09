@@ -2,6 +2,7 @@
 #define TH09_ANM_CAMERA_PROJECTION_VIEWS_HPP
 
 #include "AnmManager.hpp"
+#include "Supervisor.hpp"
 #include <stddef.h>
 #include <windows.h>
 #include <d3d8.h>
@@ -26,7 +27,7 @@ struct AnmProjectionContextView {
     D3DXMATRIX projectionMatrix;
     D3DVIEWPORT8 viewport;
 };
-extern AnmProjectionContextView *g_AnmProjectionContext;
+#define g_AnmProjectionContext (g_Supervisor.anmProjectionContext348)
 struct AnmVmProjectionView {
     Float3 rotation; unsigned char unknown00C[0x0C]; Float2 scale; unsigned char unknown020[0x08]; Float2 spriteSize;
     unsigned char unknown030[0x100]; D3DXMATRIX matrix1; D3DXMATRIX matrix2; unsigned char unknown1B0[0x48];

@@ -260,8 +260,6 @@ struct RenderCoordinateOriginView
     unsigned int height;
 };
 
-extern RenderCoordinateOriginView *g_RenderCoordinateOrigin;
-
 // Opponent selection's original 799-byte exact owner uses these same
 // physical +0xD8/+0xF0/+0xF4/+0xFC/+0x11C/+0x138 manager words.
 // No independent source-only 0x13C-byte opponent manager is allocated.

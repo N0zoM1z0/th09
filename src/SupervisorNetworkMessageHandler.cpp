@@ -25,9 +25,6 @@ typedef char NetworkHandshakePacketViewSizeIs0C[
     (sizeof(NetworkHandshakePacketView) == 0x0C) ? 1 : -1];
 
 extern RngRuntimeView g_ReplayRng;
-extern int g_NetworkHandshakeToken;
-extern unsigned int g_NetworkLastReceiveTime;
-extern unsigned int g_NetworkCurrentTime;
 
 // DirectPlay local/remote endpoints are the real two peer-ID words.
 // Retain the original signed-to-unsigned selection expression.
@@ -55,7 +52,7 @@ int SupervisorNetworkMessageView::HandleMessage(void *userContext, unsigned long
         }
         else if (packet->type == 1)
         {
-            if (g_NetworkHandshakeToken == packet->frame && packet->frame == packet->seed)
+            if (g_Supervisor.networkTiming458.frameCounter == packet->frame && packet->frame == packet->seed)
             {
                 this->packetReady = 1;
             }
@@ -82,7 +79,7 @@ int SupervisorNetworkMessageView::HandleMessage(void *userContext, unsigned long
                 }
             }
         }
-        g_NetworkLastReceiveTime = g_NetworkCurrentTime;
+        g_Supervisor.networkTiming458.frameStartTime = g_Supervisor.networkTiming458.waitTime;
         g_Supervisor.LeaveCriticalSectionWrapper(4);
         break;
     case DPN_MSGID_CREATE_PLAYER:

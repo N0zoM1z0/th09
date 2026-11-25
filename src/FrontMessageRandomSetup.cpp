@@ -7,11 +7,11 @@
 #include "AsciiGameManagerView.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "FrontMessageRuntimeView.hpp"
+#include "Supervisor.hpp"
 
 #include <stddef.h>
 #include <string.h>
 
-extern AnmLoaded *g_FrontMessageAnm;
 extern RngRuntimeView g_ReplayRng;
 
 // The on-disk message table owns a file-backed sequence of eight-byte
@@ -96,8 +96,8 @@ void FrontMessageRuntimeView::SetupRandomForSide(int side)
     this->resetText1D65 = 1;
     this->textLineIndex1D66 = 0;
     this->currentPortrait1D67 = 0xff;
-    g_FrontMessageAnm->SetAndExecuteScriptIdx(&this->textVms1534[0], 0);
-    g_FrontMessageAnm->SetAndExecuteScriptIdx(&this->textVms1534[1], 1);
+    g_Supervisor.textAnm5CC->SetAndExecuteScriptIdx(&this->textVms1534[0], 0);
+    g_Supervisor.textAnm5CC->SetAndExecuteScriptIdx(&this->textVms1534[1], 1);
     this->textVms1534[0].fontWidth = this->textVms1534[0].fontHeight = this->glyphSize1D54;
     this->textVms1534[1].fontWidth = this->textVms1534[1].fontHeight = this->glyphSize1D54;
     g_AnmManager->DrawTextLeft(&this->textVms1534[0], this->textColors1D20[static_cast<unsigned int>(this->colorIndex1D64)], this->shadowColors1D30[static_cast<unsigned int>(this->colorIndex1D64)], " ");

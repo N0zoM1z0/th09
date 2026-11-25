@@ -20,9 +20,6 @@ typedef char EndingNativeAnmScriptIndex[
     (offsetof(AnmVm, scriptIndex) == 0x21A) ? 1 : -1];
 
 // Neutral reconstruction aliases for target globals whose original owners remain unknown.
-extern int g_EndingLifecycleState;
-extern unsigned int g_EndingLifecycleFlags;
-extern int g_EndingActive;
 
 // The script cursor walks the original file-backed character stream;
 // line and control-token parsing retain the target's live read order.
@@ -425,14 +422,14 @@ int Ending::OnDraw(Ending *ending)
 int Ending::DeletedCallback(Ending *ending)
 {
     g_AnmManager->ReleaseAnm(19);
-    g_EndingLifecycleState = 6;
+    g_Supervisor.curState590 = 6;
     g_AnmManager->ReleaseSurface(0);
     g_ZunMemory.Free(ending->scriptData);
     g_Chain.Cut(ending->drawChain);
     ending->drawChain = NULL;
     operator delete(ending);
-    g_EndingLifecycleFlags &= ~0x400u;
-    g_EndingActive = 0;
+    g_Supervisor.flags &= ~0x400u;
+    g_Supervisor.startupField5A8 = 0;
     return 0;
 }
 

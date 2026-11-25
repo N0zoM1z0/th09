@@ -388,10 +388,10 @@ int AnmManager::DrawInner(AnmVm *vm, int flags)
     triangleY2 = g_AnmRenderQuad[3].y < triangleY2
         ? g_AnmRenderQuad[3].y : triangleY2;
 
-    if (triangleX1 < (float)g_RenderCoordinateOrigin->x ||
-        triangleY1 < (float)g_RenderCoordinateOrigin->y ||
-        triangleX2 > (float)(g_RenderCoordinateOrigin->x + g_RenderCoordinateOrigin->width) ||
-        triangleY2 > (float)(g_RenderCoordinateOrigin->y + g_RenderCoordinateOrigin->height)) {
+    if (triangleX1 < (float)g_Supervisor.renderCoordinateOrigin348->x ||
+        triangleY1 < (float)g_Supervisor.renderCoordinateOrigin348->y ||
+        triangleX2 > (float)(g_Supervisor.renderCoordinateOrigin348->x + g_Supervisor.renderCoordinateOrigin348->width) ||
+        triangleY2 > (float)(g_Supervisor.renderCoordinateOrigin348->y + g_Supervisor.renderCoordinateOrigin348->height)) {
         return 0;
     }
 
@@ -513,10 +513,10 @@ int AnmManager::DrawInnerFlippedX(AnmVm *vm, int flags)
     triangleY2 = g_AnmRenderQuad[3].y < triangleY2
         ? g_AnmRenderQuad[3].y : triangleY2;
 
-    if (triangleX1 < (float)g_RenderCoordinateOrigin->x ||
-        triangleY1 < (float)g_RenderCoordinateOrigin->y ||
-        triangleX2 > (float)(g_RenderCoordinateOrigin->x + g_RenderCoordinateOrigin->width) ||
-        triangleY2 > (float)(g_RenderCoordinateOrigin->y + g_RenderCoordinateOrigin->height)) {
+    if (triangleX1 < (float)g_Supervisor.renderCoordinateOrigin348->x ||
+        triangleY1 < (float)g_Supervisor.renderCoordinateOrigin348->y ||
+        triangleX2 > (float)(g_Supervisor.renderCoordinateOrigin348->x + g_Supervisor.renderCoordinateOrigin348->width) ||
+        triangleY2 > (float)(g_Supervisor.renderCoordinateOrigin348->y + g_Supervisor.renderCoordinateOrigin348->height)) {
         return 0;
     }
 

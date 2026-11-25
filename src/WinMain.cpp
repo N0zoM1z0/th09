@@ -57,14 +57,12 @@ typedef char WinMainNativeSupervisorView[
      offsetof(Supervisor, screenTransitionCountdown) == 0x5A4 &&
      offsetof(Supervisor, flags) == 0x5D4) ? 1 : -1];
 
-extern MidiOutput *g_MidiOutput;
 extern Chain g_Chain;
 extern RngRuntimeView g_ReplayRng;
 extern ZunMemory g_ZunMemory;
 extern GameErrorContext g_GameErrorContext;
 
 namespace FileSystem { extern char g_ExecutableDirectory[MAX_PATH]; }
-extern HWND g_SupervisorGameWindow;
 extern const char g_WindowTitle[] = "\x93\x8C\x95\xFB\x89\xD4\x89\x66\x92\xCB\x81\x40\x81\x60 Phantasmagoria of Flower View. ver 1.50a"; // 東方花映塚　～ Phantasmagoria of Flower View. ver 1.50a
 
 extern const char g_MainLogStart[] = "\x93\x8C\x95\xFB\x93\xAE\x8D\xEC\x8B\x4C\x98\x5E --------------------------------------------- \r\n"; // 東方動作記録 --------------------------------------------- \r\n
@@ -134,7 +132,7 @@ static int CreateGameWindow(HINSTANCE instance)
     }
 
     g_GameWindow.window00 = window;
-    g_SupervisorGameWindow = window;
+    g_Supervisor.window74 = window;
     if (window == NULL)
         return 1;
 
@@ -370,12 +368,12 @@ stop:
     FileSystem::WriteDataToFile(
         "th09.cfg", &g_Supervisor.config388, sizeof(GameConfiguration));
 
-    if (g_MidiOutput != NULL)
+    if (g_Supervisor.midiOutput5BC != NULL)
     {
-        g_MidiOutput->StopPlayback();
-        if (g_MidiOutput != NULL)
-            delete g_MidiOutput;
-        g_MidiOutput = NULL;
+        g_Supervisor.midiOutput5BC->StopPlayback();
+        if (g_Supervisor.midiOutput5BC != NULL)
+            delete g_Supervisor.midiOutput5BC;
+        g_Supervisor.midiOutput5BC = NULL;
     }
 
     g_GameErrorContext.Flush();

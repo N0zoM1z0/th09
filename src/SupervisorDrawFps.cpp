@@ -16,7 +16,6 @@ typedef char SupervisorDrawFpsFieldAt478[
 }
 
 extern void __fastcall SupervisorCalculateFps(int shouldDraw);
-extern AnmVm *g_SupervisorFpsVm;
 
 int __fastcall SupervisorDrawFps(Supervisor *supervisor)
 {
@@ -27,7 +26,7 @@ int __fastcall SupervisorDrawFps(Supervisor *supervisor)
     if (layout->drawFpsVm != 0)
     {
         g_Supervisor.ConfigureGameplayViewport(2);
-        g_AnmManager->DrawNoRotation(g_SupervisorFpsVm);
+        g_AnmManager->DrawNoRotation(g_Supervisor.startupVm584);
     }
 
     return 1;

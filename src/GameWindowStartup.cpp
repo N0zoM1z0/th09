@@ -1,13 +1,13 @@
 #include "FileSystem.hpp"
 #include "GameErrorContext.hpp"
 #include "GameWindow.hpp"
+#include "Supervisor.hpp"
 
 #include <windows.h>
 #include <string.h>
 
 HANDLE g_ExclusiveMutex;
 extern GameErrorContext g_GameErrorContext;
-extern unsigned int g_WindowRuntimeFlags;
 
 int __fastcall ResolveShortcut(
     char *shortcutPath, char *destination, int destinationSize);
@@ -59,11 +59,11 @@ int CheckForRunningGameInstance()
             if (strcmp(moduleFilenameBuffer, consoleTitleBuffer) != 0)
                 g_GameWindow.startupPathDiffers1C = 1;
         }
-        g_WindowRuntimeFlags &= ~0x40u;
+        g_Supervisor.flags &= ~0x40u;
     }
     else
     {
-        g_WindowRuntimeFlags |= 0x40u;
+        g_Supervisor.flags |= 0x40u;
     }
 
     if (g_ExclusiveMutex == NULL)

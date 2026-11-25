@@ -1,11 +1,11 @@
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "FrontMessageRuntimeView.hpp"
+#include "Supervisor.hpp"
 
 #include <stddef.h>
 #include <string.h>
 
-extern AnmLoaded *g_FrontMessageAnm;
 
 // The file-backed table contains count00 native 0x08-byte entries, although
 // its C++ wire projection declares only the first entry.
@@ -63,8 +63,8 @@ void FrontMessageRuntimeView::Setup(int messageIndex, int mode)
     textLineIndex1D66 = 0;
     currentPortrait1D67 = 0xFF;
 
-    g_FrontMessageAnm->SetAndExecuteScriptIdx(&textVms1534[0], 0);
-    g_FrontMessageAnm->SetAndExecuteScriptIdx(&textVms1534[1], 1);
+    g_Supervisor.textAnm5CC->SetAndExecuteScriptIdx(&textVms1534[0], 0);
+    g_Supervisor.textAnm5CC->SetAndExecuteScriptIdx(&textVms1534[1], 1);
 
     unsigned char glyphSize = static_cast<unsigned char>(glyphSize1D54);
     textVms1534[0].fontHeight = glyphSize;

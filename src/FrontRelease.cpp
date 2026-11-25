@@ -1,6 +1,7 @@
 #include "Chain.hpp"
 #include "FrontFactoryConstructView.hpp"
 #include "StageResourcePolicy.hpp"
+#include "Supervisor.hpp"
 
 #include <stddef.h>
 #include <new>
@@ -8,11 +9,10 @@
 
 extern Chain g_Chain;
 extern int g_GameSide1Value20;
-extern int g_StageResourceReleasePolicy;
 
 int ShouldReleaseStageResources()
 {
-    return g_StageResourceReleasePolicy;
+    return g_Supervisor.value598;
 }
 
 // The original +0xE944 message subobject and chain heads are members of

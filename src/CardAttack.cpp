@@ -19,7 +19,6 @@ struct CardAttackResourceView
 
 extern Chain g_Chain;
 extern CardAttackResourceView *g_CardAttackResource;
-extern AnmLoaded *g_CardAttackTextAnm;
 extern unsigned int g_CardAttackInputFlags;
 
 CardAttack::CardAttack()
@@ -40,7 +39,7 @@ int CardAttack::OnUpdate(CardAttack *cardAttack)
         {
             cardAttack->presentationAnm14->SetAndExecuteScriptIdx(
                 &cardAttack->mainVms0AC[0], cardAttack->sideIndex00 + 18);
-            g_CardAttackTextAnm->SetSprite(
+            g_Supervisor.textAnm5CC->SetSprite(
                 &cardAttack->mainVms0AC[1], cardAttack->sideIndex00 + 4);
             cardAttack->mainVms0AC[1].scale.x = 1.0f;
             cardAttack->mainVms0AC[1].scale.y = 1.0f;
@@ -56,7 +55,7 @@ int CardAttack::OnUpdate(CardAttack *cardAttack)
         {
             cardAttack->presentationAnm14->SetAndExecuteScriptIdx(
                 &cardAttack->mainVms0AC[0], cardAttack->sideIndex00 + 18);
-            g_CardAttackTextAnm->SetSprite(
+            g_Supervisor.textAnm5CC->SetSprite(
                 &cardAttack->mainVms0AC[1], cardAttack->sideIndex00 + 4);
             cardAttack->mainVms0AC[1].scale.x = 1.0f;
             cardAttack->mainVms0AC[1].scale.y = 1.0f;

@@ -94,11 +94,8 @@ struct FrontMessageNeutralSourceView
 extern AsciiGameManagerView g_GameManager;
 extern FrontMessageNeutralSourceView *g_FrontMessageSource;
 extern Supervisor g_Supervisor;
-extern AnmLoaded *g_FrontMessageAnm;
 extern AnmManager *g_AnmManager;
 extern ScreenEffect *g_TitleFadeReleaseEffect;
-extern int g_ScreenTransitionCountdown;
-extern int g_StageTransitionState;
 extern unsigned char g_FrontMode0Done;
 extern unsigned char g_FrontOtherModeDone;
 
@@ -410,7 +407,7 @@ int FrontMessageRuntimeView::Update()
                     " ");
             }
 
-            g_FrontMessageAnm->SetAndExecuteScriptIdx(
+            g_Supervisor.textAnm5CC->SetAndExecuteScriptIdx(
                 &textVms1534[arguments[1]], arguments[1]);
             textVms1534[arguments[1]].fontWidth =
                 textVms1534[arguments[1]].fontHeight =
@@ -445,7 +442,7 @@ int FrontMessageRuntimeView::Update()
                 textLineIndex1D66 = 0;
             }
 
-            g_FrontMessageAnm->SetAndExecuteScriptIdx(
+            g_Supervisor.textAnm5CC->SetAndExecuteScriptIdx(
                 &textVms1534[textLineIndex1D66],
                 textLineIndex1D66);
             textVms1534[textLineIndex1D66].fontWidth =
@@ -552,7 +549,7 @@ int FrontMessageRuntimeView::Update()
             g_TitleFadeReleaseEffect = ScreenEffect::RegisterChain(
                 SCREEN_EFFECT_FULL_FADE_HOLD,
                 300, 0xFFFFFF, 0, 0, 35, 2);
-            g_ScreenTransitionCountdown = 302;
+            g_Supervisor.screenTransitionCountdown = 302;
             break;
 
         case FRONT_MESSAGE_OPCODE_SET_SKIPPABLE:
@@ -590,13 +587,13 @@ int FrontMessageRuntimeView::Update()
             if (g_GameManager.IsGameMode0())
             {
                 if (!mode10)
-                    g_StageTransitionState = 3;
+                    g_Supervisor.curState590 = 3;
                 else
                     g_FrontMode0Done = 1;
             }
             else if (g_GameManager.IsGameMode1())
             {
-                g_StageTransitionState = 3;
+                g_Supervisor.curState590 = 3;
             }
             else
             {

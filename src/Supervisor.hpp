@@ -16,6 +16,8 @@ class AnmLoaded;
 struct AnmVm;
 class MidiOutput;
 class DummyMidiTimer;
+struct AnmProjectionContextView;
+struct RenderCoordinateOriginView;
 
 struct SupervisorCtorArrayElement
 {
@@ -147,7 +149,12 @@ class Supervisor
     SupervisorCtorArrayElement ctorArray078[3];
     // Shared D3D8 presentation record: the window, FPS, capture and surface
     // loaders all refer to these 52 bytes of the same Supervisor allocation.
-    unsigned char unknown348[0x350 - 0x348];
+    union {
+        unsigned char unknown348[0x350 - 0x348];
+        SupervisorCtorArrayElement *currentCamera348;
+        AnmProjectionContextView *anmProjectionContext348;
+        RenderCoordinateOriginView *renderCoordinateOrigin348;
+    };
     D3DPRESENT_PARAMETERS presentParameters350;
     DummyMidiTimer *dummyMidiTimer384;
     GameConfiguration config388;

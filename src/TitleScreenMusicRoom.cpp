@@ -30,7 +30,6 @@ typedef char MusicRoomAnmVmPosAt208[(offsetof(AnmVm, pos) == 0x208) ? 1 : -1];
 // Music-room track records are fields of the full TitleScreenView.
 // Their 0x292-byte POD shape is checked in TitleScreenReplayView.hpp.
 
-extern AnmLoaded *g_TitleMusicDescriptionAnm;
 
 typedef char MusicInputSlotSizeIs8E[(sizeof(ReplayInputState) == 0x8E) ? 1 : -1];
 typedef char MusicInputFrontAt06[(offsetof(ReplayInputState, word06) == 6) ? 1 : -1];
@@ -209,7 +208,7 @@ int TitleScreenView::OnUpdateMusicRoom()
             g_Supervisor.PlayAudio(musicTracks[keyboardSelection].path, 0);
             stateTimer2 = 0;
             for (i = 0; i < 8; i++)
-                g_TitleMusicDescriptionAnm->SetAndExecuteScriptIdx(&embeddedVms[49 + i], 6 + i);
+                g_Supervisor.textAnm5CC->SetAndExecuteScriptIdx(&embeddedVms[49 + i], 6 + i);
             goto common_tail;
         }
 
@@ -376,7 +375,7 @@ int TitleScreenView::OnUpdateMusicRoom()
 
             musicSelectedSongIndex = keyboardSelection;
             for (i = 0; i < 8; i++)
-                g_TitleMusicDescriptionAnm->SetAndExecuteScriptIdx(&embeddedVms[49 + i], 6 + i);
+                g_Supervisor.textAnm5CC->SetAndExecuteScriptIdx(&embeddedVms[49 + i], 6 + i);
             musicPaused = 0;
         }
 

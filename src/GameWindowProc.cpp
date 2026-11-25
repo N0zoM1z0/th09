@@ -5,8 +5,6 @@
 #include <windows.h>
 #include <mmsystem.h>
 
-extern unsigned int g_WindowRuntimeFlags;
-extern MidiOutput *g_MidiOutput;
 extern Supervisor g_Supervisor;
 
 LRESULT CALLBACK GameWindowProc(
@@ -18,8 +16,8 @@ LRESULT CALLBACK GameWindowProc(
         return 1;
 
     case 969:
-        if (g_MidiOutput != NULL)
-            g_MidiOutput->UnprepareHeader(
+        if (g_Supervisor.midiOutput5BC != NULL)
+            g_Supervisor.midiOutput5BC->UnprepareHeader(
                 reinterpret_cast<LPMIDIHDR>(lParam));
         break;
 
@@ -53,7 +51,7 @@ LRESULT CALLBACK GameWindowProc(
         return 1;
 
     case WM_CLOSE:
-        g_WindowRuntimeFlags |= 0x80;
+        g_Supervisor.flags |= 0x80;
         return 1;
     }
 

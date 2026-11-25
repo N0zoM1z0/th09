@@ -14,8 +14,6 @@
 typedef char EndingSupervisorNativeTextOwner[
     (offsetof(Supervisor, textAnm5CC) == 0x5CC) ? 1 : -1];
 
-extern unsigned int g_EndingLifecycleFlags;
-extern int g_EndingActive;
 ScreenEffect *g_TitleFadeReleaseEffect = NULL;
 const char *g_EndingFilePaths[16] = {
     "end00.end",
@@ -41,13 +39,13 @@ const char *g_EndingFilePaths[16] = {
 
 int Ending::AddedCallback(Ending *ending)
 {
-    g_EndingLifecycleFlags |= 0x400u;
+    g_Supervisor.flags |= 0x400u;
     g_AnmManager->ClearTexture();
     g_AnmManager->ClearSprite();
     g_AnmManager->ClearBlendMode();
     g_AnmManager->ClearVertexShader();
     ScreenEffect::Clear(0xFFFFFFFFu);
-    g_EndingActive = 1;
+    g_Supervisor.startupField5A8 = 1;
 
     Supervisor *supervisor = &g_Supervisor;
     for (int i = 0; i < 15; i++)

@@ -127,8 +127,6 @@ extern Chain g_Chain;
 // The seed methods and the shared generator project the same eight-byte state.
 extern RngRuntimeView g_ReplayRng;
 extern SupervisorReplayView g_Supervisor;
-extern u32 g_ReplayHeaderValue1D4;
-extern u32 g_ReplayHeaderValue1D8;
 
 #include "TitleScoreRecordView.hpp"
 
@@ -461,8 +459,8 @@ int ReplayManagerView::BeginRecordingStage(ReplayManagerView *replayManager)
         replayData->value0C2 = 0x150;
         replayData->value0C1 = 0x61;
         strcpy(replayData->exeVersion, "0150a");
-        replayData->value1D4 = g_ReplayHeaderValue1D4;
-        replayData->value1D8 = g_ReplayHeaderValue1D8;
+        replayData->value1D4 = g_Supervisor.exeSize7A4;
+        replayData->value1D8 = g_Supervisor.exeChecksum7A0;
         replayData->value0D7 = g_GameManager.difficulty;
         replayData->value1E4 = g_GameManager.gameMode;
         replayData->value1E5 = g_GameManager.replayMode114;

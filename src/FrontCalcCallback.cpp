@@ -9,12 +9,12 @@
 #include "CardAttack.hpp"
 #include "GameManagerRuntimeView.hpp"
 #include "GameManagerSetupView.hpp"
+#include "Supervisor.hpp"
 
 #include <stddef.h>
 
 extern AsciiGameManagerView g_GameManager;
 extern int g_SoundPlayerBgmValue;
-extern int g_EndingLifecycleState;
 extern unsigned char g_FrontMode0Done;
 extern unsigned char g_FrontOtherModeDone;
 extern int g_FrontRuntimeValues90[4];
@@ -120,12 +120,12 @@ int __fastcall FrontCalcCallback(void *frontArg)
                 {
                     if (g_GameStageValue >= 8)
                     {
-                        g_EndingLifecycleState =
+                        g_Supervisor.curState590 =
                             g_GameManager.IsReplayNeutral() ? 1 : 9;
                     }
                     else
                     {
-                        g_EndingLifecycleState = 3;
+                        g_Supervisor.curState590 = 3;
                     }
                 }
                 else
@@ -139,12 +139,12 @@ int __fastcall FrontCalcCallback(void *frontArg)
                 {
                     if (g_GameStageValue >= 8)
                     {
-                        g_EndingLifecycleState =
+                        g_Supervisor.curState590 =
                             g_GameManager.IsReplayNeutral() ? 1 : 9;
                     }
                     else
                     {
-                        g_EndingLifecycleState = 3;
+                        g_Supervisor.curState590 = 3;
                     }
                 }
                 else
