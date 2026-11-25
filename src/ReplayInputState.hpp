@@ -2,13 +2,19 @@
 
 #include <stddef.h>
 
+#pragma pack(push, 2)
 struct ReplayInputState
 {
     unsigned short currentInput;
     union { unsigned short word02; unsigned short networkPrevious02; };
     union { unsigned short repeatOutput; unsigned short networkRepeat04; };
-    union { unsigned short word06; unsigned short networkPressed06; };
-    union { unsigned short word08; unsigned short networkReleased08; };
+    union {
+        struct {
+            union { unsigned short word06; unsigned short networkPressed06; };
+            union { unsigned short word08; unsigned short networkReleased08; };
+        };
+        unsigned int flags06;
+    };
     // The network input path uses 16 word counters in this *first* +0x20
     // window. Replay/Controller owners independently use another set of
     // heldFrames[16] at +0x38. Do not confuse these two physical arrays.
@@ -31,6 +37,7 @@ struct ReplayInputState
     unsigned short IsHeld(unsigned short mask);
     unsigned short WasPressed(unsigned short buttons);
 };
+#pragma pack(pop)
 
 typedef char ReplayInputStateSizeIs8E[
     (sizeof(ReplayInputState) == 0x8E) ? 1 : -1];

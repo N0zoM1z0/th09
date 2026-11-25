@@ -102,7 +102,6 @@ extern RngRuntimeView g_ReplayRng;
 extern AsciiManager g_AsciiManager;
 extern AnmVm g_SupervisorLoadingVms[3];
 
-extern unsigned char g_DeletedScratch[0x2BC0];
 extern int g_GameManagerChainState;
 
 extern int g_LastSpawnLane;
@@ -503,7 +502,7 @@ int GameManagerSetupLayout::DeletedCallback(GameManagerSetupLayout *gameManager)
         supervisor->value598 = 0;
     }
 
-    memset(g_DeletedScratch, 0, sizeof(g_DeletedScratch));
+    memset(g_AsciiManager.scorePopups, 0, sizeof(g_AsciiManager.scorePopups));
 
     SetupStateBuffer *state =
         globalManager.sides[0].state;

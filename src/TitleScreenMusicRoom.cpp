@@ -1,3 +1,4 @@
+#include "PlayStats.hpp"
 // Target-bound TH09 music-room view embedded in the TitleScreen state owner.
 // TH08 supplies the source family only; TH09 target evidence fixes all layout,
 // input, rendering, audio, and file-format details used below.
@@ -33,7 +34,6 @@ extern AnmLoaded *g_TitleMusicDescriptionAnm;
 
 typedef char MusicInputSlotSizeIs8E[(sizeof(ReplayInputState) == 0x8E) ? 1 : -1];
 typedef char MusicInputFrontAt06[(offsetof(ReplayInputState, word06) == 6) ? 1 : -1];
-extern u8 g_TitleBgmUnlocked[32];
 const char *g_TitleBgmNotUnlockedWarning[8] = {
     " ***** \x92\x8D\x88\xD3 ***** ", // [0]  ***** 注意 *****
     "  \x82\xB1\x82\xCC\x8B\xC8\x82\xCD\x82\xDC\x82\xBE\x83\x51\x81\x5B\x83\x80\x92\x86\x82\xC5\x8D\xC4\x90\xB6\x82\xB3\x82\xEA\x82\xBD\x82\xB1\x82\xC6\x82\xAA\x82\xA0\x82\xE8\x82\xDC\x82\xB9\x82\xF1\x81\x42", // [1]   この曲はまだゲーム中で再生されたことがありません。
@@ -72,7 +72,7 @@ int TitleScreenView::OnUpdateMusicRoom()
         if (stateTimer2 == 2)
         {
             embeddedVms[49].pendingInterrupt = 1;
-            if (g_TitleBgmUnlocked[musicSelectedSongIndex])
+            if (g_PlayStatsRecord.bgmUnlocked[musicSelectedSongIndex])
                 g_AnmManager->DrawTextLeft(&embeddedVms[49], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[0]);
             else
@@ -82,7 +82,7 @@ int TitleScreenView::OnUpdateMusicRoom()
         else if (stateTimer2 == 4)
         {
             embeddedVms[50].pendingInterrupt = 1;
-            if (g_TitleBgmUnlocked[musicSelectedSongIndex])
+            if (g_PlayStatsRecord.bgmUnlocked[musicSelectedSongIndex])
                 g_AnmManager->DrawTextLeft(&embeddedVms[50], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[1]);
             else
@@ -92,7 +92,7 @@ int TitleScreenView::OnUpdateMusicRoom()
         else if (stateTimer2 == 6)
         {
             embeddedVms[51].pendingInterrupt = 1;
-            if (g_TitleBgmUnlocked[musicSelectedSongIndex])
+            if (g_PlayStatsRecord.bgmUnlocked[musicSelectedSongIndex])
                 g_AnmManager->DrawTextLeft(&embeddedVms[51], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[2]);
             else
@@ -102,7 +102,7 @@ int TitleScreenView::OnUpdateMusicRoom()
         else if (stateTimer2 == 8)
         {
             embeddedVms[52].pendingInterrupt = 1;
-            if (g_TitleBgmUnlocked[musicSelectedSongIndex])
+            if (g_PlayStatsRecord.bgmUnlocked[musicSelectedSongIndex])
                 g_AnmManager->DrawTextLeft(&embeddedVms[52], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[3]);
             else
@@ -112,7 +112,7 @@ int TitleScreenView::OnUpdateMusicRoom()
         else if (stateTimer2 == 10)
         {
             embeddedVms[53].pendingInterrupt = 1;
-            if (g_TitleBgmUnlocked[musicSelectedSongIndex])
+            if (g_PlayStatsRecord.bgmUnlocked[musicSelectedSongIndex])
                 g_AnmManager->DrawTextLeft(&embeddedVms[53], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[4]);
             else
@@ -122,7 +122,7 @@ int TitleScreenView::OnUpdateMusicRoom()
         else if (stateTimer2 == 12)
         {
             embeddedVms[54].pendingInterrupt = 1;
-            if (g_TitleBgmUnlocked[musicSelectedSongIndex])
+            if (g_PlayStatsRecord.bgmUnlocked[musicSelectedSongIndex])
                 g_AnmManager->DrawTextLeft(&embeddedVms[54], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[5]);
             else
@@ -132,7 +132,7 @@ int TitleScreenView::OnUpdateMusicRoom()
         else if (stateTimer2 == 14)
         {
             embeddedVms[55].pendingInterrupt = 1;
-            if (g_TitleBgmUnlocked[musicSelectedSongIndex])
+            if (g_PlayStatsRecord.bgmUnlocked[musicSelectedSongIndex])
                 g_AnmManager->DrawTextLeft(&embeddedVms[55], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[6]);
             else
@@ -142,7 +142,7 @@ int TitleScreenView::OnUpdateMusicRoom()
         else if (stateTimer2 == 16)
         {
             embeddedVms[56].pendingInterrupt = 1;
-            if (g_TitleBgmUnlocked[musicSelectedSongIndex])
+            if (g_PlayStatsRecord.bgmUnlocked[musicSelectedSongIndex])
                 g_AnmManager->DrawTextLeft(&embeddedVms[56], 0xE0E0FF, 0x302080,
                                    musicTracks[musicSelectedSongIndex].descriptions[7]);
             else
@@ -332,7 +332,7 @@ int TitleScreenView::OnUpdateMusicRoom()
                 {
                     titleAnm->SetAndExecuteScriptIdx(&vms[159 + vmIndex], i);
                     // vmIndex is the descriptor row; i is the 159-based script id.
-                    if (g_TitleBgmUnlocked[vmIndex])
+                    if (g_PlayStatsRecord.bgmUnlocked[vmIndex])
                     {
                         g_AnmManager->DrawTextLeft(&vms[159 + vmIndex], 0xD0E0FF, 0x302080,
                                            musicTrack->title);

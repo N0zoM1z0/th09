@@ -1,4 +1,5 @@
 #include "Controller.hpp"
+#include "GameWindow.hpp"
 #include "Supervisor.hpp"
 #include "GameConfiguration.hpp"
 
@@ -38,8 +39,6 @@ typedef char ControllerInputNativeSupervisorFields[
      offsetof(Supervisor, keyboard10) == 0x10 &&
      offsetof(Supervisor, config388) == 0x388) ? 1 : -1];
 
-extern int g_WindowActivateWParam;
-
 #define KEYBOARD_KEY_PRESSED(button, key) \
     ((keyboardState[(key)] & 0x80) ? (button) : 0)
 
@@ -53,7 +52,7 @@ u16 __fastcall GetInput(int inputIndex)
     u8 keyboardState[256];
     u16 inputButtons = 0;
 
-    if (g_WindowActivateWParam != 0)
+    if (g_GameWindow.isActive08 != 0)
     {
         if (g_Supervisor.keyboard10 == NULL)
         {

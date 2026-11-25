@@ -12,4 +12,6 @@ struct AsciiInputView
     unsigned short WasPressed(unsigned short buttons);
 };
 
-extern AsciiInputView g_AsciiInput;
+#include "ReplayInputState.hpp"
+
+#define g_AsciiInput (*reinterpret_cast<AsciiInputView *>(&g_ReplayInputStates[2]))

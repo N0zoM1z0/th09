@@ -11,14 +11,22 @@ struct GameWindow
     // it twice. Preserve the 0x0C-byte original window-state prefix.
     union
     {
-        struct { int windowIsClosing04; unsigned char unknown08[8]; };
+        struct
+        {
+            int windowIsClosing04;
+            int isActive08;
+            int isInactive0C;
+        };
         unsigned char unknown04[0x0C];
     };
     signed char framesSinceRedraw10;
     unsigned char unknown11[3];
     LARGE_INTEGER performanceFrequency14;
     unsigned char startupPathDiffers1C;
-    unsigned char unknown1D[0x0F];
+    unsigned char unknown1D[3];
+    int screenSaverActive20;
+    int lowPowerActive24;
+    int powerOffActive28;
     double currentTimestamp2C;
     double lastTimestamp34;
     double lastFrameTime3C;

@@ -6,7 +6,6 @@
 #include "GameManagerOpponentSelectionView.hpp"
 
 extern RngRuntimeView g_ReplayRng;
-extern unsigned char g_TitleCharacterUnlocked[16];
 extern int g_FrontRuntimeValues90[4];
 OpponentSelectionEntry g_OpponentEntries[17] = {
     {   9,   0,   0, 200,   0,   0,   2,  86 },
@@ -600,13 +599,13 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
              countCharacter <= 13;
              countCharacter += 2)
         {
-            if (g_TitleCharacterUnlocked[countCharacter] ||
+            if (g_PlayStatsRecord.characterUnlocked[0][countCharacter] ||
                 g_SupervisorNetworkState->active)
             {
                 ++availableCount;
             }
 
-            if (g_TitleCharacterUnlocked[countCharacter + 1] ||
+            if (g_PlayStatsRecord.characterUnlocked[0][countCharacter + 1] ||
                 g_SupervisorNetworkState->active)
             {
                 ++availableCount;
@@ -620,7 +619,7 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
 
         for (;;)
         {
-            if (g_TitleCharacterUnlocked[character] ||
+            if (g_PlayStatsRecord.characterUnlocked[0][character] ||
                 g_SupervisorNetworkState->active)
             {
                 if (visibleIndex == static_cast<int>(selectedVisible))
@@ -628,7 +627,7 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
                 ++visibleIndex;
             }
 
-            if (g_TitleCharacterUnlocked[character + 1] ||
+            if (g_PlayStatsRecord.characterUnlocked[0][character + 1] ||
                 g_SupervisorNetworkState->active)
             {
                 if (visibleIndex == static_cast<int>(selectedVisible))
@@ -639,7 +638,7 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
                 ++visibleIndex;
             }
 
-            if (g_TitleCharacterUnlocked[character + 2] ||
+            if (g_PlayStatsRecord.characterUnlocked[0][character + 2] ||
                 g_SupervisorNetworkState->active)
             {
                 if (visibleIndex == static_cast<int>(selectedVisible))
@@ -650,7 +649,7 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
                 ++visibleIndex;
             }
 
-            if (g_TitleCharacterUnlocked[character + 3] ||
+            if (g_PlayStatsRecord.characterUnlocked[0][character + 3] ||
                 g_SupervisorNetworkState->active)
             {
                 if (visibleIndex == static_cast<int>(selectedVisible))

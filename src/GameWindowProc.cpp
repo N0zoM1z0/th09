@@ -1,11 +1,10 @@
+#include "GameWindow.hpp"
 #include "Midi.hpp"
 #include "Supervisor.hpp"
 
 #include <windows.h>
 #include <mmsystem.h>
 
-extern int g_WindowActivateWParam;
-extern int g_WindowInactive;
 extern unsigned int g_WindowRuntimeFlags;
 extern MidiOutput *g_MidiOutput;
 extern Supervisor g_Supervisor;
@@ -25,17 +24,17 @@ LRESULT CALLBACK GameWindowProc(
         break;
 
     case WM_ACTIVATEAPP:
-        g_WindowActivateWParam = static_cast<int>(wParam);
-        if (g_WindowActivateWParam)
-            g_WindowInactive = 0;
+        g_GameWindow.isActive08 = static_cast<int>(wParam);
+        if (g_GameWindow.isActive08)
+            g_GameWindow.isInactive0C = 0;
         else
-            g_WindowInactive = 1;
+            g_GameWindow.isInactive0C = 1;
         break;
 
     case WM_SETCURSOR:
         if (!g_Supervisor.IsWindowed())
         {
-            if (g_WindowInactive)
+            if (g_GameWindow.isInactive0C)
             {
                 SetCursor(LoadCursorA(NULL, IDC_ARROW));
                 ShowCursor(TRUE);

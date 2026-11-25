@@ -169,12 +169,6 @@ typedef char TitleNativeAnmManagerStorage[
     (sizeof(TitleAnmManagerView) == sizeof(AnmManager) &&
      offsetof(TitleAnmManagerView, captureSurfaceIndex08) == 0x08) ? 1 : -1];
 
-struct TitleSideInputView {
-    u32 currentInput;
-    u16 pressedInput;
-    u16 repeatInput;
-};
-
 // Title and independent Supervisor loading callbacks share this same
 // original-bound source-facing method class and native Supervisor storage.
 #include "TitleSupervisorRuntimeView.hpp"
@@ -237,14 +231,11 @@ typedef char TitleDrawChainAt1B24C[(offsetof(TitleScreenView, drawChain) == 0x1B
 typedef char TitleConfigAt1B2BC[(offsetof(TitleScreenView, configSnapshot) == 0x1B2BC) ? 1 : -1];
 typedef char TitleScreenSizeIs1B388[(sizeof(TitleScreenView) == 0x1B388) ? 1 : -1];
 
-extern TitleInputStateTableView g_TitleInputStateTable;
 // Title scrolling accesses three genuine 0x8E-byte input records;
 // preserve each original signed cursor expression without extra guards.
 
-extern u32 g_TitleInputFlags;
 // Read-width view at replay side0 +6, overlapping its known +6/+8 words.
 // This is not an independent data-owner or original-layout claim.
-extern u32 g_TitleSide0InputFlags;
 
 extern ReplayManagerView *g_ReplayManager;
 extern char *g_TitleAlphabet;
@@ -255,7 +246,6 @@ extern TitleSupervisorView g_TitleSupervisor;
 extern AsciiManager g_AsciiManager;
 extern Chain g_Chain;
 extern MidiOutput *g_MidiOutput;
-extern u8 g_TitleLockedMenuItem;
 extern i32 g_TitleModeSelection;
 extern u8 g_TitleDifficulty;
 extern const char *g_DemoReplayPaths[3];
@@ -297,10 +287,6 @@ extern char g_TitleCharacterOrderMode123[16];
 extern char g_TitleScreen16Order[16];
 extern char g_TitleScreen16Entries[16];
 extern i32 g_TitleScreen16SelectionResult;
-extern TitleCharacterConfigView g_TitleCharacterConfig;
-extern u8 g_TitleCharacterUnlocked[16];
-extern u8 g_TitleCharacterUnlockedNormal[16];
-extern u8 g_TitleCharacterUnlockedMode4[16];
 // The character order, unlock and screen-16 selectors now index native
 // C++ arrays. The name-entry alphabet is still a resource-backed char
 // pointer; there are no new selector guards or shadow lookup tables.
@@ -308,8 +294,6 @@ extern u8 g_TitleCharacterUnlockedMode4[16];
 
 extern i32 g_TitleResultUnlockStep;
 extern ScreenEffect *g_TitleFadeReleaseEffect;
-extern TitleSideInputView g_TitleSide0Input;
-extern TitleSideInputView g_TitleSide1Input;
 extern RngRuntimeView g_ReplayRng;
 extern void __fastcall PrepareTitleMode4Network(void *optionState);
 extern void __fastcall ResetTitleMode4Supervisor(TitleSupervisorView *supervisor);
@@ -753,7 +737,7 @@ void *TitleScreenView::MoveCharacterCursor(i32 side, i32 direction, char *order,
     {
         i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(side);
         result = cursor;
-        while (!(g_TitleCharacterUnlocked[order[*cursor]]))
+        while (!(g_PlayStatsRecord.characterUnlocked[0][order[*cursor]]))
         {
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(direction));
             if (*cursor < 0)
@@ -773,7 +757,7 @@ void *TitleScreenView::MoveCharacterCursorNormal(i32 side, i32 direction, char *
     {
         i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(side);
         result = cursor;
-        while (!(g_TitleCharacterUnlockedNormal[order[*cursor]]))
+        while (!(g_PlayStatsRecord.characterUnlocked[1][order[*cursor]]))
         {
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(direction));
             if (*cursor < 0)
@@ -793,7 +777,7 @@ void *TitleScreenView::MoveCharacterCursorMode4(i32 side, i32 direction, char *o
     {
         i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(side);
         result = cursor;
-        while (!(g_TitleCharacterUnlockedMode4[order[*cursor]]))
+        while (!(g_PlayStatsRecord.characterUnlocked[2][order[*cursor]]))
         {
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(direction));
             if (*cursor < 0)
@@ -812,7 +796,7 @@ int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
         return 0;
 
     i32 direction;
-    if ((g_TitleInputStateTable.states[cursorIndex]).IsPressedScrolling(0x40))
+    if (((*reinterpret_cast<TitleInputStateTableView *>(g_ReplayInputStates)).states[cursorIndex]).IsPressedScrolling(0x40))
     {
         i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(cursorIndex);
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) - 1u);
@@ -820,7 +804,7 @@ int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
         direction = -1;
     }
-    else if ((g_TitleInputStateTable.states[cursorIndex]).IsPressedScrolling(0x80))
+    else if (((*reinterpret_cast<TitleInputStateTableView *>(g_ReplayInputStates)).states[cursorIndex]).IsPressedScrolling(0x80))
     {
         i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(cursorIndex);
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) + 1u);
@@ -828,7 +812,7 @@ int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) - static_cast<u32>(count));
         direction = 1;
     }
-    else if ((g_TitleInputStateTable.states[cursorIndex]).IsPressedScrolling(0x10))
+    else if (((*reinterpret_cast<TitleInputStateTableView *>(g_ReplayInputStates)).states[cursorIndex]).IsPressedScrolling(0x10))
     {
         i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(cursorIndex);
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) - 1u);
@@ -836,7 +820,7 @@ int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
         direction = -1;
     }
-    else if ((g_TitleInputStateTable.states[cursorIndex]).IsPressedScrolling(0x20))
+    else if (((*reinterpret_cast<TitleInputStateTableView *>(g_ReplayInputStates)).states[cursorIndex]).IsPressedScrolling(0x20))
     {
         i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(cursorIndex);
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) + 1u);
@@ -860,7 +844,7 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
         return 0;
 
     i32 direction;
-    if ((g_TitleInputStateTable.states[inputIndex]).IsPressedScrolling(0x40))
+    if (((*reinterpret_cast<TitleInputStateTableView *>(g_ReplayInputStates)).states[inputIndex]).IsPressedScrolling(0x40))
     {
         i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(cursorIndex);
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) - 1u);
@@ -868,7 +852,7 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
         direction = -1;
     }
-    else if ((g_TitleInputStateTable.states[inputIndex]).IsPressedScrolling(0x80))
+    else if (((*reinterpret_cast<TitleInputStateTableView *>(g_ReplayInputStates)).states[inputIndex]).IsPressedScrolling(0x80))
     {
         i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(cursorIndex);
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) + 1u);
@@ -876,7 +860,7 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) - static_cast<u32>(count));
         direction = 1;
     }
-    else if ((g_TitleInputStateTable.states[inputIndex]).IsPressedScrolling(0x10))
+    else if (((*reinterpret_cast<TitleInputStateTableView *>(g_ReplayInputStates)).states[inputIndex]).IsPressedScrolling(0x10))
     {
         i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(cursorIndex);
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) - 1u);
@@ -884,7 +868,7 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
             *cursor = static_cast<i32>(static_cast<u32>(*cursor) + static_cast<u32>(count));
         direction = -1;
     }
-    else if ((g_TitleInputStateTable.states[inputIndex]).IsPressedScrolling(0x20))
+    else if (((*reinterpret_cast<TitleInputStateTableView *>(g_ReplayInputStates)).states[inputIndex]).IsPressedScrolling(0x20))
     {
         i32 *cursor = TH09_TITLE_NATIVE_SIDE_CURSOR(cursorIndex);
         *cursor = static_cast<i32>(static_cast<u32>(*cursor) + 1u);
@@ -1023,18 +1007,18 @@ void TitleScreenView::UpdateCharacterSelectionVisuals(
         {
             if (currentScreen == 8)
             {
-                if ((g_TitleCharacterUnlocked[character]) ||
+                if ((g_PlayStatsRecord.characterUnlocked[0][character]) ||
                     g_SupervisorNetworkState->active)
                     selectedVisibleIndex++;
             }
             else if (currentScreen == 3)
             {
-                if ((g_TitleCharacterUnlockedNormal[character]) != 0)
+                if ((g_PlayStatsRecord.characterUnlocked[1][character]) != 0)
                     selectedVisibleIndex++;
             }
             else
             {
-                if ((g_TitleCharacterUnlockedMode4[character]) != 0)
+                if ((g_PlayStatsRecord.characterUnlocked[2][character]) != 0)
                     selectedVisibleIndex++;
             }
         }
@@ -1059,18 +1043,18 @@ void TitleScreenView::UpdateCharacterSelectionVisuals(
         {
             if (currentScreen == 8)
             {
-                if ((g_TitleCharacterUnlocked[character]) ||
+                if ((g_PlayStatsRecord.characterUnlocked[0][character]) ||
                     g_SupervisorNetworkState->active)
                     otherVisibleIndex++;
             }
             else if (currentScreen == 3)
             {
-                if ((g_TitleCharacterUnlockedNormal[character]) != 0)
+                if ((g_PlayStatsRecord.characterUnlocked[1][character]) != 0)
                     otherVisibleIndex++;
             }
             else
             {
-                if ((g_TitleCharacterUnlockedMode4[character]) != 0)
+                if ((g_PlayStatsRecord.characterUnlocked[2][character]) != 0)
                     otherVisibleIndex++;
             }
         }
@@ -1084,7 +1068,7 @@ void TitleScreenView::UpdateCharacterSelectionVisuals(
     for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
     {
         i32 character = order[orderIndex];
-        if ((g_TitleCharacterUnlocked[character]) ||
+        if ((g_PlayStatsRecord.characterUnlocked[0][character]) ||
             g_SupervisorNetworkState->active)
         {
             AnmVmView *vm = &vms[191 + visibleIndex];
@@ -1112,7 +1096,7 @@ void TitleScreenView::UpdateScreen16SelectionVisuals(i32 unusedSide, i32 selecte
         i32 character = order[orderIndex];
         if (selectedCharacter != character)
         {
-            if (orderIndex > 13 || (g_TitleCharacterUnlocked[character]) || g_SupervisorNetworkState->active)
+            if (orderIndex > 13 || (g_PlayStatsRecord.characterUnlocked[0][character]) || g_SupervisorNetworkState->active)
                 selectedVisibleIndex++;
         }
         else
@@ -1137,7 +1121,7 @@ void TitleScreenView::UpdateScreen16SelectionVisuals(i32 unusedSide, i32 selecte
     for (i32 orderIndex = 0; orderIndex < 16; orderIndex++)
     {
         i32 character = order[orderIndex];
-        if ((g_TitleCharacterUnlocked[character]) || orderIndex > 13 || g_SupervisorNetworkState->active)
+        if ((g_PlayStatsRecord.characterUnlocked[0][character]) || orderIndex > 13 || g_SupervisorNetworkState->active)
         {
             AnmVmView *vm = &vms[207 + visibleIndex];
             if (selectedVisibleIndex == visibleIndex)
@@ -1166,8 +1150,8 @@ int TitleScreenView::OnUpdateCharacterSelect()
             for (value = 0; value < 14; value++)
             {
                 i32 character = (g_TitleCharacterOrder14[value]);
-                if ((g_TitleDifficulty == 4 && (g_TitleCharacterUnlockedMode4[character])) ||
-                    (g_TitleDifficulty != 4 && (g_TitleCharacterUnlockedNormal[character])))
+                if ((g_TitleDifficulty == 4 && (g_PlayStatsRecord.characterUnlocked[2][character])) ||
+                    (g_TitleDifficulty != 4 && (g_PlayStatsRecord.characterUnlocked[1][character])))
                 {
                     titleAnm->SetSprite(reinterpret_cast<AnmVmView *>(
                         reinterpret_cast<unsigned char *>(vms) +
@@ -1241,9 +1225,9 @@ int TitleScreenView::OnUpdateCharacterSelect()
             }
 
             if (g_TitleDifficulty == 4)
-                SetCharacterSettingIndicator(0, ((&g_TitleCharacterConfig)->optionValues[characters[0]][4]));
+                SetCharacterSettingIndicator(0, (g_PlayStatsRecord.characterStats[characters[0]][4]));
             else
-                SetCharacterSettingIndicator(0, g_TitleCharacterConfig.GetOptionState(characters[0], g_TitleDifficulty));
+                SetCharacterSettingIndicator(0, reinterpret_cast<TitleCharacterConfigView *>(&g_PlayStatsRecord)->GetOptionState(characters[0], g_TitleDifficulty));
         }
 
         if (stateTimer2 == 8)
@@ -1266,9 +1250,9 @@ int TitleScreenView::OnUpdateCharacterSelect()
 
                     characters[0] = (g_TitleCharacterOrder14[side0CharacterCursor]);
                     if (g_TitleDifficulty == 4)
-                        SetCharacterSettingIndicator(0, ((&g_TitleCharacterConfig)->optionValues[characters[0]][4]));
+                        SetCharacterSettingIndicator(0, (g_PlayStatsRecord.characterStats[characters[0]][4]));
                     else
-                        SetCharacterSettingIndicator(0, g_TitleCharacterConfig.GetOptionState(characters[0], g_TitleDifficulty));
+                        SetCharacterSettingIndicator(0, reinterpret_cast<TitleCharacterConfigView *>(&g_PlayStatsRecord)->GetOptionState(characters[0], g_TitleDifficulty));
 
                     if (value > 0)
                     {
@@ -1304,17 +1288,17 @@ int TitleScreenView::OnUpdateCharacterSelect()
         }
 
         characters[0] = (g_TitleCharacterOrder14[side0CharacterCursor]);
-        if ((static_cast<u16>(g_TitleInputFlags) & 0x1001) && side0CharacterConfirmed == 0)
+        if ((static_cast<u16>(g_ReplayInputStates[2].flags06) & 0x1001) && side0CharacterConfirmed == 0)
         {
             PlayMenuSound(SOUND_SELECT, 0);
             side0CharacterConfirmed = 1;
             value = characters[0];
-            vms[92 + value * 2].color1Bytes[2] = 0x80;
-            vms[92 + value * 2].color1Bytes[1] = 0x80;
-            vms[92 + value * 2].color1Bytes[0] = 0x80;
-            vms[60 + value * 2].color1Bytes[2] = 0x80;
-            vms[60 + value * 2].color1Bytes[1] = 0x80;
-            vms[60 + value * 2].color1Bytes[0] = 0x80;
+            vms[value * 2 + 92].color1Bytes[2] = 0x80;
+            vms[value * 2 + 92].color1Bytes[1] = 0x80;
+            vms[value * 2 + 92].color1Bytes[0] = 0x80;
+            vms[value * 2 + 60].color1Bytes[2] = 0x80;
+            vms[value * 2 + 60].color1Bytes[1] = 0x80;
+            vms[value * 2 + 60].color1Bytes[0] = 0x80;
             g_GameSide0Value30 = (g_TitleInput.currentInput >> 2) & 1;
         }
 
@@ -1378,7 +1362,7 @@ int TitleScreenView::OnUpdateCharacterSelect()
             return 0;
         }
 
-        if ((static_cast<u8>(g_TitleInputFlags) & 0xA) && side0CharacterConfirmed == 0)
+        if ((static_cast<u8>(g_ReplayInputStates[2].flags06) & 0xA) && side0CharacterConfirmed == 0)
         {
             g_TitleCharacterReturnSelection = keyboardSelection;
             PlayMenuSound(SOUND_BACK, 0);
@@ -1430,7 +1414,7 @@ int TitleScreenView::UpdateScreen8Mode0()
                 for (value = 0; value < 16; value++)
                 {
                     char character = (g_TitleCharacterOrder[value]);
-                    if ((g_TitleCharacterUnlocked[character]) || g_SupervisorNetworkState->active)
+                    if ((g_PlayStatsRecord.characterUnlocked[0][character]) || g_SupervisorNetworkState->active)
                     {
                         titleAnm->SetSprite(
                             &vms[191 + visibleCount],
@@ -1506,7 +1490,7 @@ int TitleScreenView::UpdateScreen8Mode0()
 
         if (side0CharacterConfirmed == 0)
         {
-            if ((g_TitleSide0Input.currentInput & 4) == 0)
+            if ((g_ReplayInputStates[0].currentInput & 4) == 0)
             {
                 value = MoveCharacterCursorHorizontal(0, 16);
                 if (value != 0)
@@ -1529,13 +1513,13 @@ int TitleScreenView::UpdateScreen8Mode0()
             }
             else
             {
-                if (reinterpret_cast<InputView *>(&g_TitleSide0Input)->IsPressedScrolling(64))
+                if (reinterpret_cast<InputView *>(&g_ReplayInputStates[0])->IsPressedScrolling(64))
                 {
                     if (side0CharacterSetting > 1)
                         side0CharacterSetting--;
                     UpdateCharacterSettings(side0CharacterSetting, side1CharacterSetting);
                 }
-                if (reinterpret_cast<InputView *>(&g_TitleSide0Input)->IsPressedScrolling(128))
+                if (reinterpret_cast<InputView *>(&g_ReplayInputStates[0])->IsPressedScrolling(128))
                 {
                     if (side0CharacterSetting < 10)
                         side0CharacterSetting++;
@@ -1543,7 +1527,7 @@ int TitleScreenView::UpdateScreen8Mode0()
                 }
             }
 
-            if (g_TitleSide0Input.currentInput & 0x100)
+            if (g_ReplayInputStates[0].currentInput & 0x100)
             {
                 side0CharacterCursor += g_ReplayRng.GetRandomU32() & 0xF;
                 if (side0CharacterCursor >= 16)
@@ -1559,7 +1543,7 @@ int TitleScreenView::UpdateScreen8Mode0()
 
         if (side1CharacterConfirmed == 0)
         {
-            if ((g_TitleSide1Input.currentInput & 4) == 0)
+            if ((g_ReplayInputStates[1].currentInput & 4) == 0)
             {
                 value = MoveCharacterCursorHorizontal(1, 16);
                 if (value != 0)
@@ -1582,13 +1566,13 @@ int TitleScreenView::UpdateScreen8Mode0()
             }
             else
             {
-                if (reinterpret_cast<InputView *>(&g_TitleSide1Input)->IsPressedScrolling(64))
+                if (reinterpret_cast<InputView *>(&g_ReplayInputStates[1])->IsPressedScrolling(64))
                 {
                     if (side1CharacterSetting > 1)
                         side1CharacterSetting--;
                     UpdateCharacterSettings(side0CharacterSetting, side1CharacterSetting);
                 }
-                if (reinterpret_cast<InputView *>(&g_TitleSide1Input)->IsPressedScrolling(128))
+                if (reinterpret_cast<InputView *>(&g_ReplayInputStates[1])->IsPressedScrolling(128))
                 {
                     if (side1CharacterSetting < 10)
                         side1CharacterSetting++;
@@ -1596,7 +1580,7 @@ int TitleScreenView::UpdateScreen8Mode0()
                 }
             }
 
-            if (g_TitleSide1Input.currentInput & 0x100)
+            if (g_ReplayInputStates[1].currentInput & 0x100)
             {
                 side1CharacterCursor += g_ReplayRng.GetRandomU32() & 0xF;
                 if (side1CharacterCursor >= 16)
@@ -1613,34 +1597,34 @@ int TitleScreenView::UpdateScreen8Mode0()
         characters[0] = (g_TitleCharacterOrder[side0CharacterCursor]);
         characters[1] = (g_TitleCharacterOrder[side1CharacterCursor]);
 
-        if ((g_TitleSide0Input.repeatInput & 0x1001) && side0CharacterConfirmed == 0)
+        if ((g_ReplayInputStates[0].word06 & 0x1001) && side0CharacterConfirmed == 0)
         {
             PlayMenuSound(SOUND_SELECT, 0);
             side0CharacterConfirmed = 1;
             value = characters[0];
-            vms[92 + value * 2].color1Bytes[2] = 0x80;
-            vms[92 + value * 2].color1Bytes[1] = 0x80;
-            vms[92 + value * 2].color1Bytes[0] = 0x80;
-            vms[60 + value * 2].color1Bytes[2] = 0x80;
-            vms[60 + value * 2].color1Bytes[1] = 0x80;
-            vms[60 + value * 2].color1Bytes[0] = 0x80;
-            g_GameSide0Value30 = (g_TitleSide0Input.currentInput >> 2) & 1;
+            vms[static_cast<u32>(value * 2 + 92)].color1Bytes[2] = 0x80;
+            vms[static_cast<u32>(value * 2 + 92)].color1Bytes[1] = 0x80;
+            vms[static_cast<u32>(value * 2 + 92)].color1Bytes[0] = 0x80;
+            vms[static_cast<u32>(value * 2 + 60)].color1Bytes[2] = 0x80;
+            vms[static_cast<u32>(value * 2 + 60)].color1Bytes[1] = 0x80;
+            vms[static_cast<u32>(value * 2 + 60)].color1Bytes[0] = 0x80;
+            g_GameSide0Value30 = (g_ReplayInputStates[0].currentInput >> 2) & 1;
             if (side1CharacterConfirmed && characters[0] == characters[1])
                 g_GameSide0Value30 = 1 - g_GameSide1Value30;
         }
 
-        if ((g_TitleSide1Input.repeatInput & 0x1001) && side1CharacterConfirmed == 0)
+        if ((g_ReplayInputStates[1].word06 & 0x1001) && side1CharacterConfirmed == 0)
         {
             PlayMenuSound(SOUND_SELECT, 0);
             side1CharacterConfirmed = 1;
             value = characters[1];
-            vms[93 + value * 2].color1Bytes[2] = 0x80;
-            vms[93 + value * 2].color1Bytes[1] = 0x80;
-            vms[93 + value * 2].color1Bytes[0] = 0x80;
-            vms[61 + value * 2].color1Bytes[2] = 0x80;
-            vms[61 + value * 2].color1Bytes[1] = 0x80;
-            vms[61 + value * 2].color1Bytes[0] = 0x80;
-            g_GameSide1Value30 = (g_TitleSide1Input.currentInput >> 2) & 1;
+            vms[static_cast<u32>(value * 2 + 93)].color1Bytes[2] = 0x80;
+            vms[static_cast<u32>(value * 2 + 93)].color1Bytes[1] = 0x80;
+            vms[static_cast<u32>(value * 2 + 93)].color1Bytes[0] = 0x80;
+            vms[static_cast<u32>(value * 2 + 61)].color1Bytes[2] = 0x80;
+            vms[static_cast<u32>(value * 2 + 61)].color1Bytes[1] = 0x80;
+            vms[static_cast<u32>(value * 2 + 61)].color1Bytes[0] = 0x80;
+            g_GameSide1Value30 = (g_ReplayInputStates[1].currentInput >> 2) & 1;
             if (side0CharacterConfirmed && characters[0] == characters[1])
                 g_GameSide1Value30 = 1 - g_GameSide0Value30;
         }
@@ -1657,9 +1641,8 @@ int TitleScreenView::UpdateScreen8Mode0()
             return 1;
         }
 
-        u32 side0CancelInput = g_TitleSide0InputFlags & 0xA;
-        if ((side0CancelInput && side0CharacterConfirmed == 0) ||
-            ((g_TitleSide1Input.repeatInput & 0xA) && side1CharacterConfirmed == 0))
+        if (((g_ReplayInputStates[0].word06 & 0xA) && side0CharacterConfirmed == 0) ||
+            ((g_ReplayInputStates[1].word06 & 0xA) && side1CharacterConfirmed == 0))
         {
             g_TitleCharacterReturnSelection = keyboardSelection;
             PlayMenuSound(SOUND_BACK, 0);
@@ -1681,30 +1664,30 @@ int TitleScreenView::UpdateScreen8Mode0()
             return 1;
         }
 
-        if (static_cast<u16>(side0CancelInput) && side0CharacterConfirmed == 1)
+        if ((g_ReplayInputStates[0].word06 & 0xA) && side0CharacterConfirmed == 1)
         {
             side0CharacterConfirmed = 0;
             PlayMenuSound(SOUND_BACK, 0);
             value = characters[0];
-            vms[92 + value * 2].color1Bytes[2] = 0xFF;
-            vms[92 + value * 2].color1Bytes[1] = 0xFF;
-            vms[92 + value * 2].color1Bytes[0] = 0xFF;
-            vms[60 + value * 2].color1Bytes[2] = 0xFF;
-            vms[60 + value * 2].color1Bytes[1] = 0xFF;
-            vms[60 + value * 2].color1Bytes[0] = 0xFF;
+            vms[static_cast<u32>(value * 2 + 92)].color1Bytes[2] = 0xFF;
+            vms[static_cast<u32>(value * 2 + 92)].color1Bytes[1] = 0xFF;
+            vms[static_cast<u32>(value * 2 + 92)].color1Bytes[0] = 0xFF;
+            vms[static_cast<u32>(value * 2 + 60)].color1Bytes[2] = 0xFF;
+            vms[static_cast<u32>(value * 2 + 60)].color1Bytes[1] = 0xFF;
+            vms[static_cast<u32>(value * 2 + 60)].color1Bytes[0] = 0xFF;
         }
 
-        if ((g_TitleSide1Input.repeatInput & 0xA) && side1CharacterConfirmed == 1)
+        if ((g_ReplayInputStates[1].word06 & 0xA) && side1CharacterConfirmed == 1)
         {
             side1CharacterConfirmed = 0;
             PlayMenuSound(SOUND_BACK, 0);
             value = characters[1];
-            vms[93 + value * 2].color1Bytes[2] = 0xFF;
-            vms[93 + value * 2].color1Bytes[1] = 0xFF;
-            vms[93 + value * 2].color1Bytes[0] = 0xFF;
-            vms[61 + value * 2].color1Bytes[2] = 0xFF;
-            vms[61 + value * 2].color1Bytes[1] = 0xFF;
-            vms[61 + value * 2].color1Bytes[0] = 0xFF;
+            vms[static_cast<u32>(value * 2 + 93)].color1Bytes[2] = 0xFF;
+            vms[static_cast<u32>(value * 2 + 93)].color1Bytes[1] = 0xFF;
+            vms[static_cast<u32>(value * 2 + 93)].color1Bytes[0] = 0xFF;
+            vms[static_cast<u32>(value * 2 + 61)].color1Bytes[2] = 0xFF;
+            vms[static_cast<u32>(value * 2 + 61)].color1Bytes[1] = 0xFF;
+            vms[static_cast<u32>(value * 2 + 61)].color1Bytes[0] = 0xFF;
         }
         break;
     }
@@ -1732,7 +1715,7 @@ int TitleScreenView::UpdateScreen8Mode123()
             for (value = 0; value < 16; value++)
             {
                 char character = (g_TitleCharacterOrderMode123[value]);
-                if ((g_TitleCharacterUnlocked[character]))
+                if ((g_PlayStatsRecord.characterUnlocked[0][character]))
                 {
                     titleAnm->SetSprite(&vms[191 + visibleCount], character + 235);
                     vms[191 + visibleCount].flags |= 2;
@@ -1879,7 +1862,7 @@ int TitleScreenView::UpdateScreen8Mode123()
             }
         }
 
-        u32 confirmInput = g_TitleInputFlags & 0x1001;
+        u32 confirmInput = g_ReplayInputStates[2].flags06 & 0x1001;
         if (confirmInput && side0CharacterConfirmed == 0)
         {
             PlayMenuSound(SOUND_SELECT, 0);
@@ -1926,7 +1909,7 @@ int TitleScreenView::UpdateScreen8Mode123()
             return 1;
         }
 
-        u32 cancelInput = g_TitleInputFlags & 0xA;
+        u32 cancelInput = g_ReplayInputStates[2].flags06 & 0xA;
         if (cancelInput && side0CharacterConfirmed == 0)
         {
             g_TitleCharacterReturnSelection = keyboardSelection;
@@ -2000,7 +1983,7 @@ int TitleScreenView::UpdateScreen16()
             for (; orderIndex < 16; orderIndex++)
             {
                 char character = (g_TitleScreen16Order[orderIndex]);
-                if (character > 13 || (g_TitleCharacterUnlocked[character]) || g_SupervisorNetworkState->active)
+                if (character > 13 || (g_PlayStatsRecord.characterUnlocked[0][character]) || g_SupervisorNetworkState->active)
                 {
                     titleAnm->SetSprite(&vms[207 + visibleCount], character + 251);
                     vms[207 + visibleCount].flags |= 2;
@@ -2057,7 +2040,7 @@ int TitleScreenView::UpdateScreen16()
                                            g_TitleScreen16Order);
         }
 
-        if (static_cast<u16>(g_TitleInputFlags) & 0x1001)
+        if (static_cast<u16>(g_ReplayInputStates[2].flags06) & 0x1001)
         {
             PlayMenuSound(SOUND_SELECT, 0);
             g_TitleSupervisor.StopAudio();
@@ -2123,7 +2106,7 @@ int TitleScreenView::UpdateScreen16()
             return 0;
         }
 
-        if (static_cast<u8>(g_TitleInputFlags) & 0xA)
+        if (static_cast<u8>(g_ReplayInputStates[2].flags06) & 0xA)
         {
             PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
@@ -2270,7 +2253,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
             }
         }
 
-        if (g_TitleInputFlags & 0x1001)
+        if (g_ReplayInputStates[2].flags06 & 0x1001)
         {
             if (keyboardSelection == TitleNativeNameKeyboard::ConfirmKey)
             {
@@ -2301,7 +2284,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
             stateTimer = 0;
         }
 
-        if (g_TitleInputFlags & 0xA)
+        if (g_ReplayInputStates[2].flags06 & 0xA)
         {
             PlayMenuSound(SOUND_BACK, 0);
             if (replayNameCursor == 7 &&
@@ -2585,7 +2568,7 @@ int TitleScreenView::OnUpdateReplayMenu()
             stateTimer = 0;
         }
 
-        if (static_cast<u8>(g_TitleInputFlags) & 0xA)
+        if (static_cast<u8>(g_ReplayInputStates[2].flags06) & 0xA)
         {
             PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
@@ -2600,7 +2583,7 @@ int TitleScreenView::OnUpdateReplayMenu()
             return 1;
         }
 
-        if (static_cast<u16>(g_TitleInputFlags) & 0x1001)
+        if (static_cast<u16>(g_ReplayInputStates[2].flags06) & 0x1001)
         {
             if (replays[static_cast<unsigned int>(keyboardSelection)].magic != 0)
             {
@@ -2635,14 +2618,14 @@ int TitleScreenView::OnUpdateReplayMenu()
             }
         }
 
-        if (static_cast<u8>(g_TitleInputFlags) & 0xA)
+        if (static_cast<u8>(g_ReplayInputStates[2].flags06) & 0xA)
         {
             currentScreenState = 1;
             stateTimer = 0;
             keyboardSelection = selectedReplay;
         }
 
-        if (static_cast<u16>(g_TitleInputFlags) & 0x1001)
+        if (static_cast<u16>(g_ReplayInputStates[2].flags06) & 0x1001)
         {
             g_GameSide0Value20 = side0CharacterCursor;
             g_GameSide1Value20 = 0;
@@ -2797,7 +2780,7 @@ int TitleScreenView::UpdateReplaySave()
         if (MoveCursorHorizontal(2))
             UpdateMenuSelection();
 
-        if (g_TitleInputFlags & 0xA)
+        if (g_ReplayInputStates[2].flags06 & 0xA)
         {
             if (keyboardSelection == 0)
             {
@@ -2818,7 +2801,7 @@ int TitleScreenView::UpdateReplaySave()
             return 1;
         }
 
-        if (g_TitleInputFlags & 0x1001)
+        if (g_ReplayInputStates[2].flags06 & 0x1001)
         {
             if (keyboardSelection == 1)
                 goto cancel_replay_save;
@@ -2856,7 +2839,7 @@ int TitleScreenView::UpdateReplaySave()
         if (MoveCursorVertical(25))
             UpdateMenuSelection();
 
-        if (g_TitleInputFlags & 0xA)
+        if (g_ReplayInputStates[2].flags06 & 0xA)
         {
             PlayMenuSound(SOUND_BACK, 0);
             keyboardSelection = 0;
@@ -2870,7 +2853,7 @@ int TitleScreenView::UpdateReplaySave()
             break;
         }
 
-        if (g_TitleInputFlags & 0x1001)
+        if (g_ReplayInputStates[2].flags06 & 0x1001)
         {
             PlayMenuSound(SOUND_SELECT, 0);
             selectedReplay = keyboardSelection;
@@ -2903,7 +2886,7 @@ int TitleScreenView::UpdateReplaySave()
         if (MoveCursorHorizontal(2))
             UpdateMenuSelection();
 
-        inputFlags = g_TitleInputFlags;
+        inputFlags = g_ReplayInputStates[2].flags06;
         if (inputFlags & 0xA)
             goto cancel_replay_overwrite;
 
@@ -2983,7 +2966,7 @@ int TitleScreenView::UpdateReplaySave()
             stateTimer = 0;
         }
 
-        if (g_TitleInputFlags & 0x1001)
+        if (g_ReplayInputStates[2].flags06 & 0x1001)
         {
             if (keyboardSelection == TitleNativeNameKeyboard::ConfirmKey)
             {
@@ -3011,7 +2994,7 @@ int TitleScreenView::UpdateReplaySave()
             stateTimer = 0;
         }
 
-        if (g_TitleInputFlags & 0xA)
+        if (g_ReplayInputStates[2].flags06 & 0xA)
         {
             PlayMenuSound(SOUND_BACK, 0);
             if (replayNameCursor == 7 && replayName[7] != ' ')
@@ -3076,7 +3059,7 @@ int TitleScreenView::OnUpdateStartMenu()
 
             g_AnmManager->SetInterruptArray(vms, vmCount, 2);
             g_AnmManager->ExecuteScriptArray(vms, vmCount);
-            if (!g_TitleLockedMenuItem)
+            if (!g_PlayStatsRecord.characterUnlocked[2][12])
                 vms[2].color1 = 0x30908040;
 
             if (resumeState != 0)
@@ -3119,7 +3102,7 @@ int TitleScreenView::OnUpdateStartMenu()
             i32 moved = MoveCursorVertical(8);
             if (moved != 0)
             {
-                if (!g_TitleLockedMenuItem && keyboardSelection == 1)
+                if (!g_PlayStatsRecord.characterUnlocked[2][12] && keyboardSelection == 1)
                     keyboardSelection = moved + 1;
                 UpdateMenuSelection();
             }
@@ -3132,7 +3115,7 @@ int TitleScreenView::OnUpdateStartMenu()
         }
         previousCursor = keyboardSelection;
 
-        if (!g_TitleLockedMenuItem)
+        if (!g_PlayStatsRecord.characterUnlocked[2][12])
             vms[2].color1 = 0xB0B0B040;
 
         if (stateTimer2 >= 10)
@@ -3157,7 +3140,7 @@ int TitleScreenView::OnUpdateStartMenu()
                 return 0;
             }
 
-            if (g_TitleInputFlags & 0x1001)
+            if (g_ReplayInputStates[2].flags06 & 0x1001)
             {
                 switch (keyboardSelection)
                 {
@@ -3172,7 +3155,7 @@ int TitleScreenView::OnUpdateStartMenu()
                     g_TitleTransitionCounter1 = 10;
                     return 1;
                 case TITLE_START_MENU_EXTRA:
-                    if (g_TitleLockedMenuItem)
+                    if (g_PlayStatsRecord.characterUnlocked[2][12])
                     {
                         g_TitleGameFlags &= ~8u;
                         PlayMenuSound(SOUND_SELECT, 0);
@@ -3238,7 +3221,7 @@ int TitleScreenView::OnUpdateStartMenu()
                 }
             }
 
-            if (g_TitleInputFlags & 0xA)
+            if (g_ReplayInputStates[2].flags06 & 0xA)
             {
                 titleAnm->SetSprite(
                     &vms[keyboardSelection + 1],
@@ -3368,12 +3351,12 @@ int TitleScreenView::OnUpdateDifficultySelect()
             if (MoveCursorVertical(4))
                 UpdateMenuSelection();
         }
-        else if (g_TitleInputFlags & 0x30)
+        else if (g_ReplayInputStates[2].flags06 & 0x30)
         {
             PlayMenuSound(SOUND_MOVE_MENU, 0);
         }
 
-        if (g_TitleInputFlags & 0x1001)
+        if (g_ReplayInputStates[2].flags06 & 0x1001)
         {
             g_TitleDifficulty = (u8)keyboardSelection;
             PlayMenuSound(SOUND_SELECT, 0);
@@ -3424,7 +3407,7 @@ int TitleScreenView::OnUpdateDifficultySelect()
             currentScreenState = 3;
         }
 
-        if (g_SupervisorNetworkState->active == 0 && (g_TitleInputFlags & 0xA))
+        if (g_SupervisorNetworkState->active == 0 && (g_ReplayInputStates[2].flags06 & 0xA))
         {
             g_TitleDifficulty = (u8)keyboardSelection;
             PlayMenuSound(SOUND_BACK, 0);
@@ -3497,7 +3480,7 @@ int TitleScreenView::OnUpdateModeSelect()
             UpdateMenuSelection();
 
         {
-            u32 inputFlags = g_TitleInputFlags;
+            u32 inputFlags = g_ReplayInputStates[2].flags06;
             if (inputFlags & 0x1001)
             {
                 g_TitleModeSelection = keyboardSelection;

@@ -64,11 +64,6 @@ extern ZunMemory g_ZunMemory;
 extern GameErrorContext g_GameErrorContext;
 
 namespace FileSystem { extern char g_ExecutableDirectory[MAX_PATH]; }
-extern int g_ScreenSaverActive;
-extern int g_LowPowerActive;
-extern int g_PowerOffActive;
-extern int g_WindowActivateWParam;
-extern int g_WindowInactive;
 extern HWND g_SupervisorGameWindow;
 extern const char g_WindowTitle[] = "\x93\x8C\x95\xFB\x89\xD4\x89\x66\x92\xCB\x81\x40\x81\x60 Phantasmagoria of Flower View. ver 1.50a"; // 東方花映塚　～ Phantasmagoria of Flower View. ver 1.50a
 
@@ -112,8 +107,8 @@ static int CreateGameWindow(HINSTANCE instance)
     baseClass.hCursor = LoadCursorA(NULL, IDC_ARROW);
     baseClass.hInstance = instance;
     baseClass.lpfnWndProc = GameWindowProc;
-    g_WindowActivateWParam = TRUE;
-    g_WindowInactive = FALSE;
+    g_GameWindow.isActive08 = TRUE;
+    g_GameWindow.isInactive0C = FALSE;
     baseClass.lpszClassName = "BASE";
     RegisterClassA(&baseClass);
 
@@ -192,11 +187,11 @@ int WINAPI WinMain(
     g_Supervisor.instance00 = hInstance;
 
     SystemParametersInfoA(
-        SPI_GETSCREENSAVEACTIVE, 0, &g_ScreenSaverActive, 0);
+        SPI_GETSCREENSAVEACTIVE, 0, &g_GameWindow.screenSaverActive20, 0);
     SystemParametersInfoA(
-        SPI_GETLOWPOWERACTIVE, 0, &g_LowPowerActive, 0);
+        SPI_GETLOWPOWERACTIVE, 0, &g_GameWindow.lowPowerActive24, 0);
     SystemParametersInfoA(
-        SPI_GETPOWEROFFACTIVE, 0, &g_PowerOffActive, 0);
+        SPI_GETPOWEROFFACTIVE, 0, &g_GameWindow.powerOffActive28, 0);
     SystemParametersInfoA(
         SPI_SETSCREENSAVEACTIVE, 0, NULL, SPIF_SENDCHANGE);
     SystemParametersInfoA(
@@ -388,11 +383,11 @@ stop:
     CoUninitialize();
 
     SystemParametersInfoA(
-        SPI_SETSCREENSAVEACTIVE, g_ScreenSaverActive, NULL, SPIF_SENDCHANGE);
+        SPI_SETSCREENSAVEACTIVE, g_GameWindow.screenSaverActive20, NULL, SPIF_SENDCHANGE);
     SystemParametersInfoA(
-        SPI_SETLOWPOWERACTIVE, g_LowPowerActive, NULL, SPIF_SENDCHANGE);
+        SPI_SETLOWPOWERACTIVE, g_GameWindow.lowPowerActive24, NULL, SPIF_SENDCHANGE);
     SystemParametersInfoA(
-        SPI_SETPOWEROFFACTIVE, g_PowerOffActive, NULL, SPIF_SENDCHANGE);
+        SPI_SETPOWEROFFACTIVE, g_GameWindow.powerOffActive28, NULL, SPIF_SENDCHANGE);
     WINNLSEnableIME(NULL, TRUE);
 
     return 0;

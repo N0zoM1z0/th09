@@ -18,4 +18,4 @@ typedef char TitleInputNativeReplayStorage[
      offsetof(InputView, repeatOutput) == 0x04 &&
      offsetof(InputView, word06) == 0x06) ? 1 : -1];
 
-extern InputView g_TitleInput;
+#define g_TitleInput (*reinterpret_cast<InputView *>(&g_ReplayInputStates[2]))

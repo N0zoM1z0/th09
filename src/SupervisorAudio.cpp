@@ -1,6 +1,7 @@
 #include "Supervisor.hpp"
 #include "Midi.hpp"
 #include "GameManagerRuntimeView.hpp"
+#include "PlayStats.hpp"
 #include "SoundPlayer.hpp"
 
 #include <stddef.h>
@@ -61,7 +62,6 @@ SupervisorMusicTrackRecord g_SupervisorMusicTracks[19] = {
     { 16, "th09_14.mid",   -1, 17 },
     { 17, "th09_17.mid",   -1, 18 },
 };
-extern unsigned char g_MusicUnlocked[];
 int g_SoundPlayerBgmValue;
 
 // Native music tracks are 0x10-byte table records; the unlock IDs index
@@ -103,7 +103,7 @@ int Supervisor::PlayMusic(int trackId, int unused)
 
         if (!g_GameManager.IsReplayNeutral() &&
             !reinterpret_cast<SupervisorAudioGameManagerView *>(&g_GameManager)->HasFlagBit1())
-            g_MusicUnlocked[static_cast<unsigned int>(unlockIndex)] = 1;
+            g_PlayStatsRecord.bgmUnlocked[static_cast<unsigned int>(unlockIndex)] = 1;
     }
     else
     {
@@ -116,7 +116,7 @@ int Supervisor::PlayMusic(int trackId, int unused)
 
             if (!g_GameManager.IsReplayNeutral() &&
                 !reinterpret_cast<SupervisorAudioGameManagerView *>(&g_GameManager)->HasFlagBit1())
-                g_MusicUnlocked[static_cast<unsigned int>(unlockIndex)] = 1;
+                g_PlayStatsRecord.bgmUnlocked[static_cast<unsigned int>(unlockIndex)] = 1;
         }
 
         g_SoundPlayerBgmValue = g_SupervisorMusicTracks[index].soundPlayerValue;
@@ -138,7 +138,7 @@ int Supervisor::PlayAudio(char *path, int bgmUnlockIndex)
 
         if (!g_GameManager.IsReplayNeutral() &&
             !reinterpret_cast<SupervisorAudioGameManagerView *>(&g_GameManager)->HasFlagBit1())
-            g_MusicUnlocked[static_cast<unsigned int>(bgmUnlockIndex)] = 1;
+            g_PlayStatsRecord.bgmUnlocked[static_cast<unsigned int>(bgmUnlockIndex)] = 1;
     }
     else if (g_Supervisor.config388.musicMode == 1)
     {
@@ -151,7 +151,7 @@ int Supervisor::PlayAudio(char *path, int bgmUnlockIndex)
 
         if (!g_GameManager.IsReplayNeutral() &&
             !reinterpret_cast<SupervisorAudioGameManagerView *>(&g_GameManager)->HasFlagBit1())
-            g_MusicUnlocked[static_cast<unsigned int>(bgmUnlockIndex)] = 1;
+            g_PlayStatsRecord.bgmUnlocked[static_cast<unsigned int>(bgmUnlockIndex)] = 1;
     }
     else
     {

@@ -57,4 +57,6 @@ typedef char SerializedMappingSizeCheck[(sizeof(SerializedControllerMapping) == 
 typedef char ControllerMappingSizeCheck[(sizeof(ControllerMapping) == 0xC4) ? 1 : -1];
 typedef char GameConfigurationSizeCheck[(sizeof(GameConfiguration) == 0xCC) ? 1 : -1];
 
-extern ControllerMapping g_ControllerMapping;
+#include "ReplayInputState.hpp"
+
+#define g_ControllerMapping (*reinterpret_cast<ControllerMapping *>(&g_ReplayInputStates[0].keyCodes58))

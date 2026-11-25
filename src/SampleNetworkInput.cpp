@@ -1,5 +1,6 @@
 #include "Controller.hpp"
 #include "GameConfiguration.hpp"
+#include "GameWindow.hpp"
 #include "ReplayInputState.hpp"
 #include "Supervisor.hpp"
 
@@ -63,7 +64,6 @@ typedef char SampleNetworkNativeSupervisorOwner[
      offsetof(Supervisor, config388) + offsetof(GameConfiguration, valueB7) == 0x43F &&
      offsetof(Supervisor, config388) + offsetof(GameConfiguration, valueB8) == 0x440) ? 1 : -1];
 
-extern int g_WindowActivateWParam;
 
 // WinMM and DirectInput write the real 256-byte keyboard buffer. The
 // two adjacent controller assignments are bytes in the real Supervisor
@@ -82,7 +82,7 @@ short __fastcall SampleNetworkInput(int side)
     // value is cached across the original keyboard/controller callbacks.
     const u8 *configBytes = reinterpret_cast<const u8 *>(&g_Supervisor.config388);
 
-    if (g_WindowActivateWParam != 0)
+    if (g_GameWindow.isActive08 != 0)
     {
         if (g_Supervisor.keyboard10 == NULL)
         {

@@ -65,6 +65,7 @@ typedef char ScoreVersionRecordSizeIs1C[(sizeof(ScoreVersionRecordView) == 0x1C)
 extern RngRuntimeView g_ReplayRng;
 
 LastNameRecordView g_LastNameRecord;
+PlayStatsRecordView g_PlayStatsRecord;
 TitleScoreRecordView g_TitleScoreRecord;
 TitleScoreRecordView g_TitleScoreTable[16][5][5];
 
