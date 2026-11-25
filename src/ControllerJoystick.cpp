@@ -5,7 +5,7 @@
 #include <mmsystem.h>
 
 extern GameErrorContext g_GameErrorContext;
-extern const char g_NoPadFoundMessage[];
+extern const char g_NoPadFoundMessage[] = "\x8E\x67\x82\xA6\x82\xE9\x83\x70\x83\x62\x83\x68\x82\xAA\x91\xB6\x8D\xDD\x82\xB5\x82\xC8\x82\xA2\x82\xE6\x82\xA4\x82\xC5\x82\xB7\x81\x41\x8E\x63\x94\x4F\r\n"; // 使えるパッドが存在しないようです、残念\r\n
 
 namespace Controller
 {

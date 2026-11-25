@@ -273,8 +273,13 @@ int g_PlayerPatternGrid[12][10] = {
     { 0, 0, 3, 4, 2, 7, 8, 7, 8, 2 },
     { 0, 0, 3, 7, 7, 2, 8, 4, 8, 2 },
 };
-extern int g_PlayerPatternFlags[];
-extern int g_PlayerPatternAlternates[];
+int g_PlayerPatternFlags[10] = {
+    0x00, 0x10, 0x20, 0x40, 0x80, 0x50, 0x90, 0x60, 0xA0, 0x00,
+};
+int g_PlayerPatternAlternates[18] = {
+    0, 3, 4, 2, 2, 6, 5, 8, 7,
+    0, 4, 3, 1, 1, 7, 8, 5, 6,
+};
 
 
 

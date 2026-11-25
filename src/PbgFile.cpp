@@ -8,6 +8,12 @@ char *g_PbgFileOpenModes[3] = {
     "a",
 };
 
+int g_PbgFileSeekModes[3] = {
+    FILE_BEGIN,
+    FILE_CURRENT,
+    FILE_END,
+};
+
 PbgFileView::PbgFileView()
 {
     handle = INVALID_HANDLE_VALUE;

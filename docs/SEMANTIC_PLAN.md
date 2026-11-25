@@ -154,9 +154,16 @@ verification green.
   (`307 -> 179` blocks, `440 -> 304` labels); verified `73/73` exact units,
   bit-for-bit retail parity across `trial.exe` and `trial-reversed.exe`,
   `verify-trial-layouts.py`, and `ci.py`.
-- [ ] **5.3 Named `CONST` (`.rdata`) strings & lookup tables:**
-  migrate all remaining `128` named `CONST` blocks (error/log/format/DirectInput/DirectPlay
-  strings and `const` arrays) to natural C++ `const` definitions. Target: `CONST = 0` blocks.
+- [x] **5.3 Named `CONST` (`.rdata`) strings & lookup tables:**
+  migrated all remaining `128` named `CONST` blocks (`119` Shift-JIS/ASCII error,
+  D3D capability, config, network, ANM & sound strings, `5` read-only lookup
+  arrays `g_PlayerPatternFlags`/`g_PlayerPatternAlternates`/`g_PbgFileSeekModes`/
+  `g_AnmTextureFormats`/`g_AnmTextureBytesPerPixel`, `g_KeyboardDeviceGuid`, and
+  4 Win32 SDK GUIDs resolved directly from Platform SDK `uuid.lib`) across 21
+  owning `.cpp` files; **`CONST` and `_DATA` in `ProductData.asm` are both `0`
+  blocks** (`179 -> 51` blocks, `304 -> 175` labels — only `_BSS` remains);
+  verified `97/97` exact units, bit-for-bit retail byte parity across `trial.exe`
+  and `trial-reversed.exe`, `verify-trial-layouts.py`, and `ci.py`.
 - [ ] **5.4 Standalone `_BSS` globals & small 2–3 label `_BSS` pairs:**
   define all `35` standalone `_BSS` globals and unify the `11` small 2–3 label
   `_BSS` pairs onto single owning C++ definitions.

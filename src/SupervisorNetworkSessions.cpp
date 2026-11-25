@@ -7,7 +7,7 @@
 #include <windows.h>
 
 extern GameErrorContext g_GameErrorContext;
-extern const char g_DirectPlayHostSessionError[];
+extern const char g_DirectPlayHostSessionError[] = "\x90\x56\x82\xB5\x82\xA2\x83\x5A\x83\x62\x83\x56\x83\x87\x83\x93\x8D\xEC\x90\xAC\x8E\xB8\x94\x73:\t 0x%X\r\n"; // 新しいセッション作成失敗:\t 0x%X\r\n
 void __fastcall ReportDirectPlayError(HRESULT error);
 
 namespace

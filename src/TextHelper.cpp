@@ -12,6 +12,8 @@ struct TextHelperBitmapInfo
 
 typedef char TextHelperBitmapInfoSizeIs6C[(sizeof(TextHelperBitmapInfo) == 0x6C) ? 1 : -1];
 
+extern const char g_TextFontFaceName[] = "\x82\x6C\x82\x72 \x83\x53\x83\x56\x83\x62\x83\x4E"; // ＭＳ ゴシック
+
 TextHelperFormatInfo g_TextHelperFormats[7] = {
     { D3DFMT_X8R8G8B8, 32, 0x00000000u, 0x00FF0000u, 0x0000FF00u, 0x000000FFu },
     { D3DFMT_A8R8G8B8, 32, 0xFF000000u, 0x00FF0000u, 0x0000FF00u, 0x000000FFu },

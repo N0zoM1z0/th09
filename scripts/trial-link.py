@@ -41,7 +41,8 @@ PLAYABLE_VERSION_OBJECT = 'playable/SupervisorVersion.obj'
 # Import libraries cover the target's nine import descriptors; d3dx8.lib is
 # static. d3dx8.lib requests libci, libc and amdmath, which /MT replaces.
 LIBS = ['libcmt.lib', 'kernel32.lib', 'user32.lib', 'gdi32.lib', 'advapi32.lib', 'ole32.lib',
-        'winmm.lib', 'd3d8.lib', 'd3dx8.lib', 'dinput8.lib', 'dsound.lib', 'dxguid.lib', 'dxerr8.lib']
+        'uuid.lib', 'winmm.lib', 'd3d8.lib', 'd3dx8.lib', 'dinput8.lib', 'dsound.lib', 'dxguid.lib',
+        'dxerr8.lib']
 
 
 def pinned_libraries() -> dict[str, Path]:

@@ -70,11 +70,11 @@ extern int g_PowerOffActive;
 extern int g_WindowActivateWParam;
 extern int g_WindowInactive;
 extern HWND g_SupervisorGameWindow;
-extern const char g_WindowTitle[];
+extern const char g_WindowTitle[] = "\x93\x8C\x95\xFB\x89\xD4\x89\x66\x92\xCB\x81\x40\x81\x60 Phantasmagoria of Flower View. ver 1.50a"; // 東方花映塚　～ Phantasmagoria of Flower View. ver 1.50a
 
-extern const char g_MainLogStart[];
-extern const char g_DirectPlayInitFatal[];
-extern const char g_OptionRestartLog[];
+extern const char g_MainLogStart[] = "\x93\x8C\x95\xFB\x93\xAE\x8D\xEC\x8B\x4C\x98\x5E --------------------------------------------- \r\n"; // 東方動作記録 --------------------------------------------- \r\n
+extern const char g_DirectPlayInitFatal[] = "DirectPlay \x8F\x89\x8A\xFA\x89\xBB\x8E\xB8\x94\x73\r\n"; // DirectPlay 初期化失敗\r\n
+extern const char g_OptionRestartLog[] = "\x8D\xC4\x8B\x4E\x93\xAE\x82\xF0\x97\x76\x82\xB7\x82\xE9\x83\x49\x83\x76\x83\x56\x83\x87\x83\x93\x82\xAA\x95\xCF\x8D\x58\x82\xB3\x82\xEA\x82\xBD\x82\xCC\x82\xC5\x8D\xC4\x8B\x4E\x93\xAE\x82\xB5\x82\xDC\x82\xB7\r\n"; // 再起動を要するオプションが変更されたので再起動します\r\n
 
 LRESULT CALLBACK GameWindowProc(
     HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

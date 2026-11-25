@@ -17,7 +17,7 @@ struct PbgArchiveHeaderView
 typedef char PbgArchiveHeaderViewSizeIs0C[
     (sizeof(PbgArchiveHeaderView) == 0x0C) ? 1 : -1];
 
-extern const char g_PbgArchiveCorruptedError[];
+extern const char g_PbgArchiveCorruptedError[] = "\x83\x74\x83\x40\x83\x43\x83\x8B %s \x82\xCC\x83\x49\x81\x5B\x83\x76\x83\x93\x92\x86\x82\xC9\x83\x47\x83\x89\x81\x5B\x82\xAA\x94\xAD\x90\xB6\x82\xB5\x82\xDC\x82\xB5\x82\xBD\r\n"; // ファイル %s のオープン中にエラーが発生しました\r\n
 extern void __cdecl PbgDebugPrint(const char *fmt, ...);
 
 bool PbgArchive::Load(const char *filename)

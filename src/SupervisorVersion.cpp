@@ -13,8 +13,8 @@ typedef unsigned int u32;
 typedef int i32;
 
 extern GameErrorContext g_GameErrorContext;
-extern const char g_DatNotFoundError[];
-extern const char g_DatVersionError[];
+extern const char g_DatNotFoundError[] = "error : \x83\x66\x81\x5B\x83\x5E\x83\x74\x83\x40\x83\x43\x83\x8B\x82\xAA\x91\xB6\x8D\xDD\x82\xB5\x82\xDC\x82\xB9\x82\xF1\r\n"; // error : データファイルが存在しません\r\n
+extern const char g_DatVersionError[] = "error : \x83\x66\x81\x5B\x83\x5E\x82\xCC\x83\x6F\x81\x5B\x83\x57\x83\x87\x83\x93\x82\xAA\x88\xE1\x82\xA2\x82\xDC\x82\xB7\r\n"; // error : データのバージョンが違います\r\n
 
 int SupervisorAddedLoadDat()
 {

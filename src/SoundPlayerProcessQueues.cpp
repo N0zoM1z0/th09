@@ -130,11 +130,11 @@ char *g_SfxList[39] = {
     "se_timestop0.wav",
     "se_powerup.wav",
 };
-extern const char g_SoundLoadErrorMessage[];
-extern const char g_NotWavRiffMessage[];
-extern const char g_NotWavMessage[];
-extern const char g_DirectSoundInitializeErrorMessage[];
-extern const char g_DirectSoundInitializeSuccessMessage[];
+extern const char g_SoundLoadErrorMessage[] = "error : Sound \x83\x74\x83\x40\x83\x43\x83\x8B\x82\xAA\x93\xC7\x82\xDD\x8D\x9E\x82\xDF\x82\xC8\x82\xA2 \x83\x66\x81\x5B\x83\x5E\x82\xF0\x8A\x6D\x94\x46 %s\r\n"; // error : Sound ファイルが読み込めない データを確認 %s\r\n
+extern const char g_NotWavRiffMessage[] = "Wav \x83\x74\x83\x40\x83\x43\x83\x8B\x82\xB6\x82\xE1\x82\xC8\x82\xA2 %s\r\n"; // Wav ファイルじゃない %s\r\n
+extern const char g_NotWavMessage[] = "Wav \x83\x74\x83\x40\x83\x43\x83\x8B\x82\xB6\x82\xE1\x82\xC8\x82\xA2? %s\r\n"; // Wav ファイルじゃない? %s\r\n
+extern const char g_DirectSoundInitializeErrorMessage[] = "DirectSound \x83\x49\x83\x75\x83\x57\x83\x46\x83\x4E\x83\x67\x82\xCC\x8F\x89\x8A\xFA\x89\xBB\x82\xAA\x8E\xB8\x94\x73\x82\xB5\x82\xBD\x82\xE6\r\n"; // DirectSound オブジェクトの初期化が失敗したよ\r\n
+extern const char g_DirectSoundInitializeSuccessMessage[] = "DirectSound \x82\xCD\x90\xB3\x8F\xED\x82\xC9\x8F\x89\x8A\xFA\x89\xBB\x82\xB3\x82\xEA\x82\xDC\x82\xB5\x82\xBD\r\n"; // DirectSound は正常に初期化されました\r\n
 extern GameErrorContext g_GameErrorContext;
 
 static WAVEFORMATEX *GetWavFormatData(

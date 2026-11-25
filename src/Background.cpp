@@ -19,7 +19,7 @@
 extern Chain g_Chain;
 extern ZunMemory g_ZunMemory;
 extern GameErrorContext g_GameErrorContext;
-extern char g_BackgroundStageMissingMessage[];
+char g_BackgroundStageMissingMessage[] = "\x83\x58\x83\x65\x81\x5B\x83\x57\x83\x66\x81\x5B\x83\x5E\x82\xAA\x8C\xA9\x82\xC2\x82\xA9\x82\xE8\x82\xDC\x82\xB9\x82\xF1\x81\x42\x83\x66\x81\x5B\x83\x5E\x82\xAA\x89\xF3\x82\xEA\x82\xC4\x82\xA2\x82\xDC\x82\xB7\r\n"; // ステージデータが見つかりません。データが壊れています\r\n
 
 // Runtime reads the authentic game manager and its two 0x38-byte side records.
 typedef char BackgroundNativeGameManagerLayout[

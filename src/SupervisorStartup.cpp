@@ -52,23 +52,26 @@ extern int PreloadEtamaStartup();
 extern int PreloadFrontStartup();
 extern int InitializeScoreDataStartup();
 
-extern const GUID g_KeyboardDeviceGuid;
+extern const GUID g_KeyboardDeviceGuid = {
+    0x6F1D2B61u, 0xD5A0u, 0x11CFu,
+    { 0xBF, 0xC7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 }
+};
 extern const DIDATAFORMAT g_KeyboardDataFormat;
 extern const DIDATAFORMAT g_ControllerDataFormat;
 extern BOOL CALLBACK StartupEnumControllers(const DIDEVICEINSTANCEA *, void *);
 extern BOOL CALLBACK StartupEnumObjects0(const DIDEVICEOBJECTINSTANCEA *, void *);
 extern BOOL CALLBACK StartupEnumObjects1(const DIDEVICEOBJECTINSTANCEA *, void *);
 
-extern const char g_DirectInputCreateError[];
-extern const char g_DirectInputSetFormatError[];
-extern const char g_DirectInputCooperativeError[];
-extern const char g_DirectInputAcquireMessage[];
-extern const char g_Controller0ConfiguredMessage[];
-extern const char g_Controller1ConfiguredMessage[];
-extern const char g_StartupErrorAscii[];
-extern const char g_StartupErrorEtama[];
-extern const char g_StartupErrorFront[];
-extern const char g_StartupErrorBgm[];
+extern const char g_DirectInputCreateError[] = "DirectInput \x82\xAA\x8E\x67\x97\x70\x82\xC5\x82\xAB\x82\xDC\x82\xB9\x82\xF1\r\n"; // DirectInput が使用できません\r\n
+extern const char g_DirectInputSetFormatError[] = "DirectInput SetDataFormat \x82\xAA\x8E\x67\x97\x70\x82\xC5\x82\xAB\x82\xDC\x82\xB9\x82\xF1\r\n"; // DirectInput SetDataFormat が使用できません\r\n
+extern const char g_DirectInputCooperativeError[] = "DirectInput SetCooperativeLevel \x82\xAA\x8E\x67\x97\x70\x82\xC5\x82\xAB\x82\xDC\x82\xB9\x82\xF1\r\n"; // DirectInput SetCooperativeLevel が使用できません\r\n
+extern const char g_DirectInputAcquireMessage[] = "DirectInput \x82\xCD\x90\xB3\x8F\xED\x82\xC9\x8F\x89\x8A\xFA\x89\xBB\x82\xB3\x82\xEA\x82\xDC\x82\xB5\x82\xBD\r\n"; // DirectInput は正常に初期化されました\r\n
+extern const char g_Controller0ConfiguredMessage[] = "\x97\x4C\x8C\xF8\x82\xC8\x83\x70\x83\x62\x83\x68\x82\xF0\x94\xAD\x8C\xA9\x82\xB5\x82\xDC\x82\xB5\x82\xBD\r\n"; // 有効なパッドを発見しました\r\n
+extern const char g_Controller1ConfiguredMessage[] = "\x82\xE0\x82\xD0\x82\xC6\x82\xC2\x97\x4C\x8C\xF8\x82\xC8\x83\x70\x83\x62\x83\x68\x82\xF0\x94\xAD\x8C\xA9\x82\xB5\x82\xDC\x82\xB5\x82\xBD\r\n"; // もひとつ有効なパッドを発見しました\r\n
+extern const char g_StartupErrorAscii[] = "error : \x95\xB6\x8E\x9A\x82\xCC\x8F\x89\x8A\xFA\x89\xBB\x82\xC9\x8E\xB8\x94\x73\x82\xB5\x82\xDC\x82\xB5\x82\xBD\r\n"; // error : 文字の初期化に失敗しました\r\n
+extern const char g_StartupErrorEtama[] = "error : \x93\x47\x92\x65\x82\xCC\x8F\x89\x8A\xFA\x89\xBB\x82\xC9\x8E\xB8\x94\x73\x82\xB5\x82\xDC\x82\xB5\x82\xBD\r\n"; // error : 敵弾の初期化に失敗しました\r\n
+extern const char g_StartupErrorFront[] = "error : \x95\x5C\x8E\xA6\x95\xA8\x82\xCC\x8F\x89\x8A\xFA\x89\xBB\x82\xC9\x8E\xB8\x94\x73\x82\xB5\x82\xDC\x82\xB5\x82\xBD\r\n"; // error : 表示物の初期化に失敗しました\r\n
+extern const char g_StartupErrorBgm[] = "error : BGM \x82\xCC\x8F\x89\x8A\xFA\x89\xBB\x82\xC9\x8E\xB8\x94\x73\x82\xB5\x82\xDC\x82\xB5\x82\xBD\r\n"; // error : BGM の初期化に失敗しました\r\n
 
 static int SetupDInputInternal(Supervisor *supervisor)
 {

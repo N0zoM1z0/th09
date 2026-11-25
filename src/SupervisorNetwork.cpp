@@ -36,9 +36,9 @@ typedef char NetworkFramePacketPackedInputAt08[
 extern RngRuntimeView g_ReplayRng;
 extern NetworkFramePacket g_NetworkFramePacket;
 extern NetworkHandshakePacket g_NetworkHandshakePacket;
-extern const char g_NetworkDisconnectedMessage[];
-extern const char g_NetworkWaitingMessage[];
-extern const char g_NetworkSearchingMessage[];
+extern const char g_NetworkDisconnectedMessage[] = "\x97\x64\x89\xF6\x82\xA9\x82\xE7\x82\xCC\x92\xCA\x90\x4D\x82\xAA\x93\x72\x90\xE2\x82\xA6\x82\xC4\x82\xA2\x82\xDC\x82\xB7"; // 妖怪からの通信が途絶えています
+extern const char g_NetworkWaitingMessage[] = "\x97\x64\x89\xF6\x82\xCC\x90\xDA\x91\xB1\x82\xF0\x91\xD2\x82\xC1\x82\xC4\x82\xA2\x82\xDC\x82\xB7"; // 妖怪の接続を待っています
+extern const char g_NetworkSearchingMessage[] = "\x90\xDA\x91\xB1\x89\xC2\x94\x5C\x82\xC8\x97\x64\x89\xF6\x82\xF0\x92\x54\x82\xB5\x82\xC4\x82\xA2\x82\xDC\x82\xB7"; // 接続可能な妖怪を探しています
 
 extern unsigned short __fastcall ApplyNetworkInput(int side, unsigned short input);
 extern int __fastcall SupervisorSubthreadIsRunning(Supervisor *supervisor);
