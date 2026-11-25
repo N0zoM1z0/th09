@@ -4335,6 +4335,12 @@ With a controlled P1 collision result, the ordinary game changed health
 and update state from `(10, 0)` to `(8, 4)`. The practice game kept
 `(10, 0)` and reached the no-hit path.
 
+The practice dispatch uses the original collision path for story mode,
+stage index 8 and round index 0. The round count advances in
+`FrontFactoryConstructView::SelectOpponentSide`. Read-back of the updated
+launcher under isolated Wine confirmed the opening-round exception,
+later-round protection and the existing P2, replay, attract and network paths.
+
 ## 2026-11-23 native DirectPlay startup and path storage
 
 The host Windows installation reports its DirectPlay feature enabled.

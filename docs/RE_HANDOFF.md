@@ -196,6 +196,8 @@ Copy the two Windows command files to the playtest directory.
 `Play TH09.cmd` runs the ordinary playable image. `Practice TH09.cmd`
 starts `th09-practice.exe`, which skips the local P1 hit dispatch before
 it changes the collision owner or starts the damage and recovery logic.
+In the story finale, round one uses normal damage so P1 can lose the round.
+Practice protection resumes when the live round counter advances.
 Both command files set the window compatibility option for their child.
 The practice launcher checks the adjacent PE's SHA-256 and the live
 dispatch bytes before resuming its own child. P2, replay, attract and
