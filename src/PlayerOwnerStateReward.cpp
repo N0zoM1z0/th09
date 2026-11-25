@@ -1,4 +1,5 @@
 #include "PlayerLifecycleView.hpp"
+#include "GameDifficulty.hpp"
 #include "AsciiManager.hpp"
 #include "EffectManager.hpp"
 #include "RngRuntimeLeaves.hpp"
@@ -215,23 +216,23 @@ void PlayerOwnerStateView::ApplyReward(
 
             switch (g_PlayerRewardModeValue)
             {
-            case 0:
+            case DIFFICULTY_EASY:
                 effect->playerReward.scale =
                     g_PlayerRewardBaseValue * 0.04f + 0.9f;
                 break;
-            case 1:
+            case DIFFICULTY_NORMAL:
                 effect->playerReward.scale =
                     g_PlayerRewardBaseValue * 0.05f + 1.1f;
                 break;
-            case 2:
+            case DIFFICULTY_HARD:
                 effect->playerReward.scale =
                     g_PlayerRewardBaseValue * 0.08f + 1.3f;
                 break;
-            case 3:
+            case DIFFICULTY_LUNATIC:
                 effect->playerReward.scale =
                     g_PlayerRewardBaseValue * 0.11f + 1.3f;
                 break;
-            case 4:
+            case DIFFICULTY_EXTRA:
                 effect->playerReward.scale =
                     g_PlayerRewardBaseValue * 0.04f + 1.6f;
                 break;

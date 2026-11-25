@@ -224,10 +224,35 @@ def check_supervisor_and_title_protocols() -> None:
         "TITLE_KEYCONFIG_ITEM_",
         list(range(10)),
     )
+    explicit_enum(
+        SRC / "TitleScreenStates.hpp",
+        "TitleRegistrationContext",
+        "TITLE_ENTRY_",
+        [0, 1],
+    )
+    explicit_enum(
+        SRC / "TitleScreenStates.hpp",
+        "TitleSubscreenState",
+        "TITLE_SUBSCREEN_STATE_",
+        [0, 1, 2, 3],
+    )
+    explicit_enum(
+        SRC / "TitleScreenStates.hpp",
+        "TitleReplayMenuState",
+        "TITLE_REPLAY_MENU_",
+        [0, 1, 2],
+    )
+    explicit_enum(
+        SRC / "TitleScreenStates.hpp",
+        "TitleReplaySaveState",
+        "TITLE_REPLAY_SAVE_",
+        list(range(5)),
+    )
     reject_pattern(
         [
             SRC / "TitleCalcCallback.cpp",
             SRC / "TitleDrawCallback.cpp",
+            SRC / "TitleScreen.cpp",
             SRC / "TitleScreenOptions.cpp",
             SRC / "TitleScreenKeyConfig.cpp",
         ],
@@ -256,8 +281,12 @@ def check_gameplay_state_protocols() -> None:
             SRC / "PlayerMovement.cpp",
             SRC / "PlayerRuntime.cpp",
             SRC / "PlayerAddedState.cpp",
+            SRC / "PlayerOwnerStateReward.cpp",
             SRC / "EclPostRuntime.inl",
             SRC / "AsciiManagerMenu.cpp",
+            SRC / "AsciiMenuState5Update.cpp",
+            SRC / "SampleNetworkInput.cpp",
+            SRC / "AnmManagerRuntime.cpp",
         ],
         "numeric gameplay/menu state-machine dispatch label",
         r"\bcase\s+[+-]?(?:0[xX][0-9A-Fa-f]+|\d+)\s*:",

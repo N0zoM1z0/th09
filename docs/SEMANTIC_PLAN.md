@@ -12,10 +12,10 @@ playthrough.
 Measured before Batch 1 via `scripts/report-semantic-debt.py` and workspace
 inspection:
 
-| Metric | Baseline | Current (`3.3`) | Notes |
+| Metric | Baseline | Current (`3.4a`) | Notes |
 | --- | ---: | ---: | --- |
-| Source files in `src/` | 550 | 555 | Added 7 protocol headers (`GameDifficulty.hpp`, `PlayerDirection.hpp`), retired `PlayerState4OpsView.hpp` |
-| Numeric `switch` cases | 717 | 186 | `-531` (`-74.1%`); 15 core protocol & state-machine files closed & CI-guarded |
+| Source files in `src/` | 550 | 555 | Added 7 protocol headers, retired `PlayerState4OpsView.hpp` |
+| Numeric `switch` cases | 717 | 110 | `-607` (`-84.7%`); 20 core protocol & state-machine files closed & CI-guarded |
 | Numeric `PlaySound*` / `PlayMenuSound` literals | 147 (89 + 58) | 0 | Closed & CI-guarded (`SoundIdx` 0..53) |
 | Numeric `SpawnEffect*` literals | 10 | 0 | Closed & CI-guarded (`Th09EffectId`) |
 | `*View` struct/class definitions | 362 | 299 | `-63` net (`-66` duplicate views retired across Batches 3.1–3.2) |
@@ -92,8 +92,10 @@ preserving exact VC7.1 bytes and verifying PI layouts after symbol changes:
   canonicalized `SupervisorAudio` (`MidiOutput`, `MidiPlaybackPathView`, `AsciiGameManagerView`, `Supervisor`), `PlayerDeath`/`PlayerRuntime` (`ConfigureState3Effect13/14/15`, `CreateCircleType1/4`; retired `PlayerState4OpsView.hpp`), `PlayerShotSpawnCallbacks`/`6` (`EffectManager::SpawnEffectInFixedSlot`, `EffectFixedSlotManagerView::GetFixedSlotEffect`), `EnemyManagerUpdate`/`EnemyManagerRelease`/`EclPostRuntime` (`PlayerOwnerStateView`, `PlayerLifecycleView`, `PlayerPositionCallbackView`, `EnemyEclManagerReleaseView`), `TitleScreenRegister`/`TitleScreen` (`TitleScreenView::AddedCallback`/`DeletedCallback`, `RngRuntimeView::GetRandomU32`, `InputView::IsPressedScrolling`), `ReplayInput` (`SupervisorVersionView::CheckVersion`), `AnmManagerDraw3D`/`EnemyManagerDraw` (`AnmProjectionAbs`), and `PlayerDamage` (`RotatePlayerCollisionVector`); retired **29 more `/ALTERNATENAME` aliases** (`66 -> 37`, `-73.4%` from baseline) and **2 more `ProductData.asm` labels** (`614 -> 612`), verified with scoped exact replay + `check-frontier.py player-movement` + full normal/reversed/playable PI links (`verify-trial-layouts.py`).
 - [x] **3.3 Secondary menu, difficulty, direction & movement state-machine closure:**
   extracted TH09-local menu help strings (`g_TitleOptionsHelpText @ 0x4A1DDC`, `g_TitleKeyConfigHelpText @ 0x4A1E04`, `g_TitleHelpText @ 0x4A1E3C`) from `resources/th09.exe`; added `src/GameDifficulty.hpp` (`GameDifficulty`), `src/PlayerDirection.hpp` (`PlayerMoveDirection`), and extended `src/TitleScreenStates.hpp` (`TitleStartMenuItem`, `TitleOptionsScreenState`/`MenuItem`, `TitleKeyConfigScreenState`/`MenuItem`); named `EnemyPostEclMovementMode`/`Easing`/`HorizontalFacing` (`EclPostRuntime.inl`), `PlayerRewardTailType` (`PlayerRuntime.cpp`), and `AsciiRetryMenuState` (`AsciiManagerMenu.cpp`); eliminated **111 numeric `switch` cases** (`297 -> 186`, `-74.1%` from baseline) across 9 files and extended `scripts/check-semantic-protocols.py` to guard all 9 files in CI (`139/139` exact units replayed + `player-movement` frontier OK).
-- [ ] **3.4 Remaining `*View` overlay consolidation & `TitleScreen` / `Etama` cleanup:**
-  consolidate remaining shared `*View` declarations (`EffectFixedSlotManagerView`, `AnmManager*View`, `Front*View`, `EnemyManager`/`Player` views) and optionally name remaining `TitleScreen.cpp` sub-menu switches.
+- [x] **3.4a `TitleScreen`, `AsciiMenuState5`, `PlayerOwnerStateReward`, `SampleNetworkInput` & `AnmManagerRuntime` state-machine closure:**
+  extended `TitleScreenStates.hpp` (`TitleRegistrationContext`, `TitleSubscreenState`, `TitleReplayMenuState`, `TitleReplaySaveState`) and named `AsciiGameOverMenuState`, `InputDeviceMode`, `AnmDrawMode`, and `GameDifficulty` dispatches across all 5 files, eliminating **76 more numeric `switch` cases** (`186 -> 110`, `-84.7%` from baseline) and guarding all 5 files in `scripts/check-semantic-protocols.py` (`51/51` exact units replayed).
+- [ ] **3.4b Shared `*View` overlay deduplication:**
+  deduplicate copy-pasted `*View` definitions across `ExAttackInitType*` / `ExAttackAddedCallback`, `AsciiInputView`, `EffectFixedSlotManagerView`, `SupervisorDrawMain*View`, `TitleScreenOptions` (`InputView`), `BackgroundRender` (`AnmProjectionContextView`), and other duplicated local view definitions onto single shared headers.
 
 ### Phase 4: Maintainer navigation documentation
 

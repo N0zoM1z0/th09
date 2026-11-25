@@ -8,6 +8,7 @@
 #include "ReplayInputState.hpp"
 #include "RngRuntimeLeaves.hpp"
 #include "TitleInputView.hpp"
+#include "TitleScreenStates.hpp"
 #include "TitleNativeNameKeyboard.hpp"
 #include "PlayStats.hpp"
 
@@ -439,7 +440,7 @@ int TitleScreenView::ActualAddedCallback()
 
     switch (registrationContext)
     {
-    case 0:
+    case TITLE_ENTRY_NORMAL:
         if ((g_TitleGameFlags & 0xA) == 0)
         {
             if (g_GameMode == 0)
@@ -450,8 +451,8 @@ int TitleScreenView::ActualAddedCallback()
                 resumeState = 1;
         }
         break;
-    case 1:
-        currentScreen = 14;
+    case TITLE_ENTRY_RESULT_NAME_ENTRY:
+        currentScreen = TITLE_SCREEN_RESULT_NAME_ENTRY;
         break;
     default:
         keyboardSelection = 0;
@@ -1156,7 +1157,7 @@ int TitleScreenView::OnUpdateCharacterSelect()
     i32 value;
     switch (currentScreenState)
     {
-    case 0:
+    case TITLE_SUBSCREEN_STATE_INIT:
         if (stateTimer2 == 0)
         {
             g_AnmManager->SetInterruptArray(vms, vmCount, 13);
@@ -1251,7 +1252,7 @@ int TitleScreenView::OnUpdateCharacterSelect()
             currentScreenState = 1;
         break;
 
-    case 1:
+    case TITLE_SUBSCREEN_STATE_ACTIVE:
     {
         if (side0CharacterConfirmed == 0)
         {
@@ -1417,7 +1418,7 @@ int TitleScreenView::UpdateScreen8Mode0()
     char characters[2];
     switch (currentScreenState)
     {
-    case 0:
+    case TITLE_SUBSCREEN_STATE_INIT:
     {
         if (stateTimer2 == 0)
         {
@@ -1482,7 +1483,7 @@ int TitleScreenView::UpdateScreen8Mode0()
         break;
     }
 
-    case 1:
+    case TITLE_SUBSCREEN_STATE_ACTIVE:
     {
         i32 value;
 
@@ -1723,7 +1724,7 @@ int TitleScreenView::UpdateScreen8Mode123()
     char characters[2];
     switch (currentScreenState)
     {
-    case 0:
+    case TITLE_SUBSCREEN_STATE_INIT:
         if (stateTimer2 == 0)
         {
             g_AnmManager->SetInterruptArray(vms, vmCount, 13);
@@ -1794,7 +1795,7 @@ int TitleScreenView::UpdateScreen8Mode123()
             currentScreenState = 1;
         break;
 
-    case 1:
+    case TITLE_SUBSCREEN_STATE_ACTIVE:
     {
         characters[0] = (g_TitleCharacterOrderMode123[side0CharacterCursor]);
         characters[1] = (g_TitleCharacterOrderMode123[side1CharacterCursor]);
@@ -1990,7 +1991,7 @@ int TitleScreenView::UpdateScreen16()
 {
     switch (currentScreenState)
     {
-    case 0:
+    case TITLE_SUBSCREEN_STATE_INIT:
         if (stateTimer2 == 0)
         {
             g_AnmManager->SetInterruptArray(vms, vmCount, 26);
@@ -2038,7 +2039,7 @@ int TitleScreenView::UpdateScreen16()
             currentScreenState = 1;
         break;
 
-    case 1:
+    case TITLE_SUBSCREEN_STATE_ACTIVE:
     {
         i32 direction = MoveCursorFourWay(16);
         if (direction != 0)
@@ -2131,16 +2132,16 @@ int TitleScreenView::UpdateScreen16()
             ChangeCurrentScreen(8);
             switch (g_TitleModeSelection)
             {
-            case 0:
+            case TITLE_MATCH_MODE_STORY_VS_CPU:
                 UpdateScreen8Mode0();
                 break;
-            case 1:
+            case TITLE_MATCH_MODE_P1_VS_P2:
                 UpdateScreen8Mode123();
                 break;
-            case 2:
+            case TITLE_MATCH_MODE_P1_VS_CPU:
                 UpdateScreen8Mode123();
                 break;
-            case 3:
+            case TITLE_MATCH_MODE_CPU_VS_CPU:
                 UpdateScreen8Mode123();
                 break;
             }
@@ -2169,7 +2170,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
 {
     switch (currentScreenState)
     {
-    case 0:
+    case TITLE_SUBSCREEN_STATE_INIT:
         if (stateTimer2 == 0)
         {
             g_TitleSupervisor.StopAudio();
@@ -2217,7 +2218,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
             currentScreenState = 1;
         break;
 
-    case 1:
+    case TITLE_SUBSCREEN_STATE_ACTIVE:
         if (nameSlotIndex < 5)
         {
             if (g_TitleInput.IsPressedScrolling(0x10))
@@ -2340,7 +2341,7 @@ int TitleScreenView::OnUpdateResult()
     enum { FullCharacterSlots = sizeof(g_PlayStatsRecord.characterUnlocked[0]) };
     switch (currentScreenState)
     {
-    case 0:
+    case TITLE_SUBSCREEN_STATE_INIT:
         if (phaseTimer == 0)
         {
             if (g_AnmManager->LoadSurface(0, "title/result00.png"))
@@ -2361,7 +2362,7 @@ int TitleScreenView::OnUpdateResult()
             currentScreenState = 1;
         break;
 
-    case 1:
+    case TITLE_SUBSCREEN_STATE_ACTIVE:
     {
         if (g_TitleResultUnlockStep < 3)
         {
@@ -2482,7 +2483,7 @@ int TitleScreenView::OnUpdateReplayMenu()
 
     switch (currentScreenState)
     {
-    case 0:
+    case TITLE_REPLAY_MENU_INIT:
         if (phaseTimer == 0)
         {
             g_TitleGameFlags &= ~8u;
@@ -2554,7 +2555,7 @@ int TitleScreenView::OnUpdateReplayMenu()
         }
         break;
 
-    case 1:
+    case TITLE_REPLAY_MENU_SELECT_FILE:
         if (g_TitleInput.IsPressedScrolling(0x10))
         {
             g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
@@ -2621,7 +2622,7 @@ int TitleScreenView::OnUpdateReplayMenu()
         }
         break;
 
-    case 2:
+    case TITLE_REPLAY_MENU_SELECT_STAGE:
     {
         i32 direction = MoveCursorVertical(10);
         if (direction != 0)
@@ -2738,7 +2739,7 @@ int TitleScreenView::UpdateReplaySave()
 
     switch (replaySaveState)
     {
-    case 0:
+    case TITLE_REPLAY_SAVE_INIT:
         if (phaseTimer == 0)
         {
             if (g_TitleGameFlags & 0x2000)
@@ -2794,7 +2795,7 @@ int TitleScreenView::UpdateReplaySave()
             replaySaveState = 1;
         break;
 
-    case 1:
+    case TITLE_REPLAY_SAVE_PROMPT_YES_NO:
         if (MoveCursorHorizontal(2))
             UpdateMenuSelection();
 
@@ -2850,7 +2851,7 @@ int TitleScreenView::UpdateReplaySave()
         }
         break;
 
-    case 2:
+    case TITLE_REPLAY_SAVE_SELECT_SLOT:
         if (phaseTimer < 6)
             break;
 
@@ -2897,7 +2898,7 @@ int TitleScreenView::UpdateReplaySave()
         }
         break;
 
-    case 3:
+    case TITLE_REPLAY_SAVE_CONFIRM_OVERWRITE:
         if (phaseTimer < 10)
             break;
 
@@ -2930,7 +2931,7 @@ int TitleScreenView::UpdateReplaySave()
         }
         break;
 
-    case 4:
+    case TITLE_REPLAY_SAVE_ENTER_NAME:
         if (phaseTimer < 10)
             break;
 
@@ -3051,7 +3052,7 @@ int TitleScreenView::OnUpdateStartMenu()
 {
     switch (currentScreenState)
     {
-    case 0:
+    case TITLE_SUBSCREEN_STATE_INIT:
         if (stateTimer2 == 0)
         {
             if (previousScreen == 0 || previousScreen == 14 || previousScreen == 12 || previousScreen == 15)
@@ -3115,7 +3116,7 @@ int TitleScreenView::OnUpdateStartMenu()
         currentScreenState = 1;
         idleFrames = 0;
 
-    case 1:
+    case TITLE_SUBSCREEN_STATE_ACTIVE:
         {
             i32 moved = MoveCursorVertical(8);
             if (moved != 0)
@@ -3162,7 +3163,7 @@ int TitleScreenView::OnUpdateStartMenu()
             {
                 switch (keyboardSelection)
                 {
-                case 0:
+                case TITLE_START_MENU_STORY:
                     g_TitleGameFlags &= ~8u;
                     PlayMenuSound(SOUND_SELECT, 0);
                     if (keyboardSelection >= 4)
@@ -3172,7 +3173,7 @@ int TitleScreenView::OnUpdateStartMenu()
                     g_TitleTransitionCounter0 = 10;
                     g_TitleTransitionCounter1 = 10;
                     return 1;
-                case 1:
+                case TITLE_START_MENU_EXTRA:
                     if (g_TitleLockedMenuItem)
                     {
                         g_TitleGameFlags &= ~8u;
@@ -3187,7 +3188,7 @@ int TitleScreenView::OnUpdateStartMenu()
                     }
                     PlayMenuSound(SOUND_INVALID_ACTION, 0);
                     return 1;
-                case 2:
+                case TITLE_START_MENU_MATCH:
                     g_TitleGameFlags &= ~8u;
                     PlayMenuSound(SOUND_SELECT, 0);
                     keyboardSelection = g_TitleModeSelection;
@@ -3196,26 +3197,26 @@ int TitleScreenView::OnUpdateStartMenu()
                     g_TitleTransitionCounter0 = 10;
                     g_TitleTransitionCounter1 = 10;
                     return 1;
-                case 3:
+                case TITLE_START_MENU_REPLAY:
                     PlayMenuSound(SOUND_SELECT, 0);
-                    ChangeCurrentScreen(11);
+                    ChangeCurrentScreen(TITLE_SCREEN_REPLAY_MENU);
                     g_AnmManager->SetInterruptArray(vms, vmCount, 5);
                     currentHelpTextVm->pendingInterrupt = 2;
                     return 1;
-                case 5:
+                case TITLE_START_MENU_MUSIC_ROOM:
                     PlayMenuSound(SOUND_SELECT, 0);
-                    ChangeCurrentScreen(12);
+                    ChangeCurrentScreen(TITLE_SCREEN_MUSIC_ROOM);
                     g_AnmManager->SetInterruptArray(vms, vmCount, 5);
                     currentHelpTextVm->pendingInterrupt = 2;
                     return 1;
-                case 4:
+                case TITLE_START_MENU_PLAYER_DATA:
                     PlayMenuSound(SOUND_SELECT, 0);
-                    ChangeCurrentScreen(13);
+                    ChangeCurrentScreen(TITLE_SCREEN_RESULT_VIEW);
                     g_AnmManager->SetInterruptArray(vms, vmCount, 5);
                     return 1;
-                case 6:
+                case TITLE_START_MENU_OPTIONS:
                     PlayMenuSound(SOUND_SELECT, 0);
-                    currentScreenState = 0;
+                    currentScreenState = TITLE_SUBSCREEN_STATE_INIT;
                     keyboardSelection = 0;
                     stateTimer2 = 0;
                     stateTimer = 0;
@@ -3229,8 +3230,8 @@ int TitleScreenView::OnUpdateStartMenu()
                     optionResetCounter = 0;
                     keyboardSelection = 0;
                     break;
-                case 7:
-                    currentScreenState = 2;
+                case TITLE_START_MENU_QUIT:
+                    currentScreenState = TITLE_SUBSCREEN_STATE_EXIT_QUIT;
                     stateTimer = 0;
                     g_AnmManager->SetInterruptArray(vms, vmCount, 1);
                     if (g_OptionC == 2)
@@ -3253,7 +3254,7 @@ int TitleScreenView::OnUpdateStartMenu()
         }
         break;
 
-    case 2:
+    case TITLE_SUBSCREEN_STATE_EXIT_QUIT:
         if (stateTimer >= 60)
         {
             delete[] vms;
@@ -3265,7 +3266,7 @@ int TitleScreenView::OnUpdateStartMenu()
         }
         break;
 
-    case 3:
+    case TITLE_SUBSCREEN_STATE_EXIT_TRANSITION:
         if (stateTimer >= 30)
         {
             ChangeCurrentScreen(9);
@@ -3295,7 +3296,7 @@ int TitleScreenView::OnUpdateDifficultySelect()
 
     switch (currentScreenState)
     {
-    case 0:
+    case TITLE_SUBSCREEN_STATE_INIT:
         if (stateTimer2 == 0)
         {
             if (g_AnmManager->LoadSurface(0, "title/select00.png"))
@@ -3315,19 +3316,19 @@ int TitleScreenView::OnUpdateDifficultySelect()
                     ChangeCurrentScreen(8);
                     switch (g_TitleModeSelection)
                     {
-                    case 0:
+                    case TITLE_MATCH_MODE_STORY_VS_CPU:
                         UpdateScreen8Mode0();
                         break;
-                    case 1:
+                    case TITLE_MATCH_MODE_P1_VS_P2:
                         UpdateScreen8Mode123();
                         break;
-                    case 2:
+                    case TITLE_MATCH_MODE_P1_VS_CPU:
                         UpdateScreen8Mode123();
                         break;
-                    case 3:
+                    case TITLE_MATCH_MODE_CPU_VS_CPU:
                         UpdateScreen8Mode123();
                         break;
-                    case 4:
+                    case TITLE_MATCH_MODE_EXTRA:
                     default:
                         break;
                     }
@@ -3363,7 +3364,7 @@ int TitleScreenView::OnUpdateDifficultySelect()
             currentScreenState = 1;
         break;
 
-    case 1:
+    case TITLE_SUBSCREEN_STATE_ACTIVE:
         if (currentScreen != 4)
         {
             if (MoveCursorVertical(4))
@@ -3383,19 +3384,19 @@ int TitleScreenView::OnUpdateDifficultySelect()
                 ChangeCurrentScreen(8);
                 switch (g_TitleModeSelection)
                 {
-                case 0:
+                case TITLE_MATCH_MODE_STORY_VS_CPU:
                     UpdateScreen8Mode0();
                     break;
-                case 1:
+                case TITLE_MATCH_MODE_P1_VS_P2:
                     UpdateScreen8Mode123();
                     break;
-                case 2:
+                case TITLE_MATCH_MODE_P1_VS_CPU:
                     UpdateScreen8Mode123();
                     break;
-                case 3:
+                case TITLE_MATCH_MODE_CPU_VS_CPU:
                     UpdateScreen8Mode123();
                     break;
-                case 4:
+                case TITLE_MATCH_MODE_EXTRA:
                     UpdateScreen8Mode0();
                     break;
                 }
@@ -3440,7 +3441,7 @@ int TitleScreenView::OnUpdateDifficultySelect()
         }
         break;
 
-    case 3:
+    case TITLE_SUBSCREEN_STATE_EXIT_TRANSITION:
         if (stateTimer >= 20)
         {
             oldScreen = currentScreen;
@@ -3462,7 +3463,7 @@ int TitleScreenView::OnUpdateModeSelect()
 {
     switch (currentScreenState)
     {
-    case 0:
+    case TITLE_SUBSCREEN_STATE_INIT:
         if (stateTimer2 == 0)
         {
             if (previousScreen != 7 && g_AnmManager->LoadSurface(0, "title/select00.png"))
@@ -3493,7 +3494,7 @@ int TitleScreenView::OnUpdateModeSelect()
             currentScreenState = 1;
         break;
 
-    case 1:
+    case TITLE_SUBSCREEN_STATE_ACTIVE:
         if (MoveCursorVertical(5))
             UpdateMenuSelection();
 
@@ -3529,7 +3530,7 @@ int TitleScreenView::OnUpdateModeSelect()
         }
         break;
 
-    case 3:
+    case TITLE_SUBSCREEN_STATE_EXIT_TRANSITION:
         if (stateTimer >= 20)
         {
             ChangeCurrentScreen(1);

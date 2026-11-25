@@ -10,6 +10,17 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
+// Per-side input device assignment (GameConfiguration::valueB7 / valueB8),
+// backed by g_TitleKeyConfigHelpText[1] ("PAD1,2 / Full,Left,Right").
+enum InputDeviceMode
+{
+    INPUT_DEVICE_PAD1 = 0,
+    INPUT_DEVICE_PAD2 = 1,
+    INPUT_DEVICE_KEYBOARD_FULL = 2,
+    INPUT_DEVICE_KEYBOARD_LEFT = 3,
+    INPUT_DEVICE_KEYBOARD_RIGHT = 4,
+};
+
 enum TouhouButton
 {
     TH_BUTTON_SHOOT = 0x0001,
@@ -99,7 +110,7 @@ short __fastcall SampleNetworkInput(int side)
             {
                 switch (configBytes[offsetof(GameConfiguration, valueB7) + side])
                 {
-                    case 2:
+                    case INPUT_DEVICE_KEYBOARD_FULL:
                         buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_SHOOT, 'Z');
                         buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_BOMB, 'X');
                         buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_FOCUS, VK_SHIFT);
@@ -116,7 +127,7 @@ short __fastcall SampleNetworkInput(int side)
                         buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_DOWN_LEFT, VK_NUMPAD1);
                         buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_DOWN_RIGHT, VK_NUMPAD3);
                         break;
-                    case 3:
+                    case INPUT_DEVICE_KEYBOARD_LEFT:
                         buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_SHOOT, 'Z');
                         buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_BOMB, 'X');
                         buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_FOCUS, VK_SHIFT);
@@ -129,7 +140,7 @@ short __fastcall SampleNetworkInput(int side)
                         buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_DOWN_LEFT, 'V');
                         buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_DOWN_RIGHT, 'N');
                         break;
-                    case 4:
+                    case INPUT_DEVICE_KEYBOARD_RIGHT:
                         buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_SHOOT, VK_DOWN);
                         buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_BOMB, VK_RIGHT);
                         buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_FOCUS, VK_LEFT);
@@ -194,7 +205,7 @@ short __fastcall SampleNetworkInput(int side)
                 {
                     switch (configBytes[offsetof(GameConfiguration, valueB7) + side])
                     {
-                        case 2:
+                        case INPUT_DEVICE_KEYBOARD_FULL:
                             buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_SHOOT, DIK_Z);
                             buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_BOMB, DIK_X);
                             buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_FOCUS, DIK_LSHIFT);
@@ -211,7 +222,7 @@ short __fastcall SampleNetworkInput(int side)
                             buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_DOWN_LEFT, DIK_NUMPAD1);
                             buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_DOWN_RIGHT, DIK_NUMPAD3);
                             break;
-                        case 3:
+                        case INPUT_DEVICE_KEYBOARD_LEFT:
                             buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_SHOOT, DIK_Z);
                             buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_BOMB, DIK_X);
                             buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_FOCUS, DIK_LSHIFT);
@@ -224,7 +235,7 @@ short __fastcall SampleNetworkInput(int side)
                             buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_DOWN_LEFT, DIK_V);
                             buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_DOWN_RIGHT, DIK_N);
                             break;
-                        case 4:
+                        case INPUT_DEVICE_KEYBOARD_RIGHT:
                             buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_SHOOT, DIK_DOWN);
                             buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_BOMB, DIK_RIGHT);
                             buttons |= KEYBOARD_KEY_PRESSED(TH_BUTTON_FOCUS, DIK_LEFT);

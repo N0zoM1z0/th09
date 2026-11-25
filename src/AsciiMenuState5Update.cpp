@@ -38,6 +38,15 @@ static const unsigned short ASCII_INTERRUPT_SHOW = 1;
 // uses the real indexed slot with its original iteration order.
 
 
+enum AsciiGameOverMenuState
+{
+    ASCII_GAMEOVER_MENU_INIT = 0,
+    ASCII_GAMEOVER_MENU_SELECT_QUIT = 1,
+    ASCII_GAMEOVER_MENU_SELECT_CONTINUE = 2,
+    ASCII_GAMEOVER_MENU_CONFIRM_CONTINUE = 3,
+    ASCII_GAMEOVER_MENU_CONFIRM_QUIT = 4,
+};
+
 // Gameover updates its own state/frame counters and the actual
 // one-byte GameManager retry counter, without integer-pointer aliases.
 int AsciiMenuState5::OnUpdate()
@@ -57,7 +66,7 @@ int AsciiMenuState5::OnUpdate()
     }
 
     switch (this->state) {
-    case 0:
+    case ASCII_GAMEOVER_MENU_INIT:
         if (!g_GameManager.IsGameMode1()) {
             for (i = 0; i < 5; i++) {
                 g_AsciiManager.asciiAnm->SetAndExecuteScriptIdx(&this->menuSprites[i], i + 8);
@@ -80,7 +89,7 @@ int AsciiMenuState5::OnUpdate()
         this->frames = 0;
         // fallthrough
 
-    case 1:
+    case ASCII_GAMEOVER_MENU_SELECT_QUIT:
         this->menuSprites[1].color1 = COLOR_MENU_ITEM_NORMAL;
         this->menuSprites[2].color1 = COLOR_MENU_ITEM_SELECTED;
         this->menuSprites[1].pos2 = Float3(0.0f, 0.0f, 0.0f);
@@ -88,7 +97,7 @@ int AsciiMenuState5::OnUpdate()
 
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10) || g_AsciiInput.WasPressed(0x20)) {
-                this->state = 2;
+                this->state = ASCII_GAMEOVER_MENU_SELECT_CONTINUE;
                 g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
             if (g_AsciiInput.WasPressed(0x1001)) {
@@ -96,13 +105,13 @@ int AsciiMenuState5::OnUpdate()
                 for (i = 0; i < 5; i++) {
                     this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
                 }
-                this->state = 4;
+                this->state = ASCII_GAMEOVER_MENU_CONFIRM_QUIT;
                 this->frames = 0;
             }
         }
         break;
 
-    case 2:
+    case ASCII_GAMEOVER_MENU_SELECT_CONTINUE:
         this->menuSprites[2].color1 = COLOR_MENU_ITEM_NORMAL;
         this->menuSprites[1].color1 = COLOR_MENU_ITEM_SELECTED;
         this->menuSprites[2].pos2 = Float3(0.0f, 0.0f, 0.0f);
@@ -110,7 +119,7 @@ int AsciiMenuState5::OnUpdate()
 
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10) || g_AsciiInput.WasPressed(0x20)) {
-                this->state = 1;
+                this->state = ASCII_GAMEOVER_MENU_SELECT_QUIT;
                 g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
             if (g_AsciiInput.WasPressed(0x1001)) {
@@ -118,15 +127,15 @@ int AsciiMenuState5::OnUpdate()
                 for (i = 0; i < 5; i++) {
                     this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
                 }
-                this->state = 3;
+                this->state = ASCII_GAMEOVER_MENU_CONFIRM_CONTINUE;
                 this->frames = 0;
             }
         }
         break;
 
-    case 4:
+    case ASCII_GAMEOVER_MENU_CONFIRM_QUIT:
         if (this->frames >= 20) {
-            this->state = 0;
+            this->state = ASCII_GAMEOVER_MENU_INIT;
             this->frames = 0;
             g_GameManager.menuState97C8Active = 0;
             g_Supervisor.state590 = 6;
@@ -137,10 +146,10 @@ int AsciiMenuState5::OnUpdate()
             return 1;
         }
         break;
-    case 3:
+    case ASCII_GAMEOVER_MENU_CONFIRM_CONTINUE:
         if (this->frames >= 20) {
             if (!g_GameManager.IsGameMode1()) {
-                this->state = 0;
+                this->state = ASCII_GAMEOVER_MENU_INIT;
                 this->frames = 0;
                 g_GameManager.menuState97C8Active = 0;
                 for (i = 0; i < 5; i++) {

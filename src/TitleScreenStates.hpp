@@ -85,3 +85,37 @@ enum TitleKeyConfigMenuItem
     TITLE_KEYCONFIG_ITEM_RESET_DEFAULTS = 8,
     TITLE_KEYCONFIG_ITEM_QUIT = 9
 };
+
+// Title entry registration context passed to RegisterTitleScreen().
+enum TitleRegistrationContext
+{
+    TITLE_ENTRY_NORMAL = 0,
+    TITLE_ENTRY_RESULT_NAME_ENTRY = 1
+};
+
+// Shared sub-screen lifecycle phases across TitleScreen handlers.
+enum TitleSubscreenState
+{
+    TITLE_SUBSCREEN_STATE_INIT = 0,
+    TITLE_SUBSCREEN_STATE_ACTIVE = 1,
+    TITLE_SUBSCREEN_STATE_EXIT_QUIT = 2,
+    TITLE_SUBSCREEN_STATE_EXIT_TRANSITION = 3
+};
+
+// Replay menu phases (OnUpdateReplayMenu).
+enum TitleReplayMenuState
+{
+    TITLE_REPLAY_MENU_INIT = 0,
+    TITLE_REPLAY_MENU_SELECT_FILE = 1,
+    TITLE_REPLAY_MENU_SELECT_STAGE = 2
+};
+
+// Replay save phases (UpdateReplaySave).
+enum TitleReplaySaveState
+{
+    TITLE_REPLAY_SAVE_INIT = 0,
+    TITLE_REPLAY_SAVE_PROMPT_YES_NO = 1,
+    TITLE_REPLAY_SAVE_SELECT_SLOT = 2,
+    TITLE_REPLAY_SAVE_CONFIRM_OVERWRITE = 3,
+    TITLE_REPLAY_SAVE_ENTER_NAME = 4
+};

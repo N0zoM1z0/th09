@@ -56,26 +56,36 @@ void AnmVm::SetInterrupt(i16 interrupt)
 
 #include "AnmManagerSpriteHasTexture.inl"
 
+enum AnmDrawMode
+{
+    ANM_DRAW_MODE_NO_ROTATION = 0,
+    ANM_DRAW_MODE_NO_ROTATION_NO_ROUND = 1,
+    ANM_DRAW_MODE_2D = 2,
+    ANM_DRAW_MODE_2D_ROTATED_OR_AXIS_ALIGNED = 3,
+    ANM_DRAW_MODE_CAMERA_FACING_QUAD = 4,
+    ANM_DRAW_MODE_PROJECTED_3D_QUAD = 5,
+};
+
 void AnmManager::DrawPlayerBullet(AnmVm *vm)
 {
     switch (vm->playerBulletHitAnimationType)
     {
-    case 0:
+    case ANM_DRAW_MODE_NO_ROTATION:
         DrawNoRotation(vm);
         break;
-    case 1:
+    case ANM_DRAW_MODE_NO_ROTATION_NO_ROUND:
         DrawNoRotationNoRound(vm);
         break;
-    case 2:
+    case ANM_DRAW_MODE_2D:
         Draw2D(vm);
         break;
-    case 3:
+    case ANM_DRAW_MODE_2D_ROTATED_OR_AXIS_ALIGNED:
         Draw2DRotatedOrAxisAligned(vm);
         break;
-    case 4:
+    case ANM_DRAW_MODE_CAMERA_FACING_QUAD:
         DrawCameraFacingQuad(vm);
         break;
-    case 5:
+    case ANM_DRAW_MODE_PROJECTED_3D_QUAD:
         DrawProjected3DQuad(vm);
         break;
     }
