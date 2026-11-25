@@ -162,11 +162,11 @@ int FrontMessageRuntimeView::Update()
         FrontMessageInstructionView *instruction = current04;
         switch (instruction->opcode02)
         {
-        case 0:
+        case FRONT_MESSAGE_OPCODE_END:
             currentIndex08 = -1;
             return -1;
 
-        case 0x17:
+        case FRONT_MESSAGE_OPCODE_SET_PLAYER_UPDATE_STATE_1:
         {
             NativeFrontMessageSide(current04->argument04).player04->SetUpdateState(1);
             NativeFrontMessageSide(current04->argument04).player04->timer303C8 = 0;
@@ -175,7 +175,7 @@ int FrontMessageRuntimeView::Update()
 
         // Script and sprite identifiers supplied as signed native DWORDs
         // combine modulo 2^32 before the original ANM calls.
-        case 0x0F:
+        case FRONT_MESSAGE_OPCODE_FOCUS_SIDE_AND_SET_BOTH_PORTRAITS:
         {
             FrontMessageLongInstructionView *instruction =
                 reinterpret_cast<FrontMessageLongInstructionView *>(current04);
@@ -240,7 +240,7 @@ int FrontMessageRuntimeView::Update()
             break;
         }
 
-        case 0x11:
+        case FRONT_MESSAGE_OPCODE_FOCUS_PORTRAIT_AND_SET_SPRITE:
         {
             FrontMessageLongInstructionView *instruction =
                 reinterpret_cast<FrontMessageLongInstructionView *>(current04);
@@ -301,7 +301,7 @@ int FrontMessageRuntimeView::Update()
             break;
         }
 
-        case 0x1A:
+        case FRONT_MESSAGE_OPCODE_SET_TEXT_COLOR_AND_RESET:
         {
             unsigned char *arguments =
                 reinterpret_cast<unsigned char *>(&instruction->argument04);
@@ -310,7 +310,7 @@ int FrontMessageRuntimeView::Update()
             break;
         }
 
-        case 1:
+        case FRONT_MESSAGE_OPCODE_LOAD_PORTRAIT_SCRIPTS:
         {
             short portrait = *reinterpret_cast<short *>(&current04->argument04);
             if (portrait < 2)
@@ -353,7 +353,7 @@ int FrontMessageRuntimeView::Update()
             break;
         }
 
-        case 2:
+        case FRONT_MESSAGE_OPCODE_SET_PORTRAIT_SPRITE:
         {
             short *arguments =
                 reinterpret_cast<short *>(&current04->argument04);
@@ -397,7 +397,7 @@ int FrontMessageRuntimeView::Update()
             break;
         }
 
-        case 3:
+        case FRONT_MESSAGE_OPCODE_DRAW_TEXT_LINE:
         {
             short *arguments =
                 reinterpret_cast<short *>(&current04->argument04);
@@ -428,7 +428,7 @@ int FrontMessageRuntimeView::Update()
             break;
         }
 
-        case 0x10:
+        case FRONT_MESSAGE_OPCODE_DRAW_NEXT_TEXT_LINE:
         {
             unsigned char *text =
                 reinterpret_cast<unsigned char *>(&current04->argument04);
@@ -466,7 +466,7 @@ int FrontMessageRuntimeView::Update()
             break;
         }
 
-        case 4:
+        case FRONT_MESSAGE_OPCODE_WAIT:
         {
             FrontMessageInstructionView *instruction = current04;
             if (skippable1D6C && g_ReplayInputStates[ReplayNativeInputGateCapacity::SharedInputStateIndex].IsHeld(0x100))
@@ -492,7 +492,7 @@ int FrontMessageRuntimeView::Update()
             break;
         }
 
-        case 5:
+        case FRONT_MESSAGE_OPCODE_INTERRUPT_PORTRAIT:
         {
             short *arguments =
                 reinterpret_cast<short *>(&current04->argument04);
@@ -503,11 +503,11 @@ int FrontMessageRuntimeView::Update()
             break;
         }
 
-        case 6:
+        case FRONT_MESSAGE_OPCODE_INCREMENT_IGNORE_WAIT:
             ++ignoreWait1D68;
             break;
 
-        case 7:
+        case FRONT_MESSAGE_OPCODE_SET_MUSIC:
         {
             int music = current04->argument04;
             if (music < 0)
@@ -525,7 +525,7 @@ int FrontMessageRuntimeView::Update()
             break;
         }
 
-        case 8:
+        case FRONT_MESSAGE_OPCODE_SHOW_INTRO_GRAPHIC:
         {
             AsciiGameManagerSideView *side = &g_GameManager.sides[1];
             // This signed Player table word is combined with the opcode-8
@@ -539,42 +539,42 @@ int FrontMessageRuntimeView::Update()
             break;
         }
 
-        case 9:
+        case FRONT_MESSAGE_OPCODE_INIT_RESULT_BONUS_AND_FADE_MUSIC:
             g_GameManager.frontFactoryA8->InitializeResultBonus();
             // fall through
-        case 0x0C:
+        case FRONT_MESSAGE_OPCODE_FADE_OUT_MUSIC:
         {
             g_Supervisor.FadeOutMusic(4.0f);
             break;
         }
 
-        case 0x0E:
+        case FRONT_MESSAGE_OPCODE_START_SCREEN_FADE:
             g_FrontMessageScreenEffect = ScreenEffect::RegisterChain(
                 SCREEN_EFFECT_FULL_FADE_HOLD,
                 300, 0xFFFFFF, 0, 0, 35, 2);
             g_ScreenTransitionCountdown = 302;
             break;
 
-        case 0x0D:
+        case FRONT_MESSAGE_OPCODE_SET_SKIPPABLE:
             skippable1D6C =
                 *reinterpret_cast<unsigned char *>(&current04->argument04);
             break;
 
-        case 0x12:
+        case FRONT_MESSAGE_OPCODE_SET_TEXT_BOX_VISIBLE:
             textBoxVisible1D6D =
                 *reinterpret_cast<unsigned char *>(&current04->argument04);
             break;
 
-        case 0x18:
+        case FRONT_MESSAGE_OPCODE_START_SECONDARY_TIMER:
             secondaryTimer1D58 = 1;
             break;
 
-        case 0x19:
+        case FRONT_MESSAGE_OPCODE_LOAD_BOTH_FRONT_SIDE_SCRIPT_67:
             g_GameManager.sides[0].frontSide18->LoadScript67();
             g_GameManager.sides[1].frontSide18->LoadScript67();
             break;
 
-        case 0x1C:
+        case FRONT_MESSAGE_OPCODE_SET_PENDING_STAGE_LABEL:
             g_GameManager.sides[0].background00->pendingStageLabel18 =
                 current04->argument04;
             g_GameManager.sides[1].background00->pendingStageLabel18 =
@@ -583,10 +583,10 @@ int FrontMessageRuntimeView::Update()
 
         default:
             break;
-        case 0x0A:
+        case FRONT_MESSAGE_OPCODE_PAUSE_SCRIPT:
             goto run_scripts;
 
-        case 0x0B:
+        case FRONT_MESSAGE_OPCODE_TRIGGER_STAGE_TRANSITION:
             if (g_GameManager.IsGameMode0())
             {
                 if (!mode10)

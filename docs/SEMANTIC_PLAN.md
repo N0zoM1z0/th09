@@ -44,18 +44,20 @@ passing its required exact/CI/layout checks.
 Close each observed numeric domain with explicit TH09-evidenced enums and verify
 every affected TU with `scripts/replay-scoped-exact.py`:
 
-- [ ] **2.1 ECL operand selectors (`EclOperands.cpp`, 269 numeric cases):**
-  define `Th09EclOperandId` in `src/EclOpcodes.hpp` (or dedicated header) for
-  all `0x2710+` integer/float variable selectors and replace raw hex cases in
-  `ResolveInt`, `ResolveIntPtr`, `ResolveFloat`, `ResolveFloatPtr`, and
-  direct callers.
-- [ ] **2.2 Background stage-script & camera protocols (`BackgroundStageScript.cpp`, 51 numeric cases):**
+- [x] **2.1 ECL operand selectors (`EclOperands.cpp`, 269 numeric cases):**
+  define `Th09EclOperandId` in `src/EclOperandIds.hpp` for all `0x2710+`
+  integer/float variable selectors and replace raw hex cases in
+  `ResolveInt`, `ResolveIntLValue`, `ResolveFloatLValue`, and
+  `EnemyView::ResolveFloat`.
+- [x] **2.2 Background stage-script & camera protocols (`BackgroundStageScript.cpp`, 51 numeric cases):**
   define `BackgroundStageOpcode`, `BackgroundInterpolationMode`, and
   `BackgroundCameraMotionMode` in `src/Background.hpp` and replace numeric
-  `switch` cases and raw mode checks.
-- [ ] **2.3 FrontMessage dialogue script protocol (`FrontMessageUpdate.cpp`, 24 numeric cases):**
-  define `FrontMessageOpcode` (and input mask constants) from TH09-observed
-  handlers and replace raw opcode numbers.
+  `switch` cases and raw mode checks in `BackgroundStageScript.cpp`,
+  `BackgroundPendingStageLabel.cpp`, and `Background.cpp`.
+- [x] **2.3 FrontMessage dialogue script protocol (`FrontMessageUpdate.cpp`, 24 numeric cases):**
+  define `FrontMessageOpcode` in `src/FrontMessageTableView.hpp` from
+  TH09-observed handlers and replace raw opcode numbers in
+  `FrontMessageUpdate.cpp`.
 - [ ] **2.4 Stable audio IDs (`SoundPlayer.hpp`, 89 numeric `PlaySound*` calls):**
   inventory all TH09 sound buffer loads (`InitSoundBuffers` / `g_SoundBufferTable`)
   from target evidence, define `SoundIdx` in `src/SoundPlayer.hpp`, and replace

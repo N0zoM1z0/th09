@@ -133,30 +133,30 @@ static void InterpolateBackgroundCameraVector(
 
     switch (background->interpolationModes[index])
     {
-    case 1:
+    case BACKGROUND_INTERPOLATION_EASE_OUT_QUADRATIC:
         time = 1.0f - time;
         time = 1.0f - time * time;
         break;
-    case 2:
+    case BACKGROUND_INTERPOLATION_EASE_OUT_CUBIC:
         time = 1.0f - time;
         time = 1.0f - time * time * time;
         break;
-    case 3:
+    case BACKGROUND_INTERPOLATION_EASE_OUT_QUARTIC:
         time = 1.0f - time;
         time = 1.0f - time * time * time * time;
         break;
-    case 4:
+    case BACKGROUND_INTERPOLATION_EASE_IN_QUADRATIC:
         time = time * time;
         break;
-    case 5:
+    case BACKGROUND_INTERPOLATION_EASE_IN_CUBIC:
         time = time * time * time;
         break;
-    case 6:
+    case BACKGROUND_INTERPOLATION_EASE_IN_QUARTIC:
         time = time * time * time * time;
         break;
     }
 
-    if (background->interpolationModes[index] != 7)
+    if (background->interpolationModes[index] != BACKGROUND_INTERPOLATION_CUBIC_HERMITE)
     {
         *out = *end - *start;
         *out = (*out * time) + *start;
@@ -197,7 +197,7 @@ read_instruction:
 
         switch (instruction->opcode)
         {
-        case 0:
+        case BACKGROUND_OPCODE_SET_STAGE_POSITION_KEYFRAME:
             position = (*reinterpret_cast<D3DXVECTOR3 *>(reinterpret_cast<unsigned char *>(instruction) + offsetof(RawStageInstr, args)));
             background->stagePosition.x = position.x;
             background->stagePosition.y = position.y;
@@ -212,7 +212,7 @@ read_instruction:
                 (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 1:
+        case BACKGROUND_OPCODE_SET_FOG:
             background->skyFog.color = instruction->args[0];
             background->skyFog.nearPlane =
                 (reinterpret_cast<float *>(instruction->args)[1]);
@@ -221,13 +221,13 @@ read_instruction:
             background->skyFogFinal = background->skyFog;
             break;
 
-        case 2:
+        case BACKGROUND_OPCODE_START_FOG_INTERPOLATION:
             background->skyFogInitial = background->skyFog;
             background->skyFogInterpolationDuration = (instruction->args[0]);
             background->skyFogInterpolationTimer = 0;
             break;
 
-        case 5:
+        case BACKGROUND_OPCODE_SET_CAMERA_POSITION:
             if (background->compensateCameraJump != 0)
                 background->compensateCameraJump = 0;
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraPosition00 =
@@ -240,13 +240,13 @@ read_instruction:
                     (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 6:
+        case BACKGROUND_OPCODE_START_CAMERA_POSITION_INTERPOLATION:
             background->interpolationDuration[0] = (instruction->args[0]);
             background->interpolationTimers[0] = 0;
             background->interpolationModes[0] = (instruction->args[1]);
             break;
 
-        case 7:
+        case BACKGROUND_OPCODE_SET_CAMERA_LOOK_AT_OFFSET:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraLookAtOffset0C =
                 reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraLookAtOffset0C;
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraLookAtOffset0C =
@@ -257,13 +257,13 @@ read_instruction:
                     (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 8:
+        case BACKGROUND_OPCODE_START_CAMERA_LOOK_AT_INTERPOLATION:
             background->interpolationDuration[1] = (instruction->args[0]);
             background->interpolationTimers[1] = 0;
             background->interpolationModes[1] = (instruction->args[1]);
             break;
 
-        case 9:
+        case BACKGROUND_OPCODE_SET_CAMERA_UP:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraUp18 =
                 reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraUp18;
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraUp18 =
@@ -273,13 +273,13 @@ read_instruction:
                     (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 10:
+        case BACKGROUND_OPCODE_START_CAMERA_UP_INTERPOLATION:
             background->interpolationDuration[2] = (instruction->args[0]);
             background->interpolationModes[2] = (instruction->args[1]);
             background->interpolationTimers[2] = 0;
             break;
 
-        case 11:
+        case BACKGROUND_OPCODE_SET_CAMERA_FIELD_OF_VIEW:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).fieldOfView48 =
                 reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).fieldOfView48;
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).fieldOfView48 =
@@ -290,108 +290,108 @@ read_instruction:
                     (reinterpret_cast<float *>(instruction->args)[0]);
             break;
 
-        case 12:
+        case BACKGROUND_OPCODE_START_CAMERA_FIELD_OF_VIEW_INTERPOLATION:
             background->interpolationDuration[3] = (instruction->args[0]);
             background->interpolationTimers[3] = 0;
             background->interpolationModes[3] = (instruction->args[1]);
             break;
 
-        case 13:
+        case BACKGROUND_OPCODE_SET_CLEAR_COLOR:
             background->clearColor = instruction->args[0];
             break;
 
-        case 3:
+        case BACKGROUND_OPCODE_WAIT_FOR_STAGE_LABEL:
             if (background->pendingStageLabel18 == 0)
                 goto script_done;
             background->pendingStageLabel18 = 0;
             break;
 
-        case 4:
+        case BACKGROUND_OPCODE_JUMP:
             background->stageScriptInstructionIndex = (instruction->args[0]);
             background->stageScriptTimer = (instruction->args[1]);
             background->interpolationDuration[0] = 0;
             background->compensateCameraJump = 1;
             goto script_done;
 
-        case 14:
+        case BACKGROUND_OPCODE_SET_CAMERA_POSITION_START:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraPosition00 =
                 (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 15:
+        case BACKGROUND_OPCODE_SET_CAMERA_POSITION_TARGET:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraPosition00 =
                 (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 16:
+        case BACKGROUND_OPCODE_SET_CAMERA_POSITION_START_TANGENT:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentStart).cameraPosition00 =
                 (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 17:
+        case BACKGROUND_OPCODE_SET_CAMERA_POSITION_END_TANGENT:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentEnd).cameraPosition00 =
                 (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 18:
+        case BACKGROUND_OPCODE_START_CAMERA_POSITION_HERMITE:
             background->interpolationDuration[0] = (instruction->args[0]);
             background->interpolationTimers[0] = 0;
-            background->interpolationModes[0] = 7;
+            background->interpolationModes[0] = BACKGROUND_INTERPOLATION_CUBIC_HERMITE;
             break;
 
-        case 19:
+        case BACKGROUND_OPCODE_SET_CAMERA_LOOK_AT_START:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraLookAtOffset0C =
                 (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 20:
+        case BACKGROUND_OPCODE_SET_CAMERA_LOOK_AT_TARGET:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraLookAtOffset0C =
                 (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 21:
+        case BACKGROUND_OPCODE_SET_CAMERA_LOOK_AT_START_TANGENT:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentStart).cameraLookAtOffset0C =
                 (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 22:
+        case BACKGROUND_OPCODE_SET_CAMERA_LOOK_AT_END_TANGENT:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentEnd).cameraLookAtOffset0C =
                 (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 23:
+        case BACKGROUND_OPCODE_START_CAMERA_LOOK_AT_HERMITE:
             background->interpolationDuration[1] = (instruction->args[0]);
             background->interpolationTimers[1] = 0;
-            background->interpolationModes[1] = 7;
+            background->interpolationModes[1] = BACKGROUND_INTERPOLATION_CUBIC_HERMITE;
             break;
 
-        case 24:
+        case BACKGROUND_OPCODE_SET_CAMERA_UP_START:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraStart).cameraUp18 =
                 (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 25:
+        case BACKGROUND_OPCODE_SET_CAMERA_UP_TARGET:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTarget).cameraUp18 =
                 (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 26:
+        case BACKGROUND_OPCODE_SET_CAMERA_UP_START_TANGENT:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentStart).cameraUp18 =
                 (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 27:
+        case BACKGROUND_OPCODE_SET_CAMERA_UP_END_TANGENT:
             reinterpret_cast<BackgroundStageCameraRecord &>(background->cameraTangentEnd).cameraUp18 =
                 (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 28:
+        case BACKGROUND_OPCODE_START_CAMERA_UP_HERMITE:
             background->interpolationDuration[2] = (instruction->args[0]);
             background->interpolationTimers[2] = 0;
-            background->interpolationModes[2] = 7;
+            background->interpolationModes[2] = BACKGROUND_INTERPOLATION_CUBIC_HERMITE;
             break;
 
-        case 29:
+        case BACKGROUND_OPCODE_SET_STAGE_VM_0_SCRIPT:
             if ((instruction->args[0]) >= 0)
                 background->stageAnm->ExecuteAnmIdx(
                     &background->stageVm0, (instruction->args[0]));
@@ -399,7 +399,7 @@ read_instruction:
                 background->stageVm0.activeSpriteIndex = -1;
             break;
 
-        case 30:
+        case BACKGROUND_OPCODE_SET_STAGE_VM_1_SCRIPT:
             if ((instruction->args[0]) >= 0)
                 background->stageAnm->ExecuteAnmIdx(
                     &background->stageVm1, (instruction->args[0]));
@@ -407,21 +407,21 @@ read_instruction:
                 background->stageVm0.activeSpriteIndex = -1;
             break;
 
-        case 33:
+        case BACKGROUND_OPCODE_SET_CAMERA_MOTION_MODE:
             background->cameraMotionMode =
                 (reinterpret_cast<unsigned char *>(instruction)[offsetof(RawStageInstr, args) + (0)]);
             background->interpolationDuration[4] = 0;
             background->interpolationTimers[4] = 0;
-            background->interpolationModes[4] = 0;
+            background->interpolationModes[4] = BACKGROUND_INTERPOLATION_LINEAR;
             break;
 
-        case 32:
+        case BACKGROUND_OPCODE_SET_CAMERA_POSITION_OFFSET:
             (g_Supervisor.ctorArray078[background->viewportIndex])
                 .cameraPositionOffset3C =
                 (*reinterpret_cast<Float3 *>(instruction->args));
             break;
 
-        case 34:
+        case BACKGROUND_OPCODE_SET_STAGE_VM_2_SCRIPT:
             if ((instruction->args[0]) >= 0)
                 background->stageAnm->ExecuteAnmIdx(
                     &background->stageVm2, (instruction->args[0]));
@@ -429,7 +429,7 @@ read_instruction:
                 background->stageVm2.activeSpriteIndex = -1;
             break;
 
-        case 31:
+        case BACKGROUND_OPCODE_LABEL:
             break;
         }
 
@@ -491,25 +491,25 @@ script_done:
 
         switch (background->interpolationModes[3])
         {
-        case 1:
+        case BACKGROUND_INTERPOLATION_EASE_OUT_QUADRATIC:
             time = 1.0f - time;
             time = 1.0f - time * time;
             break;
-        case 2:
+        case BACKGROUND_INTERPOLATION_EASE_OUT_CUBIC:
             time = 1.0f - time;
             time = 1.0f - time * time * time;
             break;
-        case 3:
+        case BACKGROUND_INTERPOLATION_EASE_OUT_QUARTIC:
             time = 1.0f - time;
             time = 1.0f - time * time * time * time;
             break;
-        case 4:
+        case BACKGROUND_INTERPOLATION_EASE_IN_QUADRATIC:
             time = time * time;
             break;
-        case 5:
+        case BACKGROUND_INTERPOLATION_EASE_IN_CUBIC:
             time = time * time * time;
             break;
-        case 6:
+        case BACKGROUND_INTERPOLATION_EASE_IN_QUARTIC:
             time = time * time * time * time;
             break;
         }
@@ -527,11 +527,11 @@ script_done:
         reinterpret_cast<D3DXVECTOR3 *>(
             &(g_Supervisor.ctorArray078[background->viewportIndex]).cameraLookAtOffset0C));
 
-    if (background->cameraMotionMode != 0)
+    if (background->cameraMotionMode != BACKGROUND_CAMERA_MOTION_DISABLED)
     {
         switch (background->cameraMotionMode)
         {
-        case 1:
+        case BACKGROUND_CAMERA_MOTION_HORIZONTAL_SWAY:
         {
             (g_Supervisor.ctorArray078[background->viewportIndex])
                 .cameraPositionOffset3C.x = sinf(
@@ -542,7 +542,7 @@ script_done:
                 background->interpolationTimers[4] = 0;
             break;
         }
-        case 2:
+        case BACKGROUND_CAMERA_MOTION_HORIZONTAL_SWAY_AND_ROLL:
         {
             float angle =
                 (float)background->interpolationTimers[4] * 0.01308997f -
@@ -556,7 +556,7 @@ script_done:
                 background->interpolationTimers[4] = 0;
             break;
         }
-        case 4:
+        case BACKGROUND_CAMERA_MOTION_ORBIT_SWAY_AND_ROLL:
         {
             float angle =
                 (float)background->interpolationTimers[4] * 0.0030679617f -
@@ -572,7 +572,7 @@ script_done:
                 background->interpolationTimers[4] = 0;
             break;
         }
-        case 3:
+        case BACKGROUND_CAMERA_MOTION_ROTATE_UP_VECTOR:
         {
             float angle =
                 (float)background->interpolationTimers[4] * 0.0013089969f -

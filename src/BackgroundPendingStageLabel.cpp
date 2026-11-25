@@ -9,7 +9,7 @@ void Background::ApplyPendingStageLabel()
         int index = 0;
         this->stageScriptInstructionIndex = 0;
 
-        while (instruction->opcode != 31 || pending != instruction->args[0])
+        while (instruction->opcode != BACKGROUND_OPCODE_LABEL || pending != instruction->args[0])
         {
             if (instruction->frame == -1)
                 return;

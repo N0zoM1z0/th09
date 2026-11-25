@@ -216,7 +216,7 @@ int Background::AddedCallback(Background *background)
     background->skyFog.color = 0xFF000000;
     background->skyFog.nearPlane = 200.0f;
     background->skyFog.farPlane = 500.0f;
-    background->cameraMotionMode = 0;
+    background->cameraMotionMode = BACKGROUND_CAMERA_MOTION_DISABLED;
 
     for (int i = 0; i < 4; i++)
     {
