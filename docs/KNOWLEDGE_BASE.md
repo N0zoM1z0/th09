@@ -4341,6 +4341,14 @@ stage index 8 and round index 0. The round count advances in
 launcher under isolated Wine confirmed the opening-round exception,
 later-round protection and the existing P2, replay, attract and network paths.
 
+## 2026-11-25 Windows Sakuya Lunatic playthrough
+
+The operator completed Sakuya's Lunatic Story route on native Windows
+using the deployed playable build and the earlier practice launcher from
+`3f37c3b4`, which keeps local P1 protection active through the finale.
+The operator reported no issues during the run and confirmed that the
+ending story and closing animation both played normally.
+
 ## 2026-11-23 native DirectPlay startup and path storage
 
 The host Windows installation reports its DirectPlay feature enabled.

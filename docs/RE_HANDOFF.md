@@ -213,6 +213,10 @@ the adjacent image without starting the game.
 [Launcher source](../scripts/windows/practice-launcher.cpp)
 · [Window, audio and hit checks](KNOWLEDGE_BASE.md#2026-11-25-windows-practice-launcher)
 
+The operator completed Sakuya's Lunatic Story route with the earlier
+practice launcher and confirmed the ending story and animation on Windows.
+[Manual playthrough](KNOWLEDGE_BASE.md#2026-11-25-windows-sakuya-lunatic-playthrough)
+
 ## Player movement handoff
 
 The single-function exact reconstruction is paused for handoff. The
