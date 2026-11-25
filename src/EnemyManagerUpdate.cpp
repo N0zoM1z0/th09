@@ -18,25 +18,34 @@ void EnemyView::HandleDeathRewards(int hitKind)
     float rewardScalar;
 
     if (hitKind != 0)
-        this->manager00->sideState320->rewardPlayer04->rewardAttack30410
-            .ResetForEnemyReward();
+        reinterpret_cast<PlayerOwnerStateView *>(
+            &this->manager00->sideState320->rewardPlayer04->rewardAttack30410)
+            ->PrepareReset();
 
     if ((this->rewardFlags3380 & 0x2000) != 0)
     {
         EnemyFloat3 *worldPosition = &this->worldPosition2DD4;
         g_SoundPlayer.PlaySoundPositionedByIdx(SOUND_BOSS_DEATH, worldPosition->x);
-        this->manager00->sideState320->rewardPlayer04->rewardAttack30410
-            .QueueEnemyReward(worldPosition, 400, 0, 300, 1000);
-        this->manager00->sideState320->rewardPlayer04->SpawnDefeatToken(
-            this->defeatTokenType335C, &this->position2D74);
+        reinterpret_cast<PlayerOwnerStateView *>(
+            &this->manager00->sideState320->rewardPlayer04->rewardAttack30410)
+            ->ApplyRewardWithStateAdvance(
+                reinterpret_cast<PlayerPositionView *>(worldPosition), 400, 0, 300, 1000);
+        reinterpret_cast<PlayerLifecycleView *>(
+            this->manager00->sideState320->rewardPlayer04)
+            ->SpawnRewardTailState(
+                static_cast<int>(this->defeatTokenType335C),
+                reinterpret_cast<PlayerPositionView *>(&this->position2D74));
         return;
     }
 
     if ((this->rewardFlags3380 & 0x0C00) != 0)
     {
         g_SoundPlayer.PlaySoundPositionedByIdx(SOUND_BOSS_DEATH, this->worldPosition2DD4.x);
-        this->manager00->sideState320->rewardPlayer04->SpawnDefeatToken(
-            g_ReplayRng.GetRandomU16InRange(4), &this->position2D74);
+        reinterpret_cast<PlayerLifecycleView *>(
+            this->manager00->sideState320->rewardPlayer04)
+            ->SpawnRewardTailState(
+                g_ReplayRng.GetRandomU16InRange(4),
+                reinterpret_cast<PlayerPositionView *>(&this->position2D74));
     }
 
     EnemyFloat3 *worldPosition = &this->worldPosition2DD4;
@@ -146,8 +155,10 @@ void EnemyView::HandleDeathRewards(int hitKind)
     if (hitKind != 0)
         value = static_cast<int>(static_cast<unsigned int>(value) * 2u);
 
-    player->rewardAttack30410.QueueEnemyReward(
-        worldPosition, interval, spread, count, value);
+    reinterpret_cast<PlayerOwnerStateView *>(&player->rewardAttack30410)
+        ->ApplyRewardWithStateAdvance(
+            reinterpret_cast<PlayerPositionView *>(worldPosition),
+            interval, spread, count, value);
     // The reward wrapper advances state38. Reacquire both the Player and level.
     player = this->manager00->sideState320->rewardPlayer04;
     int rewardLevel = player->rewardAttack30410.rewardLevel38;
@@ -155,7 +166,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
     rewardScalar = rewardLevel > 128
         ? 2.0f
         : static_cast<float>(rewardLevel) * 0.0078125f + 1.0f;
-    player->AccumulateDefeatValue(rewardScalar);
+    reinterpret_cast<PlayerLifecycleView *>(player)->AddRespawnResource(rewardScalar);
 
     rewardTier = (this->rewardFlags3380 >> 6) & 7;
     if (rewardTier == 0 || rewardTier >= 3 || hitKind >= 2)

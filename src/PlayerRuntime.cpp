@@ -1,5 +1,4 @@
 #include "SoundPlayer.hpp"
-#include "PlayerState4OpsView.hpp"
 #include "PlayerLifecycleView.hpp"
 #include "AnmManager.hpp"
 #include "FileSystem.hpp"
@@ -292,7 +291,7 @@ static void UpdatePlayerBombState(PlayerLifecycleView *player)
                 2, 2, 0, player->primaryShtFile->modePath2);
             player->scalar30384 = 0.0f;
             player->scalar30388 = 0.0f;
-            player->SetBombMode2();
+            player->ConfigureState3Effect15();
         }
         else
         {
@@ -300,7 +299,7 @@ static void UpdatePlayerBombState(PlayerLifecycleView *player)
                 1, 1, 0, player->primaryShtFile->modePath1);
             player->scalar30384 = 100.0f;
             player->scalar30388 = 100.0f;
-            player->SetBombMode1();
+            player->ConfigureState3Effect14();
         }
         return;
     }
@@ -311,7 +310,7 @@ static void UpdatePlayerBombState(PlayerLifecycleView *player)
             1, 1, 0, player->primaryShtFile->modePath1);
         player->scalar30384 = 0.0f;
         player->scalar30388 = 0.0f;
-        player->SetBombMode1();
+        player->ConfigureState3Effect14();
         return;
     }
 
@@ -321,7 +320,7 @@ static void UpdatePlayerBombState(PlayerLifecycleView *player)
             0, 0, 0, player->primaryShtFile->modePath0);
         player->scalar30384 = 0.0f;
         player->scalar30388 = 0.0f;
-        player->SetBombMode0();
+        player->ConfigureState3Effect13();
     }
 }
 
@@ -563,12 +562,15 @@ static int PlayerCheckState4(PlayerLifecycleView *player)
     else
         respawnValue = 130.0f - player->header24.state84 * 10.0f;
 
-    PlayerState4OpsView *ops = reinterpret_cast<PlayerState4OpsView *>(player);
     player->AddRespawnResource(respawnValue);
     player->SetUpdateState(3);
     *timer = 60;
-    ops->SpawnTransitionA(&player->position1B88, 16.0f, 20.0f, 8, 0);
-    ops->SpawnTransitionB(&player->position1B88, 16.0f, 20.0f, 10, 8, 0);
+    player->CreateCircleType1(
+        reinterpret_cast<const PlayerRegionPointView *>(&player->position1B88),
+        16.0f, 20.0f, 8, 0);
+    player->CreateCircleType4(
+        reinterpret_cast<const PlayerRegionPointView *>(&player->position1B88),
+        16.0f, 20.0f, 10, 8, 0);
     return 0;
 }
 

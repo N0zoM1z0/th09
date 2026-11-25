@@ -10,7 +10,7 @@
 #include <d3d8.h>
 #include <d3dx8math.h>
 // Neutral view of the shared 0x0040F1C0 float absolute-value helper; owner/origin remain review.
-long double __stdcall AnmDraw3DAbs(float value);
+long double __stdcall AnmProjectionAbs(float value);
 
 typedef char VertexDiffuseXyzrhwSizeIs14[(sizeof(VertexDiffuseXyzrhw) == 0x14) ? 1 : -1];
 
@@ -95,11 +95,11 @@ int AnmManager::Draw3D(AnmVm *vm)
     if ((anchorBits & 1) == 0)
         worldTransformMatrix._41 = vm->pos.x;
     else
-        worldTransformMatrix._41 = AnmDraw3DAbs(vm->spriteSize.x * vm->scale.x / 2.0f) + vm->pos.x;
+        worldTransformMatrix._41 = AnmProjectionAbs(vm->spriteSize.x * vm->scale.x / 2.0f) + vm->pos.x;
     if ((anchorBits & 2) == 0)
         worldTransformMatrix._42 = vm->pos.y;
     else
-        worldTransformMatrix._42 = AnmDraw3DAbs(vm->spriteSize.y * vm->scale.y / 2.0f) + vm->pos.y;
+        worldTransformMatrix._42 = AnmProjectionAbs(vm->spriteSize.y * vm->scale.y / 2.0f) + vm->pos.y;
     worldTransformMatrix._41 += this->frameShakeX1C;
     worldTransformMatrix._42 += this->frameShakeY20;
 

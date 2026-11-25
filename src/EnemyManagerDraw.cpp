@@ -80,7 +80,7 @@ typedef char EnemyDrawNativeGameManagerCoordinates[
 // Both native draw-chain callbacks call the independently exact 71-byte
 // Supervisor::ConfigureScreenViewport, not a standalone Enemy-only method.
 // Independent target helpers.  Source ownership/names remain review.
-extern long double __stdcall EnemyDrawAbs(float value);
+extern long double __stdcall AnmProjectionAbs(float value);
 extern float __stdcall EnemyDrawCos(float angle);
 extern float __stdcall EnemyDrawSin(float angle);
 extern float __stdcall EnemyDrawInterpolateWrappedAngle(
@@ -243,7 +243,7 @@ static int EnemyManagerDrawImpl(
                                 if (nextSample < enemy->trailHistoryLength53A2)
                                 {
                                     // Preserve strict short-circuit sampling, including NaNs.
-                                    if (static_cast<float>(EnemyDrawAbs(previousAngle - angle)) <
+                                    if (static_cast<float>(AnmProjectionAbs(previousAngle - angle)) <
                                             0.00001f)
                                     {
                                         // Preserve the Float3/angle helper's float return,
@@ -254,7 +254,7 @@ static int EnemyManagerDrawImpl(
                                                 enemy->trailSamples33E8[static_cast<unsigned int>(sampleStride)].angle18,
                                                 0.5f);
                                         long double delta = angle - interpolated;
-                                        if (static_cast<float>(EnemyDrawAbs(
+                                        if (static_cast<float>(AnmProjectionAbs(
                                                 static_cast<float>(delta))) < 0.00001f)
                                         {
                                             vertexCount -= EnemyNativeTrailRenderCapacity::VerticesPerSample;

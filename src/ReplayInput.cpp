@@ -12,6 +12,11 @@
 #include "ZunMemory.hpp"
 #include "Lzss.hpp"
 #include "ReplayRuntimeLeaves.hpp"
+
+struct SupervisorVersionView
+{
+    int CheckVersion(const char *version, int exeSize, int exeChecksum);
+};
 #include "RngRuntimeLeaves.hpp"
 #include "ReplayInputState.hpp"
 #include "GameManagerRuntimeView.hpp"
@@ -294,7 +299,7 @@ ReplayDataView *ReplayManagerView::LoadReplayData(ReplayDataView *data, i32 file
         reinterpret_cast<u8 *>(replayData) + static_cast<u32>(replayData->fileSize),
         static_cast<u32>(fileSize) - static_cast<u32>(replayData->fileSize));
 
-    if (g_Supervisor.CheckVersion(
+    if (reinterpret_cast<SupervisorVersionView *>(&g_Supervisor)->CheckVersion(
             decodedReplay->exeVersion, decodedReplay->value1D4, decodedReplay->value1D8))
         goto err2;
 

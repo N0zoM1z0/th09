@@ -142,7 +142,10 @@ int PlayerLifecycleView::CalcDamageToEnemy(
                 // The completed shot bounds provide the two XY rotation workspaces.
                 shotTopLeft.x = position->x - (*slot)->centerX00;
                 shotTopLeft.y = position->y - (*slot)->centerY04;
-                PlayerDamageRotate(&shotBottomRight, &shotTopLeft, -(*slot)->angle20);
+                RotatePlayerCollisionVector(
+                    reinterpret_cast<PlayerPositionView *>(&shotBottomRight),
+                    reinterpret_cast<PlayerPositionView *>(&shotTopLeft),
+                    -(*slot)->angle20);
 
                 float halfWidth = hitbox->x * 0.5f;
                 if (-(*slot)->halfWidth10 > halfWidth + shotBottomRight.x ||

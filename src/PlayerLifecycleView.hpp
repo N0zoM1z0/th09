@@ -644,9 +644,7 @@ struct PlayerLifecycleView
         const PlayerRegionPointView *center, float radius, float radiusGrowth,
         int value, int lifetime, int delay);
     int UpdateMovementAndOptions();
-    void SetBombMode0();
-    void SetBombMode1();
-    void SetBombMode2();
+    // ConfigureState3Effect13/14/15 handle bomb modes 0/1/2 directly.
     int CheckBulletCollision(
         PlayerPositionView *position,
         PlayerPositionView *collisionSize,

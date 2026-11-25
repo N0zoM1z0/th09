@@ -53,14 +53,6 @@ struct EnemyRewardAttackStateView
     unsigned char unknown00[0x38];
     int rewardLevel38;
     unsigned char unknown3C[0x08];
-
-    void ResetForEnemyReward();
-    void QueueEnemyReward(
-        EnemyFloat3 *position,
-        int interval,
-        int spread,
-        int count,
-        int value);
 };
 typedef char EnemyRewardAttackStateSizeIs44[
     (sizeof(EnemyRewardAttackStateView) == 0x44) ? 1 : -1];
@@ -85,9 +77,6 @@ struct EnemyRewardPlayerView
     int tableValue303F4;
     unsigned char unknown303F8[0x30410 - 0x303F8];
     EnemyRewardAttackStateView rewardAttack30410;
-
-    void AccumulateDefeatValue(float amount);
-    void SpawnDefeatToken(unsigned int tokenType, EnemyFloat3 *position);
 };
 typedef char EnemyRewardPlayerNativeInitialStateAtA0[
     (offsetof(EnemyRewardPlayerView, initialStateA0) == 0xA0 &&

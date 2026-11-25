@@ -7,7 +7,6 @@
 struct SupervisorReplayView
 {
     int IsSpeedhackDetected();
-    int CheckVersion(char *versionString, int exeSize, int exeChecksum);
 
     unsigned char unknown000[0x5C8];
     short recordedFps;

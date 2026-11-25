@@ -28,7 +28,9 @@ typedef int (__fastcall *PlayerDamageShotCollisionCallback)(
     PlayerShotCtorView *shot,
     PlayerDamageFloat3 *targetPosition);
 
-void __fastcall PlayerDamageRotate(
-    PlayerDamageFloat3 *out,
-    PlayerDamageFloat3 *point,
+struct PlayerPositionView;
+
+void __fastcall RotatePlayerCollisionVector(
+    PlayerPositionView *out,
+    PlayerPositionView *point,
     float angle);

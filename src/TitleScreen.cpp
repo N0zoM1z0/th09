@@ -6,6 +6,7 @@
 // owner is target-proved; original identifier spelling, TU partition, and data-definition ownership remain unresolved.
 
 #include "ReplayInputState.hpp"
+#include "RngRuntimeLeaves.hpp"
 #include "TitleInputView.hpp"
 #include "TitleNativeNameKeyboard.hpp"
 #include "PlayStats.hpp"
@@ -171,12 +172,6 @@ struct TitleSideInputView {
     u32 currentInput;
     u16 pressedInput;
     u16 repeatInput;
-
-    u16 IsPressedScrolling(u16 mask);
-};
-
-struct TitleSelectionRandomView {
-    i32 NextU32();
 };
 
 // Title and independent Supervisor loading callbacks share this same
@@ -316,7 +311,7 @@ extern i32 g_TitleResultUnlockStep;
 extern ScreenEffect *g_TitleFadeReleaseEffect;
 extern TitleSideInputView g_TitleSide0Input;
 extern TitleSideInputView g_TitleSide1Input;
-extern TitleSelectionRandomView g_TitleSelectionRandom;
+extern RngRuntimeView g_Rng;
 extern void __fastcall PrepareTitleMode4Network(void *optionState);
 extern void __fastcall ResetTitleMode4Supervisor(TitleSupervisorView *supervisor);
 extern int SaveTitleScoreData();
@@ -1535,13 +1530,13 @@ int TitleScreenView::UpdateScreen8Mode0()
             }
             else
             {
-                if (g_TitleSide0Input.IsPressedScrolling(64))
+                if (reinterpret_cast<InputView *>(&g_TitleSide0Input)->IsPressedScrolling(64))
                 {
                     if (side0CharacterSetting > 1)
                         side0CharacterSetting--;
                     UpdateCharacterSettings(side0CharacterSetting, side1CharacterSetting);
                 }
-                if (g_TitleSide0Input.IsPressedScrolling(128))
+                if (reinterpret_cast<InputView *>(&g_TitleSide0Input)->IsPressedScrolling(128))
                 {
                     if (side0CharacterSetting < 10)
                         side0CharacterSetting++;
@@ -1551,7 +1546,7 @@ int TitleScreenView::UpdateScreen8Mode0()
 
             if (g_TitleSide0Input.currentInput & 0x100)
             {
-                side0CharacterCursor += g_TitleSelectionRandom.NextU32() & 0xF;
+                side0CharacterCursor += g_Rng.GetRandomU32() & 0xF;
                 if (side0CharacterCursor >= 16)
                     side0CharacterCursor -= 16;
                 MoveCharacterCursor(0, 1, g_TitleCharacterOrder, 16);
@@ -1588,13 +1583,13 @@ int TitleScreenView::UpdateScreen8Mode0()
             }
             else
             {
-                if (g_TitleSide1Input.IsPressedScrolling(64))
+                if (reinterpret_cast<InputView *>(&g_TitleSide1Input)->IsPressedScrolling(64))
                 {
                     if (side1CharacterSetting > 1)
                         side1CharacterSetting--;
                     UpdateCharacterSettings(side0CharacterSetting, side1CharacterSetting);
                 }
-                if (g_TitleSide1Input.IsPressedScrolling(128))
+                if (reinterpret_cast<InputView *>(&g_TitleSide1Input)->IsPressedScrolling(128))
                 {
                     if (side1CharacterSetting < 10)
                         side1CharacterSetting++;
@@ -1604,7 +1599,7 @@ int TitleScreenView::UpdateScreen8Mode0()
 
             if (g_TitleSide1Input.currentInput & 0x100)
             {
-                side1CharacterCursor += g_TitleSelectionRandom.NextU32() & 0xF;
+                side1CharacterCursor += g_Rng.GetRandomU32() & 0xF;
                 if (side1CharacterCursor >= 16)
                     side1CharacterCursor -= 16;
                 MoveCharacterCursor(1, 1, g_TitleCharacterOrder, 16);
@@ -2056,7 +2051,7 @@ int TitleScreenView::UpdateScreen16()
 
         if (g_TitleInput.currentInput & 0x100)
         {
-            keyboardSelection += g_TitleSelectionRandom.NextU32() & 0xF;
+            keyboardSelection += g_Rng.GetRandomU32() & 0xF;
             if (keyboardSelection >= 16)
                 keyboardSelection -= 16;
             UpdateScreen16SelectionVisuals(0, (g_TitleScreen16Entries[keyboardSelection]),

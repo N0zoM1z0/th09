@@ -9,6 +9,12 @@
 #include <new>
 #include <stdlib.h>
 
+struct EnemyEclManagerReleaseView
+{
+    void *rawFile00;
+    void ReleaseRawFile();
+};
+
 extern Chain g_Chain;
 
 static int EnemyManagerReleaseCore(EnemyManagerView *manager)
@@ -23,8 +29,10 @@ static int EnemyManagerReleaseCore(EnemyManagerView *manager)
     } while (remaining != 0);
 
     g_AnmManager->ReleaseAnm(9);
-    manager->primaryEclManager000.ReleaseRawFile();
-    manager->opposingEclManager188.ReleaseRawFile();
+    reinterpret_cast<EnemyEclManagerReleaseView *>(
+        &manager->primaryEclManager000)->ReleaseRawFile();
+    reinterpret_cast<EnemyEclManagerReleaseView *>(
+        &manager->opposingEclManager188)->ReleaseRawFile();
     return 0;
 }
 

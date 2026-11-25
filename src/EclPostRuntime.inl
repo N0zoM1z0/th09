@@ -24,14 +24,18 @@ typedef void (__fastcall *EnemySpecialInteractionCallback)(
     EnemyEclPlayerView *player,
     EnemyView *enemy);
 
+struct PlayerPositionView;
+struct PlayerPositionCallbackView
+{
+    int InvokePositionCallback(PlayerPositionView *position);
+};
+
 struct EnemyEclPlayerView
 {
     unsigned char unknown00000[0x364];
     int interactionState364;
     unsigned char unknown00368[0x30408 - 0x00368];
     EnemySpecialInteractionCallback interactionCallback30408;
-
-    int CheckEnemyInteraction(EnemyFloat3 *position);
 };
 typedef char EnemyEclPlayerStateAt364[
     (offsetof(EnemyEclPlayerView, interactionState364) == 0x364) ? 1 : -1];
@@ -233,8 +237,9 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
         {
             EnemyEclPlayerView *player = PostEclPlayer(enemy);
             if (player->interactionState364 != 0 &&
-                player->CheckEnemyInteraction(
-                    &enemy->position2D74))
+                reinterpret_cast<PlayerPositionCallbackView *>(player)
+                    ->InvokePositionCallback(
+                        reinterpret_cast<PlayerPositionView *>(&enemy->position2D74)))
             {
                 enemy->secondaryFlags3380 |= ENEMY_INTERACTION_TRIGGERED;
                 enemy->manager00->enemyAnm2AC420->SetAndExecuteScriptIdx(

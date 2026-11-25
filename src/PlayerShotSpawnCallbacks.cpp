@@ -4,29 +4,14 @@ struct PlayerShotSpawnPlayerView;
 struct PlayerShotSpawnShotView;
 struct PlayerShotSpawnDescriptorView;
 
-struct PlayerShotSpawnVec3
-{
-    float x;
-    float y;
-    float z;
-};
-
-struct PlayerShotSpawnEffectView;
-struct PlayerShotSpawnEffectManagerView
+struct EffectFixedSlotRecordView;
+struct EffectFixedSlotManagerView
 {
     unsigned char unknown00[0x30];
     Effect *effects30;
 
-    PlayerShotSpawnEffectView *GetFixedSlotEffect(int slot);
-    PlayerShotSpawnEffectView *SpawnEffectInFixedSlot(
-        int effectId, const PlayerShotSpawnVec3 *position,
-        int slotIndex, unsigned int color);
+    EffectFixedSlotRecordView *GetFixedSlotEffect(int slot);
 };
-
-
-struct PlayerShotSpawnPlayerView;
-struct PlayerShotSpawnShotView;
-struct PlayerShotSpawnDescriptorView;
 
 int __fastcall PlayerShotSpawnCallbackType2(
     PlayerShotSpawnPlayerView *player,
@@ -61,11 +46,11 @@ int __fastcall PlayerShotSpawnCallbackType4(
         reinterpret_cast<PlayerLifecycleView *>(player);
     if (value == reinterpret_cast<PlayerShtDescriptorView *>(entry)->fireInterval)
     {
-        reinterpret_cast<PlayerShotSpawnEffectManagerView *>(
-            nativePlayer->sideState->effectManager0C)->SpawnEffectInFixedSlot(
-                TH09_EFFECT_PLAYER_SHOT_SPAWN, reinterpret_cast<const PlayerShotSpawnVec3 *>(
-                    &nativePlayer->position1B88), 5,
-                static_cast<unsigned int>(-1));
+        nativePlayer->sideState->effectManager0C->SpawnEffectInFixedSlot(
+            TH09_EFFECT_PLAYER_SHOT_SPAWN,
+            reinterpret_cast<const EffectFloat3 *>(&nativePlayer->position1B88),
+            5,
+            static_cast<unsigned int>(-1));
     }
     return 0;
 }
@@ -78,8 +63,8 @@ int __fastcall PlayerShotSpawnCallbackType5(
 {
     PlayerLifecycleView *nativePlayer =
         reinterpret_cast<PlayerLifecycleView *>(player);
-    PlayerShotSpawnEffectManagerView *effectManager =
-        reinterpret_cast<PlayerShotSpawnEffectManagerView *>(
+    EffectFixedSlotManagerView *effectManager =
+        reinterpret_cast<EffectFixedSlotManagerView *>(
             nativePlayer->sideState->effectManager0C);
     Effect *effect = reinterpret_cast<Effect *>(
         effectManager->GetFixedSlotEffect(5));

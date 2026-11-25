@@ -43,14 +43,14 @@ void PlayerLifecycleView::EnterDeathState()
                     opponentState->cardAttack14->StartAttack(2, 2, 0, primaryShtFile->modePath2);
                     scalar30384 = 0.0f;
                     scalar30388 = 0.0f;
-                    SetBombMode2();
+                    ConfigureState3Effect15();
                     return;
                 }
 
                 opponentState->cardAttack14->StartAttack(1, 1, 0, primaryShtFile->modePath1);
                 scalar30384 = 100.0f;
                 scalar30388 = 100.0f;
-                SetBombMode1();
+                ConfigureState3Effect14();
                 return;
             }
             if (scalar30388 >= 300.0f)
@@ -58,7 +58,7 @@ void PlayerLifecycleView::EnterDeathState()
                 opponentState->cardAttack14->StartAttack(1, 1, 0, primaryShtFile->modePath1);
                 scalar30384 = 0.0f;
                 scalar30388 = 0.0f;
-                SetBombMode1();
+                ConfigureState3Effect14();
                 return;
             }
 
@@ -67,7 +67,7 @@ void PlayerLifecycleView::EnterDeathState()
                 opponentState->cardAttack14->StartAttack(0, 0, 0, primaryShtFile->modePath0);
                 scalar30384 = 0.0f;
                 scalar30388 = 0.0f;
-                SetBombMode0();
+                ConfigureState3Effect13();
                 return;
             }
             return;

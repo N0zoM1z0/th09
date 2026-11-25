@@ -20,10 +20,14 @@ extern TitleFactoryView *g_TitleScreenFactory;
 extern unsigned char g_TitleRegistrationByte;
 extern Chain g_Chain;
 
+struct TitleScreenView
+{
+    static int __fastcall AddedCallback(TitleScreenView *titleScreen);
+    static int __fastcall DeletedCallback(TitleScreenView *titleScreen);
+};
+
 int TitleCalcCallback(void *titleScreen);
 int TitleDrawCallback(void *titleScreen);
-int TitleAddedCallback(void *titleScreen);
-int TitleDeletedCallback(void *titleScreen);
 
 int __fastcall RegisterTitleScreen(int registrationContext)
 {
@@ -40,9 +44,9 @@ int __fastcall RegisterTitleScreen(int registrationContext)
         g_Chain.CreateElem(reinterpret_cast<ChainCallback>(TitleCalcCallback));
     title->calcChain1B248->arg = title;
     title->calcChain1B248->addedCallback =
-        reinterpret_cast<ChainLifetimeCallback>(TitleAddedCallback);
+        reinterpret_cast<ChainLifetimeCallback>(TitleScreenView::AddedCallback);
     title->calcChain1B248->deletedCallback =
-        reinterpret_cast<ChainLifetimeCallback>(TitleDeletedCallback);
+        reinterpret_cast<ChainLifetimeCallback>(TitleScreenView::DeletedCallback);
     if (g_Chain.AddToCalcChain(title->calcChain1B248, 4) != 0)
         return -1;
 
