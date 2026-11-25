@@ -59,7 +59,7 @@ typedef char BulletNativeGameManagerOwner[
      offsetof(BulletSideStateView, effectManager0C) == 0x0C) ? 1 : -1];
 
 extern int g_BulletSpriteOffsetSmall[];
-extern int g_BulletSpriteOffsetMedium[];
+int g_BulletSpriteOffsetMedium[8] = { 0, 1, 1, 2, 2, 3, 4, 0 };
 
 
 static const float kPi = 3.1415927f;

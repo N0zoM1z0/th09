@@ -17,7 +17,24 @@ typedef char EndingSupervisorNativeTextOwner[
 extern unsigned int g_EndingLifecycleFlags;
 extern int g_EndingActive;
 extern ScreenEffect *g_TitleFadeReleaseEffect;
-extern const char *g_EndingFilePaths[16];
+const char *g_EndingFilePaths[16] = {
+    "end00.end",
+    "end01.end",
+    "end02.end",
+    "end03.end",
+    "end04.end",
+    "end05.end",
+    "end06.end",
+    "end07.end",
+    "end08.end",
+    "end09.end",
+    "end10.end",
+    "end11.end",
+    "end12.end",
+    "end13.end",
+    NULL,
+    NULL,
+};
 
 // Ending scripts select the actual sixteen-element global path table.
 // Keep the original live character selector without caching the table row.

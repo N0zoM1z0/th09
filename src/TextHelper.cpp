@@ -12,6 +12,16 @@ struct TextHelperBitmapInfo
 
 typedef char TextHelperBitmapInfoSizeIs6C[(sizeof(TextHelperBitmapInfo) == 0x6C) ? 1 : -1];
 
+TextHelperFormatInfo g_TextHelperFormats[7] = {
+    { D3DFMT_X8R8G8B8, 32, 0x00000000u, 0x00FF0000u, 0x0000FF00u, 0x000000FFu },
+    { D3DFMT_A8R8G8B8, 32, 0xFF000000u, 0x00FF0000u, 0x0000FF00u, 0x000000FFu },
+    { D3DFMT_X1R5G5B5, 16, 0x00000000u, 0x00007C00u, 0x000003E0u, 0x0000001Fu },
+    { D3DFMT_R5G6B5,   16, 0x00000000u, 0x0000F800u, 0x000007E0u, 0x0000001Fu },
+    { D3DFMT_A1R5G5B5, 16, 0x00008000u, 0x00007C00u, 0x000003E0u, 0x0000001Fu },
+    { D3DFMT_A4R4G4B4, 16, 0x0000F000u, 0x00000F00u, 0x000000F0u, 0x0000000Fu },
+    { (D3DFORMAT)-1,    0, 0x00000000u, 0x00000000u, 0x00000000u, 0x00000000u },
+};
+
 TextHelper::TextHelper()
 {
     this->format = (D3DFORMAT)-1;

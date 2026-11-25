@@ -6,8 +6,8 @@
 #include <string.h>
 #include "FrontMessageRuntimeView.hpp"
 
-extern FrontMessageTableView *g_FrontMessagePrimaryCache;
-extern FrontMessageTableView *g_FrontMessageSecondaryCache;
+FrontMessageTableView *g_FrontMessagePrimaryCache = NULL;
+FrontMessageTableView *g_FrontMessageSecondaryCache = NULL;
 extern FrontMessageSourceView *g_FrontMessageSource;
 extern GameErrorContext g_GameErrorContext;
 extern const char g_FrontMessageLoadError[];

@@ -37,7 +37,13 @@ typedef char ResultDrawTimer2At1B230[
     (offsetof(TitleScreenView, stateTimer2) == 0x1B230) ? 1 : -1];
 
 extern AsciiManager g_AsciiManager;
-extern const char *g_TitleRankLabels[];
+const char *g_TitleRankLabels[5] = {
+    "1st",
+    "2nd",
+    "3rd",
+    "4th",
+    "5th",
+};
 extern char *g_TitleAlphabet;
 
 // The native title score table is a [16][5][5] array of 0x2C-byte

@@ -102,11 +102,21 @@ typedef char PlayerRuntimeNativeTrackingResetAt30364[
 extern AnmManager *g_AnmManager;
 extern PlayerShtFileView *g_PlayerShtFilesBySide[2];
 extern PlayerResourcePathView g_PlayerResourcePaths[];
-extern int g_PlayerTable303F0[];
-extern int g_PlayerTable303F4[];
-extern int g_PlayerTable303F8[];
-extern int g_PlayerTable303FC[];
-extern int g_PlayerTable30400[];
+int g_PlayerTable303F0[16] = {
+    10, 10, 19, 10, 10, 10, 9, 12, 15, 15, 13, 12, 12, 14, 9, 9,
+};
+int g_PlayerTable303F4[16] = {
+    29, 29, 38, 31, 29, 29, 29, 10, 13, 13, 11, 10, 10, 12, 29, 29,
+};
+int g_PlayerTable303F8[16] = {
+    15, 15, 24, 15, 15, 15, 14, 17, 20, 20, 18, 17, 17, 19, 14, 14,
+};
+int g_PlayerTable303FC[16] = {
+    42, 42, 45, 45, 38, 41, 41, 43, 40, 42, 40, 40, 41, 44, 34, 41,
+};
+int g_PlayerTable30400[16] = {
+    23, 23, 32, 23, 23, 23, 22, 25, 28, 28, 26, 25, 25, 27, 22, 22,
+};
 extern void *g_PlayerCallback30404[];
 extern void *g_PlayerCallback30408[];
 extern void *g_PlayerCallback30450[];

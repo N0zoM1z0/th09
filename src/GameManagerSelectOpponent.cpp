@@ -11,7 +11,30 @@ extern int g_FrontRuntimeValues90[4];
 extern OpponentSelectionEntry g_OpponentEntries[];
 extern OpponentSelectionEntry *g_OpponentLists[];
 extern int g_OpponentParameterTable[];
-extern int g_OpponentModeValues[];
+int g_OpponentModeValues[80] = {
+    10, 30, 50, 60, 0,
+    0x00E8F0FF, 0x00F0E8FF, 0x00FFE8F0, 0x00FFE8F0,
+    0x00E8F0FF, 0x00F0E8FF, 0x00FFE8F0, 0x00FFE8F0,
+    0x00E8F0FF, 0x00F0E8FF, 0x00FFE8F0, 0x00FFE8F0,
+    0x00E8F0FF, 0x00F0E8FF, 0x00FFE8F0, 0x00FFE8F0,
+    0x00E8F0FF, 0x00F0E8FF, 0x00FFE8F0, 0x00FFE8F0,
+    0x00E8F0FF, 0x00F0E8FF, 0x00FFE8F0, 0x00FFE8F0,
+    0x00E8F0FF, 0x00F0E8FF, 0x00FFE8F0, 0x00FFE8F0,
+    0x00E8F0FF, 0x00F0E8FF, 0x00FFE8F0, 0x00FFE8F0,
+    0x00E8F0FF, 0x00F0E8FF, 0x00FFE8F0, 0x00FFE8F0,
+    0x00E8F0FF, 0x00F0E8FF, 0x00FFE8F0, 0x00FFE8F0,
+    0x00E8F0FF, 0x00F0E8FF, 0x00FFE8F0, 0x00FFE8F0,
+    0x00E8F0FF, 0x00F0E8FF, 0x00FFE8F0, 0x00FFE8F0,
+    1, 2, 0,
+    3, 4, 0,
+    5, 6, 0,
+    7, 8, 0,
+    7, 9, 0,
+    10, 11, 0,
+    12, 13, 15,
+    12, 14, 15,
+    16, 17, 0,
+};
 
 // Opponent selection uses the real list, weight, mode and unlock arrays,
 // together with the two native gameplay-side records. Original signed

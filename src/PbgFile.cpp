@@ -2,6 +2,12 @@
 
 #include <string.h>
 
+char *g_PbgFileOpenModes[3] = {
+    "r",
+    "w",
+    "a",
+};
+
 PbgFileView::PbgFileView()
 {
     handle = INVALID_HANDLE_VALUE;

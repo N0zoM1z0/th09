@@ -31,8 +31,12 @@ typedef char ExAttackDifficultyAt11C[
     (offsetof(ExAttackGameManagerView, difficulty) == 0x11C) ? 1 : -1];
 
 extern ExAttackGameManagerView g_GameManager;
-extern int g_ExAttackBaseLimitTable[];
-extern int g_ExAttackDifficultyScaleTable[];
+int g_ExAttackBaseLimitTable[21] = {
+    9, 8, 11, 20, 15, 25, 9, 9, 10, 10, 20, 10, 9, 10, 10, 10, 20, 20, 20, 20, 20,
+};
+int g_ExAttackDifficultyScaleTable[15] = {
+    1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+};
 extern ZunMemory g_ZunMemory;
 
 // The base-limit and difficulty-scale data are original DWORD arrays.

@@ -33,7 +33,24 @@ struct BackgroundStageFiles
     const char *anmPath;
     const char *stdPath;
 };
-extern BackgroundStageFiles g_BackgroundStageFiles[];
+BackgroundStageFiles g_BackgroundStageFiles[16] = {
+    { "world01.anm", "world01.std" },
+    { "world00.anm", "world00.std" },
+    { "world03.anm", "world03.std" },
+    { "world04.anm", "world04.std" },
+    { "world05.anm", "world05.std" },
+    { "world06.anm", "world06.std" },
+    { "world07.anm", "world07.std" },
+    { "world01.anm", "world01.std" },
+    { "world09.anm", "world09.std" },
+    { "world10.anm", "world10.std" },
+    { "world11.anm", "world11.std" },
+    { "world12.anm", "world12.std" },
+    { "world13.anm", "world13.std" },
+    { "world09.anm", "world09m.std" },
+    { "world11.anm", "world11m.std" },
+    { "world13.anm", "world13m.std" },
+};
 
 // Spell and stage VM indices select the real 0x2A4-byte ANM allocations.
 // Stage visibility checks use the original VM's +0x214 activeSpriteIndex,

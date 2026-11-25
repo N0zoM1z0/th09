@@ -198,7 +198,20 @@ float *PlayerLifecycleView::ResolvePatternOffset(
 namespace {
 
 extern PlayerPatternConfig g_PlayerPatternConfigs[];
-extern int g_PlayerPatternGrid[12][10];
+int g_PlayerPatternGrid[12][10] = {
+    { 0, 0, 4, 6, 8, 1, 5, 3, 7, 2 },
+    { 0, 0, 1, 6, 5, 4, 3, 8, 7, 2 },
+    { 0, 0, 1, 5, 6, 3, 4, 7, 8, 2 },
+    { 0, 0, 3, 5, 7, 1, 6, 4, 8, 2 },
+    { 0, 0, 4, 8, 6, 2, 7, 3, 5, 1 },
+    { 0, 0, 4, 3, 2, 8, 7, 6, 5, 1 },
+    { 0, 0, 3, 4, 2, 7, 8, 5, 6, 1 },
+    { 0, 0, 3, 7, 5, 2, 8, 4, 6, 1 },
+    { 0, 0, 4, 8, 8, 2, 7, 3, 7, 2 },
+    { 0, 0, 4, 3, 2, 8, 7, 8, 7, 2 },
+    { 0, 0, 3, 4, 2, 7, 8, 7, 8, 2 },
+    { 0, 0, 3, 7, 7, 2, 8, 4, 8, 2 },
+};
 extern int g_PlayerPatternFlags[];
 extern int g_PlayerPatternAlternates[];
 

@@ -72,7 +72,11 @@ typedef char FrontSideNativeTimerRoles[
 extern Chain g_Chain;
 extern AsciiGameManagerView g_GameManager;
 
-extern const char *g_FrontSideAuxPaths[];
+const char *g_FrontSideAuxPaths[3] = {
+    "pl06_fc_s.anm",
+    "pl06b_fc_s.anm",
+    NULL,
+};
 
 // The HUD's VM groups, the GameManager side records, and the auxiliary
 // resource paths are already declared with their native array layouts.

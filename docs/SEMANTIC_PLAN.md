@@ -112,8 +112,56 @@ Modeled on TH08's `readability/maintainer-navigation` pass:
 - [x] **4.4 Streamline `README.md`:** link the new navigation and semantic docs
   cleanly and verify with `scripts/validate-docs.py`.
 
-### Phase 5: Optional follow-on (native data ownership closure)
+### Phase 5: Native C++ global data ownership closure (matching TH08)
 
-- [ ] **5.1 Global data migration:** replace selected `ProductData.asm` tables
-  and globals with natural C++ definitions where exact comparison and PI link
-  checks remain green, and advance `config/build.toml` beyond `skeleton`.
+Baseline verified at `aa659141`: full PI builds (`trial.exe`, `trial-reversed.exe`,
+`trial-playable.exe`, `385/385` carriers), `verify-trial-layouts.py` green
+(`1,085/1,085` code units moved, `611/612` data labels moved), and 300-frame
+Wine replay (`demorpy0.rpy`) bit-for-bit identical between retail and
+`trial-playable.exe`.
+
+Current `build/product/ProductData.asm` inventory: `479` blocks / `612` labels
+(`0x4002d` bytes):
+- `CONST` (`.rdata`): `364` blocks (`8,397` B) — `128` named blocks + `236` anonymous `th09_rdata_*` strings referenced by `_DATA` pointer tables
+- `_DATA` (`.data`): `64` blocks (`13,372` B) — `44` single-label tables + `6` multi-label tables + `14` `g_OpponentLists` sub-arrays
+- `_BSS` (`.bss`): `51` blocks (`240,420` B) — `35` standalone globals + `11` small 2–3 label pairs + `5` multi-label owner objects (`g_GameManager`, `g_Supervisor`, `g_ReplayInputStates`, `g_PlayStatsRecord`, `g_GameWindow`)
+
+Goal: migrate all `479` blocks / `612` labels into natural C++ definitions so
+`ProductData.asm` reaches `0` blocks / `0` labels while keeping `1,036 / 1,037`
+exact codegen, `player-movement` frontier unchanged, and full PI + Wine replay
+verification green.
+
+- [x] **5.1 Single-label `_DATA` tables & string-pointer tables:**
+  migrated 32 standalone `_DATA` tables (2,822 bytes, 153 string pointers) across
+  18 owning `.cpp` files (`PlayerGameplayState`, `EndingAddedCallback`,
+  `BulletManager`, `ExAttackAddedCallback`, `Background`, `GameManagerSelectOpponent`,
+  `FrontSide`, `PlayerRuntime`, `TitleScreenRegister`, `TitleScreenResultDraw`,
+  `TitleScreenMusicRoom`, `TitleScreenOptions`, `TitleScreenKeyConfig`, `PbgFile`,
+  `TextHelper`, `SoundPlayerProcessQueues`, `SupervisorAudio`, `FrontMessageLoad`),
+  retiring **172 blocks & 172 labels** from `ProductData.asm` (`479 -> 307` blocks,
+  `612 -> 440` labels, `552 -> 399` data relocations); verified `176/176` exact
+  units, bit-for-bit retail parity on all 32 tables + 153 strings across both
+  `trial.exe` and `trial-reversed.exe`, `verify-trial-layouts.py`, and `ci.py`.
+- [ ] **5.2 Callback/template `_DATA` tables, multi-label `_DATA` tables & `g_OpponentLists`:**
+  migrate `g_CardAttackCallbackRows`, `g_EffectTemplates`, `g_ExAttackTemplates`,
+  player shot/callback tables, `g_OpponentEntries` + `g_OpponentLists[14]`
+  (retiring all 14 `th09_data_004A2300..004A34E0` blocks), and the 6 multi-label
+  `_DATA` blocks (`g_PlayerPatternConfigs`/`g_PlayerTimingTable`,
+  `g_PlayerResourcePaths`/`g_EnemyCharacterResources`,
+  `g_OpponentParameterTable`/`g_TransitionResultTable*`,
+  `g_BulletSpriteOffsetSmall`/`g_LaserColorSpriteOffsets`,
+  `FileSystem::g_DecryptParams`/`g_CryptSignature`,
+  `g_FrontMessageScreenEffect`/`g_TitleFadeReleaseEffect`). Target: `_DATA = 0` blocks.
+- [ ] **5.3 Named `CONST` (`.rdata`) strings & lookup tables:**
+  migrate all remaining `128` named `CONST` blocks (error/log/format/DirectInput/DirectPlay
+  strings and `const` arrays) to natural C++ `const` definitions. Target: `CONST = 0` blocks.
+- [ ] **5.4 Standalone `_BSS` globals & small 2–3 label `_BSS` pairs:**
+  define all `35` standalone `_BSS` globals and unify the `11` small 2–3 label
+  `_BSS` pairs onto single owning C++ definitions.
+- [ ] **5.5 Multi-label `_BSS` owner objects (`g_GameWindow`, `g_PlayStatsRecord`, `g_ReplayInputStates`, `g_Supervisor`, `g_GameManager`):**
+  retire all interior-offset global aliases in `src/`, define all `5` canonical
+  global objects in natural C++, and bring `ProductData.asm` to `0` blocks / `0` labels.
+- [ ] **5.6 Final closure & Wine end-to-end replay verification:**
+  clean up remaining product link glue (`ProductStaticInit.cpp` / `config/build.toml` /
+  docs), verify full normal/reversed/playable/base-relocatable PI links, Wine
+  replay parity, and `scripts/ci.py --full`.

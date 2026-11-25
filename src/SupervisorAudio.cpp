@@ -40,7 +40,27 @@ typedef char SupervisorMusicTrackRecordSizeIs10[
     (sizeof(SupervisorMusicTrackRecord) == 0x10) ? 1 : -1];
 }
 
-extern SupervisorMusicTrackRecord g_SupervisorMusicTracks[];
+SupervisorMusicTrackRecord g_SupervisorMusicTracks[19] = {
+    {  0, "th09_00.mid",   -1,  0 },
+    {  2, "th09_01.mid",    0,  1 },
+    {  3, "th09_00b.mid",   1,  2 },
+    {  4, "th09_02.mid",    2,  3 },
+    {  5, "th07_10_b.mid",  3,  4 },
+    {  6, "th08_12.mid",    4,  5 },
+    {  7, "th09_05.mid",    5,  6 },
+    {  8, "th07_09.mid",    6,  7 },
+    {  9, "th09_07.mid",    7,  8 },
+    { 10, "th09_10.mid",    8,  9 },
+    { 11, "th09_13.mid",    9, 12 },
+    { 12, "th09_08_2.mid", 10, 10 },
+    { 13, "th09_12.mid",   11, 11 },
+    { 14, "th09_09.mid",   12, 13 },
+    { 15, "th09_11.mid",   13, 14 },
+    {  1, "th09_00c.mid",  -1, 15 },
+    { 18, "th09_15.mid",   -1, 16 },
+    { 16, "th09_14.mid",   -1, 17 },
+    { 17, "th09_17.mid",   -1, 18 },
+};
 extern unsigned char g_MusicUnlocked[];
 extern int g_SoundPlayerBgmValue;
 
