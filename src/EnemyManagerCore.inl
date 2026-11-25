@@ -444,7 +444,7 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
                 if (enemy->specialAttackTimer5424.HasTickedEvery(2))
                 {
                     manager->sideState320->effectManager0C->SpawnEffect(
-                        9,
+                        TH09_EFFECT_SPECIAL_ATTACK_TRAIL,
                         reinterpret_cast<EffectFloat3 *>(&enemy->position2D74),
                         1,
                         static_cast<unsigned int>(-1));
@@ -899,9 +899,9 @@ int __fastcall EnemyManagerView::OnUpdate(EnemyManagerView *manager)
             else if (damageOccurred)
             {
                 if (enemy->secondaryFlagBits3380.movement.bossMarkerState01_02 < 2)
-                    g_SoundPlayer.PlaySoundPositionedByIdx(20, enemy->worldPosition2DD4.x);
+                    g_SoundPlayer.PlaySoundPositionedByIdx(SOUND_DAMAGE, enemy->worldPosition2DD4.x);
                 else
-                    g_SoundPlayer.PlaySoundPositionedByIdx(37, enemy->worldPosition2DD4.x);
+                    g_SoundPlayer.PlaySoundPositionedByIdx(SOUND_DAMAGE_LOW_HEALTH, enemy->worldPosition2DD4.x);
 
                 enemy->primaryAnmVm0008.color2Script.r = 0xFF;
                 enemy->primaryAnmVm0008.color2Script.g = 0x60;

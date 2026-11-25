@@ -12,5 +12,5 @@ void __fastcall EnemyEclExInstruction1(
             instruction->value10;
 
     if (instruction->value10 != 0)
-        g_SoundPlayer.PlaySoundByIdx(0x34, 0);
+        g_SoundPlayer.PlaySoundByIdx(SOUND_TIME_STOP, 0);
 }

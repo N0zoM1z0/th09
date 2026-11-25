@@ -537,7 +537,7 @@ int TitleScreenView::MoveCursorVertical(i32 count)
     if (g_TitleInput.IsPressedScrolling(0x10))
     {
         keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) - 1u);
-        g_SoundPlayer.PlaySoundByIdx(12, 0);
+        g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
         if (keyboardSelection < 0)
             keyboardSelection = static_cast<i32>(static_cast<u32>(count) - 1u);
         if (keyboardSelection >= count)
@@ -547,7 +547,7 @@ int TitleScreenView::MoveCursorVertical(i32 count)
     else if (g_TitleInput.IsPressedScrolling(0x20))
     {
         keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) + 1u);
-        g_SoundPlayer.PlaySoundByIdx(12, 0);
+        g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
         if (keyboardSelection < 0)
             keyboardSelection = static_cast<i32>(static_cast<u32>(count) - 1u);
         if (keyboardSelection >= count)
@@ -582,7 +582,7 @@ int TitleScreenView::MoveCursorHorizontal(i32 count)
         return 0;
     }
 
-    g_SoundPlayer.PlaySoundByIdx(12, 0);
+    g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
     return direction;
 }
 
@@ -697,7 +697,7 @@ int TitleScreenView::MoveCursorFourWay(i32 count)
     {
         if ((keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) - 1u)) < 0)
             keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) + static_cast<u32>(count));
-        g_SoundPlayer.PlaySoundByIdx(12, 0);
+        g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
         return -1;
     }
 
@@ -705,14 +705,14 @@ int TitleScreenView::MoveCursorFourWay(i32 count)
     {
         if ((keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) + 1u)) >= count)
             keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) - static_cast<u32>(count));
-        g_SoundPlayer.PlaySoundByIdx(12, 0);
+        g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
         return 1;
     }
 
     if (g_TitleInput.IsPressedScrolling(0x10))
     {
         keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) - 1u);
-        g_SoundPlayer.PlaySoundByIdx(12, 0);
+        g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
         if (keyboardSelection < 0)
             keyboardSelection = static_cast<i32>(static_cast<u32>(count) - 1u);
         if (keyboardSelection >= count)
@@ -723,7 +723,7 @@ int TitleScreenView::MoveCursorFourWay(i32 count)
     if (g_TitleInput.IsPressedScrolling(0x20))
     {
         keyboardSelection = static_cast<i32>(static_cast<u32>(keyboardSelection) + 1u);
-        g_SoundPlayer.PlaySoundByIdx(12, 0);
+        g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
         if (keyboardSelection < 0)
             keyboardSelection = static_cast<i32>(static_cast<u32>(count) - 1u);
         if (keyboardSelection >= count)
@@ -855,7 +855,7 @@ int TitleScreenView::MoveCharacterCursorHorizontal(i32 cursorIndex, i32 count)
         return 0;
     }
 
-    g_SoundPlayer.PlaySoundByIdx(12, 0);
+    g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
     return direction;
 }
 
@@ -903,7 +903,7 @@ int TitleScreenView::MoveCharacterCursorHorizontalForInput(i32 inputIndex, i32 c
         return 0;
     }
 
-    g_SoundPlayer.PlaySoundByIdx(12, 0);
+    g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
     return direction;
 }
 
@@ -1312,7 +1312,7 @@ int TitleScreenView::OnUpdateCharacterSelect()
         characters[0] = (g_TitleCharacterOrder14[side0CharacterCursor]);
         if ((static_cast<u16>(g_TitleInputFlags) & 0x1001) && side0CharacterConfirmed == 0)
         {
-            PlayMenuSound(10, 0);
+            PlayMenuSound(SOUND_SELECT, 0);
             side0CharacterConfirmed = 1;
             value = characters[0];
             vms[92 + value * 2].color1Bytes[2] = 0x80;
@@ -1387,7 +1387,7 @@ int TitleScreenView::OnUpdateCharacterSelect()
         if ((static_cast<u8>(g_TitleInputFlags) & 0xA) && side0CharacterConfirmed == 0)
         {
             g_TitleCharacterReturnSelection = keyboardSelection;
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
             g_GameSide0Value20 = characters[0];
             if (currentScreen == 3)
@@ -1493,7 +1493,7 @@ int TitleScreenView::UpdateScreen8Mode0()
 
         if (g_TitleModeSelection == 4 && g_SupervisorNetworkState->active == 0)
         {
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
             if (currentScreen == 3)
             {
@@ -1621,7 +1621,7 @@ int TitleScreenView::UpdateScreen8Mode0()
 
         if ((g_TitleSide0Input.repeatInput & 0x1001) && side0CharacterConfirmed == 0)
         {
-            PlayMenuSound(10, 0);
+            PlayMenuSound(SOUND_SELECT, 0);
             side0CharacterConfirmed = 1;
             value = characters[0];
             vms[92 + value * 2].color1Bytes[2] = 0x80;
@@ -1637,7 +1637,7 @@ int TitleScreenView::UpdateScreen8Mode0()
 
         if ((g_TitleSide1Input.repeatInput & 0x1001) && side1CharacterConfirmed == 0)
         {
-            PlayMenuSound(10, 0);
+            PlayMenuSound(SOUND_SELECT, 0);
             side1CharacterConfirmed = 1;
             value = characters[1];
             vms[93 + value * 2].color1Bytes[2] = 0x80;
@@ -1657,7 +1657,7 @@ int TitleScreenView::UpdateScreen8Mode0()
             g_GameSide1Value20 = characters[1];
             g_GameSide0CharacterSetting = side0CharacterSetting;
             g_GameSide1CharacterSetting = side1CharacterSetting;
-            PlayMenuSound(10, 0);
+            PlayMenuSound(SOUND_SELECT, 0);
             ChangeCurrentScreen(16);
             UpdateScreen16();
             return 1;
@@ -1668,7 +1668,7 @@ int TitleScreenView::UpdateScreen8Mode0()
             ((g_TitleSide1Input.repeatInput & 0xA) && side1CharacterConfirmed == 0))
         {
             g_TitleCharacterReturnSelection = keyboardSelection;
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
             g_GameSide0Value20 = characters[0];
             g_GameSide1Value20 = characters[1];
@@ -1690,7 +1690,7 @@ int TitleScreenView::UpdateScreen8Mode0()
         if (static_cast<u16>(side0CancelInput) && side0CharacterConfirmed == 1)
         {
             side0CharacterConfirmed = 0;
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             value = characters[0];
             vms[92 + value * 2].color1Bytes[2] = 0xFF;
             vms[92 + value * 2].color1Bytes[1] = 0xFF;
@@ -1703,7 +1703,7 @@ int TitleScreenView::UpdateScreen8Mode0()
         if ((g_TitleSide1Input.repeatInput & 0xA) && side1CharacterConfirmed == 1)
         {
             side1CharacterConfirmed = 0;
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             value = characters[1];
             vms[93 + value * 2].color1Bytes[2] = 0xFF;
             vms[93 + value * 2].color1Bytes[1] = 0xFF;
@@ -1888,7 +1888,7 @@ int TitleScreenView::UpdateScreen8Mode123()
         u32 confirmInput = g_TitleInputFlags & 0x1001;
         if (confirmInput && side0CharacterConfirmed == 0)
         {
-            PlayMenuSound(10, 0);
+            PlayMenuSound(SOUND_SELECT, 0);
             side0CharacterConfirmed = 1;
             vms[92 + characters[0] * 2].color1Bytes[2] = 0x80;
             vms[92 + characters[0] * 2].color1Bytes[1] = 0x80;
@@ -1907,7 +1907,7 @@ int TitleScreenView::UpdateScreen8Mode123()
                  static_cast<u16>(confirmInput) &&
                  side1CharacterConfirmed == 0)
         {
-            PlayMenuSound(10, 0);
+            PlayMenuSound(SOUND_SELECT, 0);
             side1CharacterConfirmed = 1;
             vms[93 + characters[1] * 2].color1Bytes[2] = 0x80;
             vms[93 + characters[1] * 2].color1Bytes[1] = 0x80;
@@ -1926,7 +1926,7 @@ int TitleScreenView::UpdateScreen8Mode123()
             g_GameSide1Value20 = characters[1];
             g_GameSide0CharacterSetting = side0CharacterSetting;
             g_GameSide1CharacterSetting = side1CharacterSetting;
-            PlayMenuSound(10, 0);
+            PlayMenuSound(SOUND_SELECT, 0);
             ChangeCurrentScreen(16);
             UpdateScreen16();
             return 1;
@@ -1936,7 +1936,7 @@ int TitleScreenView::UpdateScreen8Mode123()
         if (cancelInput && side0CharacterConfirmed == 0)
         {
             g_TitleCharacterReturnSelection = keyboardSelection;
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
             g_GameSide0Value20 = characters[0];
             g_GameSide1Value20 = characters[1];
@@ -1958,7 +1958,7 @@ int TitleScreenView::UpdateScreen8Mode123()
         if (side0CharacterConfirmed != 0 && static_cast<u16>(cancelInput) && side1CharacterConfirmed)
         {
             side1CharacterConfirmed = 0;
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             vms[93 + characters[1] * 2].color1Bytes[2] = 0xFF;
             vms[93 + characters[1] * 2].color1Bytes[1] = 0xFF;
             vms[93 + characters[1] * 2].color1Bytes[0] = 0xFF;
@@ -1969,7 +1969,7 @@ int TitleScreenView::UpdateScreen8Mode123()
         else if (static_cast<u16>(cancelInput) && side0CharacterConfirmed == 1)
         {
             side0CharacterConfirmed = 0;
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             vms[92 + characters[0] * 2].color1Bytes[2] = 0xFF;
             vms[92 + characters[0] * 2].color1Bytes[1] = 0xFF;
             vms[92 + characters[0] * 2].color1Bytes[0] = 0xFF;
@@ -2065,7 +2065,7 @@ int TitleScreenView::UpdateScreen16()
 
         if (static_cast<u16>(g_TitleInputFlags) & 0x1001)
         {
-            PlayMenuSound(10, 0);
+            PlayMenuSound(SOUND_SELECT, 0);
             g_TitleSupervisor.StopAudio();
             g_GameCurrentStage = 0;
 
@@ -2131,7 +2131,7 @@ int TitleScreenView::UpdateScreen16()
 
         if (static_cast<u8>(g_TitleInputFlags) & 0xA)
         {
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
             ChangeCurrentScreen(8);
             switch (g_TitleModeSelection)
@@ -2227,7 +2227,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
         {
             if (g_TitleInput.IsPressedScrolling(0x10))
             {
-                g_SoundPlayer.PlaySoundByIdx(12, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -TitleNativeNameKeyboard::Columns);
                 if (keyboardSelection < 0)
                     TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, TitleNativeNameKeyboard::KeyCount);
@@ -2238,7 +2238,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
 
             if (g_TitleInput.IsPressedScrolling(0x20))
             {
-                g_SoundPlayer.PlaySoundByIdx(12, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, TitleNativeNameKeyboard::Columns);
                 if (keyboardSelection >= TitleNativeNameKeyboard::KeyCount)
                     TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -TitleNativeNameKeyboard::KeyCount);
@@ -2249,7 +2249,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
 
             if (g_TitleInput.IsPressedScrolling(0x40))
             {
-                g_SoundPlayer.PlaySoundByIdx(12, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 if (keyboardSelection % TitleNativeNameKeyboard::Columns == 0)
                     TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, TitleNativeNameKeyboard::ConfirmColumn);
                 else
@@ -2263,7 +2263,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
 
             if (g_TitleInput.IsPressedScrolling(0x80))
             {
-                g_SoundPlayer.PlaySoundByIdx(12, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 if (keyboardSelection % TitleNativeNameKeyboard::Columns == TitleNativeNameKeyboard::ConfirmColumn)
                     TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -TitleNativeNameKeyboard::ConfirmColumn);
                 else
@@ -2281,7 +2281,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
             if (keyboardSelection == TitleNativeNameKeyboard::ConfirmKey)
             {
                 SaveTitleScoreData();
-                PlayMenuSound(11, 0);
+                PlayMenuSound(SOUND_BACK, 0);
                 stateTimer = 0;
                 ChangeCurrentScreen(15);
                 if (nameSlotIndex < 5)
@@ -2299,7 +2299,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
             else
                 value = (g_TitleAlphabet[keyboardSelection]);
             (g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[replayNameCursor]) = value;
-            PlayMenuSound(10, 0);
+            PlayMenuSound(SOUND_SELECT, 0);
             if (replayNameCursor < 7)
                 TH09_TITLE_NATIVE_INCREMENT(replayNameCursor);
             else
@@ -2309,7 +2309,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
 
         if (g_TitleInputFlags & 0xA)
         {
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             if (replayNameCursor == 7 &&
                 g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[7] != ' ')
             {
@@ -2410,7 +2410,7 @@ int TitleScreenView::OnUpdateResult()
                 g_PlayStatsRecord.characterUnlocked[1][(char)i] = 1;
                 g_PlayStatsRecord.characterUnlocked[2][(char)i] = 1;
             }
-            g_SoundPlayer.PlaySoundByIdx(28, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_EXTEND, 0);
             g_TitleResultUnlockStep = 0;
         }
 
@@ -2449,7 +2449,7 @@ int TitleScreenView::OnUpdateResult()
 
         if (g_ReplayInputStates[2].word06 & RESULT_CANCEL_BUTTONS)
         {
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
             ChangeCurrentScreen(1);
             keyboardSelection = 4;
@@ -2562,21 +2562,21 @@ int TitleScreenView::OnUpdateReplayMenu()
     case 1:
         if (g_TitleInput.IsPressedScrolling(0x10))
         {
-            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             if (static_cast<i32>(--*reinterpret_cast<u32 *>(&keyboardSelection)) < 0)
                 TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, 50);
             stateTimer = 0;
         }
         if (g_TitleInput.IsPressedScrolling(0x20))
         {
-            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             if (static_cast<i32>(++*reinterpret_cast<u32 *>(&keyboardSelection)) >= 50)
                 TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -50);
             stateTimer = 0;
         }
         if (g_TitleInput.IsPressedScrolling(0x40))
         {
-            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -25);
             if (keyboardSelection < 0)
                 TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, 50);
@@ -2584,7 +2584,7 @@ int TitleScreenView::OnUpdateReplayMenu()
         }
         if (g_TitleInput.IsPressedScrolling(0x80))
         {
-            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, 25);
             if (keyboardSelection >= 50)
                 TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -50);
@@ -2593,7 +2593,7 @@ int TitleScreenView::OnUpdateReplayMenu()
 
         if (static_cast<u8>(g_TitleInputFlags) & 0xA)
         {
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
             ChangeCurrentScreen(1);
             keyboardSelection = 3;
@@ -2610,7 +2610,7 @@ int TitleScreenView::OnUpdateReplayMenu()
         {
             if (replays[static_cast<unsigned int>(keyboardSelection)].magic != 0)
             {
-                PlayMenuSound(10, 0);
+                PlayMenuSound(SOUND_SELECT, 0);
                 selectedReplay = keyboardSelection;
                 currentScreenState = 2;
                 stateTimer = 0;
@@ -2621,7 +2621,7 @@ int TitleScreenView::OnUpdateReplayMenu()
             }
             else
             {
-                PlayMenuSound(39, 0);
+                PlayMenuSound(SOUND_INVALID_ACTION, 0);
             }
         }
         break;
@@ -2807,14 +2807,14 @@ int TitleScreenView::UpdateReplaySave()
         {
             if (keyboardSelection == 0)
             {
-                PlayMenuSound(11, 0);
+                PlayMenuSound(SOUND_BACK, 0);
                 keyboardSelection = 1;
                 UpdateMenuSelection();
                 break;
             }
 
         cancel_replay_save:
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
             ChangeCurrentScreen(1);
             keyboardSelection = 0;
@@ -2864,7 +2864,7 @@ int TitleScreenView::UpdateReplaySave()
 
         if (g_TitleInputFlags & 0xA)
         {
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             keyboardSelection = 0;
             phaseTimer = 0;
             replaySaveState = 1;
@@ -2878,7 +2878,7 @@ int TitleScreenView::UpdateReplaySave()
 
         if (g_TitleInputFlags & 0x1001)
         {
-            PlayMenuSound(10, 0);
+            PlayMenuSound(SOUND_SELECT, 0);
             selectedReplay = keyboardSelection;
             keyboardSelection = 0;
             if (replays[static_cast<unsigned int>(selectedReplay)].magic != 0)
@@ -2918,7 +2918,7 @@ int TitleScreenView::UpdateReplaySave()
             if (keyboardSelection == 1)
             {
             cancel_replay_overwrite:
-                PlayMenuSound(11, 0);
+                PlayMenuSound(SOUND_BACK, 0);
                 replaySaveState = 2;
                 keyboardSelection = 0;
                 g_AnmManager->SetInterruptArray(vms, vmCount, 22);
@@ -2926,7 +2926,7 @@ int TitleScreenView::UpdateReplaySave()
             }
             else
             {
-                PlayMenuSound(10, 0);
+                PlayMenuSound(SOUND_SELECT, 0);
                 keyboardSelection = TitleNativeNameKeyboard::ConfirmKey;
                 replaySaveState = 4;
                 g_AnmManager->SetInterruptArray(vms, vmCount, 23);
@@ -2941,7 +2941,7 @@ int TitleScreenView::UpdateReplaySave()
 
         if (g_TitleInput.IsPressedScrolling(0x10))
         {
-            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -TitleNativeNameKeyboard::Columns);
             if (keyboardSelection < 0)
                 TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, TitleNativeNameKeyboard::KeyCount);
@@ -2952,7 +2952,7 @@ int TitleScreenView::UpdateReplaySave()
 
         if (g_TitleInput.IsPressedScrolling(0x20))
         {
-            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, TitleNativeNameKeyboard::Columns);
             if (keyboardSelection >= TitleNativeNameKeyboard::KeyCount)
                 TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -TitleNativeNameKeyboard::KeyCount);
@@ -2963,7 +2963,7 @@ int TitleScreenView::UpdateReplaySave()
 
         if (g_TitleInput.IsPressedScrolling(0x40))
         {
-            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             if (keyboardSelection % TitleNativeNameKeyboard::Columns == 0)
                 TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, TitleNativeNameKeyboard::ConfirmColumn);
             else
@@ -2977,7 +2977,7 @@ int TitleScreenView::UpdateReplaySave()
 
         if (g_TitleInput.IsPressedScrolling(0x80))
         {
-            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             if (keyboardSelection % TitleNativeNameKeyboard::Columns == TitleNativeNameKeyboard::ConfirmColumn)
                 TH09_TITLE_NATIVE_CURSOR_ADD(keyboardSelection, -TitleNativeNameKeyboard::ConfirmColumn);
             else
@@ -2993,7 +2993,7 @@ int TitleScreenView::UpdateReplaySave()
         {
             if (keyboardSelection == TitleNativeNameKeyboard::ConfirmKey)
             {
-                PlayMenuSound(10, 0);
+                PlayMenuSound(SOUND_SELECT, 0);
                 sprintf(path, "replay/th9_%.2d.rpy", selectedReplay + 1);
                 ReplayManagerView::SaveReplay(g_ReplayManager, path, replayName);
                 stateTimer = 0;
@@ -3009,7 +3009,7 @@ int TitleScreenView::UpdateReplaySave()
             else
                 value = (g_TitleAlphabet[keyboardSelection]);
             (replayName[replayNameCursor]) = value;
-            PlayMenuSound(10, 0);
+            PlayMenuSound(SOUND_SELECT, 0);
             if (replayNameCursor < 7)
                 TH09_TITLE_NATIVE_INCREMENT(replayNameCursor);
             else
@@ -3019,7 +3019,7 @@ int TitleScreenView::UpdateReplaySave()
 
         if (g_TitleInputFlags & 0xA)
         {
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             if (replayNameCursor == 7 && replayName[7] != ' ')
             {
                 replayName[7] = ' ';
@@ -3169,7 +3169,7 @@ int TitleScreenView::OnUpdateStartMenu()
                 {
                 case 0:
                     g_TitleGameFlags &= ~8u;
-                    PlayMenuSound(10, 0);
+                    PlayMenuSound(SOUND_SELECT, 0);
                     if (keyboardSelection >= 4)
                         keyboardSelection = 2;
                     ChangeCurrentScreen(2);
@@ -3181,7 +3181,7 @@ int TitleScreenView::OnUpdateStartMenu()
                     if (g_TitleLockedMenuItem)
                     {
                         g_TitleGameFlags &= ~8u;
-                        PlayMenuSound(10, 0);
+                        PlayMenuSound(SOUND_SELECT, 0);
                         if (keyboardSelection >= 4)
                             keyboardSelection = 2;
                         ChangeCurrentScreen(4);
@@ -3190,11 +3190,11 @@ int TitleScreenView::OnUpdateStartMenu()
                         g_TitleTransitionCounter1 = 10;
                         return 1;
                     }
-                    PlayMenuSound(39, 0);
+                    PlayMenuSound(SOUND_INVALID_ACTION, 0);
                     return 1;
                 case 2:
                     g_TitleGameFlags &= ~8u;
-                    PlayMenuSound(10, 0);
+                    PlayMenuSound(SOUND_SELECT, 0);
                     keyboardSelection = g_TitleModeSelection;
                     ChangeCurrentScreen(6);
                     g_AnmManager->SetInterruptArray(vms, vmCount, 5);
@@ -3202,24 +3202,24 @@ int TitleScreenView::OnUpdateStartMenu()
                     g_TitleTransitionCounter1 = 10;
                     return 1;
                 case 3:
-                    PlayMenuSound(10, 0);
+                    PlayMenuSound(SOUND_SELECT, 0);
                     ChangeCurrentScreen(11);
                     g_AnmManager->SetInterruptArray(vms, vmCount, 5);
                     currentHelpTextVm->pendingInterrupt = 2;
                     return 1;
                 case 5:
-                    PlayMenuSound(10, 0);
+                    PlayMenuSound(SOUND_SELECT, 0);
                     ChangeCurrentScreen(12);
                     g_AnmManager->SetInterruptArray(vms, vmCount, 5);
                     currentHelpTextVm->pendingInterrupt = 2;
                     return 1;
                 case 4:
-                    PlayMenuSound(10, 0);
+                    PlayMenuSound(SOUND_SELECT, 0);
                     ChangeCurrentScreen(13);
                     g_AnmManager->SetInterruptArray(vms, vmCount, 5);
                     return 1;
                 case 6:
-                    PlayMenuSound(10, 0);
+                    PlayMenuSound(SOUND_SELECT, 0);
                     currentScreenState = 0;
                     keyboardSelection = 0;
                     stateTimer2 = 0;
@@ -3253,7 +3253,7 @@ int TitleScreenView::OnUpdateStartMenu()
                 titleAnm->SetSprite(
                     &vms[keyboardSelection + 1],
                     vms[keyboardSelection + 1].baseSpriteIndex);
-                PlayMenuSound(11, 0);
+                PlayMenuSound(SOUND_BACK, 0);
             }
         }
         break;
@@ -3376,13 +3376,13 @@ int TitleScreenView::OnUpdateDifficultySelect()
         }
         else if (g_TitleInputFlags & 0x30)
         {
-            PlayMenuSound(12, 0);
+            PlayMenuSound(SOUND_MOVE_MENU, 0);
         }
 
         if (g_TitleInputFlags & 0x1001)
         {
             g_TitleDifficulty = (u8)keyboardSelection;
-            PlayMenuSound(10, 0);
+            PlayMenuSound(SOUND_SELECT, 0);
             if (currentScreen == 7)
             {
                 ChangeCurrentScreen(8);
@@ -3419,7 +3419,7 @@ int TitleScreenView::OnUpdateDifficultySelect()
 
         if (g_TitleModeSelection == 4 && g_SupervisorNetworkState->active == 0)
         {
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
             if (currentScreen == 7)
             {
@@ -3433,7 +3433,7 @@ int TitleScreenView::OnUpdateDifficultySelect()
         if (g_SupervisorNetworkState->active == 0 && (g_TitleInputFlags & 0xA))
         {
             g_TitleDifficulty = (u8)keyboardSelection;
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
             if (currentScreen == 7)
             {
@@ -3516,7 +3516,7 @@ int TitleScreenView::OnUpdateModeSelect()
                     g_GameSide1Value20 = 1;
                 }
 
-                PlayMenuSound(10, 0);
+                PlayMenuSound(SOUND_SELECT, 0);
                 ChangeCurrentScreen(7);
                 OnUpdateDifficultySelect();
                 vms[131 + g_TitleModeSelection].pendingInterrupt = 9;
@@ -3526,7 +3526,7 @@ int TitleScreenView::OnUpdateModeSelect()
             if (inputFlags & 0xA)
             {
                 g_TitleModeSelection = keyboardSelection;
-                PlayMenuSound(11, 0);
+                PlayMenuSound(SOUND_BACK, 0);
                 currentScreenState = 3;
                 stateTimer = 0;
                 g_AnmManager->SetInterruptArray(vms, vmCount, 6);

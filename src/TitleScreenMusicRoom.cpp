@@ -206,7 +206,7 @@ int TitleScreenView::OnUpdateMusicRoom()
 
         if ((g_ReplayInputStates[2].word06 & 0xA) != 0)
         {
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             stateTimer = 0;
             ChangeCurrentScreen(1);
             keyboardSelection = 5;

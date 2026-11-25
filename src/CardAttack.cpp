@@ -89,7 +89,7 @@ int CardAttack::OnUpdate(CardAttack *cardAttack)
         cardAttack->secondaryUpdate1334 = NULL;
         cardAttack->secondaryDraw1338 = NULL;
         cardAttack->secondaryEnd133C = NULL;
-        g_SoundPlayer.PlaySoundByIdx(15, 0);
+        g_SoundPlayer.PlaySoundByIdx(SOUND_BULLET_0_LOUD, 0);
         cardAttack->sideState04->background00->ClearSpellBackgroundState();
     }
 

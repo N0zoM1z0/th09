@@ -63,7 +63,7 @@ int __fastcall PlayerShotSpawnCallbackType4(
     {
         reinterpret_cast<PlayerShotSpawnEffectManagerView *>(
             nativePlayer->sideState->effectManager0C)->SpawnEffectInFixedSlot(
-                35, reinterpret_cast<const PlayerShotSpawnVec3 *>(
+                TH09_EFFECT_PLAYER_SHOT_SPAWN, reinterpret_cast<const PlayerShotSpawnVec3 *>(
                     &nativePlayer->position1B88), 5,
                 static_cast<unsigned int>(-1));
     }

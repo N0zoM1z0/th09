@@ -1,6 +1,7 @@
 #define TH09_ANM_MANAGER_LIFECYCLE_LAYOUT 1
 #include "AnmManager.hpp"
 #include "TitleScreenReplayView.hpp"
+#include "TitleScreenStates.hpp"
 #include "AsciiManager.hpp"
 #include "Supervisor.hpp"
 
@@ -58,25 +59,25 @@ int __fastcall TitleDrawCallback(void *object)
         switch (title->currentScreen)
         {
         // Distinct no-draw screen branches share the existing final flush.
-        case 3:
+        case TITLE_SCREEN_CHARACTER_STORY:
             goto flush;
-        case 4:
+        case TITLE_SCREEN_DIFFICULTY_EXTRA:
             break;
-        case 5:
+        case TITLE_SCREEN_CHARACTER_EXTRA:
             goto flush;
-        case 6:
+        case TITLE_SCREEN_MODE_SELECT:
             goto flush;
-        case 11:
+        case TITLE_SCREEN_REPLAY_MENU:
             title->DrawReplayMenu();
             break;
-        case 12:
+        case TITLE_SCREEN_MUSIC_ROOM:
             title->DrawMusicRoom();
             break;
-        case 13:
-        case 14:
+        case TITLE_SCREEN_RESULT_VIEW:
+        case TITLE_SCREEN_RESULT_NAME_ENTRY:
             title->DrawResult();
             break;
-        case 15:
+        case TITLE_SCREEN_REPLAY_SAVE:
             title->DrawReplaySave();
             break;
         }

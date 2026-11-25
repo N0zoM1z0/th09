@@ -80,7 +80,7 @@ int PauseMenu::OnUpdate()
     unsigned int i;
 
     if (g_AsciiInput.WasPressed(8) && this->state != PAUSE_MENU_STATE_CLOSING) {
-        g_SoundPlayer.PlaySoundByIdx(10, 0);
+        g_SoundPlayer.PlaySoundByIdx(SOUND_SELECT, 0);
         this->state = PAUSE_MENU_STATE_CLOSING;
         for (i = 0; i < 7; i++) {
             if ((this->menuSprites[i]).IsVisible()) {
@@ -92,7 +92,7 @@ int PauseMenu::OnUpdate()
     }
 
     if (g_AsciiInput.WasPressed(0x200) && this->state != PAUSE_MENU_STATE_ACTION_A) {
-        g_SoundPlayer.PlaySoundByIdx(10, 0);
+        g_SoundPlayer.PlaySoundByIdx(SOUND_SELECT, 0);
         this->state = PAUSE_MENU_STATE_ACTION_A;
         for (i = 0; i < 7; i++) {
             if ((this->menuSprites[i]).IsVisible()) {
@@ -126,20 +126,20 @@ int PauseMenu::OnUpdate()
             if (!g_GameManager.IsReplayNeutral()) {
                 if (g_AsciiInput.WasPressed(0x10)) {
                     this->state = PAUSE_MENU_STATE_SECONDARY_SELECTED;
-                    g_SoundPlayer.PlaySoundByIdx(0, 0);
+                    g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
                 }
             } else if (g_AsciiInput.WasPressed(0x10)) {
                 this->state = PAUSE_MENU_STATE_SECONDARY_SELECTED;
-                g_SoundPlayer.PlaySoundByIdx(0, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
 
             if (g_AsciiInput.WasPressed(0x20)) {
                 this->state = PAUSE_MENU_STATE_SECONDARY_SELECTED;
-                g_SoundPlayer.PlaySoundByIdx(0, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
 
             if (g_AsciiInput.WasPressed(0x1001)) {
-                g_SoundPlayer.PlaySoundByIdx(10, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SELECT, 0);
                 for (i = 0; i < 3; i++) {
                     (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
@@ -159,21 +159,21 @@ int PauseMenu::OnUpdate()
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10)) {
                 this->state = PAUSE_MENU_STATE_PRIMARY_SELECTED;
-                g_SoundPlayer.PlaySoundByIdx(0, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
 
             if (g_GameManager.IsReplayNeutral()) {
                 if (g_AsciiInput.WasPressed(0x20)) {
                     this->state = PAUSE_MENU_STATE_PRIMARY_SELECTED;
-                    g_SoundPlayer.PlaySoundByIdx(0, 0);
+                    g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
                 }
             } else if (g_AsciiInput.WasPressed(0x20)) {
                 this->state = PAUSE_MENU_STATE_PRIMARY_SELECTED;
-                g_SoundPlayer.PlaySoundByIdx(0, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
 
             if (g_AsciiInput.WasPressed(0x1001)) {
-                g_SoundPlayer.PlaySoundByIdx(10, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SELECT, 0);
                 for (i = 0; i < 3; i++) {
                     (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
@@ -210,11 +210,11 @@ int PauseMenu::OnUpdate()
                 this->state = stateAtDispatch == PAUSE_MENU_STATE_CONFIRM_A_YES
                                   ? PAUSE_MENU_STATE_CONFIRM_A_NO
                                   : PAUSE_MENU_STATE_CONFIRM_B_NO;
-                g_SoundPlayer.PlaySoundByIdx(0, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
 
             if (g_AsciiInput.WasPressed(0x1001)) {
-                g_SoundPlayer.PlaySoundByIdx(10, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SELECT, 0);
                 for (i = 3; i < 6; i++) {
                     (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
@@ -238,11 +238,11 @@ int PauseMenu::OnUpdate()
                 this->state = stateAtDispatch == PAUSE_MENU_STATE_CONFIRM_A_NO
                                   ? PAUSE_MENU_STATE_CONFIRM_A_YES
                                   : PAUSE_MENU_STATE_CONFIRM_B_YES;
-                g_SoundPlayer.PlaySoundByIdx(0, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
 
             if (g_AsciiInput.WasPressed(0x1001)) {
-                g_SoundPlayer.PlaySoundByIdx(10, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SELECT, 0);
                 for (i = 0; i < 3; i++) {
                     (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_SHOW;
                 }
@@ -325,14 +325,14 @@ int AsciiMenuState4::OnUpdate()
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10)) {
                 this->state = 3;
-                g_SoundPlayer.PlaySoundByIdx(0, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
             if (g_AsciiInput.WasPressed(0x20)) {
                 this->state = 2;
-                g_SoundPlayer.PlaySoundByIdx(0, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
             if (g_AsciiInput.WasPressed(0x1001)) {
-                g_SoundPlayer.PlaySoundByIdx(10, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SELECT, 0);
                 for (i = 0; i < 3; i++) {
                     (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
@@ -353,14 +353,14 @@ int AsciiMenuState4::OnUpdate()
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10)) {
                 this->state = 1;
-                g_SoundPlayer.PlaySoundByIdx(0, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
             if (g_AsciiInput.WasPressed(0x20)) {
                 this->state = 3;
-                g_SoundPlayer.PlaySoundByIdx(0, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
             if (g_AsciiInput.WasPressed(0x1001)) {
-                g_SoundPlayer.PlaySoundByIdx(10, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SELECT, 0);
                 for (i = 0; i < 3; i++) {
                     (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }
@@ -381,14 +381,14 @@ int AsciiMenuState4::OnUpdate()
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10)) {
                 this->state = 2;
-                g_SoundPlayer.PlaySoundByIdx(0, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
             if (g_AsciiInput.WasPressed(0x20)) {
                 this->state = 1;
-                g_SoundPlayer.PlaySoundByIdx(0, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
             if (g_AsciiInput.WasPressed(0x1001)) {
-                g_SoundPlayer.PlaySoundByIdx(10, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SELECT, 0);
                 for (i = 0; i < 3; i++) {
                     (this->menuSprites[i]).pendingInterrupt = ASCII_INTERRUPT_HIDE;
                 }

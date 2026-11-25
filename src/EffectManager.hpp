@@ -3,6 +3,7 @@
 #include "Chain.hpp"
 #include "ZunTimer.hpp"
 #include "Float3.hpp"
+#include "EffectIds.hpp"
 
 #include <stddef.h>
 

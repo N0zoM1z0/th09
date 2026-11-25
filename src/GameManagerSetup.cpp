@@ -191,7 +191,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         gameManager->inGameMenu = 1;
         gameManager->replayPauseRecorded = 1;
         g_SoundPlayer.QueueCommand(6, 0, "Pause");
-        g_SoundPlayer.PlaySoundByIdx(0x22, 0);
+        g_SoundPlayer.PlaySoundByIdx(SOUND_PAUSE, 0);
         supervisor->UpdateGameTime();
     }
 
@@ -310,7 +310,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
             object->secondaryFlags3380 |= 0x2000u;
             object->itemDropType335C = lane;
 
-            g_SoundPlayer.PlaySoundByIdx(0x33, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_WARNING, 0);
             globalManager.sides[0].frontSide18->ClearState(1);
             globalManager.sides[1].frontSide18->ClearState(1);
         }
@@ -585,7 +585,7 @@ void GameManagerSetupLayout::AdvanceTimedState()
     if (state->value00 < 7.0f)
     {
         state->value00 += 1.0f;
-        g_SoundPlayer.PlaySoundByIdx(0x1C, 0);
+        g_SoundPlayer.PlaySoundByIdx(SOUND_EXTEND, 0);
         state = globalManager.sides[0].state;
     }
 

@@ -19,6 +19,27 @@ struct EnemyTimelineInstructionView
     u8 mask07;
 };
 
+// TH09 v1.50a enemy stage-timeline opcodes recovered from
+// EnemyScheduleRuntimeView::Run.
+enum EnemyTimelineOpcode
+{
+    ENEMY_TIMELINE_OPCODE_SPAWN_0 = 0,
+    ENEMY_TIMELINE_OPCODE_SPAWN_1 = 1,
+    ENEMY_TIMELINE_OPCODE_SPAWN_RANDOM_X_RANGE = 2,
+    ENEMY_TIMELINE_OPCODE_SPAWN_RANDOM_X_PLAYFIELD = 3,
+    ENEMY_TIMELINE_OPCODE_SPAWN_RANDOM_X_RANGE_MIRRORED = 4,
+    ENEMY_TIMELINE_OPCODE_SPAWN_RANDOM_X_PLAYFIELD_MIRRORED = 5,
+    ENEMY_TIMELINE_OPCODE_SET_REMOTE_PENDING_SUBROUTINE = 8,
+    ENEMY_TIMELINE_OPCODE_WAIT_WHILE_REMOTE_ACTIVE = 10,
+    ENEMY_TIMELINE_OPCODE_SPAWN_WITH_DROP_COUNTS = 11,
+    ENEMY_TIMELINE_OPCODE_SPAWN_WITH_DROP_COUNTS_MIRRORED = 12,
+    ENEMY_TIMELINE_OPCODE_WAIT_FOR_EVENT = 13,
+    ENEMY_TIMELINE_OPCODE_SIGNAL_EVENT = 14,
+    ENEMY_TIMELINE_OPCODE_SPAWN_15 = 15,
+    ENEMY_TIMELINE_OPCODE_MARK_MODE0_DONE = 16,
+    ENEMY_TIMELINE_OPCODE_SPAWN_WITH_MOVEMENT_FLAG = 17
+};
+
 // Original timeline opcodes address the native Enemy pool/manager. These
 // +0x2D70/+0x3360/+0x3364 Enemy words and manager +0x2AC388/+0x2AC430
 // slots are shared with the exact Enemy spawn and ECL owners, not a second
@@ -97,12 +118,12 @@ int EnemyScheduleRuntimeView::Run()
             {
                 switch (instruction->opcode04)
                 {
-                case 16:
+                case ENEMY_TIMELINE_OPCODE_MARK_MODE0_DONE:
                     g_FrontMode0Done = 1;
                     break;
 
-                case 0:
-                case 1:
+                case ENEMY_TIMELINE_OPCODE_SPAWN_0:
+                case ENEMY_TIMELINE_OPCODE_SPAWN_1:
                 {
                     int *args1 = reinterpret_cast<int *>(
                         reinterpret_cast<unsigned char *>(instruction) +
@@ -119,7 +140,7 @@ int EnemyScheduleRuntimeView::Run()
                     break;
                 }
 
-                case 17:
+                case ENEMY_TIMELINE_OPCODE_SPAWN_WITH_MOVEMENT_FLAG:
                 {
                     int *args17 = reinterpret_cast<int *>(
                         reinterpret_cast<unsigned char *>(instruction) +
@@ -140,7 +161,7 @@ int EnemyScheduleRuntimeView::Run()
                     break;
                 }
 
-                case 15:
+                case ENEMY_TIMELINE_OPCODE_SPAWN_15:
                 {
                     int *args15 = reinterpret_cast<int *>(
                         reinterpret_cast<unsigned char *>(instruction) +
@@ -157,9 +178,9 @@ int EnemyScheduleRuntimeView::Run()
                     break;
                 }
 
-                case 12:
+                case ENEMY_TIMELINE_OPCODE_SPAWN_WITH_DROP_COUNTS_MIRRORED:
                     runtime->mirrorMovementX18 = 1;
-                case 11:
+                case ENEMY_TIMELINE_OPCODE_SPAWN_WITH_DROP_COUNTS:
                 {
                     struct SpecialSpawnLocals
                     {
@@ -186,9 +207,9 @@ int EnemyScheduleRuntimeView::Run()
                     break;
                 }
 
-                case 4:
+                case ENEMY_TIMELINE_OPCODE_SPAWN_RANDOM_X_RANGE_MIRRORED:
                     runtime->mirrorMovementX18 = 1;
-                case 2:
+                case ENEMY_TIMELINE_OPCODE_SPAWN_RANDOM_X_RANGE:
                 {
                     int *argsRange = reinterpret_cast<int *>(
                         reinterpret_cast<unsigned char *>(instruction) +
@@ -209,9 +230,9 @@ int EnemyScheduleRuntimeView::Run()
                     break;
                 }
 
-                case 5:
+                case ENEMY_TIMELINE_OPCODE_SPAWN_RANDOM_X_PLAYFIELD_MIRRORED:
                     runtime->mirrorMovementX18 = 1;
-                case 3:
+                case ENEMY_TIMELINE_OPCODE_SPAWN_RANDOM_X_PLAYFIELD:
                 {
                     int *argsPlay = reinterpret_cast<int *>(
                         reinterpret_cast<unsigned char *>(instruction) +
@@ -229,7 +250,7 @@ int EnemyScheduleRuntimeView::Run()
                     break;
                 }
 
-                case 8:
+                case ENEMY_TIMELINE_OPCODE_SET_REMOTE_PENDING_SUBROUTINE:
                 {
                     int *args8 = reinterpret_cast<int *>(
                         reinterpret_cast<unsigned char *>(instruction) +
@@ -240,7 +261,7 @@ int EnemyScheduleRuntimeView::Run()
                     break;
                 }
 
-                case 10:
+                case ENEMY_TIMELINE_OPCODE_WAIT_WHILE_REMOTE_ACTIVE:
                 {
                     int *args10 = reinterpret_cast<int *>(
                         reinterpret_cast<unsigned char *>(instruction) +
@@ -255,7 +276,7 @@ int EnemyScheduleRuntimeView::Run()
                     break;
                 }
 
-                case 13:
+                case ENEMY_TIMELINE_OPCODE_WAIT_FOR_EVENT:
                 {
                     int matchCount = 0;
                     for (unsigned int i = 0; i < 4; ++i)
@@ -277,7 +298,7 @@ int EnemyScheduleRuntimeView::Run()
                     break;
                 }
 
-                case 14:
+                case ENEMY_TIMELINE_OPCODE_SIGNAL_EVENT:
                     for (unsigned int j = 0; j < 4; ++j)
                     {
                         if (runtime->manager1C->timelineEventSlots2AC430[j] >= 0)

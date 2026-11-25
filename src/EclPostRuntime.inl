@@ -243,7 +243,7 @@ static void EnemyPostEclUpdateMovement(EnemyView *thisEnemy)
                       ENEMY_INTERACTION_KIND_SHIFT) & 7) + 22);
                 thisEnemy->moveLeftAnm3390 = -1;
                 g_SoundPlayer.PlaySoundByIdx(
-                    47, enemy->manager00->sideIndex31C != 0 ? 500 : -500);
+                    SOUND_SPIRIT_ACTIVATE, enemy->manager00->sideIndex31C != 0 ? 500 : -500);
             }
         }
 

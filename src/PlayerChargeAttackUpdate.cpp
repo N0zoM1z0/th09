@@ -156,7 +156,7 @@ int PlayerLifecycleView::UpdateChargeAttack()
         {
             if (scalar30384 == 0.0f)
             {
-                g_SoundPlayer.PlaySoundByIdx(43, sideIndex != 0 ? 500 : -500);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_CHARGE_0, sideIndex != 0 ? 500 : -500);
                 sideState->frontSide18->ActivateMeterVms();
             }
             previousLevel = static_cast<int>(scalar30384) / PLAYER_CHARGE_METER_INTERVAL;
@@ -178,7 +178,7 @@ int PlayerLifecycleView::UpdateChargeAttack()
             }
             if (previousLevel < static_cast<int>(scalar30384) / PLAYER_CHARGE_METER_INTERVAL)
             {
-                g_SoundPlayer.PlaySoundByIdx(50, sideIndex != 0 ? 500 : -500);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_CHARGE_UP, sideIndex != 0 ? 500 : -500);
             }
         }
         goto afterCharge;

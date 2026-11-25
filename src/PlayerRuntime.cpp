@@ -662,7 +662,7 @@ afterTransition:
         ++player->ownerState30410.activeFrameCounter3C;
         if (player->flagBits1B80.frontSideClearPending03 != 0)
         {
-            g_SoundPlayer.PlaySoundByIdx(48, player->sideIndex != 0 ? 500 : -500);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_LOW_LIFE_WARNING, player->sideIndex != 0 ? 500 : -500);
             player->sideState->frontSide18->ClearState(0);
             player->flagBits1B80.frontSideClearPending03 = 0;
 
@@ -824,7 +824,7 @@ void PlayerLifecycleView::UpdateBeforeState()
 
             state->active1C = 0;
             g_SoundPlayer.PlaySoundByIdx(
-                31, sideIndex != 0 ? 500 : -500);
+                SOUND_POWERUP, sideIndex != 0 ? 500 : -500);
         }
         else
         {

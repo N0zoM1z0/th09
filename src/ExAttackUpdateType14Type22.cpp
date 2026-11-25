@@ -78,7 +78,7 @@ int __fastcall ExAttackUpdateCallbackType14_22(ExAttackRecord *base)
         if (delta.x * delta.x + delta.y * delta.y < 9216.0f)
         {
             g_SoundPlayer.PlaySoundByIdx(
-                16,
+                SOUND_LASER_0,
                 record->opponentSide04 != 0 ? 500 : -500);
 
             static_cast<AnmVm *>(record->dynamicData1C)->visible = 0;

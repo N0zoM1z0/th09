@@ -190,7 +190,7 @@ int TitleScreenView::OnUpdateOptions()
             switch (this->keyboardSelection)
             {
             case 0:
-                g_SoundPlayer.PlaySoundByIdx(12, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 if (g_Supervisor.config388.valueAC == 0)
                 {
                     g_Supervisor.config388.valueAC = 2;
@@ -202,7 +202,7 @@ int TitleScreenView::OnUpdateOptions()
                 this->SetMenuSelectionSprites(g_Supervisor.config388.valueAC, 0x12, 3);
                 break;
             case 1:
-                g_SoundPlayer.PlaySoundByIdx(12, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 if (g_Supervisor.config388.valueAD == 0)
                 {
                     g_Supervisor.config388.valueAD = 1;
@@ -214,7 +214,7 @@ int TitleScreenView::OnUpdateOptions()
                 this->SetMenuSelectionSprites(g_Supervisor.config388.valueAD, 0x15, 2);
                 break;
             case 2:
-                g_SoundPlayer.PlaySoundByIdx(12, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 g_Supervisor.StopAudio();
                 if (g_Supervisor.config388.musicMode == 0)
                 {
@@ -229,7 +229,7 @@ int TitleScreenView::OnUpdateOptions()
                 this->SetMenuSelectionSprites(g_Supervisor.config388.musicMode, 0x17, 3);
                 break;
             case 5:
-                g_SoundPlayer.PlaySoundByIdx(12, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 if (g_Supervisor.config388.windowed == 0)
                 {
                     g_Supervisor.config388.windowed = 1;
@@ -243,7 +243,7 @@ int TitleScreenView::OnUpdateOptions()
             default:
                 goto volume;
             }
-            this->PlayMenuSound(12, 0);
+            this->PlayMenuSound(SOUND_MOVE_MENU, 0);
         }
     volume:
         if (g_ReplayInputStates[2].word06 & 0x40)
@@ -337,7 +337,7 @@ int TitleScreenView::OnUpdateOptions()
             switch (this->keyboardSelection)
             {
             case 0:
-                g_SoundPlayer.PlaySoundByIdx(12, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 if (g_Supervisor.config388.valueAC >= 2)
                 {
                     g_Supervisor.config388.valueAC = 0;
@@ -349,7 +349,7 @@ int TitleScreenView::OnUpdateOptions()
                 this->SetMenuSelectionSprites(g_Supervisor.config388.valueAC, 0x12, 3);
                 break;
             case 1:
-                g_SoundPlayer.PlaySoundByIdx(12, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 if (g_Supervisor.config388.valueAD >= 1)
                 {
                     g_Supervisor.config388.valueAD = 0;
@@ -361,7 +361,7 @@ int TitleScreenView::OnUpdateOptions()
                 this->SetMenuSelectionSprites(g_Supervisor.config388.valueAD, 0x15, 2);
                 break;
             case 2:
-                g_SoundPlayer.PlaySoundByIdx(12, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 g_Supervisor.StopAudio();
                 if (g_Supervisor.config388.musicMode >= 1)
                 {
@@ -376,7 +376,7 @@ int TitleScreenView::OnUpdateOptions()
                 this->SetMenuSelectionSprites(g_Supervisor.config388.musicMode, 0x17, 3);
                 break;
             case 5:
-                g_SoundPlayer.PlaySoundByIdx(12, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
                 if (g_Supervisor.config388.windowed >= 1)
                 {
                     g_Supervisor.config388.windowed = 0;
@@ -390,12 +390,12 @@ int TitleScreenView::OnUpdateOptions()
             default:
                 goto idle;
             }
-            this->PlayMenuSound(12, 0);
+            this->PlayMenuSound(SOUND_MOVE_MENU, 0);
         }
     idle:
         if (this->keyboardSelection >= 3 && this->keyboardSelection <= 4 && this->stateTimer2 % 50 == 0)
         {
-            g_SoundPlayer.PlaySoundByIdx(0x1d, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_SFX_TEST, 0);
         }
         this->optionsFrameCounter = 0;
         if (g_ReplayInputStates[2].word06 & 0x1001)
@@ -406,7 +406,7 @@ int TitleScreenView::OnUpdateOptions()
                 g_Supervisor.config388.valueAC = 0;
                 g_Supervisor.config388.musicMode = 1;
                 g_Supervisor.config388.valueAF = 1;
-                this->PlayMenuSound(10, 0);
+                this->PlayMenuSound(SOUND_SELECT, 0);
                 this->SetMenuSelectionSprites(g_Supervisor.config388.valueAC, 0x12, 3);
                 this->SetMenuSelectionSprites(g_Supervisor.config388.valueAD, 0x15, 2);
                 this->SetMenuSelectionSprites(g_Supervisor.config388.musicMode, 0x17, 3);
@@ -415,7 +415,7 @@ int TitleScreenView::OnUpdateOptions()
             case 7:
                 this->keyboardSelection = 0;
                 this->ChangeCurrentScreen(10);
-                this->PlayMenuSound(10, 0);
+                this->PlayMenuSound(SOUND_SELECT, 0);
                 return 1;
             case 8:
                 goto leave;
@@ -429,7 +429,7 @@ int TitleScreenView::OnUpdateOptions()
                 this->keyboardSelection = 6;
                 this->ChangeCurrentScreen(1);
                 this->OnUpdateStartMenu();
-                this->PlayMenuSound(11, 0);
+                this->PlayMenuSound(SOUND_BACK, 0);
                 if (this->configSnapshot.valueAD != g_Supervisor.config388.valueAD ||
                     this->configSnapshot.windowed != g_Supervisor.config388.windowed)
                 {
@@ -440,7 +440,7 @@ int TitleScreenView::OnUpdateOptions()
             this->titleAnm->SetSprite(&this->vms[static_cast<int>(static_cast<u32>(this->keyboardSelection) + 9u)], this->vms[static_cast<int>(static_cast<u32>(this->keyboardSelection) + 9u)].baseSpriteIndex + 1);
             this->keyboardSelection = 8;
             this->titleAnm->SetSprite(&this->vms[static_cast<int>(static_cast<u32>(this->keyboardSelection) + 9u)], this->vms[static_cast<int>(static_cast<u32>(this->keyboardSelection) + 9u)].baseSpriteIndex);
-            this->PlayMenuSound(11, 0);
+            this->PlayMenuSound(SOUND_BACK, 0);
         }
     }
     // Advance the three original Title screen/timer members directly.

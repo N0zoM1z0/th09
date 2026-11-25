@@ -113,5 +113,5 @@ void __fastcall EnemyEclExInstruction2(
         }
     }
 
-    g_SoundPlayer.PlaySoundByIdx(52, 0);
+    g_SoundPlayer.PlaySoundByIdx(SOUND_TIME_STOP, 0);
 }

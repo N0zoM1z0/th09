@@ -74,7 +74,7 @@ ExAttackRecord *ExAttackController::Spawn(
         static_cast<unsigned int>(side) * sizeof(this->sideLimits[0])))
         return &this->records[256];
 
-    g_SoundPlayer.PlaySoundByIdx(45, side != 0 ? 500 : -500);
+    g_SoundPlayer.PlaySoundByIdx(SOUND_EX_ATTACK, side != 0 ? 500 : -500);
     record = this->records;
     i = 0;
     do

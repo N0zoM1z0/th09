@@ -80,7 +80,7 @@ def main() -> int:
             check_file(ROOT / name)
         check_source_purity()
         subprocess.run(['git', 'diff', 'HEAD', '--check'], cwd=ROOT, check=True)
-        for script in ('validate-tracking.py', 'validate-docs.py', 'progress.py'):
+        for script in ('validate-tracking.py', 'validate-docs.py', 'progress.py', 'check-semantic-protocols.py'):
             command = [sys.executable, '-B', '-S', str(ROOT / 'scripts' / script)]
             if script == 'progress.py':
                 command.append('--check')

@@ -183,7 +183,7 @@ int PlayerLifecycleView::CheckBulletCollision(
 
             this->AddRespawnResource(0.2f);
             g_SoundPlayer.PlaySoundByIdx(
-                46, this->sideIndex != 0 ? 500 : -500);
+                SOUND_BULLET_ERASE, this->sideIndex != 0 ? 500 : -500);
 
             int rewardMode = (g_GameManager.difficulty11C >= 3) + 2;
             int rewardValue =

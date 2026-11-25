@@ -132,7 +132,7 @@ void CardAttack::StartAttack(
             ++*reinterpret_cast<unsigned int *>(
             &startSideState04->player04->header24.state80);
 
-        g_SoundPlayer.PlaySoundByIdx(53, 0);
+        g_SoundPlayer.PlaySoundByIdx(SOUND_CAT_LOUD, 0);
     }
     else
     {
@@ -165,7 +165,7 @@ void CardAttack::StartAttack(
             ++*reinterpret_cast<unsigned int *>(
             &startOtherSideState08->player04->header24.state7C);
 
-        g_SoundPlayer.PlaySoundByIdx(14, 0);
+        g_SoundPlayer.PlaySoundByIdx(SOUND_CAT, 0);
     }
 
     presentationAnm14->SetAndExecuteScriptIdx(&secondaryVms5F4[0], 30);

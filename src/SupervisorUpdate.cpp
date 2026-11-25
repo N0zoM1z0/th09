@@ -3,6 +3,7 @@
 // commit d7653152becabb8c86f2f43d49015ecc11bd0652.
 // Original MIT portions retain their grant in LICENSE; see THIRD_PARTY_NOTICES.md.
 #include "Supervisor.hpp"
+#include "SupervisorStates.hpp"
 #include "SupervisorNetworkService.hpp"
 #include "Chain.hpp"
 #include "AnmManager.hpp"
@@ -105,37 +106,37 @@ int Supervisor::OnUpdate(Supervisor *app)
         app->wantedState2 = app->wantedState58C;
         switch (app->wantedState58C)
         {
-        case 0:
+        case SUPERVISOR_STATE_INIT:
         title:
-            app->curState590 = 1;
+            app->curState590 = SUPERVISOR_STATE_MAIN_MENU;
             g_Supervisor.d3dDevice08->ResourceManagerDiscardBytes(0);
             if (RegisterTitleScreen(0) != 0)
             {
                 return 4;
             }
             break;
-        case 1:
+        case SUPERVISOR_STATE_MAIN_MENU:
             switch (app->curState590)
             {
-            case -1:
+            case SUPERVISOR_STATE_EXIT:
                 return 4;
-            case 2:
+            case SUPERVISOR_STATE_GAME_MANAGER:
                 if (GameManagerSetupLayout::RegisterChain() != 0)
                 {
                     return 4;
                 }
                 break;
-            case 4:
+            case SUPERVISOR_STATE_RESTART_APP:
                 return 5;
-            case 6:
-                app->curState590 = 1;
+            case SUPERVISOR_STATE_MAIN_MENU_RELOAD:
+                app->curState590 = SUPERVISOR_STATE_MAIN_MENU;
                 g_Supervisor.d3dDevice08->ResourceManagerDiscardBytes(0);
                 if (RegisterTitleScreen(1) != 0)
                 {
                     return 4;
                 }
                 break;
-            case 9:
+            case SUPERVISOR_STATE_ENDING:
                 if (Ending::RegisterChain() != 0)
                 {
                     return 4;
@@ -143,82 +144,82 @@ int Supervisor::OnUpdate(Supervisor *app)
                 break;
             }
             break;
-        case 5:
-        case 6:
-        case 8:
+        case SUPERVISOR_STATE_RETURN_TO_TITLE_5:
+        case SUPERVISOR_STATE_MAIN_MENU_RELOAD:
+        case SUPERVISOR_STATE_RETURN_TO_TITLE_8:
             switch (app->curState590)
             {
-            case -1:
+            case SUPERVISOR_STATE_EXIT:
                 return 4;
-            case 1:
-                app->curState590 = 0;
+            case SUPERVISOR_STATE_MAIN_MENU:
+                app->curState590 = SUPERVISOR_STATE_INIT;
                 goto title;
             }
             break;
-        case 2:
+        case SUPERVISOR_STATE_GAME_MANAGER:
             switch (app->curState590)
             {
-            case -1:
+            case SUPERVISOR_STATE_EXIT:
                 return 4;
-            case 1:
+            case SUPERVISOR_STATE_MAIN_MENU:
                 GameManager_CutChain();
-                app->curState590 = 0;
+                app->curState590 = SUPERVISOR_STATE_INIT;
                 goto title;
-            case 6:
+            case SUPERVISOR_STATE_MAIN_MENU_RELOAD:
                 GameManager_CutChain();
-                app->curState590 = 1;
+                app->curState590 = SUPERVISOR_STATE_MAIN_MENU;
                 g_Supervisor.d3dDevice08->ResourceManagerDiscardBytes(0);
                 if (RegisterTitleScreen(1) != 0)
                 {
                     return 4;
                 }
                 break;
-            case 10:
-            case 13:
+            case SUPERVISOR_STATE_GAME_STAGE_TRANSITION_10:
+            case SUPERVISOR_STATE_GAME_STAGE_TRANSITION_13:
                 GameManager_CutChain();
                 if (GameManagerSetupLayout::RegisterChain() != 0)
                 {
                     return 4;
                 }
-                app->curState590 = 2;
+                app->curState590 = SUPERVISOR_STATE_GAME_MANAGER;
                 break;
-            case 11:
+            case SUPERVISOR_STATE_GAME_STAGE_TRANSITION_11:
                 g_Supervisor.value59C = 1;
                 GameManager_CutChain();
                 if (GameManagerSetupLayout::RegisterChain() != 0)
                 {
                     return 4;
                 }
-                app->curState590 = 2;
+                app->curState590 = SUPERVISOR_STATE_GAME_MANAGER;
                 break;
-            case 12:
-                g_Supervisor.curState590 = 3;
+            case SUPERVISOR_STATE_GAME_STAGE_TRANSITION_12:
+                g_Supervisor.curState590 = SUPERVISOR_STATE_GAME_MANAGER_REINIT;
                 GameManager_CutChain();
                 if (GameManagerSetupLayout::RegisterChain() != 0)
                 {
                     return 4;
                 }
-                app->curState590 = 2;
+                app->curState590 = SUPERVISOR_STATE_GAME_MANAGER;
                 break;
-            case 3:
+            case SUPERVISOR_STATE_GAME_MANAGER_REINIT:
                 GameManager_CutChain();
                 if (GameManagerSetupLayout::RegisterChain() != 0)
                 {
                     return 4;
                 }
-                app->curState590 = 2;
+                app->curState590 = SUPERVISOR_STATE_GAME_MANAGER;
                 break;
-            case 7:
+            case SUPERVISOR_STATE_GAME_TO_MAIN_MENU_RELOAD:
                 GameManager_CutChain();
-                app->curState590 = 0;
-                app->curState590 = 1;
+                app->curState590 = SUPERVISOR_STATE_INIT;
+                app->curState590 = SUPERVISOR_STATE_MAIN_MENU;
                 g_Supervisor.d3dDevice08->ResourceManagerDiscardBytes(0);
                 if (RegisterTitleScreen(1) != 0)
                 {
                     return 4;
                 }
                 break;
-            case 9:
+            case SUPERVISOR_STATE_ENDING:
                 GameManager_CutChain();
                 if (Ending::RegisterChain() != 0)
                 {
@@ -227,16 +228,16 @@ int Supervisor::OnUpdate(Supervisor *app)
                 break;
             }
             break;
-        case 9:
+        case SUPERVISOR_STATE_ENDING:
             switch (app->curState590)
             {
-            case -1:
+            case SUPERVISOR_STATE_EXIT:
                 return 4;
-            case 1:
-                app->curState590 = 0;
+            case SUPERVISOR_STATE_MAIN_MENU:
+                app->curState590 = SUPERVISOR_STATE_INIT;
                 goto title;
-            case 6:
-                app->curState590 = 1;
+            case SUPERVISOR_STATE_MAIN_MENU_RELOAD:
+                app->curState590 = SUPERVISOR_STATE_MAIN_MENU;
                 g_Supervisor.d3dDevice08->ResourceManagerDiscardBytes(0);
                 if (RegisterTitleScreen(1) != 0)
                 {

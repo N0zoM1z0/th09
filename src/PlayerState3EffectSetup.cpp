@@ -1,5 +1,6 @@
 #include "PlayerLifecycleView.hpp"
 #include "EffectManager.hpp"
+#include "EffectIds.hpp"
 #include "ZunTimer.hpp"
 
 // PlayerLifecycleView now includes the genuine collision-region producer
@@ -22,7 +23,7 @@ Effect *PlayerLifecycleView::ConfigureState3Effect13()
     SetUpdateState(3);
     timer303C8 = 0x30;
     return sideState->effectManager0C->SpawnEffect(
-        13, reinterpret_cast<EffectFloat3 *>(&position1B88), 1, 0xFFFFFFFF);
+        TH09_EFFECT_PLAYER_STATE3_TIER1, reinterpret_cast<EffectFloat3 *>(&position1B88), 1, 0xFFFFFFFF);
 }
 
 Effect *PlayerLifecycleView::ConfigureState3Effect14()
@@ -36,7 +37,7 @@ Effect *PlayerLifecycleView::ConfigureState3Effect14()
     SetUpdateState(3);
     timer303C8 = 0x40;
     return sideState->effectManager0C->SpawnEffect(
-        14, reinterpret_cast<EffectFloat3 *>(&position1B88), 1, 0xFFFFFFFF);
+        TH09_EFFECT_PLAYER_STATE3_TIER2, reinterpret_cast<EffectFloat3 *>(&position1B88), 1, 0xFFFFFFFF);
 }
 
 Effect *PlayerLifecycleView::ConfigureState3Effect15()
@@ -50,5 +51,5 @@ Effect *PlayerLifecycleView::ConfigureState3Effect15()
     SetUpdateState(3);
     timer303C8 = 0x80;
     return sideState->effectManager0C->SpawnEffect(
-        15, reinterpret_cast<EffectFloat3 *>(&position1B88), 1, 0xFFFFFFFF);
+        TH09_EFFECT_PLAYER_STATE3_TIER3, reinterpret_cast<EffectFloat3 *>(&position1B88), 1, 0xFFFFFFFF);
 }

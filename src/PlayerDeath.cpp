@@ -25,7 +25,7 @@ void PlayerLifecycleView::EnterDeathState()
     if (g_GameManager.frontFactoryA8->GetTransitionBlockFlag())
         return;
 
-    g_SoundPlayer.PlaySoundPositionedByIdx(4, position1B88.x);
+    g_SoundPlayer.PlaySoundPositionedByIdx(SOUND_PICHUN, position1B88.x);
 
     int counterStep = g_PlayerDeathCounter;
     if (selector != 0)
@@ -76,7 +76,7 @@ void PlayerLifecycleView::EnterDeathState()
         header24.state84 = 0;
         g_GameManager.frontFactoryA8->SelectOpponentSide(1 - sideIndex);
         sideState->effectManager0C->SpawnEffectInFixedSlot(
-            19, reinterpret_cast<const EffectFloat3 *>(&position1B88),
+            TH09_EFFECT_PLAYER_DEATH_RING, reinterpret_cast<const EffectFloat3 *>(&position1B88),
             4, 0xFF4040FFu);
     }
     else
@@ -88,7 +88,7 @@ void PlayerLifecycleView::EnterDeathState()
         }
         else
         {
-            g_SoundPlayer.PlaySoundByIdx(48, sideIndex != 0 ? 500 : -500);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_LOW_LIFE_WARNING, sideIndex != 0 ? 500 : -500);
             sideState->frontSide18->ClearState(0);
             header24.state84 = 1;
         }

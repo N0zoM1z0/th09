@@ -302,7 +302,7 @@ i32 TitleScreenView::OnUpdateKeyConfig()
             default:
                 goto afterControllerBinding;
             }
-            PlayMenuSound(10, 0);
+            PlayMenuSound(SOUND_SELECT, 0);
         }
 afterControllerBinding:
         g_TitleLastControllerButton = keyToChange;
@@ -338,7 +338,7 @@ afterControllerBinding:
                 for (i = 0; i < 10; ++i)
                     vms[i + 50].color1Script.d3dColor = 0xFFFFFFFFu;
             }
-            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             break;
         case 1:
             do
@@ -379,7 +379,7 @@ afterControllerBinding:
                 for (i = 0; i < 10; ++i)
                     vms[i + 50].color1Script.d3dColor = 0xFFFFFFFFu;
             }
-            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             break;
         case 2:
             if (g_Supervisor.config388.sideFocusMode[keyConfigSide] <= 0)
@@ -389,7 +389,7 @@ afterControllerBinding:
                 g_Supervisor.config388.sideFocusMode[keyConfigSide], 49);
             SetIndexedSpriteChoice(
                 g_Supervisor.config388.sideFocusMode[keyConfigSide], 42);
-            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             break;
         default:
             break;
@@ -423,7 +423,7 @@ afterControllerBinding:
                 for (i = 0; i < 10; ++i)
                     vms[i + 50].color1Script.d3dColor = 0xFFFFFFFFu;
             }
-            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             break;
         case 1:
             do
@@ -464,7 +464,7 @@ afterControllerBinding:
                 for (i = 0; i < 10; ++i)
                     vms[i + 50].color1Script.d3dColor = 0xFFFFFFFFu;
             }
-            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             break;
         case 2:
             ++g_Supervisor.config388.sideFocusMode[keyConfigSide];
@@ -474,7 +474,7 @@ afterControllerBinding:
                 g_Supervisor.config388.sideFocusMode[keyConfigSide], 49);
             SetIndexedSpriteChoice(
                 g_Supervisor.config388.sideFocusMode[keyConfigSide], 42);
-            g_SoundPlayer.PlaySoundByIdx(12, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_MOVE_MENU, 0);
             break;
         default:
             break;
@@ -487,7 +487,7 @@ afterControllerBinding:
         {
         case 9:
         {
-            PlayMenuSound(11, 0);
+            PlayMenuSound(SOUND_BACK, 0);
             ChangeCurrentScreen(9);
             memcpy(
                 &g_Supervisor.config388.controllerMapping,
@@ -502,7 +502,7 @@ afterControllerBinding:
         }
         case 8:
         {
-            PlayMenuSound(10, 0);
+            PlayMenuSound(SOUND_SELECT, 0);
             memcpy(
                 &keyMapping.serialized,
                 &g_Supervisor.config388.controllerMapping,

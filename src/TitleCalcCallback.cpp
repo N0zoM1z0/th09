@@ -3,6 +3,7 @@
 #include "AnmManager.hpp"
 #include "AnmVmLifecycle.hpp"
 #include "TitleScreenReplayView.hpp"
+#include "TitleScreenStates.hpp"
 #include <stddef.h>
 
 // The original 0x1B388-byte Title owner is now shared by its calc/draw
@@ -26,63 +27,63 @@ int __fastcall TitleCalcCallback(void *object)
 
     switch (title->currentScreen)
     {
-    case 1:
+    case TITLE_SCREEN_START_MENU:
         result = title->OnUpdateStartMenu();
         break;
-    case 6:
+    case TITLE_SCREEN_MODE_SELECT:
         result = title->OnUpdateModeSelect();
         break;
-    case 2:
-    case 4:
-    case 7:
+    case TITLE_SCREEN_DIFFICULTY_STORY:
+    case TITLE_SCREEN_DIFFICULTY_EXTRA:
+    case TITLE_SCREEN_DIFFICULTY_MATCH:
         result = title->OnUpdateDifficultySelect();
         break;
-    case 3:
-    case 5:
+    case TITLE_SCREEN_CHARACTER_STORY:
+    case TITLE_SCREEN_CHARACTER_EXTRA:
         result = title->OnUpdateCharacterSelect();
         break;
-    case 8:
+    case TITLE_SCREEN_MATCH_CHARACTER_SELECT:
         switch (g_TitleModeSelection)
         {
-        case 0:
+        case TITLE_MATCH_MODE_STORY_VS_CPU:
             result = title->UpdateScreen8Mode0();
             break;
-        case 1:
+        case TITLE_MATCH_MODE_P1_VS_P2:
             result = title->UpdateScreen8Mode123();
             break;
-        case 2:
+        case TITLE_MATCH_MODE_P1_VS_CPU:
             result = title->UpdateScreen8Mode123();
             break;
-        case 3:
+        case TITLE_MATCH_MODE_CPU_VS_CPU:
             result = title->UpdateScreen8Mode123();
             break;
-        case 4:
+        case TITLE_MATCH_MODE_EXTRA:
             result = title->UpdateScreen8Mode0();
             break;
         }
         break;
-    case 16:
+    case TITLE_SCREEN_NETWORK_LOBBY:
         result = title->UpdateScreen16();
         break;
-    case 9:
+    case TITLE_SCREEN_OPTIONS:
         result = title->OnUpdateOptions();
         break;
-    case 10:
+    case TITLE_SCREEN_KEY_CONFIG:
         result = title->OnUpdateKeyConfig();
         break;
-    case 11:
+    case TITLE_SCREEN_REPLAY_MENU:
         result = title->OnUpdateReplayMenu();
         break;
-    case 15:
+    case TITLE_SCREEN_REPLAY_SAVE:
         result = title->UpdateReplaySave();
         break;
-    case 12:
+    case TITLE_SCREEN_MUSIC_ROOM:
         result = title->OnUpdateMusicRoom();
         break;
-    case 14:
+    case TITLE_SCREEN_RESULT_NAME_ENTRY:
         result = title->OnUpdateResultNameEntry();
         break;
-    case 13:
+    case TITLE_SCREEN_RESULT_VIEW:
         result = title->OnUpdateResult();
         break;
     }

@@ -1,6 +1,7 @@
 #include "PlayerLifecycleView.hpp"
 #include "Float3.hpp"
 #include "EffectManager.hpp"
+#include "EffectIds.hpp"
 #include "GameConfiguration.hpp"
 #include "AnmManager.hpp"
 #include "AnmVmLifecycle.hpp"
@@ -133,7 +134,7 @@ int PlayerLifecycleView::UpdateMovementAndOptions()
             int spawnSide = player->sideIndex;
             player->focusEffect364 =
                 player->sideState->effectManager0C->SpawnEffectInFixedSlot(
-                    7,
+                    TH09_EFFECT_PLAYER_FOCUS_RING,
                     effectPosition,
                     spawnSide,
                     static_cast<unsigned int>(-1));

@@ -2,6 +2,7 @@
 // Includes the Cirno-Labs/th09 d7653152-adapted Type14/22 draw owner;
 // original MIT portions retain their grant in LICENSE. See THIRD_PARTY_NOTICES.md.
 #include "EclManager.hpp"
+#include "SoundIds.hpp"
 #include "EclRunLate.inl"
 #include "ExAttackType8GameManagerView.hpp"
 #include "GameManagerRuntimeView.hpp"

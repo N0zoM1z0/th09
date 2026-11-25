@@ -4,6 +4,7 @@
 #include <dsound.h>
 
 #include "SoundManager.hpp"
+#include "SoundIds.hpp"
 
 struct SoundPlayerCommand
 {

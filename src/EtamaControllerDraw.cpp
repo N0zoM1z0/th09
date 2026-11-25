@@ -38,21 +38,29 @@ typedef char EtamaSdkVectorLayoutMatchesFloat3[
      offsetof(D3DXVECTOR3, y) == offsetof(Float3, y) &&
      offsetof(D3DXVECTOR3, z) == offsetof(Float3, z)) ? 1 : -1];
 
+enum BulletRenderState
+{
+    BULLET_STATE_SPAWN_FAST = 2,
+    BULLET_STATE_SPAWN_NORMAL = 3,
+    BULLET_STATE_SPAWN_SLOW = 4,
+    BULLET_STATE_DESPAWN = 5
+};
+
 static int DrawSingleBullet(Bullet *bullet)
 {
     AnmVm *vm;
     switch (bullet->state)
     {
-    case 2:
+    case BULLET_STATE_SPAWN_FAST:
         vm = &bullet->sprites.spawnFastVm;
         break;
-    case 3:
+    case BULLET_STATE_SPAWN_NORMAL:
         vm = &bullet->sprites.spawnNormalVm;
         break;
-    case 4:
+    case BULLET_STATE_SPAWN_SLOW:
         vm = &bullet->sprites.spawnSlowVm;
         break;
-    case 5:
+    case BULLET_STATE_DESPAWN:
         vm = &bullet->sprites.despawnVm;
         break;
     default:

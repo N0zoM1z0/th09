@@ -22,7 +22,7 @@ int __fastcall EffectUpdateCallbackType1Type2(Effect *effect)
         effect->suppressDraw = 1;
         if (static_cast<float>(timer) >= state->delay98)
         {
-            g_SoundPlayer.PlaySoundByIdx(46, effect->manager->sideIndex != 0 ? 500 : -500);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_BULLET_ERASE, effect->manager->sideIndex != 0 ? 500 : -500);
             state->delay98 = 0.0f;
             timer = 0;
             effect->suppressDraw = 0;

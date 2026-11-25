@@ -192,7 +192,7 @@ int __fastcall FrontCalcCallback(void *frontArg)
         }
         else if (frame == 30)
         {
-            g_SoundPlayer.PlaySoundByIdx(49, 0);
+            g_SoundPlayer.PlaySoundByIdx(SOUND_PLAYER_DEFEATED, 0);
 
             g_GameManager.sides[static_cast<int>(1u - static_cast<unsigned int>(front->transitionSide10964))]
                 .background00->transitionMode = 1;

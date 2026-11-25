@@ -89,10 +89,10 @@ int AsciiMenuState5::OnUpdate()
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10) || g_AsciiInput.WasPressed(0x20)) {
                 this->state = 2;
-                g_SoundPlayer.PlaySoundByIdx(0, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
             if (g_AsciiInput.WasPressed(0x1001)) {
-                g_SoundPlayer.PlaySoundByIdx(10, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SELECT, 0);
                 for (i = 0; i < 5; i++) {
                     this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
                 }
@@ -111,10 +111,10 @@ int AsciiMenuState5::OnUpdate()
         if (this->frames >= 4) {
             if (g_AsciiInput.WasPressed(0x10) || g_AsciiInput.WasPressed(0x20)) {
                 this->state = 1;
-                g_SoundPlayer.PlaySoundByIdx(0, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SHOOT, 0);
             }
             if (g_AsciiInput.WasPressed(0x1001)) {
-                g_SoundPlayer.PlaySoundByIdx(10, 0);
+                g_SoundPlayer.PlaySoundByIdx(SOUND_SELECT, 0);
                 for (i = 0; i < 5; i++) {
                     this->menuSprites[i].pendingInterrupt = ASCII_INTERRUPT_SHOW;
                 }

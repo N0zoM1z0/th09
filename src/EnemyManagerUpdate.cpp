@@ -24,7 +24,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
     if ((this->rewardFlags3380 & 0x2000) != 0)
     {
         EnemyFloat3 *worldPosition = &this->worldPosition2DD4;
-        g_SoundPlayer.PlaySoundPositionedByIdx(18, worldPosition->x);
+        g_SoundPlayer.PlaySoundPositionedByIdx(SOUND_BOSS_DEATH, worldPosition->x);
         this->manager00->sideState320->rewardPlayer04->rewardAttack30410
             .QueueEnemyReward(worldPosition, 400, 0, 300, 1000);
         this->manager00->sideState320->rewardPlayer04->SpawnDefeatToken(
@@ -34,7 +34,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
 
     if ((this->rewardFlags3380 & 0x0C00) != 0)
     {
-        g_SoundPlayer.PlaySoundPositionedByIdx(18, this->worldPosition2DD4.x);
+        g_SoundPlayer.PlaySoundPositionedByIdx(SOUND_BOSS_DEATH, this->worldPosition2DD4.x);
         this->manager00->sideState320->rewardPlayer04->SpawnDefeatToken(
             g_ReplayRng.GetRandomU16InRange(4), &this->position2D74);
     }
@@ -50,7 +50,7 @@ void EnemyView::HandleDeathRewards(int hitKind)
         (this->rewardFlags3380 & 0x1000) == 0)
     {
         this->manager00->sideState320->effectManager0C->SpawnEffect(
-            5,
+            TH09_EFFECT_ENEMY_DEATH_BURST,
             reinterpret_cast<EffectFloat3 *>(worldPosition),
             1,
             static_cast<unsigned int>(-1));

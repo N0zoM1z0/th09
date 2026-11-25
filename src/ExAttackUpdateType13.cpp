@@ -1,6 +1,7 @@
 #include "AnmManager.hpp"
 #include "AsciiManager.hpp"
 #include "EffectManager.hpp"
+#include "EffectIds.hpp"
 #include "ExAttackController.hpp"
 #include "ExAttackInterpolation.hpp"
 #include "PlayerLifecycleView.hpp"
@@ -61,7 +62,7 @@ int __fastcall ExAttackUpdateCallbackType13(ExAttackRecord *base)
         {
             g_GameManager.sides[record->opponentSide04]
                 .effectManager0C->SpawnEffect(
-                    9,
+                    TH09_EFFECT_SPECIAL_ATTACK_TRAIL,
                     reinterpret_cast<EffectFloat3 *>(&record->position20),
                     1,
                     0xFFFFFFFFU);

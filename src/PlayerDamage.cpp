@@ -96,12 +96,12 @@ int PlayerLifecycleView::CalcDamageToEnemy(
             {
                 PlayerPositionView *effectPosition = &shots[0].position2A4;
                 sideState->effectManager0C->SpawnEffectInFixedSlot(
-                    34, reinterpret_cast<const EffectFloat3 *>(effectPosition), 6,
+                    TH09_EFFECT_PLAYER_DAMAGE_RING, reinterpret_cast<const EffectFloat3 *>(effectPosition), 6,
                     static_cast<unsigned int>(-1));
                 this->CreateCircleType0(
                         reinterpret_cast<const PlayerRegionPointView *>(effectPosition), 0.0f, 1.6f, 6, 70, 0);
                 g_SoundPlayer.PlaySoundByIdx(
-                    16, sideIndex != 0 ? 500 : -500);
+                    SOUND_LASER_0, sideIndex != 0 ? 500 : -500);
             }
         }
     }
