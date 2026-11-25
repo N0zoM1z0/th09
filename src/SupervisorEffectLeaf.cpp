@@ -2,7 +2,7 @@
 
 #include "SupervisorStartEffectView.hpp"
 
-extern ScreenEffect *g_SupervisorScreenEffect;
+ScreenEffect *g_SupervisorScreenEffect;
 
 void SupervisorStartEffectView::StartEffect(int index)
 {

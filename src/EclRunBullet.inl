@@ -258,7 +258,7 @@ static void DispatchShotInstruction(
         if (bulletInt != 0)
         {
             Th09EclRunBullet::View(enemy)->shootIntervalTimer30B8 =
-                Th09EclRunControl::g_Rng.GetRandomU32InRange(bulletInt);
+                Th09EclRunControl::g_ReplayRng.GetRandomU32InRange(bulletInt);
         }
         break;
 

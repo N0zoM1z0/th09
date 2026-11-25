@@ -11,7 +11,7 @@ namespace Controller
 {
 // Target-local relocation evidence establishes two contiguous JOYCAPSA records.
 // Their defining translation unit and physical ownership remain unresolved.
-extern JOYCAPSA g_JoystickCaps[2];
+JOYCAPSA g_JoystickCaps[2];
 
 unsigned short GetJoystickCaps()
 {

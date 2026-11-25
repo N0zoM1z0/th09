@@ -10,7 +10,7 @@
 struct PlayerSharedRuntimeView;
 extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
 extern int g_PlayerRewardBaseValue;
-extern RngRuntimeView g_Rng;
+extern RngRuntimeView g_ReplayRng;
 
 int __fastcall EffectUpdateCallbackType1Type2(Effect *effect)
 {
@@ -52,7 +52,7 @@ int __fastcall EffectUpdateCallbackType1Type2(Effect *effect)
             BulletSpawnDescriptor &descriptor =
                 *reinterpret_cast<BulletSpawnDescriptor *>(&storage);
             descriptor.position = *reinterpret_cast<Float3 *>(&state->velocity18);
-            if (state->levelAA >= 2 && g_Rng.GetRandomU32InRange(5) == 0)
+            if (state->levelAA >= 2 && g_ReplayRng.GetRandomU32InRange(5) == 0)
                 descriptor.bulletType = 3;
             else
                 descriptor.bulletType = state->bulletTypeA4;
@@ -62,20 +62,20 @@ int __fastcall EffectUpdateCallbackType1Type2(Effect *effect)
             descriptor.count2 = 1;
             if (descriptor.bulletType == 3)
             {
-                descriptor.angle = g_Rng.GetRandomF32SignedInRange(0.1308997f) + 1.5707964f;
+                descriptor.angle = g_ReplayRng.GetRandomF32SignedInRange(0.1308997f) + 1.5707964f;
             }
-            else if (g_Rng.GetRandomU32InRange(3) != 0)
+            else if (g_ReplayRng.GetRandomU32InRange(3) != 0)
             {
                 descriptor.color = 5;
                 descriptor.aimMode = 0;
-                descriptor.angle = g_Rng.GetRandomF32SignedInRange(0.22439948f);
+                descriptor.angle = g_ReplayRng.GetRandomF32SignedInRange(0.22439948f);
             }
             else
             {
                 descriptor.color = 3;
-                descriptor.angle = g_Rng.GetRandomF32SignedInRange(0.2617994f) + 1.5707964f;
+                descriptor.angle = g_ReplayRng.GetRandomF32SignedInRange(0.2617994f) + 1.5707964f;
             }
-            descriptor.speed1 = g_Rng.GetRandomF32SignedInRange(0.4f) + state->speedA0;
+            descriptor.speed1 = g_ReplayRng.GetRandomF32SignedInRange(0.4f) + state->speedA0;
             if (g_GameManager.sides[1 - state->sideIndexA8].characterIndex20 == 10)
                 descriptor.speed1 *= 0.93f;
             if (descriptor.bulletType == 3)

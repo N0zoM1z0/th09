@@ -61,5 +61,20 @@ typedef char SharedScoreDateAt21[
 // Both producer and renderer resolve to these very same external names.
 // Declaration-only; storage/constructors still require independent native
 // product closure and are not manufactured in the source here.
+struct LastNameRecordView
+{
+    unsigned int magic;
+    unsigned short chapterSize;
+    unsigned short chapterSizeCopy;
+    unsigned char version;
+    unsigned char runtimeMarker;
+    unsigned char unknown0A[2];
+    char name[9];
+};
+
+typedef char LastNameRecordSizeIs18[(sizeof(LastNameRecordView) == 0x18) ? 1 : -1];
+typedef char LastNameRecordNameAt0C[(offsetof(LastNameRecordView, name) == 0x0C) ? 1 : -1];
+
+extern LastNameRecordView g_LastNameRecord;
 extern TitleScoreRecordView g_TitleScoreRecord;
 extern TitleScoreRecordView g_TitleScoreTable[16][5][5];

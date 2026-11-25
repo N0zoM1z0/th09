@@ -93,7 +93,7 @@ typedef char PlayerRuntimeNativeTrackingResetAt30364[
 
 // The ANM singleton uses the same native interface as the loader.
 extern AnmManager *g_AnmManager;
-extern PlayerShtFileView *g_PlayerShtFilesBySide[2];
+PlayerShtFileView *g_PlayerShtFilesBySide[2];
 extern const char *g_PlayerResourcePaths[][6];
 int g_PlayerTable303F0[16] = {
     10, 10, 19, 10, 10, 10, 9, 12, 15, 15, 13, 12, 12, 14, 9, 9,

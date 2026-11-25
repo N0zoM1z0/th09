@@ -62,7 +62,7 @@ SupervisorMusicTrackRecord g_SupervisorMusicTracks[19] = {
     { 17, "th09_17.mid",   -1, 18 },
 };
 extern unsigned char g_MusicUnlocked[];
-extern int g_SoundPlayerBgmValue;
+int g_SoundPlayerBgmValue;
 
 // Native music tracks are 0x10-byte table records; the unlock IDs index
 // the real global byte table. Preserve separate live member reads and the

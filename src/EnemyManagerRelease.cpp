@@ -43,7 +43,7 @@ void __fastcall ReleaseSubsystem4(void *object)
     }
 }
 
-extern RngRuntimeView g_Rng;
+extern RngRuntimeView g_ReplayRng;
 extern unsigned char g_EnemySubroutineSchedule[256];
 
 void EnemyManagerView::ResetForGameplayCleanup()
@@ -63,10 +63,10 @@ void EnemyManagerView::ResetForGameplayCleanup()
         for (int index = 0; index < 256; index++)
         {
             g_EnemySubroutineSchedule[index] = static_cast<unsigned char>(
-                g_Rng.GetRandomU32InRange(
+                g_ReplayRng.GetRandomU32InRange(
                     primaryEclManager000.GetSubroutineCount()));
             g_EnemySubroutineSchedule[index] |= static_cast<unsigned char>(
-                g_Rng.GetRandomU32InRange(2) << 7);
+                g_ReplayRng.GetRandomU32InRange(2) << 7);
         }
     }
 

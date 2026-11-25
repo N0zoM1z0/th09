@@ -17,8 +17,8 @@ struct LzssTreeNode
     int right;
 };
 
-extern LzssTreeNode g_LzssTree[0x2001];
-extern unsigned char g_LzssDictionary[0x2000];
+LzssTreeNode g_LzssTree[0x2001];
+unsigned char g_LzssDictionary[0x2000];
 
 typedef char LzssTreeNodeSizeIs0C[sizeof(LzssTreeNode) == 0x0C ? 1 : -1];
 

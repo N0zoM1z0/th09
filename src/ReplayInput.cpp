@@ -130,7 +130,7 @@ extern SupervisorReplayView g_Supervisor;
 extern u32 g_ReplayHeaderValue1D4;
 extern u32 g_ReplayHeaderValue1D8;
 
-extern char g_ReplayPlayTimeText[];
+#include "TitleScoreRecordView.hpp"
 
 // Names written to the Shift-JIS replay USER section.
 const char *g_ReplayCharacterNames[16] =
@@ -928,7 +928,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
     infoCursor = AppendReplayFormat(infoCursor,
         "\x83\x76\x83\x8c\x83\x43\x83\x84\x81\x5b\x96\xbc\t%s\r\n", replayName);
     infoCursor = AppendReplayFormat(infoCursor,
-        "\x83\x76\x83\x8c\x83\x43\x8e\x9e\x8d\x8f\t%s\r\n", g_ReplayPlayTimeText);
+        "\x83\x76\x83\x8c\x83\x43\x8e\x9e\x8d\x8f\t%s\r\n", g_TitleScoreRecord.date);
     infoCursor = AppendReplayFormat(infoCursor,
         "\x93\xef\x88\xd5\x93\x78\t\t%s\r\n", g_ReplayDifficultyNames[g_GameManager.difficulty]);
     int mode = g_GameManager.gameMode;
@@ -965,7 +965,7 @@ int ReplayManagerView::SaveReplay(ReplayManagerView *replayManager, const char *
 
     replayCopy.value07 = 1;
     strcpy(replayCopy.playerName, replayName);
-    strcpy(replayCopy.playTime, g_ReplayPlayTimeText);
+    strcpy(replayCopy.playTime, g_TitleScoreRecord.date);
     replayCopy.obfuscationKey = (u8)(g_ReplayRng.GetRandomU16InRange(0x80) + 0x40);
     replayCopy.value1D0 = ReplayRecordingCapacity::FramesPerFpsSample;
     replayCopy.randomPayloadByte = (u8)g_ReplayRng.GetRandomU16InRange(0x100);

@@ -63,7 +63,7 @@ extern RngRuntimeView g_ReplayRng;
 extern ZunMemory g_ZunMemory;
 extern GameErrorContext g_GameErrorContext;
 
-extern char g_ExecutableDirectory[MAX_PATH];
+namespace FileSystem { extern char g_ExecutableDirectory[MAX_PATH]; }
 extern int g_ScreenSaverActive;
 extern int g_LowPowerActive;
 extern int g_PowerOffActive;
@@ -157,36 +157,36 @@ int WINAPI WinMain(
     MSG message;
     int renderResult = 0;
 
-    if (GetModuleFileNameA(NULL, g_ExecutableDirectory, MAX_PATH) != 0)
+    if (GetModuleFileNameA(NULL, FileSystem::g_ExecutableDirectory, MAX_PATH) != 0)
     {
-        int pathIndex = (int)strlen(g_ExecutableDirectory) - 1;
-        if (g_ExecutableDirectory[pathIndex] != '\\')
+        int pathIndex = (int)strlen(FileSystem::g_ExecutableDirectory) - 1;
+        if (FileSystem::g_ExecutableDirectory[pathIndex] != '\\')
         {
             do
             {
-                if (g_ExecutableDirectory[pathIndex] == '/')
+                if (FileSystem::g_ExecutableDirectory[pathIndex] == '/')
                     break;
                 if (pathIndex <= 0)
                     goto executable_path_fallback;
                 --pathIndex;
             }
-            while (g_ExecutableDirectory[pathIndex] != '\\');
+            while (FileSystem::g_ExecutableDirectory[pathIndex] != '\\');
         }
 
         if (pathIndex <= 0)
         {
         executable_path_fallback:
-            strcpy(g_ExecutableDirectory, "./");
+            strcpy(FileSystem::g_ExecutableDirectory, "./");
         }
         else
         {
-            g_ExecutableDirectory[pathIndex] = '/';
-            g_ExecutableDirectory[pathIndex + 1] = '\0';
+            FileSystem::g_ExecutableDirectory[pathIndex] = '/';
+            FileSystem::g_ExecutableDirectory[pathIndex + 1] = '\0';
         }
     }
     else
     {
-        strcpy(g_ExecutableDirectory, "./");
+        strcpy(FileSystem::g_ExecutableDirectory, "./");
     }
 
     g_Supervisor.instance00 = hInstance;

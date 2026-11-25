@@ -2,7 +2,7 @@
 #include "EffectType34RuntimeView.hpp"
 #include "RngRuntimeLeaves.hpp"
 
-extern RngRuntimeView g_Rng;
+extern RngRuntimeView g_ReplayRng;
 
 int __fastcall EffectUpdateCallbackType34(Effect *effect)
 {
@@ -26,7 +26,7 @@ int __fastcall EffectUpdateCallbackType34(Effect *effect)
         {
             float *value = row;
             for (int index = 0; index < 32; ++index)
-                *value++ = g_Rng.GetRandomF32SignedInRange(static_cast<float>(timer));
+                *value++ = g_ReplayRng.GetRandomF32SignedInRange(static_cast<float>(timer));
             row += 33;
         }
         if (timer >= 30)

@@ -12,6 +12,9 @@ struct TextHelperBitmapInfo
 
 typedef char TextHelperBitmapInfoSizeIs6C[(sizeof(TextHelperBitmapInfo) == 0x6C) ? 1 : -1];
 
+IDirect3DSurface8 *g_TextBufferSurface;
+unsigned long g_TextOutlineColor;
+
 extern const char g_TextFontFaceName[] = "\x82\x6C\x82\x72 \x83\x53\x83\x56\x83\x62\x83\x4E"; // ＭＳ ゴシック
 
 TextHelperFormatInfo g_TextHelperFormats[7] = {

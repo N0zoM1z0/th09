@@ -195,7 +195,7 @@ typedef char AnmExecAnmFileAt204[(offsetof(AnmVm,anmFile)==0x204)?1:-1];
 typedef char AnmExecCurrentInstructionAt220[(offsetof(AnmVm,currentInstruction)==0x220)?1:-1];
 typedef char AnmExecLastSpriteTimeAt294[(offsetof(AnmVm,timeOfLastSpriteSet)==0x294)?1:-1];
 
-extern RngRuntimeView g_Rng;
+extern RngRuntimeView g_ReplayRng;
 
 float AddNormalizeAngle(float value, float base);
 
@@ -266,9 +266,9 @@ f32 AnmVm::GetFloatVar(f32 varId)
     case AnmVariable_IC1: return (f32)counterVar1;
     // TH09 variable IDs select signed range(pi), unit, and signed RNG.
     // Keep the switch labels faithful; relocation tables cannot remap cases.
-    case 10011: return g_Rng.GetRandomF32();
-    case 10012: return g_Rng.GetRandomF32Signed();
-    case 10010: return g_Rng.GetRandomF32SignedInRange(3.1415927f);
+    case 10011: return g_ReplayRng.GetRandomF32();
+    case 10012: return g_ReplayRng.GetRandomF32Signed();
+    case 10010: return g_ReplayRng.GetRandomF32SignedInRange(3.1415927f);
     default: return varId;
     }
 }
@@ -738,10 +738,10 @@ ZunBool AnmManager::ExecuteScript(AnmVm *vm)
             *GET_FLOAT_VAR_PTR(0) = fmodf(GET_FLOAT_VAR(0), GET_FLOAT_VAR(1));
             break;
         case AnmOpcode_ISetRand:
-            *GET_INT_VAR_PTR(0) = g_Rng.GetRandomU32InRange(GET_INT_VAR(1));
+            *GET_INT_VAR_PTR(0) = g_ReplayRng.GetRandomU32InRange(GET_INT_VAR(1));
             break;
         case AnmOpcode_FSetRand:
-            *GET_FLOAT_VAR_PTR(0) = g_Rng.GetRandomF32InRange(GET_FLOAT_VAR(1));
+            *GET_FLOAT_VAR_PTR(0) = g_ReplayRng.GetRandomF32InRange(GET_FLOAT_VAR(1));
             break;
         case AnmOpcode_FSin:
             *GET_FLOAT_VAR_PTR(0) = sinf(GET_FLOAT_VAR(1));

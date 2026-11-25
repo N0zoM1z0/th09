@@ -37,9 +37,10 @@ typedef char ReplaySaveSelectedAtC908[
 typedef char ReplaySaveTimer2At1B230[
     (offsetof(TitleScreenView, stateTimer2) == 0x1B230) ? 1 : -1];
 
+#include "TitleScoreRecordView.hpp"
+
 extern AsciiManager g_AsciiManager;
 extern char *g_TitleAlphabet;
-extern char g_ReplayPlayTimeText[];
 
 int TitleScreenView::DrawReplaySave()
 {
@@ -83,7 +84,7 @@ int TitleScreenView::DrawReplaySave()
             pos = end;
         }
         g_AsciiManager.color = 0xffffffff;
-        g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&pos), "No.%.2d %.8s %8s", static_cast<int>(static_cast<u32>(row) + 1u), this->replayName, g_ReplayPlayTimeText);
+        g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&pos), "No.%.2d %.8s %8s", static_cast<int>(static_cast<u32>(row) + 1u), this->replayName, g_TitleScoreRecord.date);
         pos.x += static_cast<int>(
             (static_cast<u32>(this->replayNameCursor) + 6u) * 9u);
         g_AsciiManager.AddFormatText(reinterpret_cast<Float3 *>(&pos), "%.8s", "_");

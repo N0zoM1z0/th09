@@ -129,10 +129,10 @@ int __fastcall ResolveInt(EnemyView *enemy, int rawValue)
     case TH09_ECL_OPERAND_EXTRA_INT_2: return enemy->activeContext2CE0->intVariables5C[2];
     case TH09_ECL_OPERAND_EXTRA_INT_3: return enemy->activeContext2CE0->intVariables5C[3];
 
-    case TH09_ECL_OPERAND_RANDOM_NONNEGATIVE_INT: return static_cast<int>(g_Rng.GetRandomU32() & 0x7FFFFFFF);
-    case TH09_ECL_OPERAND_RANDOM_UNIT_FLOAT: return static_cast<int>(g_Rng.GetRandomF32());
-    case TH09_ECL_OPERAND_RANDOM_RAW_INT: return static_cast<int>(g_Rng.GetRandomU32());
-    case TH09_ECL_OPERAND_RANDOM_SIGNED_UNIT_FLOAT: return static_cast<int>(g_Rng.GetRandomF32Signed());
+    case TH09_ECL_OPERAND_RANDOM_NONNEGATIVE_INT: return static_cast<int>(g_ReplayRng.GetRandomU32() & 0x7FFFFFFF);
+    case TH09_ECL_OPERAND_RANDOM_UNIT_FLOAT: return static_cast<int>(g_ReplayRng.GetRandomF32());
+    case TH09_ECL_OPERAND_RANDOM_RAW_INT: return static_cast<int>(g_ReplayRng.GetRandomU32());
+    case TH09_ECL_OPERAND_RANDOM_SIGNED_UNIT_FLOAT: return static_cast<int>(g_ReplayRng.GetRandomF32Signed());
 
     case TH09_ECL_OPERAND_DIFFICULTY: return g_GameManager.difficulty;
     case TH09_ECL_OPERAND_GAME_MANAGER_VALUE_B4: return g_GameManager.valueB4;
@@ -386,11 +386,11 @@ float EnemyView::ResolveFloat(float rawValue)
     case TH09_ECL_OPERAND_EXTRA_INT_2: return static_cast<float>(this->activeContext2CE0->intVariables5C[2]);
     case TH09_ECL_OPERAND_EXTRA_INT_3: return static_cast<float>(this->activeContext2CE0->intVariables5C[3]);
 
-    case TH09_ECL_OPERAND_RANDOM_NONNEGATIVE_INT: return static_cast<float>(Th09EclRunControl::g_Rng.GetRandomU32() & 0x7FFFFFFF);
-    case TH09_ECL_OPERAND_RANDOM_UNIT_FLOAT: return Th09EclRunControl::g_Rng.GetRandomF32();
-    case TH09_ECL_OPERAND_RANDOM_RAW_INT: return static_cast<float>(static_cast<int>(Th09EclRunControl::g_Rng.GetRandomU32()));
-    case TH09_ECL_OPERAND_RANDOM_SIGNED_UNIT_FLOAT: return Th09EclRunControl::g_Rng.GetRandomF32Signed();
-    case TH09_ECL_OPERAND_RANDOM_ANGLE: return Th09EclRunControl::g_Rng.GetRandomF32InRange(6.2831855f) - 3.1415927f;
+    case TH09_ECL_OPERAND_RANDOM_NONNEGATIVE_INT: return static_cast<float>(Th09EclRunControl::g_ReplayRng.GetRandomU32() & 0x7FFFFFFF);
+    case TH09_ECL_OPERAND_RANDOM_UNIT_FLOAT: return Th09EclRunControl::g_ReplayRng.GetRandomF32();
+    case TH09_ECL_OPERAND_RANDOM_RAW_INT: return static_cast<float>(static_cast<int>(Th09EclRunControl::g_ReplayRng.GetRandomU32()));
+    case TH09_ECL_OPERAND_RANDOM_SIGNED_UNIT_FLOAT: return Th09EclRunControl::g_ReplayRng.GetRandomF32Signed();
+    case TH09_ECL_OPERAND_RANDOM_ANGLE: return Th09EclRunControl::g_ReplayRng.GetRandomF32InRange(6.2831855f) - 3.1415927f;
 
     case TH09_ECL_OPERAND_DIFFICULTY: return static_cast<float>(g_GameManager.difficulty);
     case TH09_ECL_OPERAND_GAME_MANAGER_VALUE_B4: return static_cast<float>(g_GameManager.valueB4);

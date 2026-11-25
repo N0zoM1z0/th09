@@ -8,7 +8,7 @@
 
 struct PlayerSharedRuntimeView;
 extern PlayerSharedRuntimeView *g_PlayerSharedRuntime;
-extern RngRuntimeView g_Rng;
+extern RngRuntimeView g_ReplayRng;
 
 // The target callback operates on the actual 0x5430-byte Enemy pool.
 // Its old private +0x2DF8 field called "speed" is the native acceleration
@@ -62,10 +62,10 @@ int __fastcall EffectUpdateCallbackType3Type4(Effect *effect)
         enemy->secondaryFlagBits3380.movement.effectCategory06_08 = state->colorA6;
         enemy->acceleration2DF8 += state->speedA0;
         int range = EffectTrailOpponent(state)->character20 != 7 ? 5 : 4;
-        if (g_Rng.GetRandomU32InRange(range) != 0)
+        if (g_ReplayRng.GetRandomU32InRange(range) != 0)
         {
             enemy->movementAngle2DE0 =
-                g_Rng.GetRandomF32SignedInRange(0.015707964f) + 1.5707964f;
+                g_ReplayRng.GetRandomF32SignedInRange(0.015707964f) + 1.5707964f;
         }
         else
         {
@@ -73,7 +73,7 @@ int __fastcall EffectUpdateCallbackType3Type4(Effect *effect)
                 EffectTrailOpponent(state)->player04)->AngleToPoint(
                     reinterpret_cast<PlayerAngleFloat3View *>(&enemy->worldPosition2DD4));
             enemy->movementAngle2DE0 =
-                angle + g_Rng.GetRandomF32SignedInRange(0.3926991f);
+                angle + g_ReplayRng.GetRandomF32SignedInRange(0.3926991f);
         }
     }
     return 0;

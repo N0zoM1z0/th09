@@ -58,7 +58,7 @@ typedef char PrimitiveVertexBufferAt12890[(offsetof(AnmManagerPrimitiveView, qua
 typedef char PrimitiveSoftwareVerticesAt12894[(offsetof(AnmManagerPrimitiveView, untexturedVector) == 0x12894) ? 1 : -1];
 typedef char PrimitiveSpritesToDrawAt128E4[(offsetof(AnmManagerPrimitiveView, spritesToDraw) == 0x128E4) ? 1 : -1];
 
-extern BackgroundQuadVertexView g_BackgroundQuadVertices[4];
+BackgroundQuadVertexView g_BackgroundQuadVertices[4];
 
 static __inline AnmManagerPrimitiveView *PrimitiveManager(AnmManager *manager)
 {

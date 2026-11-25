@@ -12,7 +12,7 @@
 #include <string.h>
 
 extern AnmLoaded *g_FrontMessageAnm;
-extern RngRuntimeView g_Rng;
+extern RngRuntimeView g_ReplayRng;
 
 // The on-disk message table owns a file-backed sequence of eight-byte
 // entries and its live count00; use the real indexed entry allocation.
@@ -39,7 +39,7 @@ void FrontMessageRuntimeView::SetupRandomForSide(int side)
         msgFile = msgFile2;
     }
     this->mode10 = side;
-    roll = g_Rng.GetRandomU16InRange(0x100);
+    roll = g_ReplayRng.GetRandomU16InRange(0x100);
     for (i = first;
          i < static_cast<int>(static_cast<unsigned int>(first) + 10u);
          i = static_cast<int>(static_cast<unsigned int>(i) + 1u))
@@ -57,7 +57,7 @@ void FrontMessageRuntimeView::SetupRandomForSide(int side)
     }
     if (i >= static_cast<int>(static_cast<unsigned int>(first) + 10u))
     {
-        roll = g_Rng.GetRandomU16InRange(0x100);
+        roll = g_ReplayRng.GetRandomU16InRange(0x100);
         for (i = 210; i < 220;
              i = static_cast<int>(static_cast<unsigned int>(i) + 1u))
         {

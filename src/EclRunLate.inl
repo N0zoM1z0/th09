@@ -184,7 +184,7 @@ static void MoveRandomBiased(
                 instruction,
                 0);
             *lateFloatResult = Th09EclRunControl::AddNormalizeAngle(
-                Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) +
+                Th09EclRunControl::g_ReplayRng.GetRandomF32InRange(1.5707964f) +
                     2.3561945f,
                 0.0f);
         }
@@ -195,7 +195,7 @@ static void MoveRandomBiased(
                 instruction,
                 0);
             *lateFloatResult =
-                Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) -
+                Th09EclRunControl::g_ReplayRng.GetRandomF32InRange(1.5707964f) -
                 0.78539819f;
         }
         break;

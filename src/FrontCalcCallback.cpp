@@ -13,7 +13,7 @@
 #include <stddef.h>
 
 extern AsciiGameManagerView g_GameManager;
-extern int g_FrontDynamicSprite;
+extern int g_SoundPlayerBgmValue;
 extern int g_EndingLifecycleState;
 extern unsigned char g_FrontMode0Done;
 extern unsigned char g_FrontOtherModeDone;
@@ -60,15 +60,15 @@ int __fastcall FrontCalcCallback(void *frontArg)
     g_AnmManager->ExecuteScript(&front->resultVms11EAC[1]);
     g_AnmManager->ExecuteScript(&front->vm106B4);
 
-    if (g_FrontDynamicSprite != front->dynamicSprite10958)
+    if (g_SoundPlayerBgmValue != front->dynamicSprite10958)
     {
-        front->dynamicSprite10958 = g_FrontDynamicSprite;
-        if (g_FrontDynamicSprite >= 0)
+        front->dynamicSprite10958 = g_SoundPlayerBgmValue;
+        if (g_SoundPlayerBgmValue >= 0)
         {
             front->frontAnm08->ExecuteAnmIdx(&front->vm106B4, 87);
             front->frontAnm08->SetSprite(
                 &front->vm106B4,
-                static_cast<int>(static_cast<unsigned int>(g_FrontDynamicSprite) + 82u));
+                static_cast<int>(static_cast<unsigned int>(g_SoundPlayerBgmValue) + 82u));
         }
     }
 

@@ -5,7 +5,7 @@
 #include <windows.h>
 #include <string.h>
 
-extern HANDLE g_ExclusiveMutex;
+HANDLE g_ExclusiveMutex;
 extern GameErrorContext g_GameErrorContext;
 extern unsigned int g_WindowRuntimeFlags;
 

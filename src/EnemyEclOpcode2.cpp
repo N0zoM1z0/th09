@@ -17,7 +17,7 @@ struct BulletTransformResetView
     void ResetTransformRuntime();
 };
 
-extern RngRuntimeView g_Rng;
+extern RngRuntimeView g_ReplayRng;
 
 void __fastcall EnemyEclExInstruction2(
     EnemyView *enemy, EnemyEclExInstructionView *)
@@ -41,7 +41,7 @@ void __fastcall EnemyEclExInstruction2(
             *reinterpret_cast<int *>(&bullet->unknownD74[0]) = 0;
             *reinterpret_cast<int *>(&bullet->unknownD74[4]) = 0;
             bullet->angle =
-                g_Rng.GetRandomF32SignedInRange(3.1415927f);
+                g_ReplayRng.GetRandomF32SignedInRange(3.1415927f);
             *reinterpret_cast<int *>(&bullet->unknownD80[0]) = 0;
             *reinterpret_cast<int *>(&bullet->unknownD80[4]) = 0;
             bullet->velocity.x = 0.0f;
@@ -81,7 +81,7 @@ void __fastcall EnemyEclExInstruction2(
             *reinterpret_cast<int *>(&bullet->unknownD74[0]) = 0;
             *reinterpret_cast<int *>(&bullet->unknownD74[4]) = 0;
             bullet->angle =
-                g_Rng.GetRandomF32SignedInRange(3.1415927f);
+                g_ReplayRng.GetRandomF32SignedInRange(3.1415927f);
             *reinterpret_cast<int *>(&bullet->unknownD80[0]) = 0;
             *reinterpret_cast<int *>(&bullet->unknownD80[4]) = 0;
             bullet->velocity.x = 0.0f;

@@ -5,7 +5,7 @@
 
 #include "GameManagerOpponentSelectionView.hpp"
 
-extern RngRuntimeView g_Rng;
+extern RngRuntimeView g_ReplayRng;
 extern unsigned char g_TitleCharacterUnlocked[16];
 extern int g_FrontRuntimeValues90[4];
 OpponentSelectionEntry g_OpponentEntries[17] = {
@@ -503,7 +503,7 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
         // Every subsequent decision observes the signed low word. Unsigned
         // storage preserves the target subtraction's modulo-65536 behavior.
         unsigned short roll =
-            g_Rng.GetRandomU32InRange(totalWeight);
+            g_ReplayRng.GetRandomU32InRange(totalWeight);
 
         int selectedIndex = 0;
         if (candidateCount > 0)
@@ -579,7 +579,7 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
 
     if (selector == -1)
     {
-        int randomSide = g_Rng.GetRandomU32InRange(2);
+        int randomSide = g_ReplayRng.GetRandomU32InRange(2);
         selected = g_OpponentEntries;
         if (selected->key00 >= 0)
         {
@@ -614,7 +614,7 @@ void AsciiGameManagerView::SelectOpponentConfiguration()
         }
 
         unsigned int selectedVisible =
-            g_Rng.GetRandomU32InRange(availableCount);
+            g_ReplayRng.GetRandomU32InRange(availableCount);
         int visibleIndex = 0;
         int character = 0;
 

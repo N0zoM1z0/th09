@@ -96,9 +96,8 @@ typedef char SetupGameManagerNativeReplayOffsets[
 extern Chain g_Chain;
 extern ChainElem g_GameManagerCalcChain;
 extern ChainElem g_GameManagerDrawChain;
-extern char g_ReplayPlayTimeText[];
-extern int g_SetupStatus;
-extern RngRuntimeView g_Rng;
+extern int g_ScreenEffectCounter;
+extern RngRuntimeView g_ReplayRng;
 
 extern AsciiManager g_AsciiManager;
 extern AnmVm g_SupervisorLoadingVms[3];
@@ -278,7 +277,7 @@ int GameManagerSetupLayout::OnUpdate(GameManagerSetupLayout *gameManager)
         {
             // Sample an unsigned four-lane value before the later int adjustment.
             unsigned short laneSample =
-                g_Rng.NextU16() % 4;
+                g_ReplayRng.NextU16() % 4;
             int lane = laneSample;
             if (lane == g_LastSpawnLane)
             {
@@ -713,7 +712,7 @@ void __fastcall GameplaySetupThread(void *unused)
     (void)unused;
 
     ResetGameManager(&globalManager);
-    FormatCurrentDateString(g_ReplayPlayTimeText);
+    FormatCurrentDateString(g_TitleScoreRecord.date);
 
     globalManager.flags |= 4;
     globalManager.flags &= ~0x1800u;
@@ -798,7 +797,7 @@ mode_ready:
 
         if ((g_GameManager.flags & 8) == 0)
         {
-            g_GameManager.seedCopy346 = g_Rng.seed;
+            g_GameManager.seedCopy346 = g_ReplayRng.seed;
             g_GameManager.SelectOpponentConfiguration();
             g_GameManager.replayManagerD4 = ReplayManagerView::Create(0, NULL);
         }
@@ -828,7 +827,7 @@ mode_ready:
 
         if ((g_GameManager.flags & 8) == 0)
         {
-            g_GameManager.seedCopy346 = g_Rng.seed;
+            g_GameManager.seedCopy346 = g_ReplayRng.seed;
             g_GameManager.SelectOpponentConfiguration();
             DispatchReplayStage(
                 g_GameManager.replayManagerD4, 0);
@@ -991,7 +990,7 @@ mode_ready:
     supervisor->subthreadActive = 0;
     supervisor->screenTransitionCountdown = 60;
     supervisor->value59C = 0;
-    g_SetupStatus = 2;
+    g_ScreenEffectCounter = 2;
     supervisor->systemTime = timeGetTime();
     return;
 
@@ -1002,7 +1001,7 @@ setup_failed:
     supervisor->subthreadCloseRequestActive = 0;
     supervisor->subthreadActive = 0;
     supervisor->value59C = 0;
-    g_SetupStatus = 2;
+    g_ScreenEffectCounter = 2;
 }
 
 void __fastcall ResetGameManager(GameManagerSetupLayout *manager)

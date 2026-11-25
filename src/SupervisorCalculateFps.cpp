@@ -34,13 +34,13 @@ typedef char SupervisorCalculateRecordedFpsAt5C8[
 typedef char SupervisorCalculateFrequencyAt744[
     (offsetof(SupervisorCalculateFpsLayout, fpsPerformanceFrequency) == 0x744) ? 1 : -1];
 
-extern unsigned int g_FpsQpcSampleCount;
-extern LARGE_INTEGER g_FpsLastQpc;
-extern unsigned int g_FpsLastTime;
-extern unsigned int g_FpsTimeInitialized;
-extern unsigned int g_FpsFrameCount;
-extern char g_FpsBuffer[];
-extern char g_FpsDebugBuffer[];
+unsigned int g_FpsQpcSampleCount;
+LARGE_INTEGER g_FpsLastQpc;
+unsigned int g_FpsLastTime;
+unsigned int g_FpsTimeInitialized;
+unsigned int g_FpsFrameCount;
+char g_FpsBuffer[256];
+char g_FpsDebugBuffer[256];
 extern AsciiManager g_AsciiManager;
 
 void __fastcall SupervisorCalculateFps(int shouldDraw)

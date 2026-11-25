@@ -248,8 +248,6 @@ extern u32 g_TitleSide0InputFlags;
 
 extern ReplayManagerView *g_ReplayManager;
 extern char *g_TitleAlphabet;
-extern char g_ReplayName[];
-extern TitleNameRecordView g_TitleNameTable[][5][5];
 extern i32 g_TitleNameTableIndex;
 extern i32 g_GameMode;
 extern u32 g_TitleGameFlags;
@@ -312,7 +310,7 @@ extern i32 g_TitleResultUnlockStep;
 extern ScreenEffect *g_TitleFadeReleaseEffect;
 extern TitleSideInputView g_TitleSide0Input;
 extern TitleSideInputView g_TitleSide1Input;
-extern RngRuntimeView g_Rng;
+extern RngRuntimeView g_ReplayRng;
 extern void __fastcall PrepareTitleMode4Network(void *optionState);
 extern void __fastcall ResetTitleMode4Supervisor(TitleSupervisorView *supervisor);
 extern int SaveTitleScoreData();
@@ -1547,7 +1545,7 @@ int TitleScreenView::UpdateScreen8Mode0()
 
             if (g_TitleSide0Input.currentInput & 0x100)
             {
-                side0CharacterCursor += g_Rng.GetRandomU32() & 0xF;
+                side0CharacterCursor += g_ReplayRng.GetRandomU32() & 0xF;
                 if (side0CharacterCursor >= 16)
                     side0CharacterCursor -= 16;
                 MoveCharacterCursor(0, 1, g_TitleCharacterOrder, 16);
@@ -1600,7 +1598,7 @@ int TitleScreenView::UpdateScreen8Mode0()
 
             if (g_TitleSide1Input.currentInput & 0x100)
             {
-                side1CharacterCursor += g_Rng.GetRandomU32() & 0xF;
+                side1CharacterCursor += g_ReplayRng.GetRandomU32() & 0xF;
                 if (side1CharacterCursor >= 16)
                     side1CharacterCursor -= 16;
                 MoveCharacterCursor(1, 1, g_TitleCharacterOrder, 16);
@@ -2052,7 +2050,7 @@ int TitleScreenView::UpdateScreen16()
 
         if (g_TitleInput.currentInput & 0x100)
         {
-            keyboardSelection += g_Rng.GetRandomU32() & 0xF;
+            keyboardSelection += g_ReplayRng.GetRandomU32() & 0xF;
             if (keyboardSelection >= 16)
                 keyboardSelection -= 16;
             UpdateScreen16SelectionVisuals(0, (g_TitleScreen16Entries[keyboardSelection]),
@@ -2162,9 +2160,9 @@ int TitleScreenView::UpdateScreen16()
 // five 0x2C-byte records per row, five rows per bank. Preserve the
 // original signed live indices and all independently read name fields.
 typedef char TitleNativeNameTableStrides[
-    (sizeof(g_TitleNameTable[0][0][0]) == 0x2C &&
-     sizeof(g_TitleNameTable[0][0]) == 0xDC &&
-     sizeof(g_TitleNameTable[0]) == 0x44C) ? 1 : -1];
+    (sizeof(g_TitleScoreTable[0][0][0]) == 0x2C &&
+     sizeof(g_TitleScoreTable[0][0]) == 0xDC &&
+     sizeof(g_TitleScoreTable[0]) == 0x44C) ? 1 : -1];
 
 int TitleScreenView::OnUpdateResultNameEntry()
 {
@@ -2209,8 +2207,8 @@ int TitleScreenView::OnUpdateResultNameEntry()
             else
             {
                 strcpy(
-                    g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name,
-                    g_ReplayName);
+                    g_TitleScoreTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name,
+                    g_LastNameRecord.name);
             }
         }
 
@@ -2283,8 +2281,8 @@ int TitleScreenView::OnUpdateResultNameEntry()
                 if (nameSlotIndex < 5)
                 {
                     strcpy(
-                        g_ReplayName,
-                        g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name);
+                        g_LastNameRecord.name,
+                        g_TitleScoreTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name);
                 }
                 return 1;
             }
@@ -2294,7 +2292,7 @@ int TitleScreenView::OnUpdateResultNameEntry()
                 value = ' ';
             else
                 value = (g_TitleAlphabet[keyboardSelection]);
-            (g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[replayNameCursor]) = value;
+            (g_TitleScoreTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[replayNameCursor]) = value;
             PlayMenuSound(SOUND_SELECT, 0);
             if (replayNameCursor < 7)
                 TH09_TITLE_NATIVE_INCREMENT(replayNameCursor);
@@ -2307,14 +2305,14 @@ int TitleScreenView::OnUpdateResultNameEntry()
         {
             PlayMenuSound(SOUND_BACK, 0);
             if (replayNameCursor == 7 &&
-                g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[7] != ' ')
+                g_TitleScoreTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[7] != ' ')
             {
-                g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[7] = ' ';
+                g_TitleScoreTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[7] = ' ';
             }
             else if (replayNameCursor > 0)
             {
                 --*reinterpret_cast<u32 *>(&replayNameCursor);
-                (g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[replayNameCursor]) = ' ';
+                (g_TitleScoreTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name[replayNameCursor]) = ' ';
             }
             stateTimer = 0;
         }
@@ -2763,7 +2761,7 @@ int TitleScreenView::UpdateReplaySave()
                     replayIndex = 999;
 
                 sprintf(path, "./replay/th9_udn%.3d.rpy", replayIndex + 1);
-                ReplayManagerView::SaveReplay(g_ReplayManager, path, g_ReplayName);
+                ReplayManagerView::SaveReplay(g_ReplayManager, path, g_LastNameRecord.name);
                 stateTimer = 0;
                 ChangeCurrentScreen(1);
                 keyboardSelection = 0;
@@ -2777,7 +2775,7 @@ int TitleScreenView::UpdateReplaySave()
             g_AnmManager->SetInterruptArray(vms, vmCount, 19);
             g_AnmManager->ExecuteScriptArray(vms, vmCount);
             keyboardSelection = 0;
-            strcpy(replayName, g_ReplayName);
+            strcpy(replayName, g_LastNameRecord.name);
             replaySaveState = 0;
             stateTimer = 0;
             uiAux = 0;
@@ -2815,8 +2813,8 @@ int TitleScreenView::UpdateReplaySave()
             ChangeCurrentScreen(1);
             keyboardSelection = 0;
             strcpy(
-                g_ReplayName,
-                g_TitleNameTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name);
+                g_LastNameRecord.name,
+                g_TitleScoreTable[nameBankIndex][g_TitleNameTableIndex][nameSlotIndex].name);
             return 1;
         }
 
@@ -2894,7 +2892,7 @@ int TitleScreenView::UpdateReplaySave()
                 g_AnmManager->ExecuteScriptArray(vms, vmCount);
             }
             phaseTimer = 0;
-            strcpy(replayName, g_ReplayName);
+            strcpy(replayName, g_LastNameRecord.name);
         }
         break;
 
@@ -2995,7 +2993,7 @@ int TitleScreenView::UpdateReplaySave()
                 stateTimer = 0;
                 ChangeCurrentScreen(1);
                 keyboardSelection = 0;
-                strcpy(g_ReplayName, replayName);
+                strcpy(g_LastNameRecord.name, replayName);
                 return 1;
             }
 

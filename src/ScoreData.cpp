@@ -40,19 +40,6 @@ typedef char ScoreRecordNameAt18[(offsetof(TitleScoreRecordView, name) == 0x18) 
 typedef char ScoreRecordDateAt21[(offsetof(TitleScoreRecordView, date) == 0x21) ? 1 : -1];
 typedef char ScoreRecordValue2BAt2B[(offsetof(TitleScoreRecordView, scoreDigit) == 0x2B) ? 1 : -1];
 
-struct LastNameRecordView {
-    u32 magic;
-    u16 chapterSize;
-    u16 chapterSizeCopy;
-    u8 version;
-    u8 runtimeMarker;
-    u8 unknown0A[2];
-    char name[9];
-};
-
-typedef char LastNameRecordSizeIs18[(sizeof(LastNameRecordView) == 0x18) ? 1 : -1];
-typedef char LastNameRecordNameAt0C[(offsetof(LastNameRecordView, name) == 0x0C) ? 1 : -1];
-
 struct ScoreChapterView {
     u32 magic;
     u16 chapterSize;
@@ -77,7 +64,9 @@ typedef char ScoreVersionRecordSizeIs1C[(sizeof(ScoreVersionRecordView) == 0x1C)
 
 extern RngRuntimeView g_ReplayRng;
 
-extern LastNameRecordView g_LastNameRecord;
+LastNameRecordView g_LastNameRecord;
+TitleScoreRecordView g_TitleScoreRecord;
+TitleScoreRecordView g_TitleScoreTable[16][5][5];
 
 void Supervisor::UpdatePlayTime()
 {

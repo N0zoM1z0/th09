@@ -84,7 +84,7 @@ typedef char EnemyScheduleAdvanceInstructionAt20[
 
 extern float g_EnemyTimelineStep;
 extern unsigned char g_FrontMode0Done;
-extern RngRuntimeView g_Rng;
+extern RngRuntimeView g_ReplayRng;
 
 // Timeline opcodes 8/10 select the real remote Enemy slots; opcodes
 // 13/14 visit the four native event flags. Their live access ordering is
@@ -215,7 +215,7 @@ int EnemyScheduleRuntimeView::Run()
                         reinterpret_cast<unsigned char *>(instruction) +
                         sizeof(EnemyTimelineInstructionView));
                     CardAttackSpawnPosition positionRange;
-                    positionRange.x = g_Rng.GetRandomF32InRange(
+                    positionRange.x = g_ReplayRng.GetRandomF32InRange(
                             *reinterpret_cast<float *>(&argsRange[2]) -
                             *reinterpret_cast<float *>(&argsRange[1])) +
                         *reinterpret_cast<float *>(&argsRange[1]);
@@ -238,7 +238,7 @@ int EnemyScheduleRuntimeView::Run()
                         reinterpret_cast<unsigned char *>(instruction) +
                         sizeof(EnemyTimelineInstructionView));
                     CardAttackSpawnPosition positionPlay;
-                    positionPlay.x = g_Rng.GetRandomF32InRange(384.0f);
+                    positionPlay.x = g_ReplayRng.GetRandomF32InRange(384.0f);
                     positionPlay.y =
                         *reinterpret_cast<float *>(&argsPlay[1]);
                     positionPlay.z = 0.0f;

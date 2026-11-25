@@ -49,7 +49,7 @@ EnemyManagerView *__fastcall EnemyManagerView::Create(int sideIndex)
 #include <string.h>
 
 extern const char *g_PlayerResourcePaths[][6];
-extern RngRuntimeView g_Rng;
+extern RngRuntimeView g_ReplayRng;
 extern unsigned char g_EnemySubroutineSchedule[256];
 
 Th09EclInterpolationSlotView::Th09EclInterpolationSlotView()
@@ -208,10 +208,10 @@ int __fastcall EnemyManagerView::AddedCallback(EnemyManagerView *enemyManager)
         for (index = 0; index < 256; index++)
         {
             g_EnemySubroutineSchedule[index] = static_cast<unsigned char>(
-                g_Rng.GetRandomU32InRange(
+                g_ReplayRng.GetRandomU32InRange(
                     enemyManager->primaryEclManager000.GetSubroutineCount()));
             g_EnemySubroutineSchedule[index] |= static_cast<unsigned char>(
-                g_Rng.GetRandomU32InRange(2) << 7);
+                g_ReplayRng.GetRandomU32InRange(2) << 7);
         }
     }
 

@@ -12,7 +12,7 @@ struct ControllerStateSupervisorView
 };
 
 extern ControllerStateSupervisorView g_Supervisor;
-extern unsigned char g_ControllerRawButtons[128];
+unsigned char g_ControllerRawButtons[128];
 
 unsigned char *__fastcall Controller::GetControllerState(int deviceIndex)
 {

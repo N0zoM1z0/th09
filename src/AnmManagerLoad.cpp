@@ -109,7 +109,7 @@ typedef char AnmLoadNativeSupervisorState[
     (offsetof(Supervisor, d3dDevice08) == 0x08 &&
      offsetof(Supervisor, subthreadCloseRequestActive) == 0x6B4) ? 1 : -1];
 
-struct VertexTex1DiffuseXyzrhwLoadView
+struct VertexTex1DiffuseXyzrhw
 {
     float x;
     float y;
@@ -120,7 +120,7 @@ struct VertexTex1DiffuseXyzrhwLoadView
     float v;
 };
 
-typedef char VertexTex1DiffuseXyzrhwLoadSizeIs1C[(sizeof(VertexTex1DiffuseXyzrhwLoadView) == 0x1C) ? 1 : -1];
+typedef char VertexTex1DiffuseXyzrhwLoadSizeIs1C[(sizeof(VertexTex1DiffuseXyzrhw) == 0x1C) ? 1 : -1];
 
 struct VertexTex1XyzrhwLoadView
 {
@@ -147,8 +147,9 @@ D3DFORMAT g_AnmTextureFormats[6] = {
 unsigned int g_AnmTextureBytesPerPixel[6] = {
     4, 4, 2, 2, 3, 2,
 };
-extern VertexTex1DiffuseXyzrhwLoadView g_AnmRenderQuad[4];
-extern VertexTex1XyzrhwLoadView g_AnmUntexturedQuad[4];
+AnmManager *g_AnmManager;
+extern VertexTex1DiffuseXyzrhw g_AnmRenderQuad[4];
+VertexTex1XyzrhwLoadView g_AnmUntexturedQuad[4];
 
 extern const char g_AnmNoTextureStorageMessage[] = "\x83\x65\x83\x4E\x83\x58\x83\x60\x83\x83\x8A\x69\x94\x5B\x90\xE6\x82\xAA\x91\xAB\x82\xE8\x82\xDC\x82\xB9\x82\xF1\r\n"; // テクスチャ格納先が足りません\r\n
 extern const char g_AnmCorruptedMessage[] = "\x83\x41\x83\x6A\x83\x81\x82\xAA\x93\xC7\x82\xDD\x8D\x9E\x82\xDF\x82\xDC\x82\xB9\x82\xF1\x81\x42\x83\x66\x81\x5B\x83\x5E\x82\xAA\x8E\xB8\x82\xED\x82\xEA\x82\xC4\x82\xE9\x82\xA9\x89\xF3\x82\xEA\x82\xC4\x82\xA2\x82\xDC\x82\xB7\r\n"; // アニメが読み込めません。データが失われてるか壊れています\r\n

@@ -16,7 +16,13 @@ struct TitleFactoryView
 typedef char TitleFactorySizeIs1B388[
     (sizeof(TitleFactoryView) == 0x1B388) ? 1 : -1];
 
-extern TitleFactoryView *g_TitleScreenFactory;
+struct TitleScreenView
+{
+    static int __fastcall AddedCallback(TitleScreenView *titleScreen);
+    static int __fastcall DeletedCallback(TitleScreenView *titleScreen);
+};
+
+TitleScreenView *g_TitleScreen;
 extern unsigned char g_TitleRegistrationByte;
 extern Chain g_Chain;
 
@@ -56,11 +62,8 @@ char g_TitleScreen16Order[16] = {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 9, 12, 13, 14, 15
 };
 
-struct TitleScreenView
-{
-    static int __fastcall AddedCallback(TitleScreenView *titleScreen);
-    static int __fastcall DeletedCallback(TitleScreenView *titleScreen);
-};
+char g_TitleScreen16Entries[16];
+int g_TitleResultUnlockStep;
 
 int TitleCalcCallback(void *titleScreen);
 int TitleDrawCallback(void *titleScreen);
@@ -71,7 +74,7 @@ int __fastcall RegisterTitleScreen(int registrationContext)
     TitleFactoryView *title =
         reinterpret_cast<TitleFactoryView *>(constructed);
 
-    g_TitleScreenFactory = title;
+    g_TitleScreen = reinterpret_cast<TitleScreenView *>(title);
     memset(title, 0, sizeof(TitleFactoryView));
     g_TitleRegistrationByte = 0;
     title->registrationContext1B22C = registrationContext;

@@ -164,9 +164,17 @@ verification green.
   blocks** (`179 -> 51` blocks, `304 -> 175` labels — only `_BSS` remains);
   verified `97/97` exact units, bit-for-bit retail byte parity across `trial.exe`
   and `trial-reversed.exe`, `verify-trial-layouts.py`, and `ci.py`.
-- [ ] **5.4 Standalone `_BSS` globals & small 2–3 label `_BSS` pairs:**
-  define all `35` standalone `_BSS` globals and unify the `11` small 2–3 label
-  `_BSS` pairs onto single owning C++ definitions.
+- [x] **5.4 Standalone `_BSS` globals & small 2–3 label `_BSS` pairs:**
+  migrated 24 standalone POD `_BSS` globals and unified all 9 small POD `_BSS`
+  pairs (`g_ReplayRng` retiring `g_Rng`, `g_LastNameRecord` retiring `g_ReplayName`,
+  `g_TitleScoreRecord` retiring `g_ReplayPlayTimeText`, `g_TitleScoreTable`
+  retiring `g_TitleNameTable`, `g_AnmRenderQuad` retiring `VertexTex1DiffuseXyzrhwLoadView`,
+  `FileSystem::g_ResolvedPath`/`g_ExecutableDirectory`, `g_ScreenEffectCounter`
+  retiring `g_SetupStatus`, `g_TitleScreen` retiring `g_TitleScreenFactory`, and
+  `g_SoundPlayerBgmValue` retiring `g_FrontDynamicSprite`), dropping `ProductData.asm`
+  to **18 blocks / 132 labels** (`-96.2%` of original blocks); verified `339/339`
+  exact units (`141,918` bytes, `7,158` relocations), `verify-trial-layouts.py`,
+  and `ci.py`.
 - [ ] **5.5 Multi-label `_BSS` owner objects (`g_GameWindow`, `g_PlayStatsRecord`, `g_ReplayInputStates`, `g_Supervisor`, `g_GameManager`):**
   retire all interior-offset global aliases in `src/`, define all `5` canonical
   global objects in natural C++, and bring `ProductData.asm` to `0` blocks / `0` labels.

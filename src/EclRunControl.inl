@@ -27,12 +27,12 @@
 #include "RuntimeAngleMath.hpp"
 #include <math.h>
 
-extern RngRuntimeView g_Rng;
+extern RngRuntimeView g_ReplayRng;
 
 namespace Th09EclRunControl
 {
 
-using ::g_Rng;
+using ::g_ReplayRng;
 using ::AddNormalizeAngle;
 
 // Target-facing operand helper declarations. ResolveInt, both lvalue resolvers,
@@ -227,12 +227,12 @@ __forceinline float *WriteFloat(
         *reinterpret_cast<unsigned int *>(randomSignedResult) =
             static_cast<unsigned int>(rhsInt) *
             static_cast<unsigned int>(
-                (Th09EclRunControl::g_Rng.NextU16() & 1U) ? 1 : -1);
+                (Th09EclRunControl::g_ReplayRng.NextU16() & 1U) ? 1 : -1);
         break;
     }
 
     case TH09_ECL_OPCODE_SET_FLOAT_RANDOM_SIGN:
-        lhsFloat = (Th09EclRunControl::g_Rng.NextU16() & 1U)
+        lhsFloat = (Th09EclRunControl::g_ReplayRng.NextU16() & 1U)
                        ? 1.0f
                        : -1.0f;
         rhsFloat = Th09EclRunControl::ReadFloat(enemy, instruction, 1);

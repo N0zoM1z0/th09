@@ -30,7 +30,7 @@ typedef char BulletNativeAnmLoadedSpriteDimensions[
      offsetof(AnmLoadedSprite, heightPx) == 0x30 &&
      offsetof(AnmLoadedSprite, widthPx) == 0x34) ? 1 : -1];
 
-extern RngRuntimeView g_Rng;
+extern RngRuntimeView g_ReplayRng;
 
 // Bullet collisions use the constructed PlayerLifecycleView. The separately
 // exact angle receiver is a projection onto that same Player allocation,
@@ -444,19 +444,19 @@ Bullet *EtamaController::SpawnSingleBullet(
         angle += descriptor->angle;
         break;
     case BULLET_AIM_RANDOM_ANGLE:
-        angle = g_Rng.GetRandomF32InRange(descriptor->angle - descriptor->angleStep) +
+        angle = g_ReplayRng.GetRandomF32InRange(descriptor->angle - descriptor->angleStep) +
                 descriptor->angleStep;
         break;
     case BULLET_AIM_RANDOM_SPEED:
-        speed = g_Rng.GetRandomF32InRange(descriptor->speed1 - descriptor->speed2) +
+        speed = g_ReplayRng.GetRandomF32InRange(descriptor->speed1 - descriptor->speed2) +
                 descriptor->speed2;
         angle += (float)index1 * kTwoPi / (float)descriptor->count1;
         angle += (float)index2 * descriptor->angleStep + descriptor->angle;
         break;
     case BULLET_AIM_RANDOM:
-        angle = g_Rng.GetRandomF32InRange(descriptor->angle - descriptor->angleStep) +
+        angle = g_ReplayRng.GetRandomF32InRange(descriptor->angle - descriptor->angleStep) +
                 descriptor->angleStep;
-        speed = g_Rng.GetRandomF32InRange(descriptor->speed1 - descriptor->speed2) +
+        speed = g_ReplayRng.GetRandomF32InRange(descriptor->speed1 - descriptor->speed2) +
                 descriptor->speed2;
         break;
     }

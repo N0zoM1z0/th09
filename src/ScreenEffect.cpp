@@ -18,6 +18,7 @@ extern Chain g_Chain;
 extern ZunMemory g_ZunMemory;
 
 extern RngRuntimeView g_ReplayRng;
+int g_ScreenEffectCounter;
 
 
 

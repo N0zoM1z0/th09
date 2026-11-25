@@ -191,11 +191,11 @@ static void BeginBoundaryAwareMove(
     float angle;
     if (player->position1B88.x < view->position2D74.x)
         angle = Th09EclRunControl::AddNormalizeAngle(
-            Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) +
+            Th09EclRunControl::g_ReplayRng.GetRandomF32InRange(1.5707964f) +
                 2.3561945f,
             0.0f);
     else
-        angle = Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) -
+        angle = Th09EclRunControl::g_ReplayRng.GetRandomF32InRange(1.5707964f) -
                 0.78539819f;
 
     // Retain the original independent Float3::operator float*() call.
@@ -259,7 +259,7 @@ static void MoveRandomBiased(
     const Th09EclWireArgument *const wireArgs = instruction->arguments;
     float angle;
 
-    if (Th09EclRunControl::g_Rng.GetRandomU32InRange(4) != 0)
+    if (Th09EclRunControl::g_ReplayRng.GetRandomU32InRange(4) != 0)
     {
         if (enemy->manager00->sideState320->rewardPlayer04->position1B88.x < view->position2D74.x)
         {
@@ -269,14 +269,14 @@ static void MoveRandomBiased(
                     384.0f - view->position2D74.x)
             {
                 angle = Th09EclRunControl::AddNormalizeAngle(
-                    Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) +
+                    Th09EclRunControl::g_ReplayRng.GetRandomF32InRange(1.5707964f) +
                         2.3561945f,
                     0.0f);
             }
             else
             {
                 angle = Th09EclRunControl::AddNormalizeAngle(
-                    Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) -
+                    Th09EclRunControl::g_ReplayRng.GetRandomF32InRange(1.5707964f) -
                         0.78539819f,
                     0.0f);
             }
@@ -290,13 +290,13 @@ static void MoveRandomBiased(
                      384.0f))
             {
                 angle =
-                    Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) -
+                    Th09EclRunControl::g_ReplayRng.GetRandomF32InRange(1.5707964f) -
                     0.78539819f;
             }
             else
             {
                 angle = Th09EclRunControl::AddNormalizeAngle(
-                    Th09EclRunControl::g_Rng.GetRandomF32InRange(1.5707964f) +
+                    Th09EclRunControl::g_ReplayRng.GetRandomF32InRange(1.5707964f) +
                         2.3561945f,
                     0.0f);
             }
@@ -305,7 +305,7 @@ static void MoveRandomBiased(
     else
     {
         angle =
-            Th09EclRunControl::g_Rng.GetRandomF32SignedInRange(3.1415927f);
+            Th09EclRunControl::g_ReplayRng.GetRandomF32SignedInRange(3.1415927f);
     }
 
     if (reinterpret_cast<D3DXVECTOR3 &>(view->position2D74)[1] <

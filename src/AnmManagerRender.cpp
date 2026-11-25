@@ -23,7 +23,7 @@ struct VertexTex1DiffuseXyzrhw
 typedef char VertexTex1DiffuseXyzrhwSizeIs1C[
     (sizeof(VertexTex1DiffuseXyzrhw) == 0x1C) ? 1 : -1];
 
-extern VertexTex1DiffuseXyzrhw g_AnmRenderQuad[4];
+VertexTex1DiffuseXyzrhw g_AnmRenderQuad[4];
 static const float g_AnmHalfPixel = 0.5f;
 
 struct SupervisorRenderDeviceView

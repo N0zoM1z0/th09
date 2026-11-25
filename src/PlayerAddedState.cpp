@@ -112,7 +112,7 @@ typedef char PlayerAddedStartYAt35C[(offsetof(AsciiGameManagerView, coordinate35
 extern int g_PlayerAddedSideTable[];
 extern int g_PlayerAddedClampValue;
 extern int g_PlayerAddedModeSelector;
-extern RngRuntimeView g_Rng;
+extern RngRuntimeView g_ReplayRng;
 
 int PlayerCollisionRegionCreateRegionView::Reset()
 {
@@ -185,7 +185,7 @@ void PlayerLifecycleView::InitializeAddedState()
     this->flagBits1B80 = addedFlags;
     player->timer303B0 = 6;
 
-    float randomValue = g_Rng.GetRandomF32InRange(400.0f) + 100.0f;
+    float randomValue = g_ReplayRng.GetRandomF32InRange(400.0f) + 100.0f;
     player->randomRange7C = randomValue;
     if (randomValue >= 400.0f)
         player->randomRange7C = 400.0f;

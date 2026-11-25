@@ -2,6 +2,8 @@
 
 #include <limits.h>
 
+RngRuntimeView g_ReplayRng;
+
 unsigned short RngRuntimeView::NextU16()
 {
     unsigned short value = (this->seed ^ 0x9630) - 0x6553;
