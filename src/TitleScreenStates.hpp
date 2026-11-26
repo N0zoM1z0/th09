@@ -22,7 +22,7 @@ enum TitleScreenId
     TITLE_SCREEN_NETWORK_LOBBY = 16
 };
 
-// Mode selector stored in g_TitleModeSelection when currentScreen == 8.
+// Mode selector stored in g_GameManager.replayMode114 when currentScreen == 8.
 enum TitleMatchSubmode
 {
     TITLE_MATCH_MODE_STORY_VS_CPU = 0,

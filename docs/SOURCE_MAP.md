@@ -1,6 +1,6 @@
 # TH09 source and build ownership map
 
-TH09 currently contains 383 `.cpp` files, 128 `.hpp` headers, and 38 `.inl`
+TH09 currently contains 383 `.cpp` files, 138 `.hpp` headers, and 38 `.inl`
 fragments under [src/](../src/), plus whole-image startup glue in
 [product/](../product/). During exact reconstruction, functions were grouped
 into compiler carriers that preserve VC7.1 optimization and inlining context;
@@ -69,6 +69,8 @@ python3 -B scripts/replay-scoped-exact.py --changed-file src/Background.hpp --dr
 
 # Whole-image PI rebuild and verification (after symbol/alias/layout changes)
 python3 -B scripts/trial-link.py build
+python3 -B scripts/product-data.py
+python3 -B scripts/product-data.py --reverse
 python3 -B scripts/trial-link.py link
 python3 -B scripts/trial-link.py link --reverse
 python3 -B scripts/verify-trial-layouts.py

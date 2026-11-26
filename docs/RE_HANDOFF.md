@@ -40,14 +40,17 @@ still reaches its function, object and field. The TH08 checkout's
 `docs/POSITION_INDEPENDENCE.md` lists the acceptance checks.
 
 The normal and reordered trials both run under Wine from the title into the
-attract-mode match. All tracked code units and all but one generated data
-label move between the two links. The linked comparison checks each unit
-against its selected COFF object and checks the generated data and its pointer
-fields. The generated pointers and link aliases also have a retail binding
-check. A single link precedence constraint keeps the reviewed
-`SpriteHasTexture` COMDAT provider active in both layouts.
+attract-mode match and pass 300-frame replay parity (`demorpy0.rpy`) bit-for-bit
+against retail. All `1,085` tracked code units and all `585` C++ global data
+objects move between the two links, with `0` generated data labels remaining in
+`ProductData.asm`. The linked comparison checks each code unit against its
+selected COFF object, verifies the `19` `.CRT$XCU` static initializers and `9`
+`atexit()` teardowns, and checks retail bindings for all remaining link aliases.
+A single link precedence constraint keeps the reviewed `SpriteHasTexture` COMDAT
+provider active in both layouts.
 [Linked layout evidence](KNOWLEDGE_BASE.md#2026-11-23-position-independence-and-product-checks)
 · [Retail binding check](KNOWLEDGE_BASE.md#2026-11-23-retail-binding-for-generated-pointers-and-link-aliases)
+· [Native C++ global data closure](KNOWLEDGE_BASE.md#2026-11-26-native-c-global-data-ownership-closure)
 
 ```bash
 python3 -B scripts/trial-link.py build              # serial, lowered priority
@@ -99,26 +102,24 @@ python3 -B scripts/build.py --runtime-version \
 
 What the product still borrows or approximates:
 
-- `scripts/product-data.py` emits the original globals that no source
-  defines yet as labelled MASM data, extracted from the attested original
-  at build time. Pointer words are symbolic. `config/product-link.toml`
-  binds DirectInput formats to the library and records reviewed object
-  sizes. The linked checks cover section access flags, controller and
-  loading buffers, and the source-defined enemy schedule.
-  [Storage evidence](KNOWLEDGE_BASE.md#2026-11-23-linked-data-permissions-and-bulk-storage)
-  Natural C++ definitions for generated tables remain open.
-- `product/` holds link glue: the global construction sequence for those
-  objects and the PbgArchive constructor, whose body folds with a D3DX8
-  routine at `0x00433040`. The typed auxiliary PbgArchive array now has
-  matching retail initializer and terminator wrappers. The GameErrorContext
-  cleanup completes the ten observed retail exit registrations. All six
-  layouts pass checks of the registration order and zero-fill storage.
-  Console links with the same startup objects confirmed the ten live CRT
-  registrations and exited normally.
+- `scripts/product-data.py` now emits `0` data blocks / `0` labels (`0x0` bytes)
+  because every retail `.rdata`, `.data`, and `.bss` global is owned in natural
+  C++. It remains only to extract the two PE resources (`ProductResources.res`)
+  from the attested original at build time. `config/product-link.toml` binds
+  DirectInput formats (`_c_dfDIJoystick2`, `_c_dfDIKeyboard`) to the library and
+  records reviewed object sizes.
+  [Native C++ global data closure](KNOWLEDGE_BASE.md#2026-11-26-native-c-global-data-ownership-closure)
+- `product/` owns the `16` statically constructed C++ global objects in
+  `product/ProductStaticInit.cpp` (preserving the exact retail `.CRT$XCU`
+  construction and `atexit()` teardown order across both normal and reversed
+  links) and `product/PbgArchiveCtor.cpp` (the constructor body folded with a
+  D3DX8 routine at `0x00433040`). All six layouts pass checks of the `19`
+  `.CRT$XCU` initializers, `9` `atexit()` teardowns, and zero-fill storage.
   [Startup and exit evidence](KNOWLEDGE_BASE.md#2026-11-23-linked-product-startup-and-exit-callbacks)
-- 139 references resolve through `/ALTERNATENAME` to the definition
-  bound to the same original address. They are view types or bodies that
-  the original linker folded. Replacing the views with real types is open.
+- `45` references resolve through `/ALTERNATENAME` to the definition bound to
+  the same original address (down from `139` before semantic consolidation).
+  They are folded identical bodies or same-address `+0x000` layout views bound
+  natively to C++ storage.
 - EclManager uses one exact `/Ob1` carrier for comparison and trial linking.
   Function-scoped inline depth preserves the five bodies that previously
   differed in the product while keeping `SetPolar2D` visible to its callers.

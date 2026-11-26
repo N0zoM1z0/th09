@@ -4474,3 +4474,31 @@ high-base reordered checks rejected cleared data write permission,
 an executable read-only contribution, a shortened schedule object,
 an overlapping schedule symbol and a one-byte short allocation for
 each of the three declared buffer extents. All checks ran headlessly.
+
+## 2026-11-26 native C++ global data ownership closure
+
+All `479` blocks / `612` labels previously emitted into `ProductData.asm` across
+`CONST` (`.rdata`), `_DATA` (`.data`), and `_BSS` (`.bss`) were migrated into
+natural C++ definitions across their owning `src/*.cpp` carriers and
+`product/ProductStaticInit.cpp` (Batches 5.1–5.6 on `semantic/readability`):
+
+- `_DATA` (`64` blocks) and `CONST` (`128` named blocks + `236` anonymous
+  string/table targets) reached `0` blocks in Batches 5.1–5.3; four Win32 COM
+  GUIDs resolve directly from Platform SDK `uuid.lib`.
+- All standalone POD `_BSS` globals, small multi-label pairs, and interior-offset
+  aliases of `g_AsciiManager`, `g_GameWindow`, `g_PlayStatsRecord`,
+  `g_ReplayInputStates`, `g_Supervisor` (`26`), and `g_GameManager` (`59`) were
+  retired in Batches 5.4–5.5b2.
+- `AsciiGameManagerView g_GameManager` was defined in `src/GameManagerSetup.cpp`,
+  and the `16` statically constructed C++ global objects replaced the
+  placement-`new` / manual `Destroy*` glue in `product/ProductStaticInit.cpp`
+  in exact retail `.CRT$XCU` construction and `atexit()` teardown order.
+- `scripts/product-data.py` now emits `blocks 0, labels 0, bytes 0x0` (retaining
+  only `ProductResources.res` extraction). All six PI layouts (`trial`,
+  `trial-reversed`, and `0x00400000`/`0x00600000` relocatable bases) pass
+  `scripts/verify-trial-layouts.py --verify-bases` (`1,085/1,085` code units
+  moved, `585/585` C++ data globals moved, `14,274` `HIGHLOW` relocations),
+  `1,036/1,037` exact functions and `player-movement` frontier (`4` recorded
+  bytes) remain unchanged, and 300-frame Wine replay (`demorpy0.rpy`) is
+  bit-for-bit identical across `retail`, `trial-playable.exe`, and
+  `trial-reversed-playable.exe`.

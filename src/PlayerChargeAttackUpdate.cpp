@@ -12,9 +12,6 @@
 #include "GameConfiguration.hpp"
 #include "GameManagerRuntimeView.hpp"
 #include "GameplaySetupNativeSides.hpp"
-// The original g_GameManager.configurationE8 pointer has its own canonical symbol at
-// 0x004A7E78, the same address as the GameManager's +0xE8 pointer field.
-// Its independent FrontResultBonus caller binds this actual global directly.
 #include "Supervisor.hpp"
 
 #include <stddef.h>

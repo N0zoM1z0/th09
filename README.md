@@ -68,10 +68,16 @@ python3 -B scripts/report-reconstruction-status.py
 source work, all nonexact owners and focused comparison commands.
 [docs/KNOWLEDGE_BASE.md](docs/KNOWLEDGE_BASE.md) keeps verified findings,
 current blockers and useful failed approaches. The candidate inventory is open.
-The playable i386 trial has completed public replay comparisons under Wine.
-It uses generated data and view aliases. The faithful Windows product remains
-open. See [Windows playtesting](docs/RE_HANDOFF.md#windows-playtesting) for the
-windowed configuration and the local practice launcher.
+The playable i386 trial has completed public replay comparisons under Wine
+(including 300-frame bit-for-bit parity on both normal and reversed layouts).
+All global `.rdata`, `.data`, and `.bss` storage is now owned in natural C++
+(`ProductData.asm`: `0` blocks / `0` labels; PE resources are still extracted
+from `resources/th09.exe`), with `45` remaining `/ALTERNATENAME` aliases for
+folded bodies and same-address views. Remaining whole-product work (such as
+DirectPlay hosting and the single 4-byte `player-movement` frontier) is tracked
+in [docs/RE_HANDOFF.md](docs/RE_HANDOFF.md). See
+[Windows playtesting](docs/RE_HANDOFF.md#windows-playtesting) for the windowed
+configuration and the local practice launcher.
 
 Only rebuild and compare affected complete owners and their dependencies.
 Make coherent local checkpoints with the operator's requested commit prefix.
